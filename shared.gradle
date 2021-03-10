@@ -36,6 +36,9 @@ android {
             dimension "target"
         }
     }
+    lint {
+        abortOnError = false
+    }
 }
 
 configurations.all {

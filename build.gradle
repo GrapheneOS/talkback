@@ -13,7 +13,7 @@ dependencies {
 }
 
 buildscript {
-    ext.gradle_plugin_version = "8.11.1"
+    ext.gradle_plugin_version = "8.13.2"
     ext.kotlin_version = "1.9.23"
     repositories {
         mavenCentral()
@@ -41,11 +41,17 @@ allprojects {
 
 android {
     namespace "com.android.talkback"
+    buildToolsVersion '37.0.0'
     defaultConfig {
         applicationId talkbackApplicationId
         versionName talkbackVersionName + "-" + BUILD_TIMESTAMP
-        minSdkVersion 26
-        targetSdkVersion 30
+        minSdk 26
+        targetSdk 36
+        compileSdk {
+            version = release(36) {
+                it.minorApiLevel = 1
+            }
+        }
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
         multiDexEnabled true
     }
@@ -53,7 +59,7 @@ android {
         exclude 'LICENSE'
         exclude 'README'
     }
-    lintOptions {
+    lint {
         checkReleaseBuilds false
         abortOnError false
     }

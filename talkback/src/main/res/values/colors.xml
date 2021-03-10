@@ -16,6 +16,11 @@
 -->
 
 <resources>
+    <color name="google_white">#ffffff</color>
+    <color name="google_black">#000000</color>
+    <color name="google_grey200">#e8eaed</color>
+    <color name="google_blue300">#8AB4F8</color>
+    <color name="google_blue600">#1a73e8</color>
 
     <color name="divider_color">#20ffffff</color>
     <color name="title_color">#ff33b5e5</color>

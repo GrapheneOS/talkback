@@ -41,5 +41,6 @@ android {
 }
 
 dependencies {
+    implementation project(':switchaccess')
     implementation project(':talkback')
 }

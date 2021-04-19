@@ -57,8 +57,6 @@ import com.google.android.accessibility.utils.ServiceStateListener;
 import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.WebActivity;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -703,8 +701,7 @@ public class TalkBackPreferencesActivity extends BasePreferencesActivity {
         return;
       }
 
-      if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity)
-          != ConnectionResult.SUCCESS) {
+      if (true) {
         // Not needed, but playing safe since this is hard to test outside of China
         playStoreButton.setIntent(null);
         final PreferenceGroup category =

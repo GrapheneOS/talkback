@@ -21,7 +21,6 @@ android {
 
 dependencies {
     implementation 'com.google.guava:guava:22.0'
-    implementation 'com.google.android.gms:play-services:8.4.0'
     implementation 'org.checkerframework:checker-qual:2.5.8'
     implementation 'com.google.android:flexbox:1.0.0'
 

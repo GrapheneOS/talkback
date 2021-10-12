@@ -14,7 +14,8 @@
       android:description="@string/permission_talkback_desc"
       android:icon="@drawable/icon"
       android:label="@string/permission_talkback_label"
-      android:protectionLevel="signature" />
+      android:protectionLevel="signature"
+      android:exported="true" />
 
   <!-- Required for shortcuts and widgets. -->
   <uses-permission android:name="${talkbackMainPermission}" />

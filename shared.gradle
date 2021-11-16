@@ -4,11 +4,17 @@ ext {
     talkbackApplicationId = "com.android.talkback"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 android {
     compileSdkVersion 34
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     defaultConfig {
         buildConfigField "String", "APPLICATION_ID", "\"" + talkbackApplicationId + "\""

@@ -6,6 +6,12 @@ ext {
     talkbackApplicationId = "com.android.talkback"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 android {
     compileSdkVersion 36
     compileOptions {

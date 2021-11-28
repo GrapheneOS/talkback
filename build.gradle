@@ -43,7 +43,7 @@ android {
         exclude 'README'
     }
     lintOptions {
-        checkReleaseBuilds false
+        checkReleaseBuilds true
         abortOnError false
     }
 }

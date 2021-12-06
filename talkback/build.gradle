@@ -15,3 +15,7 @@ android {
         buildConfigField("String", "GEMINI_API_KEY", "\"\"")
     }
 }
+
+android {
+    namespace = "com.google.android.accessibility.talkback"
+}

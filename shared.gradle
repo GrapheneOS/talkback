@@ -21,6 +21,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         buildConfigField "String", "APPLICATION_ID", "\"" + talkbackApplicationId + "\""
         vectorDrawables.useSupportLibrary = true
@@ -38,26 +41,6 @@ android {
     }
     lint {
         abortOnError = false
-    }
-}
-
-configurations.all {
-    resolutionStrategy {
-        eachDependency {
-            // https://paste.googleplex.com/6584345232932864?raw
-            //
-            // 'androidx.wear:wear:1.2.0-rc01'
-            // 'androidx.wear:wear-remote-interactions:1.0.0'
-            //
-            // If the above actual dependencies are updated and these libraries
-            // update the version of org.jetbrains.kotlin:kotlin-stdlib, we
-            // should update useVersion("1.8.0") to the updated version. Or, we
-            // can remove these lines once these libraries don't conflict with
-            // each other anymore.
-            if ((requested.group == "org.jetbrains.kotlin") && (requested.name.startsWith("kotlin-stdlib"))) {
-                useVersion("1.8.0")
-            }
-        }
     }
 }
 

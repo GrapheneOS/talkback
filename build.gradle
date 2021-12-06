@@ -36,6 +36,7 @@ allprojects {
 
 android {
     buildToolsVersion '36.1.0'
+    namespace = talkbackApplicationId
     defaultConfig {
         applicationId talkbackApplicationId
         versionName "15.1"
@@ -48,15 +49,15 @@ android {
             }
         }
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
-        multiDexEnabled true
+        multiDexEnabled = true
     }
     packagingOptions {
         exclude 'LICENSE'
         exclude 'README'
     }
     lint {
-        checkReleaseBuilds false
-        abortOnError false
+        checkReleaseBuilds = false
+        abortOnError = false
     }
     productFlavors {
         phone {

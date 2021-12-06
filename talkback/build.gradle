@@ -9,3 +9,7 @@ dependencies {
     implementation project(':brailleinterfaces')
     implementation project(':brailledisplay')
 }
+
+android {
+    namespace "com.google.android.accessibility.talkback"
+}

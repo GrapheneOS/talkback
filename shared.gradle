@@ -49,7 +49,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
     // Nullable
-    implementation 'org.checkerframework:checker-qual:3.21.3'
+    implementation 'org.checkerframework:checker-qual:3.22.0'
 
     // Auto-value
     api 'com.google.auto.value:auto-value-annotations:1.9'

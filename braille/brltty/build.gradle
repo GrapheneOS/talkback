@@ -3,10 +3,10 @@ apply from: "../../shared.gradle"
 
 android {
     namespace "com.google.android.accessibility.braille.brltty"
-    ndkVersion "25.2.9519653"
+    ndkVersion "26.1.10909125"
     externalNativeBuild {
         ndkBuild {
-            path file('src/phone/jni/Android.mk')
+            path 'src/phone/jni/Android.mk'
         }
     }
 }
@@ -20,9 +20,15 @@ dependencies {
 }
 
 task createBrlttyKeyTablesZip(type: Zip){
-    archiveName="keytables.zip"
-    destinationDir = file('src/phone/res/raw/')
+    archiveFileName="keytables.zip"
+    destinationDirectory = file('src/phone/res/raw/')
     from fileTree('./src/phone/tables/')
 }
 
-preBuild.dependsOn createBrlttyKeyTablesZip
+project.afterEvaluate {
+    preBuild.dependsOn createBrlttyKeyTablesZip
+    mergePhoneDebugNativeLibs.dependsOn externalNativeBuildWearDebug
+    mergePhoneReleaseNativeLibs.dependsOn externalNativeBuildWearRelease
+    mergeWearDebugNativeLibs.dependsOn externalNativeBuildPhoneDebug
+    mergeWearReleaseNativeLibs.dependsOn externalNativeBuildPhoneRelease
+}

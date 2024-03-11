@@ -15,7 +15,6 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.1'
         // Here we set the version of the Android Gradle Plugin used by this
         // script. It is best to use as new a version as possible, but beware
         // that each version of the Gradle Plugin requires that the version of

@@ -16,9 +16,7 @@
     <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
         android:key="@string/pref_manage_labels_key"
         android:title="@string/title_pref_manage_labels" >
-      <intent android:action=".labeling.TalkBackSelectorPreferencesActivity"
-          android:targetPackage="com.google.android.marvin.talkback"
-          android:targetClass="com.google.android.accessibility.talkback.labeling.LabelManagerSummaryActivity" />
+      <intent android:action=".labeling.TalkBackSelectorPreferencesActivity" />
     </com.google.android.accessibility.utils.preference.AccessibilitySuitePreference>
     <com.google.android.accessibility.utils.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_single_tap_default"

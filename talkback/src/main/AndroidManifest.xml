@@ -169,7 +169,7 @@
         <!-- Custom Label Manager - Summary Activity -->
         <activity
             android:name="com.google.android.accessibility.talkback.labeling.LabelManagerSummaryActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/label_manager_summary_title"
             android:launchMode="singleTop"
             android:theme="@style/TalkBackSettings"

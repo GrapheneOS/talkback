@@ -11,8 +11,8 @@ dependencies {
 buildscript {
     ext.kotlin_version = "2.2.20"
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
     }
     dependencies {
         // Here we set the version of the Android Gradle Plugin used by this
@@ -28,8 +28,8 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
     }
 }
 

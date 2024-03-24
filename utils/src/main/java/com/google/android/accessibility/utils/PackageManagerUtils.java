@@ -38,11 +38,6 @@ public class PackageManagerUtils {
   public static final String TALKBACK_SERVICE_NAME =
       "com.google.android.marvin.talkback.TalkBackService";
 
-  /** gmscore-package-name constants */
-  private static final String GMSCORE_PACKAGE_NAME = "com.google.android.gms";
-
-  private static final int MIN_GMSCORE_VERSION = 9200000; // Version should be at least V4.
-
   /** Returns the package version code. */
   public static long getVersionCode(Context context) {
     return getVersionCodeCompat(context, context.getPackageName());
@@ -96,7 +91,7 @@ public class PackageManagerUtils {
 
   /** Returns {@code true} if the platform has GMS core package */
   public static boolean hasGmsCorePackage(Context context) {
-    return hasPackage(context, GMSCORE_PACKAGE_NAME);
+    return false;
   }
 
   /** Returns {@code true} if the package is Talkback package */
@@ -106,7 +101,7 @@ public class PackageManagerUtils {
 
   /** Returns {@code true} if the package supports help and feedback. */
   public static boolean supportsHelpAndFeedback(Context context) {
-    return getVersionCodeCompat(context, GMSCORE_PACKAGE_NAME) > MIN_GMSCORE_VERSION;
+    return false;
   }
 
   private static @Nullable PackageInfo getPackageInfo(Context context, CharSequence packageName) {

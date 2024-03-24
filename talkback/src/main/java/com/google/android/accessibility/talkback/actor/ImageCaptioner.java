@@ -176,7 +176,7 @@ public class ImageCaptioner extends Handler
   // all caption requests are finished. It’s difficult to cancel the caption requests which may be
   // executing, so only take-screenshot requests are able to handle the cancellation (capacity = 1).
   public static final int CAPTION_REQUEST_CAPACITY = 10;
-  private static boolean supportIconDetection = true;
+  private static boolean supportIconDetection = false;
   @VisibleForTesting static final int MSG_RESULT_TIMEOUT = 0;
   private static final long RESULT_MAX_WAITING_TIME_MS = 5000;
 

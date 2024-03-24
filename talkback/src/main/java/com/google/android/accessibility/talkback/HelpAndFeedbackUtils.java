@@ -23,6 +23,6 @@ public final class HelpAndFeedbackUtils {
   public static void launchHelpAndFeedback(Activity activity) {}
 
   public static boolean supportsHelpAndFeedback(Context context) {
-    return true;
+    return false;
   }
 }

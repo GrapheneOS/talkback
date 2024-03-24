@@ -20,6 +20,7 @@ import static com.google.android.accessibility.talkback.preference.PreferencesAc
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.HelpAndFeedbackUtils;
 import com.google.android.accessibility.talkback.R;
@@ -101,11 +102,9 @@ public class TutorialAndHelpFragment extends TalkbackBaseFragment {
           });
     } else {
       pref.setTitle(R.string.title_pref_help);
-      if (FormFactorUtils.getInstance().isAndroidTv()) {
-        pref.setIntent(new Intent(getContext(), WebActivity.class).setData(Uri.parse(HELP_URL)));
-      } else {
-        RemoteIntentUtils.assignWebIntentToPreference(this, pref, HELP_URL);
-      }
+      CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+      CustomTabsIntent customTabsIntent = builder.build();
+      pref.setIntent(customTabsIntent.intent.setData(Uri.parse(HELP_URL)));
     }
   }
 }

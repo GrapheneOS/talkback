@@ -37,9 +37,6 @@ android {
         phone {
             dimension "target"
         }
-        wear {
-            dimension "target"
-        }
     }
     lint {
         abortOnError = false
@@ -72,12 +69,6 @@ dependencies {
     // Auto-value
     implementation 'com.google.auto.value:auto-value-annotations:1.11.0'
     annotationProcessor 'com.google.auto.value:auto-value:1.11.0'
-
-    implementation 'androidx.wear:wear:1.3.0'
-    implementation 'androidx.wear:wear-remote-interactions:1.1.0'
-    implementation 'com.google.android.support:wearable:2.9.0'
-
-    implementation 'com.google.zxing:core:3.5.3'
 
     // Cloud services
     implementation 'com.mcxiaoke.volley:library:1.0.19'

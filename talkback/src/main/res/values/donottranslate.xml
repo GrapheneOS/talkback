@@ -1143,8 +1143,8 @@
     <string name="accessibility_tutorial_talkback_is_off_dialog_do_not_show_again" translatable="false">accessibility_tutorial_talkback_is_off_dialog_do_not_show_again</string>
 
     <string name="settings_manager_market_uri">market://details?id=com.marvin.preferences</string>
-    <string name="privacy_policy_url">http://www.google.com/policies/privacy/</string>
-    <string name="tos_url">http://www.google.com/mobile/toscountry</string>
+    <string name="privacy_policy_url">https://www.google.com/policies/privacy/</string>
+    <string name="tos_url">https://www.google.com/mobile/toscountry</string>
 
     <!-- Intent ACTION for launching the gesture change notification activity -->
     <string name="action_gesture_change_notification">com.google.android.marvin.talkback.NOTIFY_GESTURE_CHANGE</string>

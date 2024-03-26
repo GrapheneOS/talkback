@@ -132,8 +132,8 @@ public class TalkBackPreferenceFilter {
     PLAY_PAUSE_MEDIA(R.string.keycombo_shortcut_global_play_pause_media, HIDDEN_NO_MEDIA_CONTROL),
     TYPING_CONFIRMATION(R.string.pref_typing_confirmation_key, HIDDEN_ON_TV),
     TYPING_LONG_PRESS_DURATION(R.string.pref_typing_long_press_duration_key, HIDDEN_ON_TV),
-    PRIVACY_POLICY(R.string.pref_policy_key, HIDDEN_SETUP),
-    TERMS_OF_SERVICE(R.string.pref_show_tos_key, HIDDEN_SETUP),
+    PRIVACY_POLICY(R.string.pref_policy_key, HIDDEN),
+    TERMS_OF_SERVICE(R.string.pref_show_tos_key, HIDDEN),
     // Help & Tutorial.
     HELP_AND_FEEDBACK(R.string.pref_help_and_feedback_key, HIDDEN_SETUP),
     PRACTICE_GESTURES(

@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback;
 
+import android.app.Application;
 import com.google.android.accessibility.talkback.training.PageConfigMapperImpl;
 import com.google.android.accessibility.talkback.training.TalkBackDisabledWarmingDialogImpl;
 import com.google.android.accessibility.talkback.training.TrainingConfigMapperImpl;
@@ -24,13 +25,11 @@ import com.google.android.accessibility.talkback.training.content.TutorialConten
 import com.google.android.accessibility.talkback.trainingcommon.TrainingActivityInterfaceInjector;
 import com.google.android.accessibility.talkback.trainingcommon.content.TutorialContentInterfaceInjector;
 import com.google.android.accessibility.utils.FormFactorUtils;
-import com.google.android.play.core.splitcompat.SplitCompatApplication;
 
 /**
- * A top level Application for TalkBack. It extends SplitCompatApplication to enable SplitCompat,
- * which allows our app to access code and resources from a downloaded module.
+ * A top level Application for TalkBack.
  */
-public class TalkBackApplication extends SplitCompatApplication {
+public class TalkBackApplication extends Application {
 
   @Override
   public void onCreate() {

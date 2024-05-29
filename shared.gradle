@@ -44,7 +44,7 @@ dependencies {
 
     // Support library
     implementation 'androidx.annotation:annotation:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.browser:browser:1.8.0'
     implementation 'androidx.collection:collection:1.4.0'
     implementation 'androidx.core:core:1.13.1'

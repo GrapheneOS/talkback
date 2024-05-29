@@ -1010,6 +1010,7 @@ public abstract class Feedback {
   }
 
   /** Inner data-structure for continuous-reading feedback. */
+  @AutoValue
   public abstract static class ContinuousRead {
     /** Types of exclusive continuous-reading actions. */
     public enum Action {
@@ -1268,6 +1269,7 @@ public abstract class Feedback {
   }
 
   /** Inner data-structure for scrolling feedback. */
+  @AutoValue
   public abstract static class Scroll {
 
     /** Types of exclusive scroll actions. */
@@ -1300,6 +1302,7 @@ public abstract class Feedback {
     }
 
     /** Builder for Scroll feedback data */
+    @AutoValue.Builder
     public abstract static class Builder {
       public abstract Scroll.Builder setAction(Scroll.Action action);
 
@@ -1413,6 +1416,7 @@ public abstract class Feedback {
   }
 
   /** Inner data-structure for pass-through. */
+  @AutoValue
   public abstract static class PassThroughMode {
 
     /** Types of pass-through actions. */
@@ -1509,6 +1513,7 @@ public abstract class Feedback {
   }
 
   /** Inner data-structure for adjust volume. */
+  @AutoValue
   public abstract static class AdjustVolume {
 
     /**
@@ -1539,6 +1544,7 @@ public abstract class Feedback {
   // Focus directional navigation feedback
 
   /** Inner data-structure for focus directional navigation. */
+  @AutoValue
   public abstract static class FocusDirection {
 
     /** Types of exclusive focus-direction actions, mostly without additional feedback data. */
@@ -1607,6 +1613,7 @@ public abstract class Feedback {
     }
 
     /** Builder for FocusDirection feedback data */
+    @AutoValue.Builder
     public abstract static class Builder {
       public abstract Builder setDirection(@SearchDirectionOrUnknown int direction);
 
@@ -1771,6 +1778,7 @@ public abstract class Feedback {
   }
 
   /** Inner data-structure for controlling device info. */
+  @AutoValue
   public abstract static class DeviceInfo {
 
     /** Types of exclusive actions of device info. */

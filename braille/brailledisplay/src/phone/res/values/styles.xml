@@ -15,7 +15,7 @@
     -->
 <resources>
   <!--The theme is for preference settings which uses AppCompatActivity -->
-  <style name="BrailleDisplaySettingsAppCompatTheme" parent="Theme.MaterialComponents.Light.Bridge" >
+  <style name="BrailleDisplaySettingsAppCompatTheme" parent="Theme.MaterialComponents.DayNight.Bridge" >
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 

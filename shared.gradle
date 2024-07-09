@@ -29,7 +29,8 @@ android {
         minSdk 26
         targetSdk 36
         ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a"
+            abiFilters.clear()
+            abiFilters.addAll(['arm64-v8a', 'x86_64'])
             ndkVersion = "29.0.14206865"
         }
         // We generate a build config field holding the application ID so that

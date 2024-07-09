@@ -23,6 +23,10 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         minSdk 26
+        ndk {
+            abiFilters.clear()
+            abiFilters.addAll(['arm64-v8a', 'x86_64'])
+        }
     }
     flavorDimensions "target"
     productFlavors {

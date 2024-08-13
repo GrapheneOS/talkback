@@ -3,7 +3,7 @@ apply from: "../../shared.gradle"
 
 android {
     namespace "com.google.android.accessibility.braille.brltty"
-    ndkVersion "26.3.11579264"
+    ndkVersion "27.0.12077973"
     externalNativeBuild {
         ndkBuild {
             path file('src/phone/jni/Android.mk')

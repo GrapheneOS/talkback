@@ -11,7 +11,7 @@ java {
 }
 
 android {
-    compileSdk 34
+    compileSdk 35
     buildToolsVersion '35.0.0'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17

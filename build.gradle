@@ -14,7 +14,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.2'
+        classpath 'com.android.tools.build:gradle:8.6.0'
     }
 }
 
@@ -34,7 +34,7 @@ android {
         versionCode 19
         minSdk 26
         targetSdk 34
-        compileSdk 34
+        compileSdk 35
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
         multiDexEnabled true
     }

@@ -40,7 +40,7 @@ public class LibLouis implements TranslatorFactory {
       case "BULGARIAN_COMP8":
         return new LibLouisTranslator(context, "bg.tbl");
       case "CANTONESE":
-        return new LibLouisTranslator(context, "zh_HK.tbl");
+        return new LibLouisTranslator(context, "zh-HK.ctb");
       case "CHINESE_TAIWAN":
         return new LibLouisTranslator(context, "zh-tw.ctb");
       case "CHINESE_CHINA_CURRENT_WITH_TONES":
@@ -70,7 +70,7 @@ public class LibLouis implements TranslatorFactory {
       case "DUTCH_COMP8":
         return new LibLouisTranslator(context, "nl-comp8.utb");
       case "DUTCH_NL":
-        return new LibLouisTranslator(context, "nl.tbl");
+        return new LibLouisTranslator(context, "nl-NL-g0.utb");
       case "EN_UK":
         return getBrailleTranslator(context, contractedMode, "en-gb-g1.utb", "en_GB.tbl");
       case "EN_IN":
@@ -140,9 +140,9 @@ public class LibLouis implements TranslatorFactory {
       case "KURDISH":
         return new LibLouisTranslator(context, "ckb.tbl");
       case "LITHUANIAN":
-        return new LibLouisTranslator(context, "lt-6dot.tbl");
+        return new LibLouisTranslator(context, "lt-6dot.utb");
       case "LITHUANIAN_8":
-        return new LibLouisTranslator(context, "lt.tbl");
+        return new LibLouisTranslator(context, "lt-8dot.utb");
       case "LATVIAN":
         return new LibLouisTranslator(context, "lv.tbl");
       case "MALAYALAM_IN":
@@ -178,11 +178,11 @@ public class LibLouis implements TranslatorFactory {
       case "RUSSIAN":
         return new LibLouisTranslator(context, "ru-ru-g1.ctb");
       case "RUSSIAN_COMP8":
-        return new LibLouisTranslator(context, "ru.ctb");
+        return new LibLouisTranslator(context, "ru-comp8.utb");
       case "RUSSIAN_DETAILED":
         return new LibLouisTranslator(context, "ru-litbrl-detailed.utb");
       case "SERBIAN":
-        return new LibLouisTranslator(context, "sr.tbl");
+        return new LibLouisTranslator(context, "sr-g1.ctb");
       case "SINDHI_IN":
         return new LibLouisTranslator(context, "sd.tbl");
       case "SINHALA":

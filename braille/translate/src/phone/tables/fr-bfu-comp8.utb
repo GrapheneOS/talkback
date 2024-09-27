@@ -121,7 +121,7 @@ punctuation	\x007B	2378    	123 ⣆ { LEFT CURLY BRACKET
 sign       	\x007C	4568    	124 ⢸ | VERTICAL LINE
 punctuation	\x007D	5678    	125 ⣰ } RIGHT CURLY BRACKET
 sign       	\x007E	38      	126 ⢄ ~ TILDE
-sign       	\x007F	1238    	127 ⢇   DELETE
+sign       	\x007F	1238    	127 ⢇  DELETE
 sign       	\x20AC	1578    	128 ⣑ € EURO SIGN
 sign       	\x201A	67      	130 ⡠ ‚ SINGLE LOW-9 QUOTATION MARK
 lowercase  	\x0192	1248    	131 ⢋ ƒ LATIN SMALL LETTER F WITH HOOK

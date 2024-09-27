@@ -12,9 +12,7 @@
 # as tests only run forward.
 #+direction:both
 #
-# TODO: Please add a reference to official documentation about
-# the implemented braille code. Preferably submit the documents
-# to https://github.com/liblouis/braille-specs.
+# Braille-specs documentation link: https://liblouis.io/braille-specs/hungarian
 # -----------
 #
 #  Copyright (C) 2017-2022 Attila Hammer from IT Foundation for the Visually Impaired - Hungary. www.infoalap.hu
@@ -268,5 +266,4 @@ uppercase Ä 5-1
 noback context $l$p["–"] @36-36
 noback context $l["–"] @36-36
 noback always \\_ 6 letter sign before Roman page numbers
-noback pass2 @3456-356 @356-3456
 undefined 26

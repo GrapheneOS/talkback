@@ -34,7 +34,7 @@ android {
         versionCode 21
         minSdk 26
         targetSdk 34
-        compileSdk 35
+        compileSdk 36
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
         multiDexEnabled true
     }

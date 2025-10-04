@@ -20,7 +20,7 @@ import androidx.annotation.IntDef;
 import com.google.android.accessibility.braille.interfaces.BrailleCharacter;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * The result produced by a {@link BrailleInputPlane} commission.

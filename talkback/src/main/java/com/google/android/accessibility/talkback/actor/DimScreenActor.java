@@ -21,6 +21,7 @@ import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRAC
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Insets;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Handler;
@@ -29,8 +30,10 @@ import android.os.Message;
 import android.provider.Settings;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.view.WindowMetrics;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.view.WindowInsetsCompat;
 import com.google.android.accessibility.talkback.DeviceConfigurationMonitor;
 import com.google.android.accessibility.talkback.DimmingOverlayView;
 import com.google.android.accessibility.talkback.Feedback;
@@ -40,6 +43,7 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.compositor.Compositor;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
+import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.monitor.ScreenMonitor;
 import com.google.android.accessibility.utils.widget.DialogUtils;
@@ -198,10 +202,10 @@ public class DimScreenActor implements DeviceConfigurationMonitor.OnConfiguratio
 
       viewParams = new LayoutParams();
       viewParams.type = DialogUtils.getDialogType();
-      viewParams.flags |= LayoutParams.FLAG_DIM_BEHIND;
       viewParams.flags |= LayoutParams.FLAG_NOT_FOCUSABLE;
       viewParams.flags |= LayoutParams.FLAG_NOT_TOUCHABLE;
       viewParams.flags |= LayoutParams.FLAG_FULLSCREEN;
+      viewParams.flags |= LayoutParams.FLAG_LAYOUT_NO_LIMITS;
       viewParams.flags &= ~LayoutParams.FLAG_TURN_SCREEN_ON;
       viewParams.flags &= ~LayoutParams.FLAG_KEEP_SCREEN_ON;
       viewParams.format = PixelFormat.OPAQUE;
@@ -219,11 +223,28 @@ public class DimScreenActor implements DeviceConfigurationMonitor.OnConfiguratio
   }
 
   private void initCurtainSize() {
-    Point point = new Point();
-    windowManager.getDefaultDisplay().getRealSize(point);
+    if (viewParams == null) {
+      return; // defensive check - just in case
+    }
 
-    viewParams.width = point.x;
-    viewParams.height = point.y;
+    int iWidth;
+    int iHeight;
+
+    if (BuildVersionUtils.isAtLeastR()) {
+      WindowMetrics metrics = windowManager.getCurrentWindowMetrics();
+      Insets insets = metrics.getWindowInsets().getInsets(WindowInsetsCompat.Type.systemBars());
+      int insetSum = insets.top + insets.bottom;
+      iWidth = metrics.getBounds().width();
+      iHeight = metrics.getBounds().height() + insetSum;
+    } else {
+      Point point = new Point();
+      windowManager.getDefaultDisplay().getRealSize(point);
+      iWidth = point.x;
+      iHeight = point.y;
+    }
+
+    viewParams.width = iWidth;
+    viewParams.height = iHeight - 1;
   }
 
   private void addExitInstructionView() {

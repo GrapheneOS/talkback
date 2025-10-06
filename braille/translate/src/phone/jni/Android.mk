@@ -39,6 +39,7 @@ include $(CLEAR_VARS)
 LOCAL_PATH := $(LIBLOUIS_PATH)
 LOCAL_LDLIBS := -llog -landroid
 LOCAL_CFLAGS += -DTABLESDIR='"__non_existent_path__"'
+LOCAL_CFLAGS += -I$(LOCAL_PATH)/liblouis
 LOCAL_MODULE := louis
 LOCAL_SRC_FILES := \
   liblouis/compileTranslationTable.c \

@@ -1,6 +1,6 @@
 // For building the open-source release of TalkBack.
 
-android.buildFeatures.buildConfig true
+android.buildFeatures.buildConfig = true
 
 ext {
     talkbackApplicationId = "com.android.talkback"
@@ -25,7 +25,7 @@ android {
     }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
+        multiDexEnabled = true
         minSdk 26
         targetSdk 36
         ndk {

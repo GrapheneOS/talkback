@@ -3,7 +3,10 @@ apply plugin: 'kotlin-android'
 apply from: "../../shared.gradle"
 
 android {
-    namespace "com.google.android.accessibility.material.flags"
+    namespace = "com.google.android.accessibility.material.flags"
+    defaultConfig {
+        targetSdk 34
+    }
 }
 
 dependencies {

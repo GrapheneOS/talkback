@@ -36,7 +36,7 @@ allprojects {
 }
 
 android {
-    namespace "com.android.talkback"
+    namespace = "com.android.talkback"
     buildToolsVersion '37.0.0'
     defaultConfig {
         applicationId talkbackApplicationId
@@ -50,15 +50,15 @@ android {
             }
         }
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
-        multiDexEnabled true
+        multiDexEnabled = true
     }
     packagingOptions {
         exclude 'LICENSE'
         exclude 'README'
     }
     lint {
-        checkReleaseBuilds false
-        abortOnError false
+        checkReleaseBuilds = false
+        abortOnError = false
     }
     productFlavors {
         phone {

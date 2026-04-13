@@ -3,7 +3,10 @@ apply plugin: 'kotlin-android'
 apply from: "../../../shared.gradle"
 
 android {
-    namespace "com.google.android.accessibility.material.preference.compose"
+    namespace = "com.google.android.accessibility.material.preference.compose"
+    defaultConfig {
+        targetSdk 34
+    }
 }
 
 dependencies {

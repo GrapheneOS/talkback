@@ -88,7 +88,7 @@
   <string name="template_hint_checkable_keyboard">Naciśnij %1$s, aby przełączyć</string>
   <string name="template_hint_adjustable_2gesture">„%1$s” lub „%2$s”, aby zmienić</string>
   <string name="template_hint_adjustable_1gesture">„%1$s”, aby zmienić</string>
-  <string name="template_hint_wear_input_focused_adjustable">Aby zmienić, przesuń 2 palcami lub obróć pokrętło albo ramkę</string>
+  <string name="template_hint_wear_input_focused_adjustable">Aby zmienić, przesuń dwoma palcami lub obróć pokrętło albo ramkę</string>
   <string name="template_hint_edit_text">%1$s, aby edytować tekst</string>
   <string name="template_hint_edit_text_keyboard">Naciśnij %1$s, aby edytować tekst</string>
   <string name="template_hint_spinner">%1$s, aby zmienić</string>

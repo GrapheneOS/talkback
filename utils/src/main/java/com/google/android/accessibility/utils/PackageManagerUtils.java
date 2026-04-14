@@ -22,7 +22,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.text.TextUtils;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -40,8 +39,6 @@ public class PackageManagerUtils {
   /** TalkBack service name constant */
   public static final String TALKBACK_SERVICE_NAME =
       "com.google.android.marvin.talkback.TalkBackService";
-
-  private static final int MIN_GMSCORE_VERSION = 9200000; // Version should be at least V4.
 
   /** Returns the package version code. */
   public static long getVersionCode(Context context) {
@@ -93,11 +90,7 @@ public class PackageManagerUtils {
 
   /** Returns {@code true} if the platform has GMS core package (aka Google Play Service). */
   public static boolean hasGmsCorePackage(Context context) {
-    // Checks if the GMS core is available using GoogleApiAvailability instead of relying on package
-    // name checks.
-    return GoogleApiAvailabilityManager.getInstance()
-            .isGooglePlayServicesAvailable(context, MIN_GMSCORE_VERSION)
-        == ConnectionResult.SUCCESS;
+    return false;
   }
 
   /** Returns {@code true} if the package is Talkback package */

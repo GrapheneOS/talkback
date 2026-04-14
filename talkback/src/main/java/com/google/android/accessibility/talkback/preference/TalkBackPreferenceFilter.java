@@ -162,8 +162,8 @@ public class TalkBackPreferenceFilter {
     TOUCH_LATENCY_SETTINGS(
         R.string.pref_touch_focus_time_out_key,
         HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDDEN_TOUCH_LATENCY_SETTING),
-    PRIVACY_POLICY(R.string.pref_policy_key, HIDDEN_SETUP),
-    TERMS_OF_SERVICE(R.string.pref_show_tos_key, HIDDEN_SETUP),
+    PRIVACY_POLICY(R.string.pref_policy_key, HIDDEN),
+    TERMS_OF_SERVICE(R.string.pref_show_tos_key, HIDDEN),
     // Help & Tutorial.
     HELP_AND_FEEDBACK(R.string.pref_help_and_feedback_key, HIDDEN_SETUP),
     PRACTICE_GESTURES(

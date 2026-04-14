@@ -12,5 +12,4 @@ android {
 dependencies {
     implementation project(':proguard')
     implementation project(':materialflags')
-    wearImplementation project(':materialtheme')
 }

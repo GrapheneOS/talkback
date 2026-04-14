@@ -22,8 +22,6 @@ project(':braillebrltty').projectDir = new File('braille/brltty')
 
 include ':materialflags'
 project(':materialflags').projectDir = new File('material/flags')
-include ':materialtheme'
-project(':materialtheme').projectDir = new File('material/theme')
 include ':materialpreference'
 project(':materialpreference').projectDir = new File('material/preference')
 include ':materialpreferencecompose'

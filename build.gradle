@@ -63,9 +63,5 @@ android {
         phone {
             dimension "target"
         }
-        wear {
-            dimension "target"
-            versionNameSuffix "-wear"
-        }
     }
 }

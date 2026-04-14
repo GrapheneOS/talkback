@@ -10,9 +10,6 @@ dependencies {
     implementation project(':brailledisplay')
     implementation project(':materialflags')
     implementation project(':materialpreference')
-    // TODO: Define different dependencies for different product flavors
-    wearImplementation project(':materialpreferencecompose')
-    wearImplementation project(':materialtheme')
 }
 
 android {

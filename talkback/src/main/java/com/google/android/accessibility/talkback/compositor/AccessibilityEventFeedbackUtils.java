@@ -30,7 +30,7 @@ import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.Role;
 import java.util.List;
 import java.util.Locale;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utils class that provides common methods that provide accessibility information by {@link

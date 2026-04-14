@@ -24,7 +24,7 @@ import static com.google.android.accessibility.brailleime.input.MultitouchResult
 import static com.google.android.accessibility.brailleime.input.MultitouchResult.TYPE_TAP;
 
 import com.google.android.accessibility.braille.interfaces.BrailleCharacter;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * The result produced by a {@link BrailleInputPlane} commission.

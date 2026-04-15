@@ -17,20 +17,20 @@ package com.google.android.accessibility.utils;
 
 import android.content.Context;
 import androidx.annotation.VisibleForTesting;
-import com.google.android.gms.common.GoogleApiAvailability;
 
 /**
- * A singleton class for verifying Google Play services availability by {@link
- * GoogleApiAvailability}.
+ * A singleton class for verifying Google Play services availability
+ * Stubbed implementation: always reports Google Play services as unavailable.
  */
 public class GoogleApiAvailabilityManager {
-
+  // Match com.google.android.gms.common.ConnectionResult.SERVICE_MISSING
+  public static final int SERVICE_MISSING = 1;
   @SuppressWarnings("NonFinalStaticField")
   private static GoogleApiAvailabilityManager instance;
 
   public static GoogleApiAvailabilityManager getInstance() {
     if (instance == null) {
-      instance = new GoogleApiAvailabilityManager(GoogleApiAvailability.getInstance());
+      instance = new GoogleApiAvailabilityManager();
     }
     return instance;
   }
@@ -41,8 +41,8 @@ public class GoogleApiAvailabilityManager {
    * invoked before the first APIs are created.
    */
   @VisibleForTesting
-  public static void initializeForTest(GoogleApiAvailability googleApiAvailability) {
-    instance = new GoogleApiAvailabilityManager(googleApiAvailability);
+  public static void initializeForTest(Object ignored) {
+    instance = new GoogleApiAvailabilityManager();
   }
 
   @VisibleForTesting
@@ -50,18 +50,12 @@ public class GoogleApiAvailabilityManager {
     instance = null;
   }
 
-  private final GoogleApiAvailability googleApiAvailability;
-
-  private GoogleApiAvailabilityManager(GoogleApiAvailability googleApiAvailability) {
-    this.googleApiAvailability = googleApiAvailability;
-  }
+  private GoogleApiAvailabilityManager() {}
 
   /**
-   * Verifies that Google Play services is installed and enabled on this device.
-   *
-   * @param minApkVersion the installed version is not older than the specified version
+   * Always reports Google Play services as unavailable.
    */
   public int isGooglePlayServicesAvailable(Context context, int minApkVersion) {
-    return googleApiAvailability.isGooglePlayServicesAvailable(context, minApkVersion);
+    return SERVICE_MISSING;
   }
 }

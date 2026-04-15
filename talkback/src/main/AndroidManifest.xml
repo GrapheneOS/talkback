@@ -254,14 +254,5 @@
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ocr" />
 
-        <receiver
-            android:name="com.google.android.libraries.appdoctor.AppDoctorReceiver"
-            android:exported="true"
-            android:permission="com.google.android.gms.permission.INTERNAL_BROADCAST">
-            <intent-filter>
-                <action android:name="com.google.android.libraries.appdoctor.ACTION_TELE_DOCTOR_FIX"/>
-            </intent-filter>
-        </receiver>
-
     </application>
 </manifest>

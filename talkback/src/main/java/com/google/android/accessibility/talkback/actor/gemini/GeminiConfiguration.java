@@ -59,7 +59,7 @@ public final class GeminiConfiguration {
   }
 
   public static boolean isServerSideGeminiImageCaptioningEnabled(Context context) {
-    return true;
+    return false;
   }
 
   public static boolean isOnDeviceGeminiImageCaptioningEnabled(Context context) {
@@ -71,7 +71,7 @@ public final class GeminiConfiguration {
   }
 
   public static boolean imageQnaEnabled(Context context) {
-    return GeminiFunctionUtils.isSystemLocaleSupportQna(context);
+    return false;
   }
 
   /**
@@ -83,7 +83,7 @@ public final class GeminiConfiguration {
   }
 
   public static boolean screenOverviewEnabled(Context context) {
-    return GeminiFunctionUtils.isSystemLocaleSupportQna(context);
+    return false;
   }
 
   public static int imageQnaTypingSizeLimit(Context context) {

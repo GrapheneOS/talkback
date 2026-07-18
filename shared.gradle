@@ -1,6 +1,13 @@
 // For building the open-source release of TalkBack.
 
 android.buildFeatures.buildConfig = true
+android.buildFeatures.resValues = true
+
+// Compose is enabled for every module via buildFeatures below. Under AGP 9's
+// built-in Kotlin, every Android module that enables compose must also apply the
+// Compose compiler plugin, so apply it centrally here (idempotent for the Kotlin
+// modules that also apply it directly).
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 ext {
     talkbackApplicationId = "com.android.talkback"

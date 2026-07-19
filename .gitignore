@@ -2,6 +2,8 @@
 braille/translate/src/phone/res/raw/translationtables.zip
 braille/brltty/src/phone/res/raw/keytables.zip
 
+/.idea
+
 ## special build files
 local.properties
 .gradle/

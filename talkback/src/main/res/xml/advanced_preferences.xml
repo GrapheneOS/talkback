@@ -66,9 +66,6 @@
       android:key="@string/pref_category_others_key"
       android:title="@string/title_pref_category_others">
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:key="@string/pref_play_store_key"
-        android:title="@string/title_pref_play_store" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.preference.base.DeveloperPrefFragment"
         android:key="@string/pref_category_developer_key"
         android:title="@string/title_pref_category_developer_settings"

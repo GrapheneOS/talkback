@@ -19,15 +19,10 @@ import static com.google.android.accessibility.utils.SettingsUtils.isTouchExplor
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import androidx.annotation.VisibleForTesting;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceGroup;
@@ -39,14 +34,10 @@ import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMoni
 import com.google.android.accessibility.talkback.preference.base.PreferenceActionHelper.WebPage;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils;
 import com.google.android.accessibility.talkback.utils.TalkbackFeatureSupport;
-import com.google.android.accessibility.utils.FormFactorUtils;
-import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Fragment to display advanced settings. */
@@ -56,8 +47,6 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
   private Context context;
 
   private SharedPreferences prefs;
-
-  private static final Pattern TALKBACK_VERSION_PATTERN = Pattern.compile("[0-9]+\\.[0-9]+");
 
   public AdvancedSettingFragment() {
     super(R.xml.advanced_preferences);
@@ -205,8 +194,6 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
           WebPage.WEB_PAGE_TERMS_OF_SERVICE);
     }
 
-    updatePlayStorePreference();
-
     // Hiding the smart browse mode toggle if the feature is not enabled.
     if (!FeatureFlagReader.enableSmartBrowseMode(context)) {
       PreferenceSettingsUtils.hidePreference(
@@ -218,90 +205,5 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
       PreferenceSettingsUtils.hidePreference(
           context, getPreferenceScreen(), R.string.pref_show_exit_watermark_key);
     }
-  }
-
-  private void updatePlayStorePreference() {
-    if (SettingsUtils.allowLinksOutOfSettings(context) || FormFactorUtils.isAndroidTv()) {
-      // We should never try to open the play store in WebActivity.
-      showTalkBackVersion();
-      assignPlayStoreIntentToPreference();
-    } else {
-      // During setup, do not allow access to web.
-      PreferenceSettingsUtils.hidePreference(
-          context, getPreferenceScreen(), R.string.pref_play_store_key);
-    }
-  }
-
-  @VisibleForTesting
-  public boolean supportsPlayStore() {
-    return PackageManagerUtils.hasGmsCorePackage(context);
-  }
-
-  private void assignPlayStoreIntentToPreference() {
-
-    Preference pref = findPreferenceByResId(R.string.pref_play_store_key);
-    if (pref == null) {
-      return;
-    }
-
-    PreferenceGroup category =
-        (PreferenceGroup) findPreferenceByResId(R.string.pref_category_others_key);
-    // Hides the play store preference if device has no Google play store.
-    if (!getResources().getBoolean(R.bool.show_play_store) || !supportsPlayStore()) {
-      if (category != null) {
-        category.removePreference(pref);
-      }
-      return;
-    }
-
-    String packageName = PackageManagerUtils.TALKBACK_PACKAGE;
-
-    Uri uri;
-    if (FormFactorUtils.isAndroidWear()) {
-      // Only for watches, try the "market://" URL first. If there is a Play Store on the
-      // device, this should succeed. Only for LE devices, there will be no Play Store.
-      uri = Uri.parse("market://details?id=" + packageName);
-    } else {
-      uri = Uri.parse("https://play.google.com/store/apps/details?id=" + packageName);
-    }
-
-    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-    if (PreferenceSettingsUtils.canHandleIntent(context, intent)) {
-      pref.setIntent(intent);
-    } else {
-      if (category != null) {
-        category.removePreference(pref);
-      }
-    }
-  }
-
-  private static @Nullable PackageInfo getPackageInfo(Context context) {
-    try {
-      return context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-    } catch (NameNotFoundException e) {
-      return null;
-    }
-  }
-
-  /** Show TalkBack version in the Play Store button. */
-  private void showTalkBackVersion() {
-    PackageInfo packageInfo = getPackageInfo(context);
-    if (packageInfo == null) {
-      return;
-    }
-    final Preference playStoreButton = findPreferenceByResId(R.string.pref_play_store_key);
-    if (playStoreButton == null) {
-      return;
-    }
-
-    Matcher matcher = TALKBACK_VERSION_PATTERN.matcher(String.valueOf(packageInfo.versionName));
-    String summary;
-    if (matcher.find()) {
-      summary = getString(R.string.summary_pref_play_store, matcher.group());
-    } else {
-      summary =
-          getString(R.string.summary_pref_play_store, String.valueOf(packageInfo.versionName));
-    }
-    playStoreButton.setSummary(summary);
   }
 }

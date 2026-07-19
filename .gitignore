@@ -8,6 +8,8 @@ braille/brltty/src/phone/res/raw/keytables.zip
 local.properties
 .gradle/
 
+/gradle/gradle-daemon-jvm.properties
+
 ## generated intermediates
 braille/brailledisplay/build/
 braille/brailledisplayanalytics/build/

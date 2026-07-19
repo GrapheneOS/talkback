@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-  <!-- Have these default declaration for watch-specific attribute to prevent copybara failure on watch. -->
-  <style name="A11yAlertDialogChipButton"/>
-  <style name="A11yAlertDialogTextLinesGreaterThan3"/>
-</resources>

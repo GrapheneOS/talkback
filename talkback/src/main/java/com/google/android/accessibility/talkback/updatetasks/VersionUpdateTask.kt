@@ -70,7 +70,14 @@ internal fun convertToVirtualVersionCode(version: Version): Int {
 internal fun convertToVersion(versionName: String?): Version {
   try {
     val splitVersion = versionName?.split(".") ?: return Versions.VERSION_FIRST_TIME_USER
-    return Version(splitVersion[0].toInt(), splitVersion[1].toInt(), splitVersion[2].toInt())
+    // Version names may have fewer than three components (e.g. "16.2"); default any
+    // missing component to 0 instead of indexing past the end, which would throw an
+    // uncaught IndexOutOfBoundsException and crash the service on connect.
+    return Version(
+      splitVersion.getOrNull(0)?.toInt() ?: 0,
+      splitVersion.getOrNull(1)?.toInt() ?: 0,
+      splitVersion.getOrNull(2)?.toInt() ?: 0,
+    )
   } catch (e: NumberFormatException) {
     return VERSION_UNKNOWN
   }

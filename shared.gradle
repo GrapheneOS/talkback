@@ -65,7 +65,6 @@ dependencies {
 
     // Google common
     implementation 'com.google.guava:guava:33.6.0-jre'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:19.0.1'
     implementation 'com.google.android.material:material:1.13.0'
 
     // Support library

@@ -497,8 +497,8 @@ public class ImageCaptioner extends Handler
   }
 
   public static boolean supportsImageCaption(Context context) {
-    return FeatureSupport.canTakeScreenShotByAccessibilityService()
-        && TalkbackFeatureSupport.supportDynamicFeatures();
+    // OCR via Google ML Kit has been removed to avoid a Google Play Services dependency.
+    return false;
   }
 
   /**

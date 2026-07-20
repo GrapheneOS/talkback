@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,11 +18,10 @@
 
 #include "prologue.h"
 
-#include <stdio.h>
 #include <string.h>
-#include <errno.h>
 
 #include "cmdline.h"
+#include "cmdput.h"
 #include "log.h"
 #include "file.h"
 
@@ -35,8 +34,29 @@
 #include "ctb.h"
 #include "ctb_internal.h"
 
-BEGIN_OPTION_TABLE(programOptions)
-END_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+static const char *tablePath;
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+  { .name = "table",
+    .description = "the path to the table",
+    .setting = &tablePath,
+  },
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "tbl2hex",
+  .purpose = strtext("Write the hexadecimal array representation of a compiled table."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
 typedef struct {
   void *object;
@@ -135,8 +155,8 @@ findTableEntry (const char *extension) {
   return NULL;
 }
 
-int
-dumpBytes (FILE *stream, const unsigned char *bytes, size_t count) {
+static void
+dumpBytes (const unsigned char *bytes, size_t count) {
   const unsigned char *byte = bytes;
   const unsigned char *end = byte + count;
   int first = 1;
@@ -167,90 +187,49 @@ dumpBytes (FILE *stream, const unsigned char *bytes, size_t count) {
         if (first) {
           first = 0;
         } else {
-          fprintf(stream, ",");
-          if (ferror(stream)) goto outputError;
-
-          if (!counter) {
-            fprintf(stream, "\n");
-            if (ferror(stream)) goto outputError;
-          }
+          putByte(',');
+          if (!counter) putNewline();
         }
 
         if (!counter) {
-          fprintf(stream, "[0X%0*X] =", digits, (unsigned int)(byte-bytes));
-          if (ferror(stream)) goto outputError;
+          putf("[0X%0*X] =", digits, (unsigned int)(byte-bytes));
         }
 
-        fprintf(stream, " 0X%02X", *byte++);
-        if (ferror(stdout)) goto outputError;
-
+        putf(" 0X%02X", *byte++);
         if (++counter == maximum) break;
       }
     }
   }
 
-  if (!first) {
-    fprintf(stream, "\n");
-    if (ferror(stream)) goto outputError;
-  }
-
-  return 1;
-
-outputError:
-  logMessage(LOG_ERR, "table write error: %s", strerror(errno));
-  return 0;
+  if (!first) putNewline();
 }
 
 int
 main (int argc, char *argv[]) {
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
+
   ProgramExitStatus exitStatus;
-  char *path;
 
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "tbl2hex",
+  const char *extension = locatePathExtension(tablePath);
 
-      .usage = {
-        .purpose = strtext("Write the hexadecimal array representation of a compiled table."),
-        .parameters = "table-file",
-      }
-    };
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
+  if (extension) {
+    const TableEntry *entry = findTableEntry(extension);
 
-  if (argc == 0) {
-    logMessage(LOG_ERR, "missing table file.");
-    return PROG_EXIT_SYNTAX;
-  }
-  path = *argv++, argc--;
-
-  {
-    const char *extension = locatePathExtension(path);
-
-    if (extension) {
-      const TableEntry *entry = findTableEntry(extension);
-
-      if (entry) {
-        TableData data;
-        if (entry->load(path, &data)) {
-          if (dumpBytes(stdout, data.bytes, data.size)) {
-            exitStatus = PROG_EXIT_SUCCESS;
-          } else {
-            exitStatus = PROG_EXIT_FATAL;
-          }
-
-          entry->unload(&data);
-        } else {
-          exitStatus = PROG_EXIT_FATAL;
-        }
+    if (entry) {
+      TableData data;
+      if (entry->load(tablePath, &data)) {
+        dumpBytes(data.bytes, data.size);
+        exitStatus = PROG_EXIT_SUCCESS;
+        entry->unload(&data);
       } else {
-        exitStatus = PROG_EXIT_SEMANTIC;
+        exitStatus = PROG_EXIT_FATAL;
       }
     } else {
-      logMessage(LOG_ERR, "no file extension");
       exitStatus = PROG_EXIT_SEMANTIC;
     }
+  } else {
+    logMessage(LOG_ERR, "no file extension");
+    exitStatus = PROG_EXIT_SEMANTIC;
   }
 
   return exitStatus;

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -20,20 +20,20 @@
 #define BRLTTY_INCLUDED_CMDLINE
 
 #include "cmdline_types.h"
-#include "program.h"
+#include "cmdbase.h"
 #include "datafile.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-extern ProgramExitStatus processOptions (
+extern ProgramExitStatus processCommandLine (
   const CommandLineDescriptor *descriptor,
   int *argumentCount, char ***argumentVector
 );
 
-#define PROCESS_OPTIONS(descriptorVariable, argcVariable, argvVariable) { \
-  ProgramExitStatus exitStatus = processOptions(&descriptorVariable, &argcVariable, &argvVariable); \
+#define PROCESS_COMMAND_LINE(descriptorVariable, argcVariable, argvVariable) { \
+  ProgramExitStatus exitStatus = processCommandLine(&descriptorVariable, &argcVariable, &argvVariable); \
   if (exitStatus == PROG_EXIT_FORCE) return PROG_EXIT_SUCCESS; \
   if (exitStatus != PROG_EXIT_SUCCESS) return exitStatus; \
 }

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -401,6 +401,41 @@ getJavaLocaleName (void) {
           }
 
           (*env)->DeleteLocalRef(env, locale);
+        }
+      }
+    }
+  }
+
+  return name;
+}
+
+char *
+getJavaCharacterName (wchar_t character) {
+  char *name = NULL;
+  JNIEnv *env;
+
+  if ((env = getJavaNativeInterface())) {
+    jclass Character_class = NULL;
+
+    if (findJavaClass(env, &Character_class, JAVA_OBJ_CHARACTER)) {
+      jmethodID Character_getName = 0;
+
+      if (findJavaStaticMethod(env, &Character_getName, Character_class, "getName",
+                               JAVA_SIG_METHOD(JAVA_SIG_STRING,
+                                               JAVA_SIG_INT // codePoint
+                                              ))) {
+        jstring jName = (*env)->CallStaticObjectMethod(env, Character_class, Character_getName, character);
+
+        if (!clearJavaException(env, 1)) {
+          jboolean isCopy;
+          const char *cName = (*env)->GetStringUTFChars(env, jName, &isCopy);
+
+          if (!(name = strdup(cName))) {
+            logMallocError();
+          }
+
+          (*env)->ReleaseStringUTFChars(env, jName, cName);
+          (*env)->DeleteLocalRef(env, jName);
         }
       }
     }

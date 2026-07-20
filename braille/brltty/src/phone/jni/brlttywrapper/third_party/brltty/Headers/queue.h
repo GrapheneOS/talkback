@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -29,7 +29,7 @@ typedef void ItemDeallocator (void *item, void *data);
 typedef int ItemComparator (const void *newItem, const void *existingItem, void *queueData);
 
 extern Queue *newQueue (ItemDeallocator *deallocateItem, ItemComparator *compareItems);
-extern void deallocateQueue (Queue *queue);
+extern void destroyQueue (Queue *queue);
 
 typedef Queue *QueueCreator (void *data);
 extern Queue *getProgramQueue (
@@ -38,6 +38,8 @@ extern Queue *getProgramQueue (
 );
 
 extern int getQueueSize (const Queue *queue);
+extern int isEmptyQueue (const Queue *queue);
+
 extern void *getQueueData (const Queue *queue);
 extern void *setQueueData (Queue *queue, void *data);
 
@@ -48,6 +50,8 @@ extern Element *getStackHead (const Queue *queue);
 extern Element *getStackElement (const Queue *queue, unsigned int index);
 
 extern Element *enqueueItem (Queue *queue, void *item);
+extern Element *prequeueItem (Queue *queue, void *item);
+
 extern void *dequeueItem (Queue *queue);
 extern int deleteItem (Queue *queue, void *item);
 

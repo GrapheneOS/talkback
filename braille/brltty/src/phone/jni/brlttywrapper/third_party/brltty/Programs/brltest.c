@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -23,8 +23,8 @@
 #include <strings.h>
 #include <errno.h>
 
-#include "program.h"
 #include "cmdline.h"
+#include "options.h"
 #include "parameters.h"
 #include "log.h"
 #include "parse.h"
@@ -42,12 +42,11 @@
 
 BrailleDisplay brl;
 
-static char *opt_brailleDevice;
+char *opt_brailleDevice;
 char *opt_driversDirectory;
-static char *opt_tablesDirectory;
-static char *opt_writableDirectory;
+char *opt_tablesDirectory;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "device",
     .letter = 'd',
     .argument = "device",
@@ -61,7 +60,7 @@ BEGIN_OPTION_TABLE(programOptions)
     .argument = strtext("directory"),
     .setting.string = &opt_tablesDirectory,
     .internal.setting = TABLES_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = strtext("Path to directory containing tables.")
   },
 
@@ -70,7 +69,7 @@ BEGIN_OPTION_TABLE(programOptions)
     .argument = "directory",
     .setting.string = &opt_driversDirectory,
     .internal.setting = DRIVERS_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = "Path to directory for loading drivers."
   },
 
@@ -79,43 +78,49 @@ BEGIN_OPTION_TABLE(programOptions)
     .argument = strtext("directory"),
     .setting.string = &opt_writableDirectory,
     .internal.setting = WRITABLE_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = strtext("Path to directory which can be written to.")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+static const char *driverCode;
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+  { .name = "driver",
+    .description = "the two-letter code of the braille driver to test",
+    .setting = &driverCode,
+  },
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltest",
+  .purpose = strtext("Test a braille driver."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "name=value",
+    .description = "parameters for the specified braille driver",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 int
 main (int argc, char *argv[]) {
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
+
   ProgramExitStatus exitStatus;
-
-  const char *driver = NULL;
-  void *object;
-
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltest",
-
-      .usage = {
-        .purpose = strtext("Test a braille driver."),
-        .parameters = "[driver [parameter=value ...]]",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
-
-  setWritableDirectory(opt_writableDirectory);
-
-  if (argc) {
-    driver = *argv++, --argc;
-  }
+  void *driverObject;
 
   if (!*opt_brailleDevice) {
     changeStringSetting(&opt_brailleDevice, BRAILLE_DEVICE);
   }
 
-  if ((braille = loadBrailleDriver(driver, &object, opt_driversDirectory))) {
+  if ((braille = loadBrailleDriver(driverCode, &driverObject, opt_driversDirectory))) {
     const char *const *parameterNames = braille->parameters;
     char **parameterSettings;
 
@@ -146,7 +151,7 @@ main (int argc, char *argv[]) {
     while (argc) {
       char *assignment = *argv++;
       int ok = 0;
-      char *delimiter = strchr(assignment, '=');
+      char *delimiter = strchr(assignment, PARAMETER_ASSIGNMENT_CHARACTER);
 
       if (!delimiter) {
         logMessage(LOG_ERR, "missing braille driver parameter value: %s", assignment);
@@ -289,11 +294,21 @@ message (const char *mode, const char *text, MessageOptions options) {
   return 1;
 }
 
+int
+sayMessage (const char *text) {
+  return 1;
+}
+
 #include "scr.h"
 
 KeyTableCommandContext
 getScreenCommandContext (void) {
   return KTB_CTX_DEFAULT;
+}
+
+int
+currentVirtualTerminal (void) {
+  return 0;
 }
 
 #include "alert.h"

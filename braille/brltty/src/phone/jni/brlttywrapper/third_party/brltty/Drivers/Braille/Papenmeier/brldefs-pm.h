@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -51,7 +51,7 @@
                                    * 1 = not same as braille display
                                    */
 #define PM_P1_XMT_CSRPOSN  0X0501 /* cursor position (0 for no cursor) */
-#define PM_P1_XMT_CSRDOTS  0X0502 /* cursor represenation in braille dots */
+#define PM_P1_XMT_CSRDOTS  0X0502 /* cursor representation in braille dots */
 #define PM_P1_XMT_BRL2ASC  0X0503 /* braille to ASCII translation table */
 #define PM_P1_XMT_LENFBSEQ 0X0603 /* length of feedback sequence for speech synthesizer */
 #define PM_P1_XMT_LENKPSEQ 0X0604 /* length of keypad sequence */

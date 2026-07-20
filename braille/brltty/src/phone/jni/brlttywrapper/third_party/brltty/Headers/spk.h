@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -68,6 +68,7 @@ extern int toNormalizedSpeechPitch (unsigned char pitch);
 
 extern int canSetSpeechPunctuation (SpeechSynthesizer *spk);
 extern int setSpeechPunctuation (SpeechSynthesizer *spk, SpeechPunctuation setting, int say);
+extern const char *getSpeechPunctuation (unsigned char level);
 
 extern int haveSpeechDriver (const char *code);
 extern const char *getDefaultSpeechDriver (void);

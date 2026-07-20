@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,7 +19,7 @@
 #ifndef BRLTTY_INCLUDED_CMDLINE_TYPES
 #define BRLTTY_INCLUDED_CMDLINE_TYPES
 
-#include "strfmth.h"
+#include "strfmt_types.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -65,40 +65,68 @@ typedef struct {
   size_t count;
 } CommandLineOptions;
 
-#define BEGIN_OPTION_TABLE(name) \
+#define BEGIN_COMMAND_LINE_OPTIONS(name) \
 static const CommandLineOption name##Table[] = { \
   { .word = "help", \
     .letter = 'h', \
     .description = strtext("Show this usage summary, and then exit.") \
   },
 
-#define END_OPTION_TABLE(name) }; \
+#define END_COMMAND_LINE_OPTIONS(name) }; \
 static const CommandLineOptions name = { \
   .table = name##Table, \
   .count = ARRAY_COUNT(name##Table), \
 };
 
-#define DECLARE_USAGE_NOTES(name) const char *const name[]
-#define BEGIN_USAGE_NOTES(name) DECLARE_USAGE_NOTES(name) = {
-#define END_USAGE_NOTES NULL};
-#define USAGE_NOTES(...) (const char *const *const []){__VA_ARGS__, NULL}
+typedef struct {
+  const char *name;
+  const char *description;
+  const char **setting;
+  char optional;
+} CommandLineParameter;
 
 typedef struct {
+  const CommandLineParameter *table;
+  size_t count;
+} CommandLineParameters;
+
+#define BEGIN_COMMAND_LINE_PARAMETERS(name) \
+static const CommandLineParameter name##Table[] = {
+
+#define END_COMMAND_LINE_PARAMETERS(name) }; \
+static const CommandLineParameters name = { \
+  .table = name##Table, \
+  .count = ARRAY_COUNT(name##Table), \
+};
+
+#define DECLARE_COMMAND_LINE_NOTES(name) const char *const name[]
+#define START_COMMAND_LINE_NOTES(name) DECLARE_COMMAND_LINE_NOTES(name) = {
+#define BEGIN_COMMAND_LINE_NOTES(name) static START_COMMAND_LINE_NOTES(name)
+#define END_COMMAND_LINE_NOTES NULL};
+#define COMMAND_LINE_NOTES(...) (const char *const *const []){__VA_ARGS__, NULL}
+
+typedef struct {
+  const char *name;
   const char *purpose;
-  const char *parameters;
-  const char *const *const *notes;
-} CommandLineUsage;
 
-typedef struct {
   const CommandLineOptions *options;
+  const CommandLineParameters *parameters;
+  const char *const *const *notes;
 
-  const char *applicationName;
+  struct {
+    const char *name;
+    const char *description;
+  } extraParameters;
+
   char **configurationFile;
   int *doEnvironmentVariables;
   int *doBootParameters;
-
-  const CommandLineUsage usage;
 } CommandLineDescriptor;
+
+#define BEGIN_COMMAND_LINE_DESCRIPTOR(name) \
+static const CommandLineDescriptor name = {
+
+#define END_COMMAND_LINE_DESCRIPTOR };
 
 #ifdef __cplusplus
 }

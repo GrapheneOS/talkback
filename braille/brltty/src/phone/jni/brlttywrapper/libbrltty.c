@@ -204,7 +204,7 @@ brltty_destroy(void) {
     return 0;
   }
 
-  deallocateQueue(commandQueue);
+  destroyQueue(commandQueue);
   commandQueue = NULL;
 
   popCommandHandler();

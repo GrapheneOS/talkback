@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -23,6 +23,7 @@
 
 #include "log.h"
 #include "clipboard.h"
+#include "unicode.h"
 #include "utf8.h"
 #include "queue.h"
 #include "lock.h"
@@ -119,7 +120,7 @@ getClipboardContentLength (ClipboardObject *cpb) {
 
 int
 truncateClipboardContent (ClipboardObject *cpb, size_t length) {
-  if (length >= cpb->buffer.length) return 0;
+  if (length > cpb->buffer.length) return 0;
   cpb->buffer.length = length;
   return 1;
 }
@@ -130,8 +131,7 @@ clearClipboardContent (ClipboardObject *cpb) {
   const wchar_t *characters = getClipboardContent(cpb, &length);
 
   if (!addClipboardHistory(cpb, characters, length)) return 0;
-  truncateClipboardContent(cpb, 0);
-  return 1;
+  return truncateClipboardContent(cpb, 0);
 }
 
 int
@@ -153,16 +153,73 @@ appendClipboardContent (ClipboardObject *cpb, const wchar_t *characters, size_t 
     cpb->buffer.size = newSize;
   }
 
-  wmemcpy(&cpb->buffer.characters[cpb->buffer.length], characters, length);
-  cpb->buffer.length += length;
+  {
+    const wchar_t *from = characters;
+    const wchar_t *fromEnd = from + length;
+    wchar_t *to = &cpb->buffer.characters[cpb->buffer.length];
+
+    while (from < fromEnd) {
+      wchar_t character = *from++;
+      if (character == UNICODE_ZERO_WIDTH_SPACE) continue;
+      *to++ = character;
+    }
+
+    cpb->buffer.length = to - cpb->buffer.characters;
+  }
+
   return 1;
 }
 
 int
 setClipboardContent (ClipboardObject *cpb, const wchar_t *characters, size_t length) {
-  int truncated = truncateClipboardContent(cpb, 0);
-  int appended = appendClipboardContent(cpb, characters, length);
-  return truncated || appended;
+  if (!clearClipboardContent(cpb)) return 0;
+  return appendClipboardContent(cpb, characters, length);
+}
+
+int
+copyToClipboard (
+  ClipboardObject *cpb,
+  const wchar_t *characters, size_t length,
+  size_t offset, int insertLineDelimiter
+) {
+  if (offset > 0) {
+    if (!truncateClipboardContent(cpb, offset)) return 0;
+
+    if (insertLineDelimiter) {
+      size_t length;
+      const wchar_t *content = getClipboardContent(cpb, &length);
+
+      if (content) {
+        int truncate = 0;
+
+        while (length > 0) {
+          size_t last = length - 1;
+          wchar_t character = content[last];
+
+          if (character == CLIPBOARD_LINE_DELIMITER) insertLineDelimiter = 0;
+          if (character != WC_C(' ')) break;
+
+          truncate = 1;
+          length = last;
+        }
+
+        if (truncate) {
+          if (!truncateClipboardContent(cpb, length)) {
+            return 0;
+          }
+        }
+
+        if (insertLineDelimiter && (length > 0)) {
+          static const wchar_t lineDelimiter = CLIPBOARD_LINE_DELIMITER;
+          if (!appendClipboardContent(cpb, &lineDelimiter, 1)) return 0;
+        }
+      }
+    }
+  } else if (!clearClipboardContent(cpb)) {
+    return 0;
+  }
+
+  return appendClipboardContent(cpb, characters, length);
 }
 
 int
@@ -175,9 +232,8 @@ appendClipboardContentUTF8 (ClipboardObject *cpb, const char *text) {
 
 int
 setClipboardContentUTF8 (ClipboardObject *cpb, const char *text) {
-  int truncated = truncateClipboardContent(cpb, 0);
-  int appended = appendClipboardContentUTF8(cpb, text);
-  return truncated || appended;
+  if (!clearClipboardContent(cpb)) return 0;
+  return appendClipboardContentUTF8(cpb, text);
 }
 
 static void
@@ -211,7 +267,7 @@ newClipboard (void) {
 void
 destroyClipboard (ClipboardObject *cpb) {
   if (cpb->buffer.characters) free(cpb->buffer.characters);
-  deallocateQueue(cpb->history.queue);
+  destroyQueue(cpb->history.queue);
   free(cpb);
 }
 

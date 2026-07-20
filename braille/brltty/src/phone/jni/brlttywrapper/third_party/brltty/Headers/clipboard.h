@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -23,6 +23,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#define CLIPBOARD_LINE_DELIMITER '\n'
+
 typedef struct ClipboardObjectStruct ClipboardObject;
 
 extern ClipboardObject *newClipboard (void);
@@ -33,6 +35,12 @@ extern int truncateClipboardContent (ClipboardObject *cpb, size_t length);
 
 extern int setClipboardContent (ClipboardObject *cpb, const wchar_t *characters, size_t length);
 extern int appendClipboardContent (ClipboardObject *cpb, const wchar_t *characters, size_t length);
+
+extern int copyToClipboard (
+  ClipboardObject *cpb,
+  const wchar_t *characters, size_t length,
+  size_t offset, int insertLineDelimiter
+);
 
 extern int setClipboardContentUTF8 (ClipboardObject *cpb, const char *text);
 extern int appendClipboardContentUTF8 (ClipboardObject *cpb, const char *text);

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -56,7 +56,7 @@ static int opt_parameters;
 static int opt_suspendMode;
 static int opt_threadMode;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "brlapi",
     .letter = 'b',
     .argument = "[host][:port]",
@@ -124,7 +124,22 @@ BEGIN_OPTION_TABLE(programOptions)
     .setting.flag = &opt_threadMode,
     .description = "Exercise threaded use"
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "apitest",
+  .purpose = strtext("Test BrlAPI functions."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
 static void showDisplaySize(void)
 {
@@ -470,26 +485,15 @@ static void exerciseThreads(void)
 
 int
 main (int argc, char *argv[]) {
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
+
   ProgramExitStatus exitStatus = PROG_EXIT_SUCCESS;
   brlapi_fileDescriptor fd;
-
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "apitest",
-
-      .usage = {
-        .purpose = strtext("Test BrlAPI functions."),
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
 
   settings.host = opt_host;
   settings.auth = opt_auth;
   fprintf(stderr, "Connecting to BrlAPI... ");
-  if ((fd=brlapi_openConnection(&settings, &settings)) != (brlapi_fileDescriptor)(-1)) {
+  if ((fd=brlapi_openConnection(&settings, &settings)) != BRLAPI_INVALID_FILE_DESCRIPTOR) {
     fprintf(stderr, "done (fd=%"PRIfd")\n", fd);
     fprintf(stderr,"Connected to %s using auth %s\n", settings.host, settings.auth);
 

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -920,7 +920,7 @@ constructSpeechDriverThread (
 #endif /* GOT_PTHREADS */
 
       spk->driver.thread = NULL;
-      deallocateQueue(sdt->requestQueue);
+      destroyQueue(sdt->requestQueue);
     }
 
     free(sdt);
@@ -956,7 +956,7 @@ destroySpeechDriverThread (SpeechSynthesizer *spk) {
 #endif /* GOT_PTHREADS */
 
   sdt->speechSynthesizer->driver.thread = NULL;
-  deallocateQueue(sdt->requestQueue);
+  destroyQueue(sdt->requestQueue);
   free(sdt);
 }
 #endif /* ENABLE_SPEECH_SUPPORT */

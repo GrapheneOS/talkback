@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,20 +19,16 @@
 #ifndef BRLTTY_INCLUDED_CMD_UTILS
 #define BRLTTY_INCLUDED_CMD_UTILS
 
-#include "strfmth.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 extern void alertLineSkipped (unsigned int *count);
 
-extern int isTextOffset (int arg, int *first, int *last, int relaxed);
-
+extern int isTextOffset (int arg, int *row, int *first, int *last, int relaxed);
 extern int getCharacterCoordinates (int arg, int *row, int *first, int *last, int relaxed);
 
-extern STR_DECLARE_FORMATTER(formatCharacterDescription, int column, int row);
-extern STR_DECLARE_FORMATTER(formatPhoneticPhrase, int column, int row);
+extern int findCharacters (const wchar_t **address, size_t *length, const wchar_t *characters, size_t count);
 
 #ifdef __cplusplus
 }

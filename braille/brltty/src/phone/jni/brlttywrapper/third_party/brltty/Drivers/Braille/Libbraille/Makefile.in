@@ -2,7 +2,7 @@
 # BRLTTY - A background process providing access to the console screen (when in
 #          text mode) for a blind person using a refreshable braille display.
 #
-# Copyright (C) 1995-2024 by The BRLTTY Developers.
+# Copyright (C) 1995-2026 by The BRLTTY Developers.
 #
 # BRLTTY comes with ABSOLUTELY NO WARRANTY.
 #
@@ -20,10 +20,10 @@ DRIVER_CODE = lb
 DRIVER_NAME = Libbraille
 DRIVER_USAGE = Libbraille
 DRIVER_VERSION = 
-DRIVER_DEVELOPERS = Sébastien Sablé <sable@users.sourceforge.net>
-BRL_OBJS = @braille_libraries_lb@
+DRIVER_DEVELOPERS = SÃ©bastien SablÃ© <sable@users.sourceforge.net>
+DRIVER_DEPENDENCIES = @braille_libraries_lb@
 include $(SRC_TOP)braille.mk
 
 braille.$O:
-	$(CC) $(BRL_CFLAGS) -I$(LIBBRAILLE_ROOT)/include -c $(SRC_DIR)/braille.c
+	$(CC) $(DRIVER_CFLAGS) -I$(LIBBRAILLE_ROOT)/include -c $(SRC_DIR)/braille.c
 

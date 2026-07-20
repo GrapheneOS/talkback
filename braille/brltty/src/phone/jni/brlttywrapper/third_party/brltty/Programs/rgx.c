@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -367,7 +367,7 @@ rgxNewObject (void *data) {
 
 void
 rgxDestroyObject (RGX_Object *rgx) {
-  deallocateQueue(rgx->matchers);
+  destroyQueue(rgx->matchers);
   free(rgx);
 }
 

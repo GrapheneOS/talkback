@@ -1,7 +1,7 @@
 /*
  * libbrlapi - A library providing access to braille terminals for applications.
  *
- * Copyright (C) 2002-2024 by
+ * Copyright (C) 2002-2026 by
  *   Samuel Thibault <Samuel.Thibault@ens-lyon.org>
  *   Sébastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
  *
@@ -94,7 +94,7 @@ extern "C" {
 #define BRLAPI_KEY_CMD_BACK (BRLAPI_KEY_CMD(0) + 30)
 /** go to screen cursor or go back after cursor tracking */
 #define BRLAPI_KEY_CMD_RETURN (BRLAPI_KEY_CMD(0) + 31)
-/** set screen image frozen/unfrozen */
+/** set screen image frozen/live */
 #define BRLAPI_KEY_CMD_FREEZE (BRLAPI_KEY_CMD(0) + 32)
 /** set display mode attributes/text */
 #define BRLAPI_KEY_CMD_DISPMD (BRLAPI_KEY_CMD(0) + 33)
@@ -176,7 +176,7 @@ extern "C" {
 #define BRLAPI_KEY_CMD_SWITCHVT_NEXT (BRLAPI_KEY_CMD(0) + 71)
 /** bring screen cursor to current line */
 #define BRLAPI_KEY_CMD_CSRJMP_VERT (BRLAPI_KEY_CMD(0) + 72)
-/** insert clipboard text after screen cursor */
+/** insert the clipboard content before the screen cursor */
 #define BRLAPI_KEY_CMD_PASTE (BRLAPI_KEY_CMD(0) + 73)
 /** restart braille driver */
 #define BRLAPI_KEY_CMD_RESTARTBRL (BRLAPI_KEY_CMD(0) + 74)
@@ -214,11 +214,11 @@ extern "C" {
 #define BRLAPI_KEY_CMD_SPEAK_PREV_CHAR (BRLAPI_KEY_CMD(0) + 90)
 /** go to and speak next character */
 #define BRLAPI_KEY_CMD_SPEAK_NEXT_CHAR (BRLAPI_KEY_CMD(0) + 91)
-/** speak current word */
+/** speak current whitespace-delimited word */
 #define BRLAPI_KEY_CMD_SPEAK_CURR_WORD (BRLAPI_KEY_CMD(0) + 92)
-/** go to and speak previous word */
+/** go to and speak previous whitespace-delimited word */
 #define BRLAPI_KEY_CMD_SPEAK_PREV_WORD (BRLAPI_KEY_CMD(0) + 93)
-/** go to and speak next word */
+/** go to and speak next whitespace-delimited word */
 #define BRLAPI_KEY_CMD_SPEAK_NEXT_WORD (BRLAPI_KEY_CMD(0) + 94)
 /** speak current line */
 #define BRLAPI_KEY_CMD_SPEAK_CURR_LINE (BRLAPI_KEY_CMD(0) + 95)
@@ -236,7 +236,7 @@ extern "C" {
 #define BRLAPI_KEY_CMD_SPEAK_LAST_LINE (BRLAPI_KEY_CMD(0) + 101)
 /** describe current character */
 #define BRLAPI_KEY_CMD_DESC_CURR_CHAR (BRLAPI_KEY_CMD(0) + 102)
-/** spell current word */
+/** spell current whitespace-delimited word */
 #define BRLAPI_KEY_CMD_SPELL_CURR_WORD (BRLAPI_KEY_CMD(0) + 103)
 /** bring screen cursor to speech cursor */
 #define BRLAPI_KEY_CMD_ROUTE_CURR_LOCN (BRLAPI_KEY_CMD(0) + 104)
@@ -296,7 +296,7 @@ extern "C" {
 #define BRLAPI_KEY_CMD_HOST_COPY (BRLAPI_KEY_CMD(0) + 131)
 /** cut selected text to host clipboard */
 #define BRLAPI_KEY_CMD_HOST_CUT (BRLAPI_KEY_CMD(0) + 132)
-/** insert host clipboard text after screen cursor */
+/** insert the host clipboard text before the screen cursor */
 #define BRLAPI_KEY_CMD_HOST_PASTE (BRLAPI_KEY_CMD(0) + 133)
 /** show the window title */
 #define BRLAPI_KEY_CMD_GUI_TITLE (BRLAPI_KEY_CMD(0) + 134)
@@ -344,6 +344,24 @@ extern "C" {
 #define BRLAPI_KEY_CMD_PREFRESET (BRLAPI_KEY_CMD(0) + 155)
 /** set autospeak empty line on/off */
 #define BRLAPI_KEY_CMD_ASPK_EMP_LINE (BRLAPI_KEY_CMD(0) + 156)
+/** cycle speech punctuation level */
+#define BRLAPI_KEY_CMD_SPK_PUNCT_LEVEL (BRLAPI_KEY_CMD(0) + 157)
+/** insert the clipboard content before the screen cursor using the alternate paste mode */
+#define BRLAPI_KEY_CMD_PASTE_ALTMODE (BRLAPI_KEY_CMD(0) + 158)
+/** speak current partial (identifier or symbols) word */
+#define BRLAPI_KEY_CMD_SPEAK_CURR_PWRD (BRLAPI_KEY_CMD(0) + 159)
+/** go to and speak previous partial (identifier or symbols) word */
+#define BRLAPI_KEY_CMD_SPEAK_PREV_PWRD (BRLAPI_KEY_CMD(0) + 160)
+/** go to and speak next partial (identifier or symbols) word */
+#define BRLAPI_KEY_CMD_SPEAK_NEXT_PWRD (BRLAPI_KEY_CMD(0) + 161)
+/** spell current partial (identifier or symbols) word */
+#define BRLAPI_KEY_CMD_SPELL_CURR_PWRD (BRLAPI_KEY_CMD(0) + 162)
+/** spell current line */
+#define BRLAPI_KEY_CMD_SPELL_CURR_LINE (BRLAPI_KEY_CMD(0) + 163)
+/** clear the clipboard */
+#define BRLAPI_KEY_CMD_CLIP_CLEAR (BRLAPI_KEY_CMD(0) + 164)
+/** show current clipboard content */
+#define BRLAPI_KEY_CMD_CLIP_SHOW (BRLAPI_KEY_CMD(0) + 165)
 /** bring screen cursor to character */
 #define BRLAPI_KEY_CMD_ROUTE BRLAPI_KEY_CMD(1)
 /** start new clipboard at character */
@@ -390,7 +408,7 @@ extern "C" {
 #define BRLAPI_KEY_CMD_CLIP_APPEND BRLAPI_KEY_CMD(17)
 /** deprecated definition of CLIP_APPEND - append characters to clipboard */
 #define BRLAPI_KEY_CMD_APNDCHARS BRLAPI_KEY_CMD(17)
-/** insert clipboard history entry after screen cursor */
+/** insert a clipboard history entry before the screen cursor */
 #define BRLAPI_KEY_CMD_PASTE_HISTORY BRLAPI_KEY_CMD(18)
 /** set text table */
 #define BRLAPI_KEY_CMD_SET_TEXT_TABLE BRLAPI_KEY_CMD(19)
@@ -412,6 +430,8 @@ extern "C" {
 #define BRLAPI_KEY_CMD_TXTSEL_SET BRLAPI_KEY_CMD(27)
 /** bring speech cursor to character */
 #define BRLAPI_KEY_CMD_ROUTE_SPEECH BRLAPI_KEY_CMD(28)
+/** insert a clipboard history entry before the screen cursor using the alternate paste mode */
+#define BRLAPI_KEY_CMD_PASTE_HISTORY_ALTMODE BRLAPI_KEY_CMD(29)
 /** bind to specific virtual terminal */
 #define BRLAPI_KEY_CMD_SELECTVT BRLAPI_KEY_CMD(30)
 /** render an alert */
@@ -432,6 +452,12 @@ extern "C" {
 #define BRLAPI_KEY_CMD_MACRO BRLAPI_KEY_CMD(40)
 /** run host command */
 #define BRLAPI_KEY_CMD_HOSTCMD BRLAPI_KEY_CMD(41)
+/** describe color of character */
+#define BRLAPI_KEY_CMD_COLOR BRLAPI_KEY_CMD(42)
+/** start new clipboard with smart copy (URL, email, etc) at character */
+#define BRLAPI_KEY_CMD_COPY_SMART_NEW BRLAPI_KEY_CMD(43)
+/** append to clipboard with smart copy (URL, email, etc) at character */
+#define BRLAPI_KEY_CMD_COPY_SMART_ADD BRLAPI_KEY_CMD(44)
 /** enable feature */
 #define BRLAPI_KEY_FLG_TOGGLE_ON BRLAPI_KEY_FLG(0X0100)
 /** disable feature */

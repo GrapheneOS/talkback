@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -182,9 +182,9 @@ initializeScreenCharacters (ScreenSegmentCharacter *from, const ScreenSegmentCha
 }
 
 ScreenSegmentHeader *
-createScreenSegment (int *identifier, key_t key, int columns, int rows, int enableRowArray) {
-  size_t rowsSize = enableRowArray? (sizeof(ScreenSegmentRow) * rows): 0;
-  size_t charactersSize = sizeof(ScreenSegmentCharacter) * rows * columns;
+createScreenSegment (int *identifier, key_t key, int height, int width, int enableRowArray) {
+  size_t rowsSize = enableRowArray? (sizeof(ScreenSegmentRow) * height): 0;
+  size_t charactersSize = sizeof(ScreenSegmentCharacter) * height * width;
 
   size_t segmentSize = sizeof(ScreenSegmentHeader) + rowsSize + charactersSize;
   int segmentIdentifier;
@@ -203,8 +203,8 @@ createScreenSegment (int *identifier, key_t key, int columns, int rows, int enab
       segment->headerSize = sizeof(*segment);
       nextOffset += segment->headerSize;
 
-      segment->screenHeight = rows;
-      segment->screenWidth = columns;
+      segment->screenHeight = height;
+      segment->screenWidth = width;
 
       segment->cursorRow = 0;
       segment->cursorColumn = 0;
@@ -230,7 +230,7 @@ createScreenSegment (int *identifier, key_t key, int columns, int rows, int enab
         /* Rows are initially sequential. */
 
         ScreenSegmentRow *row = getScreenRowArray(segment);
-        ScreenSegmentRow *end = row + rows;
+        ScreenSegmentRow *end = row + height;
 
         uint32_t offset = segment->charactersOffset;
         uint32_t increment = getScreenRowWidth(segment);

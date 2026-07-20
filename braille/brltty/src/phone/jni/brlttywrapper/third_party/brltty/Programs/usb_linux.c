@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -426,10 +426,17 @@ usbReapURB (UsbDevice *device, int wait) {
         if ((endpoint = usbGetEndpoint(device, urb->endpoint))) {
           UsbEndpointExtension *eptx = endpoint->extension;
 
+          switch (USB_ENDPOINT_DIRECTION(endpoint->descriptor)) {
+            case UsbEndpointDirection_Input:
+              deleteItem(endpoint->direction.input.pending.requests, urb);
+              break;
+          }
+
           if (enqueueItem(eptx->completedRequests, urb)) return endpoint;
           logSystemError("USB completed request enqueue");
-          free(urb);
         }
+
+        free(urb);
       } else {
         errno = EAGAIN;
       }
@@ -955,8 +962,6 @@ usbReadDeviceDescriptor (UsbDevice *device) {
 
 static int
 usbHandleInputURB (UsbEndpoint *endpoint, struct usbdevfs_urb *urb) {
-  deleteItem(endpoint->direction.input.pending.requests, urb);
-
   if (urb->actual_length < 0) {
     usbLogInputProblem(endpoint, "data not available");
     return 0;
@@ -1205,7 +1210,7 @@ usbDeallocateEndpointExtension (UsbEndpointExtension *eptx) {
   usbStopSignalMonitor(eptx);
 
   if (eptx->completedRequests) {
-    deallocateQueue(eptx->completedRequests);
+    destroyQueue(eptx->completedRequests);
     eptx->completedRequests = NULL;
   }
 
@@ -1543,7 +1548,7 @@ usbFindDevice (UsbDeviceChooser *chooser, UsbChooseChannelData *data) {
       }
 
       if (!ok) {
-        deallocateQueue(usbHostDevices);
+        destroyQueue(usbHostDevices);
         usbHostDevices = NULL;
       }
     }
@@ -1565,7 +1570,7 @@ usbFindDevice (UsbDeviceChooser *chooser, UsbChooseChannelData *data) {
 void
 usbForgetDevices (void) {
   if (usbHostDevices) {
-    deallocateQueue(usbHostDevices);
+    destroyQueue(usbHostDevices);
     usbHostDevices = NULL;
   }
 }

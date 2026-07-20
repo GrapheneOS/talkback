@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,61 +18,64 @@
 
 #include "prologue.h"
 
-#include "program.h"
 #include "cmdline.h"
+#include "options.h"
 #include "log.h"
 #include "atb.h"
 
-static char *opt_tablesDirectory;
+char *opt_tablesDirectory;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "tables-directory",
     .letter = 'T',
     .argument = strtext("directory"),
     .setting.string = &opt_tablesDirectory,
     .internal.setting = TABLES_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = strtext("Path to directory containing tables.")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+static const char *tableName;
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+  { .name = "table",
+    .description = "the name of (or path to) the attributes table",
+    .setting = &tableName,
+  },
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-atb",
+  .purpose = strtext("Check an attributes table."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
 int
 main (int argc, char *argv[]) {
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
+
   ProgramExitStatus exitStatus = PROG_EXIT_SUCCESS;
+  char *tablePath = makeAttributesTablePath(opt_tablesDirectory, tableName);
 
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-atb",
+  if (tablePath) {
+    if ((attributesTable = compileAttributesTable(tablePath))) {
+      exitStatus = PROG_EXIT_SUCCESS;
 
-      .usage = {
-        .purpose = strtext("Check an attributes table."),
-        .parameters = "attributes-table",
-      }
-    };
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
-
-  if (argc) {
-    const char *tableName = (argc--, *argv++);
-    char *tablePath = makeAttributesTablePath(opt_tablesDirectory, tableName);
-
-    if (tablePath) {
-      if ((attributesTable = compileAttributesTable(tablePath))) {
-        exitStatus = PROG_EXIT_SUCCESS;
-
-        destroyAttributesTable(attributesTable);
-      } else {
-        exitStatus = PROG_EXIT_FATAL;
-      }
-
-      free(tablePath);
+      destroyAttributesTable(attributesTable);
     } else {
       exitStatus = PROG_EXIT_FATAL;
     }
+
+    free(tablePath);
   } else {
-    logMessage(LOG_ERR, "missing attributes table name");
-    exitStatus = PROG_EXIT_SYNTAX;
+    exitStatus = PROG_EXIT_FATAL;
   }
 
   return exitStatus;

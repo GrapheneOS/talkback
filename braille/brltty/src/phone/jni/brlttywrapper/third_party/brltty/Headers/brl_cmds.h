@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -112,7 +112,7 @@ typedef enum {
   BRL_CMD_RETURN /* go to screen cursor or go back after cursor tracking */,
   
   /* feature activation and deactivation */
-  BRL_CMD_FREEZE /* set screen image frozen/unfrozen */,
+  BRL_CMD_FREEZE /* set screen image frozen/live */,
   BRL_CMD_DISPMD /* set display mode attributes/text */,
   BRL_CMD_SIXDOTS /* set text style 6-dot/8-dot */,
   BRL_CMD_SLIDEWIN /* set sliding braille window on/off */,
@@ -165,7 +165,7 @@ typedef enum {
   
   /* miscellaneous */
   BRL_CMD_CSRJMP_VERT /* bring screen cursor to current line */,
-  BRL_CMD_PASTE /* insert clipboard text after screen cursor */,
+  BRL_CMD_PASTE /* insert the clipboard content before the screen cursor */,
   BRL_CMD_RESTARTBRL /* restart braille driver */,
   BRL_CMD_RESTARTSPEECH /* restart speech driver */,
 
@@ -189,9 +189,9 @@ typedef enum {
   BRL_CMD_SPEAK_CURR_CHAR /* speak current character */,
   BRL_CMD_SPEAK_PREV_CHAR /* go to and speak previous character */,
   BRL_CMD_SPEAK_NEXT_CHAR /* go to and speak next character */,
-  BRL_CMD_SPEAK_CURR_WORD /* speak current word */,
-  BRL_CMD_SPEAK_PREV_WORD /* go to and speak previous word */,
-  BRL_CMD_SPEAK_NEXT_WORD /* go to and speak next word */,
+  BRL_CMD_SPEAK_CURR_WORD /* speak current whitespace-delimited word */,
+  BRL_CMD_SPEAK_PREV_WORD /* go to and speak previous whitespace-delimited word */,
+  BRL_CMD_SPEAK_NEXT_WORD /* go to and speak next whitespace-delimited word */,
   BRL_CMD_SPEAK_CURR_LINE /* speak current line */,
   BRL_CMD_SPEAK_PREV_LINE /* go to and speak previous line */,
   BRL_CMD_SPEAK_NEXT_LINE /* go to and speak next line */,
@@ -200,7 +200,7 @@ typedef enum {
   BRL_CMD_SPEAK_FRST_LINE /* go to and speak first non-blank line on screen */,
   BRL_CMD_SPEAK_LAST_LINE /* go to and speak last non-blank line on screen */,
   BRL_CMD_DESC_CURR_CHAR /* describe current character */,
-  BRL_CMD_SPELL_CURR_WORD /* spell current word */,
+  BRL_CMD_SPELL_CURR_WORD /* spell current whitespace-delimited word */,
   BRL_CMD_ROUTE_CURR_LOCN /* bring screen cursor to speech cursor */,
   BRL_CMD_SPEAK_CURR_LOCN /* speak speech cursor location */,
   BRL_CMD_SHOW_CURR_LOCN /* set speech cursor visibility on/off */,
@@ -240,7 +240,7 @@ typedef enum {
   BRL_CMD_TXTSEL_ALL /* select all of the text */,
   BRL_CMD_HOST_COPY /* copy selected text to host clipboard */,
   BRL_CMD_HOST_CUT /* cut selected text to host clipboard */,
-  BRL_CMD_HOST_PASTE /* insert host clipboard text after screen cursor */,
+  BRL_CMD_HOST_PASTE /* insert the host clipboard text before the screen cursor */,
 
   BRL_CMD_GUI_TITLE /* show the window title */,
   BRL_CMD_GUI_BRL_ACTIONS /* open the braille actions window */,
@@ -270,6 +270,17 @@ typedef enum {
 
   BRL_CMD_PREFRESET /* reset preferences to defaults */,
   BRL_CMD_ASPK_EMP_LINE /* set autospeak empty line on/off */,
+  BRL_CMD_SPK_PUNCT_LEVEL /* cycle speech punctuation level */,
+  BRL_CMD_PASTE_ALTMODE /* insert the clipboard content before the screen cursor using the alternate paste mode */,
+
+  BRL_CMD_SPEAK_CURR_PWRD /* speak current partial (identifier or symbols) word */,
+  BRL_CMD_SPEAK_PREV_PWRD /* go to and speak previous partial (identifier or symbols) word */,
+  BRL_CMD_SPEAK_NEXT_PWRD /* go to and speak next partial (identifier or symbols) word */,
+  BRL_CMD_SPELL_CURR_PWRD /* spell current partial (identifier or symbols) word */,
+  BRL_CMD_SPELL_CURR_LINE /* spell current line */,
+
+  BRL_CMD_CLIP_CLEAR /* clear the clipboard */,
+  BRL_CMD_CLIP_SHOW /* show current clipboard content */,
 
   BRL_basicCommandCount /* must be last */
 } BRL_BasicCommand;
@@ -297,7 +308,7 @@ typedef enum {
   BRL_BLK_NXDIFCHAR /* go down to nearest line with different character */,
   BRL_BLK_CLIP_COPY /* copy characters to clipboard */,
   BRL_BLK_CLIP_APPEND /* append characters to clipboard */,
-  BRL_BLK_PASTE_HISTORY /* insert clipboard history entry after screen cursor */,
+  BRL_BLK_PASTE_HISTORY /* insert a clipboard history entry before the screen cursor */,
   BRL_BLK_SET_TEXT_TABLE /* set text table */,
   BRL_BLK_SET_ATTRIBUTES_TABLE /* set attributes table */,
   BRL_BLK_SET_CONTRACTION_TABLE /* set contraction table */,
@@ -308,7 +319,7 @@ typedef enum {
   BRL_BLK_TXTSEL_START /* start text selection */,
   BRL_BLK_TXTSEL_SET /* set text selection */,
   BRL_BLK_ROUTE_SPEECH /* bring speech cursor to character */,
-  BRL_BLK_1D /* (reserved) */,
+  BRL_BLK_PASTE_HISTORY_ALTMODE /* insert a clipboard history entry before the screen cursor using the alternate paste mode */,
   BRL_BLK_SELECTVT /* bind to specific virtual terminal */,
   BRL_BLK_ALERT /* render an alert */,
   BRL_BLK_PASSKEY /* (emulate special key) */,
@@ -321,6 +332,9 @@ typedef enum {
   BRL_BLK_TOUCH_AT /* current reading location */,
   BRL_BLK_MACRO /* execute command macro */,
   BRL_BLK_HOSTCMD /* run host command */,
+  BRL_BLK_COLOR /* describe color of character */,
+  BRL_BLK_COPY_SMART_NEW /* start new clipboard with smart copy (URL, email, etc) at character */,
+  BRL_BLK_COPY_SMART_ADD /* append to clipboard with smart copy (URL, email, etc) at character */,
 
   BRL_blockCommandCount /* must be last */
 } BRL_BlockCommand;

@@ -284,7 +284,7 @@
   .code = BRL_CMD_FREEZE,
   .isToggle = 1,
   // xgettext: This is the description of the FREEZE command.
-  .description = strtext("set screen image frozen/unfrozen"),
+  .description = strtext("set screen image frozen/live"),
 },
 
 { // BRL_CMD_DISPMD
@@ -597,7 +597,7 @@
   .name = "PASTE",
   .code = BRL_CMD_PASTE,
   // xgettext: This is the description of the PASTE command.
-  .description = strtext("insert clipboard text after screen cursor"),
+  .description = strtext("insert the clipboard content before the screen cursor"),
 },
 
 { // BRL_CMD_RESTARTBRL
@@ -739,7 +739,7 @@
   .name = "SPEAK_CURR_WORD",
   .code = BRL_CMD_SPEAK_CURR_WORD,
   // xgettext: This is the description of the SPEAK_CURR_WORD command.
-  .description = strtext("speak current word"),
+  .description = strtext("speak current whitespace-delimited word"),
 },
 
 { // BRL_CMD_SPEAK_PREV_WORD
@@ -747,7 +747,7 @@
   .code = BRL_CMD_SPEAK_PREV_WORD,
   .isMotion = 1,
   // xgettext: This is the description of the SPEAK_PREV_WORD command.
-  .description = strtext("go to and speak previous word"),
+  .description = strtext("go to and speak previous whitespace-delimited word"),
 },
 
 { // BRL_CMD_SPEAK_NEXT_WORD
@@ -755,7 +755,7 @@
   .code = BRL_CMD_SPEAK_NEXT_WORD,
   .isMotion = 1,
   // xgettext: This is the description of the SPEAK_NEXT_WORD command.
-  .description = strtext("go to and speak next word"),
+  .description = strtext("go to and speak next whitespace-delimited word"),
 },
 
 { // BRL_CMD_SPEAK_CURR_LINE
@@ -824,7 +824,7 @@
   .name = "SPELL_CURR_WORD",
   .code = BRL_CMD_SPELL_CURR_WORD,
   // xgettext: This is the description of the SPELL_CURR_WORD command.
-  .description = strtext("spell current word"),
+  .description = strtext("spell current whitespace-delimited word"),
 },
 
 { // BRL_CMD_ROUTE_CURR_LOCN
@@ -1044,7 +1044,7 @@
   .name = "HOST_PASTE",
   .code = BRL_CMD_HOST_PASTE,
   // xgettext: This is the description of the HOST_PASTE command.
-  .description = strtext("insert host clipboard text after screen cursor"),
+  .description = strtext("insert the host clipboard text before the screen cursor"),
 },
 
 { // BRL_CMD_GUI_TITLE
@@ -1213,6 +1213,71 @@
   .description = strtext("set autospeak empty line on/off"),
 },
 
+{ // BRL_CMD_SPK_PUNCT_LEVEL
+  .name = "SPK_PUNCT_LEVEL",
+  .code = BRL_CMD_SPK_PUNCT_LEVEL,
+  // xgettext: This is the description of the SPK_PUNCT_LEVEL command.
+  .description = strtext("cycle speech punctuation level"),
+},
+
+{ // BRL_CMD_PASTE_ALTMODE
+  .name = "PASTE_ALTMODE",
+  .code = BRL_CMD_PASTE_ALTMODE,
+  // xgettext: This is the description of the PASTE_ALTMODE command.
+  .description = strtext("insert the clipboard content before the screen cursor using the alternate paste mode"),
+},
+
+{ // BRL_CMD_SPEAK_CURR_PWRD
+  .name = "SPEAK_CURR_PWRD",
+  .code = BRL_CMD_SPEAK_CURR_PWRD,
+  // xgettext: This is the description of the SPEAK_CURR_PWRD command.
+  .description = strtext("speak current partial (identifier or symbols) word"),
+},
+
+{ // BRL_CMD_SPEAK_PREV_PWRD
+  .name = "SPEAK_PREV_PWRD",
+  .code = BRL_CMD_SPEAK_PREV_PWRD,
+  .isMotion = 1,
+  // xgettext: This is the description of the SPEAK_PREV_PWRD command.
+  .description = strtext("go to and speak previous partial (identifier or symbols) word"),
+},
+
+{ // BRL_CMD_SPEAK_NEXT_PWRD
+  .name = "SPEAK_NEXT_PWRD",
+  .code = BRL_CMD_SPEAK_NEXT_PWRD,
+  .isMotion = 1,
+  // xgettext: This is the description of the SPEAK_NEXT_PWRD command.
+  .description = strtext("go to and speak next partial (identifier or symbols) word"),
+},
+
+{ // BRL_CMD_SPELL_CURR_PWRD
+  .name = "SPELL_CURR_PWRD",
+  .code = BRL_CMD_SPELL_CURR_PWRD,
+  // xgettext: This is the description of the SPELL_CURR_PWRD command.
+  .description = strtext("spell current partial (identifier or symbols) word"),
+},
+
+{ // BRL_CMD_SPELL_CURR_LINE
+  .name = "SPELL_CURR_LINE",
+  .code = BRL_CMD_SPELL_CURR_LINE,
+  // xgettext: This is the description of the SPELL_CURR_LINE command.
+  .description = strtext("spell current line"),
+},
+
+{ // BRL_CMD_CLIP_CLEAR
+  .name = "CLIP_CLEAR",
+  .code = BRL_CMD_CLIP_CLEAR,
+  // xgettext: This is the description of the CLIP_CLEAR command.
+  .description = strtext("clear the clipboard"),
+},
+
+{ // BRL_CMD_CLIP_SHOW
+  .name = "CLIP_SHOW",
+  .code = BRL_CMD_CLIP_SHOW,
+  // xgettext: This is the description of the CLIP_SHOW command.
+  .description = strtext("show current clipboard content"),
+},
+
 { // BRL_BLK_ROUTE
   .name = "ROUTE",
   .code = BRL_CMD_BLK(ROUTE),
@@ -1366,7 +1431,7 @@
   .code = BRL_CMD_BLK(PASTE_HISTORY),
   .isOffset = 1,
   // xgettext: This is the description of the PASTE_HISTORY command.
-  .description = strtext("insert clipboard history entry after screen cursor"),
+  .description = strtext("insert a clipboard history entry before the screen cursor"),
 },
 
 { // BRL_BLK_SET_TEXT_TABLE
@@ -1451,6 +1516,14 @@
   .isColumn = 1,
   // xgettext: This is the description of the ROUTE_SPEECH command.
   .description = strtext("bring speech cursor to character"),
+},
+
+{ // BRL_BLK_PASTE_HISTORY_ALTMODE
+  .name = "PASTE_HISTORY_ALTMODE",
+  .code = BRL_CMD_BLK(PASTE_HISTORY_ALTMODE),
+  .isOffset = 1,
+  // xgettext: This is the description of the PASTE_HISTORY_ALTMODE command.
+  .description = strtext("insert a clipboard history entry before the screen cursor using the alternate paste mode"),
 },
 
 { // BRL_BLK_SELECTVT
@@ -1541,6 +1614,30 @@
   .isOffset = 1,
   // xgettext: This is the description of the HOSTCMD command.
   .description = strtext("run host command"),
+},
+
+{ // BRL_BLK_COLOR
+  .name = "COLOR",
+  .code = BRL_CMD_BLK(COLOR),
+  .isColumn = 1,
+  // xgettext: This is the description of the COLOR command.
+  .description = strtext("describe color of character"),
+},
+
+{ // BRL_BLK_COPY_SMART_NEW
+  .name = "COPY_SMART_NEW",
+  .code = BRL_CMD_BLK(COPY_SMART_NEW),
+  .isColumn = 1,
+  // xgettext: This is the description of the COPY_SMART_NEW command.
+  .description = strtext("start new clipboard with smart copy (URL, email, etc) at character"),
+},
+
+{ // BRL_BLK_COPY_SMART_ADD
+  .name = "COPY_SMART_ADD",
+  .code = BRL_CMD_BLK(COPY_SMART_ADD),
+  .isColumn = 1,
+  // xgettext: This is the description of the COPY_SMART_ADD command.
+  .description = strtext("append to clipboard with smart copy (URL, email, etc) at character"),
 },
 
 { // BRL_KEY_ENTER

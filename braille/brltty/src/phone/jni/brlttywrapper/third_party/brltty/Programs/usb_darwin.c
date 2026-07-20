@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -461,7 +461,7 @@ usbSubmitRequest (
           break;
 
         default:
-          logMessage(LOG_ERR, "USB endpoint direction not suppported: %d",
+          logMessage(LOG_ERR, "USB endpoint direction not supported: %d",
                      eptx->transferDirection);
           errno = ENOSYS;
           break;
@@ -704,7 +704,7 @@ usbAllocateEndpointExtension (UsbEndpoint *endpoint) {
       logMessage(LOG_ERR, "USB pipe not found: ept=%02X",
                  endpoint->descriptor->bEndpointAddress);
 
-      deallocateQueue(eptx->completedRequests);
+      destroyQueue(eptx->completedRequests);
     } else {
       logSystemError("USB completed request queue allocate");
     }
@@ -720,7 +720,7 @@ usbAllocateEndpointExtension (UsbEndpoint *endpoint) {
 void
 usbDeallocateEndpointExtension (UsbEndpointExtension *eptx) {
   if (eptx->completedRequests) {
-    deallocateQueue(eptx->completedRequests);
+    destroyQueue(eptx->completedRequests);
     eptx->completedRequests = NULL;
   }
 

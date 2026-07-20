@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -23,8 +23,8 @@
 #include <strings.h>
 #include <ctype.h>
 
-#include "program.h"
 #include "cmdline.h"
+#include "options.h"
 #include "log.h"
 #include "parse.h"
 #include "scr.h"
@@ -33,10 +33,10 @@ static char *opt_boxLeft;
 static char *opt_boxWidth;
 static char *opt_boxTop;
 static char *opt_boxHeight;
-static char *opt_screenDriver;
-static char *opt_driversDirectory;
+char *opt_screenDriver;
+char *opt_driversDirectory;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "screen-driver",
     .letter = 'x',
     .argument = "driver",
@@ -78,10 +78,30 @@ BEGIN_OPTION_TABLE(programOptions)
     .argument = "directory",
     .setting.string = &opt_driversDirectory,
     .internal.setting = DRIVERS_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = "Path to directory for loading drivers."
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "scrtest",
+  .purpose = strtext("Test a screen driver."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "name=value",
+    .description = "parameters for the specified screen driver",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 static int
 setRegion (
@@ -125,22 +145,10 @@ setRegion (
 
 int
 main (int argc, char *argv[]) {
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
+
   ProgramExitStatus exitStatus;
   void *driverObject;
-
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "scrtest",
-
-      .usage = {
-        .purpose = strtext("Test a screen driver."),
-        .parameters = "[parameter=value ...]",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
 
   if ((screen = loadScreenDriver(opt_screenDriver, &driverObject, opt_driversDirectory))) {
     const char *const *parameterNames = getScreenParameters(screen);
@@ -169,7 +177,7 @@ main (int argc, char *argv[]) {
     while (argc) {
       char *assignment = *argv++;
       int ok = 0;
-      char *delimiter = strchr(assignment, '=');
+      char *delimiter = strchr(assignment, PARAMETER_ASSIGNMENT_CHARACTER);
       if (!delimiter) {
         logMessage(LOG_ERR, "missing screen parameter value: %s", assignment);
       } else if (delimiter == assignment) {
@@ -246,6 +254,7 @@ main (int argc, char *argv[]) {
     logMessage(LOG_ERR, "can't load screen driver.");
     exitStatus = PROG_EXIT_FATAL;
   }
+
   return exitStatus;
 }
 
@@ -253,4 +262,11 @@ main (int argc, char *argv[]) {
 
 void
 scheduleUpdateIn (const char *reason, int delay) {
+}
+
+#include "embed.h"
+
+int
+brlttyInterrupt (WaitResult waitResult) {
+  return 1;
 }

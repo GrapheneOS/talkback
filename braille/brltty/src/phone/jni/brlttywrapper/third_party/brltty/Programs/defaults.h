@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -53,17 +53,17 @@ extern "C" {
 #define DEFAULT_SHOW_SCREEN_CURSOR 1		/* 1 for yes, 0 for no */
 #define DEFAULT_SCREEN_CURSOR_STYLE csBottomDots
 #define DEFAULT_BLINKING_SCREEN_CURSOR 0		/* 1 for on, 0 for off */
-#define DEFAULT_SCREEN_CURSOR_VISIBLE_TIME 40
-#define DEFAULT_SCREEN_CURSOR_INVISIBLE_TIME 40
+#define DEFAULT_SCREEN_CURSOR_VISIBLE_TIME 40	/* hundredths of a second */
+#define DEFAULT_SCREEN_CURSOR_INVISIBLE_TIME 40	/* hundredths of a second */
 
 #define DEFAULT_SHOW_ATTRIBUTES 0          /* 1 for on, 0 for off */
 #define DEFAULT_BLINKING_ATTRIBUTES 1        /* 1 for on, 0 for off */
-#define DEFAULT_ATTRIBUTES_VISIBLE_TIME 20      /* for attribute underlining */
-#define DEFAULT_ATTRIBUTES_INVISIBLE_TIME 60
+#define DEFAULT_ATTRIBUTES_VISIBLE_TIME 20	/* hundredths of a second */
+#define DEFAULT_ATTRIBUTES_INVISIBLE_TIME 60	/* hundredths of a second */
 
 #define DEFAULT_BLINKING_CAPITALS 0		/* 1 for on, 0 for off */
-#define DEFAULT_CAPITALS_VISIBLE_TIME 60	/* for blinking caps */
-#define DEFAULT_CAPITALS_INVISIBLE_TIME 20
+#define DEFAULT_CAPITALS_VISIBLE_TIME 60	/* hundredths of a second */
+#define DEFAULT_CAPITALS_INVISIBLE_TIME 20	/* hundredths of a second */
 
 #define DEFAULT_WORD_WRAP 0
 #define DEFAULT_SKIP_IDENTICAL_LINES 0
@@ -76,6 +76,7 @@ extern "C" {
 #define DEFAULT_SCROLL_AWARE_CURSOR_NAVIGATION 0
 #define DEFAULT_CURSOR_TRACKING_DELAY ctd250ms
 #define DEFAULT_TRACK_SCREEN_SCROLL 0		/* 1 for on, 0 for off */
+#define DEFAULT_SOFT_CURSOR_DETECTION 0		/* 1 for on, 0 for off */
 #define DEFAULT_TRACK_SCREEN_POINTER 0		/* 1 for on, 0 for off */
 #define DEFAULT_HIGHLIGHT_BRAILLE_WINDOW_LOCATION 0		/* 1 for on, 0 for off */
 #define DEFAULT_START_SELECTION_WITH_ROUTING_KEY 0		/* 1 for on, 0 for off */
@@ -90,6 +91,7 @@ extern "C" {
 #define DEFAULT_AUTOREPEAT_ENABLED 1		/* 1 for on, 0 for off */
 #define DEFAULT_AUTOREPEAT_INTERVAL 10	/* hundredths of a second */
 #define DEFAULT_AUTOREPEAT_PANNING 0	/* 1 for on, 0 for off */
+#define DEFAULT_ALTERNATE_PASTE_MODE_ENABLED 0
 #define DEFAULT_TOUCH_NAVIGATION 0
 #define DEFAULT_TOUCH_SENSITIVITY BRL_SENSITIVITY_MEDIUM
 
@@ -100,8 +102,9 @@ extern "C" {
 #define DEFAULT_SPEAK_MODIFIER_KEY 0 /* 1 for on, 0 for off */
 
 #define DEFAULT_ALERT_TUNES 1		/* 1 for on, 0 for off */
-#define DEFAULT_ALERT_DOTS 0		/* 1 for on, 0 for off */
-#define DEFAULT_ALERT_MESSAGES 0		/* 1 for on, 0 for off */
+#define DEFAULT_ALERT_MESSAGES 1		/* 1 for on, 0 for off */
+#define DEFAULT_ALERT_DOTS 1		/* 1 for on, 0 for off */
+#define DEFAULT_ALERT_DOTS_DURATION 40	/* hundredths of a second */
 
 #if defined(HAVE_BEEP_SUPPORT)
 #define DEFAULT_TUNE_DEVICE tdBeeper
@@ -127,6 +130,9 @@ extern "C" {
 
 #define DEFAULT_SPEECH_UPPERCASE_INDICATOR sucNone
 #define DEFAULT_SPEECH_WHITESPACE_INDICATOR swsNone
+#define DEFAULT_SPEECH_CHAR_AUTOREPEAT_INTERVAL 25	/* hundredths of a second */
+#define DEFAULT_SPEECH_WORD_AUTOREPEAT_INTERVAL 40	/* hundredths of a second */
+#define DEFAULT_SPEECH_LINE_AUTOREPEAT_INTERVAL 60	/* hundredths of a second */
 #define DEFAULT_SAY_LINE_MODE sayImmediate
 
 #define DEFAULT_AUTOSPEAK 0		/* 1 for on, 0 for off */
@@ -142,8 +148,8 @@ extern "C" {
 #define DEFAULT_SHOW_SPEECH_CURSOR 0
 #define DEFAULT_SPEECH_CURSOR_STYLE csLowerRightDot
 #define DEFAULT_BLINKING_SPEECH_CURSOR 0
-#define DEFAULT_SPEECH_CURSOR_VISIBLE_TIME 50
-#define DEFAULT_SPEECH_CURSOR_INVISIBLE_TIME 30
+#define DEFAULT_SPEECH_CURSOR_VISIBLE_TIME 50	/* hundredths of a second */
+#define DEFAULT_SPEECH_CURSOR_INVISIBLE_TIME 30	/* hundredths of a second */
 
 #define DEFAULT_TIME_FORMAT tf24Hour
 #define DEFAULT_TIME_SEPARATOR tsColon

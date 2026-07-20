@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,11 +18,11 @@
 
 #include "prologue.h"
 
-#include <stdio.h>
 #include <string.h>
 
-#include "program.h"
 #include "cmdline.h"
+#include "cmdput.h"
+#include "options.h"
 #include "log.h"
 #include "file.h"
 #include "parse.h"
@@ -31,15 +31,15 @@
 #include "ktb_keyboard.h"
 #include "brl.h"
 
-static char *opt_brailleDriver;
+char *opt_brailleDriver;
 static int opt_audit;
 static int opt_listKeyNames;
 static int opt_listHelpScreen;
 static int opt_listRestructuredText;
-static char *opt_tablesDirectory;
+char *opt_tablesDirectory;
 char *opt_driversDirectory;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "braille-driver",
     .letter = 'b',
     .argument = strtext("driver"),
@@ -76,7 +76,7 @@ BEGIN_OPTION_TABLE(programOptions)
     .argument = strtext("directory"),
     .setting.string = &opt_tablesDirectory,
     .internal.setting = TABLES_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = strtext("Path to directory containing tables.")
   },
 
@@ -85,10 +85,31 @@ BEGIN_OPTION_TABLE(programOptions)
     .argument = strtext("directory"),
     .setting.string = &opt_driversDirectory,
     .internal.setting = DRIVERS_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = strtext("Path to directory for loading drivers.")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+static const char *tableName;
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+  { .name = "table",
+    .description = "the name of (or path to) the key table",
+    .setting = &tableName,
+  },
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-ktb",
+  .purpose = strtext("check a key table, list the key naems it can use, or write the key bindings it defines in useful formats."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
 static void *driverObject;
 
@@ -158,10 +179,8 @@ getKeyTableDescriptor (KeyTableDescriptor *ktd, const char *tableName) {
 
 static int
 writeLine (const wchar_t *line) {
-  FILE *stream = stdout;
-
-  fprintf(stream, "%" PRIws "\n", line);
-  return !ferror(stream);
+  putf("%" PRIws "\n", line);
+  return 1;
 }
 
 static int
@@ -279,90 +298,71 @@ static const KeyTableListMethods rstMethods = {
 
 int
 main (int argc, char *argv[]) {
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
+
   ProgramExitStatus exitStatus = PROG_EXIT_SUCCESS;
-
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-ktb",
-
-      .usage = {
-        .purpose = strtext("check a key table, list the key naems it can use, or write the key bindings it defines in useful formats."),
-        .parameters = "table-name",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
-
   driverObject = NULL;
 
-  if (argc) {
-    const char *tableName = (argc--, *argv++);
-    KeyTableDescriptor ktd;
-    int gotKeyTableDescriptor;
+  KeyTableDescriptor ktd;
+  int gotKeyTableDescriptor;
 
-    {
-      const char *file = locatePathName(tableName);
-      const char *delimiter = strrchr(file, '.');
-      size_t length = delimiter? (delimiter - file): strlen(file);
-      char name[length + 1];
+  {
+    const char *file = locatePathName(tableName);
+    const char *delimiter = strrchr(file, '.');
+    size_t length = delimiter? (delimiter - file): strlen(file);
+    char name[length + 1];
 
-      memcpy(name, file, length);
-      name[length] = 0;
+    memcpy(name, file, length);
+    name[length] = 0;
 
-      gotKeyTableDescriptor = getKeyTableDescriptor(&ktd, name);
+    gotKeyTableDescriptor = getKeyTableDescriptor(&ktd, name);
+  }
+
+  if (gotKeyTableDescriptor) {
+    if (opt_listKeyNames) {
+      if (!listKeyNames(ktd.names, hlpWriteLine, NULL)) {
+        exitStatus = PROG_EXIT_FATAL;
+      }
     }
 
-    if (gotKeyTableDescriptor) {
-      if (opt_listKeyNames) {
-        if (!listKeyNames(ktd.names, hlpWriteLine, NULL)) {
-          exitStatus = PROG_EXIT_FATAL;
+    if (exitStatus == PROG_EXIT_SUCCESS) {
+      KeyTable *keyTable = compileKeyTable(ktd.path, ktd.names);
+
+      if (keyTable) {
+        if (opt_audit) {
+          if (!auditKeyTable(keyTable, ktd.path)) {
+            exitStatus = PROG_EXIT_FATAL;
+          }
         }
-      }
 
-      if (exitStatus == PROG_EXIT_SUCCESS) {
-        KeyTable *keyTable = compileKeyTable(ktd.path, ktd.names);
-
-        if (keyTable) {
-          if (opt_audit) {
-            if (!auditKeyTable(keyTable, ktd.path)) {
-              exitStatus = PROG_EXIT_FATAL;
-            }
+        if (opt_listHelpScreen) {
+          if (!listKeyTable(keyTable, NULL, hlpWriteLine, NULL)) {
+            exitStatus = PROG_EXIT_FATAL;
           }
-
-          if (opt_listHelpScreen) {
-            if (!listKeyTable(keyTable, NULL, hlpWriteLine, NULL)) {
-              exitStatus = PROG_EXIT_FATAL;
-            }
-          }
-
-          if (opt_listRestructuredText) {
-            RestructuredTextData rst = {
-              .headerLevel = 0,
-              .elementLevel = 0,
-              .elementBullet = WC_C(' '),
-              .blankLine = 0
-            };
-
-            if (!listKeyTable(keyTable, &rstMethods, rstWriteLine, &rst)) {
-              exitStatus = PROG_EXIT_FATAL;
-            }
-          }
-
-          destroyKeyTable(keyTable);
-        } else {
-          exitStatus = PROG_EXIT_FATAL;
         }
-      }
 
-      free(ktd.path);
-    } else {
-      exitStatus = PROG_EXIT_FATAL;
+        if (opt_listRestructuredText) {
+          RestructuredTextData rst = {
+            .headerLevel = 0,
+            .elementLevel = 0,
+            .elementBullet = WC_C(' '),
+            .blankLine = 0
+          };
+
+          if (!listKeyTable(keyTable, &rstMethods, rstWriteLine, &rst)) {
+            exitStatus = PROG_EXIT_FATAL;
+          }
+        }
+
+        destroyKeyTable(keyTable);
+      } else {
+        exitStatus = PROG_EXIT_FATAL;
+      }
     }
+
+    free(ktd.path);
   } else {
-    logMessage(LOG_ERR, "missing key table name");
-    exitStatus = PROG_EXIT_SYNTAX;
+    exitStatus = PROG_EXIT_FATAL;
   }
 
   if (driverObject) unloadSharedObject(driverObject);

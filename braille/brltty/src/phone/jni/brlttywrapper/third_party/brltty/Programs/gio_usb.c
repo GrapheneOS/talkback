@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -366,8 +366,9 @@ prepareUsbEndpoint (GioEndpoint *endpoint) {
   GioHandle *handle = endpoint->handle;
   UsbChannel *channel = handle->channel;
 
-  if (!endpoint->options.applicationData) {
-    endpoint->options.applicationData = handle->properties.applicationData;
+  {
+    const void *data = handle->properties.applicationData;
+    if (data) endpoint->options.applicationData = data;
   }
 
   {

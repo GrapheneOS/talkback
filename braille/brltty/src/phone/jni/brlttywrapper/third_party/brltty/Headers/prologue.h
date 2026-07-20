@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -22,6 +22,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+#undef CAN_PRAGMA_GCC_DIAGNOSTIC_PUSH_POP
+#if defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)))
+#define CAN_PRAGMA_GCC_DIAGNOSTIC_PUSH_POP
+#endif /* #pragma GCC diagnostic push/pop */
 
 #undef HAVE_BUILTIN_POPCOUNT
 #undef HAVE_SYNC_SYNCHRONIZE
@@ -137,22 +142,29 @@ static inline void __sync_synchronize (void) {}
 #ifndef WINVER
 #define WINVER _WIN32_WINNT
 #endif /* WINVER */
+#endif /* WINDOWS */
 
+#ifdef WINDOWS
 #ifdef __MINGW32__
+#ifndef __MINGW64__
 #ifndef __USE_W32_SOCKETS
 #define __USE_W32_SOCKETS
 #endif /* __USE_W32_SOCKETS */
+#endif /* __MINGW64__ */
 
+#include <winsock2.h>
 #include <ws2tcpip.h>
 #endif /* __MINGW32__ */
 
 #include <windows.h>
 #include <winerror.h>
-#endif /* WINDOWS */
 
 #ifdef __MINGW32__
+#ifndef __MINGW64__
 #include <_mingw.h>
+#endif /* __MINGW64__ */
 #endif /* __MINGW32__ */
+#endif /* WINDOWS */
 
 /*
  * The (poorly named) macro "interface" is unfortunately defined within
@@ -179,6 +191,23 @@ extern void usleep (int usec);
 #endif /* usleep */
 #endif /* __MINGW32__ */
 
+#ifdef __MINGW64__
+#ifdef __clang__
+static inline int 
+ffs (int i) {
+  if (i == 0) return 0;
+  int bit = 1;
+
+  while (!(i & 1)) {
+    i >>= 1;
+    bit += 1;
+  }
+
+  return bit;
+}
+#endif /* __clang__ */
+#endif /* __MINGW64__ */
+
 #ifdef GRUB_RUNTIME
 #undef NESTED_FUNC_ATTR
 #define NESTED_FUNC_ATTR __attribute__((__regparm__(1)))
@@ -198,6 +227,14 @@ extern void usleep (int usec);
 #define float NO_FLOAT
 #define double NO_DOUBLE
 #endif /* GRUB_RUNHTIME */
+
+#if defined(__MSDOS__)
+#undef WCHAR_MAX
+
+#elif defined(HAVE_WCHAR_H)
+#include <wchar.h>
+#include <wctype.h>
+#endif /* HAVE_WCHAR_H */
 
 #ifdef __MSDOS__
 #include <stdarg.h>
@@ -259,7 +296,11 @@ WIN_ERRNO_STORAGE_CLASS int win_toErrno (DWORD error);
 #define setSystemErrno() setErrno(getSystemError())
 #define setSocketErrno() setErrno(getSocketError())
 
-#if defined(__MINGW32__)
+#if defined(__MINGW64__)
+#define PRIsize "llu"
+#define PRIssize "lld"
+
+#elif defined(__MINGW32__)
 #define PRIsize "u"
 #define PRIssize "d"
 
@@ -278,14 +319,10 @@ WIN_ERRNO_STORAGE_CLASS int win_toErrno (DWORD error);
 #define PRIkey PRIX32
 #endif /* format for key_t */
 
-#if defined(__MSDOS__)
-#undef WCHAR_MAX
-
-#elif defined(HAVE_WCHAR_H)
-#include <wchar.h>
-#include <wctype.h>
-
-#endif /* HAVE_WCHAR_H */
+#undef WCSTOK_HAS_END_ARGUMENT
+#if !(defined(__MINGW32__) && defined(__i386__))
+#define WCSTOK_HAS_END_ARGUMENT
+#endif /* WCSTOK_HAS_END_ARGUMENT */
 
 #ifdef WCHAR_MAX
 #define WC_C(wc) L##wc
@@ -294,8 +331,8 @@ WIN_ERRNO_STORAGE_CLASS int win_toErrno (DWORD error);
 #define PRIws "ls"
 #define iswLatin1(wc) ((wc) < 0X100)
 #else /* HAVE_WCHAR_H */
-#include <ctype.h>
 #include <string.h>
+#include <ctype.h>
 
 #define wchar_t unsigned char
 #define wint_t int
@@ -328,13 +365,15 @@ WIN_ERRNO_STORAGE_CLASS int win_toErrno (DWORD error);
 #define wcsrchr(source,character) strrchr((const char *)(source), (char)(character))
 #define wcsspn(source,accept) strspn((const char *)(source), (const char *)(accept))
 #define wcsstr(source,substring) strstr((const char *)(source), (const char *)(substring))
-#define wcstok(target,delimiters,end) ((wchar_t *)strtok(((char *)(target)), ((const char *)(delimiters))))
 #define wcswcs(source,substring) strstr((const char *)(source), (const char *)(substring))
 #define wcsxfrm(target,source,count) strxfrm((char *)(target), (const char *)(source), (count))
 #define wcstoul(nptr, endptr, base) strtoul(((const char *)(nptr)), ((char **)(endptr)), (base))
 
 #define wcstol(source,end,base) strtol((const char *)(source), (char **)(end), (base))
 #define wcstoll(source,end,base) strtoll((const char *)(source), (char **)(end), (base))
+
+#define wcstok(target,delimiters) ((wchar_t *)strtok(((char *)(target)), ((const char *)(delimiters))))
+#undef WCSTOK_HAS_END_ARGUMENT
 
 #define iswalnum(character) isalnum((int)(character))
 #define iswalpha(character) isalpha((int)(character))

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -86,10 +86,16 @@ getCurrentTime (TimeValue *now) {
 #elif defined(HAVE_GETTIMEOFDAY)
   struct timeval tv;
 
+  #ifdef CAN_PRAGMA_GCC_DIAGNOSTIC_PUSH_POP
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+  #endif /* CAN_PRAGMA_GCC_DIAGNOSTIC_PUSH_POP */
+
   int result = gettimeofday(&tv, NULL);
+
+  #ifdef CAN_PRAGMA_GCC_DIAGNOSTIC_PUSH_POP
   #pragma GCC diagnostic pop
+  #endif /* CAN_PRAGMA_GCC_DIAGNOSTIC_PUSH_POP */
 
   if (result != -1) {
     now->seconds = tv.tv_sec;
@@ -207,7 +213,7 @@ expandTimeValue (const TimeValue *value, TimeComponents *components) {
 }
 
 size_t
-formatSeconds (char *buffer, size_t size, const char *format, int32_t seconds) {
+formatSeconds (char *buffer, size_t size, const char *format, int64_t seconds) {
   time_t time = seconds;
   struct tm description;
 
@@ -277,7 +283,7 @@ millisecondsTillNextSecond (const TimeValue *reference) {
 long int
 millisecondsTillNextMinute (const TimeValue *reference) {
   TimeValue time = *reference;
-  int32_t *seconds = &time.seconds;
+  int64_t *seconds = &time.seconds;
 
   time.nanoseconds = 0;
   *seconds /= SECS_PER_MIN;

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -481,12 +481,18 @@ ASYNC_ALARM_CALLBACK(handleLongPressAlarm) {
               &table->longPress.keyValue,
               command);
 
-  if (table->longPress.repeat) {
-    table->longPress.keyAction = "repeat";
-    setLongPressAlarm(table, prefs.autorepeatInterval);
+  if (prefs.autorepeatInterval) {
+    unsigned char autorepeat = table->longPress.autorepeat;
+
+    if (autorepeat) {
+      table->longPress.keyAction = "repeat";
+      setLongPressAlarm(table, MAX(autorepeat, prefs.autorepeatInterval));
+    }
   }
 
   table->release.command = BRL_CMD_NOOP;
+  table->release.force = 0;
+
   processCommand(table, command);
 }
 
@@ -496,57 +502,61 @@ setLongPressAlarm (KeyTable *table, unsigned char when) {
                         handleLongPressAlarm, table);
 }
 
-static int
-isRepeatableCommand (int command) {
-  if (prefs.autorepeatEnabled) {
-    switch (command & BRL_MSK_BLK) {
-      case BRL_CMD_BLK(PASSCHAR):
-      case BRL_CMD_BLK(PASSDOTS):
-        return 1;
+static unsigned char
+getAutorepeatInterval (int command) {
+  if (!prefs.autorepeatEnabled) return 0;
 
-      default:
-        switch (command & BRL_MSK_CMD) {
-          case BRL_CMD_LNUP:
-          case BRL_CMD_LNDN:
-          case BRL_CMD_PRDIFLN:
-          case BRL_CMD_NXDIFLN:
-          case BRL_CMD_CHRLT:
-          case BRL_CMD_CHRRT:
+  switch (command & BRL_MSK_BLK) {
+    case BRL_CMD_BLK(PASSCHAR):
+    case BRL_CMD_BLK(PASSDOTS):
+      return prefs.autorepeatInterval;
 
-          case BRL_CMD_MENU_PREV_ITEM:
-          case BRL_CMD_MENU_NEXT_ITEM:
-          case BRL_CMD_MENU_PREV_SETTING:
-          case BRL_CMD_MENU_NEXT_SETTING:
+    default:
+      switch (command & BRL_MSK_CMD) {
+        case BRL_CMD_FWINLT:
+        case BRL_CMD_FWINRT:
+          if (!prefs.autorepeatPanning) return 0;
 
-          case BRL_CMD_KEY(BACKSPACE):
-          case BRL_CMD_KEY(DELETE):
-          case BRL_CMD_KEY(PAGE_UP):
-          case BRL_CMD_KEY(PAGE_DOWN):
-          case BRL_CMD_KEY(CURSOR_UP):
-          case BRL_CMD_KEY(CURSOR_DOWN):
-          case BRL_CMD_KEY(CURSOR_LEFT):
-          case BRL_CMD_KEY(CURSOR_RIGHT):
+        case BRL_CMD_LNUP:
+        case BRL_CMD_LNDN:
+        case BRL_CMD_PRDIFLN:
+        case BRL_CMD_NXDIFLN:
+        case BRL_CMD_CHRLT:
+        case BRL_CMD_CHRRT:
 
-          case BRL_CMD_SPEAK_PREV_CHAR:
-          case BRL_CMD_SPEAK_NEXT_CHAR:
-          case BRL_CMD_SPEAK_PREV_WORD:
-          case BRL_CMD_SPEAK_NEXT_WORD:
-          case BRL_CMD_SPEAK_PREV_LINE:
-          case BRL_CMD_SPEAK_NEXT_LINE:
-            return 1;
+        case BRL_CMD_MENU_PREV_ITEM:
+        case BRL_CMD_MENU_NEXT_ITEM:
+        case BRL_CMD_MENU_PREV_SETTING:
+        case BRL_CMD_MENU_NEXT_SETTING:
 
-          case BRL_CMD_FWINLT:
-          case BRL_CMD_FWINRT:
-            if (prefs.autorepeatPanning) return 1;
+        case BRL_CMD_KEY(BACKSPACE):
+        case BRL_CMD_KEY(DELETE):
+        case BRL_CMD_KEY(PAGE_UP):
+        case BRL_CMD_KEY(PAGE_DOWN):
+        case BRL_CMD_KEY(CURSOR_UP):
+        case BRL_CMD_KEY(CURSOR_DOWN):
+        case BRL_CMD_KEY(CURSOR_LEFT):
+        case BRL_CMD_KEY(CURSOR_RIGHT):
+          return prefs.autorepeatInterval;
 
-          default:
-            break;
-        }
-        break;
-    }
+        case BRL_CMD_SPEAK_PREV_CHAR:
+        case BRL_CMD_SPEAK_NEXT_CHAR:
+          return prefs.speechCharAutorepeatInterval;
+
+        case BRL_CMD_SPEAK_PREV_PWRD:
+        case BRL_CMD_SPEAK_NEXT_PWRD:
+        case BRL_CMD_SPEAK_PREV_WORD:
+        case BRL_CMD_SPEAK_NEXT_WORD:
+          return prefs.speechWordAutorepeatInterval;
+
+        case BRL_CMD_SPEAK_PREV_LINE:
+        case BRL_CMD_SPEAK_NEXT_LINE:
+          return prefs.speechLineAutorepeatInterval;
+
+        default:
+          return 0;
+      }
   }
-
-  return 0;
 }
 
 static int
@@ -684,6 +694,7 @@ processKeyEvent (
 
         resetLongPressData(table);
         table->release.command = BRL_CMD_NOOP;
+        table->release.force = 0;
 
         if (binding) {
           addCommandArguments(table, &command, binding->primaryCommand.entry, binding);
@@ -692,35 +703,35 @@ processKeyEvent (
           addCommandArguments(table, &secondaryCommand, binding->secondaryCommand.entry, binding);
         }
 
-        if (context == KTB_CTX_WAITING) {
-          table->release.command = BRL_CMD_NOOP;
-        } else {
-          if (secondaryCommand == BRL_CMD_NOOP) {
-            if (isRepeatableCommand(command)) {
-              secondaryCommand = command;
-            }
-          }
-
-          if (isImmediate) {
-            table->release.command = BRL_CMD_NOOP;
-          } else {
-            table->release.command = command;
-            command = BRL_CMD_NOOP;
-          }
-
-          if (secondaryCommand != BRL_CMD_NOOP) {
-            table->longPress.command = secondaryCommand;
-            table->longPress.repeat = isRepeatableCommand(secondaryCommand);
-
-            table->longPress.keyAction = "long";
-            table->longPress.keyContext = context;
-            table->longPress.keyValue = keyValue;
-
-            setLongPressAlarm(table, prefs.longPressTime);
+        if (secondaryCommand == BRL_CMD_NOOP) {
+          if (getAutorepeatInterval(command)) {
+            secondaryCommand = command;
           }
         }
 
-        processCommand(table, command);
+        if (isImmediate) {
+          table->release.command = BRL_CMD_NOOP;
+        } else {
+          table->release.command = command;
+          command = BRL_CMD_NOOP;
+        }
+
+        if (secondaryCommand != BRL_CMD_NOOP) {
+          table->longPress.command = secondaryCommand;
+          table->longPress.autorepeat = getAutorepeatInterval(secondaryCommand);
+
+          table->longPress.keyAction = "long";
+          table->longPress.keyContext = context;
+          table->longPress.keyValue = keyValue;
+
+          setLongPressAlarm(table, prefs.longPressTime);
+        }
+
+        if (command != BRL_CMD_NOOP) {
+          processCommand(table, command);
+        } else if (context == KTB_CTX_WAITING) {
+          table->release.force = 1;
+        }
       }
     } else {
       resetLongPressData(table);
@@ -728,9 +739,10 @@ processKeyEvent (
       if (prefs.onFirstRelease || (table->pressedKeys.count == 0)) {
         int *cmd = &table->release.command;
 
-        if (*cmd != BRL_CMD_NOOP) {
+        if ((*cmd != BRL_CMD_NOOP) || table->release.force) {
           processCommand(table, (command = *cmd));
           *cmd = BRL_CMD_NOOP;
+          table->release.force = 0;
         }
       }
     }

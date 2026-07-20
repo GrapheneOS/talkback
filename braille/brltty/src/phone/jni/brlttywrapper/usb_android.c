@@ -953,7 +953,7 @@ usbFindDevice (UsbDeviceChooser *chooser, UsbChooseChannelData *data) {
       }
 
       if (!ok) {
-        deallocateQueue(usbHostDevices);
+        destroyQueue(usbHostDevices);
         usbHostDevices = NULL;
       }
     }
@@ -975,7 +975,7 @@ usbFindDevice (UsbDeviceChooser *chooser, UsbChooseChannelData *data) {
 void
 usbForgetDevices (void) {
   if (usbHostDevices) {
-    deallocateQueue(usbHostDevices);
+    destroyQueue(usbHostDevices);
     usbHostDevices = NULL;
   }
 }

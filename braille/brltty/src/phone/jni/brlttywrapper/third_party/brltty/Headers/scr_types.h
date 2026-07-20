@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,55 +19,30 @@
 #ifndef BRLTTY_INCLUDED_SCR_TYPES
 #define BRLTTY_INCLUDED_SCR_TYPES
 
+#include "color_types.h"
+#include "vga.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-typedef enum {
-  SCR_ATTR_FG_BLUE   = 0X01,
-  SCR_ATTR_FG_GREEN  = 0X02,
-  SCR_ATTR_FG_RED    = 0X04,
-  SCR_ATTR_FG_BRIGHT = 0X08,
-  SCR_ATTR_BG_BLUE   = 0X10,
-  SCR_ATTR_BG_GREEN  = 0X20,
-  SCR_ATTR_BG_RED    = 0X40,
-  SCR_ATTR_BLINK     = 0X80,
+typedef struct {
+  unsigned char vgaAttributes;
 
-  SCR_MASK_FG = SCR_ATTR_FG_RED | SCR_ATTR_FG_GREEN | SCR_ATTR_FG_BLUE | SCR_ATTR_FG_BRIGHT,
-  SCR_MASK_BG = SCR_ATTR_BG_RED | SCR_ATTR_BG_GREEN | SCR_ATTR_BG_BLUE,
+  RGBColor foreground;
+  RGBColor background;
 
-  SCR_COLOUR_FG_BLACK          = 0,
-  SCR_COLOUR_FG_BLUE           = SCR_ATTR_FG_BLUE,
-  SCR_COLOUR_FG_GREEN          = SCR_ATTR_FG_GREEN,
-  SCR_COLOUR_FG_CYAN           = SCR_ATTR_FG_GREEN | SCR_ATTR_FG_BLUE,
-  SCR_COLOUR_FG_RED            = SCR_ATTR_FG_RED,
-  SCR_COLOUR_FG_MAGENTA        = SCR_ATTR_FG_RED | SCR_ATTR_FG_BLUE,
-  SCR_COLOUR_FG_BROWN          = SCR_ATTR_FG_RED | SCR_ATTR_FG_GREEN,
-  SCR_COLOUR_FG_LIGHT_GREY     = SCR_ATTR_FG_RED | SCR_ATTR_FG_GREEN | SCR_ATTR_FG_BLUE,
-  SCR_COLOUR_FG_DARK_GREY      = SCR_ATTR_FG_BRIGHT | SCR_COLOUR_FG_BLACK,
-  SCR_COLOUR_FG_LIGHT_BLUE     = SCR_ATTR_FG_BRIGHT | SCR_COLOUR_FG_BLUE,
-  SCR_COLOUR_FG_LIGHT_GREEN    = SCR_ATTR_FG_BRIGHT | SCR_COLOUR_FG_GREEN,
-  SCR_COLOUR_FG_LIGHT_CYAN     = SCR_ATTR_FG_BRIGHT | SCR_COLOUR_FG_CYAN,
-  SCR_COLOUR_FG_LIGHT_RED      = SCR_ATTR_FG_BRIGHT | SCR_COLOUR_FG_RED,
-  SCR_COLOUR_FG_LIGHT_MAGENTA  = SCR_ATTR_FG_BRIGHT | SCR_COLOUR_FG_MAGENTA,
-  SCR_COLOUR_FG_YELLOW         = SCR_ATTR_FG_BRIGHT | SCR_COLOUR_FG_BROWN,
-  SCR_COLOUR_FG_WHITE          = SCR_ATTR_FG_BRIGHT | SCR_COLOUR_FG_LIGHT_GREY,
-
-  SCR_COLOUR_BG_BLACK      = 0,
-  SCR_COLOUR_BG_BLUE       = SCR_ATTR_BG_BLUE,
-  SCR_COLOUR_BG_GREEN      = SCR_ATTR_BG_GREEN,
-  SCR_COLOUR_BG_CYAN       = SCR_ATTR_BG_GREEN | SCR_ATTR_BG_BLUE,
-  SCR_COLOUR_BG_RED        = SCR_ATTR_BG_RED,
-  SCR_COLOUR_BG_MAGENTA    = SCR_ATTR_BG_RED | SCR_ATTR_BG_BLUE,
-  SCR_COLOUR_BG_BROWN      = SCR_ATTR_BG_RED | SCR_ATTR_BG_GREEN,
-  SCR_COLOUR_BG_LIGHT_GREY = SCR_ATTR_BG_RED | SCR_ATTR_BG_GREEN | SCR_ATTR_BG_BLUE,
-
-  SCR_COLOUR_DEFAULT = SCR_COLOUR_FG_LIGHT_GREY | SCR_COLOUR_BG_BLACK
-} ScreenAttributes;
+  unsigned char usingRGB:1;
+  unsigned char isBlinking:1;
+  unsigned char isBold:1;
+  unsigned char isItalic:1;
+  unsigned char hasUnderline:1;
+  unsigned char hasStrikeThrough:1;
+} ScreenColor;
 
 typedef struct {
   wchar_t text;
-  ScreenAttributes attributes;
+  ScreenColor color;
 } ScreenCharacter;
 
 typedef enum {
@@ -148,6 +123,47 @@ typedef enum {
   SCR_KEY_F22,
   SCR_KEY_F23,
   SCR_KEY_F24,
+  SCR_KEY_F25,
+  SCR_KEY_F26,
+  SCR_KEY_F27,
+  SCR_KEY_F28,
+  SCR_KEY_F29,
+  SCR_KEY_F30,
+  SCR_KEY_F31,
+  SCR_KEY_F32,
+  SCR_KEY_F33,
+  SCR_KEY_F34,
+  SCR_KEY_F35,
+  SCR_KEY_F36,
+  SCR_KEY_F37,
+  SCR_KEY_F38,
+  SCR_KEY_F39,
+  SCR_KEY_F40,
+  SCR_KEY_F41,
+  SCR_KEY_F42,
+  SCR_KEY_F43,
+  SCR_KEY_F44,
+  SCR_KEY_F45,
+  SCR_KEY_F46,
+  SCR_KEY_F47,
+  SCR_KEY_F48,
+  SCR_KEY_F49,
+  SCR_KEY_F50,
+  SCR_KEY_F51,
+  SCR_KEY_F52,
+  SCR_KEY_F53,
+  SCR_KEY_F54,
+  SCR_KEY_F55,
+  SCR_KEY_F56,
+  SCR_KEY_F57,
+  SCR_KEY_F58,
+  SCR_KEY_F59,
+  SCR_KEY_F60,
+  SCR_KEY_F61,
+  SCR_KEY_F62,
+  SCR_KEY_F63,
+
+  SCR_KEY_COUNT // not a key - must be last
 } ScreenKey;
 
 static inline int
@@ -157,6 +173,12 @@ isSpecialKey (ScreenKey key) {
 
 /* must be less than 0 */
 #define SCR_NO_VT -1
+
+typedef enum {
+  SPM_UNKNOWN,
+  SPM_PLAIN,
+  SPM_BRACKETED,
+} ScreenPasteMode;
 
 typedef struct ScreenDriverStruct ScreenDriver;
 

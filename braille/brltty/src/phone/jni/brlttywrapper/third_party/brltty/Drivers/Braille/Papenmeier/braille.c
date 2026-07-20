@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -17,21 +17,21 @@
  */
 
 /* This Driver was written as a project in the
- *   HTL W1, Abteilung Elektrotechnik, Wien - Österreich
+ *   HTL W1, Abteilung Elektrotechnik, Wien - Ã–sterreich
  *   (Technical High School, Department for electrical engineering,
  *     Vienna, Austria)  http://www.ee.htlw16.ac.at
  *  by
  *   Tibor Becker
  *   Michael Burger
  *   Herbert Gruber
- *   Heimo Schön
+ *   Heimo SchÃ¶n
  * Teacher:
- *   August Hörandl <august.hoerandl@gmx.at>
+ *   August HÃ¶randl <august.hoerandl@gmx.at>
  */
 /*
  * Support for all Papenmeier Terminal + config file
- *   Heimo.Schön <heimo.schoen@gmx.at>
- *   August Hörandl <august.hoerandl@gmx.at>
+ *   Heimo.SchÃ¶n <heimo.schoen@gmx.at>
+ *   August HÃ¶randl <august.hoerandl@gmx.at>
  */
 
 #include "prologue.h"

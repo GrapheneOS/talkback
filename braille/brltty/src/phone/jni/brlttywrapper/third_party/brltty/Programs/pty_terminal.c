@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -36,6 +36,8 @@
 #include "pty_terminal.h"
 #include "pty_screen.h"
 #include "scr_types.h"
+#include "color.h"
+#include "get_term.h"
 #include "ascii.h"
 
 static unsigned char terminalLogLevel = LOG_DEBUG;
@@ -70,11 +72,60 @@ ptySetLogUnexpectedTerminalIO (int yes) {
   logUnexpected = yes;
 }
 
-static const char ptyTerminalType[] = "screen";
+static int
+testTerminalType (const char *type) {
+  int status;
+  if (setupterm(type, STDOUT_FILENO, &status) == OK) return 1;
+
+  switch (status) {
+    case 1:
+      logMessage(LOG_WARNING, "hardcopy terminal: %s", type);
+      break;
+
+    case 0:
+      logMessage(LOG_WARNING, "unrecognized terminal type: %s", type);
+      break;
+
+    case -1:
+      logMessage(LOG_WARNING, "terminfo database not installed");
+      break;
+
+    default:
+      logMessage(LOG_WARNING, "unexpected setupterm error status: %d", status);
+      break;
+  }
+
+  return 0;
+}
 
 const char *
 ptyGetTerminalType (void) {
-  return ptyTerminalType;
+  static const char *terminalType = NULL;
+
+  if (!terminalType) {
+    static const char *const terminalTypes[] = {
+      "tmux-256color",
+      "screen-256color",
+      "tmux",
+      "screen",
+      NULL
+    };
+
+    for (const char *const *type=terminalTypes; *type; type+=1) {
+      if (testTerminalType(*type)) {
+        terminalType = *type;
+        break;
+      }
+    }
+
+    if (terminalType) {
+      logMessage(LOG_INFO, "selected terminal type: %s", terminalType);
+    } else {
+      logMessage(LOG_ERR, "can't use any eligible terminal type");
+    }
+  }
+
+  return terminalType;
 }
 
 static unsigned char insertMode = 0;
@@ -97,6 +148,11 @@ ptyBeginTerminal (PtyObject *pty, int driverDirectives) {
 void
 ptyEndTerminal (void) {
   ptyEndScreen();
+}
+
+void
+ptyResizeTerminal (unsigned int height, unsigned int width) {
+  ptyResizeScreen(height, width);
 }
 
 static void
@@ -151,6 +207,57 @@ ptyProcessTerminalInput (PtyObject *pty) {
       KEY(F(10)    , F10)
       KEY(F(11)    , F11)
       KEY(F(12)    , F12)
+      KEY(F(13)    , F13)
+      KEY(F(14)    , F14)
+      KEY(F(15)    , F15)
+      KEY(F(16)    , F16)
+      KEY(F(17)    , F17)
+      KEY(F(18)    , F18)
+      KEY(F(19)    , F19)
+      KEY(F(20)    , F20)
+      KEY(F(21)    , F21)
+      KEY(F(22)    , F22)
+      KEY(F(23)    , F23)
+      KEY(F(24)    , F24)
+      KEY(F(25)    , F25)
+      KEY(F(26)    , F26)
+      KEY(F(27)    , F27)
+      KEY(F(28)    , F28)
+      KEY(F(29)    , F29)
+      KEY(F(30)    , F30)
+      KEY(F(31)    , F31)
+      KEY(F(32)    , F32)
+      KEY(F(33)    , F33)
+      KEY(F(34)    , F34)
+      KEY(F(35)    , F35)
+      KEY(F(36)    , F36)
+      KEY(F(37)    , F37)
+      KEY(F(38)    , F38)
+      KEY(F(39)    , F39)
+      KEY(F(40)    , F40)
+      KEY(F(41)    , F41)
+      KEY(F(42)    , F42)
+      KEY(F(43)    , F43)
+      KEY(F(44)    , F44)
+      KEY(F(45)    , F45)
+      KEY(F(46)    , F46)
+      KEY(F(47)    , F47)
+      KEY(F(48)    , F48)
+      KEY(F(49)    , F49)
+      KEY(F(50)    , F50)
+      KEY(F(51)    , F51)
+      KEY(F(52)    , F52)
+      KEY(F(53)    , F53)
+      KEY(F(54)    , F54)
+      KEY(F(55)    , F55)
+      KEY(F(56)    , F56)
+      KEY(F(57)    , F57)
+      KEY(F(58)    , F58)
+      KEY(F(59)    , F59)
+      KEY(F(60)    , F60)
+      KEY(F(61)    , F61)
+      KEY(F(62)    , F62)
+      KEY(F(63)    , F63)
     }
     #undef KEY
 
@@ -442,31 +549,87 @@ performBracketAction_m (unsigned char byte) {
 
   for (unsigned int index=0; index<outputParserNumberCount; index+=1) {
     unsigned int number = outputParserNumberArray[index];
+    unsigned int count = outputParserNumberCount - index;
 
     switch (number / 10) {
       {
+        int bright;
+
+        case 3:
+          bright = 0;
+          goto DO_FOREGROUND;
+
+        case 4:
+          bright = 0;
+          goto DO_BACKGROUND;
+
+        case 9:
+          bright = 1;
+          goto DO_FOREGROUND;
+
+        case 10:
+          bright = 1;
+          goto DO_BACKGROUND;
+
         const char *name;
         const char *description;
         void (*setColor) (int color);
         int color;
 
-      case 3:
+      DO_FOREGROUND:
         name = "setaf";
         description = "foreground color";
         setColor = ptySetForegroundColor;
-        goto doColor;
+        goto DO_COLOR;
 
-      case 4:
+      DO_BACKGROUND:
         name = "setab";
         description = "background color";
         setColor = ptySetBackgroundColor;
-        goto doColor;
+        goto DO_COLOR;
 
-      doColor:
+      DO_COLOR:
         color = number % 10;
-        if (color == 8) return OBP_UNEXPECTED;
-        if (color == 9) color = -1;
 
+        if (color == 8) {
+          if (!bright) {
+            if (count >= 2) {
+              switch (outputParserNumberArray[++index]) {
+                case 2: {
+                  if (count >= 5) {
+                    unsigned int red = outputParserNumberArray[++index];
+                    unsigned int green = outputParserNumberArray[++index];
+                    unsigned int blue = outputParserNumberArray[++index];
+
+                    color = rgbToVga(red, green, blue, 0);
+                    goto SET_COLOR;
+                  }
+
+                  break;
+                }
+
+                case 5: {
+                  if (count >= 3) {
+                    color = outputParserNumberArray[++index];
+                    if (color <= 0XF) goto SET_COLOR;
+                  }
+
+                  break;
+                }
+              }
+            }
+          }
+
+          return OBP_UNEXPECTED;
+        }
+
+        if (color == 9) {
+          color = -1;
+        } else if (bright) {
+          color |= 0X8;
+        }
+
+      SET_COLOR:
         logOutputAction(name, description);
         setColor(color);
         continue;
@@ -490,8 +653,8 @@ performBracketAction_m (unsigned char byte) {
         continue;
 
       case 3:
-        logOutputAction("smso", "standout on");
-        ptyAddAttributes(A_STANDOUT);
+        logOutputAction("sitm", "italic on");
+        ptyAddAttributes(A_ITALIC);
         continue;
 
       case 4:
@@ -500,7 +663,12 @@ performBracketAction_m (unsigned char byte) {
         continue;
 
       case 5:
-        logOutputAction("blink", "blink on");
+        logOutputAction("smbl", "slow blink on");
+        ptyAddAttributes(A_BLINK);
+        continue;
+
+      case 6:
+        logOutputAction("smfbl", "fast blink on");
         ptyAddAttributes(A_BLINK);
         continue;
 
@@ -509,14 +677,22 @@ performBracketAction_m (unsigned char byte) {
         ptyAddAttributes(A_REVERSE);
         continue;
 
+      case 8:
+        logOutputAction("smxon", "conceal on");
+        continue;
+
+      case 9:
+        logOutputAction("smstrike", "strikethrough on");
+        continue;
+
       case 22:
         logOutputAction("normal", "bold/dim off");
         ptyRemoveAttributes(A_BOLD | A_DIM);
         continue;
 
       case 23:
-        logOutputAction("rmso", "standout off");
-        ptyRemoveAttributes(A_STANDOUT);
+        logOutputAction("ritm", "italic off");
+        ptyRemoveAttributes(A_ITALIC);
         continue;
 
       case 24:
@@ -525,13 +701,21 @@ performBracketAction_m (unsigned char byte) {
         continue;
 
       case 25:
-        logOutputAction("unblink", "blink off");
+        logOutputAction("rmbl", "slow/fast blink off");
         ptyRemoveAttributes(A_BLINK);
         continue;
 
       case 27:
         logOutputAction("unrev", "reverse video off");
         ptyRemoveAttributes(A_REVERSE);
+        continue;
+
+      case 28:
+        logOutputAction("rmxon", "conceal off");
+        continue;
+
+      case 29:
+        logOutputAction("rmstrike", "strikethrough off");
         continue;
     }
 
@@ -574,7 +758,21 @@ performBracketAction (unsigned char byte) {
       return OBP_DONE;
     }
 
-    case 'H': {
+    {
+      const char *action;
+      int allowZero;
+
+    case 'f':
+      action = "hvp";
+      allowZero = 1;
+      goto MOVE_CURSOR;
+
+    case 'H':
+      action = "cup";
+      allowZero = 0;
+      goto MOVE_CURSOR;
+
+    MOVE_CURSOR:
       if (outputParserNumberCount == 0) {
         addOutputParserNumber(1);
         addOutputParserNumber(1);
@@ -585,10 +783,15 @@ performBracketAction (unsigned char byte) {
       unsigned int *row = &outputParserNumberArray[0];
       unsigned int *column = &outputParserNumberArray[1];
 
-      if (!(*row)--) return OBP_UNEXPECTED;
-      if (!(*column)--) return OBP_UNEXPECTED;
+      if (allowZero) {
+        if (*row) *row -= 1;
+        if (*column) *column -= 1;
+      } else {
+        if (!(*row)--) return OBP_UNEXPECTED;
+        if (!(*column)--) return OBP_UNEXPECTED;
+      }
 
-      logOutputAction("cup", "set cursor position");
+      logOutputAction(action, "set cursor position");
       ptySetCursorPosition(*row, *column);
       return OBP_DONE;
     }

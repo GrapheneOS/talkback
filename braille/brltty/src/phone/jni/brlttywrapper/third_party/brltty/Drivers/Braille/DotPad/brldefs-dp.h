@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -168,5 +168,23 @@ typedef union {
   unsigned char bytes[sizeof(DP_PacketFields)];
   DP_PacketFields fields;
 } DP_Packet;
+
+typedef enum {
+  DP_PROP_SELECTED_DISPLAY,
+  DP_PROP_STATUS_CELLS,
+  DP_PROP_HORIZONTAL_SPACING,
+  DP_PROP_VERTICAL_SPACING,
+} DP_DriverProperty;
+
+#define DP_DISPLAY_TEXT    0
+#define DP_DISPLAY_GRAPHIC 1
+
+#define DP_DEFAULT_STATUS_CELLS 1 // 0=no, 1=yes
+
+#define DP_DEFAULT_HORIZONTAL_SPACING  1
+#define DP_MAXIMUM_HORIZONTAL_SPACING 10
+
+#define DP_DEFAULT_VERTICAL_SPACING  2
+#define DP_MAXIMUM_VERTICAL_SPACING 10
 
 #endif /* BRLTTY_INCLUDED_DP_BRLDEFS */ 

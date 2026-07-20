@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,6 +18,7 @@
 
 #include "prologue.h"
 
+#include "get_term.h"
 #include "log.h"
 #include "pty_screen.h"
 #include "scr_emulator.h"
@@ -34,41 +35,53 @@ ptySetScreenLogLevel (unsigned char level) {
 }
 
 static unsigned char hasColors = 0;
+static unsigned char colorPairMap[1 << (4 + 4)];
+
 static unsigned char currentForegroundColor;
 static unsigned char currentBackgroundColor;
+
 static unsigned char defaultForegroundColor;
 static unsigned char defaultBackgroundColor;
-static unsigned char colorPairMap[0100];
 
-static unsigned char
+static unsigned char colorBits;
+static unsigned char colorCount;
+static unsigned char colorMask;
+static unsigned int pairCount;
+
+static inline unsigned char
 toColorPair (unsigned char foreground, unsigned char background) {
-  return colorPairMap[(background << 3) | foreground];
+  return colorPairMap[
+    ((background & colorMask) << colorBits) | (foreground & colorMask)
+  ];
 }
 
 static void
-initializeColors (unsigned char foreground, unsigned char background) {
+initializeCharacterColors (unsigned char foreground, unsigned char background) {
   currentForegroundColor = defaultForegroundColor = foreground;
   currentBackgroundColor = defaultBackgroundColor = background;
 }
 
 static void
-initializeColorPairs (void) {
+initializeColorPairMap (void) {
   for (unsigned int pair=0; pair<ARRAY_COUNT(colorPairMap); pair+=1) {
     colorPairMap[pair] = pair;
   }
+}
 
+static void
+initializeColorPairs (void) {
   {
     short foreground, background;
     pair_content(0, &foreground, &background);
-    initializeColors(foreground, background);
+    initializeCharacterColors(foreground, background);
 
     unsigned char pair = toColorPair(foreground, background);
     colorPairMap[pair] = 0;
     colorPairMap[0] = pair;
   }
 
-  for (unsigned char foreground=COLOR_BLACK; foreground<=COLOR_WHITE; foreground+=1) {
-    for (unsigned char background=COLOR_BLACK; background<=COLOR_WHITE; background+=1) {
+  for (unsigned char foreground=0; foreground<colorCount; foreground+=1) {
+    for (unsigned char background=0; background<colorCount; background+=1) {
       unsigned char pair = toColorPair(foreground, background);
       if (!pair) continue;
       init_pair(pair, foreground, background);
@@ -128,7 +141,7 @@ createSegment (const char *path, int driverDirectives) {
   key_t key;
 
   if (makeTerminalKey(&key, path)) {
-    segmentHeader = createScreenSegment(&segmentIdentifier, key, COLS, LINES, ENABLE_ROW_ARRAY);
+    segmentHeader = createScreenSegment(&segmentIdentifier, key, LINES, COLS, ENABLE_ROW_ARRAY);
 
     if (segmentHeader) {
       if (driverDirectives) enableMessages(key);
@@ -146,10 +159,21 @@ storeCursorPosition (void) {
 }
 
 static void
-setColor (ScreenSegmentColor *ssc, unsigned char color, unsigned char level) {
-  if (color & COLOR_RED) ssc->red = level;
-  if (color & COLOR_GREEN) ssc->green = level;
-  if (color & COLOR_BLUE) ssc->blue = level;
+setColor (ScreenSegmentColor *ssc, unsigned char color, unsigned char bold, int dim) {
+  int bright = !!(color & 0X8);
+  unsigned char on  = bright? SCI_MAX: SCI_REG;
+  unsigned char off = bright? SCI_DIM: SCI_OFF;
+
+  if (bold) on = UINT8_MAX;
+  if (dim) on >>= 1, off >>= 1;
+
+  ssc->red = (color & COLOR_RED)? on: off;
+  ssc->green = (color & COLOR_GREEN)? on: off;
+  ssc->blue = (color & COLOR_BLUE)? on: off;
+
+  if ((ssc->red == SCI_REG) && (ssc->green == SCI_REG) && (ssc->blue == SCI_OFF)) {
+    ssc->green = SCI_DIM;
+  }
 }
 
 static ScreenSegmentCharacter *
@@ -189,19 +213,16 @@ setCharacter (unsigned int row, unsigned int column, const ScreenSegmentCharacte
   };
 
   {
-    short fgColor, bgColor;
-    pair_content(colorPair, &fgColor, &bgColor);
+    short foreground, background;
+    pair_content(colorPair, &foreground, &background);
 
-    unsigned char bgLevel = SCREEN_SEGMENT_COLOR_LEVEL;
-    unsigned char fgLevel = bgLevel;
-
-    if (attributes & (A_BOLD | A_STANDOUT)) fgLevel = UINT8_MAX;
-    if (attributes & A_DIM) fgLevel >>= 1, bgLevel >>= 1;
+    int bold = !!(attributes & A_BOLD);
+    int dim = !!(attributes & A_DIM);
 
     {
       ScreenSegmentColor *cfg, *cbg;
 
-      if (attributes & A_REVERSE) {
+      if (attributes & (A_REVERSE | A_STANDOUT | A_ITALIC)) {
         cfg = &character.background;
         cbg = &character.foreground;
       } else {
@@ -209,8 +230,8 @@ setCharacter (unsigned int row, unsigned int column, const ScreenSegmentCharacte
         cbg = &character.background;
       }
 
-      setColor(cfg, fgColor, fgLevel);
-      setColor(cbg, bgColor, bgLevel);
+      setColor(cfg, foreground, bold, dim);
+      setColor(cbg, background, 0, dim);
     }
   }
 
@@ -275,11 +296,22 @@ ptyBeginScreen (PtyObject *pty, int driverDirectives) {
     savedCursorColumn = 0;
 
     hasColors = has_colors();
-    initializeColors(COLOR_WHITE, COLOR_BLACK);
+    initializeColorPairMap();
+    colorBits = 3;
 
     if (hasColors) {
       start_color();
+      if (COLORS > 8) colorBits += 1;
+    }
+
+    colorCount = 1 << colorBits;
+    colorMask = colorCount - 1;
+    pairCount = colorCount << colorBits;
+
+    if (hasColors) {
       initializeColorPairs();
+    } else {
+      initializeCharacterColors(COLOR_WHITE, COLOR_BLACK);
     }
 
     if (createSegment(ptyGetPath(pty), driverDirectives)) {
@@ -306,6 +338,13 @@ ptyEndScreen (void) {
   sendTerminalMessage(TERM_MSG_EMULATOR_EXITING, NULL, 0);
   detachScreenSegment(segmentHeader);
   destroySegment();
+}
+
+void
+ptyResizeScreen (unsigned int height, unsigned int width) {
+  if (is_term_resized(height, width)) {
+    resize_term(height, width);
+  }
 }
 
 void
@@ -538,7 +577,7 @@ ptyRemoveAttributes (attr_t attributes) {
 }
 
 static void
-setCharacterColors (void) {
+setColorAttribute (void) {
   attroff(A_COLOR);
   attron(COLOR_PAIR(toColorPair(currentForegroundColor, currentBackgroundColor)));
 }
@@ -547,14 +586,14 @@ void
 ptySetForegroundColor (int color) {
   if (color == -1) color = defaultForegroundColor;
   currentForegroundColor = color;
-  setCharacterColors();
+  setColorAttribute();
 }
 
 void
 ptySetBackgroundColor (int color) {
   if (color == -1) color = defaultBackgroundColor;
   currentBackgroundColor = color;
-  setCharacterColors();
+  setColorAttribute();
 }
 
 void

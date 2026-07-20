@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,13 +18,11 @@
 
 #include "prologue.h"
 
-#include <stdio.h>
 #include <string.h>
-#include <errno.h>
 
 #include "log.h"
-#include "program.h"
 #include "cmdline.h"
+#include "cmdput.h"
 #include "messages.h"
 #include "parse.h"
 #include "file.h"
@@ -33,15 +31,14 @@ static char *opt_localeDirectory;
 static char *opt_localeSpecifier;
 static char *opt_domainName;
 
-static FILE *outputStream;
 static int opt_utf8Output;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "directory",
     .letter = 'd',
     .argument = strtext("path"),
     .setting.string = &opt_localeDirectory,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = strtext("the locale directory containing the translations")
   },
 
@@ -64,74 +61,85 @@ BEGIN_OPTION_TABLE(programOptions)
     .setting.flag = &opt_utf8Output,
     .description = strtext("write the translations using UTF-8")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
 
-static int
-noOutputErrorYet (void) {
-  if (!ferror(outputStream)) return 1;
-  logMessage(LOG_ERR, "output error: %s", strerror(errno));
-  return 0;
-}
+static const char *requestedAction;
 
-static int
-putCharacter (char c) {
-  fputc(c, outputStream);
-  return noOutputErrorYet();
-}
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+  { .name = "action",
+    .description = "the action to perform",
+    .setting = &requestedAction,
+  },
+END_COMMAND_LINE_PARAMETERS(programParameters)
 
-static int
-putNewline (void) {
-  return putCharacter('\n');
-}
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+  "Action names aren't case-sensitive and may be abbreviated.",
+  "The available actions are:",
+  "  count",
+  "  list`",
+  "  metadata",
+  "  property name [attribute]",
+  "  translation message [plural quantity]",
+END_COMMAND_LINE_NOTES
 
-static int
-putBytes (const char *bytes, size_t count) {
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "msgtest",
+  .purpose = strtext("Test message localization using the message catalog reader."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "arg",
+    .description = "arguments for the requested action",
+  },
+END_COMMAND_LINE_DESCRIPTOR
+
+static void
+putCharacters (const char *characters, size_t count) {
   while (count) {
-    uint32_t last = count - 1;
-    if (bytes[last] != '\n') break;
+    size_t last = count - 1;
+    if (characters[last] != '\n') break;
     count = last;
   }
 
   if (opt_utf8Output) {
-    fwrite(bytes, 1, count, outputStream);
+    putBytes(characters, count);
   } else {
-    writeWithConsoleEncoding(outputStream, bytes, count);
+    putConsole(characters, count);
   }
-
-  return noOutputErrorYet();
 }
 
-static int
-putString (const char *string) {
-  return putBytes(string, strlen(string));
+static void
+putText (const char *text) {
+  putCharacters(text, strlen(text));
 }
 
-static int
+static void
 putMessage (const Message *message) {
-  return putBytes(getMessageText(message), getMessageLength(message));
+  putCharacters(getMessageText(message), getMessageLength(message));
 }
 
-static int
+static void
 listTranslation (const Message *source, const Message *translation) {
-  return putMessage(source)
-      && putString(" -> ")
-      && putMessage(translation)
-      && putNewline();
+  putMessage(source);
+  putString(" -> ");
+  putMessage(translation);
+  putNewline();
 }
 
-static int
+static void
 listAllTranslations (void) {
   uint32_t count = getMessageCount();
 
   for (unsigned int index=0; index<count; index+=1) {
     const Message *source = getSourceMessage(index);
-    if (getMessageLength(source) == 0) continue;
+    if (!getMessageLength(source)) continue;
 
     const Message *translation = getTranslatedMessage(index);
-    if (!listTranslation(source, translation)) return 0;
+    listTranslation(source, translation);
   }
-
-  return 1;
 }
 
 static int
@@ -140,7 +148,9 @@ showSimpleTranslation (const char *text) {
     unsigned int index;
 
     if (findSourceMessage(text, strlen(text), &index)) {
-      return putMessage(getTranslatedMessage(index)) && putNewline();
+      putMessage(getTranslatedMessage(index));
+      putNewline();
+      return 1;
     }
   }
 
@@ -148,10 +158,11 @@ showSimpleTranslation (const char *text) {
   return 0;
 }
 
-static int
+static void
 showPluralTranslation (const char *singular, const char *plural, int count) {
   const char *translation = getPluralTranslation(singular, plural, count);
-  return putString(translation) && putNewline();
+  putText(translation);
+  putNewline();
 }
 
 static int
@@ -161,14 +172,14 @@ showProperty (const char *propertyName, const char *attributeName) {
 
   if (propertyValue) {
     if (!attributeName) {
-      fprintf(outputStream, "%s\n", propertyValue);
-      ok = noOutputErrorYet();
+      putf("%s\n", propertyValue);
+      ok = 1;
     } else {
       char *attributeValue = getMessagesAttribute(propertyValue, attributeName);
 
       if (attributeValue) {
-        fprintf(outputStream, "%s\n", attributeValue);
-        ok = noOutputErrorYet();
+        putf("%s\n", attributeValue);
+        ok = 1;
         free(attributeValue);
       } else {
         logMessage(LOG_WARNING,
@@ -196,29 +207,9 @@ parseQuantity (int *count, const char *quantity) {
   return 0;
 }
 
-static const char *
-nextParameter (char ***argv, int *argc, const char *description) {
-  if (*argc) {
-    *argc -= 1;
-    return *(*argv)++;
-  }
-
-  if (!description) return NULL;
-  logMessage(LOG_ERR, "missing %s", description);
-  exit(PROG_EXIT_SYNTAX);
-}
-
 static void
-noMoreParameters (char ***argv, int *argc) {
-  if (*argc) {
-    logMessage(LOG_ERR, "too many parameters");
-    exit(PROG_EXIT_SYNTAX);
-  }
-}
-
-static void
-beginAction (char ***argv, int *argc) {
-  noMoreParameters(argv, argc);
+beginAction (char **argv, int argc) {
+  noMoreCommandArguments(argv, argc);
 
   {
     const char *directory = opt_localeDirectory;
@@ -240,69 +231,45 @@ beginAction (char ***argv, int *argc) {
 
 int
 main (int argc, char *argv[]) {
-  outputStream = stdout;
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "msgtest",
-
-      .usage = {
-        .purpose = strtext("Test message localization using the message catalog reader."),
-        .parameters = "action [argument ...]",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
-
-  if (!argc) {
-    logMessage(LOG_ERR, "missing action");
-    exit(PROG_EXIT_SYNTAX);
-  }
-
-  const char *action = *argv++;
-  argc -= 1;
   int ok = 1;
 
-  if (isAbbreviation("translation", action)) {
-    const char *message = nextParameter(&argv, &argc, "message");
-    const char *plural = nextParameter(&argv, &argc, NULL);
+  if (isAbbreviation("translation", requestedAction)) {
+    const char *message = nextCommandArgument(&argv, &argc, "message");
+    const char *plural = nextCommandArgument(&argv, &argc, NULL);
 
     if (plural) {
-      const char *quantity = nextParameter(&argv, &argc, "quantity");
+      const char *quantity = nextCommandArgument(&argv, &argc, "quantity");
 
       int count;
       if (!parseQuantity(&count, quantity)) return PROG_EXIT_SYNTAX;
 
-      beginAction(&argv, &argc);
-      ok = showPluralTranslation(message, plural, count);
+      beginAction(argv, argc);
+      showPluralTranslation(message, plural, count);
     } else {
-      beginAction(&argv, &argc);
+      beginAction(argv, argc);
       ok = showSimpleTranslation(message);
     }
-  } else if (isAbbreviation("count", action)) {
-    beginAction(&argv, &argc);
-    fprintf(outputStream, "%u\n", getMessageCount());
-    ok = noOutputErrorYet();
-  } else if (isAbbreviation("all", action)) {
-    beginAction(&argv, &argc);
-    ok = listAllTranslations();
-  } else if (isAbbreviation("metadata", action)) {
-    beginAction(&argv, &argc);
-    fprintf(outputStream, "%s\n", getMessagesMetadata());
-    ok = noOutputErrorYet();
-  } else if (isAbbreviation("property", action)) {
-    const char *property = nextParameter(&argv, &argc, "property name");
-    const char *attribute = nextParameter(&argv, &argc, NULL);
+  } else if (isAbbreviation("count", requestedAction)) {
+    beginAction(argv, argc);
+    putf("%u\n", getMessageCount());
+  } else if (isAbbreviation("list`", requestedAction)) {
+    beginAction(argv, argc);
+    listAllTranslations();
+  } else if (isAbbreviation("metadata", requestedAction)) {
+    beginAction(argv, argc);
+    putf("%s\n", getMessagesMetadata());
+  } else if (isAbbreviation("property", requestedAction)) {
+    const char *property = nextCommandArgument(&argv, &argc, "property name");
+    const char *attribute = nextCommandArgument(&argv, &argc, NULL);
 
-    beginAction(&argv, &argc);
+    beginAction(argv, argc);
     ok = showProperty(property, attribute);
   } else {
-    logMessage(LOG_ERR, "unknown action: %s", action);
+    logMessage(LOG_ERR, "unrecognized action: %s", requestedAction);
     return PROG_EXIT_SYNTAX;
   }
 
-  if (ferror(outputStream)) return PROG_EXIT_FATAL;
   return ok? PROG_EXIT_SUCCESS: PROG_EXIT_SEMANTIC;
 }

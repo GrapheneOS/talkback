@@ -31,10 +31,10 @@ extern "C" {
 #define PACKAGE_NAME "BRLTTY"
 
 /* Define this to be a string containing the version of the package. */
-#define PACKAGE_VERSION "6.7"
+#define PACKAGE_VERSION "6.9.1"
 
 /* Define this to be a string containing the full name and version of the package. */
-#define PACKAGE_STRING "BRLTTY 6.7"
+#define PACKAGE_STRING "BRLTTY 6.9.1"
 
 /* Define this to be a string containing the URL of the home page of the package. */
 #define PACKAGE_URL "https://brltty.app/"
@@ -540,7 +540,7 @@ extern "C" {
 #define PREFERENCES_FILE "brltty.prefs"
 
 /* Define this to be a string containing the path to the helper commands directory. */
-#define COMMANDS_DIRECTORY "/libexec/brltty"
+#define HELPERS_DIRECTORY "/libexec/brltty"
 
 /* Define this to be a string containing the path to the drivers directory. */
 #define DRIVERS_DIRECTORY "/lib/brltty"

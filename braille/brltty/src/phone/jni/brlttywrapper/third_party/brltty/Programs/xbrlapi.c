@@ -1,7 +1,7 @@
 /*
  * XBrlAPI - A background process tinkering with X for proper BrlAPI behavior
  *
- * Copyright (C) 2003-2024 by Samuel Thibault <Samuel.Thibault@ens-lyon.org>
+ * Copyright (C) 2003-2026 by Samuel Thibault <Samuel.Thibault@ens-lyon.org>
  *
  * XBrlAPI comes with ABSOLUTELY NO WARRANTY.
  *
@@ -90,7 +90,7 @@ static int brlapi_fd;
 
 static void *clipboardData;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "brlapi",
     .letter = 'b',
     .argument = strtext("[host][:port]"),
@@ -143,7 +143,22 @@ BEGIN_OPTION_TABLE(programOptions)
     .setting.string = &windowNameFile,
     .description = strtext("file to write the name of the focused window to")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "xbrlapi",
+  .purpose = strtext("Augment an X session by supporting input typed on the braille device, showing the title of the focused window on the braille display, and switching braille focus to it."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
 /******************************************************************************
  * error handling
@@ -218,7 +233,7 @@ static int tobrltty_init(char *auth, char *host) {
   brlapi_param_clientPriority_t priority;
   brlapi_param_retainDots_t dots;
 
-  if ((brlapi_fd = brlapi_openConnection(&settings,&settings))<0)
+  if ((brlapi_fd = brlapi_openConnection(&settings,&settings))==BRLAPI_INVALID_FILE_DESCRIPTOR)
   {
     if (!had_succeeded)
     {
@@ -1185,18 +1200,7 @@ static void term_handler(int foo) {
 
 int
 main (int argc, char *argv[]) {
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "xbrlapi",
-
-      .usage = {
-        .purpose = strtext("Augment an X session by supporting input typed on the braille device, showing the title of the focused window on the braille display, and switching braille focus to it."),
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
   signal(SIGTERM,term_handler);
   signal(SIGINT,term_handler);

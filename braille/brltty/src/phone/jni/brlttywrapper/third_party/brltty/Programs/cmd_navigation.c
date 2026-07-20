@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -63,7 +63,7 @@ toDifferentLine (
     ScreenCharacter characters1[width];
     unsigned int skipped = 0;
 
-    if ((isSameCharacter == isSameText) && ses->displayMode) isSameCharacter = isSameAttributes;
+    if ((isSameCharacter == isSameText) && ses->displayMode) isSameCharacter = isSameScreenColor;
     readScreen(from, ses->winy, width, 1, characters1);
 
     do {
@@ -169,7 +169,7 @@ testIndent (int column, int row, void *data UNUSED) {
 
   while (column >= 0) {
     wchar_t text = characters[column].text;
-    if (text != WC_C(' ')) return 1;
+    if (!iswspace(text)) return 1;
     column -= 1;
   }
 
@@ -264,8 +264,7 @@ toPreviousNonblankWindow (void) {
 
     for (charIndex=charCount-1; charIndex>=0; charIndex-=1) {
       wchar_t text = characters[charIndex].text;
-
-      if (text != WC_C(' ')) break;
+      if (!iswspace(text)) break;
     }
 
     if (showScreenCursor() &&
@@ -310,8 +309,7 @@ toNextNonblankWindow (void) {
 
     for (charIndex=0; charIndex<charCount; charIndex+=1) {
       wchar_t text = characters[charIndex].text;
-
-      if (text != WC_C(' ')) break;
+      if (!iswspace(text)) break;
     }
 
     if (showScreenCursor() &&
@@ -326,7 +324,66 @@ toNextNonblankWindow (void) {
 }
 
 static int
+toPreferredCommand (int command) {
+  int preferred = command;
+
+  int cmd = command & BRL_MSK_CMD;
+  int blk = command & BRL_MSK_BLK;
+
+  if (!blk) {
+    if (prefs.skipIdenticalLines) {
+      switch (cmd) {
+        case BRL_CMD_LNUP:
+          preferred = BRL_CMD_PRDIFLN;
+          break;
+
+        case BRL_CMD_LNDN:
+          preferred = BRL_CMD_NXDIFLN;
+          break;
+
+        case BRL_CMD_PRDIFLN:
+          preferred = BRL_CMD_LNUP;
+          break;
+
+        case BRL_CMD_NXDIFLN:
+          preferred = BRL_CMD_LNDN;
+          break;
+      }
+    }
+
+    if (prefs.skipBlankBrailleWindows) {
+      switch (cmd) {
+        case BRL_CMD_FWINLT:
+          preferred = BRL_CMD_FWINLTSKIP;
+          break;
+
+        case BRL_CMD_FWINRT:
+          preferred = BRL_CMD_FWINRTSKIP;
+          break;
+
+        case BRL_CMD_FWINLTSKIP:
+          preferred = BRL_CMD_FWINLT;
+          break;
+
+        case BRL_CMD_FWINRTSKIP:
+          preferred = BRL_CMD_FWINRT;
+          break;
+      }
+    }
+  }
+
+  if (preferred != command) {
+    preferred |= (command & ~BRL_MSK_CMD);
+    logTransformedCommand(command, preferred);
+    command = preferred;
+  }
+
+  return command;
+}
+
+static int
 handleNavigationCommands (int command, void *data) {
+  command = toPreferredCommand(command);
   int oldwiny = ses->winy;
 
   switch (command & BRL_MSK_CMD) {
@@ -374,10 +431,10 @@ handleNavigationCommands (int command, void *data) {
       break;
 
     case BRL_CMD_ATTRUP:
-      upDifferentLine(isSameAttributes);
+      upDifferentLine(isSameScreenColor);
       break;
     case BRL_CMD_ATTRDN:
-      downDifferentLine(isSameAttributes);
+      downDifferentLine(isSameScreenColor);
       break;
 
     case BRL_CMD_PRPGRPH: {
@@ -484,7 +541,7 @@ handleNavigationCommands (int command, void *data) {
           int column = 0;
 
           while (column < length) {
-            if (characters[column].text == WC_C(' ')) break;
+            if (iswspace(characters[column].text)) break;
             column += 1;
           }
 
@@ -577,8 +634,7 @@ handleNavigationCommands (int command, void *data) {
 
               for (charIndex=0; charIndex<charCount; charIndex+=1) {
                 wchar_t text = characters[charIndex].text;
-
-                if (text != WC_C(' ')) break;
+                if (!iswspace(text)) break;
               }
 
               if (charIndex == charCount) goto wrapUp;
@@ -651,8 +707,7 @@ handleNavigationCommands (int command, void *data) {
 
               for (charIndex=0; charIndex<charCount; charIndex+=1) {
                 wchar_t text = characters[charIndex].text;
-
-                if (text != WC_C(' ')) break;
+                if (!iswspace(text)) break;
               }
 
               if (charIndex == charCount) goto wrapDown;

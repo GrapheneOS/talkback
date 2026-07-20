@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -1327,7 +1327,7 @@ static DATA_OPERANDS_PROCESSOR(processIsolatedOperands) {
     if (!ctx->isIsolated) {
       ctx->isIsolated = 1;
     } else {
-      reportDataError(file, "context already solated: %"PRIws, ctx->name);
+      reportDataError(file, "context already isolated: %"PRIws, ctx->name);
     }
   }
 
@@ -1641,7 +1641,7 @@ resetLongPressData (KeyTable *table) {
   }
 
   table->longPress.command = BRL_CMD_NOOP;
-  table->longPress.repeat = 0;
+  table->longPress.autorepeat = 0;
 
   table->longPress.keyAction = NULL;
   table->longPress.keyContext = KTB_CTX_DEFAULT;

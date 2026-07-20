@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -51,6 +51,7 @@ typedef struct {
 } ProtocolOperations;
 
 typedef struct {
+  const char *name;
   const ProtocolOperations *protocol;
   int (*awaitInput) (BrailleDisplay *brl, int timeout);
   int (*readByte) (BrailleDisplay *brl, unsigned char *byte, int wait);
@@ -68,5 +69,7 @@ EXTERNAL_KEY_TABLE(esys_small)
 EXTERNAL_KEY_TABLE(esys_medium)
 EXTERNAL_KEY_TABLE(esys_large)
 EXTERNAL_KEY_TABLE(esytime)
+EXTERNAL_KEY_TABLE(bnote)
+EXTERNAL_KEY_TABLE(bbook)
 
 #endif /* __EU_PROTOCOL_H__ */

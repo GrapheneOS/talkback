@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -704,9 +704,9 @@ static char *fallback_resources[] = {
   "*displayb.background: black",
   "*displayb.foreground: white",
 #endif /* USE_XAW */
-  "*keybox.background: lightgrey",
+  "*keybox.background: lightgray",
   "*menu.Label: Brltty",
-  "*menu.background: lightgrey",
+  "*menu.background: lightgray",
   NULL
 };
 #endif /* USE_XT */
@@ -750,7 +750,15 @@ static int generateToplevel(void)
 #elif defined(USE_XM)
 	"popup()"
 #endif /* USE_ */
-	"\n";
+	"\n"
+	"Mod2<Btn3Down>: "
+#if defined(USE_XAW)
+	"XawPositionSimpleMenu(menu) MenuPopup(menu)"
+#elif defined(USE_XM)
+	"popup()"
+#endif /* USE_ */
+	"\n"
+	;
   Widget tmp_vbox;
   char *disp;
 #ifdef USE_XAW

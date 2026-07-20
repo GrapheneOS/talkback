@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -212,6 +212,13 @@ enqueueItem (Queue *queue, void *item) {
   return element;
 }
 
+Element *
+prequeueItem (Queue *queue, void *item) {
+  Element *element = enqueueItem(queue, item);
+  if (!queue->compareItems) queue->head = element;
+  return element;
+}
+
 void
 requeueElement (Element *element) {
   unlinkElement(element);
@@ -298,7 +305,7 @@ deleteElements (Queue *queue) {
 }
 
 void
-deallocateQueue (Queue *queue) {
+destroyQueue (Queue *queue) {
   deleteElements(queue);
   free(queue);
 }
@@ -308,7 +315,7 @@ exitProgramQueue (void *data) {
   Queue **queue = data;
 
   if (*queue) {
-    deallocateQueue(*queue);
+    destroyQueue(*queue);
     *queue = NULL;
   }
 }
@@ -330,6 +337,11 @@ getProgramQueue (
 int
 getQueueSize (const Queue *queue) {
   return queue->size;
+}
+
+int
+isEmptyQueue (const Queue *queue) {
+  return queue->size == 0;
 }
 
 void *
@@ -379,7 +391,7 @@ getElementByIndex (const Queue *queue, unsigned int index, int fromTail) {
     return element;
   }
 
-  return 0;
+  return NULL;
 }
 
 Element *

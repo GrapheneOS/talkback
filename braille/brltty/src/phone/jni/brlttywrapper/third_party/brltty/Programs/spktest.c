@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -26,8 +26,8 @@
 #include <strings.h>
 #include <errno.h>
 
-#include "program.h"
 #include "cmdline.h"
+#include "options.h"
 #include "log.h"
 #include "spk.h"
 #include "file.h"
@@ -37,10 +37,10 @@
 static char *opt_textString;
 static char *opt_speechVolume;
 static char *opt_speechRate;
-static char *opt_pcmDevice;
-static char *opt_driversDirectory;
+char *opt_pcmDevice;
+char *opt_driversDirectory;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "text-string",
     .letter = 't',
     .argument = "string",
@@ -74,10 +74,36 @@ BEGIN_OPTION_TABLE(programOptions)
     .argument = "directory",
     .setting.string = &opt_driversDirectory,
     .internal.setting = DRIVERS_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = "Path to directory for loading drivers."
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+static const char *driverCode;
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+  { .name = "driver",
+    .description = "the two-letter code of the speech driver to test",
+    .setting = &driverCode,
+  },
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "spktest",
+  .purpose = strtext("Test a speech driver."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "name=value",
+    .description = "parameters for the specified speech driver",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 static int
 say (SpeechSynthesizer *spk, const char *string) {
@@ -96,29 +122,14 @@ sayLine (const LineHandlerParameters *parameters) {
 
 int
 main (int argc, char *argv[]) {
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
+
   ProgramExitStatus exitStatus;
   SpeechSynthesizer spk;
-
-
-  const char *driver = NULL;
-  void *object;
+  void *driverObject;
 
   int speechVolume = SPK_VOLUME_DEFAULT;
   int speechRate = SPK_RATE_DEFAULT;
-
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "spktest",
-
-      .usage = {
-        .purpose = strtext("Test a speech driver."),
-        .parameters = "[driver [parameter=value ...]]",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
 
   if (opt_speechVolume && *opt_speechVolume) {
     static const int minimum = 0;
@@ -140,11 +151,7 @@ main (int argc, char *argv[]) {
     }
   }
 
-  if (argc) {
-    driver = *argv++, --argc;
-  }
-
-  if ((speech = loadSpeechDriver(driver, &object, opt_driversDirectory))) {
+  if ((speech = loadSpeechDriver(driverCode, &driverObject, opt_driversDirectory))) {
     const char *const *parameterNames = speech->parameters;
     char **parameterSettings;
 
@@ -175,7 +182,7 @@ main (int argc, char *argv[]) {
     while (argc) {
       char *assignment = *argv++;
       int ok = 0;
-      char *delimiter = strchr(assignment, '=');
+      char *delimiter = strchr(assignment, PARAMETER_ASSIGNMENT_CHARACTER);
 
       if (!delimiter) {
         logMessage(LOG_ERR, "missing speech driver parameter value: %s", assignment);

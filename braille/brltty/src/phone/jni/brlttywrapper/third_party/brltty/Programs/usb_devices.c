@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -509,6 +509,22 @@ USB_DEVICE_ENTRY(0X1FE4, 0X00A6, "ht"),
 // Device: 1FE4:00A8
 // HandyTech [Activator Pro 80]
 USB_DEVICE_ENTRY(0X1FE4, 0X00A8, "ht"),
+
+// Device: 28AC:0012
+// EuroBraille [b.note]
+USB_DEVICE_ENTRY(0X28AC, 0X0012, "eu"),
+
+// Device: 28AC:0013
+// EuroBraille [b.note 2]
+USB_DEVICE_ENTRY(0X28AC, 0X0013, "eu"),
+
+// Device: 28AC:0020
+// EuroBraille [b.book (internal)]
+USB_DEVICE_ENTRY(0X28AC, 0X0020, "eu"),
+
+// Device: 28AC:0021
+// EuroBraille [b.book (external)]
+USB_DEVICE_ENTRY(0X28AC, 0X0021, "eu"),
 
 // Device: 4242:0001
 // Pegasus [all models]

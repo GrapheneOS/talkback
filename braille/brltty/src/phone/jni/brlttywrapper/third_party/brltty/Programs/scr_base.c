@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -171,6 +171,11 @@ insertKey_BaseScreen (ScreenKey key) {
   return 0;
 }
 
+static ScreenPasteMode
+getPasteMode_BaseScreen (void) {
+  return SPM_UNKNOWN;
+}
+
 static int
 routeCursor_BaseScreen (int column, int row, int screen) {
   return 0;
@@ -223,6 +228,7 @@ initializeBaseScreen (BaseScreen *base) {
 
   base->readCharacters = readCharacters_BaseScreen;
   base->insertKey = insertKey_BaseScreen;
+  base->getPasteMode = getPasteMode_BaseScreen;
   base->routeCursor = routeCursor_BaseScreen;
 
   base->highlightRegion = highlightRegion_BaseScreen;
@@ -243,18 +249,18 @@ initializeBaseScreen (BaseScreen *base) {
 }
 
 void
-describeBaseScreen (BaseScreen *base, ScreenDescription *description) {
-  description->unreadable = NULL;
-  description->quality = SCQ_GOOD;
-
+describeScreenObject (ScreenDescription *description, BaseScreen *screen) {
   description->number = 0;
-  description->cols = description->rows = 1;
-  description->posx = description->posy = 0;
-
   description->hasCursor = 1;
   description->hasSelection = 0;
 
-  base->describe(description);
+  description->unreadable = NULL;
+  description->quality = SCQ_GOOD;
+
+  description->cols = description->rows = 1;
+  description->posx = description->posy = 0;
+
+  screen->describe(description);
 
   if (description->unreadable) {
     description->hasCursor = 0;

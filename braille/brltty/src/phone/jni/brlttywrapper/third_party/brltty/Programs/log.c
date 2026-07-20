@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -277,6 +277,49 @@ popLogPrefix (void) {
   return popLogEntry(&logPrefixStack);
 }
 
+static void
+writeLogRecord (const TimeValue *when, const char *record) {
+  if (logFile) {
+    lockStream(logFile);
+
+    {
+      TimeValue now;
+
+      if (!when) {
+        getCurrentTime(&now);
+        when = &now;
+      }
+
+      char buffer[0X20];
+      size_t length = formatSeconds(buffer, sizeof(buffer), "%Y-%m-%d@%H:%M:%S", when->seconds);
+      unsigned int milliseconds = when->nanoseconds / NSECS_PER_MSEC;
+
+      fprintf(logFile, "%.*s.%03u ", (int)length, buffer, milliseconds);
+    }
+
+    {
+      char name[0X40];
+      size_t length = formatThreadName(name, sizeof(name));
+
+      if (length) fprintf(logFile, "[%s] ", name);
+    }
+
+    fputs(record, logFile);
+    fputc('\n', logFile);
+    flushStream(logFile);
+    unlockStream(logFile);
+  }
+}
+
+static int
+writePreviousLogEntries (const LogEntry *entry) {
+  if (!entry) return 1;
+  if (!writePreviousLogEntries(getPreviousLogEntry(entry))) return 0;
+
+  writeLogRecord(getLogEntryTime(entry), getLogEntryText(entry));
+  return 1;
+}
+
 void
 closeLogFile (void) {
   if (logFile) {
@@ -293,39 +336,9 @@ openLogFile (const char *path) {
   if (stream) {
   //setCloseOnExec(fileno(stream), 1);
     writeUtf8ByteOrderMark(stream);
+
     logFile = stream;
-  }
-}
-
-static void
-writeLogRecord (const char *record) {
-  if (logFile) {
-    lockStream(logFile);
-
-    {
-      TimeValue now;
-      char buffer[0X20];
-      size_t length;
-      unsigned int milliseconds;
-
-      getCurrentTime(&now);
-      length = formatSeconds(buffer, sizeof(buffer), "%Y-%m-%d@%H:%M:%S", now.seconds);
-      milliseconds = now.nanoseconds / NSECS_PER_MSEC;
-
-      fprintf(logFile, "%.*s.%03u ", (int)length, buffer, milliseconds);
-    }
-
-    {
-      char name[0X40];
-      size_t length = formatThreadName(name, sizeof(name));
-
-      if (length) fprintf(logFile, "[%s] ", name);
-    }
-
-    fputs(record, logFile);
-    fputc('\n', logFile);
-    flushStream(logFile);
-    unlockStream(logFile);
+    writePreviousLogEntries(getNewestLogEntry(1));
   }
 }
 
@@ -412,7 +425,7 @@ logData (int level, LogDataFormatter *formatLogData, const void *data) {
   STR_END;
 
   if (write) {
-    writeLogRecord(record);
+    writeLogRecord(NULL, record);
 
 #if defined(WINDOWS)
     if (windowsEventLog != INVALID_HANDLE_VALUE) {

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -22,12 +22,14 @@
 
 #include "log.h"
 #include "cmdline.h"
+#include "options.h"
 #include "prefs.h"
 #include "parse.h"
 #include "tune_utils.h"
 #include "notes.h"
 #include "datafile.h"
 #include "morse.h"
+#include "program.h"
 
 static int opt_fromFiles;
 static char *opt_morsePitch;
@@ -40,7 +42,7 @@ static char *opt_tuneDevice;
 static char *opt_midiInstrument;
 #endif /* HAVE_MIDI_SUPPORT */
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "files",
     .letter = 'f',
     .setting.flag = &opt_fromFiles,
@@ -105,7 +107,33 @@ BEGIN_OPTION_TABLE(programOptions)
     .description = "Name of MIDI instrument."
   },
 #endif /* HAVE_MIDI_SUPPORT */
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+  "If the -f option isn't specified then at least one argument must be specified.",
+  "Each argument is treated as a separate word.",
+  "",
+  "If the -f option is specified then each argument specifies a file.",
+  "If no arguments are specified then standard input is read.",
+  "If a file is specified as a minus sign (-) then standard input is read.",
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-morse",
+  .purpose = strtext("Translate text into Morse Code tones."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "arg",
+    .description = "words or, if -f is specified, files",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 static
 DATA_OPERANDS_PROCESSOR(processMorseLine) {
@@ -127,19 +155,7 @@ exitMorseObject (void *data) {
 
 int
 main (int argc, char *argv[]) {
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-morse",
-
-      .usage = {
-        .purpose = strtext("Translate text into Morse Code tones."),
-        .parameters = "text ... | -f [{file | -} ...]",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
   resetPreferences();
   if (!parseTuneDevice(opt_tuneDevice)) return PROG_EXIT_SYNTAX;
@@ -231,7 +247,7 @@ main (int argc, char *argv[]) {
       argv += 1;
     } while (argc -= 1);
   } else {
-    logMessage(LOG_ERR, "missing text");
+    logMessage(LOG_ERR, "missing word");
     exitStatus = PROG_EXIT_SYNTAX;
   }
 

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,7 +18,6 @@
 
 #include "prologue.h"
 
-#include "program.h"
 #include "cmdline.h"
 #include "crc.h"
 
@@ -33,7 +32,7 @@ static char *opt_xorMask;
 static char *opt_checkValue;
 static char *opt_residue;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "name",
     .letter = 'n',
     .argument = "string",
@@ -103,7 +102,22 @@ BEGIN_OPTION_TABLE(programOptions)
     .setting.string = &opt_residue,
     .description = "the residue"
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "crctest",
+  .purpose = strtext("Test supported CRC (Cyclic Redundancy Check) checksum algorithms."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
 static int
 validateOptions (void) {
@@ -112,18 +126,7 @@ validateOptions (void) {
 
 int
 main (int argc, char *argv[]) {
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "crctest",
-
-      .usage = {
-        .purpose = strtext("Test supported CRC (Cyclic Redundancy Check) checksum algorithms."),
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
   if (!validateOptions()) return PROG_EXIT_SYNTAX;
 

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -431,9 +431,7 @@ usbDeallocateConfigurationDescriptor (UsbDevice *device) {
 }
 
 const UsbConfigurationDescriptor *
-usbConfigurationDescriptor (
-  UsbDevice *device
-) {
+usbConfigurationDescriptor (UsbDevice *device) {
   if (!device->configuration) {
     unsigned char current;
 
@@ -534,6 +532,39 @@ usbNextDescriptor (
   }
 
   return 1;
+}
+
+int
+usbIsAssociatedInterface (const UsbInterfaceAssociationDescriptor *iad, unsigned char interface) {
+  return (interface >= iad->bFirstInterface)
+      && (interface < (iad->bFirstInterface + iad->bInterfaceCount))
+      ;
+}
+
+const UsbInterfaceAssociationDescriptor *
+usbInterfaceAssociationDescriptor (
+  UsbDevice *device,
+  unsigned char interface
+) {
+  const UsbDescriptor *descriptor = NULL;
+
+  while (usbNextDescriptor(device, &descriptor)) {
+    const UsbInterfaceAssociationDescriptor *iad = &descriptor->interfaceAssociation;
+
+    if (iad->bDescriptorType == UsbDescriptorType_InterfaceAssociation) {
+      if (usbIsAssociatedInterface(iad, interface)) {
+        return iad;
+      }
+    }
+  }
+
+  logMessage(LOG_CATEGORY(USB_IO),
+    "interface association descriptor not found: %d",
+    interface
+  );
+
+  errno = ENOENT;
+  return NULL;
 }
 
 const UsbInterfaceDescriptor *
@@ -717,7 +748,7 @@ usbDeallocateEndpoint (void *item, void *data) {
       }
 
       if (endpoint->direction.input.pending.requests) {
-        deallocateQueue(endpoint->direction.input.pending.requests);
+        destroyQueue(endpoint->direction.input.pending.requests);
         endpoint->direction.input.pending.requests = NULL;
       }
 
@@ -875,7 +906,7 @@ usbRemoveEndpoints (UsbDevice *device, int final) {
     deleteElements(device->endpoints);
 
     if (final) {
-      deallocateQueue(device->endpoints);
+      destroyQueue(device->endpoints);
       device->endpoints = NULL;
     }
   }
@@ -1006,7 +1037,7 @@ usbCloseDevice (UsbDevice *device) {
   usbRemoveEndpoints(device, 1);
 
   if (device->inputFilters) {
-    deallocateQueue(device->inputFilters);
+    destroyQueue(device->inputFilters);
     device->inputFilters = NULL;
   }
 
@@ -1046,7 +1077,7 @@ usbOpenDevice (UsbDeviceExtension *extension) {
           }
         }
 
-        deallocateQueue(device->inputFilters);
+        destroyQueue(device->inputFilters);
       }
 
       usbRemoveEndpoints(device, 1);

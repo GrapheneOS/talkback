@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,12 +18,16 @@
 
 #include "prologue.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #include "log.h"
 #include "learn.h"
 #include "message.h"
+#include "async_handle.h"
 #include "async_wait.h"
+#include "async_alarm.h"
+#include "timing_types.h"
 #include "cmd.h"
 #include "cmd_queue.h"
 #include "brl.h"
@@ -40,17 +44,70 @@ typedef enum {
 typedef struct {
   const char *mode;
   LearnModeState state;
+
+  struct {
+    const char *text;
+    AsyncHandle alarm;
+
+    struct {
+      int initial;
+      int left;
+    } seconds;
+  } prompt;
 } LearnModeData;
 
-ASYNC_CONDITION_TESTER(testEndLearnWait) {
-  LearnModeData *lmd = data;
+static int
+showText (const char *text, MessageOptions options, LearnModeData *lmd) {
+  return message(lmd->mode, text, (options | MSG_SYNC));
+}
 
-  return lmd->state != LMS_TIMEOUT;
+ASYNC_ALARM_CALLBACK(updateLearnModePrompt) {
+  LearnModeData *lmd = parameters->data;
+  int *secondsLeft = &lmd->prompt.seconds.left;
+
+  {
+    char prompt[0X100];
+    snprintf(prompt, sizeof(prompt), "%s - %d", lmd->prompt.text, *secondsLeft);
+    showText(prompt, (MSG_NODELAY | MSG_SILENT), lmd);
+  }
+
+  *secondsLeft -= 1;
+}
+
+static void
+endPrompt (LearnModeData *lmd) {
+  AsyncHandle *alarm = &lmd->prompt.alarm;
+
+  if (*alarm) {
+    asyncCancelRequest(*alarm);
+    *alarm = NULL;
+  }
+}
+
+static int
+beginPrompt (LearnModeData *lmd) {
+  endPrompt(lmd);
+  AsyncHandle *alarm = &lmd->prompt.alarm;
+
+  lmd->prompt.seconds.left = lmd->prompt.seconds.initial;
+
+  if (asyncNewRelativeAlarm(alarm, 0, updateLearnModePrompt, lmd)) {
+    if (asyncResetAlarmInterval(*alarm, MSECS_PER_SEC)) {
+      sayMessage(lmd->prompt.text);
+      return 1;
+    }
+
+    asyncCancelRequest(*alarm);
+    *alarm = NULL;
+  }
+
+  return 0;
 }
 
 static int
 handleLearnModeCommands (int command, void *data) {
   LearnModeData *lmd = data;
+  endPrompt(lmd);
 
   logMessage(LOG_DEBUG, "learn: command=%06X", command);
   lmd->state = LMS_CONTINUE;
@@ -63,7 +120,7 @@ handleLearnModeCommands (int command, void *data) {
     case BRL_CMD_NOOP:
       return 1;
 
-    default:
+    default: {
       switch (command & BRL_MSK_BLK) {
         case BRL_CMD_BLK(TOUCH_AT):
           return 1;
@@ -71,26 +128,43 @@ handleLearnModeCommands (int command, void *data) {
         default:
           break;
       }
+
       break;
+    }
   }
 
   {
-    char buffer[0X100];
+    char description[0X100];
 
-    describeCommand(buffer, sizeof(buffer), command,
-                    (CDO_IncludeName | CDO_IncludeOperand));
+    describeCommand(
+      description, sizeof(description), command,
+      (CDO_IncludeName | CDO_IncludeOperand)
+    );
 
-    logMessage(LOG_DEBUG, "learn: %s", buffer);
-    if (!message(lmd->mode, buffer, MSG_SYNC|MSG_NODELAY)) lmd->state = LMS_ERROR;
+    logMessage(LOG_DEBUG, "learn: %s", description);
+    if (!showText(description, 0, lmd)) lmd->state = LMS_ERROR;
   }
 
+  if (!beginPrompt(lmd)) lmd->state = LMS_ERROR;
   return 1;
+}
+
+ASYNC_CONDITION_TESTER(testEndLearnWait) {
+  LearnModeData *lmd = data;
+
+  return lmd->state != LMS_TIMEOUT;
 }
 
 int
 learnMode (int timeout) {
   LearnModeData lmd = {
-    .mode = "lrn"
+    .mode = "lrn",
+
+    .prompt = {
+      .text = gettext("Learn Mode"),
+      .alarm = NULL,
+      .seconds.initial = timeout / MSECS_PER_SEC,
+    },
   };
 
   pushCommandEnvironment("learnMode", NULL, NULL);
@@ -98,14 +172,16 @@ learnMode (int timeout) {
                      handleLearnModeCommands, NULL, &lmd);
 
   if (setStatusText(&brl, lmd.mode)) {
-    if (message(lmd.mode, gettext("Learn Mode"), MSG_SYNC|MSG_NODELAY)) {
+    if (beginPrompt(&lmd)) {
       do {
         lmd.state = LMS_TIMEOUT;
         if (!asyncAwaitCondition(timeout, testEndLearnWait, &lmd)) break;
       } while (lmd.state == LMS_CONTINUE);
 
+      endPrompt(&lmd);
+
       if (lmd.state == LMS_TIMEOUT) {
-        if (!message(lmd.mode, gettext("done"), MSG_SYNC)) {
+        if (!showText(gettext("done"), 0, &lmd)) {
           lmd.state = LMS_ERROR;
         }
       }

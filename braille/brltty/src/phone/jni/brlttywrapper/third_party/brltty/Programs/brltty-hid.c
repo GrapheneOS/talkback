@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,13 +18,12 @@
 
 #include "prologue.h"
 
-#include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 #include <errno.h>
 
-#include "program.h"
 #include "cmdline.h"
+#include "cmdput.h"
 #include "log.h"
 #include "strfmt.h"
 #include "parse.h"
@@ -63,7 +62,7 @@ static char *opt_writeFeature;
 static int opt_echoInput;
 static char *opt_inputTimeout;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "match-usb-devices",
     .letter = 'u',
     .setting.flag = &opt_matchUSBDevices,
@@ -207,35 +206,34 @@ BEGIN_OPTION_TABLE(programOptions)
     .setting.string = &opt_inputTimeout,
     .description = strtext("The input timeout (in seconds).")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
 
-static
-BEGIN_USAGE_NOTES(usageNotes)
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
   "When writing a report or feature, the bytes don't need to be, but can be, separated from one another by whitespace.",
   "Each byte is either two hexadecimal digits or zero or more braille dot numbers within [square brackets].",
   "A byte may optionally be followed by an asterisk [*] and a decimal count - if not specified, 1 is assumed.",
   "The first byte is the report number - specify 00 for no report number.",
-END_USAGE_NOTES
+END_COMMAND_LINE_NOTES
 
-static FILE *outputStream;
-static int outputError;
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-hid",
+  .purpose = strtext("Find HID devices, list report descriptors, read/write reports/features, or monitor input from a HID device."),
 
-static int
-canWriteOutput (void) {
-  if (outputError) return 0;
-  if (!ferror(outputStream)) return 1;
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
-  outputError = errno;
-  return 0;
-}
-
-static int writeBytesLine (
+static void writeBytesLine (
   const char *format,
   const unsigned char *from, size_t count,
   ...
 ) PRINTF(1, 4);
 
-static int
+static void
 writeBytesLine (const char *format, const unsigned char *from, size_t count, ...) {
   const unsigned char *to = from + count;
 
@@ -255,11 +253,8 @@ writeBytesLine (const char *format, const unsigned char *from, size_t count, ...
     va_end(arguments);
   }
 
-  fprintf(outputStream, "%s:%s\n", label, bytes);
-  if (!canWriteOutput()) return 0;
-
-  fflush(outputStream);
-  return canWriteOutput();
+  putf("%s:%s\n", label, bytes);
+  putFlush();
 }
 
 static int
@@ -326,11 +321,7 @@ performShowDeviceIdentifiers (HidDevice *device) {
     return 0;
   }
 
-  fprintf(outputStream,
-    "Device Identifiers: %04X:%04X\n",
-    vendor, product
-  );
-
+  putf("Device Identifiers: %04X:%04X\n", vendor, product);
   return 1;
 }
 
@@ -343,7 +334,7 @@ performShowDeviceAddress (HidDevice *device) {
     return 0;
   }
 
-  fprintf(outputStream, "Device Address: %s\n", address);
+  putf("Device Address: %s\n", address);
   return 1;
 }
 
@@ -356,7 +347,7 @@ performShowDeviceName (HidDevice *device) {
     return 0;
   }
 
-  fprintf(outputStream, "Device Name: %s\n", name);
+  putf("Device Name: %s\n", name);
   return 1;
 }
 
@@ -369,7 +360,7 @@ performShowHostPath (HidDevice *device) {
     return 0;
   }
 
-  fprintf(outputStream, "Host Path: %s\n", path);
+  putf("Host Path: %s\n", path);
   return 1;
 }
 
@@ -382,14 +373,14 @@ performShowHostDevice (HidDevice *device) {
     return 0;
   }
 
-  fprintf(outputStream, "Host Device: %s\n", hostDevice);
+  putf("Host Device: %s\n", hostDevice);
   return 1;
 }
 
 static int
 listItem (const char *line, void *data) {
-  fprintf(outputStream, "%s\n", line);
-  return canWriteOutput();
+  putf("%s\n", line);
+  return 1;
 }
 
 static int
@@ -450,8 +441,7 @@ performListReports (HidDevice *device) {
     }
 
     STR_END;
-    fprintf(outputStream, "%s\n", line);
-    if (!canWriteOutput()) return 0;
+    putf("%s\n", line);
   }
 
   free(reports);
@@ -919,7 +909,7 @@ performEchoInput (HidDevice *device) {
         break;
       }
 
-      if (!writeBytesLine("Input Report", from, *inputSize)) return 0;
+      writeBytesLine("Input Report", from, *inputSize);
       from += *inputSize;
     }
   }
@@ -1044,8 +1034,9 @@ performActions (HidDevice *device) {
     }
 
     if (perform) {
-      if (!action->perform(device)) return 0;
-      if (!canWriteOutput()) return 0;
+      if (!action->perform(device)) {
+        return 0;
+      }
     }
 
     action += 1;
@@ -1056,27 +1047,7 @@ performActions (HidDevice *device) {
 
 int
 main (int argc, char *argv[]) {
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-hid",
-
-      .usage = {
-        .purpose = strtext("Find HID devices, list report descriptors, read/write reports/features, or monitor input from a HID device."),
-        .notes = USAGE_NOTES(usageNotes),
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
-
-  outputStream = stdout;
-  outputError = 0;
-
-  if (argc) {
-    logMessage(LOG_ERR, "too many parameters");
-    return PROG_EXIT_SYNTAX;
-  }
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
   if (!parseOperands()) return PROG_EXIT_SYNTAX;
   ProgramExitStatus exitStatus = PROG_EXIT_SUCCESS;
@@ -1090,11 +1061,6 @@ main (int argc, char *argv[]) {
   } else {
     if (!performActions(device)) exitStatus = PROG_EXIT_FATAL;
     hidCloseDevice(device);
-  }
-
-  if (outputError) {
-    logMessage(LOG_ERR, "output error: %s", strerror(outputError));
-    exitStatus = PROG_EXIT_FATAL;
   }
 
   return exitStatus;

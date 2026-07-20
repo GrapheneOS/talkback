@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -23,6 +23,7 @@
 
 #include "log.h"
 #include "cmdline.h"
+#include "options.h"
 #include "prefs.h"
 #include "tune_utils.h"
 #include "tune_builder.h"
@@ -37,7 +38,7 @@ static char *opt_tuneDevice;
 static char *opt_midiInstrument;
 #endif /* HAVE_MIDI_SUPPORT */
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "files",
     .letter = 'f',
     .setting.flag = &opt_fromFiles,
@@ -82,14 +83,35 @@ BEGIN_OPTION_TABLE(programOptions)
     .description = "Name of MIDI instrument."
   },
 #endif /* HAVE_MIDI_SUPPORT */
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
 
-static
-BEGIN_USAGE_NOTES(usageNotes)
-  "If the tune is specified on the command line then each argument contains a command group.",
-  "If it's read from a file then each line contains a command group.",
-  "Each specified file contains a different tune.",
-END_USAGE_NOTES
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+  "If the -f option isn't specified then at least one argument must be specified.",
+  "Each argument contains a command group.",
+  "",
+  "If the -f option is specified then each argument specifies a file.",
+  "If no arguments are specified then standard input is read.",
+  "If a file is specified as a minus sign (-) then standard input is read.",
+  "Each file contains a different tune.",
+  "each line of each file contains a command group.",
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-tune",
+  .purpose = strtext("Compose a tune with the tune builder and play it with the tone generator."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes, tuneBuilderNotes),
+
+  .extraParameters = {
+    .name = "arg",
+    .description = "tune strings or, if -f is specified, tune files",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 static void
 beginTuneStream (const char *name, void *data) {
@@ -149,20 +171,7 @@ DATA_OPERANDS_PROCESSOR(processTuneLine) {
 
 int
 main (int argc, char *argv[]) {
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-tune",
-
-      .usage = {
-        .purpose = strtext("Compose a tune with the tune builder and play it with the tone generator."),
-        .parameters = "commands ... | -f [{file | -} ...]",
-        .notes = USAGE_NOTES(usageNotes, tuneBuilderUsageNotes),
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
   resetPreferences();
   if (!parseTuneDevice(opt_tuneDevice)) return PROG_EXIT_SYNTAX;

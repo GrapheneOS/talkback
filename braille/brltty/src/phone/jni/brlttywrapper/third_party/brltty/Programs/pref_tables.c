@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -118,6 +118,7 @@ PREFERENCE_STRING_TABLE(tuneDevice,
 PREFERENCE_STRING_TABLE(speechPunctuation,
   [SPK_PUNCTUATION_NONE] = "none",
   [SPK_PUNCTUATION_SOME] = "some",
+  [SPK_PUNCTUATION_MOST] = "most",
   [SPK_PUNCTUATION_ALL] = "all",
 )
 
@@ -386,6 +387,12 @@ const PreferenceDefinition preferenceDefinitionTable[] = {
     .setting = &prefs.trackScreenScroll
   },
 
+  { .name = "soft-cursor-detection",
+    .defaultValue = DEFAULT_SOFT_CURSOR_DETECTION,
+    .settingNames = &preferenceStringTable_boolean,
+    .setting = &prefs.softCursorDetection
+  },
+
   { .name = "track-screen-pointer",
     .defaultValue = DEFAULT_TRACK_SCREEN_POINTER,
     .settingNames = &preferenceStringTable_boolean,
@@ -436,6 +443,12 @@ const PreferenceDefinition preferenceDefinitionTable[] = {
     .defaultValue = DEFAULT_AUTOREPEAT_PANNING,
     .settingNames = &preferenceStringTable_boolean,
     .setting = &prefs.autorepeatPanning
+  },
+
+  { .name = "alternate-paste-mode-enabled",
+    .defaultValue = DEFAULT_ALTERNATE_PASTE_MODE_ENABLED,
+    .settingNames = &preferenceStringTable_boolean,
+    .setting = &prefs.alternatePasteModeEnabled
   },
 
   { .name = "touch-navigation",
@@ -524,16 +537,21 @@ const PreferenceDefinition preferenceDefinitionTable[] = {
     .setting = &prefs.fmVolume
   },
 
+  { .name = "alert-messages",
+    .defaultValue = DEFAULT_ALERT_MESSAGES,
+    .settingNames = &preferenceStringTable_boolean,
+    .setting = &prefs.alertMessages
+  },
+
   { .name = "alert-dots",
     .defaultValue = DEFAULT_ALERT_DOTS,
     .settingNames = &preferenceStringTable_boolean,
     .setting = &prefs.alertDots
   },
 
-  { .name = "alert-messages",
-    .defaultValue = DEFAULT_ALERT_MESSAGES,
-    .settingNames = &preferenceStringTable_boolean,
-    .setting = &prefs.alertMessages
+  { .name = "alert-dots-duration",
+    .defaultValue = DEFAULT_ALERT_DOTS_DURATION,
+    .setting = &prefs.alertDotsDuration
   },
 
   { .name = "speech-volume",
@@ -567,6 +585,21 @@ const PreferenceDefinition preferenceDefinitionTable[] = {
     .defaultValue = DEFAULT_SPEECH_WHITESPACE_INDICATOR,
     .settingNames = &preferenceStringTable_speechWhitespaceIndicator,
     .setting = &prefs.speechWhitespaceIndicator
+  },
+
+  { .name = "speech-char-autorepeat-interval",
+    .defaultValue = DEFAULT_SPEECH_CHAR_AUTOREPEAT_INTERVAL,
+    .setting = &prefs.speechCharAutorepeatInterval
+  },
+
+  { .name = "speech-word-autorepeat-interval",
+    .defaultValue = DEFAULT_SPEECH_WORD_AUTOREPEAT_INTERVAL,
+    .setting = &prefs.speechWordAutorepeatInterval
+  },
+
+  { .name = "speech-line-autorepeat-interval",
+    .defaultValue = DEFAULT_SPEECH_LINE_AUTOREPEAT_INTERVAL,
+    .setting = &prefs.speechLineAutorepeatInterval
   },
 
   { .name = "say-line-mode",

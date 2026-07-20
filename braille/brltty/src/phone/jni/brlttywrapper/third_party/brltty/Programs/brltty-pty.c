@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -29,6 +29,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <sys/wait.h>
+#include <sys/ioctl.h>
 
 #include "log.h"
 #include "cmdline.h"
@@ -53,7 +54,7 @@ static int opt_logOutput;
 static int opt_logSequences;
 static int opt_logUnexpected;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "driver-directives",
     .letter = 'x',
     .setting.flag = &opt_driverDirectives,
@@ -117,7 +118,27 @@ BEGIN_OPTION_TABLE(programOptions)
     .setting.flag = &opt_logUnexpected,
     .description = strtext("log unexpected input/output")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-pty",
+  .purpose = strtext("Run a shell or terminal manager within a pty (virtual terminal) and export its screen via a shared memory segment so that brltty can read it via its Terminal Emulator screen driver."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "command",
+    .description = "the command, followed by its arguments, to run",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 static void writeDriverDirective (const char *format, ...) PRINTF(1, 2);
 
@@ -139,6 +160,18 @@ writeDriverDirective (const char *format, ...) {
 }
 
 static int
+setWindowSize (int tty, size_t width, size_t height) {
+  struct winsize size = {
+    .ws_col = width,
+    .ws_row = height,
+  };
+
+  if (ioctl(tty, TIOCSWINSZ, &size) != -1) return 1;
+  logSystemError("ioctl[TIOCSWINSZ]");
+  return 0;
+}
+
+static int
 setEnvironmentString (const char *variable, const char *string) {
   int result = setenv(variable, string, 1);
   if (result != -1) return 1;
@@ -155,8 +188,8 @@ setEnvironmentInteger (const char *variable, int integer) {
 }
 
 static int
-setEnvironmentVariables (void) {
-  if (!setEnvironmentString("TERM_PROGRAM", programName)) return 0;
+setEnvironmentVariables (size_t *width, size_t *height) {
+  if (!setEnvironmentString("TERM_PROGRAM", getProgramName())) return 0;
   if (!setEnvironmentString("TERM_PROGRAM_VERSION", PACKAGE_VERSION)) return 0;
 
   {
@@ -177,49 +210,55 @@ setEnvironmentVariables (void) {
     }
   }
 
-  {
-    size_t width, height;
-
-    if (getConsoleSize(&width, &height)) {
-      if (!setEnvironmentInteger("COLUMNS", width)) return 0;
-      if (!setEnvironmentInteger("LINES", height)) return 0;
-    }
+  if (getConsoleSize(width, height)) {
+    if (!setEnvironmentInteger("COLUMNS", *width)) return 0;
+    if (!setEnvironmentInteger("LINES", *height)) return 0;
+  } else {
+    *width = 0;
+    *height = 0;
   }
 
   return setEnvironmentString("TERM", ptyGetTerminalType());
 }
 
+static PtyObject *ptyObject = NULL;
+
 static int
-prepareChild (PtyObject *pty) {
+prepareChild (void) {
   setsid();
-  ptyCloseMaster(pty);
+  ptyCloseMaster(ptyObject);
 
-  if (setEnvironmentVariables()) {
+  size_t width, height;
+  if (setEnvironmentVariables(&width, &height)) {
     int tty;
-    if (!ptyOpenSlave(pty, &tty)) return 0;
-    int keep = 0;
+    if (!ptyOpenSlave(ptyObject, &tty)) return 0;
+    setWindowSize(tty, width, height);
 
-    for (int fd=0; fd<=2; fd+=1) {
-      if (fd == tty) {
-        keep = 1;
-      } else {
-        int result = dup2(tty, fd);
+    {
+      int keep = 0;
 
-        if (result == -1) {
-          logSystemError("dup2");
-          return 0;
+      for (int fd=0; fd<=2; fd+=1) {
+        if (fd == tty) {
+          keep = 1;
+        } else {
+          int result = dup2(tty, fd);
+
+          if (result == -1) {
+            logSystemError("dup2");
+            return 0;
+          }
         }
       }
-    }
 
-    if (!keep) close(tty);
+      if (!keep) close(tty);
+    }
   }
 
   return 1;
 }
 
 static int
-runChild (PtyObject *pty, char **command) {
+runChild (char **command) {
   char *defaultCommand[2];
 
   if (!(command && *command)) {
@@ -228,11 +267,12 @@ runChild (PtyObject *pty, char **command) {
 
     defaultCommand[0] = shell;
     defaultCommand[1] = NULL;
+
     command = defaultCommand;
   }
 
-  if (prepareChild(pty)) {
-    int result = execvp(*command, command);
+  if (prepareChild()) {
+    int result = execvp(command[0], command);
 
     if (result == -1) {
       switch (errno) {
@@ -268,6 +308,16 @@ parentQuitMonitor (int signalNumber) {
 }
 
 static void
+windowSizeMonitor (int signalNumber) {
+  size_t width, height;
+
+  if (getConsoleSize(&width, &height)) {
+    setWindowSize(ptyGetMaster(ptyObject), width, height);
+    ptyResizeTerminal(height, width);
+  }
+}
+
+static void
 childTerminationMonitor (int signalNumber) {
   childHasTerminated = 1;
 }
@@ -277,13 +327,13 @@ installSignalHandlers (void) {
   if (!asyncHandleSignal(SIGTERM, parentQuitMonitor, NULL)) return 0;
   if (!asyncHandleSignal(SIGINT, parentQuitMonitor, NULL)) return 0;
   if (!asyncHandleSignal(SIGQUIT, parentQuitMonitor, NULL)) return 0;
+  if (!asyncHandleSignal(SIGWINCH, windowSizeMonitor, NULL)) return 0;
   return asyncHandleSignal(SIGCHLD, childTerminationMonitor, NULL);
 }
 
 static
 ASYNC_MONITOR_CALLBACK(standardInputMonitor) {
-  PtyObject *pty = parameters->data;
-  if (ptyProcessTerminalInput(pty)) return 1;
+  if (ptyProcessTerminalInput(ptyObject)) return 1;
 
   parentIsQuitting = 1;
   return 0;
@@ -336,28 +386,28 @@ reapExitStatus (pid_t pid) {
   return PROG_EXIT_FATAL;
 }
 
-static int
-runParent (PtyObject *pty, pid_t child) {
-  int exitStatus = PROG_EXIT_FATAL;
+static ProgramExitStatus
+runParent (pid_t child) {
+  ProgramExitStatus exitStatus = PROG_EXIT_FATAL;
   AsyncHandle ptyInputHandle;
 
   parentIsQuitting = 0;
   childHasTerminated = 0;
   slaveHasBeenClosed = 0;
 
-  if (asyncReadFile(&ptyInputHandle, ptyGetMaster(pty), 1, ptyInputHandler, NULL)) {
+  if (asyncReadFile(&ptyInputHandle, ptyGetMaster(ptyObject), 1, ptyInputHandler, NULL)) {
     AsyncHandle standardInputHandle;
 
-    if (asyncMonitorFileInput(&standardInputHandle, STDIN_FILENO, standardInputMonitor, pty)) {
+    if (asyncMonitorFileInput(&standardInputHandle, STDIN_FILENO, standardInputMonitor, NULL)) {
       if (installSignalHandlers()) {
         if (!isatty(2)) {
           unsigned char level = LOG_NOTICE;
           ptySetTerminalLogLevel(level);
-          ptySetLogLevel(pty, level);
+          ptySetLogLevel(ptyObject, level);
         }
 
-        if (ptyBeginTerminal(pty, opt_driverDirectives)) {
-          writeDriverDirective("path %s", ptyGetPath(pty));
+        if (ptyBeginTerminal(ptyObject, opt_driverDirectives)) {
+          writeDriverDirective("path %s", ptyGetPath(ptyObject));
 
           asyncAwaitCondition(INT_MAX, parentTerminationTester, NULL);
           if (!parentIsQuitting) exitStatus = reapExitStatus(child);
@@ -377,22 +427,9 @@ runParent (PtyObject *pty, pid_t child) {
 
 int
 main (int argc, char *argv[]) {
-  int exitStatus = PROG_EXIT_FATAL;
-  PtyObject *pty;
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-pty",
-
-      .usage = {
-        .purpose = strtext("Run a shell or terminal manager within a pty (virtual terminal) and export its screen via a shared memory segment so that brltty can read it via its Terminal Emulator screen driver."),
-        .parameters = "[command [arg ...]]",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
+  ProgramExitStatus exitStatus = PROG_EXIT_FATAL;
 
   ptySetLogTerminalInput(opt_logInput);
   ptySetLogTerminalOutput(opt_logOutput);
@@ -455,9 +492,9 @@ main (int argc, char *argv[]) {
     }
   }
 
-  if ((pty = ptyNewObject())) {
-    ptySetLogInput(pty, opt_logInput);
-    const char *ttyPath = ptyGetPath(pty);
+  if ((ptyObject = ptyNewObject())) {
+    ptySetLogInput(ptyObject, opt_logInput);
+    const char *ttyPath = ptyGetPath(ptyObject);
 
     if (opt_showPath) {
       FILE *stream = stderr;
@@ -472,14 +509,15 @@ main (int argc, char *argv[]) {
         break;
 
       case 0:
-        _exit(runChild(pty, argv));
+        _exit(runChild(argv));
 
       default:
-        exitStatus = runParent(pty, child);
+        exitStatus = runParent(child);
         break;
     }
 
-    ptyDestroyObject(pty);
+    ptyDestroyObject(ptyObject);
+    ptyObject = NULL;
   }
 
   return exitStatus;

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,14 +19,19 @@
 #include "prologue.h"
 
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
 #include "strfmt.h"
 #include "cmd_queue.h"
 #include "cmd_miscellaneous.h"
 #include "cmd_utils.h"
 #include "brl_cmds.h"
-#include "prefs.h"
+#include "scr.h"
 #include "scr_special.h"
+#include "color.h"
+#include "unicode.h"
+#include "prefs.h"
 #include "message.h"
 #include "alert.h"
 #include "core.h"
@@ -149,7 +154,69 @@ showTime (const TimeFormattingData *fmt) {
   char buffer[0X80];
 
   formatBrailleTime(buffer, sizeof(buffer), fmt);
-  message(NULL, buffer, MSG_SILENT);
+  message("time", buffer, MSG_SILENT);
+}
+
+static void
+showCharacterDescription (int column, int row) {
+  ScreenCharacter character;
+  readScreenCharacter(column, row, &character);
+
+  char description[0X80];
+  STR_BEGIN(description, sizeof(description));
+
+  {
+    char name[0X40];
+
+    if (getCharacterName(character.text, name, sizeof(name))) {
+      {
+        size_t length = strlen(name);
+        for (int i=0; i<length; i+=1) name[i] = tolower(name[i]);
+      }
+
+      STR_PRINTF("%s: ", name);
+    }
+  }
+
+  {
+    uint32_t text = character.text;
+    STR_PRINTF("U+%04" PRIX32 " (%" PRIu32 "): ", text, text);
+  }
+
+  STR_FORMAT(formatScreenColor, &character.color);
+
+  STR_END;
+  message("char", description, 0);
+}
+
+static
+STR_BEGIN_FORMATTER(formatRGBColor, RGBColor color)
+  STR_PRINTF("%02X%02X%02X", color.r, color.g, color.b);
+STR_END_FORMATTER
+
+static void
+showColorDescription (int column, int row) {
+  ScreenCharacter character;
+  readScreenCharacter(column, row, &character);
+  const ScreenColor *color = &character.color;
+
+  char description[0X80];
+  STR_BEGIN(description, sizeof(description));
+
+  STR_FORMAT(formatScreenColor, color);
+  STR_PRINTF(": ");
+
+  if (color->usingRGB) {
+    STR_PRINTF("RGB ");
+    STR_FORMAT(formatRGBColor, color->foreground);
+    STR_PRINTF(" / ");
+    STR_FORMAT(formatRGBColor, color->background);
+  } else {
+    STR_PRINTF("VGA %02X", color->vgaAttributes);
+  }
+
+  STR_END;
+  message("color", description, 0);
 }
 
 static int
@@ -210,7 +277,7 @@ handleMiscellaneousCommands (int command, void *data) {
       if (ok) {
         infoMode = 0;
       } else {
-        message(NULL, gettext("help not available"), 0);
+        message("warn", gettext("help not available"), 0);
       }
 
       break;
@@ -247,11 +314,19 @@ handleMiscellaneousCommands (int command, void *data) {
           int column, row;
 
           if (getCharacterCoordinates(arg, &row, &column, NULL, 0)) {
-            char description[0X80];
-            STR_BEGIN(description, sizeof(description));
-            STR_FORMAT(formatCharacterDescription, column, row);
-            STR_END;
-            message(NULL, description, 0);
+            showCharacterDescription(column, row);
+          } else {
+            alert(ALERT_COMMAND_REJECTED);
+          }
+
+          break;
+        }
+
+        case BRL_CMD_BLK(COLOR): {
+          int column, row;
+
+          if (getCharacterCoordinates(arg, &row, &column, NULL, 0)) {
+            showColorDescription(column, row);
           } else {
             alert(ALERT_COMMAND_REJECTED);
           }

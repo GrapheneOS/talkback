@@ -144,6 +144,10 @@ LOCAL_SRC_FILES+= \
 # Other, not sure where they come from.
 LOCAL_SRC_FILES+= \
 	Programs/cmdline.c \
+	Programs/cmdbase.c \
+	Programs/cmdput.c \
+	Programs/color.c \
+	Programs/match.c \
 	Programs/pgmprivs_none.c \
 	Programs/service_none.c \
 	Programs/spk_input.c \

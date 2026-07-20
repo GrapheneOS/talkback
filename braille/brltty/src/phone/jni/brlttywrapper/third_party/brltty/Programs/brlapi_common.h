@@ -1,7 +1,7 @@
 /*
  * libbrlapi - A library providing access to braille terminals for applications.
  *
- * Copyright (C) 2002-2024 by
+ * Copyright (C) 2002-2026 by
  *   Samuel Thibault <Samuel.Thibault@ens-lyon.org>
  *   Sébastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
  *
@@ -159,7 +159,7 @@ typedef struct {
   uint32_t content[BRLAPI_MAXPACKETSIZE/sizeof(uint32_t)+1]; /* +1 for additional \0 */
   PacketState state;
   int readBytes; /* Already read bytes */
-  unsigned char *p; /* Where read() should load datas */
+  unsigned char *p; /* Where read() should load data */
   int n; /* Value to give so read() */
 #ifdef __MINGW32__
   OVERLAPPED overl;
@@ -366,7 +366,7 @@ ssize_t BRLAPI(readPacket)(brlapi_fileDescriptor fd, brlapi_packetType_t *packet
 /* Function : brlapi_loadAuthKey */
 /* Loads an authorization key from the given file */
 /* It is stored in auth, and its size in authLength */
-/* If the file is non-existant or unreadable, returns -1 */
+/* If the file is non-existent or unreadable, returns -1 */
 static int BRLAPI(loadAuthKey)(const char *filename, size_t *authlength, void *auth)
 {
   int fd;

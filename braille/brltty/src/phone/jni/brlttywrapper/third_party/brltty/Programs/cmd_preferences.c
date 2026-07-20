@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2024 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -42,9 +42,9 @@ save (void) {
   int saved = savePreferences();
 
   if (saved) {
-    alert(ALERT_COMMAND_DONE);
+    alert(ALERT_DATA_SAVED);
   } else {
-    message(NULL, gettext("not saved"), 0);
+    message("warn", gettext("not saved"), 0);
   }
 
   return saved;
@@ -52,7 +52,6 @@ save (void) {
 
 static int
 handlePreferencesCommands (int command, void *data) {
-  static const char modeString_preferences[] = "prf";
   PreferencesCommandData *pcd = data;
 
   switch (command & BRL_MSK_CMD) {
@@ -79,36 +78,42 @@ handlePreferencesCommands (int command, void *data) {
       break;
     }
 
-    case BRL_CMD_PREFSAVE:
+    case BRL_CMD_PREFSAVE: {
       if (isSpecialScreen(SCR_MENU)) {
         save();
         deactivateSpecialScreen(SCR_MENU);
       } else if (!save()) {
         alert(ALERT_COMMAND_REJECTED);
       }
-      break;
 
-    case BRL_CMD_PREFLOAD:
+      break;
+    }
+
+    case BRL_CMD_PREFLOAD: {
       if (isSpecialScreen(SCR_MENU)) {
         setPreferences(&pcd->savedPreferences);
         menuScreenUpdated();
-        message(modeString_preferences, gettext("changes discarded"), 0);
+        message("warn", gettext("changes discarded"), 0);
       } else if (loadPreferences(0)) {
         menuScreenUpdated();
-        alert(ALERT_COMMAND_DONE);
+        alert(ALERT_DATA_RESTORED);
       } else {
         alert(ALERT_COMMAND_REJECTED);
       }
-      break;
 
-    case BRL_CMD_PREFRESET:
+      break;
+    }
+
+    case BRL_CMD_PREFRESET: {
       if (loadPreferences(1)) {
         menuScreenUpdated();
-        alert(ALERT_COMMAND_DONE);
+        alert(ALERT_DATA_RESTORED);
       } else {
         alert(ALERT_COMMAND_REJECTED);
       }
+
       break;
+    }
 
     default: {
       int arg = command & BRL_MSK_ARG;

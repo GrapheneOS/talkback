@@ -24,7 +24,7 @@
  * @brief Logging
  */
 
-#include <config.h>
+#include "config.h"
 
 #include <ctype.h>
 #include <stddef.h>
@@ -37,6 +37,7 @@
 
 void EXPORT_CALL
 _lou_logWidecharBuf(logLevels level, const char *msg, const widechar *wbuf, int wlen) {
+	if (wlen <= 0) return;
 	/* When calculating output size:
 	 * Each wdiechar is represented in hex, thus needing two bytes for each
 	 * byte in the widechar (sizeof(widechar) * 2)
@@ -106,28 +107,28 @@ getLogLevelFromEnvironment() {
 		/* Log levels names are unique by their first character */
 		switch (tolower(log_level_str[0])) {
 		case 'a':
-			logLevel = LOU_LOG_ALL;
+			lou_setLogLevel(LOU_LOG_ALL);
 			break;
 		case 'd':
-			logLevel = LOU_LOG_DEBUG;
+			lou_setLogLevel(LOU_LOG_DEBUG);
 			break;
 		case 'i':
-			logLevel = LOU_LOG_INFO;
+			lou_setLogLevel(LOU_LOG_INFO);
 			break;
 		case 'w':
-			logLevel = LOU_LOG_WARN;
+			lou_setLogLevel(LOU_LOG_WARN);
 			break;
 		case 'e':
-			logLevel = LOU_LOG_ERROR;
+			lou_setLogLevel(LOU_LOG_ERROR);
 			break;
 		case 'f':
-			logLevel = LOU_LOG_FATAL;
+			lou_setLogLevel(LOU_LOG_FATAL);
 			break;
 		case 'o':
-			logLevel = LOU_LOG_OFF;
+			lou_setLogLevel(LOU_LOG_OFF);
 			break;
 		default:
-			logLevel = LOU_LOG_INFO;
+			lou_setLogLevel(LOU_LOG_INFO);
 			_lou_logMessage(LOU_LOG_WARN,
 					"Unknown log level set by LOUIS_LOGLEVEL environment variable: %s",
 					log_level_str);

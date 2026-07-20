@@ -23,7 +23,7 @@
  * @brief Find translation tables
  */
 
-#include <config.h>
+#include "config.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -298,8 +298,10 @@ parseLanguageTag(const char *val) {
 		for (; len <= 8; len++)
 			if (!val[len] || !isAlphaNum(val[len]) || (!list && !isAlpha(val[len])))
 				break;
-		if (len < 1 || len > 8) return NULL;
-		if (val[len] && val[len] != '-') return NULL;
+		if (len < 1 || len > 8 || (val[len] && val[len] != '-')) {
+			list_free(list);
+			return NULL;
+		}
 		*subtag = '\0';
 		strncat(subtag, val, len);
 		*tail = list_conj(NULL, strdup(subtag), NULL, (void *(*)(void *))strdup, free);
@@ -1027,8 +1029,7 @@ listFiles(char *searchPath) {
 	int pos = 0;
 	int n;
 	while (1) {
-		for (n = 0; searchPath[pos + n] != '\0' && searchPath[pos + n] != ','; n++)
-			;
+		for (n = 0; searchPath[pos + n] != '\0' && searchPath[pos + n] != ','; n++);
 		dirName = malloc(n + 1);
 		dirName[n] = '\0';
 		memcpy(dirName, &searchPath[pos], n);
@@ -1051,6 +1052,10 @@ indexTablePath(void) {
 	_lou_logMessage(
 			LOU_LOG_WARN, "Tables have not been indexed yet. Indexing LOUIS_TABLEPATH.");
 	searchPath = _lou_getTablePath();
+	if (searchPath == NULL) {
+		_lou_logMessage(LOU_LOG_ERROR, "Failed to get table path");
+		return;
+	}
 	tables = listFiles(searchPath);
 	tablesArray = list_toArray(tables, 0);
 	lou_indexTables(tablesArray);

@@ -250,9 +250,5 @@
             android:name="support_lift_to_type"
             android:value="@bool/support_lift_to_type" />
 
-        <meta-data
-            android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="ocr" />
-
     </application>
 </manifest>

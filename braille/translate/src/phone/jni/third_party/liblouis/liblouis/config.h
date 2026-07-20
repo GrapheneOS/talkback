@@ -640,7 +640,7 @@
 /* #undef PACKAGE_PACKAGER_VERSION */
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Liblouis 3.35.0"
+#define PACKAGE_STRING "Liblouis 3.38.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "liblouis"
@@ -649,7 +649,7 @@
 #define PACKAGE_URL "http://www.liblouis.io"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.35.0"
+#define PACKAGE_VERSION "3.38.0"
 
 /* Define to the type that is the result of default argument promotions of
    type mode_t. */
@@ -797,7 +797,7 @@
 
 
 /* Version number of package */
-#define VERSION "3.35.0"
+#define VERSION "3.38.0"
 
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'wchar_t'. */

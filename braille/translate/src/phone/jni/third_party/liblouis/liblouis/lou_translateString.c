@@ -29,7 +29,7 @@
  * @brief Translate to braille
  */
 
-#include <config.h>
+#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1013,9 +1013,8 @@ passDoAction(const TranslationTableHeader *table, const InString **input,
 		case pass_copy: {
 			int count = destStartReplace - destStartMatch;
 			if (count > 0) {
-				if (destStartReplace + count > output->maxlength) return 0;
 				memmove(&output->chars[destStartMatch], &output->chars[destStartReplace],
-						count * sizeof(*output->chars));
+						(output->length - destStartReplace) * sizeof(*output->chars));
 				output->length -= count;
 				destStartReplace = destStartMatch;
 			}
@@ -1186,16 +1185,19 @@ _lou_translate(const char *tableList, const char *displayTableList,
 	if (tableList == NULL || inbufx == NULL || inlen == NULL || outbuf == NULL ||
 			outlen == NULL)
 		return 0;
+	if (*inlen < 0 || *outlen < 0) return 0;
 	_lou_logMessage(LOU_LOG_ALL, "Performing translation: tableList=%s, inlen=%d",
 			tableList, *inlen);
 	_lou_logWidecharBuf(LOU_LOG_ALL, "Inbuf=", inbufx, *inlen);
 
-	if (!_lou_isValidMode(mode))
+	if (!_lou_isValidMode(mode)) {
 		_lou_logMessage(LOU_LOG_ERROR, "Invalid mode parameter: %d", mode);
+		return 0;
+	}
 
 	if (displayTableList == NULL) displayTableList = tableList;
 	_lou_getTable(tableList, displayTableList, &table, &displayTable);
-	if (table == NULL || *inlen < 0 || *outlen < 0) return 0;
+	if (table == NULL) return 0;
 	k = 0;
 	while (k < *inlen && inbufx[k]) k++;
 	input = (InString){ .chars = inbufx, .length = k, .bufferIndex = -1 };
@@ -1578,7 +1580,9 @@ syllableBreak(const TranslationTableHeader *table, int pos, const InString *inpu
 		free(hyphens);
 		return 0;
 	}
-	for (k = pos - wordStart + 1; k < (pos - wordStart + transCharslen); k++)
+	int limit = pos - wordStart + transCharslen;
+	if (limit > wordSize) limit = wordSize;
+	for (k = pos - wordStart + 1; k < limit; k++)
 		if (hyphens[k] & 1) {
 			free(hyphens);
 			return 1;
@@ -1829,9 +1833,7 @@ noCompbrlAhead(const TranslationTableHeader *table, int pos, int mode,
 						break;
 				}
 				if (tryThis == 1 || k == testRule->charslen) {
-					if (testRule->opcode == CTO_CompBrl ||
-							testRule->opcode == CTO_Literal)
-						return 0;
+					if (testRule->opcode == CTO_CompBrl) return 0;
 				}
 				ruleOffset = testRule->charsnext;
 			}
@@ -1862,8 +1864,7 @@ isRepeatedWord(const TranslationTableHeader *table, int pos, const InString *inp
 	for (len = 1; pos - len >= 0 && pos + transCharslen + len - 1 < input->length &&
 			checkCharAttr(input->chars[pos - len], CTC_Letter, table) &&
 			checkCharAttr(input->chars[pos + transCharslen + len - 1], CTC_Letter, table);
-			len++)
-		;
+			len++);
 	len--;
 	/* now actually compare the parts, starting with the maximal length and making them
 	 * shorter if they don't match */
@@ -2048,7 +2049,6 @@ for_selectRule(const TranslationTableHeader *table, int pos, OutString output,
 						case CTO_Hyphen:
 						case CTO_Replace:
 						case CTO_CompBrl:
-						case CTO_Literal:
 							return;
 						case CTO_Repeated:
 							if (dontContract || (mode & noContractions)) break;
@@ -2160,16 +2160,22 @@ for_selectRule(const TranslationTableHeader *table, int pos, OutString output,
 							break;
 						case CTO_SuffixableWord:
 							if (dontContract || (mode & noContractions)) break;
-							if ((beforeAttributes & (CTC_Space | CTC_Punctuation)) &&
+							if ((beforeAttributes &
+										(CTC_Space | CTC_Punctuation |
+												CTC_SeqDelimiter)) &&
 									(afterAttributes &
-											(CTC_Space | CTC_Letter | CTC_Punctuation)))
+											(CTC_Space | CTC_Letter | CTC_Punctuation |
+													CTC_SeqDelimiter)))
 								return;
 							break;
 						case CTO_PrefixableWord:
 							if (dontContract || (mode & noContractions)) break;
 							if ((beforeAttributes &
-										(CTC_Space | CTC_Letter | CTC_Punctuation)) &&
-									(afterAttributes & (CTC_Space | CTC_Punctuation)))
+										(CTC_Space | CTC_Letter | CTC_Punctuation |
+												CTC_SeqDelimiter)) &&
+									(afterAttributes &
+											(CTC_Space | CTC_Punctuation |
+													CTC_SeqDelimiter)))
 								return;
 							break;
 						case CTO_BegWord:
@@ -3712,7 +3718,6 @@ translateString(const TranslationTableHeader *table, int mode, int currentPass,
 		switch (transOpcode) /* Rules that pre-empt context and swap */
 		{
 		case CTO_CompBrl:
-		case CTO_Literal:
 			if (!doCompbrl(table, &pos, input, output, posMapping, emphasisBuffer,
 						&transRule, cursorPosition, cursorStatus, &lastWord,
 						&insertEmphasesFrom, mode))
@@ -3881,8 +3886,7 @@ translateString(const TranslationTableHeader *table, int mode, int currentPass,
 			int dotslen = transRule->dotslen;
 			if (transOpcode == CTO_RepEndWord) {
 				int k;
-				for (k = 1; dots[k] != ','; k++)
-					;
+				for (k = 1; dots[k] != ','; k++);
 				k++;
 				dots = &dots[k];
 				dotslen -= k;
@@ -3936,8 +3940,7 @@ translateString(const TranslationTableHeader *table, int mode, int currentPass,
 			 */
 			const widechar *dots = &transRule->charsdots[transCharslen];
 			int dotslen;
-			for (dotslen = 1; dots[dotslen] != ','; dotslen++)
-				;
+			for (dotslen = 1; dots[dotslen] != ','; dotslen++);
 			if ((output->length + dotslen) > output->maxlength) goto failure;
 			int k;
 			for (k = output->length - 1; k >= 0; k--)
@@ -4001,7 +4004,8 @@ translateString(const TranslationTableHeader *table, int mode, int currentPass,
 		default:
 			break;
 		}
-		if (srcSpacing != NULL && srcSpacing[pos] >= '0' && srcSpacing[pos] <= '9')
+		if (srcSpacing != NULL && pos < input->length && srcSpacing[pos] >= '0' &&
+				srcSpacing[pos] <= '9')
 			destSpacing[output->length] = srcSpacing[pos];
 		if ((transOpcode >= CTO_Always && transOpcode <= CTO_None) ||
 				(transOpcode >= CTO_Digit && transOpcode <= CTO_LitDigit))
@@ -4048,7 +4052,7 @@ isHyphen(const TranslationTableHeader *table, widechar c) {
 	while (offset) {
 		rule = (TranslationTableRule *)&table->ruleArea[offset];
 		if (rule->opcode == CTO_Hyphen) return 1;
-		offset = rule->dotsnext;
+		offset = rule->charsnext;
 	}
 	return 0;
 }

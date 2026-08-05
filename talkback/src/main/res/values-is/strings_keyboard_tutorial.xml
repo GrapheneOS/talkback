@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Þetta er leiðsögn fyrir endurbætta flýtilyklakortið, sem felur í sér margar nýjar skipanir. Til að velja flýtilyklakort skaltu fara í „Stillingar TalkBack &gt; Ítarlegar stillingar &gt; Flýtilyklar“.\n\nÝttu á aðgerðalykilinn + ör til hægri til að velja umfjöllunarefni. Kveiktu á TalkBack áður en þú byrjar til að fá sem mest út úr upplifuninni.</string>
+  <string name="basic_interaction_link_text">Grundvallarnotkun</string>
+  <string name="basic_interaction_link_subtext">Flettu á milli atriða, lestu línur, notaðu valmyndir og fleira</string>
+  <string name="browse_mode_link_text">Flettihamur</string>
+  <string name="browse_mode_link_subtext">Flettu hraðar í vefefni með hoppskipunum</string>
+  <string name="reading_controls_link_text">Lesstýringar</string>
+  <string name="reading_controls_link_subtext">Notaðu lesstýringar til að hoppa á milli atriða, stilla talstillingar og fleira</string>
+  <string name="image_descriptions_link_text">Myndalýsingar</string>
+  <string name="image_descriptions_link_subtext">Prófaðu að fá lýsingar á myndum</string>
+  <string name="keyboard_shortcuts_link_text">Æfðu þig í að nota flýtilykla</string>
+  <string name="keyboard_shortcuts_link_subtext">Ýttu á lykla og lyklasamsetningar og kynntu þér tilgang þeirra</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack býður upp á raddsvörun svo að þú getir notað tækið þitt án þess að horfa á skjáinn. TalkBack getur gagnast fólki sem á erfitt með að sjá á skjáinn. Þegar kveikt er á TalkBack er atriðið sem er í fókus á skjánum lesið upphátt.\n\nByrjum á því að kynna okkur lyklaborðið. Finndu aðgerðalykilinn sem er fyrir ofan vinstri Shift-lykilinn. Nú skulum við finna örvalyklana neðst til hægri á lyklaborðinu. Ýttu á aðgerðalykilinn + ör til hægri til að fara í næsta atriði.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Þetta er næsta atriði. Ýttu á aðgerðalykilinn + ör til vinstri til að fara í fyrra atriði.\n\nÞegar þú ferð í gagnvirkt atriði, t.d. hnapp, ýtirðu á aðgerðalykilinn + bilslá til að virkja það. Finndu hnappinn „Áfram“ og haltu áfram með leiðsögnina.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Lestu stafi, orð eða málsgreinar</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Stundum viltu kannski heyra orð lesin upp staf fyrir staf.\n\nÞú getur notað flettingu með lesstýringum að gera það. Ýttu á aðgerðalykilinn + Shift + ör til hægri eða vinstri þar til þú heyrir „characters“ (stafir).\n\nÝttu síðan á aðgerðalykilinn + ör upp til að færa flettifókusinn aftur um staf. Ýttu á aðgerðalykilinn + ör niður til að færa flettifókusinn áfram um staf.\n\nPrófaðu þetta núna. Þú getur einnig valið að lesa orð, línur eða málsgreinar með því að ýta á aðgerðalykilinn + Shift + ör til hægri eða vinstri.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Kerfisfletting</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Ef þú prófar þessa flýtilykla núna lýkur leiðsögninni. Þú vilt kannski bíða þar til leiðsögninni lýkur.\n\nTil að skipta á milli opinna forritsglugga og kerfisatriða á borð við tilkynningar og verkefnastikuna skaltu ýta á aðgerðalykilinn + Alt + Ctrl + ör upp eða niður.\n\nÝttu á aðgerðalykilinn til að opna forritalistann.\n\nÝttu á aðgerðalykilinn + H eða „Heim“ í efstu línu til að fara á heimaskjáinn og loka öllum opnum gluggum.\n\nÝttu á aðgerðalykilinn + dálkalykilinn eða á „Yfirlit“ í efstu línu til að fara í nýleg forrit.\n\nHaltu Alt-lyklinum inni og ýttu á dálkalykilinn til að skipta fljótt á milli glugga.\n\nÝttu á aðgerðalykilinn + Esc eða „Til baka“ í efstu línu til að fara til baka.\n\nÝttu á aðgerðalykilinn + N til að opna tilkynningar.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Breyttu talstillingum</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Hljóðstyrkur á tali TalkBack kallast hljóðstyrkur aðgengis. Hann er stilltur sér, óháð hljóðstyrk margmiðlunarefnis.\n\nTil að stilla hljóðstyrk aðgengis skaltu ýta á aðgerðalykilinn + hnapp til að hækka eða lækka hljóðstyrk.\n\nTil að stilla talhraða skaltu ýta á aðgerðalykilinn + Ctrl + hnappinn til að hækka hljóðstyrk til að hækka hann og aðgerðalykilinn + Ctrl + hnappinn til að lækka hljóðstyrk til að lækka hann.\n\nÞú getur ýtt á Ctrl til að stöðva tal hvenær sem er.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Valmynd TalkBack og fleiri flýtilyklar</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Á TalkBack-valmyndinni eru stillingar og stýringar sem þú gætir þurft að nota oft.\n\nTil að opna TalkBack-valmyndina skaltu ýta á aðgerðalykilinn + Ctrl + M. Þú getur sérsniðið TalkBack-valmyndina og lesstýringarnar síðar í stillingum TalkBack.\n\nValmynd TalkBack-flýtilykla inniheldur alla flýtilykla sem þú getur notað.\n\nTil að opna valmynd flýtilykla skaltu ýta á aðgerðalykilinn + Shift + /.\n\nTil að fá frekari upplýsingar um lyklaborðið og æfa þig í að nota flýtilykla skaltu ýta á aðgerðalykilinn + 0 til að fara á æfingasíðuna.</string>
+  <string name="keyboard_tutorial_finished_page_title">Allt klárt!</string>
+  <string name="keyboard_tutorial_finished_page_text">Nú geturðu notað TalkBack.\n\nHaltu áfram að kynna þér ný umfjöllunarefni núna eða skoðaðu þessar upplýsingar aftur síðar í stillingum TalkBack.\n\nÞú getur kveikt eða slökkt á TalkBack hvenær sem er með því að ýta á aðgerðalykilinn + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Skoðaðu vefefni hraðar í flettiham</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Þegar þú ert í vafra og vefforritum geturðu kveikt á flettiham og hoppað á milli mismunandi nákvæmnisstiga og stýringa með því að ýta á einn lykil. Það gerir flettingu á síðu svipaða og í textavinnslureit, til dæmis örvarnar til vinstri og hægri til að færa bendilinn um staf og örvarnar upp og niður til að færa bendilinn um línu.\n\nTil að kveikja eða slökkva á flettiham skaltu ýta tvisvar á aðgerðalykilinn.\n\nÞegar kveikt er á flettiham skaltu ýta á D til að hoppa á næsta áfangastað, F fyrir næstu stýringu eða eyðublaðsreit, B fyrir næsta hnapp, K fyrir næsta tengil og H fyrir næstu fyrirsögn. Haltu Shift inni og ýttu á þessa lykla til að fara aftur á bak.\n\nÞú getur einnig notað örvarnar upp og niður til að hoppa á milli lína, örvarnar til vinstri og hægri til að hoppa á milli bókstafa og Ctrl + ör til vinstri og hægri til að hoppa á milli orða.\n\nÝttu á aðgerðalykilinn + ör til hægri til að fara á æfingasíðuna. Á æfingasíðunni virka tenglar, eyðublaðsreitir og hnappar ekki.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Stig fyrirsagna</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Vefsvæði og vefforrit nota oft fyrirsagnir á mismunandi stigum til að skipuleggja efnið. Þegar kveikt er á flettiham skaltu ýta á 1 til 6 til að hoppa í fyrirsagnir á samsvarandi stigi. Haltu Shift inni og ýttu á þessa lykla til að fara aftur á bak.\n\nÝttu á aðgerðalykilinn + ör til hægri til að fara á æfingasíðuna.</string>
+  <string name="keyboard_tutorial_tables_page_title">Töflur</string>
+  <string name="keyboard_tutorial_tables_page_text">Flettihamurinn auðveldar einnig flettingu í töflum. Þegar kveikt er á flettiham skaltu ýta á Alt + Ctrl + ör upp og niður til að hoppa á milli lína og Alt + Ctrl + ör til vinstri og hægri til að hoppa á milli dálka.\n\nÝttu á aðgerðalykilinn + ör til hægri til að fara á æfingasíðuna.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Textabreytingar</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Þegar þú slærð inn texta í textareit verður slökkt tímabundið á flettiham svo að þú getir notað alla lyklana. Þú munt heyra tilkynningu og hljóð þegar slökkt er á henni. Þegar þú ferð úr textareitnum kviknar aftur á flettiham og þú munt heyra aðra tilkynningu og hljóð.\n\nÝttu á aðgerðalykilinn + ör til hægri til að fara á æfingasíðuna.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Nánar um flettiham</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Til að sjá heildarlista yfir atriði sem þú getur hoppað á milli í flettiham skaltu ýta á aðgerðalykilinn + Shift + / og leita að „Flettihamur“ á flýtilyklavalmyndinni.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Lestu stafi, orð eða málsgreinar</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Stundum viltu kannski heyra orð lesin upp staf fyrir staf.\n\nÞú getur notað flettingu með lesstýringum að gera það. Ýttu á aðgerðalykilinn + Shift + ör til hægri eða vinstri þar til þú heyrir „characters“ (stafir). Ýttu síðan á aðgerðalykilinn + ör upp til að færa flettifókusinn aftur um staf. Ýttu á aðgerðalykilinn + ör niður til að færa flettifókusinn áfram um staf.\n\nPrófaðu þetta núna. Þú getur einnig valið að lesa orð, línur eða málsgreinar með því að ýta á aðgerðalykilinn + Shift + ör til hægri eða vinstri.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Hoppaðu á milli stýringa</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Stýringar eru atriði sem þú getur brugðist við, t.d. hnappar, gátreitir og textareitir.\n\nÁ sumum síðum getur verið gagnlegt að hoppa á milli stýringa til að finna aðgerð í skyndi, t.d. hnappinn „Áfram“.\n\nÞetta geturðu gert með því að ýta á aðgerðalykilinn + Shift + ör til hægri þar til þú heyrir „controls“ (stýringar). Ýttu síðan á aðgerðalykilinn + ör upp til að fara í fyrri hnapp og aðgerðalykilinn + ör niður til að fara í næsta hnapp.\n\nPrófaðu þetta núna og finndu hnappinn „Áfram“.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Hoppaðu á milli tengla</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Þú getur einnig hoppað á milli tengla á síðu.\n\nTil að gera það skaltu ýta á aðgerðalykilinn + Shift + ör til hægri þar til þú heyrir „links“ (tenglar). Ýttu síðan á aðgerðalykilinn + ör niður til að finna tengilinn „Tengill 5“. Á meðan á leiðsögninni stendur gerist ekkert þótt þú ýtir tvisvar á þennan tengil.\n\nÝttu á aðgerðalykilinn + ör til hægri til að finna hnappinn „Áfram“ og fara á næstu síðu.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Hoppaðu á milli fyrirsagna</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Þú getur einnig hoppað á milli fyrirsagna á síðu.\n\nTil að prófa það núna skaltu ýta á aðgerðalykilinn + Shift + ör til hægri þar til þú heyrir „headings“ (fyrirsagnir). Ýttu síðan á aðgerðalykilinn + ör niður til að finna fyrirsögnina „Fletting“.</string>
+  <string name="keyboard_tutorial_find_next_button">Ýttu á aðgerðalykilinn + ör til hægri til að finna hnappinn „Áfram“.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Hoppaðu á milli geyma</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Ýttu á aðgerðalykilinn + Alt + Ctrl + ör til hægri eða vinstri til að loka geymi, t.d. lista eða yfirliti. Þetta er gagnlegt þegar þú vilt loka löngum lista yfir atriði.\n\nÝttu á aðgerðalykilinn + ör til hægri til að opna lista og prófa þetta núna. Ýttu síðan á aðgerðalykilinn + Alt + Ctrl + ör til hægri til að fara í næsta geymi.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Ýttu á aðgerðalykilinn + Alt + Ctrl + ör til hægri til að opna næsta geymi</string>
+  <string name="keyboard_tutorial_exit_container">Ýttu á aðgerðalykilinn + Alt + Ctrl + ör til hægri til að loka þessum geymi</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Þú lokaðir geyminum. Þú getur einnig bætt geymum við lesstýringarnar og ýtt síðan á aðgerðalykilinn + Shift + ör til hægri eða vinstri til að velja geymi og aðgerðalykilinn + ör upp eða niður til að hoppa á milli geyma. Til að uppfæra lesstýringar skaltu fara í „TalkBack &gt; Stillingar &gt; Sérsníða valmyndir &gt; Sérsníða lesstýringar“.\n\nÝttu á aðgerðalykilinn + ör til hægri til að finna næsta hnapp.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Sérsníddu lesstýringar</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Þú getur einnig breytt talstillingum með því að nota lesstýringar og sérsníða það sem þú getur gert með þeim í „TalkBack &gt; Stillingar &gt; Sérsníða valmyndir &gt; Sérsníða lesstýringar“.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Prófaðu að fá lýsingar á myndum</string>
+  <string name="keyboard_tutorial_image_description_page_text">Þegar þú fókusar á mynd skaltu ýta á aðgerðalykilinn + R og síðan I. Hér fyrir neðan er ein mynd. Prófaðu að fá lýsingu á henni.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Þú getur breytt stillingum myndlýsinga hvenær sem er í „Stillingar TalkBack &gt; Lýsingar á myndum og táknum“.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Þú getur breytt stillingum myndlýsinga hvenær sem er í með því að fara í stillingar TalkBack og síðan „Lýsingar á myndum og táknum“.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Dæmi um mynd. Ýttu á aðgerðalykilinn + R og síðan I til að heyra lýsingu.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Raddskipanir</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Hægt er að nota röddina til að stjórna TalkBack á fljótlegan hátt.\n\nÞú getur til dæmis notað raddskipanir til að breyta flettingunni, hoppa í næstu fyrirsögn, afrita texta og fleira.\n\nPrófaðu það núna með því að ýta á „Aðgerð“ + „\\“.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Notar skjáleit</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Skjáleit gerir þér kleift að leita að tilteknu efni á skjánum.\n\nTil að prófa skaltu ýta á „Aðgerð“ + „CTRL“ + /. Sláðu inn leitarorð, t.d. „áfram“ til að finna atriði á skjánum sem inniheldur orðið.\n\nPrófaðu að leita að „áfram“ núna til að finna hnappinn „Áfram“.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Notaðu skjáleit til að fletta</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Þú getur hoppað á milli leitarniðurstaðna skjáleitar eftir að hafa valið eina niðurstöðu.\n\nTil að gera það geturðu notað flettingu lesstýringa. Ýttu á „Aðgerð“ + „Shift“ + ör til hægri eða vinstri þar til þú heyrir „skjáleit“. Ýttu síðan á „Aðgerð“ + ör niður eða upp til að fletta í gegnum niðurstöður skjáleitar.\n\nPrófum þetta núna. Hér að neðan er listi yfir þrjá hnappa sem allir innihalda orðið „aðgerð“. Notaðu skjáleit til að leita að „aðgerð“ og notaðu skjáleitina síðan til að fara á milli niðurstaðna.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Flýtilyklar æfingalyklaborðs</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Ýttu á lykil á vélbúnaðarlyklaborði eða lyklasamsetningu til að fá að vita hvað það gerir. Ýttu á Ctrl + W eða Escape til að hætta.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Uppgötvaðu tignarlegar risafurur í Kaliforníu&lt;/h1&gt;
+      &lt;p&gt;Risafurur Kaliforníu, einkum strandrisafururnar (Sequoia sempervrens), eru hæstu tré heims. Sumar eru yfir 115 metra háar og geta lifað í þúsundir ára. Þær dafna í röku strandloftslagi Norður-Kaliforníu og njóta góðs af rigningu og þoku.&lt;/p&gt;
+
+      &lt;h2&gt;Hvar er hægt að sjá þær&lt;/h2&gt;
+      &lt;p&gt;Þú finnur þessi risatré á þröngri ræmu meðfram Kyrrahafsströndinni. Helstu þjóðgarðar eru:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood-þjóðgarðurinn og Redwood-fylkisgarðarnir&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods-fylkisgarðurinn&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods-fylkisgarðurinn&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Skipuleggðu heimsóknina þína hér: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Styðja við náttúruvernd&lt;/h2&gt;
+      &lt;p&gt;Það er mikilvægt að vernda þessa fornu skóga. Þú getur hjálpað með því að fylgja reglum þjóðgarðsins og styðja við verndun.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Deildu upplifun þinni&lt;/h2&gt;
+        &lt;p&gt;Hefurðu séð risafururnar?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Já&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nei&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Segðu okkur frá upplifun þinni&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Senda inn&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Hvað annað viltu vita um risafurur?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Senda inn&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Risafurur: Halda umhverfi okkar heilbrigðu&lt;/h1&gt;
+    &lt;p&gt;Risafurur eru mikilvægar fyrir plánetuna okkar og gegna stóru hlutverki í því að halda umhverfi okkar heilbrigðu.&lt;/p&gt;
+
+    &lt;h1&gt;Risastórir lofthreinsarar&lt;/h1&gt;
+    &lt;p&gt;Þessi tré eru ótrúleg í að fanga koldíoxíð úr andrúmsloftinu. Með því að taka til sín svo mikið af því hjálpa risafurur til við að halda loftinu hreinu.&lt;/p&gt;
+
+    &lt;h2&gt;Heimili dýra&lt;/h2&gt;
+    &lt;p&gt;Risafurur veita mörgum dýrum heimili og skjól, allt frá fuglum í greinum þeirra til smádýra í jarðveginum.&lt;/p&gt;
+
+    &lt;h3&gt;Vatnssafnarar&lt;/h3&gt;
+    &lt;p&gt;Þær eru frábærar í að fanga þoku sem síðan drýpur niður á skógarbotninn. Þetta heldur jarðveginum rökum og veitir öðrum plöntum og dýrum vatn, sérstaklega á þurrkatímum.&lt;/p&gt;
+
+    &lt;h4&gt;Jarðvegsverndarar&lt;/h4&gt;
+    &lt;p&gt;Sterkar rætur þeirra halda jarðveginum á sínum stað og koma í veg fyrir að hann skolist burt í miklum rigningum og koma í veg fyrir rof.&lt;/p&gt;
+
+    &lt;h5&gt;Skógarbyggjendur&lt;/h5&gt;
+    &lt;p&gt;Þegar gamlar risafurur falla verður viðurinn þeirra að fæðu og skjóli fyrir nýjar plöntur og dýr og skapar næringarríkan jarðveg fyrir nýjan vöxt.&lt;/p&gt;
+
+    &lt;h6&gt;Einstök vistkerfi&lt;/h6&gt;
+    &lt;p&gt;Vegna þess að risafurur eru svo stórar og lifa svo lengi skapa þær sérstakt skógarumhverfi sem styður við líf sem finnst hvergi annars staðar.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Dýr í risafuruskógum&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Dýr í risafuruskógum\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dýr&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Lýsing&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Hvar þau búa&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Skemmtileg staðreynd&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bananasnigill&lt;/th&gt;
+            &lt;td&gt;Stór, gulur, slímugur snigill&lt;/td&gt;
+            &lt;td&gt;Á skógarbotninum&lt;/td&gt;
+            &lt;td&gt;Næststærsti snigill í heimi&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Kyrrahafssalamandra&lt;/th&gt;
+            &lt;td&gt;Stór, dökk salamandra&lt;/td&gt;
+            &lt;td&gt;Nálægt lækjum og rökum svæðum&lt;/td&gt;
+            &lt;td&gt;Getur orðið allt að 30 cm löng&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt-elgur&lt;/th&gt;
+            &lt;td&gt;Stór elgur með mikilfengleg horn&lt;/td&gt;
+            &lt;td&gt;Bítur gras á opnum svæðum í skóginum&lt;/td&gt;
+            &lt;td&gt;Karldýr geta vegið yfir 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Norður-flekkugla&lt;/th&gt;
+            &lt;td&gt;Meðalstór ugla sem veiðir á nóttunni&lt;/td&gt;
+            &lt;td&gt;Í þéttum, gömlum risafuruskógum&lt;/td&gt;
+            &lt;td&gt;„Vísitegund“ – heilbrigði hennar endurspeglar heilbrigði skógarins&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Svartbjörn&lt;/thgt;            &lt;td&gt;Stórt spendýr, yfirleitt svart eða brúnt&lt;/td&gt;
+            &lt;td&gt;Leitar að fæðu um allan skóginn&lt;/td&gt;
+            &lt;td&gt;Frábærir klifrarar, sjást oft í trjám&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Skoðanir þínar á risafurum og náttúru&lt;/h1&gt;
+
+      &lt;p&gt;Hvað annað viltu vita um risafurur?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Hver er uppáhaldsstaðurinn þinn í náttúrunni?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Hvaða hugtak í náttúrunni viltu læra meira um?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

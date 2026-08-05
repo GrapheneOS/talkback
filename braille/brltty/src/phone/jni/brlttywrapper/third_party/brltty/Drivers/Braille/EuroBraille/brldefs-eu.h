@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -20,7 +20,7 @@
 #define BRLTTY_INCLUDED_EU_BRLDEFS
 
 #define EU_NAK_PAR 0X01		/* parity error */
-#define EU_NAK_NUM 0X02		/* frame numver error */
+#define EU_NAK_NUM 0X02		/* frame number error */
 #define EU_NAK_LNG 0X03		/* length error */
 #define EU_NAK_COM 0X04		/* command error */
 #define EU_NAK_DON 0X05		/* data error */
@@ -46,7 +46,11 @@ typedef enum {
   EU_ESYTIME_32           = 0X0E,
   EU_ESYTIME_32_STANDARD  = 0X0F,
   EU_ESYTIME_EVO          = 0x10,
-  EU_ESYTIME_EVO_STANDARD = 0x11
+  EU_ESYTIME_EVO_STANDARD = 0x11,
+  EU_BNOTE                = 0x12,
+  EU_BNOTE2               = 0x13,
+  EU_BBOOK                = 0x14,
+  EU_BBOOK2               = 0x15,
 } EU_EsysirisModel;
 
 typedef enum {

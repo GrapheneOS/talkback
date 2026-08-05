@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ši mokomoji medžiaga skirta patobulintai klavišų schemai, kuri apima daug naujų komandų. Jei norite pasirinkti klavišų schemą, eikite į skiltį „TalkBack“ nustatymai“ &gt; „Išplėstiniai nustatymai“ &gt; „Spartieji klavišai“.\n\nPaspauskite veiksmų klavišą + rodyklę dešinėn, kad pasirinktumėte temą. Kad galėtumėte patogiau naudoti funkcijas, prieš pradedant reikia įjungti „TalkBack“.</string>
+  <string name="basic_interaction_link_text">Pagrindinė sąveika</string>
+  <string name="basic_interaction_link_subtext">Pereikite nuo vieno elemento prie kito, skaitykite po vieną eilutę, naudokite meniu ir atlikite kitus veiksmus</string>
+  <string name="browse_mode_link_text">Naršymo režimas</string>
+  <string name="browse_mode_link_subtext">Greičiau naršykite žiniatinklio turinį naudodami perėjimo komandas</string>
+  <string name="reading_controls_link_text">Skaitymo valdikliai</string>
+  <string name="reading_controls_link_subtext">Naudodami skaitymo valdiklius pereikite nuo vieno elemento prie kito, koreguokite kalbos nustatymus ir atlikite kitus veiksmus</string>
+  <string name="image_descriptions_link_text">Vaizdų aprašymai</string>
+  <string name="image_descriptions_link_subtext">Pabandykite gauti vaizdų aprašymus</string>
+  <string name="keyboard_shortcuts_link_text">Sparčiųjų klavišų naudojimo praktika</string>
+  <string name="keyboard_shortcuts_link_subtext">Paspauskite klavišus bei klavišų derinius ir sužinokite, ką jie atlieka</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">Naudojant „TalkBack“ teikiama ekrano skaitymo balsu funkcija, kad būtų galima naudoti įrenginį nežiūrint į ekraną. „TalkBack“ gali būti naudinga žmonėms, kuriems sudėtinga matyti ekraną. Kai „TalkBack“ įjungta, paryškintas elementas ekrane ištariamas garsiai.\n\nPirmiausia susipažinkime su klaviatūra. Suraskite veiksmų klavišą, kuris yra virš kairiojo klavišo „Shift“. Dabar raskime rodyklių klavišus netoli apatinės dešinės klaviatūros srities. Paspauskite veiksmų klavišą ir rodyklę dešinėn, kad pereitumėte prie kito elemento.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Tai yra kitas elementas. Jei norite pereiti prie ankstesnio elemento, paspauskite veiksmų klavišą ir rodyklę kairėn.\n\nKai pereinate prie interaktyvaus elemento, pvz., mygtuko, paspauskite veiksmų klavišą ir tarpo klavišą, kad jį suaktyvintumėte. Raskite mygtuką „Kitas“ ir tęskite mokomąją medžiagą.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Skaitymas po vieną simbolį, žodį ar pastraipą</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Kartais galbūt norėsite išgirsti tekstą, skaitomą po vieną simbolį.\n\nKad tai atliktumėte, galite naudoti skaitymo valdiklių naršymą. Paspauskite veiksmų klavišą + „Shift“ + rodyklę dešinėn arba kairėn, kol išgirsite „characters“ (simboliai).\n\nPo to paspauskite veiksmų klavišą + rodyklę aukštyn, kad perkeltumėte elemento paryškinimą naršant simboliu atgal. Paspauskite veiksmų klavišą + rodyklę žemyn, kad perkeltumėte elemento paryškinimą naršant simboliu pirmyn.\n\nIšbandykite tai dabar. Taip pat galima pasirinkti skaityti žodžiais, eilutėmis ar pastraipomis naudojant veiksmų klavišą + „Shift“ + rodyklę dešinėn arba kairėn.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Sistemos naršymas</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Jei dabar išbandysite šiuos sparčiuosius klavišus, mokomoji medžiaga bus uždaryta. Galbūt norėsite palaukti, kol baigsite mokomąją medžiagą.\n\nJei norite peršokti tarp atidarytų programų langų ir sistemos elementų, pvz., pranešimų ir užduočių juostos, paspauskite veiksmų klavišą + „Alt“ + „Ctrl“ + rodyklę aukštyn arba žemyn.\n\nJei norite atidaryti programų sąrašą, paspauskite veiksmų klavišą.\n\nJei norite eiti į pagrindinį ekraną ir sumažinti visus atidarytus langus, paspauskite veiksmų klavišą + H arba „Pagrindinis“ viršutinėje eilutėje.\n\nJei norite eiti į naujausias programas, paspauskite veiksmų klavišą + tabuliavimo klavišą arba „Apžvalga“ viršutinėje eilutėje.\n\nJei norite greitai peršokti tarp langų, palaikykite „Alt“ ir paspauskite tabuliavimo klavišą.\n\nJei norite grįžti, paspauskite veiksmų klavišą + „Esc“ arba „Atgal“ viršutinėje eilutėje.\n\nJei norite atidaryti pranešimus, paspauskite veiksmų klavišą + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Kalbos nustatymų koregavimas</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">„TalkBack“ kalbėjimo garsumas vadinamas pritaikomumo garsumu. Jis koreguojamas atskirai nuo medijos garsumo.\n\nJei norite koreguoti pritaikomumo garsumą, paspauskite veiksmų klavišą + garsumo padidinimo arba sumažinimo mygtuką.\n\nJei norite koreguoti kalbėjimo greitį, paspauskite veiksmų klavišą + „Ctrl“ + garsumo padidinimo mygtuką, kad padidintumėte, ir veiksmų klavišą + „Ctrl“ + garsumo sumažinimo mygtuką, kad sumažintumėte.\n\nJei norite bet kuriuo metu sustabdyti kalbėjimą, paspauskite „Ctrl“.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">„TalkBack“ meniu ir daugiau sparčiųjų klavišų</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">„TalkBack“ meniu pateikiami nustatymai ir valdikliai, kurių gali dažnai prireikti.\n\nJei norite atidaryti „TalkBack“ meniu, paspauskite veiksmų klavišą + „Ctrl“ + M. „TalkBack“ meniu ir skaitymo valdiklius galite tinkinti vėliau skiltyje „TalkBack“ nustatymai“.\n\n„TalkBack“ sparčiųjų klavišų meniu pateikiami visi spartieji klavišai, kuriuos galite naudoti.\n\nJei norite atidaryti sparčiųjų klavišų meniu, paspauskite veiksmų klavišą + „Shift“ + /.\n\nJei norite sužinoti daugiau apie klaviatūrą ir praktikuoti sparčiuosius klavišus, paspauskite veiksmų klavišą + 0, kad atidarytumėte praktinių užduočių ekraną.</string>
+  <string name="keyboard_tutorial_finished_page_title">Viskas nustatyta!</string>
+  <string name="keyboard_tutorial_finished_page_text">Pasiruošėte naudoti „TalkBack“.\n\nToliau ieškokite daugiau informacijos kitomis temomis dabar arba peržiūrėkite šią informaciją bet kuriuo metu „TalkBack“ nustatymų skiltyje.\n\nJei norite bet kuriuo metu įjungti arba išjungti „TalkBack“, paspauskite veiksmų klavišą + „Alt“ + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Greičiau naršykite žiniatinklio turinį naršymo režimu</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Kai esate naršyklėje ir žiniatinklio programose, galite įjungti naršymo režimą ir peršokti tarp skirtingų skaitymo detalumo tipų ir valdiklių vienu klavišo paspaudimu. Dėl to naršyti puslapį tampa panašu į naršymą teksto redagavimo laukelyje, pvz., rodyklėmis kairėn ir dešinėn galima pereiti po vieną simbolį, o rodyklėmis aukštyn ir žemyn – po vieną eilutę.\n\nJei norite įjungti arba išjungti naršymo režimą, dukart paspauskite veiksmų klavišą.\n\nKai naršymo režimas įjungtas, paspauskite D, kad pereitumėte prie kito orientyro, F – prie kito valdymo elemento arba formos lauko, B – prie kito mygtuko, K – prie kitos nuorodos ir H – prie kitos antraštės. Paspauskite „Shift“ ir laikykite, tada paspauskite šiuos klavišus, kad pereitumėte atgal.\n\nTaip pat galite naudoti rodykles aukštyn ir žemyn, kad pereitumėte po vieną eilutę, rodykles kairėn ir dešinėn, kad pereitumėte po vieną raidę, ir „Ctrl“ + rodykles kairėn ir dešinėn, kad pereitumėte po vieną žodį.\n\nPaspauskite veiksmų klavišą + rodyklę dešinėn, kad pereitumėte į praktinių užduočių sritį. Praktinių užduočių srities nuorodos, formos laukai ir mygtukai neveiks.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Antraštės lygiai</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Svetainėse ir žiniatinklio programose dažnai naudojamos skirtingų lygių antraštės, kad būtų galima struktūrizuoti turinį. Kai naršymo režimas įjungtas, paspauskite nuo 1 iki 6, kad pereitumėte prie antraščių lygių. Paspauskite antrojo lygio klavišą ir laikykite, tada paspauskite šiuos klavišus, kad pereitumėte atgal.\n\nPaspauskite veiksmų ir rodyklės dešinėn klavišus, kad pereitumėte į praktinių užduočių sritį.</string>
+  <string name="keyboard_tutorial_tables_page_title">Lentelės</string>
+  <string name="keyboard_tutorial_tables_page_text">Naršymo režimu taip pat lengviau naršyti lenteles. Kai naršymo režimas įjungtas, paspauskite „Alt“ + „Ctrl“ + rodykles aukštyn ir žemyn, kad pereitumėte nuo vienos eilutės prie kitos, o „Alt“ + „Ctrl“ + rodykles kairėn ir dešinėn, kad pereitumėte nuo vieno stulpelio prie kito.\n\nPaspauskite veiksmų klavišą + rodyklę dešinėn, kad pereitumėte į praktinių užduočių sritį.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Teksto redagavimas</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Kai įvesite teksto lauką, naršymo režimas bus laikinai išjungtas, kad galėtumėte naudoti visus klavišus tekstui vesti. Išgirdę pranešimą ir garsą žinosite, kad jis išjungtas. Kai išeisite iš teksto lauko, naršymo režimas vėl bus įjungtas ir išgirsite kitą pranešimą bei garsą.\n\nPaspauskite veiksmų klavišą + rodyklę dešinėn, kad patektumėte į praktinių užduočių sritį.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Daugiau apie naršymo režimą</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Jei norite peržiūrėti visą elementų, tarp kurių galite peršokti naršymo režimu, sąrašą, paspauskite veiksmų klavišą + „Shift“ + / ir sparčiųjų klavišų meniu ieškokite „naršymo režimas“.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Skaitymas po vieną simbolį, žodį ar pastraipą</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Kartais galbūt norėsite išgirsti tekstą, skaitomą po vieną simbolį.\n\nKad tai atliktumėte, galite naudoti skaitymo valdiklių naršymą. Paspauskite veiksmų klavišą + „Shift“ + rodyklę dešinėn arba kairėn, kol išgirsite „characters“ (simboliai). Tada paspauskite veiksmų klavišą ir rodyklę aukštyn, kad perkeltumėte elemento paryškinimą naršant simboliu atgal. Paspauskite veiksmų klavišą + rodyklę žemyn, kad perkeltumėte elemento paryškinimą naršant simboliu pirmyn.\n\nIšbandykite tai dabar. Taip pat galima pasirinkti skaityti žodžiais, eilutėmis ar pastraipomis naudojant veiksmų klavišą + „Shift“ + rodyklę dešinėn arba kairėn.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Perėjimas nuo vieno valdiklio prie kito</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Valdikliai yra elementai, su kuriais galite sąveikauti, pvz., mygtukai, žymimieji ir teksto laukeliai.\n\nKai kuriuose puslapiuose norėsite pereiti nuo vieno valdiklio prie kito, kad greitai surastumėte veiksmą, pvz., mygtuką „Kitas“.\n\nKad tai atliktumėte, paspauskite veiksmų klavišą + „Shift“ + rodyklę dešinėn, kol išgirsite „controls“ (valdikliai). Tada paspauskite veiksmų ir rodyklės aukštyn klavišus, kad pereitumėte prie ankstesnio mygtuko, ir veiksmų ir rodyklės žemyn klavišus, kad pereitumėte prie kito mygtuko.\n\nPabandykite dabar ir raskite kitą mygtuką.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Perėjimas nuo vienos nuorodos prie kitos</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Taip pat galite pereiti nuo vienos nuorodos prie kitos puslapyje.\n\nKad tai atliktumėte, paspauskite veiksmų klavišą + „Shift“ + rodyklę dešinėn, kol išgirsite „links“ (nuorodos). Tada paspauskite veiksmų klavišą ir rodyklę žemyn, kad rastumėte nuorodą pavadinimu „5 nuoroda“. Mokomojoje medžiagoje dukart palietus šią nuorodą joks veiksmas nebus atliekamas.\n\nPaspauskite veiksmų ir rodyklės dešinėn klavišus, kad rastumėte mygtuką „Kitas“ ir pereitumėte į kitą puslapį.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Perėjimas nuo vienos antraštės prie kitos</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Taip pat galite pereiti nuo vienos antraštės prie kitos puslapyje.\n\nJei norite išbandyti tai dabar, paspauskite veiksmų klavišą + „Shift“ + rodyklę dešinėn, kol išgirsite „headings“ (antraštės). Tada paspauskite veiksmų klavišą ir rodyklę žemyn, kad rastumėte antraštę „Naršymas“.</string>
+  <string name="keyboard_tutorial_find_next_button">Paspauskite veiksmų ir rodyklės dešinėn klavišus, kad surastumėte kitą mygtuką.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Perėjimas nuo vieno sudėtinio failo prie kito</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Jei norite išeiti iš sudėtinio failo, pavyzdžiui, sąrašo ar tinklelio, paspauskite veiksmų klavišą + „Alt“ + „Ctrl“ + rodyklę dešinėn arba kairėn. Tai naudinga, kai norite išeiti iš ilgo elementų sąrašo.\n\nJei norite išbandyti dabar, paspauskite veiksmų klavišą + rodyklę dešinėn, kad įeitumėte į sąrašą. Tada paspauskite veiksmų klavišą + „Alt“ + „Ctrl“ + rodyklę dešinėn, kad pereitumėte prie kito sudėtinio failo.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Jei norite pereiti prie kito sudėtinio failo, paspauskite veiksmų klavišą + „Alt“ + „Ctrl“ + rodyklę dešinėn</string>
+  <string name="keyboard_tutorial_exit_container">Jei norite išeiti iš šio sudėtinio failo, paspauskite veiksmų klavišą + „Alt“ + „Ctrl“ + rodyklę dešinėn</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Išėjote iš sudėtinio failo. Taip pat galite pridėti sudėtinių failų prie skaitymo valdiklių, tada paspausti veiksmų klavišą + „Shift“ + rodyklę dešinėn arba kairėn, kad pasirinktumėte sudėtinius failus, ir veiksmų klavišą + rodyklę žemyn arba aukštyn, kad peršoktumėte tarp sudėtinių failų. Jei norite atnaujinti skaitymo valdiklius, eikite į skiltį „TalkBack“ &gt; „Nustatymai“ &gt; „Tinkinti meniu“ &gt; „Tinkinti skaitymo valdiklius“.\n\nPaspauskite veiksmų klavišą + rodyklę dešinėn, kad rastumėte kitą mygtuką.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Skaitymo valdiklių tinkinimas</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Taip pat galite koreguoti kalbos nustatymus skaitymo valdikliais ir tinkinti, ką galima daryti naudojant skaitymo valdiklius, skiltyje „TalkBack“ &gt; „Nustatymai“ &gt; „Tinkinti meniu“ &gt; „Tinkinti skaitymo valdiklius“.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Pabandykite gauti vaizdų aprašymus</string>
+  <string name="keyboard_tutorial_image_description_page_text">Paryškinę vaizdą, paspauskite veiksmų klavišą + R, tada I. Toliau pateikta viena nuotrauka. Pabandykite gauti jos aprašymą.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Vaizdų aprašymų nustatymus galite bet kada pakeisti skiltyje „TalkBack“ nustatymai“ &gt; „Vaizdų ir piktogramų aprašymai“.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Vaizdų aprašymų nustatymus galite bet kada pakeisti skiltyje „TalkBack“ nustatymai“ ir „Vaizdų ir piktogramų aprašymai“.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Pavyzdinė nuotrauka. Paspauskite veiksmų klavišą + R, tada I, kad išgirstumėte aprašymą.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Komandos balsu</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Galite sparčiai valdyti „TalkBack“ balsu.\n\nPavyzdžiui, galite pasakyti komandą ir pakeisti naršymą, pereiti prie kitos antraštės, kopijuoti tekstą ir daugiau.\n\nIšbandykite tai dabar, paspauskite „Veiksmas“ + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Paieška naudojant paiešką ekrane</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Naudojant paieškos ekrane funkciją galima ieškoti konkretaus turinio ekrane.\n\nJei norite išbandyti, paspauskite „Veiksmas“ + CTRL + /. Įveskite raktinį žodį, pvz., „kitas“, kad ekrane rastumėte elementus su šiuo tekstu.\n\nDabar pabandykite ieškoti pagal užklausą „kitas“, kad rastumėte mygtuką „Kitas“.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Naršymas naudojant paieškos ekrane funkciją</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Pasirinkus rezultatą galima greitai pereiti prie kitų paieškos rezultatų naudojant paiešką ekrane.\n\nJei norite tai padaryti, galite naudoti skaitymo valdiklių naršymą. Paspauskite „Veiksmas“ + „Shift“ + rodyklę dešinėn arba kairėn, kol išgirsite „screen search“ (paieška ekrane). Tada paspauskite „Veiksmas“ + rodyklę žemyn arba aukštyn, kad galėtumėte naršyti pagal paieškos ekrane rezultatus.\n\nIšbandykime dabar. Toliau pateikiamas trijų mygtukų, kuriuose visuose yra tekstas „veiksmas“, sąrašas. Ieškokite žodžio „veiksmas“ naudodami paiešką ekrane, tada naudodami paiešką ekrane naršykite tarp jų.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Sparčiųjų klavišų naudojimo praktika</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Paspauskite fizinės klaviatūros klavišą arba klavišų derinį, kad išgirstumėte, ką jis atlieka. Paspauskite „Ctrl“ + W arba klavišą „Escape“, kad išeitumėte.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Atraskite Kalifornijos sekvojų didybę&lt;/h1&gt;
+      &lt;p&gt;Kalifornijos sekvojos, daugiausia visžalės sekvojos (Sequoia sempervrens), yra aukščiausi medžiai pasaulyje. Kai kurie siekia daugiau nei 115 metrų ir gali žaliuoti tūkstančius metų. Jiems patinka drėgnas šiaurės Kalifornijos pakrantės klimatas, pasižymintis dideliu kiekiu lietaus ir rūko.&lt;/p&gt;
+
+      &lt;h2&gt;Kur juos galima pamatyti&lt;/h2&gt;
+      &lt;p&gt;Šiuos milžinus rasite siauroje juostoje palei Ramiojo vandenyno pakrantę. Svarbiausi parkai&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redvudo nacionalinis ir valstybiniai parkai&lt;/li&gt;
+        &lt;li&gt;Humboldto sekvojų valstybinis parkas&lt;/li&gt;
+        &lt;li&gt;Didžiojo baseino sekvojų valstybinis parkas&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Suplanuokite apsilankymą čia: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Kalifornijos valstybiniai parkai – sekvojos&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Paremkite gamtosaugą&lt;/h2&gt;
+      &lt;p&gt;Šių senovinių miškų apsauga yra gyvybiškai svarbi. Galite padėti laikydamiesi parko gairių ir remdami gamtosaugos pastangas.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Pasidalykite savo patirtimi&lt;/h2&gt;
+        &lt;p&gt;Ar lankėtės sekvojų miške?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Taip&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Ne&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Papasakokite apie savo patirtį&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Pateikti&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Ką dar norėtumėte sužinoti apie sekvojas?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Pateikti&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekvojos: sveikos mūsų aplinkos palaikymas&lt;/h1&gt;
+    &lt;p&gt;Sekvojos yra svarbios mūsų planetai, nes atlieka didžiulį vaidmenį palaikant sveiką aplinką.&lt;/p&gt;
+
+    &lt;h1&gt;Milžiniški oro valytuvai&lt;/h1&gt;
+    &lt;p&gt;Šie medžiai puikiai sugeria anglies dioksidą iš oro. Sugerdamos tiek daug anglies dioksido, sekvojos padeda išlaikyti švarų orą.&lt;/p&gt;
+
+    &lt;h2&gt;Gyvūnų namai&lt;/h2&gt;
+    &lt;p&gt;Sekvojos suteikia namus ir prieglobstį daugeliui gyvūnų – nuo paukščių ant šakų iki mažų padarų dirvožemyje.&lt;/p&gt;
+
+    &lt;h3&gt;Vandens burtininkai&lt;/h3&gt;
+    &lt;p&gt;Jos puikiai sugeria rūką, kuris vėliau laša ant miško paklotės. Tai padeda išlaikyti drėgną dirvą ir suteikia vandens kitiems augalams bei gyvūnams, ypač sausuoju metų laiku.&lt;/p&gt;
+
+    &lt;h4&gt;Dirvožemio saugotojai&lt;/h4&gt;
+    &lt;p&gt;Jų stiprios šaknys laiko dirvožemį, neleidžia jo nuplauti per smarkias liūtis ir apsaugo nuo erozijos.&lt;/p&gt;
+
+    &lt;h5&gt;Miškų kūrėjai&lt;/h5&gt;
+    &lt;p&gt;Kai senos sekvojos nukrinta, jų mediena tampa maistu ir prieglobsčiu naujiems augalams ir gyvūnams, sukurdama derlingą dirvą naujiems augalams.&lt;/p&gt;
+
+    &lt;h6&gt;Unikalios ekosistemos&lt;/h6&gt;
+    &lt;p&gt;Kadangi sekvojos yra tokios didelės ir gyvena taip ilgai, jos sukuria ypatingą miško aplinką, kurioje gyvena kitur nerandama gyvybė.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Sekvojų miškų gyvūnai&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Sekvojų miškų gyvūnai\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Gyvūnas&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Aprašas&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Kur gyvena&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Įdomus faktas&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bananinis šliužas&lt;/th&gt;
+            &lt;td&gt;Didelis, geltonas, gleivėtas šliužas&lt;/td&gt;
+            &lt;td&gt;Miško paklotėje&lt;/td&gt;
+            &lt;td&gt;Antras pagal dydį šliužas pasaulyje&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Ramiojo vandenyno didžioji salamandra&lt;/th&gt;
+            &lt;td&gt;Didelė, tamsios spalvos salamandra&lt;/td&gt;
+            &lt;td&gt;Prie upelių ir drėgnose vietose&lt;/td&gt;
+            &lt;td&gt;Gali užaugti iki 30 cm ilgio&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Ruzvelto elnias&lt;/th&gt;
+            &lt;td&gt;Didelis elnias su įspūdingais ragais&lt;/td&gt;
+            &lt;td&gt;Miško ganyklos aikštelėse&lt;/td&gt;
+            &lt;td&gt;Patelės gali sverti daugiau nei 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Šiaurinė dėmėtoji pelėda&lt;/th&gt;
+            &lt;td&gt;Vidutinio dydžio pelėda, medžioja naktį&lt;/td&gt;
+            &lt;td&gt;Tankiuose, brandžiuose sekvojų miškuose&lt;/td&gt;
+            &lt;td&gt;Rodiklinė rūšis – jos sveikata rodo miško būklę&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Juodasis lokys&lt;/th&gt;
+            &lt;td&gt;Didelis žinduolis, paprastai juodas arba rudas&lt;/td&gt;
+            &lt;td&gt;Ieško maisto visame miške&lt;/td&gt;
+            &lt;td&gt;Puikiai laipioja, dažnai matomi medžiuose&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Jūsų mintys apie sekvojas ir gamtą&lt;/h1&gt;
+
+      &lt;p&gt;Ką dar norėtumėte sužinoti apie sekvojas?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Kokia jūsų mėgstamiausia vieta gamtoje?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Kokia gamtos koncepcija jus domina?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

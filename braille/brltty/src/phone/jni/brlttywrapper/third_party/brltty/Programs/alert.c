@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,6 +18,8 @@
 
 #include "prologue.h"
 
+#include <string.h>
+
 #include "alert.h"
 #include "program.h"
 #include "prefs.h"
@@ -26,6 +28,8 @@
 #include "message.h"
 #include "brl_dots.h"
 #include "utf8.h"
+#include "update.h"
+#include "brl_utils.h"
 #include "core.h"
 
 #ifdef ENABLE_SPEECH_SUPPORT
@@ -33,7 +37,6 @@
 #endif /* ENABLE_SPEECH_SUPPORT */
 
 typedef struct {
-  unsigned char duration;
   BrlDots pattern;
 } TactileAlert;
 
@@ -43,154 +46,193 @@ typedef struct {
   TactileAlert tactile;
 } AlertEntry;
 
-#define ALERT_TACTILE(d,p) {.duration=(d), .pattern=(p)}
+#define ALERT_TACTILE(p) {.pattern=(p)}
 
 static const AlertEntry alertTable[] = {
   [ALERT_BRAILLE_ON] = {
-    .tune = "m64@60 m69@100"
+    .tune = "m64@60 m69@100",
   },
 
   [ALERT_BRAILLE_OFF] = {
-    .tune = "m64@60 m57@60"
-  },
-
-  [ALERT_COMMAND_DONE] = {
-    .message = strtext("Done"),
-    .tune = "m74@40 r@30 m74@40 r@40 m74@140 r@20 m79@50"
-  },
-
-  [ALERT_COMMAND_REJECTED] = {
-    .tactile = ALERT_TACTILE(50, BRL_DOT_1 | BRL_DOT_3 | BRL_DOT_4 | BRL_DOT_6),
-    .tune = "m78@100"
-  },
-
-  [ALERT_MARK_SET] = {
-    .tune = "m83@20 m81@15 m79@15 m84@25"
-  },
-
-  [ALERT_CLIPBOARD_BEGIN] = {
-    .tune = "m74@40 m86@20"
-  },
-
-  [ALERT_CLIPBOARD_END] = {
-    .tune = "m86@50 m74@30"
-  },
-
-  [ALERT_NO_CHANGE] = {
-    .tactile = ALERT_TACTILE(30, BRL_DOT_2 | BRL_DOT_3 | BRL_DOT_5 | BRL_DOT_6),
-    .tune = "m79@30 r@30 m79@30 r@30 m79@30"
-  },
-
-  [ALERT_TOGGLE_ON] = {
-    .tactile = ALERT_TACTILE(30, BRL_DOT_1 | BRL_DOT_2 | BRL_DOT_4 | BRL_DOT_5),
-    .tune = "m74@30 r@30 m79@30 r@30 m86@30"
-  },
-
-  [ALERT_TOGGLE_OFF] = {
-    .tactile = ALERT_TACTILE(30, BRL_DOT_3 | BRL_DOT_7 | BRL_DOT_6 | BRL_DOT_8),
-    .tune = "m86@30 r@30 m79@30 r@30 m74@30"
-  },
-
-  [ALERT_CURSOR_LINKED] = {
-    .tune = "m80@7 m79@7 m76@12"
-  },
-
-  [ALERT_CURSOR_UNLINKED] = {
-    .tune = "m78@7 m79@7 m83@20"
-  },
-
-  [ALERT_SCREEN_FROZEN] = {
-    .message = strtext("Frozen"),
-    .tune = "m58@5 m59 m60 m61 m62 m63 m64 m65 m66 m67 m68 m69 m70 m71 m72 m73 m74 m76 m78 m80 m83 m86 m90 m95"
-  },
-
-  [ALERT_SCREEN_UNFROZEN] = {
-    .message = strtext("Unfrozen"),
-    .tune = "m95@5 m90 m86 m83 m80 m78 m76 m74 m73 m72 m71 m70 m69 m68 m67 m66 m65 m64 m63 m62 m61 m60 m59 m58"
-  },
-
-  [ALERT_FREEZE_REMINDER] = {
-    .tune = "m60@50 r@30 m60@50"
-  },
-
-  [ALERT_WRAP_DOWN] = {
-    .tactile = ALERT_TACTILE(20, BRL_DOT_4 | BRL_DOT_5 | BRL_DOT_6 | BRL_DOT_8),
-    .tune = "m86@6 m74@6 m62@6 m50@10"
-  },
-
-  [ALERT_WRAP_UP] = {
-    .tactile = ALERT_TACTILE(20, BRL_DOT_1 | BRL_DOT_2 | BRL_DOT_3 | BRL_DOT_7),
-    .tune = "m50@6 m62@6 m74@6 m86@10"
-  },
-
-  [ALERT_SKIP_FIRST] = {
-    .tactile = ALERT_TACTILE(30, BRL_DOT_1 | BRL_DOT_4 | BRL_DOT_7 | BRL_DOT_8),
-    .tune = "r@40 m62@4 m67@6 m74@8 r@25"
-  },
-
-  [ALERT_SKIP_ONE] = {
-    .tune = "m74@10 r@18"
-  },
-
-  [ALERT_SKIP_SEVERAL] = {
-    .tune = "m73@20 r@1"
-  },
-
-  [ALERT_BOUNCE] = {
-    .tactile = ALERT_TACTILE(50, BRL_DOT_1 | BRL_DOT_2 | BRL_DOT_3 | BRL_DOT_4 | BRL_DOT_5 | BRL_DOT_6 | BRL_DOT_7 | BRL_DOT_8),
-    .tune = "m98@6 m86@6 m74@6 m62@6 m50@10"
-  },
-
-  [ALERT_ROUTING_STARTED] = {
-    .tune = "m55@10 r@60 m60@15"
-  },
-
-  [ALERT_ROUTING_SUCCEEDED] = {
-    .tune = "m64@60 m76@20"
-  },
-
-  [ALERT_ROUTING_FAILED] = {
-    .tune = "m80@80 m79@90 m78@100 m77@100 r@20 m77@100 r@20 m77@150"
-  },
-
-  [ALERT_MODIFIER_ONCE] = {
-    .tune = "m70@60 m74@60 m77@90"
-  },
-
-  [ALERT_MODIFIER_LOCK] = {
-    .tune = "m70@60 m74@60 m77@60 m82@90"
-  },
-
-  [ALERT_MODIFIER_OFF] = {
-    .tune = "m82@60 m77@60 m74@60 m70@90"
+    .tune = "m64@60 m57@60",
   },
 
   [ALERT_CONSOLE_BELL] = {
+    .tune = "m78@100",
     .message = strtext("Console Bell"),
-    .tune = "m78@100"
   },
 
   [ALERT_KEYS_AUTORELEASED] = {
-    .message = strtext("Autorelease"),
-    .tune = "c6@50 b- g e- p50 c@100 c c"
+    .tune = "c6@50 b- g e- p50 c@100 c c",
+    .message = strtext("Keys Autoreleased"),
   },
 
-  [ALERT_SCROLL_UP] = {
-    .tune = "b6@10 d7"
+  [ALERT_COMMAND_REJECTED] = {
+    .tune = "m78@100",
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_3 | BRL_DOT_4 | BRL_DOT_6),
+  },
+
+  [ALERT_RANGE_LIMIT] = {
+    .tune = "m79@30 r@30 m79@30 r@30 m79@30",
+    .tactile = ALERT_TACTILE(BRL_DOT_2 | BRL_DOT_3 | BRL_DOT_5 | BRL_DOT_6),
+  },
+
+  [ALERT_MARK_SET] = {
+    .tune = "m83@20 m81@15 m79@15 m84@25",
+  },
+
+  [ALERT_DATA_SAVED] = {
+    .tune = "m74@40 r@30 m74@40 r@40 m74@140 r@20 m79@50",
+    .message = strtext("Saved"),
+  },
+
+  [ALERT_DATA_RESTORED] = {
+    .tune = "m79@40 r@30 m79@40 r@40 m76@100 r@20 m73@100",
+    .message = strtext("Restored"),
+  },
+
+  [ALERT_COPY_BEGIN] = {
+    .tune = "m74@40 m86@20",
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_8),
+  },
+
+  [ALERT_COPY_END] = {
+    .tune = "m86@50 m74@30",
+    .tactile = ALERT_TACTILE(BRL_DOT_4 | BRL_DOT_7),
+  },
+
+  [ALERT_TOGGLE_ON] = {
+    .tune = "m74@30 r@30 m79@30 r@30 m86@30",
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_4 | BRL_DOT_2 | BRL_DOT_5 | BRL_DOT_7 | BRL_DOT_8),
+  },
+
+  [ALERT_TOGGLE_OFF] = {
+    .tune = "m86@30 r@30 m79@30 r@30 m74@30",
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_4 | BRL_DOT_3 | BRL_DOT_6 | BRL_DOT_7 | BRL_DOT_8),
+  },
+
+  [ALERT_CURSOR_LINKED] = {
+    .tune = "m80@7 m79@7 m76@12",
+    .tactile = ALERT_TACTILE(BRL_DOT_2 | BRL_DOT_3 | BRL_DOT_4 | BRL_DOT_5 | BRL_DOT_8),
+  },
+
+  [ALERT_CURSOR_UNLINKED] = {
+    .tune = "m78@7 m79@7 m83@20",
+    .tactile = ALERT_TACTILE(BRL_DOT_2 | BRL_DOT_3 | BRL_DOT_4 | BRL_DOT_5 | BRL_DOT_7),
+  },
+
+  [ALERT_SCREEN_FREEZE] = {
+    .tune = "m58@5 m59 m60 m61 m62 m63 m64 m65 m66 m67 m68 m69 m70 m71 m72 m73 m74 m76 m78 m80 m83 m86 m90 m95",
+    .message = strtext("Screen Frozen"),
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_2 | BRL_DOT_4 | BRL_DOT_8),
+  },
+
+  [ALERT_SCREEN_LIVE] = {
+    .tune = "m95@5 m90 m86 m83 m80 m78 m76 m74 m73 m72 m71 m70 m69 m68 m67 m66 m65 m64 m63 m62 m61 m60 m59 m58",
+    .message = strtext("Screen Live"),
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_2 | BRL_DOT_4 | BRL_DOT_7),
+  },
+
+  [ALERT_SCREEN_FROZEN] = {
+    .tune = "m60@50 r@30 m60@50",
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_2 | BRL_DOT_4),
+  },
+
+  [ALERT_WRAP_DOWN] = {
+    .tune = "m86@6 m74@6 m62@6 m50@10",
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_5 | BRL_DOT_6 | BRL_DOT_7),
+  },
+
+  [ALERT_WRAP_UP] = {
+    .tune = "m50@6 m62@6 m74@6 m86@10",
+    .tactile = ALERT_TACTILE(BRL_DOT_4 | BRL_DOT_2 | BRL_DOT_3 | BRL_DOT_8),
+  },
+
+  [ALERT_SKIP_FIRST] = {
+    .tune = "r@40 m62@4 m67@6 m74@8 r@25",
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_4 | BRL_DOT_7 | BRL_DOT_8),
+  },
+
+  [ALERT_SKIP_ONE] = {
+    .tune = "m74@10 r@18",
+  },
+
+  [ALERT_SKIP_SEVERAL] = {
+    .tune = "m73@20 r@1",
+  },
+
+  [ALERT_BOUNCE] = {
+    .tune = "m98@6 m86@6 m74@6 m62@6 m50@10",
+    .tactile = ALERT_TACTILE(BRL_DOT_1 | BRL_DOT_2 | BRL_DOT_3 | BRL_DOT_4 | BRL_DOT_5 | BRL_DOT_6 | BRL_DOT_7 | BRL_DOT_8),
+  },
+
+  [ALERT_ROUTING_STARTED] = {
+    .tune = "m55@10 r@60 m60@15",
+  },
+
+  [ALERT_ROUTING_SUCCEEDED] = {
+    .tune = "m64@60 m76@20",
+  },
+
+  [ALERT_ROUTING_FAILED] = {
+    .tune = "m80@80 m79@90 m78@100 m77@100 r@20 m77@100 r@20 m77@150",
+  },
+
+  [ALERT_MODIFIER_ONCE] = {
+    .tune = "m70@60 m74@60 m77@90",
+  },
+
+  [ALERT_MODIFIER_LOCK] = {
+    .tune = "m70@60 m74@60 m77@60 m82@90",
+  },
+
+  [ALERT_MODIFIER_OFF] = {
+    .tune = "m82@60 m77@60 m74@60 m70@90",
   },
 
   [ALERT_CONTEXT_DEFAULT] = {
-    .tune = "m76@60 m73@60 m69@60 m66@90"
+    .tune = "m76@60 m73@60 m69@60 m66@90",
   },
 
   [ALERT_CONTEXT_PERSISTENT] = {
-    .tune = "m66@60 m69@60 m73@60 m76@90"
+    .tune = "m66@60 m69@60 m73@60 m76@90",
   },
 
   [ALERT_CONTEXT_TEMPORARY] = {
-    .tune = "m66@60 m69@60 m73@90"
+    .tune = "m66@60 m69@60 m73@90",
+  },
+
+  [ALERT_SCROLL_UP] = {
+    .tune = "b6@10 d7",
   },
 };
+
+static int
+showDots (unsigned char dots) {
+  if (braille->writeStatus && (brl.statusColumns > 0)) {
+    unsigned int length = brl.statusColumns * brl.statusRows;
+    unsigned char cells[length];        /* status cell buffer */
+    memset(cells, dots, length);
+    if (!braille->writeStatus(&brl, cells)) return 0;
+  }
+
+  {
+    unsigned int length = brl.textColumns * brl.textRows;
+    unsigned char newCells[length];        /* status cell buffer */
+    memset(newCells, dots, length);
+
+    unsigned char oldQuality = brl.quality;
+    unsigned char *oldCells = brl.buffer;
+    brl.buffer = newCells;
+    int written = writeBrailleWindow(&brl, NULL, SCQ_GOOD);
+    brl.buffer = oldCells;
+    brl.quality = oldQuality;
+    if (!written) return 0;
+  }
+
+  drainBrailleOutput(&brl, PREFS2MSECS(prefs.alertDotsDuration));
+  return writeBrailleWindow(&brl, NULL, SCQ_GOOD);
+}
 
 static ToneElement *tuneTable[ARRAY_COUNT(alertTable)] = {NULL};
 static TuneBuilder *tuneBuilder = NULL;
@@ -245,7 +287,7 @@ alert (AlertIdentifier identifier) {
         TuneBuilder *tb = getTuneBuilder();
 
         if (tb) {
-          setTuneSourceName(tuneBuilder, "alert");
+          setTuneSourceName(tb, "alert");
           setTuneSourceIndex(tb, identifier);
 
           if (parseTuneString(tb, "p100")) {
@@ -260,11 +302,11 @@ alert (AlertIdentifier identifier) {
         if (!*tune) *tune = emptyTune;
       }
 
-      tunePlayTones(*tune);
-    } else if (prefs.alertDots && alert->tactile.duration) {
-      showDotPattern(alert->tactile.pattern, alert->tactile.duration);
+      tunePlayTones(*tune, 0);
     } else if (prefs.alertMessages && alert->message) {
-      message(NULL, gettext(alert->message), 0);
+      message("alert", gettext(alert->message), 0);
+    } else if (prefs.alertDots && alert->tactile.pattern) {
+      showDots(alert->tactile.pattern);
     }
   }
 }

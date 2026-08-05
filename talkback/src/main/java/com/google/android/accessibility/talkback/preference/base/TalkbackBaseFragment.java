@@ -17,14 +17,9 @@ package com.google.android.accessibility.talkback.preference.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import androidx.annotation.StringRes;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.preference.TalkBackPreferenceFilter;
-import com.google.android.accessibility.utils.FormFactorUtils;
-import com.google.android.accessibility.utils.material.WrapSwipeDismissLayoutHelper;
 import com.google.android.accessibility.utils.preference.BasePreferencesFragment;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -72,25 +67,6 @@ public abstract class TalkbackBaseFragment extends BasePreferencesFragment {
       TalkBackPreferenceFilter talkBackPreferenceFilter = new TalkBackPreferenceFilter(context);
       talkBackPreferenceFilter.filterPreferences(getPreferenceScreen());
     }
-  }
-
-  // TODO: Wrap the root container instead of each view in the swipe dismiss layout.
-  /** A default implementation of wrapping swipe dismiss listener for the view. */
-  protected View wrapSwipeDismissLayout(View view) {
-    // Customs swipe action for view. This is for wear only.
-    return WrapSwipeDismissLayoutHelper.wrapSwipeDismissLayout(
-        getActivity(), view, /* swipeDismissListener= */ null);
-  }
-
-  @Override
-  public View onCreateView(
-      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View inflatedView = super.onCreateView(inflater, container, savedInstanceState);
-    if (FormFactorUtils.getInstance().isAndroidWear() && getListView() != null) {
-      // To support rotary-button input, it needs to request focus of the scrollable view.
-      getListView().requestFocus();
-    }
-    return wrapSwipeDismissLayout(inflatedView);
   }
 
   /** Turns a preference on or off, selecting the preference by key-resource-ID. */

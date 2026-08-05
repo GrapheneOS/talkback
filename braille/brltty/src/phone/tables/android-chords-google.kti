@@ -15,13 +15,13 @@
 
 
 # Next item
-bind \{chord4}+\{chord5}+\{chord8} KEY_FUNCTION+100
+bind \{chord4}+\{chord8} KEY_FUNCTION+100
 # Previous item
-bind \{chord1}+\{chord2}+\{chord7} KEY_FUNCTION+101
+bind \{chord1}+\{chord7} KEY_FUNCTION+101
 # Next line
-bind \{chord}+\{chord4} KEY_FUNCTION+102
+bind \{chord}+\{chord4}+\{chord7}+\{chord8}KEY_FUNCTION+102
 # Previous line
-bind \{chord}+\{chord1} KEY_FUNCTION+103
+bind \{chord}+\{chord1}+\{chord7}+\{chord8} KEY_FUNCTION+103
 # Scroll forward
 bind \{chord1}+\{chord3}+\{chord5}+\{chord8} KEY_FUNCTION+104
 # Scroll backward
@@ -30,98 +30,100 @@ bind \{chord2}+\{chord4}+\{chord6}+\{chord7} KEY_FUNCTION+105
 bind \{chord}+\{chord1}+\{chord2}+\{chord3} KEY_FUNCTION+106
 # Bottom of the page
 bind \{chord}+\{chord4}+\{chord5}+\{chord6} KEY_FUNCTION+107
+# Table next row
+bind \{chord}+\{chord4}+\{chord7}+\{chord8} KEY_FUNCTION+108
+# Table previous row
+bind \{chord}+\{chord1}+\{chord7}+\{chord8} KEY_FUNCTION+109
+# Table next column
+bind \{chord}+\{chord5}+\{chord7}+\{chord8} KEY_FUNCTION+110
+# Table previous column
+bind \{chord}+\{chord2}+\{chord7}+\{chord8} KEY_FUNCTION+111
 # Back key
-bind \{chord}+\{chord1}+\{chord2} KEY_FUNCTION+108
+bind \{chord}+\{chord1}+\{chord2} KEY_FUNCTION+112
 # Home key
-bind \{chord}+\{chord1}+\{chord2}+\{chord5} KEY_FUNCTION+109
+bind \{chord}+\{chord1}+\{chord2}+\{chord5} KEY_FUNCTION+113
 # Recent apps key
-bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord5} KEY_FUNCTION+110
+bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord5} KEY_FUNCTION+114
 # Notifications bar
-bind \{chord}+\{chord1}+\{chord3}+\{chord4}+\{chord5} KEY_FUNCTION+111
+bind \{chord}+\{chord1}+\{chord3}+\{chord4}+\{chord5} KEY_FUNCTION+115
 # Keyboard help
-bind \{chord1}+\{chord3}+\{chord7}+\{chord8} KEY_FUNCTION+112
-# Next heading
-bind \{chord1}+\{chord2}+\{chord5}+\{chord8} KEY_FUNCTION+113
-# Previous heading
-bind \{chord1}+\{chord2}+\{chord5}+\{chord7} KEY_FUNCTION+114
-# Next control
-bind \{chord1}+\{chord4}+\{chord8} KEY_FUNCTION+115
-# Previous control
-bind \{chord1}+\{chord4}+\{chord7} KEY_FUNCTION+116
-# Next link
-bind \{chord1}+\{chord2}+\{chord3}+\{chord8} KEY_FUNCTION+117
-# Previous link
-bind \{chord1}+\{chord2}+\{chord3}+\{chord7} KEY_FUNCTION+118
+bind \{chord1}+\{chord3}+\{chord7}+\{chord8} KEY_FUNCTION+116
+# Next unvisited link (in browse mode)
+bind \{chord1}+\{chord3}+\{chord6} KEY_FUNCTION+117
+# Next unvisited link (out of browse mode)
+bind \{chord1}+\{chord3}+\{chord6}+\{chord8} KEY_FUNCTION+118
+# Previous unvisited link
+bind \{chord1}+\{chord3}+\{chord6}+\{chord7} KEY_FUNCTION+119
 # Incremental Search
-bind \{chord}+\{chord3}+\{chord4} KEY_FUNCTION+119
+bind \{chord}+\{chord3}+\{chord4} KEY_FUNCTION+120
 # Edit custom label
-bind \{chord}+\{chord1}+\{chord3}+\{chord4}+\{chord8} KEY_FUNCTION+120
+bind \{chord}+\{chord1}+\{chord3}+\{chord4}+\{chord8} KEY_FUNCTION+121
 # Switch to next input language
-bind \{chord2}+\{chord4}+\{chord7}+\{chord8} KEY_FUNCTION+121
+bind \{chord2}+\{chord4}+\{chord7}+\{chord8} KEY_FUNCTION+122
 # Switch to next output language
-bind \{chord1}+\{chord3}+\{chord5}+\{chord7}+\{chord8} KEY_FUNCTION+122
+bind \{chord1}+\{chord3}+\{chord5}+\{chord7}+\{chord8} KEY_FUNCTION+123
 # Braille display Settings
-bind \{chord1}+\{chord2}+\{chord7}+\{chord8} KEY_FUNCTION+123
+bind \{chord1}+\{chord2}+\{chord7}+\{chord8} KEY_FUNCTION+124
 # TalkBack Settings
-bind \{chord2}+\{chord3}+\{chord4}+\{chord5}+\{chord7}+\{chord8} KEY_FUNCTION+124
+bind \{chord2}+\{chord3}+\{chord4}+\{chord5}+\{chord7}+\{chord8} KEY_FUNCTION+125
 # Quick Settings
-bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord4}+\{chord5} KEY_FUNCTION+125
+bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord4}+\{chord5} KEY_FUNCTION+126
 # All apps
-bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord4} KEY_FUNCTION+126
+bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord4} KEY_FUNCTION+127
 # Open TaklBack Menu
-bind \{chord}+\{chord1}+\{chord3}+\{chord4} KEY_FUNCTION+127
+bind \{chord}+\{chord1}+\{chord3}+\{chord4} KEY_FUNCTION+128
 # Delete while editing.
-bind \{chord7} KEY_FUNCTION+128
+bind \{chord7} KEY_FUNCTION+129
 # Enter while editing.
-ifVar chord8 bind \{chord8} KEY_FUNCTION+129
+ifVar chord8 bind \{chord8} KEY_FUNCTION+130
 # Turn off braille display
-bind \{chord1}+\{chord2}+\{chord3}+\{chord4}+\{chord5}+\{chord6}+\{chord7}+\{chord8} KEY_FUNCTION+130
+bind \{chord1}+\{chord2}+\{chord3}+\{chord4}+\{chord5}+\{chord6}+\{chord7}+\{chord8} KEY_FUNCTION+131
 # Previous character
-bind \{chord}+\{chord3} KEY_FUNCTION+131
+bind \{chord}+\{chord3} KEY_FUNCTION+132
 # Next character
-bind \{chord}+\{chord6} KEY_FUNCTION+132
+bind \{chord}+\{chord6} KEY_FUNCTION+133
 # Previous word
-bind \{chord}+\{chord2} KEY_FUNCTION+133
+bind \{chord}+\{chord2} KEY_FUNCTION+134
 # Next word
-bind \{chord}+\{chord5} KEY_FUNCTION+134
+bind \{chord}+\{chord5} KEY_FUNCTION+135
 # Previous window
-bind \{chord2}+\{chord4}+\{chord5}+\{chord6}+\{chord7} KEY_FUNCTION+135
+bind \{chord2}+\{chord4}+\{chord5}+\{chord6}+\{chord7} KEY_FUNCTION+136
 # Next window
-bind \{chord2}+\{chord4}+\{chord5}+\{chord6}+\{chord8} KEY_FUNCTION+136
+bind \{chord2}+\{chord4}+\{chord5}+\{chord6}+\{chord8} KEY_FUNCTION+137
 # Delete a word
-bind \{chord}+\{chord2}+\{chord7} KEY_FUNCTION+137
+bind \{chord}+\{chord2}+\{chord7} KEY_FUNCTION+138
 # Toggle voice feedback (mute/unmute)
-bind \{chord1}+\{chord3}+\{chord4}+\{chord7}+\{chord8} KEY_FUNCTION+138
+bind \{chord1}+\{chord3}+\{chord4}+\{chord7}+\{chord8} KEY_FUNCTION+139
 # Previous reading control
-bind \{chord2}+\{chord3}+\{chord7} KEY_FUNCTION+139
+bind \{chord2}+\{chord3}+\{chord7}+\{chord8} KEY_FUNCTION+140
 # Next reading control
-bind \{chord5}+\{chord6}+\{chord8} KEY_FUNCTION+140
+bind \{chord5}+\{chord6}+\{chord7}+\{chord8} KEY_FUNCTION+141
 # Move navigation focus backward or adjust reading control up
-bind \{chord3}+\{chord7} KEY_FUNCTION+141
+bind \{chord3}+\{chord7} KEY_FUNCTION+142
 # Move navigation focus forward or adjust reading control down
-bind \{chord6}+\{chord8} KEY_FUNCTION+142
+bind \{chord6}+\{chord8} KEY_FUNCTION+143
 # Switch grade
-bind \{chord}+\{chord1}+\{chord2}+\{chord4}+\{chord5} KEY_FUNCTION+143
+bind \{chord}+\{chord1}+\{chord2}+\{chord4}+\{chord5} KEY_FUNCTION+144
 # Long press current
-bind \{chord}+\{chord8} KEY_FUNCTION+144
+bind \{chord}+\{chord8} KEY_FUNCTION+145
 # Stop reading
-bind \{chord7}+\{chord8} KEY_FUNCTION+145
+bind \{chord7}+\{chord8} KEY_FUNCTION+146
 # Cut
-bind \{chord}+\{chord1}+\{chord3}+\{chord4}+\{chord6}+\{chord8} KEY_FUNCTION+146
+bind \{chord}+\{chord1}+\{chord3}+\{chord4}+\{chord6}+\{chord8} KEY_FUNCTION+147
 # Copy
-bind \{chord}+\{chord1}+\{chord4}+\{chord8} KEY_FUNCTION+147
+bind \{chord}+\{chord1}+\{chord4}+\{chord8} KEY_FUNCTION+148
 # Paste
-bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord6}+\{chord8} KEY_FUNCTION+148
+bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord6}+\{chord8} KEY_FUNCTION+149
 # Select all
-bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord4}+\{chord5}+\{chord6}+\{chord8} KEY_FUNCTION+149
+bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord4}+\{chord5}+\{chord6}+\{chord8} KEY_FUNCTION+150
 # Select previous character
-bind \{chord}+\{chord3}+\{chord8} KEY_FUNCTION+150
+bind \{chord}+\{chord3}+\{chord8} KEY_FUNCTION+151
 # Select Next Character
-bind \{chord}+\{chord6}+\{chord8} KEY_FUNCTION+151
+bind \{chord}+\{chord6}+\{chord8} KEY_FUNCTION+152
 # Select previous word
-bind \{chord}+\{chord2}+\{chord8} KEY_FUNCTION+152
+bind \{chord}+\{chord2}+\{chord8} KEY_FUNCTION+153
 # Select next word
-bind \{chord}+\{chord5}+\{chord8} KEY_FUNCTION+153
+bind \{chord}+\{chord5}+\{chord8} KEY_FUNCTION+154
 
 # TODO: As the text selection for line granularity movement does not work,
 # we mask off the action of selecting text by line.
@@ -129,7 +131,142 @@ bind \{chord}+\{chord5}+\{chord8} KEY_FUNCTION+153
 # bind \{chord}+\{chord1}+\{chord8} KEY_FUNCTION+154
 # Select next line
 # bind \{chord}+\{chord4}+\{chord8} KEY_FUNCTION+155
+
 # Toggle auto scroll
 bind \{chord}+\{chord1}+\{chord2}+\{chord4}+\{chord5}+\{chord6} KEY_FUNCTION+156
 # Play or pause media
 bind \{chord}+\{chord7}+\{chord8} KEY_FUNCTION+157
+# Switch to next input method
+bind \{chord}+\{chord1}+\{chord3}+\{chord8} KEY_FUNCTION+158
+# Select current to start
+bind \{chord}+\{chord1}+\{chord2}+\{chord3}+\{chord7}+\{chord8} KEY_FUNCTION+159
+# Select current to end
+bind \{chord}+\{chord4}+\{chord5}+\{chord6}+\{chord7}+\{chord8} KEY_FUNCTION+160
+# Show announcement history
+bind \{chord}+\{chord1}+\{chord3}+\{chord4}+\{chord5}+\{chord7}+\{chord8} KEY_FUNCTION+161
+# Enter or exit captions
+bind \{chord}+\{chord1}+\{chord4}+\{chord7}+\{chord8} KEY_FUNCTION+162
+
+# Browse mode
+# Enter or exit browse mode
+bind \{chord}+\{chord1}+\{chord3}+\{chord4}+\{chord6} KEY_FUNCTION+163
+# Next landmark (in browse mode)
+bind \{chord1}+\{chord4}+\{chord5} KEY_FUNCTION+164
+# Next landmark (out of browse mode)
+bind \{chord1}+\{chord4}+\{chord5}+\{chord8} KEY_FUNCTION+165
+# Previous landmark
+bind \{chord1}+\{chord4}+\{chord5}+\{chord7} KEY_FUNCTION+166
+# Next graphic (in browse mode)
+bind \{chord1}+\{chord2}+\{chord4}+\{chord5} KEY_FUNCTION+167
+# Next graphic (out of browse mode)
+bind \{chord1}+\{chord2}+\{chord4}+\{chord5}+\{chord8} KEY_FUNCTION+168
+# Previous graphic
+bind \{chord1}+\{chord2}+\{chord4}+\{chord5}+\{chord7} KEY_FUNCTION+169
+# Next list (in browse mode)
+bind \{chord1}+\{chord2}+\{chord3} KEY_FUNCTION+170
+# Next list (out of browse mode)
+bind \{chord1}+\{chord2}+\{chord3}+\{chord8} KEY_FUNCTION+171
+# Previous list
+bind \{chord1}+\{chord2}+\{chord3}+\{chord7} KEY_FUNCTION+172
+# Next list item (in browse mode)
+bind \{chord2}+\{chord4} KEY_FUNCTION+173
+# Next list item (out of browse mode)
+bind \{chord2}+\{chord4}+\{chord8} KEY_FUNCTION+174
+# Previous list item
+bind \{chord2}+\{chord4}+\{chord7} KEY_FUNCTION+175
+# Next table (in browse mode)
+bind \{chord2}+\{chord3}+\{chord4}+\{chord5} KEY_FUNCTION+176
+# Next table (out of browse mode)
+bind \{chord2}+\{chord3}+\{chord4}+\{chord5}+\{chord8} KEY_FUNCTION+177
+# Previous table
+bind \{chord2}+\{chord3}+\{chord4}+\{chord5}+\{chord7} KEY_FUNCTION+178
+# Next heading (in browse mode)
+bind \{chord1}+\{chord2}+\{chord5} KEY_FUNCTION+179
+# Next heading (out of browse mode)
+bind \{chord1}+\{chord2}+\{chord5}+\{chord8} KEY_FUNCTION+180
+# Previous heading
+bind \{chord1}+\{chord2}+\{chord5}+\{chord7} KEY_FUNCTION+181
+# Next heading 1 (in browse mode)
+bind \{chord2} KEY_FUNCTION+182
+# Next heading 1 (out of browse mode)
+bind \{chord2}+\{chord8} KEY_FUNCTION+183
+# Previous heading 1
+bind \{chord2}+\{chord7} KEY_FUNCTION+184
+# Next heading 2 (in browse mode)
+bind \{chord2}+\{chord3} KEY_FUNCTION+185
+# Next heading 2 (out of browse mode)
+bind \{chord2}+\{chord3}+\{chord8} KEY_FUNCTION+186
+# Previous heading 2
+bind \{chord2}+\{chord3}+\{chord7} KEY_FUNCTION+187
+# Next heading 3 (in browse mode)
+bind \{chord2}+\{chord5} KEY_FUNCTION+188
+# Next heading 3 (out of browse mode)
+bind \{chord2}+\{chord5}+\{chord8} KEY_FUNCTION+189
+# Previous heading 3
+bind \{chord2}+\{chord5}+\{chord7} KEY_FUNCTION+190
+# Next heading 4 (in browse mode)
+bind \{chord2}+\{chord5}+\{chord6} KEY_FUNCTION+191
+# Next heading 4 (out of browse mode)
+bind \{chord2}+\{chord5}+\{chord6}+\{chord8} KEY_FUNCTION+192
+# Previous heading 4
+bind \{chord2}+\{chord5}+\{chord6}+\{chord7} KEY_FUNCTION+193
+# Next heading 5 (in browse mode)
+bind \{chord2}+\{chord6} KEY_FUNCTION+194
+# Next heading 5 (out of browse mode)
+bind \{chord2}+\{chord6}+\{chord8} KEY_FUNCTION+195
+# Previous heading 5
+bind \{chord2}+\{chord6}+\{chord7} KEY_FUNCTION+196
+# Next heading 6 (in browse mode)
+bind \{chord2}+\{chord3}+\{chord5} KEY_FUNCTION+197
+# Next heading 6 (out of browse mode)
+bind \{chord2}+\{chord3}+\{chord5}+\{chord8} KEY_FUNCTION+198
+# Previous heading 6
+bind \{chord2}+\{chord3}+\{chord5}+\{chord7} KEY_FUNCTION+199
+# Next control (in browse mode)
+bind \{chord1}+\{chord2}+\{chord4} KEY_FUNCTION+200
+# Next control (out of browse mode)
+bind \{chord1}+\{chord2}+\{chord4}+\{chord8} KEY_FUNCTION+201
+# Previous control
+bind \{chord1}+\{chord2}+\{chord4}+\{chord7} KEY_FUNCTION+202
+# Next button (in browse mode)
+bind \{chord1}+\{chord2} KEY_FUNCTION+203
+# Next button (out of browse mode)
+bind \{chord1}+\{chord2}+\{chord8} KEY_FUNCTION+204
+# Previous button
+bind \{chord1}+\{chord2}+\{chord7} KEY_FUNCTION+205
+# Next checkbox (in browse mode)
+bind \{chord1}+\{chord3}+\{chord4}+\{chord6} KEY_FUNCTION+206
+# Next checkbox (out of browse mode)
+bind \{chord1}+\{chord3}+\{chord4}+\{chord6}+\{chord8} KEY_FUNCTION+207
+# Previous checkbox
+bind \{chord1}+\{chord3}+\{chord4}+\{chord6}+\{chord7} KEY_FUNCTION+208
+# Next radio button (in browse mode)
+bind \{chord1}+\{chord2}+\{chord3}+\{chord5} KEY_FUNCTION+209
+# Next radio button (out of browse mode)
+bind \{chord1}+\{chord2}+\{chord3}+\{chord5}+\{chord8} KEY_FUNCTION+210
+# Previous radio button
+bind \{chord1}+\{chord2}+\{chord3}+\{chord5}+\{chord7} KEY_FUNCTION+211
+# Next combo box (in browse mode)
+bind \{chord1}+\{chord4} KEY_FUNCTION+212
+# Next combo box (out of browse mode)
+bind \{chord1}+\{chord4}+\{chord8} KEY_FUNCTION+213
+# Previous combo box
+bind \{chord1}+\{chord4}+\{chord7} KEY_FUNCTION+214
+# Next edit field (in browse mode)
+bind \{chord1}+\{chord5} KEY_FUNCTION+215
+# Next edit field (out of browse mode)
+bind \{chord1}+\{chord5}+\{chord8} KEY_FUNCTION+216
+# Previous edit field
+bind \{chord1}+\{chord5}+\{chord7} KEY_FUNCTION+217
+# Next link (in browse mode)
+bind \{chord1}+\{chord3} KEY_FUNCTION+218
+# Next link (out of browse mode)
+bind \{chord1}+\{chord3}+\{chord8} KEY_FUNCTION+219
+# Previous link
+bind \{chord1}+\{chord3}+\{chord7} KEY_FUNCTION+220
+# Next visited link (in browse mode)
+bind \{chord1}+\{chord2}+\{chord3}+\{chord6} KEY_FUNCTION+221
+# Next visited link (out of browse mode)
+bind \{chord1}+\{chord2}+\{chord3}+\{chord6}+\{chord8} KEY_FUNCTION+222
+# Previous visited link
+bind \{chord1}+\{chord2}+\{chord3}+\{chord6}+\{chord7} KEY_FUNCTION+223

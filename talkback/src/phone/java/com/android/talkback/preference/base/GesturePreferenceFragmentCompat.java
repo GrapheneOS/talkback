@@ -19,208 +19,200 @@ package com.google.android.accessibility.talkback.preference.base;
 import static com.google.android.accessibility.talkback.preference.base.GestureListPreference.TYPE_ACTION_ITEM;
 import static com.google.android.accessibility.talkback.preference.base.GestureListPreference.TYPE_TITLE;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.LayoutManager;
+import androidx.recyclerview.widget.RecyclerView.Recycler;
+import androidx.recyclerview.widget.RecyclerView.State;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.CheckedTextView;
-import android.widget.ListView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-import androidx.core.view.ViewCompat;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import com.google.android.accessibility.talkback.R;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.CollectionInfoCompat;
+import androidx.preference.Preference;
+import androidx.preference.Preference.OnPreferenceClickListener;
+import androidx.preference.PreferenceScreen;
+import com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory;
+import com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference;
 import com.google.android.accessibility.talkback.preference.base.GestureListPreference.ActionItem;
+import com.google.android.accessibility.utils.PreferenceSettingsUtils;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * A dialog fragment contains a customized list view for TalkBack supported actions.
+ * A fragment contains a customized list view for TalkBack supported actions.
  *
- * <p>Note: This class is only for Handset and it is the same as the class in Auto. If we change
- * some code in Auto, we should manually sync it here.
+ * <p>Note: This class is only for Phone.
  */
-public class GesturePreferenceFragmentCompat extends PreferenceDialogFragmentCompat {
+public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
   private static final String TAG = "GesturePreferenceFragmentCompat";
-  private static final String ARG_ACTIONS = "actions";
+
+  private static final String GESTURE_TITLE = "GESTURE_TITLE";
+  private static final String GESTURE_INITIAL_VALUE = "GESTURE_INITIAL_VALUE";
+  private static final String GESTURE_ACTION_ITEMS = "GESTURE_ACTION_ITEMS";
+
+  private Parcelable[] items;
+  private CharSequence title;
+  private String initialValue;
+  private String preferenceKey;
+
+  private final OnPreferenceClickListener onPreferenceClickListener =
+      new OnPreferenceClickListener() {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+
+          ActionItem item = (ActionItem) items[preference.getOrder()];
+          boolean checked = TextUtils.equals(item.value, initialValue);
+          if (checked) {
+            // The selected action is clicked again and it is going to be unchecked. We should
+            // return false to ignore it and don't set the value to targetGestureListPreference.
+            popBackStack();
+            return false;
+          }
+
+          SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(getContext());
+          prefs.edit().putString(preferenceKey, item.value).apply();
+          popBackStack();
+          return true;
+        }
+      };
+
+  private int selectedPosition;
 
   /** Creates the fragment from given {@link GestureListPreference}. */
-  public static GesturePreferenceFragmentCompat create(GestureListPreference preference) {
-    GesturePreferenceFragmentCompat fragment = new GesturePreferenceFragmentCompat();
-    Bundle args = new Bundle(2);
-    args.putString(PreferenceDialogFragmentCompat.ARG_KEY, preference.getKey());
-    args.putParcelableArray(ARG_ACTIONS, preference.getActionItems());
-    fragment.setArguments(args);
-    return fragment;
-  }
-
-  @Override
-  protected View onCreateDialogView(Context context) {
-    ListView listView = new ListView(getActivity());
-    Parcelable[] items = getArguments().getParcelableArray(ARG_ACTIONS);
-    ActionAdapter adapter = new ActionAdapter(getActivity(), items, getPreferenceValue());
-
-    listView.setAdapter(adapter);
-    listView.setBackground(null);
-    listView.setDivider(null);
-    listView.setDividerHeight(
-        context.getResources().getDimensionPixelSize(R.dimen.alertdialog_menuitem_divider_height));
-    listView.setOnItemClickListener(this::selectActionInList);
-    listView.setPaddingRelative(
-        context.getResources().getDimensionPixelSize(R.dimen.alertdialog_padding_start),
-        /* top= */ 0,
-        context.getResources().getDimensionPixelSize(R.dimen.alertdialog_padding_end),
-        /* bottom= */ 0);
-
-    // Set the initial position to the checked item in list.
-    String value = getPreferenceValue();
-    for (int i = 0; i < items.length; ++i) {
-      if (items[i] instanceof ActionItem) {
-        ActionItem item = (ActionItem) items[i];
-        if (TextUtils.equals(item.value, value)) {
-          int initialPosition = i;
-          listView.post(() -> listView.setSelection(initialPosition));
-          break;
-        }
-      }
-    }
-    return listView;
-  }
-
-  @Override
-  public void onDialogClosed(boolean positiveResult) {}
-
-  @VisibleForTesting
-  void selectActionInList(AdapterView<?> parent, View view, int position, long unusedId) {
-    CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.actionItem);
-    if (checkedTextView.isChecked()) {
-      // To avoid storing the default value, we don't set the value to the preference if
-      // it doesn't change.
-      dismiss();
-      return;
-    }
-
-    checkedTextView.setChecked(true);
-    ActionItem item = (ActionItem) parent.getItemAtPosition(position);
-    setValue(item.value);
-    getPreference().setSummary(item.text);
-    dismiss();
-  }
-
-  private void setValue(String value) {
-    if (getPreference() instanceof GestureListPreference) {
-      ((GestureListPreference) getPreference()).setValue(value);
-
-      return;
-    }
-
-    LogUtils.e(
-        TAG, "Unexpected usage, the preference fragment should work with a GestureListPreference.");
-  }
-
   @Nullable
-  private String getPreferenceValue() {
-    if (getPreference() instanceof GestureListPreference) {
-      return ((GestureListPreference) getPreference()).getCurrentValue();
-    }
-
-    LogUtils.e(
-        TAG, "Unexpected usage, the preference fragment should work with a GestureListPreference.");
+  public static GesturePreferenceFragmentCompat create(GestureListPreference preference) {
+    // Do nothing.
     return null;
   }
 
-  /**
-   * A {@link BaseAdapter} for presenting {@link ActionItem}. It supports two styles of view: the
-   * category heading, which contains a single text, and the shortcut text with a checkable button.
-   */
-  @VisibleForTesting
-  protected static class ActionAdapter extends BaseAdapter {
-    final Context context;
-    final Parcelable[] actionItems;
-    final String initialValue;
+  public static Bundle createBundleForFragmentArguments(GestureListPreference preference) {
+    Bundle bundle = new Bundle();
+    bundle.putString(ARG_PREFERENCE_ROOT, preference.getKey());
+    bundle.putCharSequence(GESTURE_TITLE, preference.getTitle());
+    bundle.putString(GESTURE_INITIAL_VALUE, preference.getCurrentValue());
+    bundle.putParcelableArray(GESTURE_ACTION_ITEMS, preference.getActionItems());
+    return bundle;
+  }
 
-    ActionAdapter(Context context, Parcelable[] actionItems, String initialValue) {
-      this.context = context;
-      this.actionItems = actionItems;
-      this.initialValue = initialValue;
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    if (savedInstanceState == null) {
+      // We post a runnable to scroll to the selected position in the 1st time.
+      scrollToSelectedPosition();
     }
+  }
 
-    @Override
-    public int getCount() {
-      return actionItems.length;
-    }
-
-    @Override
-    public Object getItem(int position) {
-      return actionItems[position];
-    }
-
-    @Override
-    public long getItemId(int position) {
-      return position;
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
-      if (!(actionItems[position] instanceof ActionItem)) {
-        return false;
+  @NonNull
+  @Override
+  public LayoutManager onCreateLayoutManager() {
+    return new LinearLayoutManager(requireContext()) {
+      @Override
+      public int getSelectionModeForAccessibility(
+          @NonNull Recycler recycler, @NonNull State state) {
+        return CollectionInfoCompat.SELECTION_MODE_SINGLE;
       }
+    };
+  }
 
-      ActionItem item = (ActionItem) actionItems[position];
-      return item.viewType == TYPE_ACTION_ITEM;
+  /** Pops back the fragment and restores the a11y importance attribute for the parent fragment. */
+  private void popBackStack() {
+    FragmentActivity activity = getActivity();
+    if (activity == null) {
+      return;
     }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-      if (!(actionItems[position] instanceof ActionItem)) {
-        return convertView;
-      }
-
-      final View view;
-      ActionItem item = (ActionItem) actionItems[position];
-      switch (item.viewType) {
-          // A Checkable text view for shortcuts.
-        case TYPE_ACTION_ITEM:
-          view = LayoutInflater.from(context).inflate(R.layout.list_item_radio, parent, false);
-          CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.actionItem);
-          checkedTextView.setText(item.text);
-          if (TextUtils.equals(item.value, initialValue)) {
-            checkedTextView.setChecked(true);
-          } else {
-            checkedTextView.setChecked(false);
-          }
-
-          return view;
-
-          // Single text view for shortcut categories.
-        case TYPE_TITLE:
-        default:
-          view = LayoutInflater.from(context).inflate(R.layout.list_item_category, parent, false);
-          TextView textView = (TextView) view;
-          ViewCompat.setAccessibilityHeading(textView, true);
-          textView.setText(item.text);
-          return view;
-      }
+    FragmentManager fragmentManager = getParentFragmentManager();
+    fragmentManager.popBackStackImmediate();
+    if (fragmentManager.getBackStackEntryCount() == 0) {
+      activity.finish();
     }
   }
 
   @Override
-  public @NonNull Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-    Dialog dialog = super.onCreateDialog(savedInstanceState);
-    dialog.setOnShowListener(
-        (dialogInterface) -> {
-          // Sets the ok button to invisible.
-          ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.GONE);
-        });
+  protected CharSequence getTitle() {
+    return title;
+  }
 
-    return dialog;
+  @Override
+  public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+    Bundle bundle = getArguments();
+    if (bundle == null) {
+      throw new IllegalArgumentException();
+    }
+    title = bundle.getCharSequence(GESTURE_TITLE);
+    initialValue = bundle.getString(GESTURE_INITIAL_VALUE);
+    items = bundle.getParcelableArray(GESTURE_ACTION_ITEMS);
+    preferenceKey = rootKey;
+
+    PreferenceSettingsUtils.setPreferenceScreen(this, createPreferenceScreen());
+  }
+
+  private PreferenceScreen createPreferenceScreen() {
+    PreferenceScreen preferenceScreen = getPreferenceManager().createPreferenceScreen(getContext());
+    Context context = getContext();
+
+    AccessibilitySuitePreferenceCategory category = null;
+    ActionItem item;
+    for (int order = 0; order < items.length; order++) {
+      item = (ActionItem) items[order];
+      switch (item.viewType) {
+        case TYPE_TITLE -> {
+          category = new AccessibilitySuitePreferenceCategory(getContext());
+          category.setTitle(item.text);
+          preferenceScreen.addPreference(category);
+        }
+        case TYPE_ACTION_ITEM -> {
+          AccessibilitySuiteRadioButtonPreference radioButtonPreference =
+              new AccessibilitySuiteRadioButtonPreference(context);
+          radioButtonPreference.setTitle(item.text);
+          boolean checked = TextUtils.equals(item.value, initialValue);
+          radioButtonPreference.setChecked(checked);
+          radioButtonPreference.setOnPreferenceClickListener(onPreferenceClickListener);
+          radioButtonPreference.setOrder(order);
+          radioButtonPreference.setSingleLineTitle(false);
+          if (category == null) {
+            // We create a category without title to add the beginning preference (e.g., "Tap to
+            // assign").
+            category = new AccessibilitySuitePreferenceCategory(getContext());
+            preferenceScreen.addPreference(category);
+          }
+          radioButtonPreference.setKey(item.text);
+          category.addPreference(radioButtonPreference);
+          if (checked) {
+            selectedPosition = order;
+          }
+          radioButtonPreference.setRequestInitialAccessibilityFocus(checked);
+        }
+        default -> {}
+      }
+    }
+
+    return preferenceScreen;
+  }
+
+  private int getSelectedPositionInAdapter() {
+    // In SettingsBasePreferenceFragment, it has an unknown item in the beginning for the
+    // RecyclerView. So, we offset one position for the selected preference.
+    return selectedPosition + 1;
+  }
+
+  private void scrollToSelectedPosition() {
+    RecyclerView recyclerView = getListView();
+    if (recyclerView == null) {
+      LogUtils.w(TAG, "RecyclerView has been cleared.");
+      return;
+    }
+
+    LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+    if (linearLayoutManager != null) {
+      linearLayoutManager.scrollToPositionWithOffset(getSelectedPositionInAdapter(), 0);
+    }
   }
 }

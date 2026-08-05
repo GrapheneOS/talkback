@@ -16,32 +16,20 @@
 
 package com.google.android.accessibility.talkback.imagecaption;
 
-import static com.google.android.accessibility.utils.caption.ImageCaptionUtils.CaptionType.OCR;
-
 import android.accessibilityservice.AccessibilityService;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.utils.Filter;
-import com.google.android.accessibility.utils.StringBuilderUtils;
-import com.google.android.accessibility.utils.caption.Result;
-import com.google.android.accessibility.utils.ocr.OcrController;
-import com.google.android.accessibility.utils.ocr.OcrController.OcrListener;
-import com.google.android.accessibility.utils.ocr.OcrInfo;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * A {@link CaptionRequest} for performing OCR (optical character recognition) to recognize text
- * from the screenshot.
+ * A stub {@link CaptionRequest} for OCR (optical character recognition). OCR through Google ML Kit
+ * has been removed to avoid a Google Play Services dependency, so this request performs no work.
  */
-public class CharacterCaptionRequest extends CaptionRequest implements OcrListener {
+public class CharacterCaptionRequest extends CaptionRequest {
 
-  private final OcrController ocrController;
   private final Bitmap screenCapture;
 
-  /** This object takes ownership of node, caller should not recycle. */
+  /** Stub constructor. This object takes ownership of node; caller should not recycle. */
   public CharacterCaptionRequest(
       int requestId,
       AccessibilityService service,
@@ -51,44 +39,10 @@ public class CharacterCaptionRequest extends CaptionRequest implements OcrListen
       @NonNull OnErrorListener onErrorListener,
       boolean isUserRequested) {
     super(requestId, node, onFinishListener, onErrorListener, isUserRequested);
-    ocrController = new OcrController(service, this);
     this.screenCapture = screenCapture;
   }
 
-  /**
-   * Captures screen and performs ocr(optical character recognition) to recognize text for the given
-   * node.
-   */
+  /** Stub: OCR support has been removed, so this performs no work. */
   @Override
-  public void perform() {
-    final List<OcrInfo> ocrInfos = new ArrayList<>();
-    ocrInfos.add(new OcrInfo(node));
-    onCaptionStart();
-    ocrController.recognizeTextForNodes(
-        screenCapture, ocrInfos, /* selectionBounds= */ null, Filter.node(node -> true));
-
-    runTimeoutRunnable();
-  }
-
-  @Override
-  public void onOcrStarted() {}
-
-  @Override
-  public void onOcrFinished(List<OcrInfo> ocrResults) {
-    stopTimeoutRunnable();
-    if (ocrResults == null) {
-      onError(ERROR_TEXT_RECOGNITION_NO_RESULT);
-      return;
-    }
-
-    List<CharSequence> texts = new ArrayList<>();
-    for (OcrInfo ocrResult : ocrResults) {
-      String text = OcrController.getTextFromBlocks(ocrResult.getTextBlocks());
-      if (TextUtils.isEmpty(text)) {
-        continue;
-      }
-      texts.add(text);
-    }
-    onCaptionFinish(Result.create(OCR, StringBuilderUtils.getAggregateText(texts)));
-  }
+  public void perform() {}
 }

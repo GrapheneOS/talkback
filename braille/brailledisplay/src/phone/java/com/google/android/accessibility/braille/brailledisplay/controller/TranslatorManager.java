@@ -25,6 +25,7 @@ import com.google.android.accessibility.braille.common.BrailleUserPreferences;
 import com.google.android.accessibility.braille.common.translate.BrailleLanguages.Code;
 import com.google.android.accessibility.braille.translate.BrailleTranslator;
 import com.google.android.accessibility.braille.translate.TranslatorFactory;
+import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,7 @@ import java.util.List;
 public class TranslatorManager implements SharedPreferences.OnSharedPreferenceChangeListener {
   private static final String TAG = "TranslatorManager";
   private final Context context;
+  private final TranslatorFactory translatorFactory;
   private final SharedPreferences sharedPreferences;
   private volatile BrailleTranslator outputTranslator;
   private volatile BrailleTranslator inputTranslator;
@@ -70,8 +72,13 @@ public class TranslatorManager implements SharedPreferences.OnSharedPreferenceCh
    */
   public TranslatorManager(final Context context) {
     this.context = context;
+    translatorFactory = BrailleUserPreferences.readTranslatorFactory(context);
     sharedPreferences =
         BrailleUserPreferences.getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME);
+  }
+
+  /** Starts translator functions. */
+  public void start() {
     sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     updateInputTranslator();
     updateOutputTranslators();
@@ -108,11 +115,13 @@ public class TranslatorManager implements SharedPreferences.OnSharedPreferenceCh
 
   /** Returns the translator to use on output. */
   public BrailleTranslator getOutputTranslator() {
+    Preconditions.checkNotNull(outputTranslator, "Call start()");
     return outputTranslator;
   }
 
   /** Returns the translator to use on input. */
   public BrailleTranslator getInputTranslator() {
+    Preconditions.checkNotNull(inputTranslator, "Call start()");
     return inputTranslator;
   }
 
@@ -129,7 +138,6 @@ public class TranslatorManager implements SharedPreferences.OnSharedPreferenceCh
   }
 
   private void updateOutputTranslators() {
-    TranslatorFactory translatorFactory = BrailleUserPreferences.readTranslatorFactory(context);
     Code code = BrailleUserPreferences.readCurrentActiveOutputCodeAndCorrect(context);
     boolean contracted = BrailleUserPreferences.readContractedMode(context);
     BrailleTranslator newTranslator = translatorFactory.create(context, code.name(), contracted);
@@ -141,7 +149,6 @@ public class TranslatorManager implements SharedPreferences.OnSharedPreferenceCh
   }
 
   private void updateInputTranslator() {
-    TranslatorFactory translatorFactory = BrailleUserPreferences.readTranslatorFactory(context);
     Code code = BrailleUserPreferences.readCurrentActiveInputCodeAndCorrect(context);
     boolean contracted = BrailleUserPreferences.readContractedMode(context);
     BrailleTranslator newTranslator = translatorFactory.create(context, code.name(), contracted);

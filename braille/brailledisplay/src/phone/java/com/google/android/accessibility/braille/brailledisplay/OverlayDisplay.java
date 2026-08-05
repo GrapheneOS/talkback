@@ -156,18 +156,10 @@ public class OverlayDisplay implements OnBrailleCellClickListener {
     @Override
     public void handleMessage(Message msg, OverlayDisplay parent) {
       switch (msg.what) {
-        case MSG_SHOW:
-          handleShow(parent);
-          break;
-        case MSG_HIDE:
-          handleHide();
-          break;
-        case MSG_DISPLAY_DOTS:
-          handleDisplayDots();
-          break;
-        case MSG_INPUT_EVENT:
-          handleInputEvent((BrailleInputEvent) msg.obj);
-          break;
+        case MSG_SHOW -> handleShow(parent);
+        case MSG_HIDE -> handleHide();
+        case MSG_DISPLAY_DOTS -> handleDisplayDots();
+        case MSG_INPUT_EVENT -> handleInputEvent((BrailleInputEvent) msg.obj);
       }
     }
 
@@ -242,12 +234,8 @@ public class OverlayDisplay implements OnBrailleCellClickListener {
     @Override
     protected void handleMessage(Message msg, OverlayDisplay parent) {
       switch (msg.what) {
-        case MSG_PREFERENCE_CHANGE:
-          parent.updateFromSharedPreferences();
-          break;
-        case MSG_SEND_INPUT_EVENT:
-          parent.sendInputEvent((BrailleInputEvent) msg.obj);
-          break;
+        case MSG_PREFERENCE_CHANGE -> parent.updateFromSharedPreferences();
+        case MSG_SEND_INPUT_EVENT -> parent.sendInputEvent((BrailleInputEvent) msg.obj);
       }
     }
   }

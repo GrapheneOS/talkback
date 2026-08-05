@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -40,7 +40,12 @@
 #include <sys/file.h>
 #endif /* HAVE_SYS_FILE_H */
 
+#ifdef HAVE_TERMIOS_H
+#include <termios.h>
+#endif /* HAVE_TERMIOS_H */
+
 #include "parameters.h"
+#include "options.h"
 #include "log.h"
 #include "strfmt.h"
 #include "file.h"
@@ -204,6 +209,19 @@ makePath (const char *directory, const char *file) {
   const char *const components[] = {directory, file};
 
   return joinPath(components, ARRAY_COUNT(components));
+}
+
+int
+anchorRelativePath (char **path, const char *anchor) {
+  int ok = 0;
+  char *newPath = makePath(anchor, *path);
+
+  if (newPath) {
+    if (changeStringSetting(path, newPath)) ok = 1;
+    free(newPath);
+  }
+
+  return ok;
 }
 
 int
@@ -480,13 +498,8 @@ ensurePathDirectory (const char *path) {
   }
 }
 
-static void
-setDirectory (const char **variable, const char *directory) {
-  *variable = directory;
-}
-
 static const char *
-getDirectory (const char *const *variable) {
+getDirectory (char *const *variable) {
   if (*variable && **variable) {
     if (ensureDirectory(*variable, 0)) {
       return *variable;
@@ -497,44 +510,60 @@ getDirectory (const char *const *variable) {
 }
 
 static char *
-makeDirectoryPath (const char *const *variable, const char *file) {
+makeDirectoryPath (char *const *variable, const char *file) {
   const char *directory = getDirectory(variable);
   if (directory) return makePath(directory, file);
   return NULL;
 }
 
-static const char *updatableDirectory = NULL;
-
-void
-setUpdatableDirectory (const char *directory) {
-  setDirectory(&updatableDirectory, directory);
-}
+char *opt_updatableDirectory = UPDATABLE_DIRECTORY;
 
 const char *
 getUpdatableDirectory (void) {
-  return getDirectory(&updatableDirectory);
+  return getDirectory(&opt_updatableDirectory);
 }
 
 char *
 makeUpdatablePath (const char *file) {
-  return makeDirectoryPath(&updatableDirectory, file);
+  return makeDirectoryPath(&opt_updatableDirectory, file);
 }
 
-static const char *writableDirectory = NULL;
-
-void
-setWritableDirectory (const char *directory) {
-  setDirectory(&writableDirectory, directory);
-}
+char *opt_writableDirectory = WRITABLE_DIRECTORY;
 
 const char *
 getWritableDirectory (void) {
-  return getDirectory(&writableDirectory);
+  return getDirectory(&opt_writableDirectory);
 }
 
 char *
 makeWritablePath (const char *file) {
-  return makeDirectoryPath(&writableDirectory, file);
+  return makeDirectoryPath(&opt_writableDirectory, file);
+}
+
+const char *
+getDevicesDirectory (void) {
+  static const char *devicesDirectory = NULL;
+
+  if (!devicesDirectory) {
+    const char *directory = makeWritablePath("dev");
+
+    if (directory) {
+      if (ensureDirectory(directory, 0)) {
+        devicesDirectory = directory;
+      }
+    }
+
+    if (devicesDirectory) logMessage(LOG_DEBUG, "devices directory: %s", devicesDirectory);
+  }
+
+  return devicesDirectory;
+}
+
+char *
+makeDevicesPath (const char *file) {
+  const char *directory = getDevicesDirectory();
+  if (directory) return makePath(directory, file);
+  return NULL;
 }
 
 char *
@@ -1279,7 +1308,7 @@ createAnonymousPipe (FileDescriptor *pipeInput, FileDescriptor *pipeOutput) {
 }
 #endif /* basic file/socket descriptor operations */
 
-void
+int
 writeWithConsoleEncoding (FILE *stream, const char *bytes, size_t count) {
   static const char *consoleEncoding = NULL;
   if (!consoleEncoding) consoleEncoding = getConsoleEncoding();
@@ -1321,18 +1350,15 @@ writeWithConsoleEncoding (FILE *stream, const char *bytes, size_t count) {
       &outputNext, &outputLeft
     );
 
-    if (result != -1) {
-      size_t length = outputNext - outputBuffer;
-      outputBuffer[length] = 0;
-      fputs(outputBuffer, stream);
-    }
-
-    return;
+    if (result == -1) return 0;
+    fwrite(outputBuffer, 1, (outputNext - outputBuffer), stream);
+    return !ferror(stream);
   }
 ENCODING_NOT_SUPPORTED:
 #endif /* HAVE_ICONV_H */
 
   fwrite(bytes, 1, count, stream);
+  return !ferror(stream);
 }
 
 #ifdef GOT_SOCKETS

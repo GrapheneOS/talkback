@@ -15,25 +15,30 @@
  */
 package com.google.android.accessibility.talkback.preference.base;
 
-import static com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP;
+import static com.google.android.accessibility.utils.SettingsUtils.isTouchExplorationEnabled;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.format.DateFormat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.TwoStatePreference;
+import androidx.preference.PreferenceGroup;
+import com.google.android.accessibility.material.preference.AccessibilitySuitePreference;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.talkback.RingerModeAndScreenMonitor;
 import com.google.android.accessibility.talkback.TalkBackService;
-import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.TypingMethod;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
+import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMonitor;
 import com.google.android.accessibility.talkback.preference.base.PreferenceActionHelper.WebPage;
-import com.google.android.accessibility.talkback.speech.SpeakPasswordsManager;
+import com.google.android.accessibility.talkback.utils.DateTimeUtils;
+import com.google.android.accessibility.talkback.utils.TalkbackFeatureSupport;
+import com.google.android.accessibility.utils.PreferenceSettingsUtils;
+import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Fragment to display advanced settings. */
 public class AdvancedSettingFragment extends TalkbackBaseFragment {
@@ -65,6 +70,32 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
     if (timeFeedbackFormatPref != null) {
       timeFeedbackFormatPref.setSummaryProvider(preference -> getSummaryForTimeFeedbackFormat());
     }
+    AccessibilitySuitePreference typingMethodPreference =
+        (AccessibilitySuitePreference)
+            findPreference(getString(R.string.pref_typing_confirmation_key));
+    if (typingMethodPreference != null) {
+      typingMethodPreference.setSummaryProvider(
+          preference -> {
+            int method =
+                SharedPreferencesUtils.getIntFromStringPref(
+                    prefs,
+                    context.getResources(),
+                    R.string.pref_typing_confirmation_key,
+                    R.string.pref_typing_confirmation_default);
+
+            String[] typingValues =
+                context.getResources().getStringArray(R.array.pref_typing_types_talkback_values);
+            int position = Integer.parseInt(typingValues[typingValues.length - 1]);
+            for (int index = 0; index < typingValues.length; index++) {
+              if (method == Integer.parseInt(typingValues[index])) {
+                position = index;
+                break;
+              }
+            }
+            return context.getResources()
+                .getStringArray(R.array.pref_typing_types_talkback_entries)[position];
+          });
+    }
   }
 
   private String getSummaryForTimeFeedbackFormat() {
@@ -78,41 +109,20 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
     int timeFeedbackFormatType =
         RingerModeAndScreenMonitor.prefValueToTimeFeedbackFormat(resources, timeFeedbackFormat);
 
-    switch (timeFeedbackFormatType) {
-      case RingerModeAndScreenMonitor.TIME_FEEDBACK_FORMAT_12_HOURS:
-        return getString(R.string.pref_time_feedback_format_entries_12_hour);
-      case RingerModeAndScreenMonitor.TIME_FEEDBACK_FORMAT_24_HOURS:
-        return getString(R.string.pref_time_feedback_format_entries_24_hour);
-      default:
-        return DateFormat.is24HourFormat(getContext())
+    return switch (timeFeedbackFormatType) {
+      case DateTimeUtils.TIME_FEEDBACK_FORMAT_12_HOURS ->
+          getString(R.string.pref_time_feedback_format_entries_12_hour);
+      case DateTimeUtils.TIME_FEEDBACK_FORMAT_24_HOURS ->
+          getString(R.string.pref_time_feedback_format_entries_24_hour);
+      case DateTimeUtils.TIME_FEEDBACK_FORMAT_UNDEFINED ->
+          getString(R.string.pref_time_feedback_format_entries_default);
+      default -> {
+        LogUtils.w(TAG, "Unexpected time format: %d", timeFeedbackFormat);
+        yield DateFormat.is24HourFormat(getContext())
             ? getString(R.string.pref_time_feedback_format_entries_24_hour)
             : getString(R.string.pref_time_feedback_format_entries_12_hour);
-    }
-  }
-
-  /**
-   * Returns whether touch exploration is enabled. This is more reliable than {@code
-   * AccessibilityManager.isTouchExplorationEnabled()} because it updates atomically.
-   */
-  private static boolean isTouchExplorationEnabled(ContentResolver resolver) {
-    return Settings.Secure.getInt(resolver, Settings.Secure.TOUCH_EXPLORATION_ENABLED, 0) == 1;
-  }
-
-  /**
-   * In versions O and above, updates preference for speaking passwords out loud. This way, if the
-   * user already wants the system to speak speak passwords out loud, the user will see no change
-   * and passwords will continue to be spoken. In M and below, hide this preference.
-   */
-  private void updateSpeakPasswordsPreference() {
-      // Read talkback speak-passwords preference, with default to system preference.
-      boolean speakPassValue = SpeakPasswordsManager.getAlwaysSpeakPasswordsPref(context);
-      // Update talkback preference display to match read value.
-      TwoStatePreference prefSpeakPasswords =
-          (TwoStatePreference)
-              findPreference(getString(R.string.pref_speak_passwords_without_headphones));
-      if (prefSpeakPasswords != null) {
-        prefSpeakPasswords.setChecked(speakPassValue);
       }
+    };
   }
 
   /**
@@ -136,6 +146,7 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
       actualState = requestedState;
     }
 
+    // TODO: Use SharedViewModel mechanism to handle this across TalkBack settings fragments.
     // Enable/disable preferences that depend on explore-by-touch.
     // Cannot use "dependency" attribute in preferences XML file, because touch-explore-preference
     // is in a different preference-activity (developer preferences).
@@ -152,6 +163,23 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
     context = getContext();
     prefs = SharedPreferencesUtils.getSharedPreferences(context);
 
+    // During setup, do not allow user access below settings.
+    if (!SettingsUtils.allowLinksOutOfSettings(context)) {
+      PreferenceGroup controlCategory =
+          (PreferenceGroup) findPreferenceByResId(R.string.pref_category_controls_key);
+      if (controlCategory != null) {
+        PreferenceSettingsUtils.hidePreference(
+            context, controlCategory, R.string.pref_manage_labels_key);
+      }
+      // Legal and privacy settings that use WebView.
+      PreferenceGroup otherCategory =
+          (PreferenceGroup) findPreferenceByResId(R.string.pref_category_others_key);
+      if (otherCategory != null) {
+        PreferenceSettingsUtils.hidePreference(context, otherCategory, R.string.pref_policy_key);
+        PreferenceSettingsUtils.hidePreference(context, otherCategory, R.string.pref_show_tos_key);
+      }
+    }
+
     // Link preferences to web-viewer. The behavior depends on the type of form factors.
     if (findPreference(getString(R.string.pref_policy_key)) != null) {
       PreferenceActionHelper.assignWebIntentToPreference(
@@ -166,27 +194,16 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
           WebPage.WEB_PAGE_TERMS_OF_SERVICE);
     }
 
-    updateSpeakPasswordsPreference();
+    // Hiding the smart browse mode toggle if the feature is not enabled.
+    if (!FeatureFlagReader.enableSmartBrowseMode(context)) {
+      PreferenceSettingsUtils.hidePreference(
+          context, getPreferenceScreen(), R.string.pref_smart_browse_mode_key);
+    }
 
-    Preference typingPreference = findPreference(getString(R.string.pref_typing_confirmation_key));
-    Preference longPressDuration =
-        findPreference(getString(R.string.pref_typing_long_press_duration_key));
-    // Disable the "pref_typing_long_press_duration_key" when "pref_typing_confirmation_key" is set
-    // as double-tap.
-    if (typingPreference != null && longPressDuration != null) {
-      @TypingMethod
-      int typingMethod =
-          SharedPreferencesUtils.getIntFromStringPref(
-              prefs,
-              getResources(),
-              R.string.pref_typing_confirmation_key,
-              R.string.pref_typing_confirmation_default);
-      longPressDuration.setEnabled(typingMethod != DOUBLE_TAP);
-      typingPreference.setOnPreferenceChangeListener(
-          (preference, newValue) -> {
-            longPressDuration.setEnabled(Integer.parseInt((String) newValue) != DOUBLE_TAP);
-            return true;
-          });
+    // TODO hide preference until the feature stable.
+    if (!TalkbackFeatureSupport.supportTalkBackExitBanner(context)) {
+      PreferenceSettingsUtils.hidePreference(
+          context, getPreferenceScreen(), R.string.pref_show_exit_watermark_key);
     }
   }
 }

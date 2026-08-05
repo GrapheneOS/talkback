@@ -59,15 +59,11 @@ public class TouchExplorationAction {
   }
 
   private static String actionTypeToString(@ActionType int actionType) {
-    switch (actionType) {
-      case TOUCH_INTERACTION_START:
-        return "TOUCH_INTERACTION_START";
-      case TOUCH_INTERACTION_END:
-        return "TOUCH_INTERACTION_END";
-      case HOVER_ENTER:
-        return "HOVER_ENTER";
-      default:
-        return "(unhandled)";
-    }
+    return switch (actionType) {
+      case TOUCH_INTERACTION_START -> "TOUCH_INTERACTION_START";
+      case TOUCH_INTERACTION_END -> "TOUCH_INTERACTION_END";
+      case HOVER_ENTER -> "HOVER_ENTER";
+      default -> "(unhandled)";
+    };
   }
 }

@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.utils.input;
 
+import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 import static com.google.android.accessibility.utils.input.TextEventHistory.NO_INDEX;
 import static com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_BRAILLE_KEYBOARD;
 import static com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_KEYBOARD;
@@ -25,7 +26,9 @@ import android.content.Context;
 import android.os.Build;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.SuggestionSpan;
 import android.text.style.TtsSpan;
+import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.VisibleForTesting;
@@ -35,6 +38,7 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.R;
+import com.google.android.accessibility.utils.input.GranularityIterator.TextSegmentIterator;
 import com.google.android.accessibility.utils.input.TextEventFilter.KeyboardEchoType;
 import com.google.android.accessibility.utils.monitor.InputModeTracker;
 import com.google.android.accessibility.utils.monitor.VoiceActionDelegate;
@@ -43,6 +47,7 @@ import com.google.android.accessibility.utils.output.EditTextActionHistory;
 import com.google.android.accessibility.utils.output.SelectionStateReader;
 import com.google.android.accessibility.utils.output.SpeechCleanupUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -60,6 +65,10 @@ public class TextEventInterpreter {
   // TalkBack treats the ' ' as the general space character. In some situation, when the content is
   // hyper formatted such as Gmail composer, the Non-Break Space (NBSP) '\u00A0' is used instead.
   private static final char NBSP = '\u00A0';
+
+  private static final char[] COMMON_ENDING_SYMBOLS = new char[] {',', '.', '!', '?', ';', ':'};
+
+  private static final Duration EVENT_CACHING_THRESHOLD = Duration.ofMillis(10);
 
   ///////////////////////////////////////////////////////////////////////////////////
   // Inner classes
@@ -86,6 +95,28 @@ public class TextEventInterpreter {
     void accept(Interpretation interpretation);
   }
 
+  @VisibleForTesting
+  interface LineTextSegmentIteratorProvider {
+    @Nullable TextSegmentIterator getIterator(
+        GranularityIterator.LineIteratorMode mode,
+        @Nullable AccessibilityNodeInfoCompat node,
+        @Nullable CharSequence text);
+  }
+
+  private static class LineTextSegmentIteratorProviderImpl
+      implements LineTextSegmentIteratorProvider {
+    @Override
+    public @Nullable TextSegmentIterator getIterator(
+        GranularityIterator.LineIteratorMode mode,
+        @Nullable AccessibilityNodeInfoCompat node,
+        @Nullable CharSequence text) {
+      if (node == null || text == null) {
+        return null;
+      }
+      return GranularityIterator.getLineIterator(mode, node, text);
+    }
+  }
+
   // /////////////////////////////////////////////////////////////////////////////////
   // Member variables
 
@@ -94,12 +125,19 @@ public class TextEventInterpreter {
   private final @Nullable SelectionStateReader selectionStateReader;
   private final InputModeTracker inputModeTracker;
   private final ActorStateProvider actorStateProvider;
-  private final PreferenceProvider preferenceProvider;
   private final TextEventFilter filter;
+  private final boolean cacheAndDropFrequentEvents;
+  private EventDelayEmitter eventDelayEmitter;
 
   // Event history
   private TextEventHistory mHistory;
   private final EditTextActionHistory.Provider actionHistory;
+
+  // States
+  private boolean readLineWhenMoveToAdjacentLineByUpDownKey = false;
+  private int lastKeyCode = KeyEvent.KEYCODE_UNKNOWN;
+  private int lastKeyModifiers = 0;
+  private @Nullable LineTextSegmentIteratorProvider lineTextSegmentIteratorProvider;
 
   // /////////////////////////////////////////////////////////////////////////////////
   // Construction
@@ -110,9 +148,11 @@ public class TextEventInterpreter {
       InputModeTracker inputModeTracker,
       TextEventHistory history,
       ActorStateProvider actorStateProvider,
-      PreferenceProvider preferenceProvider,
       @Nullable VoiceActionDelegate voiceActionDelegate,
-      TextEventFilter textEventFilter) {
+      @Nullable VoiceDictationDelegate voiceDictationDelegate,
+      TextEventFilter textEventFilter,
+      boolean cacheAndDropFrequentEvents,
+      boolean readLineWhenMoveToAdjacentLineByUpDownKey) {
     mContext = context;
     this.textCursorTracker = textCursorTracker;
     this.selectionStateReader = actorStateProvider.selectionState();
@@ -120,12 +160,14 @@ public class TextEventInterpreter {
     mHistory = history;
     this.actionHistory = actorStateProvider.editHistory();
     this.actorStateProvider = actorStateProvider;
-    this.preferenceProvider = preferenceProvider;
     this.filter = textEventFilter;
     this.filter.setVoiceActionDelegate(voiceActionDelegate);
+    this.filter.setVoiceDictationDelegate(voiceDictationDelegate);
+    this.cacheAndDropFrequentEvents = cacheAndDropFrequentEvents;
+    this.readLineWhenMoveToAdjacentLineByUpDownKey = readLineWhenMoveToAdjacentLineByUpDownKey;
   }
 
-  /** Add a listener for text-event-intperpretations, which may be produced asynchronously. */
+  /** Add a listener for text-event-interpretations, which may be produced asynchronously. */
   public void addListener(InterpretationConsumer listener) {
     filter.addListener(listener);
   }
@@ -140,6 +182,20 @@ public class TextEventInterpreter {
 
   public void setLastKeyEventTime(long time) {
     filter.setLastKeyEventTime(time);
+  }
+
+  public void setReadLineWhenMoveToAdjacentLineByUpDownKey(boolean enable) {
+    readLineWhenMoveToAdjacentLineByUpDownKey = enable;
+  }
+
+  public void setLastKeyDown(int keyCode, int modifiers) {
+    lastKeyCode = keyCode;
+    lastKeyModifiers = modifiers;
+  }
+
+  public void resetLastKeyDown() {
+    lastKeyCode = KeyEvent.KEYCODE_UNKNOWN;
+    lastKeyModifiers = 0;
   }
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -157,15 +213,30 @@ public class TextEventInterpreter {
         return;
       }
     }
-
-    filter.updateTextCursorTracker(event, eventId);
-    boolean shouldEchoAddedText = filter.shouldEchoAddedText(event.getEventTime());
-    boolean shouldEchoInitialWords = filter.shouldEchoInitialWords(event.getEventTime());
-
-    @Nullable TextEventInterpretation interpretation =
-        interpret(event, shouldEchoAddedText, shouldEchoInitialWords);
-
-    filter.filterAndSendInterpretation(event, eventId, interpretation);
+    if (cacheAndDropFrequentEvents) {
+      if (eventDelayEmitter == null) {
+        eventDelayEmitter =
+            new EventDelayEmitter(
+                AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED,
+                EVENT_CACHING_THRESHOLD,
+                accessibilityEvent -> {
+                  if (accessibilityEvent == null) {
+                    return false;
+                  }
+                  // See b/387182896#comment22 for more detail.
+                  CharSequence beforeText = accessibilityEvent.getBeforeText();
+                  return accessibilityEvent.getAddedCount() == 0
+                      && !TextUtils.isEmpty(beforeText)
+                      && accessibilityEvent.getRemovedCount() == beforeText.length();
+                },
+                (accessibilityEvent, eventIdOptional) ->
+                    interpretInternal(
+                        accessibilityEvent, eventIdOptional.orElse(EVENT_ID_UNTRACKED)));
+      }
+      eventDelayEmitter.handle(event, eventId);
+    } else {
+      interpretInternal(event, eventId);
+    }
   }
 
   /** Extract a text event interpretation data from event. May return null. */
@@ -177,16 +248,11 @@ public class TextEventInterpreter {
     int eventType = event.getEventType();
     TextEventInterpretation interpretation;
     switch (eventType) {
-      case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED:
-        interpretation = interpretTextChange(event);
-        break;
-
-      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
-      case AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY:
-        interpretation = interpretSelectionChange(event);
-        break;
-
-      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
+      case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> interpretation = interpretTextChange(event);
+      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED,
+          AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY ->
+          interpretation = interpretSelectionChange(event);
+      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED -> {
         // To get initial cursor position of EditText
         @Nullable AccessibilityNodeInfoCompat source = AccessibilityEventUtils.sourceCompat(event);
         if (source != null && source.isFocused() && source.isEditable()) {
@@ -197,9 +263,10 @@ public class TextEventInterpreter {
           }
         }
         return null;
-
-      default:
+      }
+      default -> {
         return null;
+      }
     }
 
     switch (interpretation.getEvent()) {
@@ -218,7 +285,7 @@ public class TextEventInterpreter {
         }
         break;
       case TextEventInterpretation.TEXT_REMOVE:
-        // Always echo the Text Remove event
+      // Always echo the Text Remove event
       default:
         break;
     }
@@ -229,6 +296,17 @@ public class TextEventInterpreter {
     return interpretation;
   }
 
+  private void interpretInternal(@NonNull AccessibilityEvent event, @Nullable EventId eventId) {
+    filter.updateTextCursorTracker(event, eventId);
+    boolean shouldEchoAddedText = filter.shouldEchoAddedText(event.getEventTime());
+    boolean shouldEchoInitialWords = filter.shouldEchoInitialWords(event.getEventTime());
+
+    @Nullable TextEventInterpretation interpretation =
+        interpret(event, shouldEchoAddedText, shouldEchoInitialWords);
+
+    filter.filterAndSendInterpretation(event, eventId, interpretation);
+  }
+
   // dereference of possibly-null reference event.getBeforeText()
   @SuppressWarnings("nullness:dereference.of.nullable")
   private TextEventInterpretation interpretTextChange(AccessibilityEvent event) {
@@ -237,24 +315,8 @@ public class TextEventInterpreter {
     TextEventInterpretation interpretation = new TextEventInterpretation(eventType);
 
     // Case for handling password.
-    if (event.isPassword() && !preferenceProvider.shouldSpeakPasswords()) {
-      int removed = event.getRemovedCount();
-      int added = event.getAddedCount();
-      if ((added <= 0) && (removed <= 0)) {
-        interpretation.setEvent(TextEventInterpretation.CHANGE_INVALID);
-      } else if ((added == 1) && (removed <= 0)) {
-        interpretation.setEvent(TextEventInterpretation.TEXT_PASSWORD_ADD);
-      } else if ((added <= 0) && (removed == 1)) {
-        interpretation.setEvent(TextEventInterpretation.TEXT_PASSWORD_REMOVE);
-      } else if (isJunkyCharacterReplacedByBulletInUnlockPinEntry(event)) {
-        return interpretation.setInvalid(
-            "Junky text change event when the number typed in pin entry is replaced by bullet.");
-      } else {
-        interpretation.setEvent(TextEventInterpretation.TEXT_PASSWORD_REPLACE);
-      }
-      interpretation.setReason("Event is password and not speaking passwords.");
-      return interpretation;
-    }
+    boolean isPassword = event.isPassword();
+    interpretation.setIsPassword(isPassword);
 
     // Validity check
     if (!isValid(event)) {
@@ -287,7 +349,14 @@ public class TextEventInterpreter {
       return interpretation.setInvalid("addedText is null.");
     }
     if (TextUtils.equals(addedText, removedText)) {
-      return interpretation.setInvalid("addedText is the same as removedText.");
+      SpannableString spannableString = new SpannableString(addedText);
+      SuggestionSpan[] suggestionSpans =
+          TextUtils.isEmpty(spannableString)
+              ? new SuggestionSpan[0]
+              : spannableString.getSpans(0, spannableString.length(), SuggestionSpan.class);
+      if (suggestionSpans.length > 0) {
+        return interpretation.setInvalid("Proofread, text unchanged.");
+      }
     }
 
     // Translate partial replacement into net addition / deletion.
@@ -325,7 +394,6 @@ public class TextEventInterpreter {
           mContext.getResources().getBoolean(R.bool.supports_text_replacement);
       if (appendLastWordIfNeeded(event, interpretation)
           || TextUtils.isEmpty(cleanRemovedText)
-          || TextUtils.equals(cleanAddedText, cleanRemovedText)
           || (!replacementSupported)) {
         interpretation.setEvent(TextEventInterpretation.TEXT_ADD);
       } else {
@@ -393,6 +461,7 @@ public class TextEventInterpreter {
     // is not empty. Note that, on <= M, password text is empty but the count is nonzero.
     final int count = event.getItemCount();
     boolean isPassword = event.isPassword();
+    interpretation.setIsPassword(isPassword);
     if ((TextUtils.isEmpty(text) && !isPassword) || (count == 0)) {
       // In Android O, we rely on TEXT_SELECTION_CHANGED events to announce text changes in password
       // field. Thus even though we don't announce anything in this case, we need to carefully
@@ -481,7 +550,21 @@ public class TextEventInterpreter {
         // Extract traversed text.
         int startIndex = Math.min(mHistory.getLastToIndex(), toIndex);
         int endIndex = Math.max(mHistory.getLastToIndex(), toIndex);
-        if (0 <= startIndex && endIndex <= textLength) {
+
+        // Handle cursor movement to adjacent line by arrow keys.
+        // TODO: b/406048789 - Handle vertical text direction.
+        if (readLineWhenMoveToAdjacentLineByUpDownKey && hasKeyboardAction && isUpDownKey()) {
+          int[] range =
+              getCurrentLineRangeForLineMovement(event, text, previousCursorPos, currentCursorPos);
+          if (range != null) {
+            // These are adjacent lines.
+            interpretation.setReason("Cursor moved to adjacent line.");
+            startIndex = range[0];
+            endIndex = range[1];
+          }
+        }
+
+        if (startIndex >= 0 && endIndex <= textLength) {
           CharSequence traversedText = getSubsequence(isPassword, text, startIndex, endIndex);
           interpretation.setTraversedText(traversedText);
         }
@@ -572,9 +655,89 @@ public class TextEventInterpreter {
     return interpretation.setInvalid("Unhandled selection event.");
   }
 
+  private boolean isUpDownKey() {
+    return lastKeyModifiers == 0
+        && (lastKeyCode == KeyEvent.KEYCODE_DPAD_UP || lastKeyCode == KeyEvent.KEYCODE_DPAD_DOWN);
+  }
+
+  /**
+   * Gets the range of the current line for adjacent line movement.
+   *
+   * @return An inclusive-exclusive range of the current line, or {@code null} if movement is not
+   *     from an adjacent line.
+   */
+  private int @Nullable [] getCurrentLineRangeForLineMovement(
+      AccessibilityEvent event,
+      @Nullable CharSequence text,
+      int previousCursorPos,
+      int currentCursorPos) {
+    if (text == null) {
+      return null;
+    }
+
+    @Nullable AccessibilityNodeInfoCompat node = AccessibilityEventUtils.sourceCompat(event);
+    @Nullable TextSegmentIterator lineIter =
+        getLineTextSegmentIterator(
+            GranularityIterator.LineIteratorMode.INCLUDE_NEWLINE, node, text);
+    if (lineIter == null) {
+      return null;
+    }
+
+    // Determine the entire current line to emit.
+    // Bounds of range are inclusive-exclusive.
+    int[] range =
+        (currentCursorPos > previousCursorPos)
+            ? lineIter.following(previousCursorPos)
+            : lineIter.preceding(previousCursorPos);
+    if (range == null) {
+      return null;
+    }
+
+    if (currentCursorPos > previousCursorPos) {
+      // Determine if we moved to the next line.
+      int textLength = text.length();
+      if (range[1] == currentCursorPos
+          && currentCursorPos == textLength
+          && text != null
+          && text.charAt(textLength - 1) == '\n') {
+        // Handle moving to the trailing newline at the end of the text.
+        range = new int[] {textLength - 1, textLength};
+      } else {
+        range = lineIter.following(range[1]);
+      }
+    } else {
+      // Determine if we moved to the previous line.
+      int[] prevRange = lineIter.following(currentCursorPos);
+      if (prevRange == null || prevRange[1] != previousCursorPos) {
+        // Previous cursor position was not at a line boundary, so get the preceding line.
+        range = lineIter.preceding(range[0]);
+      }
+    }
+
+    if (range != null && range[0] <= currentCursorPos && range[1] >= currentCursorPos) {
+      return range;
+    }
+    return null;
+  }
+
   // Visible for testing only.
   protected void setHistoryLastNode(AccessibilityEvent event) {
     mHistory.setLastNode(event.getSource());
+  }
+
+  @VisibleForTesting
+  void setLineTextSegmentIteratorProvider(@Nullable LineTextSegmentIteratorProvider provider) {
+    lineTextSegmentIteratorProvider = provider;
+  }
+
+  private @Nullable TextSegmentIterator getLineTextSegmentIterator(
+      GranularityIterator.LineIteratorMode mode,
+      @Nullable AccessibilityNodeInfoCompat node,
+      @Nullable CharSequence text) {
+    if (lineTextSegmentIteratorProvider == null) {
+      lineTextSegmentIteratorProvider = new LineTextSegmentIteratorProviderImpl();
+    }
+    return lineTextSegmentIteratorProvider.getIterator(mode, node, text);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -673,6 +836,18 @@ public class TextEventInterpreter {
     return Character.isWhitespace(ch) || ch == NBSP;
   }
 
+  private static boolean isCommonEndingSymbols(char ch) {
+    if (isWhiteSpace(ch)) {
+      return true;
+    }
+    for (char symbol : COMMON_ENDING_SYMBOLS) {
+      if (ch == symbol) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private static boolean isPunctuation(char ch) {
     return PUNCTUATION_PATTERN.matcher(Character.toString(ch)).matches();
   }
@@ -694,17 +869,43 @@ public class TextEventInterpreter {
     if (!isWhiteSpace(lastChar) && !isPunctuation(lastChar)) {
       return false;
     }
-    fromIndex = fromIndex + addedText.length() - 1;
 
-    final int breakIndex = getPrecedingWhitespaceOrPunctuation(text, fromIndex);
-    final CharSequence word = text.subSequence(breakIndex, fromIndex);
+    final int newToIndex = fromIndex + addedText.length() - 1;
+    final int newFromIndex = getPrecedingWhitespaceOrPunctuation(text, newToIndex);
+    // Echo the last char even if it is a punctuation symbol.
+    final CharSequence word = text.subSequence(newFromIndex, newToIndex + 1);
 
     // Did the user just type a word?
     if (TextUtils.getTrimmedLength(word) == 0) {
       return false;
     }
 
-    interpretation.setInitialWord(word);
+    if (newFromIndex >= fromIndex) {
+      // Only when newFromIndex greater than fromIndex has possible contains more than 1 word.
+      CharSequence addedTextWithoutLastWord = text.subSequence(fromIndex, newFromIndex);
+      if (getPrecedingWhitespaceOrPunctuation(addedTextWithoutLastWord, newFromIndex) != 0) {
+        // Added text contains more than 1 word.
+        return false;
+      }
+    }
+    if (word.length() == 2) {
+      // Prevent one-character-word-echo feedback verbosity.
+      // For example, input ' ', 'a', '@', it doesn't need any echo like 'a@'.
+      CharSequence charSequence = text.subSequence(text.length() - 2, text.length());
+      if (TextUtils.equals(charSequence, word)
+          && !isCommonEndingSymbols(word.charAt(word.length() - 1))) {
+        return false;
+      }
+    }
+
+    String charName = SpeechCleanupUtils.characterToName(mContext, lastChar);
+    if (charName == null) {
+      interpretation.setInitialWord(word);
+    } else {
+      // Announce character name(punctuation and symbol) for the last character.
+      String echoWord = text.subSequence(newFromIndex, newToIndex) + " " + charName;
+      interpretation.setInitialWord(echoWord);
+    }
     return true;
   }
 
@@ -722,11 +923,11 @@ public class TextEventInterpreter {
   }
 
   /** Returns index of first whitespace or punctuation preceding fromIndex. */
-  private static int getPrecedingWhitespaceOrPunctuation(CharSequence text, int fromIndex) {
-    if (fromIndex > text.length()) {
-      fromIndex = text.length();
+  private static int getPrecedingWhitespaceOrPunctuation(CharSequence text, int toIndex) {
+    if (toIndex > text.length()) {
+      toIndex = text.length();
     }
-    for (int i = (fromIndex - 1); i > 0; i--) {
+    for (int i = (toIndex - 1); i > 0; i--) {
       if (isWhiteSpace(text.charAt(i))) {
         return i + 1;
       }
@@ -791,15 +992,8 @@ public class TextEventInterpreter {
    */
   private @Nullable CharSequence getSubsequence(
       boolean isPassword, @Nullable CharSequence text, int from, int to) {
-    if (isPassword && !preferenceProvider.shouldSpeakPasswords()) {
-      if (to - from == 1) {
-        return mContext.getString(R.string.template_password_traversed, from + 1);
-      } else {
-        return mContext.getString(R.string.template_password_selected, from + 1, to);
-      }
-    } else {
-      return getSubsequenceWithSpans(text, from, to);
-    }
+    // TODO: Has removed Speak password settings.
+    return getSubsequenceWithSpans(text, from, to);
   }
 
   // REFERTO. Remove only TtsSpans marked up beyond the boundary of traversed text.

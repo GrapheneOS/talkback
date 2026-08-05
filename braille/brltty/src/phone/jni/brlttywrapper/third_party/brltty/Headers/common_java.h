@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -55,6 +55,7 @@ extern "C" {
 #define JAVA_OBJ_UTIL(name) "java/util/" name
 #define JAVA_OBJ_CONCURRENT(name) JAVA_OBJ_UTIL("concurrent/" name)
 
+#define JAVA_OBJ_CHARACTER JAVA_OBJ_LANG("Character")
 #define JAVA_OBJ_CHAR_SEQUENCE JAVA_OBJ_LANG("CharSequence")
 #define JAVA_OBJ_CLASS JAVA_OBJ_LANG("Class")
 #define JAVA_OBJ_EOF_EXCEPTION JAVA_OBJ_IO("EOFException")

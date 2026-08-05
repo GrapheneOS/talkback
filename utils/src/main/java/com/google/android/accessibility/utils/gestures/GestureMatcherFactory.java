@@ -60,6 +60,9 @@ import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP
 import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP_AND_DOWN;
 import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP_AND_LEFT;
 import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP_AND_RIGHT;
+import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD;
+import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TAP_UP_TOUCH_EXPLORE;
+import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TOUCH_EXPLORE;
 import static com.google.android.accessibility.utils.gestures.Swipe.DOWN;
 import static com.google.android.accessibility.utils.gestures.Swipe.LEFT;
 import static com.google.android.accessibility.utils.gestures.Swipe.NONE;
@@ -69,9 +72,12 @@ import static com.google.android.accessibility.utils.gestures.Swipe.UP;
 import android.content.Context;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
+import com.google.android.accessibility.utils.gestures.GestureManifold.GestureConfigProvider;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class generates the list of the {@link GestureMatcher} with the given support gesture list.
@@ -87,6 +93,8 @@ class GestureMatcherFactory {
     // Second-finger tap.
     MAPPER_GESTURE_FAKED_SPLIT_TYPING(
         GestureManifold.GESTURE_FAKED_SPLIT_TYPING, 1, 1, true, NONE, NONE),
+    MAPPER_GESTURE_FAKED_SPLIT_TYPING_AND_HOLD(
+        GestureManifold.GESTURE_FAKED_SPLIT_TYPING_AND_HOLD, 1, 1, true, NONE, NONE),
     // One-direction swipes.
     MAPPER_GESTURE_SWIPE_RIGHT(GESTURE_SWIPE_RIGHT, 1, 0, RIGHT, NONE),
     MAPPER_GESTURE_SWIPE_LEFT(GESTURE_SWIPE_LEFT, 1, 0, LEFT, NONE),
@@ -108,6 +116,8 @@ class GestureMatcherFactory {
     // Set up multi-finger gestures to be enabled later.
     // Two-finger taps.
     MAPPER_GESTURE_2_FINGER_SINGLE_TAP(GESTURE_2_FINGER_SINGLE_TAP, 2, 1, NONE, NONE),
+    MAPPER_GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD(
+        GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD, 2, 1, true, NONE, NONE),
     MAPPER_GESTURE_2_FINGER_DOUBLE_TAP(GESTURE_2_FINGER_DOUBLE_TAP, 2, 2, NONE, NONE),
     MAPPER_GESTURE_2_FINGER_DOUBLE_TAP_AND_HOLD(
         GESTURE_2_FINGER_DOUBLE_TAP_AND_HOLD, 2, 2, true, NONE, NONE),
@@ -193,26 +203,45 @@ class GestureMatcherFactory {
    *
    * @param supportGestureList the support gesture list
    * @param listener the listener to set to the GestureMatcher
+   * @param logger the event logger to report the specific events
    * @return the list of GestureMatcher
    */
   static List<GestureMatcher> getGestureMatcherList(
       Context context,
       ImmutableList<String> supportGestureList,
-      GestureMatcher.StateChangeListener listener) {
+      GestureMatcher.StateChangeListener listener,
+      GestureConfigProvider configResolver,
+      GestureMatcher.AnalyticsEventLogger logger) {
     List<GestureMatcher> gestureMatchers = new ArrayList<>();
+    LogUtils.v(
+        "GestureMatcherFactory",
+        "Speed up TouchExplore state: %b",
+        configResolver.getSpeedUpTouchExploreState());
+    if (configResolver.getSpeedUpTouchExploreState()) {
+      gestureMatchers.add(
+          new TapToTouchExplore(context, GESTURE_TOUCH_EXPLORE, listener, configResolver, logger));
+      gestureMatchers.add(
+          new TapUpToTouchExplore(context, GESTURE_TAP_UP_TOUCH_EXPLORE, listener, logger));
+    }
     for (GestureMatchConfig iterator : GestureMatchConfig.values()) {
       if (supportGestureList.contains(iterator.name())) {
-        GestureMatcher gestureMatcher = createGestureMatcher(context, iterator, listener);
-        gestureMatchers.add(gestureMatcher);
+        @Nullable GestureMatcher gestureMatcher =
+            createGestureMatcher(context, iterator, listener, configResolver, logger);
+        if (gestureMatcher != null) {
+          gestureMatchers.add(gestureMatcher);
+        }
       }
     }
     return gestureMatchers;
   }
 
+  @Nullable
   private static GestureMatcher createGestureMatcher(
       Context context,
       GestureMatchConfig gestureMatchConfig,
-      GestureMatcher.StateChangeListener listener) {
+      GestureMatcher.StateChangeListener listener,
+      GestureConfigProvider configResolver,
+      GestureMatcher.AnalyticsEventLogger logger) {
 
     // 1-finger
     if (gestureMatchConfig.finger == 1) {
@@ -220,29 +249,55 @@ class GestureMatcherFactory {
       if (gestureMatchConfig.tap == 0) {
         if (gestureMatchConfig.direction2 == NONE) {
           return new Swipe(
-              context, gestureMatchConfig.direction1, gestureMatchConfig.gestureId, listener);
+              context,
+              gestureMatchConfig.direction1,
+              gestureMatchConfig.gestureId,
+              listener,
+              configResolver,
+              logger);
         } else {
           return new Swipe(
               context,
               gestureMatchConfig.direction1,
               gestureMatchConfig.direction2,
               gestureMatchConfig.gestureId,
-              listener);
+              listener,
+              configResolver,
+              logger);
         }
       }
       // single-tap and hold
       if ((gestureMatchConfig.tap == 1) && gestureMatchConfig.isHold) {
-        return new SecondFingerTap(
-            context, gestureMatchConfig.tap, gestureMatchConfig.gestureId, listener);
+        if (gestureMatchConfig.gestureId == GestureManifold.GESTURE_FAKED_SPLIT_TYPING) {
+          return new SecondFingerTap(
+              context, gestureMatchConfig.tap, gestureMatchConfig.gestureId, listener, logger);
+        } else if (configResolver.enableSplitTapAndHold()
+            && gestureMatchConfig.gestureId
+                == GestureManifold.GESTURE_FAKED_SPLIT_TYPING_AND_HOLD) {
+          return new SecondFingerTapAndHold(
+              context, gestureMatchConfig.tap, gestureMatchConfig.gestureId, listener, logger);
+        } else {
+          return null;
+        }
       }
       // double-taps
       if (gestureMatchConfig.tap == 2) {
         if (gestureMatchConfig.isHold) {
           return new MultiTapAndHold(
-              context, gestureMatchConfig.tap, gestureMatchConfig.gestureId, listener);
+              context,
+              gestureMatchConfig.tap,
+              gestureMatchConfig.gestureId,
+              listener,
+              configResolver,
+              logger);
         } else {
           return new MultiTap(
-              context, gestureMatchConfig.tap, gestureMatchConfig.gestureId, listener);
+              context,
+              gestureMatchConfig.tap,
+              gestureMatchConfig.gestureId,
+              listener,
+              configResolver,
+              logger);
         }
       }
     } else {
@@ -254,16 +309,23 @@ class GestureMatcherFactory {
             gestureMatchConfig.finger,
             gestureMatchConfig.direction1,
             gestureMatchConfig.gestureId,
-            listener);
+            listener,
+            logger);
       }
       // multi-taps and hold
       if (gestureMatchConfig.isHold) {
-        return new MultiFingerMultiTapAndHold(
-            context,
-            gestureMatchConfig.finger,
-            gestureMatchConfig.tap,
-            gestureMatchConfig.gestureId,
-            listener);
+        // Two-finger single tap and hold is special gesture for TalkBack mis-triggering recovery
+        // feature.
+        return gestureMatchConfig.finger == 2 && gestureMatchConfig.tap == 1
+            ? new TwoFingerSingleTapAndLongHold(
+                context, gestureMatchConfig.gestureId, listener, logger)
+            : new MultiFingerMultiTapAndHold(
+                context,
+                gestureMatchConfig.finger,
+                gestureMatchConfig.tap,
+                gestureMatchConfig.gestureId,
+                listener,
+                logger);
       } else {
         // multi-taps without hold
         return new MultiFingerMultiTap(
@@ -271,7 +333,8 @@ class GestureMatcherFactory {
             gestureMatchConfig.finger,
             gestureMatchConfig.tap,
             gestureMatchConfig.gestureId,
-            listener);
+            listener,
+            logger);
       }
     }
     throw new IllegalArgumentException(

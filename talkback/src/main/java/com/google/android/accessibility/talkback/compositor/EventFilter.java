@@ -16,8 +16,13 @@
 
 package com.google.android.accessibility.talkback.compositor;
 
+import static com.google.android.accessibility.talkback.compositor.CompositorConfigs.shouldEarlyAnnounceForLiftToType;
+
 import android.app.Notification;
+import android.content.Context;
 import android.view.accessibility.AccessibilityEvent;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
@@ -25,6 +30,7 @@ import com.google.android.accessibility.utils.input.TextEventInterpreter;
 import com.google.android.accessibility.utils.monitor.TouchMonitor;
 import com.google.android.accessibility.utils.monitor.VoiceActionDelegate;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -38,7 +44,7 @@ public class EventFilter {
 
   ///////////////////////////////////////////////////////////////////////////////////
   // Member variables
-
+  private final Context context;
   private final Compositor compositor;
   private VoiceActionDelegate voiceActionDelegate;
 
@@ -46,14 +52,17 @@ public class EventFilter {
   private final GlobalVariables globalVariables;
 
   private final @NonNull TouchMonitor touchMonitor;
+  private AccessibilityNodeInfoCompat lastHoverEnteredNode = null;
 
   // /////////////////////////////////////////////////////////////////////////////////
   // Construction
 
   public EventFilter(
+      Context context,
       Compositor compositor,
       @NonNull TouchMonitor touchMonitor,
       GlobalVariables globalVariables) {
+    this.context = context;
     this.compositor = compositor;
     this.touchMonitor = touchMonitor;
     this.globalVariables = globalVariables;
@@ -84,6 +93,8 @@ public class EventFilter {
             : accessibilityFocusEventInterpreter.interpret(event);
     if (a11yFocusEventInterpreted != null) {
       eventInterpreted.setEvent(a11yFocusEventInterpreted.getEvent());
+      a11yFocusEventInterpreted.setIsEqualsToLastHoverEnterKeyboardEventNode(
+          isEqualsToLastHoverEnteredKeyboardNode(event));
       eventInterpreted.setAccessibilityFocusInterpretation(a11yFocusEventInterpreted);
     }
 
@@ -94,6 +105,7 @@ public class EventFilter {
       // Drop accessibility-focus events based on EventState.
       // TODO: Remove this when focus management is done.
       {
+        lastHoverEnteredNode = null;
         if (globalVariables.resettingSkipFocusProcessing()) {
           return;
         }
@@ -103,11 +115,22 @@ public class EventFilter {
         }
       }
     } else if (eventType == AccessibilityEvent.TYPE_VIEW_HOVER_ENTER) {
-      // For focus fallback events, drop events with a source node.
-      if (AccessibilityEventUtils.sourceCompat(event) != null) {
+      AccessibilityNodeInfoCompat node = AccessibilityEventUtils.sourceCompat(event);
+      if (shouldEarlyAnnounceForLiftToType(context)
+          && AccessibilityEventFeedbackUtils.isEventRelatedToKeyboardKey(event)
+          && !Objects.equals(node, lastHoverEnteredNode)) {
+        lastHoverEnteredNode = node;
+      } else if (node != null) {
+        lastHoverEnteredNode = node;
+        // For focus fallback events, drop events with a source node.
         return;
       }
     } else if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+      if (globalVariables.isDndEnabled()) {
+        LogUtils.d(TAG, "Do not announce notification: DND is enabled");
+        return;
+      }
+
       // Event notification
       // REFERTO. If the user is touching on screen, skip event.
       // For toast events, the notification parcel is null. (Use event text instead.)
@@ -155,4 +178,11 @@ public class EventFilter {
     compositor.handleEvent(event, textEventInterpreted.eventId, eventInterpreted);
   }
 
+  private boolean isEqualsToLastHoverEnteredKeyboardNode(@Nullable AccessibilityEvent event) {
+    if (!FeatureFlagReader.enableEarlyAnnounceForLiftToType(context)
+        || !AccessibilityEventFeedbackUtils.isEventRelatedToKeyboardKey(event)) {
+      return false;
+    }
+    return Objects.equals(lastHoverEnteredNode, AccessibilityEventUtils.sourceCompat(event));
+  }
 }

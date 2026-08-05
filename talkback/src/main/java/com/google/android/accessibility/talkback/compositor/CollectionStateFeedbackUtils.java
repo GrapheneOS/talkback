@@ -15,14 +15,26 @@
  */
 package com.google.android.accessibility.talkback.compositor;
 
+import static com.google.android.accessibility.utils.monitor.CollectionStateUtils.getCollectionIsColumnTransition;
+import static com.google.android.accessibility.utils.monitor.CollectionStateUtils.getCollectionIsRowTransition;
+import static com.google.android.accessibility.utils.monitor.CollectionStateUtils.getCollectionTableItemColumnIndex;
+import static com.google.android.accessibility.utils.monitor.CollectionStateUtils.getCollectionTableItemHeadingType;
+import static com.google.android.accessibility.utils.monitor.CollectionStateUtils.getCollectionTableItemRowIndex;
+import static com.google.android.accessibility.utils.monitor.CollectionStateUtils.hasBothCount;
+import static com.google.android.accessibility.utils.monitor.CollectionStateUtils.hasColumnCount;
+import static com.google.android.accessibility.utils.monitor.CollectionStateUtils.hasRowCount;
+
 import android.content.Context;
 import android.text.TextUtils;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.monitor.CollectionState;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Provides the collection state description for compositor feedback. */
 public final class CollectionStateFeedbackUtils {
@@ -42,7 +54,7 @@ public final class CollectionStateFeedbackUtils {
   public static CharSequence getCollectionTransitionDescription(
       CollectionState collectionState, Context context) {
     switch (collectionState.getCollectionTransition()) {
-      case CollectionState.NAVIGATE_ENTER:
+      case CollectionState.NAVIGATE_ENTER -> {
         if (collectionState.getCollectionRoleDescription() == null) {
           switch (collectionState.getCollectionRole()) {
             case Role.ROLE_LIST:
@@ -123,7 +135,8 @@ public final class CollectionStateFeedbackUtils {
               getCollectionLevel(collectionState, context),
               itemCountCharSequence);
         }
-      case CollectionState.NAVIGATE_EXIT:
+      }
+      case CollectionState.NAVIGATE_EXIT -> {
         if (collectionState.getCollectionRoleDescription() == null) {
           switch (collectionState.getCollectionRole()) {
             case Role.ROLE_LIST:
@@ -177,8 +190,10 @@ public final class CollectionStateFeedbackUtils {
               collectionState.getCollectionRoleDescription());
           return getCollectionNameWithRoleDescriptionExit(collectionState, context);
         }
-      default:
+      }
+      default -> {
         return "";
+      }
     }
   }
 
@@ -188,13 +203,15 @@ public final class CollectionStateFeedbackUtils {
    * <p>Note: The collection item description is for {@link ROLE_GRID} and {@link ROLE_LIST}.
    */
   public static CharSequence getCollectionItemTransitionDescription(
-      CollectionState collectionState, Context context) {
+      @Nullable AccessibilityNodeInfoCompat focusedNode,
+      CollectionState collectionState,
+      Context context) {
     boolean isRowTransition = getCollectionIsRowTransition(collectionState);
     boolean isColumnTransition = getCollectionIsColumnTransition(collectionState);
     if (isRowTransition || isColumnTransition) {
       List<CharSequence> joinList = new ArrayList<>();
       switch (collectionState.getCollectionRole()) {
-        case Role.ROLE_GRID:
+        case Role.ROLE_GRID -> {
           int headingType = getCollectionTableItemHeadingType(collectionState);
           if (TextUtils.isEmpty(getCollectionTableItemRoleDescription(collectionState))) {
             if (headingType == CollectionState.TYPE_COLUMN) {
@@ -203,6 +220,8 @@ public final class CollectionStateFeedbackUtils {
               joinList.add(context.getString(R.string.row_heading_template));
             } else if (headingType == CollectionState.TYPE_INDETERMINATE) {
               joinList.add(context.getString(R.string.heading_template));
+            } else if (focusedNode != null && AccessibilityNodeInfoUtils.isHeading(focusedNode)) {
+              joinList.add(context.getString(R.string.heading_template));
             }
           }
 
@@ -210,41 +229,62 @@ public final class CollectionStateFeedbackUtils {
           if (isRowTransition
               && tableItemRowIndex != -1
               && headingType != CollectionState.TYPE_ROW) {
-            CharSequence tableItemRowName = getCollectionTableItemRowName(collectionState);
-            if (!TextUtils.isEmpty(tableItemRowName)) {
-              joinList.add(tableItemRowName);
-            } else {
-              int newRowIndex = tableItemRowIndex + 1;
-              joinList.add(context.getString(R.string.row_index_template, newRowIndex));
-            }
+            joinList.add(
+                getCollectionTableItemRowName(collectionState, tableItemRowIndex, context));
           }
 
           int tableItemColumnIndex = getCollectionTableItemColumnIndex(collectionState);
           if (isColumnTransition
               && tableItemColumnIndex != -1
               && headingType != CollectionState.TYPE_COLUMN) {
-            CharSequence tableItemColumnName = getCollectionTableItemColumnName(collectionState);
-            if (!TextUtils.isEmpty(tableItemColumnName)) {
-              joinList.add(tableItemColumnName);
-            } else {
-              int newColumnIndex = tableItemColumnIndex + 1;
-              joinList.add(context.getString(R.string.column_index_template, newColumnIndex));
-            }
+            joinList.add(
+                getCollectionTableItemColumnName(collectionState, tableItemColumnIndex, context));
           }
           return CompositorUtils.joinCharSequences(joinList, CompositorUtils.getSeparator(), true);
-
-        case Role.ROLE_LIST:
+        }
+        case Role.ROLE_LIST -> {
           boolean isHeading = getCollectionListItemIsHeading(collectionState);
           CharSequence headingTemplate =
               (isHeading
                       && TextUtils.isEmpty(getCollectionListItemRoleDescription(collectionState)))
                   ? context.getString(R.string.heading_template)
                   : "";
+          // A node within a collection item may be a heading. If this is the case and the
+          // collection item itself isn't a heading but the focused node is, we should append
+          // "heading".
+          if (!isHeading
+              && focusedNode != null
+              && AccessibilityNodeInfoUtils.isHeading(focusedNode)) {
+            headingTemplate = context.getString(R.string.heading_template);
+          }
           return CompositorUtils.joinCharSequences(
               headingTemplate, getCollectionListItemPositionDescription(collectionState, context));
+        }
       }
     }
     return "";
+  }
+
+  /** Returns the row header of the table item located if it exists. */
+  public static @Nullable CharSequence getCurrentTableItemRowHeader(
+      CollectionState collectionState, Context context) {
+    int tableItemRowIndex = getCollectionTableItemRowIndex(collectionState);
+    if (tableItemRowIndex == -1) {
+      return null;
+    }
+
+    return getCollectionTableItemRowName(collectionState, tableItemRowIndex, context);
+  }
+
+  /** Returns the column header of the table item located if it exists. */
+  public static @Nullable CharSequence getCurrentTableItemColumnHeader(
+      CollectionState collectionState, Context context) {
+    int tableItemColumnIndex = getCollectionTableItemColumnIndex(collectionState);
+    if (tableItemColumnIndex == -1) {
+      return null;
+    }
+
+    return getCollectionTableItemColumnName(collectionState, tableItemColumnIndex, context);
   }
 
   private static CharSequence getCollectionListItemPositionDescription(
@@ -264,14 +304,6 @@ public final class CollectionStateFeedbackUtils {
     return "";
   }
 
-  private static boolean getCollectionIsRowTransition(CollectionState collectionState) {
-    return (collectionState.getRowColumnTransition() & CollectionState.TYPE_ROW) != 0;
-  }
-
-  private static boolean getCollectionIsColumnTransition(CollectionState collectionState) {
-    return (collectionState.getRowColumnTransition() & CollectionState.TYPE_COLUMN) != 0;
-  }
-
   private static boolean getCollectionListItemIsHeading(CollectionState collectionState) {
     CollectionState.ListItemState itemState = collectionState.getListItemState();
     return itemState != null && itemState.isHeading();
@@ -283,29 +315,36 @@ public final class CollectionStateFeedbackUtils {
     return itemState != null ? itemState.getRoleDescription() : "";
   }
 
-  private static int getCollectionTableItemRowIndex(CollectionState collectionState) {
-    CollectionState.TableItemState itemState = collectionState.getTableItemState();
-    return itemState != null ? itemState.getRowIndex() : -1;
-  }
-
-  private static int getCollectionTableItemColumnIndex(CollectionState collectionState) {
-    CollectionState.TableItemState itemState = collectionState.getTableItemState();
-    return itemState != null ? itemState.getColumnIndex() : -1;
-  }
-
-  private static int getCollectionTableItemHeadingType(CollectionState collectionState) {
-    CollectionState.TableItemState itemState = collectionState.getTableItemState();
-    return itemState != null ? itemState.getHeadingType() : 0;
-  }
-
   private static CharSequence getCollectionTableItemRowName(CollectionState collectionState) {
     CollectionState.TableItemState itemState = collectionState.getTableItemState();
     return itemState != null ? itemState.getRowName() : "";
   }
 
+  private static CharSequence getCollectionTableItemRowName(
+      CollectionState collectionState, int tableItemRowIndex, Context context) {
+    CharSequence tableItemRowName = getCollectionTableItemRowName(collectionState);
+    if (!TextUtils.isEmpty(tableItemRowName)) {
+      return tableItemRowName;
+    } else {
+      int newRowIndex = tableItemRowIndex + 1;
+      return context.getString(R.string.row_index_template, newRowIndex);
+    }
+  }
+
   private static CharSequence getCollectionTableItemColumnName(CollectionState collectionState) {
     CollectionState.TableItemState itemState = collectionState.getTableItemState();
     return itemState != null ? itemState.getColumnName() : "";
+  }
+
+  private static CharSequence getCollectionTableItemColumnName(
+      CollectionState collectionState, int tableItemColumnIndex, Context context) {
+    CharSequence tableItemColumnName = getCollectionTableItemColumnName(collectionState);
+    if (!TextUtils.isEmpty(tableItemColumnName)) {
+      return tableItemColumnName;
+    } else {
+      int newColumnIndex = tableItemColumnIndex + 1;
+      return context.getString(R.string.column_index_template, newColumnIndex);
+    }
   }
 
   private static CharSequence getCollectionTableItemRoleDescription(
@@ -332,6 +371,12 @@ public final class CollectionStateFeedbackUtils {
 
   private static CharSequence getCollectionListItemCount(
       CollectionState collectionState, Context context) {
+    CharSequence totalCountWithIgnoredItems =
+        quantityCharSequenceForTotalCountWithIgnoredItems(collectionState, context);
+    if (!TextUtils.isEmpty(totalCountWithIgnoredItems)) {
+      return totalCountWithIgnoredItems;
+    }
+
     if (hasBothCount(collectionState)) {
       if (isVerticalAligned(collectionState) && collectionState.getCollectionRowCount() >= 0) {
         return quantityCharSequence(
@@ -355,14 +400,34 @@ public final class CollectionStateFeedbackUtils {
       CollectionState collectionState, Context context) {
     if (hasBothCount(collectionState)) {
       return CompositorUtils.joinCharSequences(
+          quantityCharSequenceForTotalCountWithIgnoredItems(collectionState, context),
           quantityCharSequenceForRow(collectionState, context),
           quantityCharSequenceForColumn(collectionState, context));
     } else if (hasRowCount(collectionState)) {
       return CompositorUtils.joinCharSequences(
+          quantityCharSequenceForTotalCountWithIgnoredItems(collectionState, context),
           quantityCharSequenceForRow(collectionState, context));
     } else if (hasColumnCount(collectionState)) {
       return CompositorUtils.joinCharSequences(
+          quantityCharSequenceForTotalCountWithIgnoredItems(collectionState, context),
           quantityCharSequenceForColumn(collectionState, context));
+    }
+    return "";
+  }
+
+  private static CharSequence quantityCharSequenceForTotalCountWithIgnoredItems(
+      CollectionState collectionState, Context context) {
+    int itemCount = collectionState.getItemCount();
+    int importantForAccessibilityItemCount =
+        collectionState.getImportantForAccessibilityCollectionCount();
+    if (importantForAccessibilityItemCount > 0 && itemCount > importantForAccessibilityItemCount) {
+      return context
+          .getResources()
+          .getQuantityString(
+              R.plurals.template_list_item_count,
+              itemCount,
+              itemCount,
+              itemCount - importantForAccessibilityItemCount);
     }
     return "";
   }
@@ -501,17 +566,5 @@ public final class CollectionStateFeedbackUtils {
 
   private static boolean hasAnyCount(CollectionState collectionState) {
     return hasRowCount(collectionState) || hasColumnCount(collectionState);
-  }
-
-  private static boolean hasBothCount(CollectionState collectionState) {
-    return hasRowCount(collectionState) && hasColumnCount(collectionState);
-  }
-
-  private static boolean hasRowCount(CollectionState collectionState) {
-    return collectionState.getCollectionRowCount() > -1;
-  }
-
-  private static boolean hasColumnCount(CollectionState collectionState) {
-    return collectionState.getCollectionColumnCount() > -1;
   }
 }

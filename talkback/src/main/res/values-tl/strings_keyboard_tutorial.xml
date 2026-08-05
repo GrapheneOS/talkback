@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ang tutorial na ito ay para sa pinahusay na keymap, na may maraming bagong command. Para piliin ang keymap, pumunta sa mga setting ng TalkBack &gt; Mga advanced na setting &gt; Mga keyboard shortcut.\n\nPindutin ang Action + Pakanang arrow para pumili ng paksa. Para sa pinakamagandang experience, i-on ang TalkBack bago magsimula.</string>
+  <string name="basic_interaction_link_text">Basic na interaction</string>
+  <string name="basic_interaction_link_subtext">Gumalaw-galaw sa mga item, magbasa nang kada linya, gumamit ng mga menu, at higit pa</string>
+  <string name="browse_mode_link_text">Browse mode</string>
+  <string name="browse_mode_link_subtext">Mag-navigate sa content sa web nang mas mabilis gamit ang mga jump command</string>
+  <string name="reading_controls_link_text">Mga kontrol sa pagbabasa</string>
+  <string name="reading_controls_link_subtext">Gamitin ang mga kontrol sa pagbabasa para lumaktaw sa mga item, i-adjust ang mga setting ng pagsasalita, at higit pa</string>
+  <string name="image_descriptions_link_text">Mga paglalarawan ng larawan</string>
+  <string name="image_descriptions_link_subtext">Subukang makakuha ng mga paglalarawan ng mga larawan</string>
+  <string name="keyboard_shortcuts_link_text">Magsanay sa mga keyboard shortcut</string>
+  <string name="keyboard_shortcuts_link_subtext">Pumindot ng mga key at kumbinasyon ng key at alamin ang ginagawa ng mga ito</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">Nagbibigay ang TalkBack ng pasalitang feedback para magamit mo ang iyong device nang hindi tumitingin sa screen. Makakatulong ang TalkBack sa mga taong nahihirapang makita ang screen. Kapag naka-on ang TalkBack, babasahin nang malakas ang naka-focus na item sa screen.\n\nUna, pagsanayan natin ang iyong keyboard. Hanapin ang Action key, na nasa itaas ng kaliwang Shift key. Hanapin natin ngayon ang mga arrow key malapit sa kanang bahagi sa ibaba ng keyboard. Pindutin ang Action + Pakanang arrow para lumipat sa susunod na item.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Ito ang susunod na item. Para lumipat sa nakaraang item, pindutin ang Action + Pakaliwang arrow.\n\nKapag lumipat ka sa isang interactive na item tulad ng button, pindutin ang Action + Space para i-activate ito. Hanapin ang susunod na button at ituloy ang tutorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Magbasa nang paisa-isang character, salita, o talata</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Kung minsan, baka gusto mong marinig na basahin nang malakas ang text nang paisa-isang character.\n\nPara gawin ito, puwede mong gamitin ang navigation ng mga kontrol sa pagbabasa. Pindutin ang Action + Shift + Pakanan o Pakaliwang arrow hanggang sa marinig mo ang \"characters.\"\n\nPagkatapos, pindutin ang Action + Pataas na arrow para igalaw pabalik nang paisa-isang character ang focus ng navigation. Pindutin ang Action + Pababang arrow para igalaw pasulong nang paisa-isang character ang focus ng navigation.\n\nSubukan ito ngayon. Puwede mo ring piliing magbasa nang paisa-isang salita, linya, o talata gamit ang Action + Shift + Pakanan o Pakaliwang arrow.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">System navigation</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Isasara ang tutorial kapag sinubukan ang mga keyboard shortcut na ito ngayon. Mainam kung maghihintay ka hanggang sa matapos mo ang tutorial.\n\nPara magpalipat-lipat sa mga bukas na window ng app at mga element ng system tulad ng mga notification at Taskbar, pindutin ang Action + Alt + Ctrl + Pataas o Pababang arrow.\n\nPara buksan ang listahan ng app, pindutin ang Action.\n\nPara pumunta sa Home screen at i-minimize ang lahat ng bukas na window, pindutin ang Action + H o Home sa itaas na row.\n\nPara pumunta sa iyong mga kamakailang app, pindutin ang Action + Tab o Overview sa itaas na row.\n\nPara mabilis na magpalipat-lipat sa mga window, pindutin nang matagal ang Alt at pindutin ang Tab.\n\nPara bumalik, pindutin ang Action + Esc o Bumalik sa itaas na row.\n\nPara buksan ang mga notification, pindutin ang Action + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">I-adjust ang mga setting ng pagsasalita</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Ang volume para sa pagsasalita ng TalkBack ay tinatawag na volume ng accessibility. Ina-adjust ito nang hiwalay sa volume ng media.\n\nPara i-adjust ang volume ng accessibility, pindutin ang Action + Pataas o pababang volume.\n\nPara i-adjust ang bilis ng pagsasalita, pindutin ang Action + Ctrl + Pataas na volume para pabilisin ito at Action + Ctrl + Pababang volume para pabagalin ito.\n\nPara ihinto ang pagsasalita anumang oras, pindutin ang Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menu ng TalkBack at higit pang keyboard shortcut</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Kasama sa menu ng TalkBack ang mga setting at kontrol na posibleng madalas mong kailanganin.\n\nPara buksan ang menu ng TalkBack, pindutin ang Action + Ctrl + M. Puwede mong i-customize ang menu ng TalkBack at ang iyong mga kontrol sa pagbabasa sa ibang pagkakataon sa mga setting ng TalkBack.\n\nKasama sa menu ng mga keyboard shortcut ng TalkBack ang lahat ng keyboard shortcut na puwede mong gamitin.\n\nPara buksan ang menu ng mga keyboard shortcut, pindutin ang Action + Shift + /.\n\nPara matuto pa tungkol sa keyboard at magsanay sa mga keyboard shortcut, pindutin ang Action + 0 para buksan ang screen ng pagsasanay.</string>
+  <string name="keyboard_tutorial_finished_page_title">Handa na ang lahat!</string>
+  <string name="keyboard_tutorial_finished_page_text">Handa ka nang gamitin ang TalkBack.\n\nMatuto pa tungkol sa ibang paksa ngayon, o suriin ang impormasyong ito anumang oras sa mga setting ng TalkBack.\n\nPara i-on o i-off ang TalkBack anumang oras, pindutin ang Action + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Mag-navigate sa content sa web nang mas mabilis gamit ang browse mode</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Kapag nasa mga browser at web app ka, puwede mong i-on ang browse mode at puwede kang lumipat sa iba\'t ibang uri ng granularity at kontrol sa pagbabasa sa isang pagpindot lang ng key. Ginagawa nitong katulad ng pag-navigate sa text editing box ang pag-navigate sa page, gaya ng pakaliwa at pakanang arrow para gumalaw nang paisa-isang character at pataas at pababang arrow para gumalaw nang paisa-isang linya.\n\nPara i-on o i-off ang browse mode, pindutin nang dalawang beses ang Action key.\n\nKapag naka-on ang browse mode, pindutin ang D para lumipat sa susunod na landmark, F para sa susunod na kontrol o field ng form, B para sa susunod na button, K para sa susunod na link, at H para sa susunod na heading. Pindutin nang matagal ang Shift at pindutin ang mga key na ito para bumalik.\n\nPuwede mo ring gamitin ang Pataas at Pababang arrow para magpalipat-lipat sa mga linya, ang Pakaliwa at Pakanang arrow para magpalipat-lipat sa mga titik, at ang Ctrl + Pakaliwa at Pakanang arrow para magpalipat-lipat sa mga salita.\n\nPindutin ang Action + Pakanang arrow para pumasok sa lugar ng pagsasanay. Habang nasa mga link ng lugar ng pagsasanay, walang mangyayari kapag na-tap ang mga field ng form at button.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Mga level ng heading</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Madalas na gumagamit ang mga website at web app ng mga heading na may iba\'t ibang level para isaayos ang content. Kapag naka-on ang browse mode, pindutin ang 1 hanggang 6 para magpalipat-lipat sa mga level ng heading. Pindutin nang matagal ang Shift at pindutin ang mga key na ito para bumalik.\n\nPindutin ang Action + Pakanang arrow para pumasok sa lugar ng pagsasanay.</string>
+  <string name="keyboard_tutorial_tables_page_title">Mga Talahanayan</string>
+  <string name="keyboard_tutorial_tables_page_text">Pinapadali rin ng browse mode ang pag-navigate sa talahanayan. Kapag naka-on ang browse mode, pindutin ang Alt + Ctrl + Pataas at Pababang arrow para magpalipat-lipat sa mga row at Alt + Ctrl + Pakaliwa at Pakanang arrow para magpalipat-lipat sa mga column.\n\nPindutin ang Action + Pakanang arrow para pumasok sa lugar ng pagsasanay.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Pag-edit ng teksto</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Kapag pumasok ka sa text field, pansamantalang io-off ang browse mode para magamit mo ang lahat ng key para mag-type. Makakarinig ka ng anunsyo at tunog kapag na-off ito. Kapag umalis ka sa text field, mag-o-on ulit ang browse mode at makakarinig ka ng isa pang anunsyo at tunog.\n\nPindutin ang Action + Pakanang arrow para pumasok sa lugar ng pagsasanay.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Higit pa tungkol sa browse mode</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Para tingnan ang kumpletong listahan ng mga item kung saan ka puwedeng magpalipat-lipat sa browse mode, pindutin ang Action + Shift + / at hanapin ang \"browse mode\" sa menu ng mga keyboard shortcut.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Magbasa nang paisa-isang character, salita, o talata</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Kung minsan, baka gusto mong marinig na basahin nang malakas ang text nang paisa-isang character.\n\nPara gawin ito, puwede mong gamitin ang navigation ng mga kontrol sa pagbabasa. Pindutin ang Action + Shift + Pakanan o Pakaliwang arrow hanggang sa marinig mo ang \"characters.\" Susunod, pindutin ang Action + Pataas na arrow para igalaw pabalik nang paisa-isang character ang focus ng navigation. Pindutin ang Action + Pababang arrow para igalaw pasulong nang paisa-isang character ang focus ng navigation.\n\nSubukan ito ngayon. Puwede mo ring piliing magbasa nang paisa-isang salita, linya, o talata gamit ang Action + Shift + Pakanan o Pakaliwang arrow.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Magpalipat-lipat sa mga kontrol</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Ang mga kontrol ay mga item kung saan puwede kang makipag-interact, gaya ng mga button, checkbox, at text box.\n\nSa ilang page, posibleng gusto mong magpalipat-lipat sa mga kontrol para mabilis na mahanap ang isang aksyon, gaya ng susunod na button.\n\nPara gawin ito, pindutin ang Action + Shift + Pakanang arrow hanggang sa marinig mo ang \"controls.\" Pagkatapos, pindutin ang Action + Pataas na arrow para pumunta sa nakaraang button at Action + Pababang arrow para pumunta sa susunod na button.\n\nSubukan ito ngayon at hanapin ang susunod na button.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Magpalipat-lipat sa mga link</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Puwede ka ring magpalipat-lipat sa mga link sa isang page.\n\nPara gawin ito, pindutin ang Action + Shift + Pakanang arrow hanggang sa marinig mo ang \"links.\" Susunod, pindutin ang Action + Pababang arrow para hanapin ang link na may pangalang \"Link 5.\" Habang nasa tutorial, walang mangyayari kapag na-double tap ang link na ito.\n\nPindutin ang Action + Pakanang arrow para hanapin ang susunod na button at pumunta sa susunod na page.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Magpalipat-lipat sa mga heading</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Puwede ka ring magpalipat-lipat sa mga heading sa isang page.\n\nPara subukan ito ngayon, pindutin ang Action + Shift + Pakanang arrow hanggang sa marinig mo ang \"headings.\" Susunod, pindutin ang Action + Pababang arrow para hanapin ang heading na \"Navigation.\"</string>
+  <string name="keyboard_tutorial_find_next_button">Pindutin ang Action + Pakanang arrow para hanapin ang susunod na button.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Magpalipat-lipat sa mga container</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Para umalis sa isang container, tulad ng listahan o grid, pindutin ang Action + Alt + Ctrl + Pakanan o Pakaliwang arrow. Kapaki-pakinabang ito kapag gusto mong umalis sa mahabang listahan ng mga item.\n\nPara subukan ito ngayon, pindutin ang Action + Pakanang arrow para pumasok sa listahan. Pagkatapos, pindutin ang Action + Alt + Ctrl + Pakanang arrow para pumunta sa susunod na container.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Para pumunta sa susunod na container, pindutin ang Action + Alt + Ctrl + Pakanang arrow</string>
+  <string name="keyboard_tutorial_exit_container">Para lumabas sa container na ito, pindutin ang Action + Alt + Ctrl + Pakanang arrow</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Lumabas ka sa container. Puwede ka ring magdagdag ng mga container sa iyong mga kontrol sa pagbabasa at pagkatapos ay pindutin ang Action + Shift + Pakanan o Pakaliwang arrow para pumili ng mga container at Action + Pataas o Pababang arrow para magpalipat-lipat sa pagitan ng mga container. Para i-update ang mga kontrol sa pagbabasa, pumunta sa TalkBack &gt; Mga Setting &gt; I-customize ang mga menu &gt; I-customize ang mga kontrol sa pagbabasa.\n\nPindutin ang Action + Pakanang arrow para hanapin ang susunod na button.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">I-customize ang mga kontrol sa pagbabasa</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Puwede mo ring i-adjust ang mga setting ng pagsasalita gamit ang mga kontrol sa pagbabasa at i-customize kung ano ang magagawa mo sa mga kontrol sa pagbabasa sa TalkBack &gt; Mga Setting &gt; I-customize ang mga menu &gt; I-customize ang mga kontrol sa pagbabasa.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Subukang makakuha ng mga paglalarawan ng larawan</string>
+  <string name="keyboard_tutorial_image_description_page_text">Kapag naka-focus ka sa isang larawan, pindutin ang Action + R, pagkatapos ay I. May isang larawan sa ibaba. Subukang makakuha ng paglalarawan para rito.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Puwede mong baguhin ang mga setting ng paglalarawan ng larawan anumang oras sa mga setting ng TalkBack &gt; Mga paglalarawan ng larawan at icon.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Puwede mong baguhin ang mga setting ng paglalarawan ng larawan anumang oras sa mga setting ng TalkBack, pagkatapos ay Mga paglalarawan ng larawan at icon.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Sample na larawan. Pindutin ang Action + R, pagkatapos ay I para makarinig ng paglalarawan.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Mga command gamit ang boses</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Puwede mong gamitin ang iyong boses para kontrolin nang mabilis ang TalkBack.\n\nHalimbawa, magsabi ng command para baguhin ang navigation, pumunta sa susunod na heading, kumopya ng text, at higit pa.\n\nPara subukan ito ngayon, pindutin ang Action + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Paggamit sa paghahanap ng paghahanap sa screen</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Nagbibigay-daan sa iyo ang feature na paghahanap sa screen na maghanap ng partikular na content sa screen.\n\nPara subukan ito, pindutin ang Action + CTRL + /. Mag-type ng keyword, tulad ng \"susunod,\" para maghanap ng mga item na may ganoong text sa screen.\n\nSubukang hanapin ang \"susunod\" ngayon para mahanap ang button na susunod.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Mag-navigate gamit ang paghahanap sa screen</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Mabilis kang makakapagpalipat-lipat sa iba\'t ibang resulta ng paghahanap mula sa paghahanap sa screen pagkatapos mong pumili ng resulta.\n\nPara gawin ito, puwede mong gamitin ang pag-navigate sa mga kontrol sa pagbabasa. Pindutin ang Action + Shift + Pakanang o Pakaliwang arrow hanggang sa marinig mo ang \"paghahanap sa screen.\" Pagkatapos, pindutin ang Action + Pababang arrow o Pataas na arrow para mag-navigate sa mga resulta ng paghahanap sa screen.\n\nSubukan natin ito ngayon. May makikita sa ibaba na listahan ng 3 button, at naglalaman ang lahat ng ito ng text na \"aksyon.\" Hanapin ang \"aksyon\" gamit ang paghahanap sa screen, pagkatapos ay mag-navigate gamit ang paghahanap sa screen para magpalipat-lipat sa mga ito.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Magsanay sa mga keyboard shortcut</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Pindutin ang pisikal na keyboard key o kumbinasyon ng key para marinig kung ano ang magagawa nito. Pindutin ang Ctrl + W, o Escape para lumabas.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Tuklasin ang Ganda ng California Redwoods&lt;/h1&gt;
+      &lt;p&gt;Ang redwoods ng California, na pangunahing coast redwood (Sequoia sempervrens), ay ang pinakamatatayog na puno sa mundo. Ang ilan ay mahigit 380 talampakan (115 metro) ang taas at puwedeng mabuhay nang libo-libong taon. Lumalago ang mga ito sa humid na klima sa baybayin ng hilagang California, kung saan nakikinabang ang mga ito sa ulan at fog.&lt;/p&gt;
+
+      &lt;h2&gt;Saan Makikita Ang Mga Ito&lt;/h2&gt;
+      &lt;p&gt;Makikita mo ang mga higanteng ito sa isang makitid na strip sa kahabaan ng Pacific coast. Kasama sa mga pangunahing parke ang:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Planuhin ang iyong pagbisita rito: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Suportahan ang Conservation&lt;/h2&gt;
+      &lt;p&gt;Napakahalaga ng pagprotekta sa mga sinaunang kagubatang ito. Puwede kang tumulong sa pamamagitan ng pagsunod sa mga alituntunin ng parke at pagsuporta sa mga pagsisikap sa conservation.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Ibahagi ang Iyong Experience&lt;/h2&gt;
+        &lt;p&gt;Nakapunta ka na ba sa redwoods?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Oo&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Hindi&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Ikuwento sa amin ang iyong experience&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Isumite&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Ano pa ang gusto mong malaman tungkol sa redwoods?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Isumite&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Mga Redwood Tree: Pagpapanatili ng Kalusugan ng Ating Kapaligiran&lt;/h1&gt;
+    &lt;p&gt;Mahalaga ang redwoods sa ating planeta, at malaki ang papel ng mga ito sa pagpapanatili ng kalusugan ng ating kapaligiran.&lt;/p&gt;
+
+    &lt;h1&gt;Mga Higanteng Tagalinis ng Hangin&lt;/h1&gt;
+    &lt;p&gt;Mahusay ang mga punong ito sa pagsipsip ng carbon dioxide mula sa hangin. Sa pamamagitan ng pagsipsip ng napakarami nito, nakakatulong ang redwoods na mapanatiling malinis ang ating hangin.&lt;/p&gt;
+
+    &lt;h2&gt;Tahanan ng Mga Hayop&lt;/h2&gt;
+    &lt;p&gt;Nagbibigay ang redwoods ng mga tahanan at masisilungan para sa maraming hayop, mula sa mga ibon sa mga sanga nito hanggang sa maliliit na hayop sa loob ng lupa.&lt;/p&gt;
+
+    &lt;h3&gt;Mga Salamangkero ng Tubig&lt;/h3&gt;
+    &lt;p&gt;Mahusay ang mga ito sa pagsalo ng hamog, na tumutulo naman sa lupa ng kagubatan. Pinapanatili nitong basa ang lupa at nagbibigay ito ng tubig para sa iba pang halaman at hayop, lalo na kapag tuyo.&lt;/p&gt;
+
+    &lt;h4&gt;Mga Tagaprotekta ng Lupa&lt;/h4&gt;
+    &lt;p&gt;Pinapanatili ng kanilang malalalim na ugat ang lupa sa lugar nito, na pumipigil sa pag-agos nito sa panahon ng malalakas na pag-ulan at pumipigil sa pagguho.&lt;/p&gt;
+
+    &lt;h5&gt;Mga Tagabuo ng Kagubatan&lt;/h5&gt;
+    &lt;p&gt;Kapag bumagsak ang mga lumang redwood, nagiging pagkain at tirahan ang kanilang kahoy para sa mga bagong halaman at nilalang, na gumagawa ng mayamang lupa para sa bagong pagtubo.&lt;/p&gt;
+
+    &lt;h6&gt;Mga Natatanging Ecosystem&lt;/h6&gt;
+    &lt;p&gt;Dahil napakalaki ng redwoods at napakatagal ng buhay ng mga ito, gumagawa ang mga ito ng mga espesyal na kapaligiran sa kagubatan na sumusuporta sa buhay na wala sa ibang lugar.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Mga Hayop sa Mga Redwood Forest&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Hayop&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Paglalarawan&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Saan Sila Nakatira&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Fun Fact&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banana Slug&lt;/th&gt;
+            &lt;td&gt;Malaki, dilaw, at madulas na slug&lt;/td&gt;
+            &lt;td&gt;Sa lupa ng kagubatan&lt;/td&gt;
+            &lt;td&gt;Pangalawa sa pinakamalaking slug sa mundo&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Pacific Giant Salamander&lt;/th&gt;
+            &lt;td&gt;Malaki at maitim na salamander&lt;/td&gt;
+            &lt;td&gt;Malapit sa mga sapa at mamasa-masang lugar&lt;/td&gt;
+            &lt;td&gt;Puwedeng lumaki nang hanggang isang talampakan ang haba&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt Elk&lt;/th&gt;
+            &lt;td&gt;Malaking usa na may mga kahanga-hangang sungay&lt;/td&gt;
+            &lt;td&gt;Nangangain sa mga clearing sa kagubatan&lt;/td&gt;
+            &lt;td&gt;Puwedeng umabot sa mahigit 1,000 pounds ang timbang ng mga lalaki&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Northern Spotted Owl&lt;/th&gt;
+            &lt;td&gt;Katamtamang laki ng kuwago, nanghuhuli sa gabi&lt;/td&gt;
+            &lt;td&gt;Sa mga makakapal at matandang redwood forest&lt;/td&gt;
+            &lt;td&gt;Isang \"indicator species\" – ipinapakita ng kalusugan nito ang kalusugan ng kagubatan&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Black Bear&lt;/th&gt;
+            &lt;td&gt;Malaking mammal, karaniwang itim o brown&lt;/td&gt;
+            &lt;td&gt;Naghahanap ng pagkain sa buong kagubatan&lt;/td&gt;
+            &lt;td&gt;Mahuhusay umakyat, madalas makita sa mga puno&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Ang mga naiisip mo tungkol sa Redwoods at kalikasan&lt;/h1&gt;
+
+      &lt;p&gt;Ano pa ang gusto mong matutunan tungkol sa Redwoods?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Ano ang paborito mong puntahang lugar sa kalikasan?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Ano ang isang konsepto sa kalikasan na gusto mong matutunan pa?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

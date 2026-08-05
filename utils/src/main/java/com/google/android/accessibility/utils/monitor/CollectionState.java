@@ -16,9 +16,11 @@
 
 package com.google.android.accessibility.utils.monitor;
 
+import android.os.Build.VERSION;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -66,10 +68,13 @@ public class CollectionState {
 
   /** Transition to a node outside any collection from a node also outside any collection. */
   public static final int NAVIGATE_NONE = 0;
+
   /** Transition to a node inside a collection from a node that is not in that collection. */
   public static final int NAVIGATE_ENTER = 1;
+
   /** Transition to a node outside any collection from a node that is within a collection. */
   public static final int NAVIGATE_EXIT = 2;
+
   /** Transition between two nodes in the same collection. */
   public static final int NAVIGATE_INTERIOR = 3;
 
@@ -130,14 +135,6 @@ public class CollectionState {
         }
       };
 
-  private static final Filter<AccessibilityNodeInfoCompat> FILTER_COLLECTION_ITEM =
-      new Filter<AccessibilityNodeInfoCompat>() {
-        @Override
-        public boolean accept(AccessibilityNodeInfoCompat node) {
-          return node != null && node.getCollectionItemInfo() != null;
-        }
-      };
-
   /**
    * Base interface for internal collection item state. It should be kept private because clients of
    * the CollectionState should not need polymorphism for ListItemState/TableItemState. On the other
@@ -155,6 +152,7 @@ public class CollectionState {
 
   public static class ListItemState implements ItemState {
     private final boolean isHeading;
+
     /** The role description, or {@code null} if it has none. */
     private final @Nullable CharSequence roleDescription;
 
@@ -179,6 +177,13 @@ public class CollectionState {
       }
 
       return TYPE_NONE;
+    }
+
+    @Override
+    public String toString() {
+      return String.format(" ListItemState: index=%s, ", getIndex())
+          + String.format("heading=%s, ", isHeading())
+          + String.format("roleDescription=%s, ", getRoleDescription());
     }
 
     public boolean isHeading() {
@@ -229,6 +234,13 @@ public class CollectionState {
       return transition;
     }
 
+    @Override
+    public String toString() {
+      return String.format(" PagerItemState: colIndex=%s, ", getColumnIndex())
+          + String.format("rowIndex=%s, ", getRowIndex())
+          + String.format("heading=%s, ", isHeading());
+    }
+
     /** Returns {@code true} if this item represents a heading page. */
     public boolean isHeading() {
       return heading;
@@ -248,10 +260,13 @@ public class CollectionState {
   public static class TableItemState implements ItemState {
     /** Indicates whether the table cell is a row, column, or indeterminate heading. */
     @TableHeadingType private final int headingType;
+
     /** The row name, or {@code null} if the row is unnamed. */
     private final @Nullable CharSequence rowName;
+
     /** The column name, or {@code null} if the column is unnamed. */
     private final @Nullable CharSequence columnName;
+
     /** The role description, or {@code null} if it has none. */
     private final @Nullable CharSequence roleDescription;
 
@@ -292,6 +307,16 @@ public class CollectionState {
       return transition;
     }
 
+    @Override
+    public String toString() {
+      return String.format(" TableItemState: colIndex=%s, ", getColumnIndex())
+          + String.format("rowIndex=%s, ", getRowIndex())
+          + String.format("headingType=%s, ", getHeadingType())
+          + String.format("roleDescription=%s, ", getRoleDescription())
+          + String.format("colName=%s, ", getColumnName())
+          + String.format("rowName=%s, ", getRowName());
+    }
+
     @TableHeadingType
     public int getHeadingType() {
       return headingType;
@@ -320,6 +345,19 @@ public class CollectionState {
 
   public CollectionState() {}
 
+  @Override
+  public String toString() {
+    return String.format(" CollectionState:  role=%s, ", getCollectionRole())
+        + String.format("colCount=%s, ", getCollectionColumnCount())
+        + String.format("rowCount=%s, ", getCollectionRowCount())
+        + String.format("itemCount=%s ", getItemCount())
+        + String.format(
+            "importantForAccessibilityItemCount=%s", getImportantForAccessibilityCollectionCount())
+        + String.format("collectionTransition=%s, ", getCollectionTransition())
+        + String.format("rowColTransition=%s, ", getRowColumnTransition())
+        + String.format("selectionMode=%s, ", getSelectionMode());
+  }
+
   @CollectionTransition
   public int getCollectionTransition() {
     return mCollectionTransition;
@@ -331,12 +369,17 @@ public class CollectionState {
   }
 
   public @Nullable CharSequence getCollectionName() {
-    final CharSequence collectionName = AccessibilityNodeInfoUtils.getNodeText(mCollectionRoot);
+    // Use container title or fallback to node text.
+    CharSequence collectionName =
+        mCollectionRoot == null ? "" : mCollectionRoot.getContainerTitle();
+    if (TextUtils.isEmpty(collectionName)) {
+      collectionName = AccessibilityNodeInfoUtils.getNodeText(mCollectionRoot);
+    }
     // If the collection name is the one of the ROTARY_CONTAINER, ROTARY_HORIZONTALLY_SCROLLABLE,
     // or ROTARY_VERTICALLY_SCROLLABLE, then ignoring it and return null because these strings
     // in the content description aren't the descriptive content.
     // TODO : b/245629969 for the long term solution.
-    if (collectionName == null
+    if (TextUtils.isEmpty(collectionName)
         || TextUtils.equals(collectionName, ROTARY_CONTAINER)
         || TextUtils.equals(collectionName, ROTARY_HORIZONTALLY_SCROLLABLE)
         || TextUtils.equals(collectionName, ROTARY_VERTICALLY_SCROLLABLE)) {
@@ -376,6 +419,29 @@ public class CollectionState {
     return mCollectionRoot.getCollectionInfo().getColumnCount();
   }
 
+  /** Returns the count of items in a collection, or -1 if the count is unavailable. */
+  public int getItemCount() {
+    if (VERSION.SDK_INT >= 35 && mCollectionRoot != null) {
+      AccessibilityNodeInfo node = mCollectionRoot.unwrap();
+      return node.getCollectionInfo() == null ? -1 : node.getCollectionInfo().getItemCount();
+    }
+    return -1;
+  }
+
+  /**
+   * Returns the count of items in a collection that are important for accessibility, or -1 if the
+   * count is not available.
+   */
+  public int getImportantForAccessibilityCollectionCount() {
+    if (VERSION.SDK_INT >= 35 && mCollectionRoot != null) {
+      AccessibilityNodeInfo node = mCollectionRoot.unwrap();
+      return node.getCollectionInfo() == null
+          ? -1
+          : node.getCollectionInfo().getImportantForAccessibilityItemCount();
+    }
+    return -1;
+  }
+
   @CollectionAlignment
   public int getCollectionAlignment() {
     if (mCollectionRoot == null) {
@@ -395,7 +461,7 @@ public class CollectionState {
   }
 
   public int getSelectionMode() {
-    if (mCollectionRoot == null) {
+    if (mItemState == null || mCollectionRoot == null) {
       return SELECTION_NONE;
     } else {
       CollectionInfoCompat collection = mCollectionRoot.getCollectionInfo();
@@ -418,7 +484,7 @@ public class CollectionState {
    * com.google.android.accessibility.utils.Role#ROLE_LIST}.
    */
   public @Nullable ListItemState getListItemState() {
-    if (mItemState != null && mItemState instanceof ListItemState) {
+    if (mItemState instanceof ListItemState) {
       return (ListItemState) mItemState;
     }
 
@@ -437,7 +503,7 @@ public class CollectionState {
     // nested, any performance penalty would be minimal.
     AccessibilityNodeInfoCompat collectionItemNode =
         AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(
-            announcedNode, collectionRoot, FILTER_COLLECTION_ITEM);
+            announcedNode, collectionRoot, AccessibilityNodeInfoUtils.FILTER_COLLECTION_ITEM);
 
     if (collectionItemNode == null) {
       return null;
@@ -495,7 +561,7 @@ public class CollectionState {
     AccessibilityNode collectionItemNode =
         AccessibilityNode.takeOwnership(
             AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(
-                announcedNode, collectionRoot, FILTER_COLLECTION_ITEM));
+                announcedNode, collectionRoot, AccessibilityNodeInfoUtils.FILTER_COLLECTION_ITEM));
 
     if (collectionItemNode == null) {
       return null;
@@ -517,7 +583,7 @@ public class CollectionState {
    * com.google.android.accessibility.utils.Role#ROLE_GRID}.
    */
   public @Nullable TableItemState getTableItemState() {
-    if (mItemState != null && mItemState instanceof TableItemState) {
+    if (mItemState instanceof TableItemState) {
       return (TableItemState) mItemState;
     }
 
@@ -538,7 +604,7 @@ public class CollectionState {
     // nested, any performance penalty would be minimal.
     AccessibilityNodeInfoCompat collectionItemNode =
         AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(
-            announcedNode, collectionRoot, FILTER_COLLECTION_ITEM);
+            announcedNode, collectionRoot, AccessibilityNodeInfoUtils.FILTER_COLLECTION_ITEM);
 
     if (collectionItemNode == null) {
       return null;
@@ -554,10 +620,10 @@ public class CollectionState {
     CharSequence columnName = columnIndex != -1 ? columnHeaders.get(columnIndex) : null;
     CharSequence roleDescription = collectionItemNode.getRoleDescription();
     if (rowName == null) {
-      rowName = AccessibilityNodeInfoUtils.geGridRowTitle(collectionItemNode);
+      rowName = AccessibilityNodeInfoUtils.getGridRowTitle(collectionItemNode);
     }
     if (columnName == null) {
-      columnName = AccessibilityNodeInfoUtils.geGridColumnTitle(collectionItemNode);
+      columnName = AccessibilityNodeInfoUtils.getGridColumnTitle(collectionItemNode);
     }
 
     return new TableItemState(heading, rowName, columnName, roleDescription, rowIndex, columnIndex);
@@ -610,7 +676,9 @@ public class CollectionState {
     if ((mCollectionRoot != null) && announcedNode.equals(mCollectionRoot)) {
       newCollectionRoot = mCollectionRoot;
     } else {
-      newCollectionRoot = AccessibilityNodeInfoUtils.getCollectionRoot(announcedNode.getParent());
+      // If announcedNode is a collection already, it should be excluded from the search, or the
+      // collection level will be incorrect.
+      newCollectionRoot = AccessibilityNodeInfoUtils.getCollectionRootExcludeSelf(announcedNode);
     }
 
     // STATE DIAGRAM:

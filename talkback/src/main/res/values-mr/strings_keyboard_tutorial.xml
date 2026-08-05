@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">हे ट्यूटोरियल वर्धित केलेल्या कीमॅपसाठी आहे, ज्यामध्ये अनेक नवीन कमांड समाविष्ट आहेत. कीमॅप निवडण्यासाठी, TalkBack सेटिंग्ज &gt; प्रगत सेटिंग्ज &gt; कीबोर्ड शॉर्टकट वर जा.\n\nविषय निवडण्यासाठी Action + राइट अ‍ॅरो प्रेस करा. सर्वोत्तम अनुभवासाठी, सुरुवात करण्यापूर्वी TalkBack सुरू करा.</string>
+  <string name="basic_interaction_link_text">मूलभूत संवाद</string>
+  <string name="basic_interaction_link_subtext">आयटमदरम्यान हलवा, ओळींनुसार वाचा, मेनू वापरा आणि आणखी बरेच काही</string>
+  <string name="browse_mode_link_text">ब्राउझ मोड</string>
+  <string name="browse_mode_link_subtext">जंप कमांडसह वेब आशय अधिक जलद नेव्हिगेट करा</string>
+  <string name="reading_controls_link_text">वाचन नियंत्रणे</string>
+  <string name="reading_controls_link_subtext">आयटमदरम्यान स्विच करण्यासाठी, स्पीच सेटिंग्ज अ‍ॅडजस्ट करण्यासाठी आणि आणखी बरेच काही करण्यासाठी वाचन नियंत्रणे वापरा</string>
+  <string name="image_descriptions_link_text">इमेजची वर्णने</string>
+  <string name="image_descriptions_link_subtext">इमेजची वर्णने मिळवून पहा</string>
+  <string name="keyboard_shortcuts_link_text">कीबोर्ड शॉर्टकटचा सराव करा</string>
+  <string name="keyboard_shortcuts_link_subtext">की आणि की काँबिनेशन प्रेस करा आणि त्यामुळे काय होते ते जाणून घ्या</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack हे वाचिक फीडबॅक देते, जेणेकरून तुम्ही स्क्रीनकडे न पाहता तुमचे डिव्हाइस वापरू शकता. स्क्रीनकडे पाहण्यात समस्या येत असलेल्या लोकांसाठी TalkBack उपयुक्त असू शकते. TalkBack सुरू असते, तेव्हा स्क्रीनवरील फोकस केलेला आयटम मोठ्याने बोलला जातो.\n\nप्रथम आपण तुमच्या कीबोर्डशी परिचित होऊ या. ॲक्शन की शोधा, जी लेफ्ट शिफ्ट कीच्या वर आहे. आता कीबोर्डच्या तळाशी उजवीकडील भागाजवळ अ‍ॅरो की शोधू या. पुढील आयटमवर जाण्यासाठी Action + राइट अ‍ॅरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">हा पुढील आयटम आहे. मागील आयटमवर जाण्यासाठी, Action + लेफ्ट अ‍ॅरो प्रेस करा.\n\nतुम्ही बटणासारख्या संवादी आयटमवर जाता, तेव्हा तो अ‍ॅक्टिव्हेट करण्यासाठी Action + Space प्रेस करा. पुढील बटण शोधा आणि ट्यूटोरियल पुढे सुरू ठेवा.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">वर्ण, शब्द किंवा परिच्छेद यांनुसार वाचणे</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">काही वेळा, तुम्हाला एका वेळी एक वर्ण अशा प्रकारे मजकूर मोठ्याने वाचलेला ऐकायचा असू शकतो.\n\nहे करण्यासाठी, तुम्ही वाचन नियंत्रणे नेव्हिगेशन वापरू शकता. तुम्हाला \"वर्ण\" ऐकू येईपर्यंत Action + Shift + राइट किंवा लेफ्ट अ‍ॅरो प्रेस करा.\n\nत्यानंतर, नेव्हिगेशन फोकस एका वर्णाने मागे हलवण्यासाठी Action + अप अ‍ॅरो प्रेस करा. नेव्हिगेशन फोकस एका वर्णाने पुढे हलवण्यासाठी, Action + डाउन अ‍ॅरो प्रेस करा.\n\nते आताच करून पहा. तुम्ही Action + Shift + राइट किंवा लेफ्ट अ‍ॅरो वापरून शब्द, ओळी किंवा परिच्छेद यांनुसार वाचणेदेखील निवडू शकता.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">सिस्टीम नेव्हिगेशन</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">आता हे कीबोर्ड शॉर्टकट वापरून पाहिल्याने ट्यूटोरियल बंद होईल. तुम्ही ट्यूटोरियल पूर्ण करेपर्यंत तुम्हाला प्रतीक्षा करावी लागू शकते.\n\nउघड्या ॲप विंडो आणि नोटिफिकेशन व टास्कबार यांसारख्या सिस्टीम घटकांदरम्यान झटपट जाण्यासाठी, Action + Alt + Ctrl + अप किंवा डाउन अ‍ॅरो प्रेस करा.\n\nॲप सूची उघडण्यासाठी, Action प्रेस करा.\n\nहोम स्क्रीनवर जाण्यासाठी आणि सर्व उघड्या विंडो मिनिमाइझ करण्यासाठी, सर्वात वरील पंक्तीमध्ये Action + H किंवा होम प्रेस करा.\n\nतुमच्या अलीकडील ॲप्सवर जाण्यासाठी, सर्वात वरील पंक्तीमध्ये Action + Tab किंवा अवलोकन प्रेस करा.\n\nविंडोदरम्यान झटपट जाण्यासाठी, ऑल्ट धरून ठेवा आणि टॅब प्रेस करा.\n\nमागे जाण्यासाठी, सर्वात वरील पंक्तीमध्ये Action + Esc किंवा मागे जा प्रेस करा.\n\nनोटिफिकेशन उघडण्यासाठी, Action + N प्रेस करा.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">स्‍पीच सेटिंग्ज अ‍ॅडजस्ट करणे</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack स्पीचच्या व्‍हॉल्‍यूमला अ‍ॅक्सेसिबिलिटी व्‍हॉल्‍यूम म्हणतात. तो मीडिया व्‍हॉल्‍यूमपेक्षा वेगळ्या पद्धतीने अ‍ॅडजस्ट केला जातो.\n\nअ‍ॅक्सेसिबिलिटी व्‍हॉल्‍यूम अ‍ॅडजस्ट करण्यासाठी, Action + व्‍हॉल्‍यूम जास्‍त किंवा व्‍हॉल्‍यूम कमी प्रेस करा.\n\nस्पीच रेट अ‍ॅडजस्ट करण्यासाठी, वाढवण्याकरिता Action + Ctrl + व्‍हॉल्‍यूम जास्‍त आणि कमी करण्याकरिता Action + Ctrl + व्‍हॉल्‍यूम कमी प्रेस करा.\n\nस्पीच कधीही थांबवण्यासाठी, कंट्रोल प्रेस करा.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack मेनू आणि आणखी कीबोर्ड शॉर्टकट</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack मेनूमध्ये तुम्हाला ज्यांची वारंवार आवश्यकता असू शकते अशी सेटिंग्ज आणि नियंत्रणे यांचा समावेश आहे.\n\nTalkBack मेनू उघडण्यासाठी, Action + Ctrl + M प्रेस करा. तुम्ही TalkBack सेटिंग्जमध्ये नंतर TalkBack मेनू आणि तुमची वाचन नियंत्रणे कस्टमाइझ करू शकता.\n\nTalkBack कीबोर्ड शॉर्टकट मेनूमध्ये तुम्ही वापरू शकत असलेल्या सर्व कीबोर्ड शॉर्टकटचा समावेश आहे.\n\nकीबोर्ड शॉर्टकट मेनू उघडण्यासाठी, Action + Shift + / प्रेस करा.\n\nकीबोर्डबद्दल अधिक जाणून घेण्यासाठी आणि कीबोर्ड शॉर्टकटचा सराव करण्यासाठी, सराव स्क्रीन उघडण्याकरिता Action + 0 प्रेस करा.</string>
+  <string name="keyboard_tutorial_finished_page_title">सर्व तयार आहे!</string>
+  <string name="keyboard_tutorial_finished_page_text">तुम्ही TalkBack वापरण्यासाठी तयार आहात.\n\nआता इतर विषयांबद्दल जाणून घेणे सुरू ठेवा किंवा TalkBack सेटिंग्जमध्ये या माहितीचे कधीही पुनरावलोकन करा.\n\nTalkBack कधीही सुरू किंवा बंद करण्यासाठी, Action + Alt + T प्रेस करा.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">ब्राउझ मोडसह वेब आशय अधिक जलद नेव्हिगेट करा</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">तुम्ही ब्राउझर आणि वेब अ‍ॅप्समध्ये असता, तेव्हा ब्राउझ मोड सुरू करू शकता व की एकदा प्रेस करून विविध प्रकारच्या वाचन ग्रॅन्युलॅरिटी आणि नियंत्रणे यांदरम्यान स्विच करू शकता. त्यामुळे पेज नेव्हिगेट करणे मजकूर संपादन बॉक्समध्ये नेव्हिगेट करण्यासारखे होते, जसे की वर्णानुसार हलवण्यासाठी लेफ्ट आणि राइट अ‍ॅरो व ओळीनुसार हलवण्यासाठी अप आणि डाउन अ‍ॅरो.\n\nब्राउझ मोड सुरू किंवा बंद करण्यासाठी, अ‍ॅक्शन की दोनदा प्रेस करा.\n\nब्राउझ मोड सुरू असतो, तेव्हा पुढील लँडमार्कवर जाण्यासाठी D, पुढील नियंत्रण किंवा फॉर्म फील्डसाठी F, पुढील बटणासाठी B, पुढील लिंकसाठी K आणि पुढील शीर्षकासाठी H प्रेस करा. मागे जाण्यासाठी शिफ्ट धरून या की प्रेस करा.\n\nओळींनुसार पुढे जाण्यासाठी तुम्ही अप आणि डाउन अ‍ॅरो, अक्षरांनुसार पुढे जाण्यासाठी लेफ्ट आणि राइट अ‍ॅरो व शब्दांनुसार पुढे जाण्यासाठी Ctrl + लेफ्ट आणि राइट अ‍ॅरोदेखील वापरू शकता.\n\nसराव भागामध्ये एंटर करण्यासाठी Action + राइट अ‍ॅरो प्रेस करा. सराव भागामध्ये असताना लिंक, फॉर्म फील्ड आणि बटणे कोणतीही गोष्ट करणार नाहीत.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">शीर्षकाच्या पातळ्या</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">आशय संरचित करण्यासाठी वेबसाइट आणि वेब अ‍ॅप्स बरेचदा वेगवेगळ्या पातळ्या असलेली शीर्षके वापरतात. ब्राउझ मोड सुरू असताना, शीर्षकाच्या पातळ्यांवर जाण्यासाठी १ ते ६ प्रेस करा. मागे जाण्यासाठी शिफ्ट धरून ठेवा आणि या की प्रेस करा.\n\nसराव भागामध्ये एंटर करण्यासाठी Action + राइट अ‍ॅरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_tables_page_title">सारण्या</string>
+  <string name="keyboard_tutorial_tables_page_text">ब्राउझ मोडमुळे सारणी नेव्हिगेशनदेखील अधिक सोपे होते. ब्राउझ मोड सुरू असतो, तेव्हा पंक्तींदरम्यान स्विच करण्यासाठी Alt + Ctrl + अप आणि डाउन अ‍ॅरो व स्तंभांदरम्यान स्विच करण्यासाठी Alt + Ctrl + लेफ्ट आणि राइट अ‍ॅरो प्रेस करा.\n\nसराव भागामध्ये एंटर करण्यासाठी Action + राइट अ‍ॅरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">मजकूर संपादित करणे</string>
+  <string name="keyboard_tutorial_editing_text_page_text">तुम्ही मजकूर फील्डमध्ये एंटर करता, तेव्हा ब्राउझ मोड तात्पुरता बंद केला जाईल, जेणेकरून तुम्हाला टाइप करण्यासाठी सर्व की वापरता येतील. तो बंद केला गेल्यावर तुम्हाला घोषणा आणि आवाज ऐकू येईल. तुम्ही मजकूर फील्डमधून बाहेर पडल्यावर, ब्राउझ मोड पुन्हा सुरू होईल आणि तुम्हाला दुसरी घोषणा व आवाज ऐकू येईल.\n\nसराव भागामध्ये एंटर करण्यासाठी Action + राइट अ‍ॅरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">ब्राउझ मोडबद्दल अधिक माहिती</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">तुम्ही ब्राउझ मोडमध्ये ज्यांच्या दरम्यान स्विच करू शकता अशा आयटमची संपूर्ण सूची तपासण्यासाठी, Action + Shift + / प्रेस करा आणि कीबोर्ड शॉर्टकट मेनूमध्ये \"ब्राउझ मोड\" शोधा.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">वर्ण, शब्द किंवा परिच्छेद यांनुसार वाचणे</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">काही वेळा, तुम्हाला एका वेळी एक वर्ण अशा प्रकारे मजकूर मोठ्याने वाचलेला ऐकायचा असू शकतो.\n\nहे करण्यासाठी, तुम्ही वाचन नियंत्रणे नेव्हिगेशन वापरू शकता. तुम्हाला \"वर्ण\" ऐकू येईपर्यंत Action + Shift + राइट किंवा लेफ्ट अ‍ॅरो प्रेस करा. त्यानंतर, नेव्हिगेशन फोकस वर्णानुसार मागे हलवण्यासाठी Action + अप अ‍ॅरो प्रेस करा. नेव्हिगेशन फोकस एका वर्णाने पुढे हलवण्यासाठी, Action + डाउन अ‍ॅरो प्रेस करा.\n\nते आताच करून पहा. तुम्ही Action + Shift + राइट किंवा लेफ्ट अ‍ॅरो वापरून शब्द, ओळी किंवा परिच्छेद यांनुसार वाचणेदेखील निवडू शकता.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">नियंत्रणांदरम्यान स्विच करणे</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">नियंत्रणे हे असे आयटम आहेत, ज्यांच्याशी तुम्ही संवाद साधू शकता, जसे की बटणे, चेकबॉक्स आणि टेक्स्ट बॉक्स.\n\nकाही पेजवर, तुम्हाला पुढील बटण यासारख्या कृती झटपट शोधण्यासाठी नियंत्रणांदरम्यान करावे लागू शकते.\n\nहे करण्यासाठी, तुम्हाला \"नियंत्रणे\" ऐकू येईपर्यंत Action + Shift + राइट ॲरो प्रेस करा. त्यानंतर, मागील बटणावर जाण्यासाठी Action + अप अ‍ॅरो आणि पुढील बटणावर जाण्यासाठी Action + डाउन अ‍ॅरो प्रेस करा.\n\nते आताच करून पहा आणि पुढील बटण शोधा.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">लिंकदरम्यान स्विच करणे</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">तुम्ही पेजवरील लिंकदरम्यानदेखील स्विच करू शकता.\n\nहे करण्यासाठी, तुम्हाला \"लिंक\" ऐकू येईपर्यंत Action + Shift + राइट अ‍ॅरो प्रेस करा. त्यानंतर, \"लिंक ५\" नावाची लिंक शोधण्यासाठी Action + डाउन अ‍ॅरो प्रेस करा. ट्यूटोरियलमध्ये असताना, या लिंकवर दोनदा टॅप केल्याने काहीही होणार नाही.\n\nपुढील बटण शोधण्यासाठी आणि पुढील पेजवर जाण्यासाठी Action + राइट अ‍ॅरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">शीर्षकांदरम्यान स्विच करणे</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">तुम्ही पेजवरील शीर्षकांदरम्यानदेखील स्विच करू शकता.\n\nते आताच करून पाहण्यासाठी, तुम्हाला \"शीर्षके\" ऐकू येईपर्यंत Action + Shift + राइट अ‍ॅरो प्रेस करा. त्यानंतर, \"नेव्हिगेशन\" हे शीर्षक शोधण्यासाठी Action + डाउन अ‍ॅरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_find_next_button">पुढील बटण शोधण्यासाठी Action + राइट ॲरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">कंटेनरदरम्यान स्विच करणे</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">सूची किंवा ग्रिड यांसारख्या कंटेनरमधून बाहेर पडण्यासाठी, Action + Alt + Ctrl + राइट अथवा लेफ्ट अ‍ॅरो प्रेस करा. तुम्हाला आयटमच्या मोठ्या सूचीमधून बाहेर जायचे असेल, तेव्हा हे उपयुक्त आहे.\n\nते आताच करून पाहण्यासाठी, सूचीमध्ये एंटर करण्याकरिता Action + राइट अ‍ॅरो प्रेस करा. त्यानंतर पुढील कंटेनरवर जाण्यासाठी Action + Alt + Ctrl + राइट अ‍ॅरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_go_to_next_container">पुढील कंटेनरवर जाण्यासाठी, Action + Alt + Ctrl + राइट अ‍ॅरो प्रेस करा</string>
+  <string name="keyboard_tutorial_exit_container">या कंटेनरमधून बाहेर पडण्यासाठी, Action + Alt + Ctrl + राइट अ‍ॅरो प्रेस करा</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">तुम्ही कंटेनरमधून बाहेर पडला आहात. तुम्ही तुमच्या वाचन नियंत्रणांमध्येदेखील कंटेनर जोडू शकता आणि त्यानंतर कंटेनर निवडण्यासाठी Action + Shift + राइट किंवा लेफ्ट अ‍ॅरो आणि कंटेनरदरम्यान स्विच करण्यासाठी Action + डाउन किंवा अप अ‍ॅरो प्रेस करू शकता. वाचन नियंत्रणे अपडेट करण्यासाठी, TalkBack &gt; सेटिंग्ज &gt; मेनू कस्टमाइझ करा &gt; वाचन नियंत्रणे कस्टमाइझ करा वर जा.\n\nपुढील बटण शोधण्यासाठी Action + राइट अ‍ॅरो प्रेस करा.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">वाचन नियंत्रणे कस्टमाइझ करा</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">तुम्ही वाचन नियंत्रणे वापरून स्पीच सेटिंग्ज अ‍ॅडजस्ट करू शकता आणि TalkBack &gt; सेटिंग्ज &gt; मेनू कस्टमाइझ करा &gt; वाचन नियंत्रणे कस्टमाइझ करा यामध्ये वाचन नियंत्रणांसह तुम्हाला काय करता येईल हे कस्टमाइझ करू शकता.</string>
+  <string name="keyboard_tutorial_image_description_page_title">इमेजची वर्णने मिळवण्याचा प्रयत्न करा</string>
+  <string name="keyboard_tutorial_image_description_page_text">तुम्ही इमेजवर फोकस करता, तेव्हा Action + R, त्यानंतर I प्रेस करा. खाली एक फोटो आहे. त्यासाठी वर्णन मिळवण्याचा प्रयत्न करा.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">तुम्ही TalkBack सेटिंग्ज &gt; इमेज आणि आयकन वर्णनांमध्ये कधीही इमेज वर्णन सेटिंग्ज बदलू शकता.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">तुम्ही TalkBack सेटिंग्ज, त्यानंतर इमेज आणि आयकन वर्णन यांमध्ये कधीही इमेज वर्णन सेटिंग्ज बदलू शकता.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">नमुना इमेज. वर्णन ऐकण्यासाठी Action + R, त्यानंतर I प्रेस करा.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">व्हॉइस कमांड</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBack झटपट नियंत्रित करण्यासाठी तुम्ही तुमचा आवाज वापरू शकता.\n\nउदाहरणार्थ, नेव्हिगेशन बदलण्यासाठी, पुढील शीर्षकावर जाण्यासाठी, मजकूर कॉपी करण्यासाठी आणि आणखी बरेच काही करण्यासाठी, कमांड म्हणा.\n\nते आता करून पाहण्यासाठी, Action + \\ प्रेस करा.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">स्क्रीनवर शोधा वापरणे</string>
+  <string name="keyboard_tutorial_screen_search_page_text">स्क्रीनवर शोधा वैशिष्‍ट्य तुम्हाला स्क्रीनवर विशिष्ट आशय शोधू देते.\n\nते करून पाहण्यासाठी, Action + CTRL + / प्रेस करा. स्क्रीनवर मजकूर असलेले आयटम शोधण्यासाठी \"पुढील\" सारखा कीवर्ड टाइप करा.\n\nपुढील बटण शोधण्यासाठी आता \"पुढील\" शोधून पहा.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">स्क्रीनवर शोधा यानुसार नेव्हिगेट करणे</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">तुम्ही परिणाम निवडल्यानंतर स्क्रीनवर शोधा वापरून मिळालेल्या वेगवेगळ्या शोध परिणामांदरम्यान झटपट जाऊ शकता.\n\nहे करण्यासाठी, तुम्ही वाचन नियंत्रणे नेव्हिगेशन वापरू शकता. तुम्हाला \"स्क्रीनवर शोधा\" ऐकू येईपर्यंत Action + Shift + राइट किंवा लेफ्ट अ‍ॅरो प्रेस करा. त्यानंतर, स्क्रीनवर शोधा वापरून मिळालेल्या शोध परिणामांनुसार नेव्हिगेट करण्यासाठी Action + डाउन किंवा अप ॲरो प्रेस करा.\n\nचला, आता ते वापरून पाहू या. खाली ३ बटणांची सूची आहे, त्या सर्वांमध्ये \"कृती\" हा मजकूर आहे. स्क्रीनवर शोधा वापरून \"कृती\" शोधा, त्यानंतर त्यादरम्यान जाण्यासाठी स्क्रीनवर शोधा यानुसार नेव्हिगेट करा.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">कीबोर्ड शॉर्टकटचा सराव करणे</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">वास्तविक कीबोर्डवरील की किंवा की काँबिनेशन यांमुळे काय होते हे ऐकण्यासाठी ते प्रेस करा. बाहेर पडण्यासाठी Ctrl + W किंवा एस्केप प्रेस करा.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;कॅलिफोर्नियामधील रेडवुडचे वैभव अनुभवा&lt;/h1&gt;
+      &lt;p&gt;कॅलिफोर्नियामधील रेडवुड, प्रामुख्याने कोस्ट रेडवुड (सेक्वाया सेंपरव्हिरेंझ), हे जगातील सर्वात उंच वृक्ष आहेत. काही वृक्ष ३८० फुटांहून (११५ मीटर) अधिक उंच आहेत आणि हजारो वर्षे जगू शकतात. ते उत्तर कॅलिफोर्नियाच्या दमट किनारी हवामानामध्ये वाढतात आणि त्यांना पाऊस व धुक्याचा फायदा मिळतो.&lt;/p&gt;
+
+      &lt;h2&gt;ते कुठे पहावेत&lt;/h2&gt;
+      &lt;p&gt;तुम्हाला हे महाकाय वृक्ष पॅसिफिक किनार्‍यावरील एका अरुंद पट्ट्यामध्ये आढळतील. महत्त्वाच्या उद्यानांमध्ये पुढील उद्यानांचा समावेश आहे:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;रेडवुड नॅशनल अँड स्टेट पार्क्स&lt;/li&gt;
+        &lt;li&gt;हंबोल्ट रेडवुड्स स्टेट पार्क&lt;/li&gt;
+        &lt;li&gt;बिग बेसिन रेडवुड्स स्टेट पार्क&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;तुमच्या भेटीचे नियोजन इथे करा: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;कॅलिफोर्निया स्टेट पार्क्स - रेडवुड्स&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;संवर्धनाला पाठिंबा द्या&lt;/h2&gt;
+      &lt;p&gt;या प्राचीन जंगलांचे संरक्षण करणे अत्यावश्यक आहे. तुम्ही उद्यानाशी संबंधित मार्गदर्शक तत्त्वांचे पालन करून आणि संवर्धनाच्या प्रयत्नांना पाठिंबा देऊन मदत करू शकता.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;तुमचा अनुभव शेअर करा&lt;/h2&gt;
+        &lt;p&gt;तुम्ही रेडवुडना भेट दिली आहे का?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;होय&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;नाही&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;तुमच्या अनुभवाबद्दल आम्हाला सांगा&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;सबमिट करा&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;तुम्हाला रेडवुडबद्दल आणखी काय जाणून घ्यायचे आहे?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;सबमिट करा&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;रेडवुड वृक्ष: आपले पर्यावरण निरोगी ठेवतात&lt;/h1&gt;
+    &lt;p&gt;रेडवुड हे पृथ्वीसाठी महत्त्वाचे आहेत, आपले पर्यावरण निरोगी ठेवण्यात ते मोठी भूमिका बजावतात.&lt;/p&gt;
+
+    &lt;h1&gt;हवेतील कार्बन डायऑक्साइड शोषून घेणारे महाकाय वृक्ष&lt;/h1&gt;
+    &lt;p&gt;हे वृक्ष हवेतील कार्बन डायऑक्साइड उत्तम प्रकारे शोषून घेतात. तो मोठ्या प्रमाणात शोषून घेतल्याने, रेडवुडमुळे आपली हवा स्वच्छ राहण्यात मदत होते.&lt;/p&gt;
+
+    &lt;h2&gt;प्राण्यांसाठी घर&lt;/h2&gt;
+    &lt;p&gt;रेडवुड त्यांच्या फांद्यांवरील पक्ष्यांपासून मातीमधील लहान जीवांपर्यंत अनेक प्राण्यांना घरे आणि आश्रय पुरवतात.&lt;/p&gt;
+
+    &lt;h3&gt;पाण्याचे जादूगार&lt;/h3&gt;
+    &lt;p&gt;ते धुके उत्तम प्रकारे धरून ठेवतात, जे नंतर जंगलाच्या जमिनीवर ठिबकते. यामुळे जमीन ओलसर राहते आणि इतर वनस्पती व प्राण्यांसाठी पाणी उपलब्ध होते, विशेषतः कोरड्या हवामानात.&lt;/p&gt;
+
+    &lt;h4&gt;मातीचे संरक्षक&lt;/h4&gt;
+    &lt;p&gt;त्यांच्या मजबूत मुळांमुळे माती जागेवर राहते, ती मुसळधार पावसामध्ये वाहून जाणे थांबते आणि तिची धूप होण्यापासून रोखले जाते.&lt;/p&gt;
+
+    &lt;h5&gt;जंगलाचे निर्माते&lt;/h5&gt;
+    &lt;p&gt;जुनी रेडवुड पडतात, तेव्हा त्यांचे लाकूड नवीन वनस्पती आणि प्राण्यांसाठी अन्न व आश्रय बनते, ज्यामुळे नवीन वाढीसाठी सुपीक माती तयार होते.&lt;/p&gt;
+
+    &lt;h6&gt;विशेष इकोसिस्टीम&lt;/h6&gt;
+    &lt;p&gt;रेडवुड खूप मोठे असल्यामुळे आणि खूप काळ जगत असल्यामुळे, ते विशेष वन पर्यावरणे तयार करतात, जी इतर कुठेही न आढळणाऱ्या जीवांना आधार देतात.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;रेडवुडच्या जंगलांमधील प्राणी&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"रेडवुडच्या जंगलांमधील प्राणी\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;प्राणी&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;वर्णन&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ते कुठे राहतात&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;मजेदार तथ्य&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;बनाना स्लग&lt;/th&gt;
+            &lt;td&gt;मोठा, पिवळा, बुळबुळीत स्लग&lt;/td&gt;
+            &lt;td&gt;जंगलाच्या जमिनीवर&lt;/td&gt;
+            &lt;td&gt;जगातील दुसऱ्या क्रमांकाचा सर्वात मोठा स्लग&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;पॅसिफिक जायंट सॅलॅमँडर&lt;/th&gt;
+            &lt;td&gt;मोठा, गडद रंगाचा सॅलॅमँडर&lt;/td&gt;
+            &lt;td&gt;ओढ्यांजवळ आणि ओलसर भागांजवळ&lt;/td&gt;
+            &lt;td&gt;कमाल एक फूट लांब वाढू शकतो&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;रूझवेल्ट एल्क&lt;/th&gt;
+            &lt;td&gt;आकर्षक शिंगे असलेले मोठे हरीण&lt;/td&gt;
+            &lt;td&gt;जंगलातील मोकळ्या जागेत चरते&lt;/td&gt;
+            &lt;td&gt;नराचे वजन १००० पौंडांहून अधिक असू शकते&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;नॉर्दन स्पॉटेड आउल&lt;/th&gt;
+            &lt;td&gt;मध्यम आकाराचे घुबड, रात्री शिकार करते&lt;/td&gt;
+            &lt;td&gt;घनदाट, पूर्ण विकसित रेडवुडच्या जंगलांमध्ये&lt;/td&gt;
+            &lt;td&gt;\"निदर्शक प्रजाती\" – त्याचे आरोग्य जंगलाचे आरोग्य दर्शवते&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ब्लॅक बेअर&lt;/th&gt;
+            &lt;td&gt;मोठा सस्तन प्राणी, सामान्यतः काळा किंवा तपकिरी&lt;/td&gt;
+            &lt;td&gt;संपूर्ण जंगलात अन्न शोधते&lt;/td&gt;
+            &lt;td&gt;उत्कृष्ट चढाई करणारे, अनेकदा झाडांवर दिसते&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;रेडवुड आणि निसर्ग यांबाबत तुमचे विचार&lt;/h1&gt;
+
+      &lt;p&gt;तुम्हाला रेडवुडबद्दल आणखी काय जाणून घ्यायचे आहे?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;भेट देण्यासाठी निसर्गामधील तुमचे आवडते ठिकाण कोणते आहे?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;तुम्हाला निसर्गामधील कोणत्या एका संकल्पनेबद्दल अधिक जाणून घ्यायचे आहे?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

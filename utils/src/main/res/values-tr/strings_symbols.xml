@@ -35,6 +35,7 @@
   <string name="symbol_period">Nokta</string>
   <string name="symbol_pi">Pi</string>
   <string name="symbol_pound">Kare</string>
+  <string name="symbol_hash">Karma</string>
   <string name="symbol_pound_sterling">Sterlin para birimi simgesi</string>
   <string name="symbol_currency_peso">Pezo işareti</string>
   <string name="symbol_currency_dong">Dong işareti</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">Sağ köşeli ayraç</string>
   <string name="symbol_square_root">Karekök</string>
   <string name="symbol_trademark">Ticari marka</string>
+  <string name="symbol_check_mark">Onay işareti</string>
   <string name="symbol_underscore">Alt çizgi</string>
   <string name="symbol_vertical_bar">Dikey çizgi</string>
   <string name="symbol_yen">Yen</string>

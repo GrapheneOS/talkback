@@ -16,12 +16,20 @@
 
 package com.google.android.accessibility.utils;
 
+import static android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+import static com.google.android.accessibility.utils.AccessibilityWindowInfoUtils.WINDOW_ID_NONE;
 import static com.google.android.accessibility.utils.AccessibilityWindowInfoUtils.WINDOW_TYPE_NONE;
 import static com.google.android.accessibility.utils.DiagnosticOverlayUtils.FOCUS_FAIL_FAIL_ALL_FOCUS_TESTS;
 import static com.google.android.accessibility.utils.DiagnosticOverlayUtils.FOCUS_FAIL_NOT_SPEAKABLE;
 import static com.google.android.accessibility.utils.DiagnosticOverlayUtils.FOCUS_FAIL_NOT_VISIBLE;
 import static com.google.android.accessibility.utils.DiagnosticOverlayUtils.FOCUS_FAIL_SAME_WINDOW_BOUNDS_CHILDREN;
 import static com.google.android.accessibility.utils.DiagnosticOverlayUtils.NONE;
+import static com.google.android.accessibility.utils.Role.ROLE_GRID;
+import static com.google.android.accessibility.utils.Role.ROLE_HORIZONTAL_SCROLL_VIEW;
+import static com.google.android.accessibility.utils.Role.ROLE_LIST;
+import static com.google.android.accessibility.utils.Role.ROLE_PAGER;
+import static com.google.android.accessibility.utils.Role.ROLE_SCROLL_VIEW;
+import static com.google.android.accessibility.utils.Role.ROLE_WEB_VIEW;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -30,14 +38,13 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.LocaleList;
 import android.os.Parcelable;
+import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.text.style.SuggestionSpan;
 import android.text.style.URLSpan;
 import android.util.Pair;
-import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
 import android.view.accessibility.AccessibilityNodeInfo.CollectionItemInfo;
@@ -47,10 +54,13 @@ import android.widget.ListView;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.CollectionInfoCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.CollectionItemInfoCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.RangeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityWindowInfoCompat;
 import com.google.android.accessibility.utils.DiagnosticOverlayUtils.DiagnosticType;
 import com.google.android.accessibility.utils.Role.RoleName;
+import com.google.android.accessibility.utils.SpannableUtils.SpannableWithOffset;
 import com.google.android.accessibility.utils.compat.CompatUtils;
 import com.google.android.accessibility.utils.traversal.SpannableTraversalUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
@@ -59,6 +69,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.FormatMethod;
 import com.google.errorprone.annotations.FormatString;
 import java.util.ArrayDeque;
@@ -69,7 +80,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -89,8 +99,6 @@ public class AccessibilityNodeInfoUtils {
 
   private static final HashMap<Integer, String> actionIdToName = initActionIds();
 
-  // TODO: When androidx support library is available, change all node.getText() to use
-  // AccessibilityNodeInfoCompat.getText() via this wrapper.
   /** Returns text from an accessibility-node, including spans. */
   public static @Nullable CharSequence getText(@Nullable AccessibilityNodeInfoCompat node) {
     return (node == null) ? null : node.getText();
@@ -119,15 +127,25 @@ public class AccessibilityNodeInfoUtils {
   private static final Pattern RESOURCE_NAME_SPLIT_PATTERN = Pattern.compile(":id/");
 
   /** Class used to find clickable-spans in text. */
-  public static final Class<?> TARGET_SPAN_CLASS = ClickableSpan.class;
-
-  // Used to identify keys from the pin password keyboard used to unlock the screen.
-  private static final Pattern PIN_KEY_PATTERN =
-      Pattern.compile("com.android.systemui:id/key\\d{0,9}");
+  public static final Class<? extends ClickableSpan> BASE_CLICKABLE_SPAN = ClickableSpan.class;
 
   private static final String VIEW_ID_RESOURCE_NAME_PIN_ENTRY = "com.android.systemui:id/pinEntry";
 
+  @VisibleForTesting
+  static final String VIEW_ID_WEAR_UNREAD_NOTIFICATION_DOT =
+      "com.google.android.wearable.sysui:id/unread_dot";
+
   @VisibleForTesting static final int THRESHOLD_HEIGHT_DP_FOR_SMALL_NODE = 32;
+
+  /** Key to get the chrome role from the node */
+  private static final String EXTRAS_KEY_CHROME_ROLE = "AccessibilityNodeInfo.chromeRole";
+
+  /**
+   * Chrome role for link. The role string should come from `ToString(ax::mojom::Role role)` at
+   * ui/accessibility/ax_enum_util.cc in the Chromium repo.
+   * https://source.chromium.org/chromium/chromium/src/+/main:ui/accessibility/ax_enum_util.cc?q=%22ToString(ax::mojom::Role%20role)%22%20f:ui%2Faccessibility%2Fax_enum_util.cc
+   */
+  private static final String CHROME_ROLE_LINK = "link";
 
   /**
    * A wrapper over AccessibilityNodeInfoCompat constructor, so that we can add any desired error
@@ -225,6 +243,26 @@ public class AccessibilityNodeInfoUtils {
         }
       };
 
+  private static final ImmutableSet<Integer> CONTAINER_ROLES =
+      ImmutableSet.of(
+          ROLE_LIST,
+          ROLE_GRID,
+          ROLE_PAGER,
+          ROLE_SCROLL_VIEW,
+          ROLE_HORIZONTAL_SCROLL_VIEW,
+          ROLE_WEB_VIEW);
+
+  /** Filter for container. */
+  public static final Filter<AccessibilityNodeInfoCompat> FILTER_CONTAINER =
+      new Filter<AccessibilityNodeInfoCompat>() {
+        @Override
+        public boolean accept(AccessibilityNodeInfoCompat node) {
+          return node != null
+              && (CONTAINER_ROLES.contains(Role.getRole(node))
+                  || !TextUtils.isEmpty(node.getContainerTitle()));
+        }
+      };
+
   /**
    * Filter for focusable containers with a descendant that is an unfocusable heading. This filter
    * aids navigation by headings granularity when the node that is semantically a heading isn't
@@ -252,6 +290,22 @@ public class AccessibilityNodeInfoUtils {
   /** Filter for scrollable grids. */
   public static final Filter<AccessibilityNodeInfoCompat> FILTER_SCROLLABLE_GRID =
       FILTER_SCROLLABLE.and(Filter.node((n) -> Role.getRole(n) == Role.ROLE_GRID));
+
+  /** Filter for table. */
+  private static final Filter<AccessibilityNodeInfoCompat> FILTER_TABLE =
+      Filter.node((node) -> isTableRoot(node));
+
+  /** Filter for table cell. */
+  public static final Filter<AccessibilityNodeInfoCompat> FILTER_TABLE_CELL =
+      Filter.node((node) -> isTableCell(node));
+
+  /** Filter for table cell and check if it is in a table. */
+  public static final Filter<AccessibilityNodeInfoCompat> FILTER_TABLE_CELL_UNDER_TABLE =
+      Filter.node((node) -> isTableCellUnderTable(node));
+
+  /** Filter the node matched the voice dictation definition. */
+  public static final Filter<AccessibilityNodeInfoCompat> FILTER_VOICE_DICTATION =
+      Filter.node(AccessibilityNodeInfoUtils::isVoiceDictationNode);
 
   /**
    * Filter that also checks for {@param node}'s non-focusable but visible children. Sometimes, a
@@ -334,6 +388,8 @@ public class AccessibilityNodeInfoUtils {
               || (role == Role.ROLE_SWITCH)
               || (role == Role.ROLE_DROP_DOWN_LIST)
               || (role == Role.ROLE_SEEK_CONTROL)
+              || (role == Role.ROLE_FLOATING_ACTION_BUTTON)
+              || (role == Role.ROLE_VOICE_DICTATION_BUTTON)
               // The clickable view in a collection may not be a control, such as each setting item
               // in the Settings page.
               || (!nodeIsListOrGridItem(node) && (isClickable(node) || isLongClickable(node)));
@@ -345,8 +401,8 @@ public class AccessibilityNodeInfoUtils {
       new Filter<AccessibilityNodeInfoCompat>() {
         @Override
         public boolean accept(AccessibilityNodeInfoCompat node) {
-          return SpannableTraversalUtils.hasTargetSpanInNodeTreeDescription(
-              node, TARGET_SPAN_CLASS);
+          return SpannableTraversalUtils.hasTargetClickableSpanInNodeTree(
+              node, BASE_CLICKABLE_SPAN);
         }
       };
 
@@ -427,6 +483,9 @@ public class AccessibilityNodeInfoUtils {
                 || (role == Role.ROLE_PAGER)
                 || (node != null && node.getCollectionInfo() != null);
           });
+
+  public static final Filter<AccessibilityNodeInfoCompat> FILTER_COLLECTION_ITEM =
+      Filter.node((node) -> node != null && node.getCollectionItemInfo() != null);
 
   private AccessibilityNodeInfoUtils() {
     // This class is not instantiable.
@@ -659,6 +718,37 @@ public class AccessibilityNodeInfoUtils {
     return current;
   }
 
+  /**
+   * Returns the node of the tree at {@code targetDepth} from the root of the tree containing {@code
+   * nodeCompat} with the root node considered as depth 0. This returns the last node available if
+   * the target depth is greater than the number of ancestors.
+   */
+  public static @Nullable AccessibilityNodeInfoCompat getNthAncestorFromRoot(
+      AccessibilityNodeInfoCompat nodeCompat, int targetDepth) {
+    if (nodeCompat == null || targetDepth <= 0) {
+      return null;
+    }
+
+    ArrayList<AccessibilityNodeInfoCompat> visitedNodes = new ArrayList<>();
+    AccessibilityNodeInfoCompat current = nodeCompat;
+
+    do {
+      if (visitedNodes.contains(current)) {
+        break;
+      }
+
+      visitedNodes.add(current);
+      current = current.getParent();
+    } while (current != null);
+
+    if (targetDepth >= visitedNodes.size()) {
+      targetDepth = visitedNodes.size() - 1;
+    }
+
+    int nodeIndex = visitedNodes.size() - 1 - targetDepth;
+    return visitedNodes.get(nodeIndex);
+  }
+
   /** Returns the type of the window containing {@code nodeCompat}. */
   public static int getWindowType(AccessibilityNodeInfoCompat nodeCompat) {
     if (nodeCompat == null) {
@@ -814,9 +904,9 @@ public class AccessibilityNodeInfoUtils {
     // Note: A special case exists for unlabeled buttons which otherwise wouldn't get focus.
     if (accessibilityFocusable) {
       visitedNodes.clear();
-      // TODO: This may still result in focusing non-speaking nodes, but it
-      // won't prevent unlabeled buttons from receiving focus.
-      if (!canKeepSearchChildren(node)) {
+      // For TalkBack labeling feature, but this may still result in focusing non-speaking nodes.
+      // We should try to narrow down the check to close to TalkBackLabelManager#needsLabel.
+      if (node.getChildCount() == 0) {
         logShouldFocusNode(
             checkChildren, NONE, "Focus, is focusable and cannot keep search children: ", node);
         return true;
@@ -944,7 +1034,8 @@ public class AccessibilityNodeInfoUtils {
    * Returns whether a node has children that are not actionable/focusable but should be spoken.
    *
    * <p>This is done by ignoring any children nodes that are actionable/focusable, and checking the
-   * remaining for speaking ability.
+   * remaining for speaking ability. Also considers offscreen/invisible children which are
+   * non-actionable but which have speakable text.
    *
    * @param node the node to check
    * @param speakingNodesCache the cache that holds the speaking results for visited nodes
@@ -999,31 +1090,40 @@ public class AccessibilityNodeInfoUtils {
       }
     }
 
-    LogUtils.v(TAG, "Does not have non-actionable speaking children");
-    return false;
+    LogUtils.v(TAG, "Does not have non-actionable speaking children. Examining invisible children");
+    return hasInvisibleNonActionableSpeakingChildren(node, childCount);
   }
 
-  private static boolean canKeepSearchChildren(@NonNull AccessibilityNodeInfoCompat node) {
-    return hasVisibleChildren(node) || hasChildrenForWear(node);
-  }
+  private static boolean hasInvisibleNonActionableSpeakingChildren(
+      AccessibilityNodeInfoCompat node, int childCount) {
+    // We don't want the presence of invisible children to lead to focus being set on a scrollable
+    // parent that is capable of showing partially-visible data.
+    if (FILTER_AUTO_SCROLL.accept(node)) {
+      return false;
+    }
 
-  private static boolean hasVisibleChildren(@NonNull AccessibilityNodeInfoCompat node) {
-    int childCount = node.getChildCount();
-    for (int i = 0; i < childCount; ++i) {
-      AccessibilityNodeInfoCompat child = node.getChild(i);
-      if (child != null && child.isVisibleToUser()) {
+    // We look at invisible children and return true if an invisible child is non-actionable and
+    // has associated text. Without this check, a parent would be considered unfocusable, and this
+    // would cause ACTION_SHOW_ON_SCREEN to fail when the non-actionable/speakable child nodes of
+    // a container are offscreen.
+    AccessibilityNodeInfoCompat child;
+    for (int i = 0; i < childCount; i++) {
+      child = node.getChild(i);
+
+      if (child == null) {
+        LogUtils.v(TAG, "Child %d is null, skipping it", i);
+        continue;
+      }
+
+      if (!child.isVisibleToUser()
+          && hasText(child)
+          && !(child.isScreenReaderFocusable() || isActionableForAccessibility(child))) {
+        LogUtils.v(
+            TAG, "Non-actionable invisible node with text found (child %d, %s)", i, printId(node));
         return true;
       }
     }
-
     return false;
-  }
-
-  private static boolean hasChildrenForWear(@NonNull AccessibilityNodeInfoCompat node) {
-    int childCount = node.getChildCount();
-    // While scrolling on Wear, the children could be null even though the count is larger than 0.
-    // In this case, we don't want to put focus on this parent and will try to keep searching.
-    return FormFactorUtils.getInstance().isAndroidWear() && childCount > 0;
   }
 
   public static int countVisibleChildren(@Nullable AccessibilityNodeInfoCompat node) {
@@ -1092,6 +1192,62 @@ public class AccessibilityNodeInfoUtils {
                     return (node != null) && node.isAccessibilityFocused();
                   }
                 }));
+  }
+
+  /** Returns whether {@code node} is editable or has an ancestor that is editable. */
+  public static boolean isSelfOrAncestorEditable(@Nullable AccessibilityNodeInfoCompat node) {
+    return getSelfOrMatchingAncestor(node, Filter.node((n) -> n.isEditable())) != null;
+  }
+
+  public static boolean isSelfOrAncestorRoleEditText(@Nullable AccessibilityNodeInfoCompat node) {
+    return isSelfOrAncestorWithRole(node, Role.ROLE_EDIT_TEXT);
+  }
+
+  public static boolean isSelfOrAncestorRoleWebView(@Nullable AccessibilityNodeInfoCompat node) {
+    return isSelfOrAncestorWithRole(node, Role.ROLE_WEB_VIEW);
+  }
+
+  private static boolean isSelfOrAncestorWithRole(
+      @Nullable AccessibilityNodeInfoCompat node, int role) {
+    return getSelfOrMatchingAncestor(node, Filter.node((n) -> Role.getRole(n) == role)) != null;
+  }
+
+  /** Returns whether {@code node} or its ancestor has the given {@code chromeRole}. */
+  public static boolean isSelfOrAncestorWithChromeRole(
+      @Nullable AccessibilityNodeInfoCompat node, String chromeRole) {
+    return getSelfOrMatchingAncestor(
+            node, Filter.node((n) -> TextUtils.equals(getChromeRole(n), chromeRole)))
+        != null;
+  }
+
+  /** Returns whether {@code node} has the chrome role "link". */
+  public static boolean isChromeRoleLink(@Nullable AccessibilityNodeInfoCompat node) {
+    return node != null && TextUtils.equals(getChromeRole(node), CHROME_ROLE_LINK);
+  }
+
+  private static CharSequence getChromeRole(@Nullable AccessibilityNodeInfoCompat node) {
+    if (node == null) {
+      return "";
+    }
+    AccessibilityNodeInfo info = node.unwrap();
+    if (info == null) {
+      return "";
+    }
+    return info.getExtras().getCharSequence(EXTRAS_KEY_CHROME_ROLE);
+  }
+
+  /**
+   * Returns whether {@code node} is interactable with arrow keys. That is, the node supports at
+   * least one of the following:
+   *
+   * <ul>
+   *   <li>{@link Role.ROLE_SEEK_CONTROL}
+   * </ul>
+   *
+   * @return {@code true} if node is self interactable with arrow keys.
+   */
+  public static boolean isInteractableWithArrowKeys(@Nullable AccessibilityNodeInfoCompat node) {
+    return Role.getRole(node) == Role.ROLE_SEEK_CONTROL;
   }
 
   /**
@@ -1204,10 +1360,11 @@ public class AccessibilityNodeInfoUtils {
   }
 
   /**
-   * Check whether a given node has a scrollable ancestor.
+   * Check whether a given node has a matching ancestor given a filter.
    *
    * @param node The node to examine.
-   * @return {@code true} if one of the node's ancestors is scrollable.
+   * @param filter The filter to match the nodes against.
+   * @return {@code true} if one of the node's ancestors is matching the filter.
    */
   public static boolean hasMatchingAncestor(
       @Nullable AccessibilityNodeInfoCompat node,
@@ -1215,22 +1372,17 @@ public class AccessibilityNodeInfoUtils {
     return (node != null) && (getMatchingAncestor(node, filter) != null);
   }
 
+  // TODO: Discuss with framework owner to make unread notification context available
+  //  to the app side.
   /**
-   * Check whether a given node is a key from the Pin Password keyboard used to unlock the screen.
+   * Checks whether the node is the unread notification dot on the wearable sysUI.
    *
-   * @param node The node to examine.
-   * @return {@code true} if the node is a key from the Pin Password keyboard used to unlock the
-   *     screen.
+   * @param node the node to check
+   * @return {@code true} if the node is the unread notification dot on the wearable sysUI.
    */
-  // TODO: Find a better way to identify that it's a key for PIN password.
-  public static boolean isPinKey(@Nullable AccessibilityNodeInfoCompat node) {
-    if (node == null) {
-      return false;
-    }
-
-    String viewIdResourceName = node.getViewIdResourceName();
-    return !TextUtils.isEmpty(viewIdResourceName)
-        && PIN_KEY_PATTERN.matcher(viewIdResourceName).matches();
+  public static boolean isWearUnreadNotificationDot(@Nullable AccessibilityNodeInfoCompat node) {
+    return (node != null)
+        && TextUtils.equals(node.getViewIdResourceName(), VIEW_ID_WEAR_UNREAD_NOTIFICATION_DOT);
   }
 
   /** Returns whether the node is the Pin edit field at unlock screen. */
@@ -1240,7 +1392,7 @@ public class AccessibilityNodeInfoUtils {
 
   public static boolean isPinEntry(@Nullable AccessibilityNodeInfoCompat node) {
     return (node != null)
-        && Objects.equals(node.getViewIdResourceName(), VIEW_ID_RESOURCE_NAME_PIN_ENTRY);
+        && TextUtils.equals(node.getViewIdResourceName(), VIEW_ID_RESOURCE_NAME_PIN_ENTRY);
   }
 
   /**
@@ -1261,6 +1413,13 @@ public class AccessibilityNodeInfoUtils {
       @Nullable AccessibilityNodeInfoCompat node,
       @NonNull Filter<AccessibilityNodeInfoCompat> filter) {
     return (node != null) && (getMatchingDescendant(node, filter) != null);
+  }
+
+  /** Checks whether a given node or any of its descendants matches the given filter. */
+  public static boolean isOrHasMatchingDescendant(
+      @Nullable AccessibilityNodeInfoCompat node,
+      @NonNull Filter<AccessibilityNodeInfoCompat> filter) {
+    return (node != null) && (getSelfOrMatchingDescendant(node, filter) != null);
   }
 
   /** Returns depth of node in node-tree, where root has depth=0. */
@@ -1481,13 +1640,10 @@ public class AccessibilityNodeInfoUtils {
     return matchingAncestors;
   }
 
-  /**
-   * Returns the first child (by depth-first search) of {@code node} that matches the {@code
-   * filter}. Returns {@code null} if no nodes match.
-   */
   private static @Nullable AccessibilityNodeInfoCompat getMatchingDescendant(
       AccessibilityNodeInfoCompat node,
       Filter<AccessibilityNodeInfoCompat> filter,
+      Filter<AccessibilityNodeInfoCompat> endFilter,
       HashSet<AccessibilityNodeInfoCompat> visitedNodes) {
     if (node == null) {
       return null;
@@ -1511,7 +1667,12 @@ public class AccessibilityNodeInfoUtils {
         return child; // child was already obtained by node.getChild().
       }
 
-      AccessibilityNodeInfoCompat childMatch = getMatchingDescendant(child, filter, visitedNodes);
+      if (endFilter != null && endFilter.accept(child)) {
+        continue;
+      }
+
+      AccessibilityNodeInfoCompat childMatch =
+          getMatchingDescendant(child, filter, endFilter, visitedNodes);
       if (childMatch != null) {
         return childMatch;
       }
@@ -1520,9 +1681,36 @@ public class AccessibilityNodeInfoUtils {
     return null;
   }
 
+  /**
+   * Returns the first child (by depth-first search) of {@code node} that matches the {@code
+   * filter}, and skips the nodes that match the {@code endFilter}. Returns {@code null} if no nodes
+   * match.
+   */
+  public static @Nullable AccessibilityNodeInfoCompat getMatchingDescendant(
+      AccessibilityNodeInfoCompat node,
+      Filter<AccessibilityNodeInfoCompat> filter,
+      Filter<AccessibilityNodeInfoCompat> endFilter) {
+    return getMatchingDescendant(node, filter, endFilter, new HashSet<>());
+  }
+
+  /**
+   * Returns the first child (by depth-first search) of {@code node} that matches the {@code
+   * filter}. Returns {@code null} if no nodes match.
+   */
   public static @Nullable AccessibilityNodeInfoCompat getMatchingDescendant(
       AccessibilityNodeInfoCompat node, Filter<AccessibilityNodeInfoCompat> filter) {
-    return getMatchingDescendant(node, filter, new HashSet<>());
+    return getMatchingDescendant(node, filter, /* endFilter= */ null, new HashSet<>());
+  }
+
+  /** Returns all descendants that match filter but skips the nested. */
+  public static @Nullable List<AccessibilityNodeInfoCompat> getMatchingDescendantsNotNested(
+      @Nullable AccessibilityNodeInfoCompat node, Filter<AccessibilityNodeInfoCompat> filter) {
+    if (node == null) {
+      return null;
+    }
+    List<AccessibilityNodeInfoCompat> matches = new ArrayList<>();
+    getMatchingDescendants(node, filter, /* matchChild= */ false, new HashSet<>(), matches);
+    return matches;
   }
 
   /** Returns all descendants that match filter. */
@@ -1532,7 +1720,30 @@ public class AccessibilityNodeInfoUtils {
       return null;
     }
     List<AccessibilityNodeInfoCompat> matches = new ArrayList<>();
-    getMatchingDescendants(node, filter, /* matchRoot= */ true, new HashSet<>(), matches);
+    getMatchingDescendants(node, filter, /* matchChild= */ true, new HashSet<>(), matches);
+    return matches;
+  }
+
+  /**
+   * Returns all descendants that match filter, until the stopNode is found. At that point, the
+   * search will stop. Note that the stopNode is included in the results, if it matches the filter.
+   */
+  public static @Nullable List<AccessibilityNodeInfoCompat> getMatchingDescendantsOrRootUntilNode(
+      @Nullable AccessibilityNodeInfoCompat node,
+      Filter<AccessibilityNodeInfoCompat> filter,
+      @Nullable AccessibilityNodeInfoCompat stopNode) {
+    if (node == null) {
+      return null;
+    }
+    List<AccessibilityNodeInfoCompat> matches = new ArrayList<>();
+    getMatchingDescendantsCore(
+        node,
+        filter,
+        /* matchChild= */ true,
+        new HashSet<>(),
+        matches,
+        /* stopNode= */ stopNode,
+        /* searchControlFlag= */ new SearchControlFlag());
     return matches;
   }
 
@@ -1541,7 +1752,7 @@ public class AccessibilityNodeInfoUtils {
    *
    * @param node The root node to start searching.
    * @param filter The filter to match the nodes against.
-   * @param matchRoot Flag that allows match with root node.
+   * @param matchChild Flag that allows match with the childs of the matched nodes.
    * @param visitedNodes The set of nodes already visited, for protection against loops. This will
    *     be modified.
    * @param matches The list of nodes matching filter. This will be appended to.
@@ -1549,9 +1760,50 @@ public class AccessibilityNodeInfoUtils {
   private static void getMatchingDescendants(
       @Nullable AccessibilityNodeInfoCompat node,
       Filter<AccessibilityNodeInfoCompat> filter,
-      boolean matchRoot,
+      boolean matchChild,
       Set<AccessibilityNodeInfoCompat> visitedNodes,
       List<AccessibilityNodeInfoCompat> matches) {
+    getMatchingDescendantsCore(
+        node,
+        filter,
+        matchChild,
+        visitedNodes,
+        matches,
+        /* stopNode= */ null,
+        /* searchControlFlag= */ null);
+  }
+
+  /**
+   * A flag to indicate whether the stop node has been found. Using a class instead of a boolean
+   * flag allows {@link #getMatchingDescendantsCore} to modify the flag and have the updated value
+   * reflected in other branches of the recursive search.
+   */
+  private static class SearchControlFlag {
+    public boolean stopNodeHasBeenFound = false;
+  }
+
+  /**
+   * Collects all descendants that match filter, into matches.
+   *
+   * @param node The root node to start searching.
+   * @param filter The filter to match the nodes against.
+   * @param matchChild Flag that allows match with the childs of the matched nodes.
+   * @param visitedNodes The set of nodes already visited, for protection against loops. This will
+   *     be modified.
+   * @param matches The list of nodes matching filter. This will be appended to.
+   * @param stopNode The node to stop searching at. Note that this node is included in the matches,
+   *     if it matches the filter.
+   * @param searchControlFlag A flag to indicate whether the stop node has been found. See {@link
+   *     SearchControlFlag} for details.
+   */
+  private static void getMatchingDescendantsCore(
+      @Nullable AccessibilityNodeInfoCompat node,
+      Filter<AccessibilityNodeInfoCompat> filter,
+      boolean matchChild,
+      Set<AccessibilityNodeInfoCompat> visitedNodes,
+      List<AccessibilityNodeInfoCompat> matches,
+      @Nullable AccessibilityNodeInfoCompat stopNode,
+      @Nullable SearchControlFlag searchControlFlag) {
 
     if (node == null) {
       return;
@@ -1564,19 +1816,33 @@ public class AccessibilityNodeInfoUtils {
       visitedNodes.add(node);
     }
 
+    // Stop searching if the stop node has been found.
+    if (searchControlFlag != null && searchControlFlag.stopNodeHasBeenFound) {
+      return;
+    }
+
     // If node matches filter... collect node.
-    if (matchRoot && filter.accept(node)) {
+    if (filter.accept(node)) {
       matches.add(node);
     }
 
+    // If the stop node has been found, future searches can be skipped, even if the stopNode does
+    // not match the filter.
+    if (searchControlFlag != null && node.equals(stopNode)) {
+      searchControlFlag.stopNodeHasBeenFound = true;
+    }
+
     // For each child of node...
-    int childCount = node.getChildCount();
-    for (int i = 0; i < childCount; ++i) {
-      AccessibilityNodeInfoCompat child = node.getChild(i);
-      if (child == null) {
-        continue;
+    if (!matches.contains(node) || matchChild) {
+      int childCount = node.getChildCount();
+      for (int i = 0; i < childCount; ++i) {
+        AccessibilityNodeInfoCompat child = node.getChild(i);
+        if (child == null) {
+          continue;
+        }
+        getMatchingDescendantsCore(
+            child, filter, matchChild, visitedNodes, matches, stopNode, searchControlFlag);
       }
-      getMatchingDescendants(child, filter, /* matchRoot= */ true, visitedNodes, matches);
     }
   }
 
@@ -1995,6 +2261,27 @@ public class AccessibilityNodeInfoUtils {
    */
   public static @Nullable List<Rect> getTextLocations(
       AccessibilityNodeInfoCompat node, CharSequence text, int fromCharIndex, int toCharIndex) {
+    return getTextLocations(node, text, fromCharIndex, toCharIndex, true);
+  }
+
+  /**
+   * Gets the location of specific range of node {@code text}. It returns null if the node doesn't
+   * support text location data or the index is incorrect.
+   *
+   * @param node The node being queried.
+   * @param text The node's text. This is typically the text, but can also be the content
+   *     description if the node was not properly created. If the content description is used, its
+   *     text location will only be returned if it's visible on the screen.
+   * @param fromCharIndex start index of the queried text range.
+   * @param toCharIndex end index of the queried text range.
+   * @param useWindowBound experimental feature that should more accurately determine word position.
+   */
+  public static @Nullable List<Rect> getTextLocations(
+      AccessibilityNodeInfoCompat node,
+      CharSequence text,
+      int fromCharIndex,
+      int toCharIndex,
+      boolean useWindowBound) {
     if (node == null) {
       return null;
     }
@@ -2008,22 +2295,38 @@ public class AccessibilityNodeInfoUtils {
     if (info == null) {
       return null;
     }
+    // Prefer character bounds in window, but fall back to character bounds in screen if not
+    // available.
+    String key = AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY;
+    boolean isBoundsInWindow = false;
+    if (useWindowBound
+        && BuildVersionUtils.isAtLeastBaklava()
+        && info.getAvailableExtraData()
+            .contains(
+                AccessibilityNodeInfoCompat.EXTRA_DATA_TEXT_CHARACTER_LOCATION_IN_WINDOW_KEY)) {
+      key = AccessibilityNodeInfoCompat.EXTRA_DATA_TEXT_CHARACTER_LOCATION_IN_WINDOW_KEY;
+      isBoundsInWindow = true;
+    }
     Bundle args = new Bundle();
     args.putInt(
         AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_ARG_START_INDEX, fromCharIndex);
     args.putInt(
         AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_ARG_LENGTH,
         toCharIndex - fromCharIndex);
-    if (!info.refreshWithExtraData(
-        AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY, args)) {
+    if (!info.refreshWithExtraData(key, args)) {
       return null;
     }
 
     Bundle extras = info.getExtras();
-    Parcelable[] data =
-        extras.getParcelableArray(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY);
+    Parcelable[] data = extras.getParcelableArray(key);
     if (data == null) {
       return null;
+    }
+
+    Rect windowBounds = new Rect();
+    if (isBoundsInWindow) {
+      AccessibilityWindowInfo windowInfo = info.getWindow();
+      windowInfo.getBoundsInScreen(windowBounds);
     }
     List<Rect> result = new ArrayList<>(data.length);
     for (Parcelable item : data) {
@@ -2031,6 +2334,9 @@ public class AccessibilityNodeInfoUtils {
         continue;
       }
       RectF rectF = (RectF) item;
+      if (isBoundsInWindow) {
+        rectF.offset(windowBounds.left, windowBounds.top);
+      }
       result.add(
           new Rect((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom));
     }
@@ -2048,7 +2354,10 @@ public class AccessibilityNodeInfoUtils {
     }
     List<String> extraData = info.getAvailableExtraData();
     return extraData != null
-        && extraData.contains(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY);
+        && (extraData.contains(AccessibilityNodeInfo.EXTRA_DATA_TEXT_CHARACTER_LOCATION_KEY)
+            || (BuildVersionUtils.isAtLeastBaklava()
+                && extraData.contains(
+                    AccessibilityNodeInfoCompat.EXTRA_DATA_TEXT_CHARACTER_LOCATION_IN_WINDOW_KEY)));
   }
 
   /** Helper method that returns {@code true} if the specified node is visible to the user */
@@ -2198,27 +2507,28 @@ public class AccessibilityNodeInfoUtils {
   /**
    * Gets a list of the clickable elements within a node.
    *
-   * @param node The node to get the elements from
-   * @param clickableType What type of clickable thing to look for within the node
-   * @param clickableElementFn A function taking the visual string representation and the clickable
-   *     portion of the clickable element that produces the desired format that will be displayable
-   *     to the user
-   * @param <E> The displayable format representation of the clickable element
-   * @return A list of clickable elements. Empty if there are none.
+   * @param node the node to get the clickable elements from
+   * @param clickableType the type of clickable span that we look for within the node
+   * @param clickableElementFn a function taking the visual string representation and the clickable
+   *     portion of the clickable element to produces the desired format that will be displayable to
+   *     the user
+   * @param <E> the displayable format representation of the clickable element
+   * @return a list of clickable elements, empty if there is none
    */
   private static <E> List<E> getNodeClickableElements(
       AccessibilityNodeInfoCompat node,
       Class<? extends ClickableSpan> clickableType,
       Function<Pair<String, ClickableSpan>, E> clickableElementFn) {
-    List<SpannableString> spannableStrings = new ArrayList<>();
-    SpannableTraversalUtils.collectSpannableStringsWithTargetSpanInNodeDescriptionTree(
-        node, // Root node of description tree
-        clickableType, // Target span class
-        spannableStrings // List to collect spannable strings
-        );
+    List<SpannableWithOffset> spannableStrings = new ArrayList<>();
+    SpannableTraversalUtils.getSpannableStringsWithTargetClickableSpanInNodeTree(
+        node, clickableType, spannableStrings);
 
     List<E> clickables = new ArrayList<>(1);
-    for (SpannableString spannable : spannableStrings) {
+    for (SpannableWithOffset spannableOffset : spannableStrings) {
+      if (spannableOffset == null || spannableOffset.spannableString == null) {
+        continue;
+      }
+      SpannableString spannable = spannableOffset.spannableString;
       for (ClickableSpan span : spannable.getSpans(0, spannable.length(), clickableType)) {
         // Child classes may not use #getUrl, so just check that the class is a URLSpan, instead of
         // a child class with "instanceof".
@@ -2304,52 +2614,73 @@ public class AccessibilityNodeInfoUtils {
 
   public static String actionToString(int action) {
     switch (action) {
-      case AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS:
+      case AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS -> {
         return "ACTION_ACCESSIBILITY_FOCUS";
-      case AccessibilityNodeInfoCompat.ACTION_CLEAR_ACCESSIBILITY_FOCUS:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_CLEAR_ACCESSIBILITY_FOCUS -> {
         return "ACTION_CLEAR_ACCESSIBILITY_FOCUS";
-      case AccessibilityNodeInfoCompat.ACTION_CLEAR_FOCUS:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_CLEAR_FOCUS -> {
         return "ACTION_CLEAR_FOCUS";
-      case AccessibilityNodeInfoCompat.ACTION_CLEAR_SELECTION:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_CLEAR_SELECTION -> {
         return "ACTION_CLEAR_SELECTION";
-      case AccessibilityNodeInfoCompat.ACTION_CLICK:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_CLICK -> {
         return "ACTION_CLICK";
-      case AccessibilityNodeInfoCompat.ACTION_COLLAPSE:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_COLLAPSE -> {
         return "ACTION_COLLAPSE";
-      case AccessibilityNodeInfoCompat.ACTION_COPY:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_COPY -> {
         return "ACTION_COPY";
-      case AccessibilityNodeInfoCompat.ACTION_CUT:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_CUT -> {
         return "ACTION_CUT";
-      case AccessibilityNodeInfoCompat.ACTION_DISMISS:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_DISMISS -> {
         return "ACTION_DISMISS";
-      case AccessibilityNodeInfoCompat.ACTION_EXPAND:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_EXPAND -> {
         return "ACTION_EXPAND";
-      case AccessibilityNodeInfoCompat.ACTION_FOCUS:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_FOCUS -> {
         return "ACTION_FOCUS";
-      case AccessibilityNodeInfoCompat.ACTION_LONG_CLICK:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_LONG_CLICK -> {
         return "ACTION_LONG_CLICK";
-      case AccessibilityNodeInfoCompat.ACTION_NEXT_AT_MOVEMENT_GRANULARITY:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_NEXT_AT_MOVEMENT_GRANULARITY -> {
         return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
-      case AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT -> {
         return "ACTION_NEXT_HTML_ELEMENT";
-      case AccessibilityNodeInfoCompat.ACTION_PASTE:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_PASTE -> {
         return "ACTION_PASTE";
-      case AccessibilityNodeInfoCompat.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY -> {
         return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
-      case AccessibilityNodeInfoCompat.ACTION_PREVIOUS_HTML_ELEMENT:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_PREVIOUS_HTML_ELEMENT -> {
         return "ACTION_PREVIOUS_HTML_ELEMENT";
-      case AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD -> {
         return "ACTION_SCROLL_BACKWARD";
-      case AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD -> {
         return "ACTION_SCROLL_FORWARD";
-      case AccessibilityNodeInfoCompat.ACTION_SELECT:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_SELECT -> {
         return "ACTION_SELECT";
-      case AccessibilityNodeInfoCompat.ACTION_SET_SELECTION:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_SET_SELECTION -> {
         return "ACTION_SET_SELECTION";
-      case AccessibilityNodeInfoCompat.ACTION_SET_TEXT:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_SET_TEXT -> {
         return "ACTION_SET_TEXT";
-      default:
-        break;
+      }
+      default -> {}
     }
     @Nullable String actionName = actionIdToName.get(action);
     return actionName == null ? "(unhandled action:" + action + ")" : actionName;
@@ -2399,7 +2730,6 @@ public class AccessibilityNodeInfoUtils {
         StringBuilderUtils.optionalTag("collapsible", isCollapsible(node)),
         StringBuilderUtils.optionalTag("expandable", isExpandable(node)),
         StringBuilderUtils.optionalTag("dismissable", isDismissible(node)),
-        StringBuilderUtils.optionalTag("pinKey", isPinKey(node)),
         StringBuilderUtils.optionalTag("pinEntry", isPinEntry(node)),
         StringBuilderUtils.optionalTag("visible", node.isVisibleToUser()));
   }
@@ -2409,20 +2739,14 @@ public class AccessibilityNodeInfoUtils {
     if (granularity == 0) {
       return null;
     }
-    switch (granularity) {
-      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_CHARACTER:
-        return "MOVEMENT_GRANULARITY_CHARACTER";
-      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_WORD:
-        return "MOVEMENT_GRANULARITY_WORD";
-      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_LINE:
-        return "MOVEMENT_GRANULARITY_LINE";
-      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_PARAGRAPH:
-        return "MOVEMENT_GRANULARITY_PARAGRAPH";
-      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_PAGE:
-        return "MOVEMENT_GRANULARITY_PAGE";
-      default:
-        return Integer.toHexString(granularity);
-    }
+    return switch (granularity) {
+      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_CHARACTER -> "MOVEMENT_GRANULARITY_CHARACTER";
+      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_WORD -> "MOVEMENT_GRANULARITY_WORD";
+      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_LINE -> "MOVEMENT_GRANULARITY_LINE";
+      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_PARAGRAPH -> "MOVEMENT_GRANULARITY_PARAGRAPH";
+      case AccessibilityNodeInfo.MOVEMENT_GRANULARITY_PAGE -> "MOVEMENT_GRANULARITY_PAGE";
+      default -> Integer.toHexString(granularity);
+    };
   }
 
   /**
@@ -2546,7 +2870,10 @@ public class AccessibilityNodeInfoUtils {
     if (windowInfoCompat == null) {
       return false;
     }
-
+    int windowId = checkingNode.getWindowId();
+    if (windowId != WINDOW_ID_NONE && windowId != windowInfoCompat.getId()) {
+      return false;
+    }
     return hasDescendant(windowInfoCompat.getRoot(), checkingNode);
   }
 
@@ -2556,7 +2883,10 @@ public class AccessibilityNodeInfoUtils {
     if (windowInfo == null) {
       return false;
     }
-
+    int windowId = checkingNode.getWindowId();
+    if (windowId != WINDOW_ID_NONE && windowId != windowInfo.getId()) {
+      return false;
+    }
     return hasDescendant(toCompat(windowInfo.getRoot()), checkingNode);
   }
 
@@ -2578,10 +2908,106 @@ public class AccessibilityNodeInfoUtils {
     return node.isHeading();
   }
 
-  /** Returns a collection root. */
+  /**
+   * Returns the collection root for the given node. As it searches for the collection root, if
+   * there are more than one collection item along the way upwards, this function will return null
+   * as the a11y tree is formatted incorrectly.
+   *
+   * <p>For nested collection items, a collection node must always exist between an ancestor and a
+   * descendant collection item. If this function is called on a descendant item that is directly
+   * nested under an ancestor item (without an intermediary collection node), it will return null.
+   * See b/409569562#4.
+   *
+   * @param node The node to search for the collection root.
+   * @return The collection root, or {@code null} if no collection root is found.
+   */
   public static @Nullable AccessibilityNodeInfoCompat getCollectionRoot(
       @Nullable AccessibilityNodeInfoCompat node) {
-    return AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(node, FILTER_COLLECTION);
+    if (node == null) {
+      return null;
+    }
+
+    Filter<AccessibilityNodeInfoCompat> filter = FILTER_COLLECTION.or(FILTER_COLLECTION_ITEM);
+
+    AccessibilityNodeInfoCompat collectionRoot = getSelfOrMatchingAncestor(node, filter);
+    if (collectionRoot == null || FILTER_COLLECTION.accept(collectionRoot)) {
+      return collectionRoot;
+    }
+
+    collectionRoot = getMatchingAncestor(collectionRoot, filter);
+    if (collectionRoot == null || FILTER_COLLECTION.accept(collectionRoot)) {
+      return collectionRoot;
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns the collection root for the given node, excluding the node itself from the search.
+   *
+   * @param node The node to search for the collection root.
+   * @return The collection root, or {@code null} if no collection root is found.
+   */
+  public static @Nullable AccessibilityNodeInfoCompat getCollectionRootExcludeSelf(
+      @Nullable AccessibilityNodeInfoCompat node) {
+    if (node == null) {
+      return null;
+    }
+
+    if (FILTER_COLLECTION.accept(node)) {
+      return getCollectionRoot(node.getParent());
+    }
+
+    return getCollectionRoot(node);
+  }
+
+  /** Returns a table root containing the given node. */
+  public static @Nullable AccessibilityNodeInfoCompat getTableRoot(
+      @Nullable AccessibilityNodeInfoCompat descendant) {
+    return AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(descendant, FILTER_TABLE);
+  }
+
+  /** Returns whether the given node is a table root. */
+  private static boolean isTableRoot(AccessibilityNodeInfoCompat node) {
+    CollectionInfoCompat collectionInfo = node.getCollectionInfo();
+    return collectionInfo != null
+        && collectionInfo.getRowCount() > 1
+        && collectionInfo.getColumnCount() > 1;
+  }
+
+  /** Returns a table cell under table containing the given node. */
+  public static @Nullable AccessibilityNodeInfoCompat getTableCellUnderTable(
+      @Nullable AccessibilityNodeInfoCompat descendant) {
+    return AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(
+        descendant, FILTER_TABLE_CELL_UNDER_TABLE);
+  }
+
+  /** Returns a node that mapped to the voice dictation clickable view. */
+  public static @Nullable AccessibilityNodeInfoCompat getVoiceDictationNode(
+      @Nullable AccessibilityNodeInfoCompat descendant) {
+    return AccessibilityNodeInfoUtils.getSelfOrMatchingDescendant(
+        descendant, FILTER_VOICE_DICTATION);
+  }
+
+  private static boolean isVoiceDictationNode(AccessibilityNodeInfoCompat node) {
+    return Role.getRole(node) == Role.ROLE_VOICE_DICTATION_BUTTON;
+  }
+
+  /** Returns whether the given node is a table cell. */
+  private static boolean isTableCell(AccessibilityNodeInfoCompat node) {
+    CollectionItemInfoCompat collectionItemInfo = node.getCollectionItemInfo();
+    return collectionItemInfo != null
+        && collectionItemInfo.getRowIndex() >= 0
+        && collectionItemInfo.getColumnIndex() >= 0;
+  }
+
+  /** Returns whether the given node is a table cell in a table. */
+  private static boolean isTableCellUnderTable(AccessibilityNodeInfoCompat node) {
+    CollectionItemInfoCompat collectionItemInfo = node.getCollectionItemInfo();
+    return collectionItemInfo != null
+        && collectionItemInfo.getRowIndex() >= 0
+        && collectionItemInfo.getColumnIndex() >= 0
+        && getTableRoot(node) != null;
   }
 
   /** Checks if given node is ListView or GirdView. */
@@ -2619,7 +3045,7 @@ public class AccessibilityNodeInfoUtils {
         });
   }
 
-  public static @Nullable String geGridRowTitle(AccessibilityNodeInfoCompat node) {
+  public static @Nullable String getGridRowTitle(AccessibilityNodeInfoCompat node) {
     if (FeatureSupport.supportGridTitle() && node.unwrap() != null) {
       CollectionItemInfo itemInfo = node.unwrap().getCollectionItemInfo();
       if (itemInfo != null) {
@@ -2629,7 +3055,7 @@ public class AccessibilityNodeInfoUtils {
     return null;
   }
 
-  public static @Nullable String geGridColumnTitle(AccessibilityNodeInfoCompat node) {
+  public static @Nullable String getGridColumnTitle(AccessibilityNodeInfoCompat node) {
     if (FeatureSupport.supportGridTitle() && node.unwrap() != null) {
       CollectionItemInfo itemInfo = node.unwrap().getCollectionItemInfo();
       if (itemInfo != null) {
@@ -2692,13 +3118,39 @@ public class AccessibilityNodeInfoUtils {
 
   /**
    * Returns a list of {@link SpellingSuggestion} for all {@link SuggestionSpan}s at the cursor
-   * position in the given {@link AccessibilityNodeInfoCompat}.
+   * position in the given {@link AccessibilityNodeInfoCompat} if the input method for the node is
+   * able to display spelling suggestions.
    *
    * @param node The node to check
    */
   public static ImmutableList<SpellingSuggestion> getSpellingSuggestions(
-      AccessibilityNodeInfoCompat node) {
-    if (node == null) {
+      Context context, AccessibilityNodeInfoCompat node) {
+    return getSpellingSuggestions(context, node, /* activeSpellCheck= */ true);
+  }
+
+  /**
+   * Returns a list of {@link SpellingSuggestion} for all {@link SuggestionSpan}s at the cursor
+   * position in the given {@link AccessibilityNodeInfoCompat}.
+   *
+   * @param node the node to check
+   * @param cursorPosition index of the cursor position
+   */
+  public static ImmutableList<SpellingSuggestion> getSpellingSuggestions(
+      Context context, AccessibilityNodeInfoCompat node, int cursorPosition) {
+    return getSpellingSuggestions(context, node, cursorPosition, /* activeSpellCheck= */ true);
+  }
+
+  /**
+   * Returns a list of {@link SpellingSuggestion} for all {@link SuggestionSpan}s at the cursor
+   * position in the given {@link AccessibilityNodeInfoCompat} if the input method for the node is
+   * able to display spelling suggestions.
+   *
+   * @param node The node to check
+   * @param activeSpellCheck Perform in service spell check or not
+   */
+  public static ImmutableList<SpellingSuggestion> getSpellingSuggestions(
+      Context context, AccessibilityNodeInfoCompat node, boolean activeSpellCheck) {
+    if (node == null || hasNoSuggestionsNeed(node.getInputType())) {
       return ImmutableList.of();
     }
 
@@ -2710,7 +3162,7 @@ public class AccessibilityNodeInfoUtils {
       return ImmutableList.of();
     }
 
-    return getSpellingSuggestions(node, end);
+    return getSpellingSuggestions(context, node, end, activeSpellCheck);
   }
 
   /**
@@ -2720,16 +3172,19 @@ public class AccessibilityNodeInfoUtils {
    * @param node the node to check
    * @param cursorPosition index of the cursor position
    */
+  // common_typos_disable
   public static ImmutableList<SpellingSuggestion> getSpellingSuggestions(
-      AccessibilityNodeInfoCompat node, int cursorPosition) {
-    ImmutableList<SuggestionSpan> spans = getSuggestionSpans(node);
-    if (spans.isEmpty()) {
+      Context context,
+      AccessibilityNodeInfoCompat node,
+      int cursorPosition,
+      boolean activeSpellCheck) {
+    @Nullable CharSequence text =
+        activeSpellCheck ? SpellChecker.getTextWithSuggestionSpans(context, node) : node.getText();
+    List<SpellingSuggestion> spellingSuggestions = new ArrayList<>();
+    if (TextUtils.isEmpty(text) || !(text instanceof Spannable spannedText)) {
+      LogUtils.v(TAG, "getSpellingSuggestions() text is null or not a Spannable");
       return ImmutableList.of();
     }
-
-    List<SpellingSuggestion> spellingSuggestions = new ArrayList<>();
-    CharSequence text = node.getText();
-    Spanned spannedText = (Spanned) text;
 
     // Returns the suggestion if just a space or punctuation is between the typo and the cursor.
     // For example: helllo,|
@@ -2749,8 +3204,15 @@ public class AccessibilityNodeInfoUtils {
       }
     }
 
+    SuggestionSpan[] spans = spannedText.getSpans(0, text.length(), SuggestionSpan.class);
     StringBuilder logMessage =
-        new StringBuilder(String.format(Locale.ENGLISH, "suggestion_spans text=[%s]", text));
+        new StringBuilder(
+            String.format(
+                Locale.ENGLISH,
+                "cursor=[%d] suggestion_spans text=[%s] spans=[%d]",
+                cursorPosition,
+                text,
+                spans.length));
     // TODO: Uses stream to simplify it.
     for (SuggestionSpan span : spans) {
       int start = spannedText.getSpanStart(span);
@@ -2762,6 +3224,8 @@ public class AccessibilityNodeInfoUtils {
         // there is no suggestion that can be chosen.
         if (span.getSuggestions().length > 0) {
           spellingSuggestions.add(spellingSuggestion);
+        } else {
+          LogUtils.v(TAG, "%s no suggestion", text.subSequence(start, end));
         }
 
         logMessage.append("\n");
@@ -2773,17 +3237,24 @@ public class AccessibilityNodeInfoUtils {
     return ImmutableList.copyOf(spellingSuggestions);
   }
 
-  /** Returns the total number of typos which are in the edit field. */
-  public static int getTypoCount(AccessibilityNodeInfoCompat node) {
-    return getSuggestionSpans(node).size();
+  /**
+   * Returns the total number of typos which are in the edit field.
+   *
+   * @return 0, there is no typo or the input method for the node won't display spelling
+   *     suggestions.
+   */
+  public static int getTypoCount(Context context, AccessibilityNodeInfoCompat node) {
+    return getSuggestionSpans(context, node).size();
   }
 
   /**
    * Returns {@code true} if the given {@link AccessibilityNodeInfoCompat} text includes misspelled
-   * words which have spelling suggestions.
+   * words which have spelling suggestions and the input method for the node is able to display
+   * spelling suggestions.
    */
-  public static boolean hasSpellingSuggestionsForTypos(AccessibilityNodeInfoCompat node) {
-    ImmutableList<SuggestionSpan> spans = getSuggestionSpans(node);
+  public static boolean hasSpellingSuggestionsForTypos(
+      Context context, AccessibilityNodeInfoCompat node) {
+    ImmutableList<SuggestionSpan> spans = getSuggestionSpans(context, node);
     for (SuggestionSpan span : spans) {
       if (span.getSuggestions().length > 0) {
         return true;
@@ -2854,26 +3325,49 @@ public class AccessibilityNodeInfoUtils {
   }
 
   /**
-   * Returns a list of {@link SuggestionSpan} in the given {@link AccessibilityNodeInfoCompat} text.
+   * Returns a list of {@link SuggestionSpan} in the given {@link AccessibilityNodeInfoCompat} text
+   * or an empty list if the input method for the node won't display spelling suggestions.
    */
   private static ImmutableList<SuggestionSpan> getSuggestionSpans(
-      AccessibilityNodeInfoCompat node) {
+      Context context, AccessibilityNodeInfoCompat node) {
     if (node == null) {
       return ImmutableList.of();
     }
+    return getSuggestionSpans(context, node.getText(), node.getInputType());
+  }
 
-    CharSequence text = node.getText();
-    if (TextUtils.isEmpty(text) || !(text instanceof Spanned)) {
+  /**
+   * Returns a list of {@link SuggestionSpan} in the given text or an empty list if the input type
+   * is no suggestion.
+   */
+  public static ImmutableList<SuggestionSpan> getSuggestionSpans(
+      Context context, @Nullable CharSequence text, int inputType) {
+    if (TextUtils.isEmpty(text) || hasNoSuggestionsNeed(inputType)) {
       return ImmutableList.of();
     }
 
-    Spanned spannedText = (Spanned) text;
-    SuggestionSpan[] spans = spannedText.getSpans(0, text.length(), SuggestionSpan.class);
+    @Nullable CharSequence textWithSuggestionSpans =
+        SpellChecker.getTextWithSuggestionSpans(context, text);
+    if (TextUtils.isEmpty(textWithSuggestionSpans)
+        || !(textWithSuggestionSpans instanceof Spannable spannedText)) {
+      return ImmutableList.of();
+    }
+
+    SuggestionSpan[] spans =
+        spannedText.getSpans(0, textWithSuggestionSpans.length(), SuggestionSpan.class);
     if (spans.length == 0) {
       return ImmutableList.of();
     }
 
     return ImmutableList.copyOf(spans);
+  }
+
+  /**
+   * Returns {@code true}, if the input method for the {@code node} won't display spelling
+   * suggestions.
+   */
+  private static boolean hasNoSuggestionsNeed(int input) {
+    return input == TYPE_TEXT_FLAG_NO_SUGGESTIONS;
   }
 
   private static boolean nodeMatchesAnyClassName(
@@ -2965,9 +3459,8 @@ public class AccessibilityNodeInfoUtils {
           start, end, misspelledWord, suggestionSpan);
     }
 
-    @NonNull
     @Override
-    public final String toString() {
+    public final @NonNull String toString() {
       StringBuilder suggestionsString =
           new StringBuilder()
               .append(

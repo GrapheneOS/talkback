@@ -47,4 +47,21 @@
   <style name="A11yMaterialComponentsTheme" parent="Theme.MaterialComponents" />
 
   <style name="WearAlertDialog" parent="@style/Theme.AppCompat.NoActionBar" />
+
+  <style name="BlackAlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+    <item name="colorAccent">@android:color/black</item>
+    <item name="android:background">@android:color/black</item>
+    <item name="android:textColor">@android:color/black</item>
+    <item name="android:textColorPrimary">@android:color/black</item>
+    <item name="colorControlNormal">@android:color/black</item>
+    <item name="android:buttonStyle">@style/BlackButton</item>
+    <item name="colorSurface">@android:color/black</item>
+    <item name="colorOnSurface">@android:color/black</item>
+    <item name="colorOnSurfaceVariant">@android:color/black</item>
+    <item name="colorOutlineVariant">@android:color/black</item>
+  </style>
+
+  <style name="BlackButton" parent="Widget.AppCompat.Button">
+    <item name="android:backgroundTint">@android:color/black</item>
+  </style>
 </resources>

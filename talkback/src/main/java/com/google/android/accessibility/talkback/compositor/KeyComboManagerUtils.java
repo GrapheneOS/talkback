@@ -18,6 +18,8 @@ package com.google.android.accessibility.talkback.compositor;
 import android.content.Context;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.keyboard.KeyCombo;
 import com.google.android.accessibility.talkback.keyboard.KeyComboManager;
 import com.google.android.accessibility.talkback.keyboard.KeyComboModel;
 
@@ -26,30 +28,40 @@ public final class KeyComboManagerUtils {
 
   /** Returns user friendly string representations of key combo code */
   public static String getKeyComboStringRepresentation(
-      int keyStringResId, @Nullable KeyComboManager keyComboManager, Context context) {
+      Context context, @Nullable KeyComboManager keyComboManager, @StringRes int keyStringResId) {
     if (keyComboManager == null) {
       return "";
     }
-    long keyComboCode = getKeyComboCodeForKey(keyStringResId, keyComboManager, context);
-    KeyComboModel keyComboModel = keyComboManager.getKeyComboModel();
-    long keyComboCodeWithTriggerModifier =
-        KeyComboManager.getKeyComboCode(
-            KeyComboManager.getModifier(keyComboCode) | keyComboModel.getTriggerModifier(),
-            KeyComboManager.getKeyCode(keyComboCode));
+    // Browse mode toggle shortcut is currently hardcoded in the summary string of its
+    // `KeyboardShortcutDialogPreference` entry in new_key_combo_preferences.xml.
+    if (keyStringResId == R.string.keycombo_shortcut_other_toggle_browse_mode) {
+      return context.getString(R.string.keycombo_summary_other_toggle_browse_mode);
+    }
 
-    return keyComboManager.getKeyComboStringRepresentation(keyComboCodeWithTriggerModifier);
+    KeyCombo keyCombo = getKeyComboForKey(context, keyComboManager, keyStringResId);
+
+    return keyComboManager.getKeyComboStringRepresentation(keyCombo);
   }
 
   /** Gets key combo code for key. KEY_COMBO_CODE_UNASSIGNED will be returned if key is invalid. */
   public static long getKeyComboCodeForKey(
-      @StringRes int keyStringResId, @Nullable KeyComboManager keyComboManager, Context context) {
-    if (keyComboManager == null) {
-      return KeyComboModel.KEY_COMBO_CODE_UNASSIGNED;
-    } else {
+      Context context, @Nullable KeyComboManager keyComboManager, @StringRes int keyStringResId) {
+    KeyCombo keyCombo = getKeyComboForKey(context, keyComboManager, keyStringResId);
+    if (keyCombo != null) {
+      return keyCombo.getKeyComboCode();
+    }
+    return KeyComboModel.KEY_COMBO_CODE_UNASSIGNED;
+  }
+
+  @Nullable
+  private static KeyCombo getKeyComboForKey(
+      Context context, @Nullable KeyComboManager keyComboManager, @StringRes int keyStringResId) {
+    if (keyComboManager != null) {
       return keyComboManager
           .getKeyComboModel()
-          .getKeyComboCodeForKey(context.getString(keyStringResId));
+          .getKeyComboForKey(context.getString(keyStringResId));
     }
+    return null;
   }
 
   private KeyComboManagerUtils() {}

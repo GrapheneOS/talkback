@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Hướng dẫn này dành cho sơ đồ bàn phím nâng cao với nhiều lệnh mới. Để chọn sơ đồ bàn phím, hãy chuyển đến phần Cài đặt TalkBack &gt; Cài đặt nâng cao &gt; Phím tắt.\n\nNhấn tổ hợp phím Thao tác + Mũi tên phải để chọn một chủ đề. Để có trải nghiệm tốt nhất, hãy bật TalkBack trước khi bắt đầu.</string>
+  <string name="basic_interaction_link_text">Tương tác cơ bản</string>
+  <string name="basic_interaction_link_subtext">Di chuyển giữa các mục, đọc theo dòng, dùng trình đơn và làm nhiều việc khác</string>
+  <string name="browse_mode_link_text">Chế độ duyệt web</string>
+  <string name="browse_mode_link_subtext">Thao tác nhanh hơn với nội dung trên web bằng lệnh chuyển</string>
+  <string name="reading_controls_link_text">Chế độ điều khiển chức năng đọc</string>
+  <string name="reading_controls_link_subtext">Dùng các chế độ điều khiển chức năng đọc để chuyển giữa các mục, điều chỉnh chế độ cài đặt giọng nói và làm nhiều việc khác</string>
+  <string name="image_descriptions_link_text">Nội dung mô tả hình ảnh</string>
+  <string name="image_descriptions_link_subtext">Thử nghe nội dung mô tả hình ảnh</string>
+  <string name="keyboard_shortcuts_link_text">Thực hành sử dụng các phím tắt</string>
+  <string name="keyboard_shortcuts_link_subtext">Nhấn các phím và tổ hợp phím để tìm hiểu chức năng của chúng</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack cung cấp phản hồi bằng giọng nói để bạn có thể sử dụng thiết bị mà không cần nhìn vào màn hình. TalkBack có thể giúp ích cho những người khó thấy nội dung trên màn hình. Khi được bật, TalkBack sẽ đọc to mục mà bạn lấy tiêu điểm trên màn hình.\n\nTrước tiên, hãy làm quen với bàn phím. Tìm phím Thao tác nằm phía trên phím Shift bên trái. Bây giờ, hãy tìm các phím mũi tên ở gần phía dưới cùng bên phải bàn phím. Nhấn tổ hợp phím Thao tác + Mũi tên phải để chuyển đến mục tiếp theo.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Đây là mục tiếp theo. Để quay lại mục trước, hãy nhấn tổ hợp phím Thao tác + Mũi tên trái.\n\nKhi bạn chuyển đến một mục tương tác như nút, hãy nhấn tổ hợp phím Thao tác + Phím cách để kích hoạt mục đó. Tìm nút tiếp theo rồi tiếp tục xem hướng dẫn.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Đọc theo ký tự, từ hoặc đoạn</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Đôi khi, bạn có thể muốn nghe văn bản được đọc to theo từng ký tự một.\n\nĐể nghe theo cách này, bạn có thể di chuyển bằng chế độ điều khiển chức năng đọc. Nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải hoặc Mũi tên trái cho đến khi bạn nghe thấy \"ký tự\".\n\nSau đó, nhấn tổ hợp phím Thao tác + Mũi tên lên để đưa tiêu điểm di chuyển lùi lại phía sau theo từng ký tự. Nhấn tổ hợp phím Thao tác + Mũi tên xuống để đưa tiêu điểm di chuyển tiến về phía trước theo từng ký tự.\n\nHãy thử ngay. Bạn cũng có thể chọn đọc theo từ, dòng hoặc đoạn bằng cách nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải hoặc Mũi tên trái.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Di chuyển trên hệ thống</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Nếu bạn dùng thử ngay các phím tắt này, hướng dẫn sẽ đóng. Bạn nên đợi đến khi hoàn tất hướng dẫn.\n\nĐể chuyển đổi giữa các cửa sổ ứng dụng đang mở và các thành phần hệ thống như thông báo và Thanh tác vụ, hãy nhấn tổ hợp phím Thao tác + Alt + Ctrl + Mũi tên lên hoặc Mũi tên xuống.\n\nĐể mở danh sách ứng dụng, nhấn phím Thao tác.\n\nĐể chuyển đến Màn hình chính và thu nhỏ mọi cửa sổ đang mở, hãy nhấn tổ hợp phím Thao tác + H hoặc phím Home ở hàng trên cùng.\n\nĐể chuyển đến các ứng dụng bạn dùng gần đây, nhấn tổ hợp phím Thao tác + phím Tab hoặc phím Tổng quan ở hàng trên cùng.\n\nĐể chuyển đổi nhanh giữa các cửa sổ, hãy giữ phím Alt rồi nhấn phím Tab.\n\nĐể quay lại, nhấn tổ hợp phím Thao tác + phím Esc hoặc phím Quay lại ở hàng trên cùng.\n\nĐể mở thông báo, hãy nhấn tổ hợp phím Thao tác + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Điều chỉnh chế độ cài đặt giọng nói</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Âm lượng dùng cho giọng nói trong TalkBack được gọi là âm lượng hỗ trợ tiếp cận. Âm lượng này được điều chỉnh riêng biệt với âm lượng của nội dung nghe nhìn.\n\nĐể điều chỉnh âm lượng hỗ trợ tiếp cận, hãy nhấn tổ hợp phím Thao tác + Tăng âm lượng/Giảm âm lượng.\n\nĐể điều chỉnh tốc độ lời nói, nhấn tổ hợp phím Thao tác + Ctrl + Tăng âm lượng/Giảm âm lượng để lần lượt tăng và giảm âm lượng.\n\nĐể dừng lời nói bất cứ lúc nào, hãy nhấn phím Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Trình đơn TalkBack và các phím tắt khác</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Trình đơn TalkBack có các chế độ cài đặt và thao tác điều khiển mà có thể bạn cần dùng thường xuyên.\n\nĐể mở trình đơn TalkBack, hãy nhấn tổ hợp phím Thao tác + Ctrl + M. Bạn có thể tuỳ chỉnh trình đơn TalkBack và chế độ điều khiển chức năng đọc vào lúc khác trong phần cài đặt TalkBack.\n\nTrình đơn phím tắt trong TalkBack có tất cả các phím tắt mà bạn có thể dùng.\n\nĐể mở trình đơn phím tắt, hãy nhấn tổ hợp phím Thao tác + Shift + /.\n\nĐể tìm hiểu thêm về bàn phím và thực hành cách dùng các phím tắt, hãy nhấn tổ hợp phím Thao tác + 0 để mở màn hình thực hành.</string>
+  <string name="keyboard_tutorial_finished_page_title">Đã hoàn tất!</string>
+  <string name="keyboard_tutorial_finished_page_text">Giờ đây, bạn đã có thể dùng TalkBack.\n\nHãy tiếp tục tìm hiểu ngay về các chủ đề khác hoặc xem lại thông tin này bất cứ lúc nào trong phần Cài đặt TalkBack.\n\nĐể bật hoặc tắt TalkBack bất cứ lúc nào, hãy nhấn tổ hợp phím Thao tác + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Thao tác nhanh hơn với nội dung trên web bằng chế độ duyệt web</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Khi dùng trình duyệt và các ứng dụng web, bạn có thể bật chế độ duyệt web và chuyển đổi giữa các mức độ chi tiết của chức năng đọc cũng như các chế độ điều khiển chỉ bằng một lần nhấn phím. Chế độ này giúp bạn di chuyển trên một trang tương tự như di chuyển trong hộp chỉnh sửa văn bản, chẳng hạn như dùng mũi tên trái và phải để di chuyển theo ký tự, dùng mũi tên lên và xuống để di chuyển theo dòng.\n\nĐể bật hoặc tắt chế độ duyệt web, hãy nhấn đúp vào phím Thao tác.\n\nKhi chế độ duyệt web đang bật, hãy nhấn phím D để chuyển đến điểm mốc tiếp theo, nhấn phím F để chuyển đến trường điều khiển/trường biểu mẫu tiếp theo, nhấn phím B để chuyển đến nút tiếp theo, nhấn phím K để chuyển đến đường liên kết tiếp theo và nhấn phím H để chuyển đến tiêu đề tiếp theo. Hãy giữ phím Shift rồi nhấn các phím này để di chuyển ngược lại.\n\nBạn cũng có thể dùng phím Mũi tên lên và Mũi tên xuống để di chuyển theo dòng, phím Mũi tên trái và Mũi tên phải để di chuyển theo chữ cái, cũng như tổ hợp phím Ctrl + Mũi tên trái và Ctrl + Mũi tên phải để di chuyển theo từ.\n\nNhấn tổ hợp phím Thao tác + Mũi tên phải để mở một khu vực thực hành. Khi bạn đang ở trong khu vực thực hành, các đường liên kết, trường biểu mẫu và nút sẽ không hoạt động.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Cấp độ tiêu đề</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Các trang web và ứng dụng web thường dùng tiêu đề ở nhiều cấp độ để tạo cấu trúc cho nội dung. Khi chế độ duyệt web đang bật, hãy nhấn các phím từ 1 đến 6 để chuyển đến các cấp độ tiêu đề. Giữ phím Shift và nhấn các phím này để di chuyển ngược lại.\n\nNhấn tổ hợp phím Thao tác + Mũi tên phải để mở một khu vực thực hành.</string>
+  <string name="keyboard_tutorial_tables_page_title">Bảng</string>
+  <string name="keyboard_tutorial_tables_page_text">Chế độ duyệt web cũng giúp bạn di chuyển trong bảng dễ dàng hơn. Khi chế độ duyệt web đang bật, hãy nhấn tổ hợp phím Alt + Ctrl + Mũi tên lên và Mũi tên xuống để chuyển đổi giữa các hàng, đồng thời nhấn tổ hợp phím Alt + Ctrl + Mũi tên trái và Mũi tên phải để chuyển đổi giữa các cột.\n\nNhấn tổ hợp phím Thao tác + Mũi tên phải để mở một khu vực thực hành.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Chỉnh sửa văn bản</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Khi bạn nhập vào một trường văn bản, chế độ duyệt web sẽ tạm thời tắt để bạn có thể nhập bằng tất cả các phím. Bạn sẽ nghe thấy một thông báo và một âm thanh khi chế độ này tắt. Sau khi bạn rời khỏi trường văn bản, chế độ duyệt web sẽ bật lại và bạn sẽ nghe thấy một thông báo và âm thanh khác.\n\nNhấn tổ hợp phím Thao tác + phím Mũi tên phải để mở một khu vực thực hành.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Thông tin khác về chế độ duyệt web</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Để xem danh sách đầy đủ các mục mà bạn có thể chuyển đổi ở chế độ duyệt web, hãy nhấn tổ hợp phím Thao tác + Shift + / rồi tìm \"chế độ duyệt web\" trong trình đơn phím tắt.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Đọc theo ký tự, từ hoặc đoạn</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Đôi khi, bạn có thể muốn nghe văn bản được đọc to theo từng ký tự một.\n\nĐể nghe theo cách này, bạn có thể di chuyển bằng chế độ điều khiển chức năng đọc. Nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải hoặc Mũi tên trái cho đến khi bạn nghe thấy \"ký tự\". Sau đó, nhấn tổ hợp phím Thao tác + Mũi tên lên để đưa tiêu điểm di chuyển lùi lại phía sau theo từng ký tự. Nhấn tổ hợp phím Thao tác + Mũi tên xuống để đưa tiêu điểm di chuyển tiến về phía trước theo từng ký tự.\n\nHãy thử ngay. Bạn cũng có thể chọn đọc theo từ, dòng hoặc đoạn bằng cách nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải hoặc Mũi tên trái.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Chuyển đổi giữa các chế độ điều khiển</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Chế độ điều khiển bao gồm những mục mà bạn có thể tương tác, chẳng hạn như nút, hộp đánh dấu và hộp văn bản.\n\nTrên một số trang, bạn có thể chuyển đổi giữa các chế độ điều khiển để tìm nhanh một thao tác, chẳng hạn như nút tiếp theo.\n\nĐể làm việc này, hãy nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải cho đến khi bạn nghe thấy \"chế độ điều khiển\". Sau đó, hãy nhấn tổ hợp phím Thao tác + Mũi tên lên để chuyển về nút trước và tổ hợp phím Thao tác + Mũi tên xuống để chuyển đến nút tiếp theo.\n\nHãy dùng thử ngay và tìm nút tiếp theo.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Chuyển đổi giữa các đường liên kết</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Bạn cũng có thể chuyển đổi giữa các đường liên kết trên một trang.\n\nĐể làm việc này, hãy nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải cho đến khi bạn nghe thấy \"đường liên kết\". Sau đó, nhấn tổ hợp phím Thao tác + phím Mũi tên xuống để tìm đường liên kết có tên \"Đường liên kết 5\". Khi đang ở phần hướng dẫn, dù bạn nhấn đúp vào đường liên kết này thì cũng sẽ không có gì xảy ra.\n\nHãy nhấn tổ hợp phím Thao tác + Mũi tên phải để tìm nút tiếp theo và chuyển đến trang tiếp theo.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Chuyển đổi giữa các tiêu đề</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Bạn cũng có thể chuyển đổi giữa các tiêu đề trên một trang.\n\nĐể thử ngay, hãy nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải cho đến khi bạn nghe thấy \"tiêu đề\". Tiếp theo, hãy nhấn tổ hợp phím Thao tác + Mũi tên xuống để tìm tiêu đề \"Điều hướng\".</string>
+  <string name="keyboard_tutorial_find_next_button">Nhấn tổ hợp phím Thao tác + Mũi tên phải để tìm nút tiếp theo.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Chuyển đổi giữa các vùng chứa</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Để thoát khỏi một vùng chứa, chẳng hạn như danh sách hoặc lưới, hãy nhấn tổ hợp phím Thao tác + Alt + Ctrl + Mũi tên phải hoặc Mũi tên trái. Việc này sẽ giúp ích khi bạn muốn chuyển ra khỏi một danh sách dài gồm các mục.\n\nNếu bạn muốn thử ngay, hãy nhấn tổ hợp phím Thao tác + phím Mũi tên phải để mở danh sách nêu trên. Sau đó, nhấn tổ hợp phím Thao tác + Alt + Ctrl + Mũi tên phải để chuyển đến vùng chứa tiếp theo.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Để chuyển đến vùng chứa tiếp theo, hãy nhấn tổ hợp phím Thao tác + Alt + Ctrl + Mũi tên phải</string>
+  <string name="keyboard_tutorial_exit_container">Để thoát khỏi vùng chứa này, hãy nhấn tổ hợp phím Thao tác + Alt + Ctrl + Mũi tên phải</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Bạn đã thoát khỏi vùng chứa này. Bạn cũng có thể thêm vùng chứa vào chế độ điều khiển chức năng đọc của mình, sau đó nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải hoặc Mũi tên trái để chọn vùng chứa và nhấn tổ hợp phím Thao tác + Mũi tên xuống hoặc Mũi tên lên để chuyển đổi giữa các vùng chứa. Để cập nhật chế độ điều khiển chức năng đọc, hãy chuyển đến phần TalkBack &gt; Cài đặt &gt; Tuỳ chỉnh trình đơn &gt; Tuỳ chỉnh chế độ điều khiển chức năng đọc.\n\nNhấn tổ hợp phím Thao tác + Mũi tên phải để tìm nút tiếp theo.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Tuỳ chỉnh chế độ điều khiển chức năng đọc</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Bạn cũng có thể điều chỉnh các chế độ cài đặt giọng nói bằng chế độ điều khiển chức năng đọc và tuỳ chỉnh những việc bạn có thể làm bằng chế độ này trong phần TalkBack &gt; Cài đặt &gt; Tuỳ chỉnh trình đơn &gt; Tuỳ chỉnh chế độ điều khiển chức năng đọc.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Thử nghe nội dung mô tả hình ảnh</string>
+  <string name="keyboard_tutorial_image_description_page_text">Khi bạn đã lấy tiêu điểm vào một hình ảnh, hãy nhấn tổ hợp phím Thao tác + R, rồi nhấn phím I. Có một bức ảnh ở bên dưới. Hãy thử nghe nội dung mô tả hình ảnh đó.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Bạn có thể thay đổi chế độ cài đặt tính năng mô tả hình ảnh bất cứ lúc nào trong phần Cài đặt TalkBack &gt; Mô tả hình ảnh và biểu tượng.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Bạn có thể thay đổi chế độ cài đặt tính năng mô tả hình ảnh bất cứ lúc nào bằng cách chọn Mô tả hình ảnh và biểu tượng trong phần Cài đặt TalkBack.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Hình ảnh mẫu. Nhấn tổ hợp phím Thao tác + R rồi nhấn phím I để nghe nội dung mô tả.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Lệnh thoại</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Bạn có thể dùng giọng nói để điều khiển TalkBack một cách nhanh chóng.\n\nVí dụ: nói một lệnh để thay đổi cách di chuyển, chuyển đến tiêu đề tiếp theo, sao chép văn bản và làm những việc khác.\n\nĐể thử ngay, hãy nhấn tổ hợp phím Thao tác + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Sử dụng tính năng tìm kiếm trên màn hình</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Bạn có thể tìm nội dung cụ thể trên màn hình bằng tính năng tìm kiếm trên màn hình.\n\nĐể dùng thử tính năng này, hãy nhấn tổ hợp phím Thao tác + CTRL + /. Nhập một từ khoá, chẳng hạn như \"tiếp theo\", để tìm các mục có chứa cụm từ đó trên màn hình.\n\nHãy thử tìm cụm từ \"tiếp theo\" ngay để thấy nút tiếp theo.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Di chuyển bằng tính năng tìm kiếm trên màn hình</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Bạn có thể chuyển qua lại nhanh chóng giữa nhiều kết quả tìm kiếm mà tính năng tìm kiếm trên màn hình đưa ra sau khi đã chọn một kết quả.\n\nĐể làm việc này, bạn có thể dùng chế độ điều khiển chức năng đọc để di chuyển. Nhấn tổ hợp phím Thao tác + Shift + Mũi tên phải hoặc Mũi tên trái cho đến khi bạn nghe thấy \"tìm kiếm trên màn hình\". Tiếp theo, hãy nhấn tổ hợp phím Thao tác + Mũi tên xuống hoặc Mũi tên lên để di chuyển theo kết quả tìm kiếm trên màn hình.\n\nHãy thử ngay. Dưới đây là danh sách gồm 3 nút, tất cả đều có chứa chữ \"thao tác\". Hãy tìm nút có chữ \"thao tác\" bằng tính năng tìm kiếm trên màn hình rồi chuyển qua lại giữa các nút bằng tính năng đó.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Thực hành sử dụng các phím tắt</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Nhấn một phím hoặc tổ hợp phím trên bàn phím vật lý để nghe chức năng của phím đó. Nhấn tổ hợp phím Ctrl + W hoặc phím Escape để thoát.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Khám phá vẻ đẹp hùng vĩ của rừng cây gỗ đỏ ở California&lt;/h1&gt;
+      &lt;p&gt;Cây gỗ đỏ ở California, chủ yếu là cây gỗ đỏ ven biển (Sequoia sempervrens) là loài cây cao nhất thế giới. Một số cây cao hơn 115 mét và có thể sống được hàng ngàn năm. Chúng sinh trưởng tốt trong khí hậu ẩm ướt ở vùng ven biển phía Bắc California do có mưa và sương mù.&lt;/p&gt;
+
+      &lt;h2&gt;Những nơi bạn có thể chiêm ngưỡng rừng cây gỗ đỏ&lt;/h2&gt;
+      &lt;p&gt;Bạn sẽ được ngắm nhìn những cây đại thụ này ở một dải đất hẹp dọc theo bờ biển Thái Bình Dương. Các công viên chính gồm có:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Lên kế hoạch tham quan tại đây: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – Rừng cây gỗ đỏ&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Hỗ trợ công tác bảo tồn&lt;/h2&gt;
+      &lt;p&gt;Công tác bảo tồn những khu rừng cổ thụ này có vai trò vô cùng quan trọng. Bạn có thể trợ giúp bằng cách tuân thủ các quy định của công viên và hỗ trợ công tác bảo tồn.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Chia sẻ trải nghiệm của bạn&lt;/h2&gt;
+        &lt;p&gt;Bạn đã ghé thăm rừng cây gỗ đỏ chưa?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Rồi&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Chưa&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Hãy cho chúng tôi biết về trải nghiệm của bạn&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Gửi&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Bạn muốn tìm hiểu thêm điều gì về rừng cây gỗ đỏ?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Gửi&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Cây gỗ đỏ: Giữ cho môi trường của chúng ta luôn trong lành&lt;/h1&gt;
+    &lt;p&gt;Cây gỗ đỏ đóng vai trò quan trọng đối với hành tinh của chúng ta, góp phần to lớn vào việc giữ cho môi trường luôn trong lành.&lt;/p&gt;
+
+    &lt;h1&gt;Máy lọc không khí khổng lồ&lt;/h1&gt;
+    &lt;p&gt;Loài cây này có khả năng hấp thụ khí CO2 trong không khí một cách hiệu quả. Nhờ khả năng hấp thụ một lượng lớn khí CO2, cây gỗ đỏ góp phần làm sạch bầu không khí của chúng ta.&lt;/p&gt;
+
+    &lt;h2&gt;Nơi cư trú của các loài động vật&lt;/h2&gt;
+    &lt;p&gt;Rừng cây gỗ đỏ là nơi cư trú của nhiều loài động vật, từ chim chóc sống trên cành cây đến các sinh vật nhỏ tồn tại trong đất.&lt;/p&gt;
+
+    &lt;h3&gt;Khả năng điều tiết nước&lt;/h3&gt;
+    &lt;p&gt;Loài cây này có thể ngưng tụ hơi ẩm từ sương mù rất hiệu quả, sau đó lượng nước tích tụ sẽ nhỏ giọt xuống bề mặt đất rừng. Nhờ đó, mặt đất được duy trì độ ẩm, đồng thời các loài cây cỏ và muông thú được cung cấp nguồn nước, nhất là khi trời nắng hạn.&lt;/p&gt;
+
+    &lt;h4&gt;Bảo vệ đất&lt;/h4&gt;
+    &lt;p&gt;Bộ rễ chắc khoẻ của cây giúp giữ đất, ngăn đất bị cuốn trôi trong những trận mưa lớn và chống xói mòn.&lt;/p&gt;
+
+    &lt;h5&gt;Tái sinh rừng&lt;/h5&gt;
+    &lt;p&gt;Khi những cây gỗ đỏ già đổ xuống, thân cây trở thành thức ăn và nơi trú ẩn cho các loài thực vật và sinh vật mới, đồng thời tạo ra đất đai màu mỡ cho sự phát triển mới.&lt;/p&gt;
+
+    &lt;h6&gt;Hệ sinh thái độc đáo&lt;/h6&gt;
+    &lt;p&gt;Vì cây gỗ đỏ rất lớn và sống rất lâu nên chúng tạo ra hệ sinh thái rừng đặc biệt, hỗ trợ sự sống của các loài đặc hữu ở đó.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Các loài động vật ở rừng cây gỗ đỏ&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Động vật&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Mô tả&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Nơi sinh sống&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Sự thật thú vị&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Sên chuối&lt;/th&gt;
+            &lt;td&gt;Là loài sên màu vàng, thân mềm nhớt và có kích thước lớn&lt;/td&gt;
+            &lt;td&gt;Sống trên bề mặt đất rừng&lt;/td&gt;
+            &lt;td&gt;Đây là loài sên có kích thước lớn thứ hai trên thế giới&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Kỳ nhông khổng lồ Thái Bình Dương&lt;/th&gt;
+            &lt;td&gt;Là loài kỳ nhông có màu sẫm, kích thước lớn&lt;/td&gt;
+            &lt;td&gt;Sống ở gần suối và khu vực ẩm ướt&lt;/td&gt;
+            &lt;td&gt;Có thể dài đến 30 cm&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Nai sừng xám Roosevelt&lt;/th&gt;
+            &lt;td&gt;Là loài nai có thân hình lớn và bộ gạc đồ sộ&lt;/td&gt;
+            &lt;td&gt;Gặm cỏ ở những khoảng đất trống trong rừng&lt;/td&gt;
+            &lt;td&gt;Con đực có thể nặng hơn 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Cú đốm phương Bắc&lt;/th&gt;
+            &lt;td&gt;Loài cú có kích thước trung bình, săn mồi vào ban đêm&lt;/td&gt;
+            &lt;td&gt;Sống trong rừng cây gỗ đỏ rậm rạp, lâu năm&lt;/td&gt;
+            &lt;td&gt;Là một \"loài mang tính chỉ báo\" – tình trạng của loài này phản ánh tình trạng của hệ sinh thái rừng&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Gấu đen&lt;/th&gt;
+            &lt;td&gt;Là loài động vật có vú thân hình lớn, thường có màu đen hoặc nâu&lt;/td&gt;
+            &lt;td&gt;Tìm kiếm thức ăn ở khắp khu rừng&lt;/td&gt;
+            &lt;td&gt;Leo trèo giỏi, thường thấy ở trên cây&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Cảm nghĩ của bạn về cây gỗ đỏ và thế giới tự nhiên&lt;/h1&gt;
+
+      &lt;p&gt;Bạn muốn tìm hiểu thêm điều gì về cây gỗ đỏ?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Bạn thích tham quan địa điểm nào trong thế giới tự nhiên?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Bạn muốn tìm hiểu thêm về một khái niệm nào trong thế giới tự nhiên?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

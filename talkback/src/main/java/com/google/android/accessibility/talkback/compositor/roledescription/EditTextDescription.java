@@ -23,12 +23,11 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
 import com.google.android.accessibility.utils.Role;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /** Role description for {@link Role.ROLE_EDIT_TEXT}. */
 public final class EditTextDescription implements RoleDescription {
@@ -67,23 +66,20 @@ public final class EditTextDescription implements RoleDescription {
       ImageContents imageContents,
       GlobalVariables globalVariables) {
     List<CharSequence> arrayList = new ArrayList<>();
-    Locale preferredLocale =
-        (globalVariables.getUserPreferredLocale() != null)
-            ? globalVariables.getUserPreferredLocale()
-            : AccessibilityNodeInfoUtils.getLocalesByNode(node);
     if (node.isPassword()) {
       // Treat as hidden-password input field.
-      CharSequence contentDescription =
-          AccessibilityNodeFeedbackUtils.getNodeContentDescription(node, context, preferredLocale);
+      CharSequence contentAndSupplementalDescription =
+          AccessibilityNodeFeedbackUtils.getNodeContentAndSupplementalDescription(
+              node, context, globalVariables);
       // Input type
-      if (!TextUtils.isEmpty(contentDescription)) {
-        arrayList.add(contentDescription);
+      if (!TextUtils.isEmpty(contentAndSupplementalDescription)) {
+        arrayList.add(contentAndSupplementalDescription);
       } else {
         arrayList.add(context.getString(R.string.value_password));
       }
       // Input content
       CharSequence nodeText =
-          AccessibilityNodeFeedbackUtils.getNodeText(node, context, preferredLocale);
+          AccessibilityNodeFeedbackUtils.getNodeText(node, context, globalVariables);
       if (!TextUtils.isEmpty(nodeText)) {
         if (AccessibilityNodeInfoUtils.supportsAction(
             node, AccessibilityNodeInfoCompat.ACTION_SET_SELECTION)) {
@@ -102,14 +98,15 @@ public final class EditTextDescription implements RoleDescription {
     } else {
       // Treat as normal text input field.
       CharSequence nodeText =
-          AccessibilityNodeFeedbackUtils.getNodeText(node, context, preferredLocale);
-      CharSequence contentDescription =
-          AccessibilityNodeFeedbackUtils.getNodeContentDescription(node, context, preferredLocale);
+          AccessibilityNodeFeedbackUtils.getNodeText(node, context, globalVariables);
+      CharSequence contentAndSupplementalDescription =
+          AccessibilityNodeFeedbackUtils.getNodeContentAndSupplementalDescription(
+              node, context, globalVariables);
       CharSequence labelText = AccessibilityNodeFeedbackUtils.getNodeLabelText(node, imageContents);
       if (!TextUtils.isEmpty(nodeText)) {
         arrayList.add(nodeText);
-      } else if (!TextUtils.isEmpty(contentDescription)) {
-        arrayList.add(contentDescription);
+      } else if (!TextUtils.isEmpty(contentAndSupplementalDescription)) {
+        arrayList.add(contentAndSupplementalDescription);
       } else if (!TextUtils.isEmpty(labelText)) {
         arrayList.add(labelText);
       }
@@ -122,12 +119,7 @@ public final class EditTextDescription implements RoleDescription {
       AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
     List<CharSequence> arrayList = new ArrayList<>();
     CharSequence stateDescription =
-        AccessibilityNodeFeedbackUtils.getNodeStateDescription(
-            node,
-            context,
-            (globalVariables.getUserPreferredLocale() != null)
-                ? globalVariables.getUserPreferredLocale()
-                : AccessibilityNodeInfoUtils.getLocalesByNode(node));
+        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables);
     if (!TextUtils.isEmpty(stateDescription)) {
       arrayList.add(stateDescription);
     }

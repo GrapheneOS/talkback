@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -57,9 +57,6 @@ extern const NoteMethods beepNoteMethods;
 extern const NoteMethods pcmNoteMethods;
 extern const NoteMethods midiNoteMethods;
 extern const NoteMethods fmNoteMethods;
-
-extern char *opt_pcmDevice;
-extern char *opt_midiDevice;
 
 #ifdef __cplusplus
 }

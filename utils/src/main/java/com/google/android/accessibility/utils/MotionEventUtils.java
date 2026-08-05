@@ -40,17 +40,13 @@ public class MotionEventUtils {
         final MotionEvent touchEvent = MotionEvent.obtain(hoverEvent);
         MotionEventCompatUtils.setSource(hoverEvent, InputDeviceCompatUtils.SOURCE_TOUCHSCREEN);
 
-        switch (hoverEvent.getAction()) {
-            case MotionEventCompatUtils.ACTION_HOVER_ENTER:
-                touchEvent.setAction(MotionEvent.ACTION_DOWN);
-                break;
-            case MotionEventCompatUtils.ACTION_HOVER_MOVE:
-                touchEvent.setAction(MotionEvent.ACTION_MOVE);
-                break;
-            case MotionEventCompatUtils.ACTION_HOVER_EXIT:
-                touchEvent.setAction(MotionEvent.ACTION_UP);
-                break;
-        }
+    switch (hoverEvent.getAction()) {
+      case MotionEventCompatUtils.ACTION_HOVER_ENTER ->
+          touchEvent.setAction(MotionEvent.ACTION_DOWN);
+      case MotionEventCompatUtils.ACTION_HOVER_MOVE ->
+          touchEvent.setAction(MotionEvent.ACTION_MOVE);
+      case MotionEventCompatUtils.ACTION_HOVER_EXIT -> touchEvent.setAction(MotionEvent.ACTION_UP);
+    }
 
         return touchEvent;
     }

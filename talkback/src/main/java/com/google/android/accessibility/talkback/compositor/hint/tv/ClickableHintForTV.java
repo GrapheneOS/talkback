@@ -26,8 +26,11 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.compositor.hint.ClickableHint;
 import com.google.android.accessibility.talkback.keyboard.KeyComboModel;
+import com.google.android.accessibility.talkback.utils.LinkUtils;
+import com.google.android.accessibility.talkback.utils.LinkUtils.LinkSpan;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.List;
 
 /** Provides usage hints for clickable nodes. */
 public class ClickableHintForTV extends ClickableHint {
@@ -47,6 +50,7 @@ public class ClickableHintForTV extends ClickableHint {
    *   <li>singleSelectionClickHint,
    *   <li>checkableHint,
    *   <li>clickableHint,
+   *   <li>clickableLinkHint,
    * </ul>
    */
   @Override
@@ -69,6 +73,11 @@ public class ClickableHintForTV extends ClickableHint {
     hint = clickableHint(node);
     if (!TextUtils.isEmpty(hint)) {
       LogUtils.v(TAG, " clickableHint={%s}", hint);
+      return hint;
+    }
+    hint = clickableLinkHint(node);
+    if (!TextUtils.isEmpty(hint)) {
+      LogUtils.v(TAG, " clickableLinkHint={%s}", hint);
       return hint;
     }
     return "";
@@ -142,7 +151,37 @@ public class ClickableHintForTV extends ClickableHint {
         R.string.template_hint_clickable_keyboard, R.string.template_hint_clickable);
   }
 
+  /** Returns clickable hint if the node contains the link. */
+  private CharSequence clickableLinkHint(AccessibilityNodeInfoCompat node) {
+    if (!globalVariables.supportClickableLinks()) {
+      return "";
+    }
+    final List<LinkSpan> linkSpans = LinkUtils.getLinkSpansInNodeGroup(node);
+    if (linkSpans.isEmpty()) {
+      return "";
+    }
+
+    return getOpenLinkHint(context, globalVariables);
+  }
+
+  /** Returns clickable hint for open link. */
+  public CharSequence getOpenLinkHint(Context context, GlobalVariables globalVariables) {
+    return getClickHint(
+        context,
+        globalVariables,
+        R.string.template_hint_clickable_link_keyboard,
+        R.string.template_hint_clickable_link);
+  }
+
   private CharSequence getClickHint(@StringRes int keyBoardHintString, @StringRes int hintString) {
+    return getClickHint(context, globalVariables, keyBoardHintString, hintString);
+  }
+
+  private CharSequence getClickHint(
+      Context context,
+      GlobalVariables globalVariables,
+      @StringRes int keyBoardHintString,
+      @StringRes int hintString) {
     int inputMode = globalVariables.getGlobalInputMode();
     if (inputMode == INPUT_MODE_KEYBOARD
         && globalVariables.getKeyComboCodeForKey(R.string.keycombo_shortcut_perform_click)

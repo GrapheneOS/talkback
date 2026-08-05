@@ -19,8 +19,10 @@ package com.google.android.accessibility.talkback.actor;
 import android.content.Context;
 import android.content.res.Configuration;
 import androidx.annotation.VisibleForTesting;
-import com.google.android.accessibility.talkback.R;
+import com.android.talkback.quickmenu.QuickMenuOverlayProvider;
+import com.google.android.accessibility.talkback.Feedback.TalkBackUI;
 import com.google.android.accessibility.talkback.quickmenu.QuickMenuOverlay;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
@@ -46,9 +48,9 @@ public class TalkBackUIActor {
     SELECTOR_ITEM_ACTION_OVERLAY,
     /**
      * Shows the current action or status of the action after set up the configuration, such as
-     * adjusting the volume, via the gesture.
+     * adjusting the volume. Actions can be performed via gesture or keyboard.
      */
-    GESTURE_ACTION_OVERLAY,
+    GESTURE_OR_KEYBOARD_ACTION_OVERLAY,
   }
 
   private final Map<Type, QuickMenuOverlay> typeToOverlay = new EnumMap<>(Type.class);
@@ -62,19 +64,7 @@ public class TalkBackUIActor {
 
   private void createOverlays(Context context) {
     typeToOverlay.clear();
-    typeToOverlay.put(
-        Type.SELECTOR_MENU_ITEM_OVERLAY_MULTI_FINGER,
-        new QuickMenuOverlay(context, R.layout.quick_menu_item_overlay));
-    typeToOverlay.put(
-        Type.SELECTOR_MENU_ITEM_OVERLAY_SINGLE_FINGER,
-        new QuickMenuOverlay(
-            context, R.layout.quick_menu_item_overlay_without_multifinger_gesture));
-    typeToOverlay.put(
-        Type.SELECTOR_ITEM_ACTION_OVERLAY,
-        new QuickMenuOverlay(context, R.layout.quick_menu_item_action_overlay));
-    typeToOverlay.put(
-        Type.GESTURE_ACTION_OVERLAY,
-        new QuickMenuOverlay(context, R.layout.quick_menu_item_action_overlay));
+    QuickMenuOverlayProvider.provideQuickMenuOverlays(context, typeToOverlay);
   }
 
   /**
@@ -82,15 +72,16 @@ public class TalkBackUIActor {
    *
    * <p>The show method always hides other overlays before showing the new overlay.
    */
-  public boolean showQuickMenu(Type type, @Nullable CharSequence message, boolean showIcon) {
-    @Nullable QuickMenuOverlay overlay = typeToOverlay.get(type);
+  @CanIgnoreReturnValue
+  public boolean showQuickMenu(TalkBackUI talkBackUI) {
+    @Nullable QuickMenuOverlay overlay = typeToOverlay.get(talkBackUI.type());
     if (overlay == null) {
       return false;
     }
 
     hideOtherOverlays(overlay);
-    overlay.setMessage(message);
-    overlay.show(showIcon);
+    overlay.setUI(talkBackUI);
+    overlay.show(talkBackUI.showIcon());
     return true;
   }
 

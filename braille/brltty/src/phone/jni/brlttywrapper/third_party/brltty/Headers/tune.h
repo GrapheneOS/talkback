@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -47,9 +47,13 @@ typedef struct {
 
 extern void suppressTuneDeviceOpenErrors (void);
 
+typedef enum {
+  TPO_FREE = 0X01,
+} TunePlayOptions;
+
 extern int tuneSetDevice (TuneDevice device);
-extern void tunePlayNotes (const NoteElement *tune);
-extern void tunePlayTones (const ToneElement *tune);
+extern void tunePlayNotes (const NoteElement *tune, TunePlayOptions options);
+extern void tunePlayTones (const ToneElement *tune, TunePlayOptions options);
 extern void tuneWait (int time);
 extern void tuneSynchronize (void);
 

@@ -22,6 +22,7 @@ import android.view.KeyEvent;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.utils.FeatureSupport;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,7 +32,9 @@ public class DefaultKeyComboModel implements KeyComboModel {
   public static final String PREF_KEY_PREFIX = "default_key_combo_model";
 
   private final Context context;
-  private final Map<String, Long> keyComboCodeMap = new TreeMap<>();
+  // TODO: b/407061139 - Consider refactoring the key combo map to use a more efficient data
+  // structure; e.g., a static ImmutableMap.
+  private final Map<String, KeyCombo> keyComboMap = new TreeMap<>();
   private final KeyComboPersister persister;
 
   private int triggerModifier = KeyEvent.META_ALT_ON;
@@ -51,16 +54,12 @@ public class DefaultKeyComboModel implements KeyComboModel {
       // Store default value in preferences to show it in preferences UI.
       prefs
           .edit()
-          .putString(
-              getPreferenceKeyForTriggerModifier(),
-              context.getString(R.string.trigger_modifier_alt_entry_value))
+          .putString(getPreferenceKeyForTriggerModifier(), getDefaultTriggerModifier())
           .apply();
     }
 
     String triggerModifier =
-        prefs.getString(
-            getPreferenceKeyForTriggerModifier(),
-            context.getString(R.string.trigger_modifier_alt_entry_value));
+        prefs.getString(getPreferenceKeyForTriggerModifier(), getDefaultTriggerModifier());
     if (triggerModifier.equals(context.getString(R.string.trigger_modifier_alt_entry_value))) {
       this.triggerModifier = KeyEvent.META_ALT_ON;
     } else if (triggerModifier.equals(
@@ -85,15 +84,19 @@ public class DefaultKeyComboModel implements KeyComboModel {
   }
 
   @Override
-  public Map<String, Long> getKeyComboCodeMap() {
-    return keyComboCodeMap;
+  public Map<String, KeyCombo> getKeyComboMap() {
+    return keyComboMap;
   }
 
   @Nullable
   @Override
-  public String getKeyForKeyComboCode(long keyComboCode) {
-    for (Map.Entry<String, Long> entry : keyComboCodeMap.entrySet()) {
-      if (entry.getValue() == keyComboCode) {
+  public String getKeyForKeyCombo(KeyCombo keyCombo) {
+    if (keyCombo.getKeyComboCode() == KEY_COMBO_CODE_UNASSIGNED) {
+      return null;
+    }
+
+    for (Map.Entry<String, KeyCombo> entry : keyComboMap.entrySet()) {
+      if (entry.getValue().equals(keyCombo)) {
         return entry.getKey();
       }
     }
@@ -102,327 +105,621 @@ public class DefaultKeyComboModel implements KeyComboModel {
   }
 
   @Override
-  public long getKeyComboCodeForKey(String key) {
-    if (key != null && keyComboCodeMap.containsKey(key)) {
-      return keyComboCodeMap.get(key);
+  public KeyCombo getKeyComboForKey(@Nullable String key) {
+    if (key != null && keyComboMap.containsKey(key)) {
+      return keyComboMap.get(key);
     } else {
-      return KEY_COMBO_CODE_UNASSIGNED;
+      return new KeyCombo();
     }
   }
 
   @Override
-  public long getDefaultKeyComboCode(String key) {
+  public KeyCombo getDefaultKeyCombo(@Nullable String key) {
     if (key == null) {
-      return KEY_COMBO_CODE_UNASSIGNED;
+      return new KeyCombo();
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_perform_click))) {
-      return KeyComboManager.getKeyComboCode(NO_MODIFIER, KeyEvent.KEYCODE_ENTER);
+      return new KeyCombo(
+          NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_ENTER, /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_perform_long_click))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_ENTER);
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_ENTER,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_other_read_from_top))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_ENTER);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_ENTER,
+          /* triggerModifierUsed= */ true);
     }
 
-    if (key.equals(context.getString(R.string.keycombo_shortcut_other_read_from_next_item))) {
-      return KeyComboManager.getKeyComboCode(
-          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_ENTER);
+    if (key.equals(context.getString(R.string.keycombo_shortcut_other_read_from_cursor_item))) {
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_ENTER,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_other_talkback_context_menu))) {
-      return KeyComboManager.getKeyComboCode(NO_MODIFIER, KeyEvent.KEYCODE_SPACE);
+      return new KeyCombo(
+          NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_SPACE, /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_other_custom_actions))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_SPACE);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_SPACE,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_other_language_options))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_L);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_L,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_search))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_SLASH);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_SLASH,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_global_home))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_H);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_H,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_global_recents))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_R);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_R,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_global_back))) {
-      return KeyComboManager.getKeyComboCode(NO_MODIFIER, KeyEvent.KEYCODE_DEL);
+      return new KeyCombo(
+          NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_DEL, /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_global_notifications))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_N);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_N,
+          /* triggerModifierUsed= */ true);
     }
 
     if (FeatureSupport.supportMediaControls()
         && key.equals(context.getString(R.string.keycombo_shortcut_global_play_pause_media))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_SPACE);
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_SPACE,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(
         context.getString(R.string.keycombo_shortcut_global_scroll_forward_reading_menu))) {
-      return KeyComboManager.getKeyComboCode(
-          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_DPAD_DOWN);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_DOWN,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(
         context.getString(R.string.keycombo_shortcut_global_scroll_backward_reading_menu))) {
-      return KeyComboManager.getKeyComboCode(
-          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_DPAD_UP);
-    }
-
-    if (key.equals(
-        context.getString(R.string.keycombo_shortcut_global_adjust_reading_settings_previous))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_DPAD_UP);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_UP,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(
         context.getString(R.string.keycombo_shortcut_global_adjust_reading_setting_next))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_DPAD_DOWN);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_default))) {
-      return KeyComboManager.getKeyComboCode(NO_MODIFIER, KeyEvent.KEYCODE_DPAD_RIGHT);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_default))) {
-      return KeyComboManager.getKeyComboCode(NO_MODIFIER, KeyEvent.KEYCODE_DPAD_LEFT);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_up))) {
-      return KeyComboManager.getKeyComboCode(NO_MODIFIER, KeyEvent.KEYCODE_DPAD_UP);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_down))) {
-      return KeyComboManager.getKeyComboCode(NO_MODIFIER, KeyEvent.KEYCODE_DPAD_DOWN);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_first))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_DPAD_LEFT);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_last))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_DPAD_RIGHT);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_word))) {
-      return KeyComboManager.getKeyComboCode(
-          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_DPAD_RIGHT);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_word))) {
-      return KeyComboManager.getKeyComboCode(
-          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_DPAD_LEFT);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_character))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_DPAD_RIGHT);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_character))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_DPAD_LEFT);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_button))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_B);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_button))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_B);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_control))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_C);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_control))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_C);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_checkbox))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_X);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_checkbox))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_X);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_aria_landmark))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_D);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_aria_landmark))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_D);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_edit_field))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_E);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_edit_field))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_E);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_focusable_item))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_F);
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_DOWN,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(
-        context.getString(R.string.keycombo_shortcut_navigate_previous_focusable_item))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_F);
+        context.getString(R.string.keycombo_shortcut_global_adjust_reading_settings_previous))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_UP,
+          /* triggerModifierUsed= */ true);
     }
 
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_graphic))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_G);
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_default))) {
+      return new KeyCombo(
+          NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_RIGHT,
+          /* triggerModifierUsed= */ true);
     }
 
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_graphic))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_G);
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_default))) {
+      return new KeyCombo(
+          NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_LEFT,
+          /* triggerModifierUsed= */ true);
     }
 
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_H);
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_up))) {
+      return new KeyCombo(
+          NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_UP,
+          /* triggerModifierUsed= */ true);
     }
 
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_H);
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_down))) {
+      return new KeyCombo(
+          NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_DOWN,
+          /* triggerModifierUsed= */ true);
     }
 
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_1))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_1);
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_first))) {
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_LEFT,
+          /* triggerModifierUsed= */ true);
     }
 
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_1))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_1);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_2))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_2);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_2))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_2);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_3))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_3);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_3))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_3);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_4))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_4);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_4))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_4);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_5))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_5);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_5))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_5);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_6))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_6);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_6))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_6);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_list_item))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_I);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_list_item))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_I);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_link))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_L);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_link))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_L);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_list))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_O);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_list))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_O);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_table))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_T);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_table))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_T);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_combobox))) {
-      return KeyComboManager.getKeyComboCode(KeyComboModel.NO_MODIFIER, KeyEvent.KEYCODE_Z);
-    }
-
-    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_combobox))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_Z);
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_last))) {
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_RIGHT,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_window))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_DPAD_DOWN);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_DOWN,
+          /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_window))) {
-      return KeyComboManager.getKeyComboCode(KeyEvent.META_CTRL_ON, KeyEvent.KEYCODE_DPAD_UP);
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_UP,
+          /* triggerModifierUsed= */ true);
     }
 
-    return KEY_COMBO_CODE_UNASSIGNED;
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_character))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_RIGHT,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_character))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_LEFT,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_word))) {
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_RIGHT,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_word))) {
+      return new KeyCombo(
+          KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_DPAD_LEFT,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_aria_landmark))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_D,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_aria_landmark))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_D,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_button))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_B,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_button))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_B,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_checkbox))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_X,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_checkbox))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_X,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_combobox))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_Z,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_combobox))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_Z,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_control))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_C,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_control))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_C,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_edit_field))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_E,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_edit_field))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_E,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (true) {
+      if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_focusable_item))) {
+        return new KeyCombo(
+            KeyComboModel.NO_MODIFIER,
+            NO_PREFIX_KEY_CODE,
+            KeyEvent.KEYCODE_F,
+            /* triggerModifierUsed= */ true);
+      }
+
+      if (key.equals(
+          context.getString(R.string.keycombo_shortcut_navigate_previous_focusable_item))) {
+        return new KeyCombo(
+            KeyEvent.META_SHIFT_ON,
+            NO_PREFIX_KEY_CODE,
+            KeyEvent.KEYCODE_F,
+            /* triggerModifierUsed= */ true);
+      }
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_graphic))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_G,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_graphic))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_G,
+          /* triggerModifierUsed= */ true);
+    }
+    
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_H,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_H,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_1))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_1,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_1))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_1,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_2))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_2,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_2))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_2,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_3))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_3,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_3))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_3,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_4))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_4,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_4))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_4,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_5))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_5,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_5))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_5,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_heading_6))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_6,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_heading_6))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_6,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_link))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_L,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_link))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_L,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_list))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_O,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_list))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_O,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_list_item))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_I,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_list_item))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_I,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_table))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_T,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_table))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_T,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_visited_link))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_V,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_visited_link))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_V,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_unvisited_link))) {
+      return new KeyCombo(
+          KeyComboModel.NO_MODIFIER,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_U,
+          /* triggerModifierUsed= */ true);
+    }
+
+    if (key.equals(
+        context.getString(R.string.keycombo_shortcut_navigate_previous_unvisited_link))) {
+      return new KeyCombo(
+          KeyEvent.META_SHIFT_ON,
+          NO_PREFIX_KEY_CODE,
+          KeyEvent.KEYCODE_U,
+          /* triggerModifierUsed= */ true);
+    }
+
+    return new KeyCombo();
   }
 
   @Override
-  public void saveKeyComboCode(String key, long keyComboCode) {
-    persister.saveKeyCombo(key, keyComboCode);
-    keyComboCodeMap.put(key, keyComboCode);
+  public void saveKeyCombo(String key, KeyCombo keyCombo) {
+    persister.saveKeyCombo(key, keyCombo);
+    keyComboMap.put(key, keyCombo);
   }
 
   @Override
-  public void clearKeyComboCode(String key) {
-    saveKeyComboCode(key, KEY_COMBO_CODE_UNASSIGNED);
+  public void clearKeyCombo(String key) {
+    saveKeyCombo(key, new KeyCombo());
   }
 
   @Override
-  public boolean isEligibleKeyComboCode(long keyComboCode) {
-    if (keyComboCode == KEY_COMBO_CODE_UNASSIGNED) {
+  public boolean isEligibleKeyCombo(KeyCombo keyCombo) {
+    if (keyCombo.getKeyComboCode() == KEY_COMBO_CODE_UNASSIGNED) {
       return true;
     }
 
-    // Do not allow to set key combo which is consisted only with modifiers.
-    int keyCode = KeyComboManager.getKeyCode(keyComboCode);
+    // Do not allow a key combo which consists of only modifiers.
+    int keyCode = keyCombo.getKeyCode();
     if (KeyEvent.isModifierKey(keyCode) || keyCode == KeyEvent.KEYCODE_UNKNOWN) {
       return false;
     }
 
-    // It's not allowed to use trigger modifier as part of key combo code.
-    return (KeyComboManager.getModifier(keyComboCode) & getTriggerModifier()) == 0;
+    // It's not allowed to include the trigger modifier as part of KeyCombo's modifiers.
+    if ((keyCombo.getModifiers() & getTriggerModifier()) != 0) {
+      return false;
+    }
+
+    // In the default keymap, a key combo must contain the trigger modifier.
+    return keyCombo.isTriggerModifierUsed();
   }
 
   @Override
@@ -449,9 +746,7 @@ public class DefaultKeyComboModel implements KeyComboModel {
   private String getTriggerModifierName() {
     SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
     String triggerModifier =
-        prefs.getString(
-            getPreferenceKeyForTriggerModifier(),
-            context.getString(R.string.trigger_modifier_alt_entry_value));
+        prefs.getString(getPreferenceKeyForTriggerModifier(), getDefaultTriggerModifier());
     String triggerModifierName = "";
 
     if (triggerModifier.equals(context.getString(R.string.trigger_modifier_alt_entry_value))) {
@@ -464,16 +759,26 @@ public class DefaultKeyComboModel implements KeyComboModel {
     return triggerModifierName;
   }
 
+  private String getDefaultTriggerModifier() {
+    if (FormFactorUtils.isAndroidPc()) {
+      return context.getString(R.string.trigger_modifier_meta_entry_value);
+    } else {
+      return context.getString(R.string.trigger_modifier_alt_entry_value);
+    }
+  }
+
   private void addKeyCombos() {
     addKeyCombo(context.getString(R.string.keycombo_shortcut_perform_click));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_perform_long_click));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_other_read_from_top));
-    addKeyCombo(context.getString(R.string.keycombo_shortcut_other_read_from_next_item));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_other_read_from_cursor_item));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_other_talkback_context_menu));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_other_custom_actions));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_other_language_options));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_other_toggle_search));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_back));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_global_speech_rate_increase));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_global_speech_rate_decrease));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_default));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_default));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_up));
@@ -494,8 +799,6 @@ public class DefaultKeyComboModel implements KeyComboModel {
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_aria_landmark));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_edit_field));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_edit_field));
-    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_focusable_item));
-    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_focusable_item));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_graphic));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_graphic));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_heading));
@@ -522,6 +825,12 @@ public class DefaultKeyComboModel implements KeyComboModel {
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_table));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_combobox));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_combobox));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_visited_link));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_visited_link));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_unvisited_link));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_unvisited_link));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_focusable_item));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_focusable_item));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_window));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_window));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_home));
@@ -535,14 +844,26 @@ public class DefaultKeyComboModel implements KeyComboModel {
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_adjust_reading_setting_next));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_other_copy_last_spoken_phrase));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_hide_or_show_screen));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_row));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_row));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_column));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_column));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_row_bounds));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_row_bounds));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_column_bounds));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_column_bounds));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_table_bounds));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_table_bounds));
   }
 
   private void addKeyCombo(String key) {
     if (!persister.contains(key)) {
-      persister.saveKeyCombo(key, getDefaultKeyComboCode(key));
+      KeyCombo defaultKeyCombo = getDefaultKeyCombo(key);
+      persister.saveKeyCombo(key, defaultKeyCombo);
     }
 
-    keyComboCodeMap.put(key, persister.getKeyComboCode(key));
+    KeyCombo keyCombo = persister.getKeyCombo(key);
+    keyComboMap.put(key, keyCombo);
   }
 
   /**
@@ -553,7 +874,8 @@ public class DefaultKeyComboModel implements KeyComboModel {
       return;
     }
 
-    saveKeyComboCode(toKey, persister.getKeyComboCode(fromKey));
+    KeyCombo keyCombo = persister.getKeyCombo(fromKey);
+    saveKeyCombo(toKey, keyCombo);
     persister.remove(fromKey);
   }
 }

@@ -17,8 +17,9 @@
 package com.google.android.accessibility.brailleime.settings;
 
 import static android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS;
+import static java.util.Arrays.stream;
 
-import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -35,11 +36,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.VisibleForTesting;
-import androidx.core.text.HtmlCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 import com.google.android.accessibility.braille.common.BrailleCommonUtils;
 import com.google.android.accessibility.braille.common.BraillePreferenceUtils;
 import com.google.android.accessibility.braille.common.BrailleUserPreferences;
@@ -47,17 +47,16 @@ import com.google.android.accessibility.braille.common.TouchDots;
 import com.google.android.accessibility.braille.common.settings.BrailleLanguagesActivity;
 import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleIme;
 import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleIme.ServiceStatus;
-import com.google.android.accessibility.brailleime.BrailleIme;
+import com.google.android.accessibility.brailleime.FeatureFlagReader;
 import com.google.android.accessibility.brailleime.R;
 import com.google.android.accessibility.brailleime.Utils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.Constants;
 import com.google.android.accessibility.utils.FeatureSupport;
-import com.google.android.accessibility.utils.KeyboardUtils;
+import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.material.MaterialComponentUtils;
 import com.google.android.accessibility.utils.preference.PreferencesActivity;
-import java.util.Arrays;
 
 /** Activity used to set BrailleIme's user options. */
 public class BrailleImePreferencesActivity extends PreferencesActivity {
@@ -115,7 +114,7 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
   }
 
   /** Panel holding a set of developer preferences. */
-  public static class BrailleImePrefFragment extends PreferenceFragmentCompat {
+    public static class BrailleImePrefFragment extends PreferenceFragmentCompat {
     private Preference brailleGradePreference;
 
     @Override
@@ -124,7 +123,12 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
           .setSharedPreferencesName(BrailleUserPreferences.BRAILLE_SHARED_PREFS_FILENAME);
       PreferenceSettingsUtils.addPreferencesFromResource(this, R.xml.brailleime_preferences);
       brailleGradePreference = findPreference(getString(R.string.pref_braille_contracted_mode));
-
+      Preference preference =
+          findPreference(getString(R.string.pref_brailleime_review_all_gestures));
+      preference.setTitle(
+          FeatureFlagReader.useGestureCustomization(getContext())
+              ? R.string.review_and_customize_gestures_title
+              : R.string.review_all_gestures_title);
       getPreferenceManager()
           .getSharedPreferences()
           .registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
@@ -155,9 +159,9 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
               return true;
             });
         turnOnKeyboardPref.setTitle(
-            ((BrailleImePreferencesActivity) getActivity()).isImeEnabled()
+            (BrailleCommonUtils.isBrailleKeyboardEnabled(getContext())
                 ? getString(R.string.how_to_use_braille_keyboard)
-                : getString(R.string.set_up_braille_keyboard));
+                : getString(R.string.set_up_braille_keyboard)));
       }
 
       {
@@ -203,13 +207,13 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
 
       {
         // Accumulate mode preference.
-        SwitchPreference accumulateModePref =
+        SwitchPreferenceCompat accumulateModePref =
             findPreference(getString(R.string.pref_brailleime_accumulate_mode));
         accumulateModePref.setChecked(BrailleUserPreferences.readAccumulateMode(getContext()));
         accumulateModePref.setOnPreferenceClickListener(
             preference -> {
               BrailleUserPreferences.writeAccumulateMode(
-                  getContext(), ((SwitchPreference) preference).isChecked());
+                  getContext(), ((SwitchPreferenceCompat) preference).isChecked());
               return true;
             });
         accumulateModePref.setChecked(BrailleUserPreferences.readAccumulateMode(getContext()));
@@ -217,13 +221,13 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
 
       {
         // Reverse dots mode preference.
-        SwitchPreference reverseDotsModePref =
+        SwitchPreferenceCompat reverseDotsModePref =
             findPreference(getString(R.string.pref_brailleime_reverse_dots_mode));
         reverseDotsModePref.setChecked(BrailleUserPreferences.readReverseDotsMode(getContext()));
         reverseDotsModePref.setOnPreferenceClickListener(
             preference -> {
               BrailleUserPreferences.writeReverseDotsMode(
-                  getContext(), ((SwitchPreference) preference).isChecked());
+                  getContext(), ((SwitchPreferenceCompat) preference).isChecked());
               return true;
             });
         reverseDotsModePref.setChecked(BrailleUserPreferences.readReverseDotsMode(getContext()));
@@ -234,23 +238,23 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
         ListPreference layoutModePref =
             findPreference(getString(R.string.pref_brailleime_layout_mode));
         if (layoutModePref != null) {
-            layoutModePref.setEntryValues(
-                Arrays.stream(TouchDots.values()).map(Enum::name).toArray(CharSequence[]::new));
-            layoutModePref.setEntries(
-                Arrays.stream(TouchDots.values())
-                    .map(value -> value.getLayoutDescription(getResources()))
-                    .toArray(CharSequence[]::new));
-            layoutModePref.setValue(BrailleUserPreferences.readLayoutMode(getContext()).name());
-            layoutModePref.setSummaryProvider(
-                preference ->
-                    BrailleUserPreferences.readLayoutMode(getContext())
-                        .getLayoutName(getResources()));
-            layoutModePref.setOnPreferenceChangeListener(
-                (preference, newValue) -> {
-                  BrailleUserPreferences.writeLayoutMode(
-                      getContext(), TouchDots.valueOf(newValue.toString()));
-                  return true;
-                });
+          layoutModePref.setEntryValues(
+              stream(TouchDots.values()).map(Enum::name).toArray(CharSequence[]::new));
+          layoutModePref.setEntries(
+              stream(TouchDots.values())
+                  .map(value -> value.getLayoutDescription(getResources()))
+                  .toArray(CharSequence[]::new));
+          layoutModePref.setValue(BrailleUserPreferences.readLayoutMode(getContext()).name());
+          layoutModePref.setSummaryProvider(
+              preference ->
+                  BrailleUserPreferences.readLayoutMode(getContext())
+                      .getLayoutName(getResources()));
+          layoutModePref.setOnPreferenceChangeListener(
+              (preference, newValue) -> {
+                BrailleUserPreferences.writeLayoutMode(
+                    getContext(), TouchDots.valueOf(newValue.toString()));
+                return true;
+              });
         }
       }
 
@@ -259,11 +263,13 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
     }
 
     private void showSwitchInputCodeGestureTipDialog() {
-      BraillePreferenceUtils.createTipAlertDialog(
+      BraillePreferenceUtils.createDontShowAgainDialog(
               getContext(),
               getString(R.string.switch_input_code_gesture_tip_dialog_title),
               getString(R.string.switch_input_code_gesture_tip_dialog_message),
-              BrailleUserPreferences::writeShowSwitchBrailleKeyboardInputCodeGestureTip)
+              (Context context, Boolean checked) ->
+                  BrailleUserPreferences.writeShowSwitchBrailleKeyboardInputCodeGestureTip(
+                      context, !checked))
           .show();
     }
 
@@ -289,10 +295,10 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
   private void showTurnOnKeyboardDialog() {
     AlertDialog.Builder builder = MaterialComponentUtils.alertDialogBuilder(this);
     builder.setTitle(
-        isImeEnabled()
+        BrailleCommonUtils.isBrailleKeyboardEnabled(this)
             ? getString(R.string.how_to_use_braille_keyboard)
             : getString(R.string.set_up_braille_keyboard));
-    if (isImeEnabled()) {
+    if (BrailleCommonUtils.isBrailleKeyboardEnabled(this)) {
       builder
           .setMessage(getDialogMessageForImeEnabled())
           .setPositiveButton(android.R.string.ok, null);
@@ -305,13 +311,11 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
                       ? R.string.use_brailleime_pref_button_case_ime_disabled_turn_on
                       : R.string.use_brailleime_pref_button_case_ime_disabled_settings),
               (dialogInterface, i) -> {
+                Utils.setComponentEnabled(this, Constants.BRAILLE_KEYBOARD, true);
                 if (supportEnableIme() && talkBackForBrailleIme.setInputMethodEnabled()) {
                   ((BrailleImePrefFragment) getSupportFragmentManager().findFragmentByTag(TAG))
                       .configurePrefs();
                   return;
-                }
-                if (!BrailleCommonUtils.isInputMethodEnabled(this, Constants.BRAILLE_KEYBOARD)) {
-                  Utils.setComponentEnabled(this, Constants.BRAILLE_KEYBOARD, true);
                 }
                 startActivityForResult(
                     new Intent(ACTION_INPUT_METHOD_SETTINGS), REQUEST_CODE_IME_SETTINGS);
@@ -320,7 +324,7 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
               android.R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss());
     }
     AlertDialog dialog = builder.create();
-    if (supportEnableIme()) {
+    if (!BrailleCommonUtils.isBrailleKeyboardEnabled(this) && supportEnableIme()) {
       dialog.setOnShowListener(
           dialogInterface ->
               dialog
@@ -345,22 +349,22 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
         && talkBackForBrailleIme.getServiceStatus() != ServiceStatus.OFF;
   }
 
-  private boolean isImeEnabled() {
-    return KeyboardUtils.isImeEnabled(this, new ComponentName(this, BrailleIme.class.getName()));
-  }
-
   @VisibleForTesting
   Spanned getDialogMessageForImeEnabled() {
     String gboardName = getString(R.string.gboard_name);
-    String message =
-        this.getString(
+    String gboardMessage =
+        getString(R.string.use_brailleime_pref_dialog_case_ime_enabled_gboard, gboardName);
+    StringBuilder message = new StringBuilder();
+    message.append(
+        getString(
             R.string.use_brailleime_pref_dialog_case_ime_enabled,
             KEYBOARD_ICON_TOKEN,
-            getString(R.string.braille_ime_service_name),
-            gboardName);
+            getString(R.string.braille_ime_service_name)));
+    if (PackageManagerUtils.hasGmsCorePackage(this)) {
+      message.append("\n\n").append(gboardMessage);
+    }
 
-    SpannableString spannableMessageString =
-        SpannableString.valueOf(HtmlCompat.fromHtml(message, HtmlCompat.FROM_HTML_MODE_LEGACY));
+    SpannableString spannableMessageString = SpannableString.valueOf(message);
     spannableMessageString = replaceKeyboardIconTokenToIconDrawable(spannableMessageString);
     if (SettingsUtils.allowLinksOutOfSettings(this)) {
       insertHyperLinkToSubString(spannableMessageString, gboardName);
@@ -372,17 +376,25 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
   @VisibleForTesting
   Spanned getDialogMessageForImeDisabled() {
     String gboardName = getString(R.string.gboard_name);
-    String message =
+    String gboardMessage =
+        getString(
+            supportEnableIme()
+                ? R.string.use_brailleime_pref_dialog_case_ime_disabled_turn_on_gboard
+                : R.string.use_brailleime_pref_dialog_case_ime_enabled_gboard,
+            gboardName);
+    StringBuilder message = new StringBuilder();
+    message.append(
         this.getString(
             /* resId= */ supportEnableIme()
                 ? R.string.use_brailleime_pref_dialog_case_ime_disabled_turn_on
                 : R.string.use_brailleime_pref_dialog_case_ime_disabled_settings,
             getString(R.string.braille_ime_service_name),
-            KEYBOARD_ICON_TOKEN,
-            gboardName);
+            KEYBOARD_ICON_TOKEN));
+    if (PackageManagerUtils.hasGmsCorePackage(this)) {
+      message.append("\n\n").append(gboardMessage);
+    }
 
-    SpannableString spannableMessageString =
-        SpannableString.valueOf(HtmlCompat.fromHtml(message, HtmlCompat.FROM_HTML_MODE_LEGACY));
+    SpannableString spannableMessageString = SpannableString.valueOf(message);
     spannableMessageString = replaceKeyboardIconTokenToIconDrawable(spannableMessageString);
     if (SettingsUtils.allowLinksOutOfSettings(this)) {
       insertHyperLinkToSubString(spannableMessageString, gboardName);
@@ -419,7 +431,7 @@ public class BrailleImePreferencesActivity extends PreferencesActivity {
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-          if (BrailleImePreferencesActivity.this.isImeEnabled()) {
+          if (BrailleCommonUtils.isBrailleKeyboardEnabled(BrailleImePreferencesActivity.this)) {
             finishActivity(REQUEST_CODE_IME_SETTINGS);
           }
         }

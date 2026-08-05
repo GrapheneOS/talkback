@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.common.translate;
 
 import static com.google.android.accessibility.braille.common.ImeConnection.AnnounceType.NORMAL;
@@ -33,7 +49,7 @@ public abstract class EditBufferContracted implements EditBuffer {
   private static final String NEW_LINE = "\n";
   private static final int DELETE_WORD_MAX = 50;
   private final Context context;
-  private final BrailleTranslator translator;
+  protected final BrailleTranslator translator;
   private final BrailleWord holdings = new BrailleWord();
   private final TalkBackSpeaker talkBack;
   /**
@@ -211,33 +227,6 @@ public abstract class EditBufferContracted implements EditBuffer {
   }
 
   @Override
-  public boolean moveCursorToBeginning(ImeConnection imeConnection) {
-    commit(imeConnection);
-    return imeConnection.inputConnection.setSelection(0, 0);
-  }
-
-  @Override
-  public boolean moveCursorToEnd(ImeConnection imeConnection) {
-    commit(imeConnection);
-    int end = EditBufferUtils.getTextFieldText(imeConnection.inputConnection).length();
-    return imeConnection.inputConnection.setSelection(end, end);
-  }
-
-  @Override
-  public boolean selectAllText(ImeConnection imeConnection) {
-    if (!holdings.isEmpty()) {
-      commit(imeConnection);
-    }
-    String textFieldText = EditBufferUtils.getTextFieldText(imeConnection.inputConnection);
-    boolean result = imeConnection.inputConnection.setSelection(0, textFieldText.length());
-    if (result) {
-      EditBufferUtils.speakSelectAll(context, talkBack, textFieldText);
-      return true;
-    }
-    return false;
-  }
-
-  @Override
   public HoldingsInfo getHoldingsInfo(ImeConnection imeConnection) {
     return HoldingsInfo.create(ByteBuffer.wrap(holdings.toByteArray()), holdingPosition);
   }
@@ -298,6 +287,7 @@ public abstract class EditBufferContracted implements EditBuffer {
 
     int textCursorStartIndex = getTextCursorStartIndex(imeConnection.inputConnection);
 
+    checkSpaceBetweenNumberAndChar(imeConnection, holdingsBeforeCursor);
     imeConnection.inputConnection.commitText(
         holdingsBeforeCursor + appendix + holdingsAfterCursor, /* newCursorPosition= */ 1);
 
@@ -308,6 +298,10 @@ public abstract class EditBufferContracted implements EditBuffer {
 
     holdings.clear();
     holdingPosition = NO_CURSOR;
+  }
+
+  protected void checkSpaceBetweenNumberAndChar(ImeConnection imeConnection, String appendedText) {
+    // This method is only for some specific brailles, such as Korean.
   }
 
   private int getTextCursorStartIndex(InputConnection inputConnection) {
@@ -332,7 +326,7 @@ public abstract class EditBufferContracted implements EditBuffer {
     return sb.toString();
   }
 
-  private String getAnnouncement(
+  protected String getAnnouncement(
       Resources resources, BrailleTranslator translator, BrailleWord brailleWord, int index) {
     BrailleCharacter brailleCharacter = brailleWord.get(index);
     String result = getNonInitialCharacterTranslation(resources, brailleCharacter);
@@ -375,7 +369,7 @@ public abstract class EditBufferContracted implements EditBuffer {
     return translation;
   }
 
-  private String getTextToSpeak(Resources resources, BrailleCharacter brailleCharacter) {
+  protected String getTextToSpeak(Resources resources, BrailleCharacter brailleCharacter) {
     if (brailleCharacter.equals(getCapitalize())) {
       return resources.getString(R.string.capitalize_announcement);
     } else if (brailleCharacter.equals(getNumeric())) {

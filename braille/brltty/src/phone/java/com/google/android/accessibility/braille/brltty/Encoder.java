@@ -18,6 +18,7 @@ package com.google.android.accessibility.braille.brltty;
 
 import android.content.Context;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 /** Encodes messages to, and decodes messages from, a braille display. */
@@ -26,8 +27,6 @@ public interface Encoder {
   /** Factory for creating Encoder. */
   interface Factory {
     Encoder createEncoder(Context context, Callback callback);
-
-    Predicate<String> getDeviceNameFilter();
   }
 
   /** The callback. */
@@ -43,7 +42,8 @@ public interface Encoder {
    * <p>The implementation of this method is expected to block while it performs cross-device
    * handshaking, which will involve packets being sent back and forth.
    */
-  Optional<BrailleDisplayProperties> start(String name, String parameters);
+  Optional<BrailleDisplayProperties> start(
+      String name, int vendorId, int prodId, boolean useHid, String parameters);
 
   /** Stops this instance. */
   void stop();
@@ -56,4 +56,10 @@ public interface Encoder {
 
   /** Reads the current command from the remote device, if any; otherwise returns -1. */
   int readCommand();
+
+  /** Returns a device name matches the filter. */
+  Predicate<String> getDeviceNameFilter();
+
+  /** Returns a vendor and product IDs match the filter. */
+  BiPredicate<Integer, Integer> getDeviceVendorProdIdFilter();
 }

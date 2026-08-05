@@ -20,6 +20,7 @@ import static android.view.View.ACCESSIBILITY_LIVE_REGION_NONE;
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_TYPE_VIEW_SELECTED;
 import static com.google.android.accessibility.talkback.compositor.TalkBackFeedbackProvider.EMPTY_FEEDBACK;
 import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_INTERRUPT;
+import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH;
 import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH;
 
 import android.text.TextUtils;
@@ -111,11 +112,11 @@ public final class EventTypeViewSelectedFeedbackRule {
             event, preferredLocale);
     int role = Role.getRole(node);
     switch (role) {
-      case Role.ROLE_SEEK_CONTROL:
+      case Role.ROLE_SEEK_CONTROL -> {
         output = roleDescriptionExtractor.nodeRoleDescriptionText(node, event);
         LogUtils.v(TAG, "computeTtsOutput(): role= seekBar, ttsOutput= nodeRoleDescriptionText");
-        break;
-      case Role.ROLE_PROGRESS_BAR:
+      }
+      case Role.ROLE_PROGRESS_BAR -> {
         StringBuilder log = new StringBuilder();
         log.append("role= progressBar");
         boolean hasUniqueEventText =
@@ -138,10 +139,11 @@ public final class EventTypeViewSelectedFeedbackRule {
         log.append(", nodeIsAccessibilityFocused=").append(node.isAccessibilityFocused());
         log.append(", nodeLiveRegion=").append(node.getLiveRegion());
         LogUtils.v(TAG, "computeTtsOutput(): %s", log.toString());
-        break;
-      default:
+      }
+      default -> {
         output = eventDescription;
         LogUtils.v(TAG, "computeTtsOutput(): role= %d, ttsOutput= eventDescription", role);
+      }
     }
     return Optional.of(output);
   }
@@ -149,7 +151,7 @@ public final class EventTypeViewSelectedFeedbackRule {
   private static int queueMode(AccessibilityNodeInfoCompat node, int role) {
     if (role == Role.ROLE_PROGRESS_BAR) {
       return (node.getLiveRegion() == ACCESSIBILITY_LIVE_REGION_ASSERTIVE)
-          ? QUEUE_MODE_INTERRUPT
+          ? QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH
           : QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH;
     } else if (role == Role.ROLE_ACTION_BAR_TAB || role == Role.ROLE_TAB_BAR) {
       return QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH;

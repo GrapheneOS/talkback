@@ -116,7 +116,7 @@ public class LabelSeparator {
 
     @Override
     public boolean equals(Object obj) {
-      if (obj == null || !(obj instanceof LabelWrapper)) {
+      if (!(obj instanceof LabelWrapper)) {
         return false;
       }
 

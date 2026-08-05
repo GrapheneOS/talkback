@@ -26,18 +26,19 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
-import androidx.preference.DialogPreference;
-import com.google.android.accessibility.talkback.FeatureFlagReader;
+import com.google.android.accessibility.material.preference.AccessibilitySuiteDialogPreference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.GestureReporter;
 import com.google.android.accessibility.talkback.actor.ImageCaptioner;
+import com.google.android.accessibility.talkback.actor.gemini.GeminiConfiguration;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.utils.TalkbackFeatureSupport;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
-import com.google.android.accessibility.utils.preference.AccessibilitySuiteDialogPreference;
+import com.google.android.accessibility.utils.StringBuilderUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Retention;
@@ -69,11 +70,9 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
   private String initialValue;
   // A customized summary which is used when the preference is in disable state
   @Nullable private String summaryWhenDisabled;
-  private final FormFactorUtils formFactorUtils;
 
   public GestureListPreference(Context context, AttributeSet attributeSet) {
     super(context, attributeSet);
-    formFactorUtils = FormFactorUtils.getInstance();
     // Change preference title to multi-line style.
     setSingleLineTitle(false);
     populateActionItems();
@@ -119,7 +118,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
 
   /** The setter of the preference value. */
   public void setValue(String value) {
-    SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
+    SharedPreferences sharedPreferences = SharedPreferencesUtils.getSharedPreferences(getContext());
     sharedPreferences.edit().putString(getKey(), value).apply();
   }
 
@@ -134,7 +133,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
    */
   public String getCurrentValue() {
     String targetValue =
-        getPreferenceManager().getSharedPreferences().getString(getKey(), initialValue);
+        SharedPreferencesUtils.getSharedPreferences(getContext()).getString(getKey(), initialValue);
 
     // returns "TALKBACK_BREAKOUT" if targetText is "LOCAL_BREAKOUT"
     if (TextUtils.equals(
@@ -202,7 +201,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
     Resources resources = getContext().getResources();
 
     // TODO: Remove scroll left/right/up/down once 2-finger pass through is ready.
-    if (FeatureSupport.isMultiFingerGestureSupported() && !formFactorUtils.isAndroidWear()) {
+    if (FeatureSupport.isMultiFingerGestureSupported() && !FormFactorUtils.isAndroidWear()) {
       builder.add(
           new ActionItem(
               resources.getString(R.string.shortcut_scroll_up),
@@ -222,6 +221,37 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
           new ActionItem(
               resources.getString(R.string.shortcut_scroll_right),
               resources.getString(R.string.shortcut_value_scroll_right),
+              TYPE_ACTION_ITEM));
+    }
+
+    if (FeatureFlagReader.enableTableNavigation(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_row_up),
+              resources.getString(R.string.shortcut_value_row_up),
+              TYPE_ACTION_ITEM));
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_row_down),
+              resources.getString(R.string.shortcut_value_row_down),
+              TYPE_ACTION_ITEM));
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_column_left),
+              resources.getString(R.string.shortcut_value_column_left),
+              TYPE_ACTION_ITEM));
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_column_right),
+              resources.getString(R.string.shortcut_value_column_right),
+              TYPE_ACTION_ITEM));
+    }
+
+    if (FeatureFlagReader.enableDoubleClickKeyboard(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_perform_double_click_action),
+              resources.getString(R.string.shortcut_value_perform_double_click_action),
               TYPE_ACTION_ITEM));
     }
 
@@ -256,11 +286,28 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
   }
 
   private ImmutableList<ActionItem> createReadingControl() {
-    return createActionListBuilder(
+    ImmutableList.Builder<ActionItem> builder =
+        createActionListBuilder(
             R.string.shortcut_title_reading_control,
             R.array.shortcut_reading_control,
-            R.array.shortcut_value_reading_control)
-        .build();
+            R.array.shortcut_value_reading_control);
+    if (FeatureFlagReader.enableTextFormattingInline(getContext())) {
+      Resources resources = getContext().getResources();
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.title_switch_text_formatting),
+              resources.getString(R.string.shortcut_value_control_text_formatting),
+              TYPE_ACTION_ITEM));
+    }
+    if (FeatureFlagReader.enableTextFormattingSummary(getContext())) {
+      Resources resources = getContext().getResources();
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.title_text_formatting_menu),
+              resources.getString(R.string.shortcut_value_describe_text_formatting),
+              TYPE_ACTION_ITEM));
+    }
+    return builder.build();
   }
 
   private ImmutableList<ActionItem> createMenuControl() {
@@ -278,7 +325,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             R.array.shortcut_text_editing,
             R.array.shortcut_value_text_editing);
     Resources resources = getContext().getResources();
-    if (FeatureSupport.supportSwitchToInputMethod() && !formFactorUtils.isAndroidWear()) {
+    if (FeatureSupport.supportSwitchToInputMethod() && !FormFactorUtils.isAndroidWear()) {
       builder.add(
           new ActionItem(
               resources.getString(R.string.shortcut_braille_keyboard),
@@ -294,10 +341,34 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
     Resources resources = getContext().getResources();
 
     if (FeatureSupport.supportMediaControls()) {
+      // Due to the PH flag should controls the default 2-fingers double tap actions as well but the
+      // default is set in xml which does not apply for PH flag. This is a trick that it always
+      // invoke voice input + media control action but in the case the flag is false, this action
+      // only direct to media control. This design makes we can use the PH flag to control on the
+      // air without duplicating xml file.
       builder.add(
           new ActionItem(
-              resources.getString(R.string.shortcut_media_control),
-              resources.getString(R.string.shortcut_value_media_control),
+              resources.getString(
+                  FeatureFlagReader.enableVoiceDictationShortcut(getContext())
+                      ? R.string.shortcut_media_control_or_voice_input
+                      : R.string.shortcut_media_control),
+              resources.getString(R.string.shortcut_value_media_control_or_voice_input),
+              TYPE_ACTION_ITEM));
+
+      if (FeatureFlagReader.enableVoiceDictationShortcut(getContext())) {
+        builder.add(
+            new ActionItem(
+                resources.getString(R.string.shortcut_media_control),
+                resources.getString(R.string.shortcut_value_media_control),
+                TYPE_ACTION_ITEM));
+      }
+    }
+
+    if (FeatureFlagReader.enableVoiceDictationShortcut(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_voice_input),
+              resources.getString(R.string.shortcut_value_voice_input),
               TYPE_ACTION_ITEM));
     }
 
@@ -321,7 +392,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               TYPE_ACTION_ITEM));
     }
 
-    if (!formFactorUtils.isAndroidWear()) {
+    if (!FormFactorUtils.isAndroidWear()) {
       builder.add(
           new ActionItem(
               resources.getString(R.string.title_show_screen_search),
@@ -380,7 +451,78 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.shortcut_value_tutorial),
             TYPE_ACTION_ITEM));
 
-    if (!formFactorUtils.isAndroidWear()) {
+    // TODO: We hide it for phone because the announcement is too verbose upon wakeup.
+    //  making it not as helpful as wear devices. After we have overall review of speaking time on
+    //  phone and fix all technical issues, we would reopen it for phones.
+    if (FormFactorUtils.isAndroidWear()) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_control_speak_time),
+              resources.getString(R.string.shortcut_value_control_telling_time),
+              TYPE_ACTION_ITEM));
+    }
+
+    if (FeatureFlagReader.enableAnnounceBatteryState(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_announce_battery_state),
+              resources.getString(R.string.shortcut_value_announce_battery_state),
+              TYPE_ACTION_ITEM));
+    }
+
+    if (FeatureFlagReader.enableAnnounceCurrentTimeAndDate(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_announce_current_time_and_date),
+              resources.getString(R.string.shortcut_value_announce_current_time_and_date),
+              TYPE_ACTION_ITEM));
+    }
+
+    if (FeatureFlagReader.enableAnnounceCurrentTitle(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_announce_current_title),
+              resources.getString(R.string.shortcut_value_announce_current_title),
+              TYPE_ACTION_ITEM));
+    }
+
+    if (FeatureFlagReader.enableAnnouncePhoneticPronunciation(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_announce_phonetic_pronunciation),
+              resources.getString(R.string.shortcut_value_announce_phonetic_pronunciation),
+              TYPE_ACTION_ITEM));
+    }
+
+    if (FeatureFlagReader.enableSpeechPitchKeyboard(getContext())) {
+      builder
+          .add(
+              new ActionItem(
+                  resources.getString(R.string.shortcut_speech_pitch_decrease),
+                  resources.getString(R.string.shortcut_value_speech_pitch_decrease),
+                  TYPE_ACTION_ITEM))
+          .add(
+              new ActionItem(
+                  resources.getString(R.string.shortcut_speech_pitch_increase),
+                  resources.getString(R.string.shortcut_value_speech_pitch_increase),
+                  TYPE_ACTION_ITEM));
+    }
+
+    if (FeatureFlagReader.enableSpeechRateKeyboard(getContext())) {
+      builder
+          .add(
+              new ActionItem(
+                  resources.getString(R.string.shortcut_speech_rate_decrease),
+                  resources.getString(R.string.shortcut_value_speech_rate_decrease),
+                  TYPE_ACTION_ITEM))
+          .add(
+              new ActionItem(
+                  resources.getString(R.string.shortcut_speech_rate_increase),
+                  resources.getString(R.string.shortcut_value_speech_rate_increase),
+                  TYPE_ACTION_ITEM));
+    }
+
+    if (!FormFactorUtils.isAndroidWear()) {
       builder.add(
           new ActionItem(
               resources.getString(R.string.shortcut_practice_gestures),
@@ -411,6 +553,13 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               resources.getString(R.string.title_image_caption),
               resources.getString(R.string.shortcut_value_describe_image),
               TYPE_ACTION_ITEM));
+      if (GeminiConfiguration.screenOverviewEnabled(getContext())) {
+        builder.add(
+            new ActionItem(
+                resources.getString(R.string.title_summarize_view),
+                resources.getString(R.string.shortcut_value_screen_overview),
+                TYPE_ACTION_ITEM));
+      }
     }
 
     return builder.build();
@@ -493,6 +642,16 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
         listBuilder.add(new ActionItem(texts[i], values[i], TYPE_ACTION_ITEM));
       }
       return listBuilder.build();
+    }
+
+    @Override
+    public String toString() {
+      return "ActionItem={ "
+          + StringBuilderUtils.joinFields(
+              StringBuilderUtils.optionalText("title", text),
+              StringBuilderUtils.optionalText("value", value),
+              StringBuilderUtils.optionalInt("viewType", viewType, /* defaultValue= */ -1))
+          + "}";
     }
   }
 }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2024 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="true">
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_above="@+id/caption_result_button_bar"
+      android:paddingBottom="@dimen/image_caption_bottom_sheet_padding">
+
+    <LinearLayout
+        android:id="@+id/caption_result_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/bottomsheet_dialog_title"
+          android:text="@string/title_gemini_result_bottom_sheet"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:textSize="24sp"
+          android:paddingBottom="@dimen/image_caption_bottom_sheet_padding"/>
+
+      <ImageView
+          android:id="@+id/gemini_spark"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          android:paddingBottom="@dimen/image_caption_bottom_sheet_padding"
+          android:layout_gravity="start"
+          android:src="@drawable/ic_gemini_spark"
+          android:importantForAccessibility="no"/>
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/image_description_result_bottomsheet"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="16sp"
+          android:paddingTop="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingBottom="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingStart="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingEnd="@dimen/image_caption_bottom_sheet_padding"/>
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/icon_detection_result_bottomsheet"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="16sp"
+          android:paddingTop="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingBottom="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingStart="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingEnd="@dimen/image_caption_bottom_sheet_padding"
+          android:visibility="gone"/>
+
+      <androidx.appcompat.widget.AppCompatTextView
+          android:id="@+id/ocr_result_bottomsheet"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="16sp"
+          android:paddingTop="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingBottom="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingStart="@dimen/image_caption_bottom_sheet_padding"
+          android:paddingEnd="@dimen/image_caption_bottom_sheet_padding"
+          android:visibility="gone"/>
+
+    </LinearLayout>
+  </ScrollView>
+
+  <LinearLayout
+      android:id="@+id/caption_result_button_bar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_alignParentBottom="true"
+      android:paddingStart="@dimen/image_caption_bottom_sheet_padding"
+      android:paddingEnd="@dimen/image_caption_bottom_sheet_padding"
+      android:paddingBottom="@dimen/image_caption_bottom_sheet_padding">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ask_gemini"
+        style="@style/ImageQnaLeftIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:text="@string/image_qna_button_text"
+        android:textSize="16sp"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconSize="@dimen/bottom_sheet_icon_button_size"
+        app:icon="@drawable/ic_mic"
+        app:iconTint="@null"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ask_gemini_typing"
+        style="@style/ImageQnaRightIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/image_qna_typing_button_text"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/bottom_sheet_icon_button_size"
+        app:icon="@drawable/ic_keyboard"
+        app:iconTint="@null"/>
+  </LinearLayout>
+</RelativeLayout>

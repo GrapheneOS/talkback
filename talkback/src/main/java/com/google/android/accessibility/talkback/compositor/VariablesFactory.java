@@ -22,7 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.compositor.parsetree.ParseTree;
 import com.google.android.accessibility.talkback.compositor.parsetree.ParseTree.VariableDelegate;
-import com.google.android.accessibility.utils.ImageContents;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 
 /** Provides an interface for creating VariableDelegates for the Compositor. */
 class VariablesFactory {

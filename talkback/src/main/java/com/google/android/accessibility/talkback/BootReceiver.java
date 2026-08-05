@@ -38,17 +38,12 @@ public class BootReceiver extends BroadcastReceiver {
     // We need to ensure that onLockedBootCompleted() and onUnlockedBootCompleted() are called
     // *in that order* to properly set up TalkBack.
     switch (intent.getAction()) {
-      case Intent.ACTION_LOCKED_BOOT_COMPLETED:
-        // Only N+ devices will get this intent (even if they don't have FBE enabled).
-        service.onLockedBootCompleted(eventId);
-        break;
-      case Intent.ACTION_BOOT_COMPLETED:
-        service.onUnlockedBootCompleted();
-        break;
-      case Intent.ACTION_SHUTDOWN:
-        service.onShutDown();
-        break;
-      default: // fall out
+      case Intent.ACTION_LOCKED_BOOT_COMPLETED ->
+          // Only N+ devices will get this intent (even if they don't have FBE enabled).
+          service.onLockedBootCompleted(eventId);
+      case Intent.ACTION_BOOT_COMPLETED -> service.onUnlockedBootCompleted();
+      case Intent.ACTION_SHUTDOWN -> service.onShutDown();
+      default -> {}
     }
   }
 

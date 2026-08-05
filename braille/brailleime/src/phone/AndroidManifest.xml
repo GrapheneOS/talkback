@@ -29,29 +29,25 @@
     </service>
     <activity
         android:name="com.google.android.accessibility.brailleime.settings.BrailleImePreferencesActivity"
-        android:configChanges="orientation|screenSize"
-        android:exported="true"
+        android:configChanges="keyboard|keyboardHidden"
+        android:exported="false"
         android:label="@string/braille_keyboard"
         android:launchMode="singleTop"
         android:taskAffinity=""
-        android:theme="@style/SettingsTheme"
-        tools:ignore="ExportedActivity"
-        >
-      <intent-filter>
-        <action android:name=".BrailleImePreferencesActivity" />
-        <category android:name="android.intent.category.DEFAULT" />
-      </intent-filter>
+        android:theme="@style/SettingsTheme">
     </activity>
     <activity
         android:name="com.google.android.accessibility.brailleime.settings.BrailleImeGestureActivity"
         android:label="@string/braille_keyboard_gestures"
+        android:configChanges="keyboard|keyboardHidden"
         android:exported="false"
-        android:theme="@style/BrailleSettingsTheme" >
+        android:theme="@style/BrailleImeTheme" >
     </activity>
     <activity
         android:name="com.google.android.accessibility.brailleime.settings.BrailleImeGestureCommandActivity"
         android:exported="false"
-        android:theme="@style/BrailleSettingsTheme" />
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
+        android:theme="@style/BrailleImeTheme" />
 
     <receiver android:name="com.google.android.accessibility.brailleime.MyPackageReplacedReceiver"
         android:enabled="true"

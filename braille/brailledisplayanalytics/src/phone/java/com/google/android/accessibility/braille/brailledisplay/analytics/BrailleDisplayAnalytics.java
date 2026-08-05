@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.brailledisplay.analytics;
 
 import android.content.Context;
@@ -17,13 +33,39 @@ public class BrailleDisplayAnalytics {
 
   private BrailleDisplayAnalytics(Context context) {}
 
+  public void startDailyLogging() {}
+
+  public void stopDailyLogging() {}
+
   public void logStartedEvent(
-      String device,
+      String driverCode,
+      String deviceName,
       Code inputCode,
       Code outputCode,
       boolean inputContracted,
       boolean outputContracted,
+      boolean supportHid,
+      boolean bluetoothDevice) {}
+
+  public void logConnectAttempt(
+      String driverCode,
+      String deviceName,
+      boolean manualConnect,
       DeviceProvider<?> deviceProvider) {}
+
+  public void logConnectionAttemptHidStart() {}
+
+  public void logConnectionAttemptRfcommStart() {}
+
+  public void logConnectionAttemptSerialStart() {}
+
+  public void logHidConnectRecord(boolean success) {}
+
+  public void logRfcommConnectRecord(boolean success) {}
+
+  public void logBrlttyConnectRecord(boolean success) {}
+
+  public void logConnectionAttemptReset() {}
 
   public void logTypingBrailleCharacter(int count) {}
 
@@ -33,15 +75,23 @@ public class BrailleDisplayAnalytics {
 
   public void logBrailleOutputCodeSetting(Code code, boolean contracted) {}
 
-  public void logWordWrappingSetting(boolean enabled) {}
+  public void logChangeTypingMode(boolean toPhysical) {}
 
-  public void logStartToEstablishBluetoothConnection() {}
+  public void logAutoConnectSetting(boolean enabled) {}
+
+  public void logEnablerSetting(boolean enabled) {}
+
+  public void logBrailleCommand(int command) {}
+
+  public void logStartToEstablishRfcommConnection(boolean initial) {}
+
+  public void logStartToEstablishHidConnection(boolean initial) {}
+
+  public void logStartToConnectToSerialConnection(boolean initial) {}
 
   public void logStartToConnectToBrailleDisplay() {}
 
-  public void logChangeTypingMode(boolean toPhysical) {}
-
-  public void logBrailleCommand(int command) {}
+  public void logConnectionReset() {}
 
   public void logBlinkRate(int millisecond) {}
 
@@ -49,7 +99,7 @@ public class BrailleDisplayAnalytics {
 
   public void logTimedMessageDurationMs(int millisecond) {}
 
-  public void logAutoConnectSetting(boolean enabled) {}
+  public void logPopupUsage() {}
 
-  public void logEnablerSetting(boolean enabled) {}
+  public void logCaptionUsage() {}
 }

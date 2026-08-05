@@ -20,6 +20,7 @@ import static com.google.android.accessibility.brailleime.tutorial.TutorialView.
 import static com.google.android.accessibility.brailleime.tutorial.TutorialView.ROTATION_180;
 import static com.google.android.accessibility.brailleime.tutorial.TutorialView.ROTATION_270;
 import static com.google.android.accessibility.brailleime.tutorial.TutorialView.ROTATION_90;
+import static com.google.android.accessibility.utils.BuildVersionUtils.isRobolectric;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -103,7 +104,7 @@ class DotsFlashingAnimationView extends View implements OrientationSensitive {
             // This might not be a good solution but it works, do not start animator because
             // Robolectric tests run on main thread also, otherwise animator will repeat in endless
             // loop and cause the test timeout.
-            if (!Utils.isRobolectric()) {
+            if (!isRobolectric()) {
               animator.start();
             }
           }

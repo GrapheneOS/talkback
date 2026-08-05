@@ -27,14 +27,13 @@ public class DiagnosticOverlayControllerImpl implements DiagnosticOverlayControl
   private @Nullable DiagnosticOverlay diagnosticOverlay;
   private @Nullable HighlightOverlay highlightOverlay;
 
-  @NonNull
-  private static HashMap<Integer, AccessibilityNodeInfoCompat> traversedIdToNode = new HashMap<>();
-
-  @NonNull
-  private static HashMap<Integer, ArrayList<AccessibilityNodeInfoCompat>> unfocusedIdToNode =
+  private static @NonNull HashMap<Integer, AccessibilityNodeInfoCompat> traversedIdToNode =
       new HashMap<>();
 
-  @NonNull private static HashSet<AccessibilityNode> refocusNodePath = new HashSet<>();
+  private static @NonNull HashMap<Integer, ArrayList<AccessibilityNodeInfoCompat>>
+      unfocusedIdToNode = new HashMap<>();
+
+  private static @NonNull HashSet<AccessibilityNode> refocusNodePath = new HashSet<>();
 
   private static boolean collectNodes;
 
@@ -138,19 +137,21 @@ public class DiagnosticOverlayControllerImpl implements DiagnosticOverlayControl
   @SuppressLint("SwitchIntDef") // Only some event-types are filtered out.
   public void displayEvent(AccessibilityEvent event) {
     switch (event.getEventType()) {
-      case AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_START:
-      case AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_END:
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START:
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END:
-      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED:
-      case AccessibilityEvent.TYPE_VIEW_HOVER_ENTER:
-      case AccessibilityEvent.TYPE_VIEW_HOVER_EXIT:
+      case AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_START,
+          AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_END,
+          AccessibilityEvent.TYPE_TOUCH_INTERACTION_START,
+          AccessibilityEvent.TYPE_TOUCH_INTERACTION_END,
+          AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED,
+          AccessibilityEvent.TYPE_VIEW_HOVER_ENTER,
+          AccessibilityEvent.TYPE_VIEW_HOVER_EXIT -> {
         return;
-      default:
+      }
+      default -> {
         if (diagnosticOverlay != null) {
           CharSequence text = AccessibilityEventUtils.toStringShort(event);
           diagnosticOverlay.displayText(text);
         }
+      }
     }
   }
 

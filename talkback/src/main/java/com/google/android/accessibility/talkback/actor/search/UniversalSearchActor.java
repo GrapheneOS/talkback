@@ -27,12 +27,16 @@ import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.actor.DimScreenActor.InitSearchScreenOverlay;
+import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.labeling.TalkBackLabelManager;
+import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.utils.AccessibilityNode;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.monitor.InputDeviceMonitor;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
@@ -41,7 +45,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Toggle search actions performer */
-public class UniversalSearchActor {
+public class UniversalSearchActor implements InitSearchScreenOverlay {
   private Context context;
   private TalkBackService talkBackService;
   private SearchScreenOverlay searchScreenOverlay;
@@ -67,6 +71,10 @@ public class UniversalSearchActor {
     public boolean isUiVisible() {
       return UniversalSearchActor.this.isUiVisible();
     }
+
+    public @Nullable CharSequence getLastKeyword() {
+      return searchScreenOverlay.getLastKeyword();
+    }
   }
 
   public State state = new State();
@@ -75,15 +83,22 @@ public class UniversalSearchActor {
       TalkBackService talkBackService,
       ScreenStateMonitor.State screenState,
       FocusFinder focusFinder,
-      TalkBackLabelManager labelManager) {
+      TalkBackLabelManager labelManager,
+      InputDeviceMonitor inputDeviceMonitor) {
     this.context = talkBackService;
     this.talkBackService = talkBackService;
     this.screenState = screenState;
 
     // Search mode should receive key combos immediately after the TalkBackService.
-    searchScreenOverlay = new SearchScreenOverlay(talkBackService, focusFinder, labelManager);
+    searchScreenOverlay =
+        new SearchScreenOverlay(talkBackService, focusFinder, labelManager, inputDeviceMonitor);
 
     currentConfig = new Configuration(context.getResources().getConfiguration());
+  }
+
+  @Override
+  public void initOverlay() {
+    searchScreenOverlay.initOverlay();
   }
 
   // For testing
@@ -96,6 +111,10 @@ public class UniversalSearchActor {
     searchScreenOverlay.setPipeline(pipeline);
   }
 
+  public void setSelectorController(SelectorController controller) {
+    searchScreenOverlay.setSelectorController(controller);
+  }
+
   /** Toggles search mode. */
   public void toggleSearch(EventId eventId) {
     if (isUiVisible()) {
@@ -103,6 +122,11 @@ public class UniversalSearchActor {
     } else {
       startSearch();
     }
+  }
+
+  /** Shows various list on screen search according to the list type. */
+  public void showVariousList(EventId eventId, SearchScreenNodeStrategy.ListType listType) {
+    searchScreenOverlay.showVariousList(eventId, listType);
   }
 
   // Called when configuration change. Then determine whether densityDPI, fontScale or layout
@@ -147,6 +171,17 @@ public class UniversalSearchActor {
         "Search canceled due to can't find initialFocusedWindow below screen search after window"
             + " changed.");
     cancelSearch(eventId);
+  }
+
+  /**
+   * Moves focus to next node after current focused-node, which matches target-keyword. Returns
+   * success flag.
+   */
+  public boolean searchAndFocus(
+      boolean startAtRoot,
+      @Nullable final CharSequence target,
+      DirectionNavigationActor directionNavigator) {
+    return searchScreenOverlay.searchAndFocus(startAtRoot, target, directionNavigator);
   }
 
   /** Starts search mode. */

@@ -37,6 +37,8 @@ import com.google.android.accessibility.utils.traversal.TraversalStrategy.Search
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirectionOrUnknown;
 import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.HashSet;
+import java.util.Set;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -47,7 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public class ScrollableNodeInfo {
   private final AccessibilityNodeInfoCompat node;
-  private final boolean isRtl;
+  private final boolean rtl;
   private boolean supportsUpDownScrolling;
   private boolean supportsLeftRightScrolling;
 
@@ -57,12 +59,12 @@ public class ScrollableNodeInfo {
    * Creates a wrapper with the given scrollable {@code node}.
    *
    * @param node scrollable {@link AccessibilityNodeInfoCompat}
-   * @param isRtl {@code true} if the ui locale is right-to-left. It is Required for mapping logical
+   * @param rtl {@code true} if the ui locale is right-to-left. It is Required for mapping logical
    *     to spatial directions.
    */
-  public ScrollableNodeInfo(@NonNull AccessibilityNodeInfoCompat node, boolean isRtl) {
+  public ScrollableNodeInfo(@NonNull AccessibilityNodeInfoCompat node, boolean rtl) {
     this.node = node;
-    this.isRtl = isRtl;
+    this.rtl = rtl;
     initSupportedDirections();
   }
 
@@ -115,15 +117,15 @@ public class ScrollableNodeInfo {
             searchDirection == SEARCH_FOCUS_FORWARD ? SEARCH_FOCUS_DOWN : SEARCH_FOCUS_UP);
       }
       if (supportsLeftRightScrolling) {
-        @SearchDirection int forward = isRtl ? SEARCH_FOCUS_LEFT : SEARCH_FOCUS_RIGHT;
-        @SearchDirection int backward = isRtl ? SEARCH_FOCUS_RIGHT : SEARCH_FOCUS_LEFT;
+        @SearchDirection int forward = rtl ? SEARCH_FOCUS_LEFT : SEARCH_FOCUS_RIGHT;
+        @SearchDirection int backward = rtl ? SEARCH_FOCUS_RIGHT : SEARCH_FOCUS_LEFT;
         return getDirectionIfNativelySupported(
             searchDirection == SEARCH_FOCUS_FORWARD ? forward : backward);
       }
     }
     if (TraversalStrategyUtils.isSpatialDirection(searchDirection)) {
       return getDirectionIfNativelySupported(
-          TraversalStrategyUtils.getLogicalDirection(searchDirection, isRtl));
+          TraversalStrategyUtils.getLogicalDirection(searchDirection, rtl));
     }
 
     return null;
@@ -169,48 +171,59 @@ public class ScrollableNodeInfo {
    * @param direction The direction in which a scroll is requested.
    * @param pivot The node for which an ancestor is searched.
    * @param includeSelf Whether the {@code pivot} is allowed to be the ancestor.
-   * @param isRtl Whether the window has RTL direction. This is required to map logical to spatial
+   * @param rtl Whether the window has RTL direction. This is required to map logical to spatial
    *     direction and vice-versa.
    */
   public static @Nullable ScrollableNodeInfo findScrollableNodeForDirection(
       @SearchDirectionOrUnknown int direction,
       @NonNull AccessibilityNodeInfoCompat pivot,
       boolean includeSelf,
-      boolean isRtl) {
+      boolean rtl) {
     if (direction == TraversalStrategy.SEARCH_FOCUS_UNKNOWN) {
       return null;
     }
     if (includeSelf) {
-      ScrollableNodeInfo match = findMatchingScrollable(direction, pivot, isRtl);
+      ScrollableNodeInfo match = findMatchingScrollable(direction, pivot, rtl);
       if (match != null) {
         return match;
       }
     }
     if (pivot.getParent() != null) {
-      return findScrollableNodeForDirectionRecursive(direction, pivot.getParent(), isRtl);
+      Set<AccessibilityNodeInfoCompat> visited = new HashSet<>();
+      return findScrollableNodeForDirectionRecursive(direction, pivot.getParent(), rtl, visited);
     }
     return null;
   }
 
   private static @Nullable ScrollableNodeInfo findScrollableNodeForDirectionRecursive(
-      @SearchDirection int direction, @NonNull AccessibilityNodeInfoCompat node, boolean isRtl) {
-    ScrollableNodeInfo match = findMatchingScrollable(direction, node, isRtl);
+      @SearchDirection int direction,
+      @NonNull AccessibilityNodeInfoCompat node,
+      boolean rtl,
+      Set<AccessibilityNodeInfoCompat> visited) {
+    // If node already checked... quit.
+    if (node == null || visited.contains(node)) {
+      return null;
+    } else {
+      visited.add(node);
+    }
+
+    ScrollableNodeInfo match = findMatchingScrollable(direction, node, rtl);
     if (match != null) {
       return match;
     }
     if (node.getParent() != null) {
-      return findScrollableNodeForDirectionRecursive(direction, node.getParent(), isRtl);
+      return findScrollableNodeForDirectionRecursive(direction, node.getParent(), rtl, visited);
     }
     return null;
   }
 
   private static @Nullable ScrollableNodeInfo findMatchingScrollable(
-      @SearchDirection int direction, @NonNull AccessibilityNodeInfoCompat node, boolean isRtl) {
+      @SearchDirection int direction, @NonNull AccessibilityNodeInfoCompat node, boolean rtl) {
     if (!FILTER_AUTO_SCROLL.accept(node)) {
       return null;
     }
 
-    ScrollableNodeInfo scrollableNodeInfo = new ScrollableNodeInfo(node, isRtl);
+    ScrollableNodeInfo scrollableNodeInfo = new ScrollableNodeInfo(node, rtl);
     Integer supportedDirection = scrollableNodeInfo.getSupportedScrollDirection(direction);
     if (supportedDirection != null) {
       NodeActionFilter scrollableFilter =

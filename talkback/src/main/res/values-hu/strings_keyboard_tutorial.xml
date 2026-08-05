@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ez az útmutató a bővített billentyűzetkiosztáshoz készült, amely számos új parancsot tartalmaz. A billentyűzetkiosztás kiválasztásához lépjen a TalkBack beállításai &gt; Speciális beállítások &gt; Billentyűparancsok menüponthoz.\n\nEgy témakör kiválasztásához nyomja meg a Művelet + jobb nyíl billentyűkombinációt. A legjobb élmény elérése érdekében kapcsolja be a kezdés előtt a TalkBack szolgáltatást.</string>
+  <string name="basic_interaction_link_text">Alapvető interakció</string>
+  <string name="basic_interaction_link_subtext">Mozgás az elemek között, felolvasás soronként, menühasználat stb.</string>
+  <string name="browse_mode_link_text">Böngészés mód</string>
+  <string name="browse_mode_link_subtext">Ugróparancsokkal gyorsabban navigálhat a webes tartalmak között</string>
+  <string name="reading_controls_link_text">Felolvasásvezérlés</string>
+  <string name="reading_controls_link_subtext">A felolvasásvezérlőkkel ugrálhat az elemek között, módosíthatja a beszédbeállításokat stb.</string>
+  <string name="image_descriptions_link_text">Képleírások</string>
+  <string name="image_descriptions_link_subtext">A képleírások kérésének kipróbálása</string>
+  <string name="keyboard_shortcuts_link_text">Billentyűparancsok gyakorlása</string>
+  <string name="keyboard_shortcuts_link_subtext">Nyomja le a billentyűket és a billentyűkombinációkat, és ismerje meg a működésüket</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">A TalkBack hangos visszajelzést ad, így anélkül használhatja eszközét, hogy a képernyőre kellene néznie. A TalkBack hasznos lehet olyan felhasználók számára, akik nem látják jól a képernyőt. Ha a TalkBack funkció be van kapcsolva, a rendszer hangosan felolvassa a képernyőn fókuszban lévő elemet.\n\nElőször ismerkedjünk meg a billentyűzettel. Keresse meg a bal oldali Shift billentyű felett található Művelet billentyűt. Most pedig keresse meg a nyílbillentyűket a billentyűzet jobb alsó részén. A következő elemre való lépéshez nyomja le a Művelet + jobbra nyíl billentyűkombinációt.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Ez a következő elem. Az előző elemre a Művelet + balra nyíl billentyűkombinációval léphet.\n\nHa egy interaktív elemre (például egy gombra) lép, a Művelet + szóköz billentyűkombinációval aktiválhatja azt. Keresse meg a Tovább gombot, és folytassa az útmutatót.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Felolvasás karakterenként, szavanként vagy bekezdésenként</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Előfordulhat, hogy karakterenként szeretné meghallgatni az adott szöveget.\n\nEhhez a felolvasásvezérlés navigációs lehetőségeit használhatja. Nyomogassa addig a Művelet + Shift + jobbra nyíl vagy a Művelet + Shift + balra nyíl kombinációt, amíg el nem hangzik a „characters” (karakterek) szó.\n\nEzután nyomja le a Művelet + felfelé nyíl billentyűkombinációt a navigáció fókuszának egy karakterrel hátrébb történő helyezéséhez. Nyomja meg a Művelet + lefelé nyíl billentyűket a navigáció fókuszának egy karakterrel előrébb helyezéséhez.\n\nPróbálja ki most. A Művelet + Shift + jobbra vagy balra nyíl billentyűkombinációval a szavankénti, soronkénti vagy bekezdésenkénti felolvasást is választhatja.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Rendszernavigáció</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Ha most kipróbálja ezeket a billentyűparancsokat, akkor az útmutató bezárul. Érdemes lehet addig várnia, amíg be nem fejezte az útmutatót.\n\nA megnyitott alkalmazásablakok és a rendszer elemei (például az értesítések és a tálca) közötti ugráshoz nyomja le a Művelet + Alt + Ctrl + felfelé vagy lefelé nyíl billentyűkombinációt.\n\nAz alkalmazáslista megnyitásához nyomja le a Művelet billentyűt.\n\nA kezdőképernyőre való ugráshoz és az összes megnyitott ablak kis méretűre állításához nyomja le a Művelet + H billentyűkombinációt vagy a felső sorban lévő Home gombot.\n\nA legutóbbi alkalmazásokhoz való ugráshoz nyomja le a Művelet + Tab billentyűkombinációt vagy a felső sorban lévő Áttekintés gombot.\n\nAz ablakok közötti gyors váltáshoz tartsa lenyomva az Alt billentyűt, és nyomja le a Tab billentyűt.\n\nA visszalépéshez nyomja le a Művelet + Esc billentyűkombinációt vagy a felső sorban lévő Back gombot.\n\nAz értesítések megnyitásához nyomja le a Művelet + N billentyűkombinációt.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Beszédbeállítások módosítása</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">A TalkBack-beszéd hangerejének neve: kisegítő lehetőségek hangereje. A médiatartalmak hangerejétől függetlenül lehet beállítani.\n\nA kisegítő lehetőségek hangerejének beállításához nyomja meg a Művelet + Hangerő növelése vagy a Művelet + Hangerő csökkentése billentyűkombinációt.\n\nA beszéd sebességének beállításához nyomja meg a Művelet + Ctrl + Hangerő növelése billentyűkombinációt a növeléshez, illetve a Művelet + Ctrl + Hangerő csökkentése billentyűkombinációt a csökkentéshez.\n\nA beszédet bármikor leállíthatja a Ctrl billentyű megnyomásával.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack-menü és további billentyűparancsok</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">A TalkBack-menü gyakran használt beállításokat és vezérlőket tartalmaz.\n\nA TalkBack-menü megnyitásához nyomja meg a Művelet + Ctrl + M billentyűkombinációt. A TalkBack-menüt és az olvasási vezérlőket később a TalkBack beállításaiban szabhatja személyre.\n\nA TalkBack-billentyűparancsok menüje tartalmazza az összes használható billentyűparancsot.\n\nA billentyűparancsok menü megnyitásához nyomja meg a Művelet + Shift + / billentyűkombinációt.\n\nA billentyűzettel kapcsolatos további információkért és a billentyűparancsok gyakorlásához nyomja meg a Művelet + 0 billentyűkombinációt a gyakorlóképernyő megnyitásához.</string>
+  <string name="keyboard_tutorial_finished_page_title">Kész is!</string>
+  <string name="keyboard_tutorial_finished_page_text">Készen áll a TalkBack használatára.\n\nTájékozódhat most a többi témáról, vagy bármikor újra áttekintheti ezeket az információkat a TalkBack beállításaiban.\n\nA TalkBack funkciót bármikor be- és kikapcsolhatja a Művelet + Alt + T billentyűkombináció megnyomásával.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">A böngészés móddal gyorsabban navigálhat a webes tartalmak között</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">A böngészőben és az internetes alkalmazásokban bekapcsolhatja a böngészés módot, és egyetlen billentyűleütéssel válthat a különböző olvasási részletességek és vezérlők között. Az oldalon való navigálás hasonló a szövegszerkesztő mezőkben való navigáláshoz, például a balra és jobbra nyíl a karakterenkénti, a felfelé és lefelé nyíl pedig a soronkénti mozgatáshoz használható.\n\nA böngészés mód be- és kikapcsolásához nyomja meg duplán a Művelet billentyűt.\n\nHa a böngészés mód be van kapcsolva, a D billentyűvel a következő ARIA-ponthoz, az F billentyűvel a következő vezérlőhöz vagy űrlapmezőhöz, a B billentyűvel a következő gombhoz, a K billentyűvel a következő linkhez, az H billentyűvel pedig a következő címsorhoz ugorhat. Ha visszafelé szeretne haladni, akkor a Shift billentyű lenyomva tartása mellett nyomja meg ezeket a billentyűket.\n\nA felfelé és lefelé nyíl billentyűkkel soronként, a balra és jobbra nyíl billentyűkkel betűnként, a Ctrl + balra és jobbra nyíl billentyűkkel pedig szavanként ugorhat.\n\nA gyakorlóterületre a Művelet + jobbra nyíl billentyűkombinációval léphet be. A gyakorlóterületen a linkek, űrlapmezők és gombok nem működnek.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Címsorszintek</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">A webhelyek és az internetes alkalmazások gyakran különböző szintű címsorokat használnak a tartalom strukturálásához. Ha a böngészés mód be van kapcsolva, az 1–6 számok megnyomásával az egyes címsorszintekre ugorhat. A visszafelé haladáshoz a Shift billentyű lenyomva tartása mellett nyomja meg ezeket a billentyűket.\n\nA gyakorlóterületre a Művelet + jobbra nyíl billentyűkombinációval léphet be.</string>
+  <string name="keyboard_tutorial_tables_page_title">Táblázatok</string>
+  <string name="keyboard_tutorial_tables_page_text">A böngészés mód megkönnyíti a táblázatokban való navigációt is. Ha a böngészés mód be van kapcsolva, az Alt + Ctrl + felfelé és lefelé nyíl billentyűkkel a sorok között, az Alt + Ctrl + balra és jobbra nyíl billentyűkkel pedig az oszlopok között ugorhat.\n\nA gyakorlóterületre a Művelet + jobbra nyíl billentyűkombinációval léphet be.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Szöveg szerkesztése</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Szövegmezőbe való belépéskor a böngészés mód ideiglenesen kikapcsol, hogy Ön az összes billentyűt használhassa a gépeléshez. A kikapcsoláskor közleményt és hangjelzést fog hallani. Amint elhagyja a szövegmezőt, a böngészés mód újra bekapcsolódik, és újabb közleményt és hangjelzést fog hallani.\n\nA gyakorlóterületre a Művelet + jobbra nyíl billentyűkombinációval léphet be.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">További információ a böngészés módról</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Ha meg szeretné tekinteni a böngészés módban az ugráshoz használható parancsok teljes listáját, nyomja le a Művelet + Shift + / billentyűparancsot, és keressen rá a „böngészés mód” kifejezésre a billentyűparancsok menüjében.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Felolvasás karakterenként, szavanként vagy bekezdésenként</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Előfordulhat, hogy karakterenként szeretné meghallgatni az adott szöveget.\n\nEhhez a felolvasásvezérlés navigációs lehetőségeit használhatja. Tartsa lenyomva a Művelet + Shift + jobbra nyíl vagy balra nyíl billentyűkombinációt addig, amíg el nem hangzik a „characters” (karakterek) szó. Ezután nyomja meg a Művelet + felfelé nyíl billentyűkombinációt a navigáció fókuszának egy karakterrel hátrébb történő helyezéséhez. Nyomja meg a Művelet + lefelé nyíl billentyűket a navigáció fókuszának egy karakterrel előrébb helyezéséhez.\n\nPróbálja ki most. A Művelet + Shift + jobbra vagy balra nyíl billentyűkombinációval a szavankénti, soronkénti vagy bekezdésenkénti felolvasást is választhatja.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Ugrás a vezérlők között</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">A vezérlők interaktív elemek, például gombok, jelölőnégyzetek és szövegmezők.\n\nEgyes oldalakon érdemes ugrálni a vezérlők között, hogy gyorsan megtalálhassa a kívánt műveletet, mint például a Tovább gombot.\n\nEhhez tartsa lenyomva a Művelet + Shift + jobb nyíl gombot addig, amíg azt nem hallja, hogy „controls” (vezérlők). Ezután nyomja meg a Művelet + felfelé nyíl billentyűparancsot az előző gombra való ugráshoz, illetve a Művelet + lefelé nyíl billentyűparancsot a következő gombra való ugráshoz.\n\nPróbálja ki most, és keresse meg a Tovább gombot.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Ugrás a linkek között</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Az oldalon található linkek között is ugrálhat.\n\nEhhez nyomja le a Művelet + Shift + jobbra nyíl billentyűkombinációt, amíg azt a szót nem hallja, hogy „links” (linkek). Ezután nyomja meg a Művelet + lefelé nyíl billentyűkombinációt az „5. link” nevű link megkereséséhez. Ha az útmutatóban duplán kattint erre a linkre, nem történik semmi.\n\nNyomja le a Művelet + jobbra nyíl billentyűket a Tovább gomb megkereséséhez, és lépjen a következő oldalra.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Ugrás a címsorok között</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Ugrálhat az oldalon található címsorok között is.\n\nPróbálja ki most: nyomja le a Művelet + Shift + jobbra nyíl billentyűkombinációt addig, amíg azt nem hallja, hogy „headings” (címsorok). Ezután a Művelet + lefelé nyíl billentyűparanccsal keresse meg a „Navigáció” címsort.</string>
+  <string name="keyboard_tutorial_find_next_button">Nyomja le a Művelet + jobbra nyíl billentyűparancsot a Tovább gomb megkereséséhez.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Tárolók közötti ugrás</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Ha ki szeretne lépni egy tárolóból (pl. egy listából vagy rácsból), nyomja le a Művelet + Alt + Ctrl + jobbra vagy balra nyíl billentyűkombinációt. Ez akkor hasznos, ha ki szeretne lépni egy hosszú elemlistából.\n\nHa ki szeretné próbálni, nyomja le a Művelet + jobbra nyíl billentyűkombinációt a lista megnyitásához. Ezután nyomja le a Művelet + Alt + Ctrl + jobbra nyíl billentyűkombinációt a következő tárolóra való ugráshoz.</string>
+  <string name="keyboard_tutorial_go_to_next_container">A következő tárolóhoz a Művelet + Alt + Ctrl + jobbra nyíl billentyűkombinációval léphet.</string>
+  <string name="keyboard_tutorial_exit_container">A tárolóból való kilépéshez nyomja meg a Művelet + Alt + Ctrl + jobbra nyíl billentyűkombinációt</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Kilépett a tárolóból. A felolvasásvezérlőkhöz tárolókat is hozzáadhat, majd a Művelet + Shift + jobbra vagy balra nyíl billentyűkombinációval kiválaszthatja a tárolókat, a Művelet + lefelé vagy felfelé nyíl billentyűkombinációval pedig a tárolók között ugorhat. Az olvasási vezérlők frissítéséhez lépjen a TalkBack &gt; Beállítások &gt; Menük testreszabása &gt; Olvasási vezérlők személyre szabása menüponthoz.\n\nKeresse meg a Tovább gombot a Művelet + jobbra nyíl billentyűkombinációval.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Olvasási vezérlők személyre szabása</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">A beszédbeállításokat az olvasási vezérlőkkel is módosíthatja, és személyre szabhatja az olvasási vezérlőkkel végezhető műveleteket a TalkBack &gt; Beállítások &gt; Menük testreszabása &gt; Olvasási vezérlők személyre szabása menüpontban.</string>
+  <string name="keyboard_tutorial_image_description_page_title">A képleírások kérésének kipróbálása</string>
+  <string name="keyboard_tutorial_image_description_page_text">Amikor egy képre fókuszál, nyomja meg a Művelet + R, majd I billentyűkombinációt. Alább egy fotó látható. Próbáljon meg leírást kérni hozzá.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">A képleírás beállításait bármikor módosíthatja A TalkBack beállításai &gt; Kép- és ikonleírások menüpontban.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">A képleírás beállításait bármikor módosíthatja A TalkBack beállításai, majd a Kép- és ikonleírások menüpont megnyitásával.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Mintakép. A leírás meghallgatásához nyomja meg a Művelet + R, majd az I billentyűt.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Hangalapú utasítások</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Hangja segítségével gyorsan vezérelheti a TalkBack szolgáltatást.\n\nPéldául parancsszóval módosíthatja a navigációt, a következő címsorhoz ugorhat, szöveget másolhat vágólapra, stb.\n\nPróbálja ki most, nyomja meg a Művelet + \\ billentyűkombinációt.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">A képernyőn való keresés használata</string>
+  <string name="keyboard_tutorial_screen_search_page_text">A képernyőn való keresés funkcióval konkrét tartalmakat kereshet meg a képernyőn.\n\nA funkció kipróbálásához nyomja le a Művelet + CTRL + / billentyűkombinációt. Írjon be egy kulcsszót, például a „tovább” szót, hogy megtalálja a képernyőn az ezt a szöveget tartalmazó elemeket.\n\nPróbáljon meg most a „tovább” szóval keresni, hogy megtalálja a Tovább gombot.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navigálás képernyőn való kereséssel</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Az egyik találat kiválasztása után gyorsan válthat a képernyőn való keresés különböző keresési találatai között.\n\nEhhez navigálhat a felolvasásvezérlőkkel. Nyomja le a Művelet + Shift + jobbra vagy balra nyíl billentyűparancsot, amíg el nem hangzik a „keresés a képernyőn” üzenet. Ezután nyomja meg a Művelet + lefelé vagy felfelé nyíl billentyűkombinációt a képernyőn való keresés találatai közötti navigáláshoz.\n\nPróbálja ki most. Alább három gomb látható, melyek mindegyike tartalmazza a „művelet” szöveget. Keressen rá a „művelet” szóra a képernyőn való keresés segítségével, majd használja a képernyőn való keresés navigációját a gombok közötti mozgásra.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Billentyűparancsok gyakorlása</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Nyomja le a fizikai billentyűzet valamelyik billentyűjét vagy billentyűkombinációját, hogy meghallgathassa, mit csinál. A kilépéshez nyomja meg a Ctrl + W vagy az Esc billentyűt.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Fedezze fel a kaliforniai mamutfenyők fenségességét&lt;/h1&gt;
+      &lt;p&gt;A kaliforniai mamutfenyők, elsősorban a parti mamutfenyő (Sequoia sempervirens) a világ legmagasabb fái. Egyes példányok több mint 115 méter magasak, és több 1000 évig is élhetnek. Észak-Kalifornia párás tengerparti éghajlatán érzik jól magukat, hiszen a csapadék és a köd kedvez nekik.&lt;/p&gt;
+
+      &lt;h2&gt;Hol tekinthetők meg?&lt;/h2&gt;
+      &lt;p&gt;Ezek az óriások a Csendes-óceán partvidéke mentén húzódó keskeny sávban találhatók. A legfontosabb parkok a következők:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood Nemzeti és Állami Parkok&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods Állami Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods Állami Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Itt tervezheti meg kirándulását: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Kaliforniai Állami Parkok – mamutfenyők&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Támogassa a természetvédelmet&lt;/h2&gt;
+      &lt;p&gt;Ezeknek az ősi erdőknek a védelme létfontosságú. Segíthet a park szabályainak betartásával és a természetvédelmi erőfeszítések támogatásával.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Ossza meg tapasztalatait&lt;/h2&gt;
+        &lt;p&gt;Járt már mamutfenyőerdőben?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Igen&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nem&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Meséljen tapasztalatairól&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Küldés&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Mit szeretne még megtudni a mamutfenyőerdőkről?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Küldés&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Mamutfenyők: környezetünk egészségének megőrzése&lt;/h1&gt;
+    &lt;p&gt;A mamutfenyők fontosak bolygónk számára, és hatalmas szerepet játszanak környezetünk egészségének megőrzésében.&lt;/p&gt;
+
+    &lt;h1&gt;Óriási légtisztítók&lt;/h1&gt;
+    &lt;p&gt;Ezek a fák csodálatosan hatékonyak a levegőben található szén-dioxid megkötésében. A mamutfenyők rengeteg szén-dioxidot nyelnek el, így segítenek tisztán tartani a levegőt.&lt;/p&gt;
+
+    &lt;h2&gt;Élőhely az állatoknak&lt;/h2&gt;
+    &lt;p&gt;A mamutfenyők élőhelyet és menedéket nyújtanak számos állatnak, az ágaikon élő madaraktól a talajlakó, apró élőlényekig.&lt;/p&gt;
+
+    &lt;h3&gt;Vízvarázslók&lt;/h3&gt;
+    &lt;p&gt;Nagyon jól képesek felfogni a ködöt, amely így a talajra csöpög. Így nedvesen tartják a talajt, és vizet biztosítanak más növények és állatok számára, különösen száraz időben.&lt;/p&gt;
+
+    &lt;h4&gt;Talajvédők&lt;/h4&gt;
+    &lt;p&gt;Erős gyökereik a helyén tartják a talajt, megakadályozva a heves esőzések okozta kimosódást, és megelőzve az eróziót.&lt;/p&gt;
+
+    &lt;h5&gt;Erdőépítők&lt;/h5&gt;
+    &lt;p&gt;Amikor az öreg mamutfenyők kidőlnek, rönkjeik táplálékká és menedékké válnak új növények és élőlények számára, tápanyagokban gazdag talajt biztosítva egy új élet növekedéséhez.&lt;/p&gt;
+
+    &lt;h6&gt;Egyedi ökoszisztémák&lt;/h6&gt;
+    &lt;p&gt;Mivel a mamutfenyők olyan nagyok, és olyan sokáig élnek, különleges erdei környezetet teremtenek, egy olyan élővilágot támogatva, amely semmilyen más helyre nem jellemző.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;A mamutfenyőerdők állatai&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"A mamutfenyőerdők állatai\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Állat&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Leírás&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Hol él?&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Érdekesség&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banáncsiga&lt;/th&gt;
+            &lt;td&gt;Nagy, sárga meztelen csiga&lt;/td&gt;
+            &lt;td&gt;Az erdő talaján&lt;/td&gt;
+            &lt;td&gt;A világ második legnagyobb csigája&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Csendes-óceáni óriásszalamandra&lt;/th&gt;
+            &lt;td&gt;Nagy, sötét színű szalamandra&lt;/td&gt;
+            &lt;td&gt;Patakok és nedves területek közelében&lt;/td&gt;
+            &lt;td&gt;Akár 30 cm hosszúra is megnőhet&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt-vapiti&lt;/th&gt;
+            &lt;td&gt;Nagy szarvas, lenyűgöző agancsokkal&lt;/td&gt;
+            &lt;td&gt;Az erdő tisztásain legel&lt;/td&gt;
+            &lt;td&gt;A hímek súlya meghaladhatja a 435 kg-ot&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Északi foltosbagoly&lt;/th&gt;
+            &lt;td&gt;Közepes méretű bagoly, éjszaka vadászik&lt;/td&gt;
+            &lt;td&gt;Sűrű, kifejlett mamutfenyőkből álló erdőkben&lt;/td&gt;
+            &lt;td&gt;„Indikátorfaj” – az egészsége az erdő egészségét mutatja&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Fekete medve&lt;/th&gt;
+            &lt;td&gt;Nagytestű emlős, jellemzően fekete vagy barna&lt;/td&gt;
+            &lt;td&gt;Az erdőben keresi a táplálékot&lt;/td&gt;
+            &lt;td&gt;Kiválóan mászik, gyakran látható fán&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Az Ön gondolatai a mamutfenyőkről és a természetről&lt;/h1&gt;
+
+      &lt;p&gt;Mit szeretne még megtudni a mamutfenyőkről?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Mi a kedvenc helye a természetben, amelyet szívesen meglátogat?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Mi az a természeti jelenség, amelyet részletesebben meg szeretne ismerni?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

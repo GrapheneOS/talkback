@@ -20,7 +20,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.os.Bundle;
-import com.google.android.accessibility.braille.brailledisplay.platform.lib.ActionReceiver;
+import com.google.android.accessibility.braille.common.lib.ActionReceiver;
 
 /** A BroadcastReceiver that listens for Bluetooth scan results. */
 public class BtScanReceiver extends ActionReceiver<BtScanReceiver, BtScanReceiver.Callback> {

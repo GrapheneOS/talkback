@@ -54,25 +54,19 @@ public class ProcessorGestureVibrator implements AccessibilityEventListener {
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event, EventId eventId) {
     switch (event.getEventType()) {
-      case AccessibilityEventCompat.TYPE_GESTURE_DETECTION_START:
-        {
+      case AccessibilityEventCompat.TYPE_GESTURE_DETECTION_START ->
           feedbackReturner.returnFeedback(
               eventId,
               Feedback.interrupt(GESTURE_VIBRATION, /* level= */ 1)
                   .setDelayMs(FEEDBACK_DELAY)
                   .vibration(R.array.gesture_detection_repeated_pattern)
                   .sound(R.raw.gesture_begin));
-        break;
-        }
-      case AccessibilityEventCompat.TYPE_GESTURE_DETECTION_END:
-        {
+      case AccessibilityEventCompat.TYPE_GESTURE_DETECTION_END ->
           feedbackReturner.returnFeedback(
               eventId,
               Feedback.interrupt(GESTURE_VIBRATION, /* level= */ 1)
                   .setInterruptSoundAndVibration(true));
-        break;
-        }
-      default: // fall out
+      default -> {}
     }
   }
 

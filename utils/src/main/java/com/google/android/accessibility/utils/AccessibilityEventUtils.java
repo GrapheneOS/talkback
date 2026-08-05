@@ -50,8 +50,11 @@ public class AccessibilityEventUtils {
   private static final String GBOARD_PACKAGE_NAME_APPS_PREFIX =
       "com.google.android.apps.inputmethod";
 
-  /** Undefined scroll delta. */
-  public static final int DELTA_UNDEFINED = -1;
+  /**
+   * Undefined scroll delta. The original value is -1 is in framework, but it's a possible value
+   * actually. Change it to prevent confusion.
+   */
+  public static final int DELTA_UNDEFINED = Integer.MIN_VALUE;
 
   private AccessibilityEventUtils() {
     // This class is not instantiable.
@@ -204,12 +207,11 @@ public class AccessibilityEventUtils {
         && (isVolumeInAndroidO || isVolumeInAndroidP);
   }
 
-  /** Returns whether the {@link AccessibilityEvent} contains {@link Notification} data. */
+  /** Returns whether the {@link AccessibilityEvent} is a Notification. */
   public static boolean isNotificationEvent(AccessibilityEvent event) {
-    // Real notification events always have parcelable data.
     return event != null
         && event.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED
-        && event.getParcelableData() != null;
+        && Role.getSourceRole(event) != Role.ROLE_TOAST;
   }
 
   /**
@@ -350,6 +352,8 @@ public class AccessibilityEventUtils {
   @Deprecated
   public static void recycle(AccessibilityEvent event) {}
 
+  // TODO: b/404563630 - Remove this suppression once the lint checker is fixed.
+  @SuppressWarnings("FlaggedApi")
   public static int[] getAllEventTypes() {
     return new int[] {
       AccessibilityEvent.TYPE_ANNOUNCEMENT,
@@ -383,61 +387,42 @@ public class AccessibilityEventUtils {
   ////////////////////////////////////////////////////////////////////////////////////////////////
   // Methods for displaying event data
 
+  // TODO: b/404563630 - Remove this suppression once the lint checker is fixed.
+  @SuppressWarnings("FlaggedApi")
   public static String typeToString(int eventType) {
-    switch (eventType) {
-      case AccessibilityEvent.TYPE_ANNOUNCEMENT:
-        return "TYPE_ANNOUNCEMENT";
-      case AccessibilityEvent.TYPE_ASSIST_READING_CONTEXT:
-        return "TYPE_ASSIST_READING_CONTEXT";
-      case AccessibilityEvent.TYPE_GESTURE_DETECTION_END:
-        return "TYPE_GESTURE_DETECTION_END";
-      case AccessibilityEvent.TYPE_GESTURE_DETECTION_START:
-        return "TYPE_GESTURE_DETECTION_START";
-      case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
-        return "TYPE_NOTIFICATION_STATE_CHANGED";
-      case AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_END:
-        return "TYPE_TOUCH_EXPLORATION_GESTURE_END";
-      case AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_START:
-        return "TYPE_TOUCH_EXPLORATION_GESTURE_START";
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END:
-        return "TYPE_TOUCH_INTERACTION_END";
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START:
-        return "TYPE_TOUCH_INTERACTION_START";
-      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
-        return "TYPE_VIEW_ACCESSIBILITY_FOCUSED";
-      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED:
-        return "TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED";
-      case AccessibilityEvent.TYPE_VIEW_CLICKED:
-        return "TYPE_VIEW_CLICKED";
-      case AccessibilityEvent.TYPE_VIEW_CONTEXT_CLICKED:
-        return "TYPE_VIEW_CONTEXT_CLICKED";
-      case AccessibilityEvent.TYPE_VIEW_FOCUSED:
-        return "TYPE_VIEW_FOCUSED";
-      case AccessibilityEvent.TYPE_VIEW_HOVER_ENTER:
-        return "TYPE_VIEW_HOVER_ENTER";
-      case AccessibilityEvent.TYPE_VIEW_HOVER_EXIT:
-        return "TYPE_VIEW_HOVER_EXIT";
-      case AccessibilityEvent.TYPE_VIEW_LONG_CLICKED:
-        return "TYPE_VIEW_LONG_CLICKED";
-      case AccessibilityEvent.TYPE_VIEW_SCROLLED:
-        return "TYPE_VIEW_SCROLLED";
-      case AccessibilityEvent.TYPE_VIEW_SELECTED:
-        return "TYPE_VIEW_SELECTED";
-      case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED:
-        return "TYPE_VIEW_TEXT_CHANGED";
-      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
-        return "TYPE_VIEW_TEXT_SELECTION_CHANGED";
-      case AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY:
-        return "TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY";
-      case AccessibilityEvent.TYPE_WINDOWS_CHANGED:
-        return "TYPE_WINDOWS_CHANGED";
-      case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
-        return "TYPE_WINDOW_CONTENT_CHANGED";
-      case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-        return "TYPE_WINDOW_STATE_CHANGED";
-      default:
-        return "(unhandled)";
-    }
+    return switch (eventType) {
+      case AccessibilityEvent.TYPE_ANNOUNCEMENT -> "TYPE_ANNOUNCEMENT";
+      case AccessibilityEvent.TYPE_ASSIST_READING_CONTEXT -> "TYPE_ASSIST_READING_CONTEXT";
+      case AccessibilityEvent.TYPE_GESTURE_DETECTION_END -> "TYPE_GESTURE_DETECTION_END";
+      case AccessibilityEvent.TYPE_GESTURE_DETECTION_START -> "TYPE_GESTURE_DETECTION_START";
+      case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> "TYPE_NOTIFICATION_STATE_CHANGED";
+      case AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_END ->
+          "TYPE_TOUCH_EXPLORATION_GESTURE_END";
+      case AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_START ->
+          "TYPE_TOUCH_EXPLORATION_GESTURE_START";
+      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END -> "TYPE_TOUCH_INTERACTION_END";
+      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START -> "TYPE_TOUCH_INTERACTION_START";
+      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED -> "TYPE_VIEW_ACCESSIBILITY_FOCUSED";
+      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED ->
+          "TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED";
+      case AccessibilityEvent.TYPE_VIEW_CLICKED -> "TYPE_VIEW_CLICKED";
+      case AccessibilityEvent.TYPE_VIEW_CONTEXT_CLICKED -> "TYPE_VIEW_CONTEXT_CLICKED";
+      case AccessibilityEvent.TYPE_VIEW_FOCUSED -> "TYPE_VIEW_FOCUSED";
+      case AccessibilityEvent.TYPE_VIEW_HOVER_ENTER -> "TYPE_VIEW_HOVER_ENTER";
+      case AccessibilityEvent.TYPE_VIEW_HOVER_EXIT -> "TYPE_VIEW_HOVER_EXIT";
+      case AccessibilityEvent.TYPE_VIEW_LONG_CLICKED -> "TYPE_VIEW_LONG_CLICKED";
+      case AccessibilityEvent.TYPE_VIEW_SCROLLED -> "TYPE_VIEW_SCROLLED";
+      case AccessibilityEvent.TYPE_VIEW_SELECTED -> "TYPE_VIEW_SELECTED";
+      case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> "TYPE_VIEW_TEXT_CHANGED";
+      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED ->
+          "TYPE_VIEW_TEXT_SELECTION_CHANGED";
+      case AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY ->
+          "TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY";
+      case AccessibilityEvent.TYPE_WINDOWS_CHANGED -> "TYPE_WINDOWS_CHANGED";
+      case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> "TYPE_WINDOW_CONTENT_CHANGED";
+      case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> "TYPE_WINDOW_STATE_CHANGED";
+      default -> "(unhandled)";
+    };
   }
 
   public static String toStringShort(@Nullable AccessibilityEvent event) {
@@ -498,7 +483,7 @@ public class AccessibilityEventUtils {
         StringBuilderUtils.optionalSubObj("ParcelableData", event.getParcelableData()));
   }
 
-  private static String contentChangeTypesToString(int flags) {
+  public static String contentChangeTypesToString(int flags) {
     return flagsToString(flags, AccessibilityEventUtils::singleContentChangeTypeToString);
   }
 
@@ -527,26 +512,31 @@ public class AccessibilityEventUtils {
     if (type == 0) {
       return null;
     }
-    switch (type) {
-      case AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION:
-        return "CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION";
-      case AccessibilityEvent.CONTENT_CHANGE_TYPE_STATE_DESCRIPTION:
-        return "CONTENT_CHANGE_TYPE_STATE_DESCRIPTION";
-      case AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE:
-        return "CONTENT_CHANGE_TYPE_SUBTREE";
-      case AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT:
-        return "CONTENT_CHANGE_TYPE_TEXT";
-      case AccessibilityEvent.CONTENT_CHANGE_TYPE_PANE_TITLE:
-        return "CONTENT_CHANGE_TYPE_PANE_TITLE";
-      case AccessibilityEvent.CONTENT_CHANGE_TYPE_UNDEFINED:
-        return "CONTENT_CHANGE_TYPE_UNDEFINED";
-      case AccessibilityEvent.CONTENT_CHANGE_TYPE_PANE_APPEARED:
-        return "CONTENT_CHANGE_TYPE_PANE_APPEARED";
-      case AccessibilityEvent.CONTENT_CHANGE_TYPE_PANE_DISAPPEARED:
-        return "CONTENT_CHANGE_TYPE_PANE_DISAPPEARED";
-      default:
-        return Integer.toHexString(type);
-    }
+    return switch (type) {
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION ->
+          "CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_STATE_DESCRIPTION ->
+          "CONTENT_CHANGE_TYPE_STATE_DESCRIPTION";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE -> "CONTENT_CHANGE_TYPE_SUBTREE";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT -> "CONTENT_CHANGE_TYPE_TEXT";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_PANE_TITLE -> "CONTENT_CHANGE_TYPE_PANE_TITLE";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_UNDEFINED -> "CONTENT_CHANGE_TYPE_UNDEFINED";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_PANE_APPEARED ->
+          "CONTENT_CHANGE_TYPE_PANE_APPEARED";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_PANE_DISAPPEARED ->
+          "CONTENT_CHANGE_TYPE_PANE_DISAPPEARED";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_DRAG_STARTED ->
+          "CONTENT_CHANGE_TYPE_DRAG_STARTED";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_DRAG_DROPPED ->
+          "CONTENT_CHANGE_TYPE_DRAG_DROPPED";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_DRAG_CANCELLED ->
+          "CONTENT_CHANGE_TYPE_DRAG_CANCELLED";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_INVALID ->
+          "CONTENT_CHANGE_TYPE_CONTENT_INVALID";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_ERROR -> "CONTENT_CHANGE_TYPE_ERROR";
+      case AccessibilityEvent.CONTENT_CHANGE_TYPE_ENABLED -> "CONTENT_CHANGE_TYPE_ENABLED";
+      default -> Integer.toHexString(type);
+    };
   }
 
   /** Copied from AccessibilityEvent.java */
@@ -554,32 +544,21 @@ public class AccessibilityEventUtils {
     if (type == 0) {
       return null;
     }
-    switch (type) {
-      case AccessibilityEvent.WINDOWS_CHANGE_ADDED:
-        return "WINDOWS_CHANGE_ADDED";
-      case AccessibilityEvent.WINDOWS_CHANGE_REMOVED:
-        return "WINDOWS_CHANGE_REMOVED";
-      case AccessibilityEvent.WINDOWS_CHANGE_TITLE:
-        return "WINDOWS_CHANGE_TITLE";
-      case AccessibilityEvent.WINDOWS_CHANGE_BOUNDS:
-        return "WINDOWS_CHANGE_BOUNDS";
-      case AccessibilityEvent.WINDOWS_CHANGE_LAYER:
-        return "WINDOWS_CHANGE_LAYER";
-      case AccessibilityEvent.WINDOWS_CHANGE_ACTIVE:
-        return "WINDOWS_CHANGE_ACTIVE";
-      case AccessibilityEvent.WINDOWS_CHANGE_FOCUSED:
-        return "WINDOWS_CHANGE_FOCUSED";
-      case AccessibilityEvent.WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED:
-        return "WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED";
-      case AccessibilityEvent.WINDOWS_CHANGE_PARENT:
-        return "WINDOWS_CHANGE_PARENT";
-      case AccessibilityEvent.WINDOWS_CHANGE_CHILDREN:
-        return "WINDOWS_CHANGE_CHILDREN";
-      case AccessibilityEvent.WINDOWS_CHANGE_PIP:
-        return "WINDOWS_CHANGE_PIP";
-      default:
-        return Integer.toHexString(type);
-    }
+    return switch (type) {
+      case AccessibilityEvent.WINDOWS_CHANGE_ADDED -> "WINDOWS_CHANGE_ADDED";
+      case AccessibilityEvent.WINDOWS_CHANGE_REMOVED -> "WINDOWS_CHANGE_REMOVED";
+      case AccessibilityEvent.WINDOWS_CHANGE_TITLE -> "WINDOWS_CHANGE_TITLE";
+      case AccessibilityEvent.WINDOWS_CHANGE_BOUNDS -> "WINDOWS_CHANGE_BOUNDS";
+      case AccessibilityEvent.WINDOWS_CHANGE_LAYER -> "WINDOWS_CHANGE_LAYER";
+      case AccessibilityEvent.WINDOWS_CHANGE_ACTIVE -> "WINDOWS_CHANGE_ACTIVE";
+      case AccessibilityEvent.WINDOWS_CHANGE_FOCUSED -> "WINDOWS_CHANGE_FOCUSED";
+      case AccessibilityEvent.WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED ->
+          "WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED";
+      case AccessibilityEvent.WINDOWS_CHANGE_PARENT -> "WINDOWS_CHANGE_PARENT";
+      case AccessibilityEvent.WINDOWS_CHANGE_CHILDREN -> "WINDOWS_CHANGE_CHILDREN";
+      case AccessibilityEvent.WINDOWS_CHANGE_PIP -> "WINDOWS_CHANGE_PIP";
+      default -> Integer.toHexString(type);
+    };
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -596,6 +575,7 @@ public class AccessibilityEventUtils {
   public static boolean hasValidScrollDelta(AccessibilityEvent event) {
     return BuildVersionUtils.isAtLeastP()
         && ((event.getScrollDeltaX() != DELTA_UNDEFINED)
-            || (event.getScrollDeltaY() != DELTA_UNDEFINED));
+            || (event.getScrollDeltaY() != DELTA_UNDEFINED))
+        && !(event.getScrollDeltaX() == 0 && event.getScrollDeltaY() == 0);
   }
 }

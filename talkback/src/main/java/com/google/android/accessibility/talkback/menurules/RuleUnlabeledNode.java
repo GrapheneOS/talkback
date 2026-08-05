@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.menurules;
 
 import static com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.MENU_TYPE_LABELING;
+import static com.google.android.accessibility.talkback.contextmenu.TalkbackMenuProcessor.ORDER_LABELS;
 
 import android.content.Context;
 import android.view.Menu;
@@ -73,7 +74,7 @@ class RuleUnlabeledNode extends NodeMenuRule {
               context,
               Menu.NONE,
               R.id.labeling_breakout_add_label,
-              Menu.NONE,
+              ORDER_LABELS,
               context.getString(R.string.label_dialog_title_add));
       item.setOnMenuItemClickListener(
           (menuItem) -> {
@@ -89,7 +90,7 @@ class RuleUnlabeledNode extends NodeMenuRule {
               context,
               Menu.NONE,
               R.id.labeling_breakout_edit_label,
-              Menu.NONE,
+              ORDER_LABELS,
               context.getString(R.string.label_dialog_title_edit));
       item.setOnMenuItemClickListener(
           (menuItem) -> {

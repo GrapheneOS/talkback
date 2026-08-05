@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 apply from: "../shared.gradle"
 
 dependencies {
@@ -7,14 +8,14 @@ dependencies {
     implementation project(':brailleime')
     implementation project(':brailleinterfaces')
     implementation project(':brailledisplay')
+    implementation project(':materialflags')
+    implementation project(':materialpreference')
 }
 
 android {
+    namespace = "com.google.android.accessibility.talkback"
     defaultConfig {
         buildConfigField("String", "APPLICATION_ID", '"' + talkbackApplicationId + '"')
+        buildConfigField("String", "GEMINI_API_KEY", "\"\"")
     }
-}
-
-android {
-    namespace "com.google.android.accessibility.talkback"
 }

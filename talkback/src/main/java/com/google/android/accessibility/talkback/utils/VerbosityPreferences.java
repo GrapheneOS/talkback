@@ -16,14 +16,24 @@
 
 package com.google.android.accessibility.talkback.utils;
 
+import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.GESTURE_OR_KEYBOARD_ACTION_OVERLAY;
+
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
+import com.google.android.accessibility.talkback.Feedback;
+import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
+import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.input.TextEventFilter.KeyboardEchoType;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.Arrays;
+import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utility functions for verbosity preferences. Verbosity preferences should be read through
@@ -79,8 +89,8 @@ public class VerbosityPreferences {
   }
 
   /** Reads echo type of physical keyboard. */
-  public static @KeyboardEchoType int readPhysicalKeyboardEcho(
-      SharedPreferences prefs, Resources resources) {
+  @KeyboardEchoType
+  public static int readPhysicalKeyboardEcho(SharedPreferences prefs, Resources resources) {
     return Integer.parseInt(
         VerbosityPreferences.getPreferenceValueString(
             prefs,
@@ -90,8 +100,8 @@ public class VerbosityPreferences {
   }
 
   /** Reads echo type of on-screen keyboard. */
-  public static @KeyboardEchoType int readOnScreenKeyboardEcho(
-      SharedPreferences prefs, Resources resources) {
+  @KeyboardEchoType
+  public static int readOnScreenKeyboardEcho(SharedPreferences prefs, Resources resources) {
     return Integer.parseInt(
         VerbosityPreferences.getPreferenceValueString(
             prefs,
@@ -203,5 +213,139 @@ public class VerbosityPreferences {
     }
 
     return substring;
+  }
+
+  /**
+   * Maps verbosity value key to verbosity name.
+   *
+   * @param verbosityValueKey Preset verbosity key
+   * @param context Context used to evaluate strings.
+   * @return preset verbosity name
+   */
+  public static @Nullable String verbosityValueToName(String verbosityValueKey, Context context) {
+    if (verbosityValueKey.equals(context.getString(R.string.pref_verbosity_preset_value_high))) {
+      return context.getString(R.string.pref_verbosity_preset_entry_high);
+    } else if (verbosityValueKey.equals(
+        context.getString(R.string.pref_verbosity_preset_value_custom))) {
+      return context.getString(R.string.pref_verbosity_preset_entry_custom);
+    } else if (verbosityValueKey.equals(
+        context.getString(R.string.pref_verbosity_preset_value_low))) {
+      return context.getString(R.string.pref_verbosity_preset_entry_low);
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Returns {@code true} if the current verbosity preset value is high or low. Some verbosity
+   * preset settings need to be disabled when it is true.
+   *
+   * @param verbosityValue Preset verbosity
+   * @param context Context used to evaluate strings
+   */
+  public static boolean isVerbosityValueHighOrLow(String verbosityValue, Context context) {
+    return TextUtils.equals(
+            verbosityValue, context.getString(R.string.pref_verbosity_preset_value_high))
+        || TextUtils.equals(
+            verbosityValue, context.getString(R.string.pref_verbosity_preset_value_low));
+  }
+
+  /**
+   * Returns announcement for the change of verbosity.
+   *
+   * @param verbosityValueKey Preset verbosity key
+   * @param context Context used to evaluate strings.
+   * @return Announcement text
+   */
+  public static @Nullable String getVerbosityChangeAnnouncement(
+      String verbosityValueKey, Context context) {
+    String name = verbosityValueToName(verbosityValueKey, context);
+    return TextUtils.isEmpty(name)
+        ? null
+        : String.format(
+            context.getString(R.string.pref_verbosity_preset_change),
+            verbosityValueToName(verbosityValueKey, context));
+  }
+
+  /**
+   * Changes the physical keyboard typing echo setting to the next value, wrapping around to the
+   * first value if the last value is currently selected. Note by design, the physical keyboard
+   * typing echo setting is only modifiable when the preset verbosity level is set to custom. Per
+   * UX, if the preset verbosity level is not custom (high or low), the preset verbosity level
+   * should automatically change to custom, in addition to cycling the typing echo.
+   *
+   * @param context Context used to evaluate strings.
+   * @param pipeline Used to play announcement.
+   * @param EventId Event id
+   * @return true if the typing echo was successfully cycled, false if an error occurred, in which
+   *     case all settings are left untouched.
+   */
+  public static boolean cycleKeyboardTypingEcho(
+      Context context, Pipeline.FeedbackReturner pipeline, EventId eventId) {
+    if (!FeatureFlagReader.enableCycleTypingEchoKeyboard(context)) {
+      return false;
+    }
+    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
+    SharedPreferences.Editor prefsEditor = prefs.edit();
+
+    String currentVerbosityValue =
+        SharedPreferencesUtils.getStringPref(
+            prefs,
+            context.getResources(),
+            R.string.pref_verbosity_preset_key,
+            R.string.pref_verbosity_preset_value_default);
+    String customVerbosityValue = context.getString(R.string.pref_verbosity_preset_value_custom);
+    boolean changeVerbosityLevel = !currentVerbosityValue.equals(customVerbosityValue);
+    if (changeVerbosityLevel) {
+      prefsEditor.putString(
+          context.getString(R.string.pref_verbosity_preset_key), customVerbosityValue);
+    }
+
+    List<String> keyboardEchoValues =
+        Arrays.asList(context.getResources().getStringArray(R.array.pref_keyboard_echo_values));
+    List<String> keyboardEchoEntries =
+        Arrays.asList(context.getResources().getStringArray(R.array.pref_keyboard_echo_entries));
+    String keyboardEchoKey =
+        VerbosityPreferences.toVerbosityPrefKey(
+            customVerbosityValue, context.getString(R.string.pref_keyboard_echo_physical_key));
+    if (keyboardEchoEntries.size() != keyboardEchoValues.size()) {
+      LogUtils.e(TAG, "Keyboard echo values and entries have different sizes");
+      return false;
+    }
+
+    String currentKeyboardEcho =
+        prefs.getString(keyboardEchoKey, context.getString(R.string.pref_keyboard_echo_default));
+    int currentIndex = keyboardEchoValues.indexOf(currentKeyboardEcho);
+    if (currentIndex == -1) {
+      LogUtils.e(TAG, " Current keyboard echo setting not present in possible values");
+      return false;
+    }
+
+    int newIndex = (currentIndex + 1) % keyboardEchoValues.size();
+    String newKeyboardEcho = keyboardEchoValues.get(newIndex);
+    prefsEditor.putString(keyboardEchoKey, newKeyboardEcho).apply();
+    pipeline.returnFeedback(
+        eventId,
+        Feedback.speech(
+            context.getString(R.string.typing_echo_change, keyboardEchoEntries.get(newIndex))));
+    if (changeVerbosityLevel) {
+      // If the VerbosityPrefFragment is visible while the user takes this shortcut, the
+      // VerbosityPrefFragment will detect this method's change to custom verbosity and try to make
+      // the exact same announcement that's being made here. In this specific case though, the
+      // speech pipeline is able to deduplicate the announcement, ultimately only announcing this
+      // text once.
+      pipeline.returnFeedback(
+          eventId, Feedback.speech(getVerbosityChangeAnnouncement(customVerbosityValue, context)));
+    }
+    pipeline.returnFeedback(
+        eventId,
+        Feedback.talkBackUI(
+            Feedback.TalkBackUI.Action.SHOW_GESTURE_OR_KEYBOARD_ACTION_UI,
+            GESTURE_OR_KEYBOARD_ACTION_OVERLAY,
+            context.getString(
+                R.string.typing_echo_change_visual_feedback, keyboardEchoEntries.get(newIndex)),
+            /* showIcon= */ false,
+            Feedback.TalkBackUI.Item.ITEM_UNSPECIFIED));
+    return true;
   }
 }

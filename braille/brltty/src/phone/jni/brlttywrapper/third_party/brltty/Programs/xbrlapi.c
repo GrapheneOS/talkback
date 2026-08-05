@@ -1,7 +1,7 @@
 /*
  * XBrlAPI - A background process tinkering with X for proper BrlAPI behavior
  *
- * Copyright (C) 2003-2023 by Samuel Thibault <Samuel.Thibault@ens-lyon.org>
+ * Copyright (C) 2003-2026 by Samuel Thibault <Samuel.Thibault@ens-lyon.org>
  *
  * XBrlAPI comes with ABSOLUTELY NO WARRANTY.
  *
@@ -42,6 +42,7 @@
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
+#include <X11/Xutil.h>
 #include <X11/Xatom.h>
 #include <X11/XKBlib.h>
 #include <X11/keysym.h>
@@ -61,25 +62,35 @@
 
 #include "cmdline.h"
 
-#define debugf(fmt, ...) do { if (verbose) fprintf(stderr, fmt, ## __VA_ARGS__); } while (0)
+#define debugf(fmt, ...) \
+do { \
+  if (verbose) { \
+    FILE *stream = stderr; \
+    fprintf(stream, fmt, ## __VA_ARGS__); \
+    fflush(stream); \
+  } \
+} while (0)
 
 /******************************************************************************
  * option handling
  */
 
-static char *auth;
 static char *host;
+static char *auth;
 static char *xDisplay;
 static int no_daemon;
 static int quiet;
 static int verbose;
+static char *commandNameFile;
+static char *windowNameFile;
+
 static int xkb_major_opcode;
 
 static int brlapi_fd;
 
 static void *clipboardData;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "brlapi",
     .letter = 'b',
     .argument = strtext("[host][:port]"),
@@ -118,7 +129,36 @@ BEGIN_OPTION_TABLE(programOptions)
     .setting.flag = &no_daemon,
     .description = strtext("Remain a foreground process")
   },
-END_OPTION_TABLE(programOptions)
+
+  { .word = "write-command",
+    .letter = 'c',
+    .argument = strtext("file"),
+    .setting.string = &commandNameFile,
+    .description = strtext("file to write the name of the focused command to")
+  },
+
+  { .word = "write-window",
+    .letter = 'w',
+    .argument = strtext("file"),
+    .setting.string = &windowNameFile,
+    .description = strtext("file to write the name of the focused window to")
+  },
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "xbrlapi",
+  .purpose = strtext("Augment an X session by supporting input typed on the braille device, showing the title of the focused window on the braille display, and switching braille focus to it."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
 /******************************************************************************
  * error handling
@@ -193,7 +233,7 @@ static int tobrltty_init(char *auth, char *host) {
   brlapi_param_clientPriority_t priority;
   brlapi_param_retainDots_t dots;
 
-  if ((brlapi_fd = brlapi_openConnection(&settings,&settings))<0)
+  if ((brlapi_fd = brlapi_openConnection(&settings,&settings))==BRLAPI_INVALID_FILE_DESCRIPTOR)
   {
     if (!had_succeeded)
     {
@@ -319,14 +359,14 @@ static void api_setLastName(void) {
 }
 
 static void api_setName(const char *wm_name) {
-  if (brlapi_fd<0) return;
+  if (brlapi_fd < 0) return;
 
-  debugf("%s got focus\n",wm_name);
   if (last_name) {
-    if (!strcmp(wm_name,last_name)) return;
+    if (strcmp(wm_name, last_name) == 0) return;
     free(last_name);
   }
-  if (!(last_name=strdup(wm_name))) fatal_errno("strdup(wm_name)",NULL);
+
+  if (!(last_name = strdup(wm_name))) fatal_errno("strdup(wm_name)",NULL);
   api_setLastName();
 }
 
@@ -353,7 +393,7 @@ static const char *Xdisplay;
 static Display *dpy;
 
 static Window curWindow;
-static Atom netWmNameAtom, utf8StringAtom;
+static Atom netWmNameAtom, netWmCommandAtom, utf8StringAtom;
 
 static XSelData xselData;
 
@@ -363,26 +403,165 @@ static volatile sig_atomic_t grabFailed;
 iconv_t utf8Conv = (iconv_t)(-1);
 #endif /* HAVE_ICONV_H */
 
+static int isWindowProperty(Atom property, Atom netProperty, Atom xaProperty) {
+  if (netProperty != None) {
+    if (property == netProperty) {
+      return 1;
+    }
+  }
+
+  return property == xaProperty;
+}
+
+static char *getWindowProperty(Window win, Atom netProperty, Atom xaProperty) {
+  const long offset_0 = 0;
+  const Bool dont_delete = False;
+
+  char *ret;
+  unsigned char *value = NULL;
+  long value_length = 32;
+
+  Atom actual_type;
+  int actual_format;
+  unsigned long item_count;
+  unsigned long bytes_after;
+
+  if (netProperty != None) do {
+    Status result = XGetWindowProperty(
+      dpy, win, netProperty, offset_0, value_length, dont_delete,
+      /*XA_STRING*/AnyPropertyType,
+      &actual_type, &actual_format, &item_count, &bytes_after,
+      &value
+    );
+
+    if (result != Success) {
+      value = NULL;
+      break; /* window disappeared or not available */
+    }
+
+    value_length += bytes_after;
+    if (!bytes_after) break;
+    if (!XFree(value)) fatal("tempo_XFree(value)");
+  } while (1);
+
+  if (!value) do {
+    Status result = XGetWindowProperty(
+      dpy, win, xaProperty, offset_0, value_length, dont_delete,
+      /*XA_STRING*/AnyPropertyType,
+      &actual_type, &actual_format, &item_count, &bytes_after,
+      &value
+    );
+
+    if (result != Success) {
+      return NULL; /* window disappeared */
+    }
+
+    if (value_length >= (item_count + 1)) break;
+    value_length += bytes_after + 1;
+    if (!XFree(value)) fatal("tempo_XFree(value)");
+  } while (1);
+
+  if (actual_type == None) {
+    XFree(value);
+    return NULL;
+  }
+
+  value[item_count++] = 0;
+  ret = strdup((char *)value);
+  XFree(value);
+  debugf("window property: type %ld, len %ld, value \"%s\"\n", actual_type, item_count, ret);
+
+#ifdef HAVE_ICONV_H
+  {
+    if ((actual_type == utf8StringAtom) && (utf8Conv != (iconv_t)(-1))) {
+      size_t input_size = item_count;
+      char *input = ret;
+      size_t output_size = item_count * MB_CUR_MAX;
+      char *output = malloc(output_size);
+      char *ret2 = output;
+
+      if (iconv(utf8Conv, &input, &input_size, &output, &output_size) == -1) {
+	free(ret2);
+      } else {
+	free(ret);
+	ret = realloc(ret2, item_count * MB_CUR_MAX - output_size);
+	debugf("-> %s\n",ret);
+      }
+    }
+  }
+#endif /* HAVE_ICONV_H */
+
+  return ret;
+}
+
+static char *getWindowName(Window win) {
+  return getWindowProperty(win, netWmNameAtom, XA_WM_NAME);
+}
+
+static char *getWindowCommand(Window win) {
+  return getWindowProperty(win, netWmCommandAtom, XA_WM_COMMAND);
+}
+
+static char *getWindowApplicationName(Window win) {
+  char *name = NULL;
+  XClassHint *hint = XAllocClassHint();
+
+  if (hint) {
+    if (XGetClassHint(dpy, win, hint)) {
+      if (hint->res_class) XFree(hint->res_class);
+
+      if (hint->res_name) {
+        name = strdup(hint->res_name);
+        XFree(hint->res_name);
+      }
+    }
+
+    XFree(hint);
+  }
+
+  return name;
+}
+
 #define WINHASHBITS 12
 
 static struct window {
   Window win;
   Window root;
+  Window parent;
+
   char *wm_name;
+  char *wm_command;
+
   struct window *next;
 } *windows[(1<<WINHASHBITS)];
 
 #define WINHASH(win) windows[(win)>>(32-WINHASHBITS)^(win&((1<<WINHASHBITS)-1))]
 
-static void add_window(Window win, Window root, char *wm_name) {
+static void add_window(Window win, Window root, Window parent) {
   struct window *cur;
-  if (!(cur=malloc(sizeof(struct window))))
+
+  if (!(cur = malloc(sizeof(*cur)))) {
     fatal_errno("malloc(struct window)",NULL);
-  cur->win=win;
-  cur->wm_name=wm_name;
-  cur->root=root;
-  cur->next=WINHASH(win);
-  WINHASH(win)=cur;
+  }
+
+  cur->win = win;
+  cur->root = root;
+  cur->parent = parent;
+
+  cur->wm_name = getWindowName(win);
+  cur->wm_command = getWindowCommand(win);
+
+  cur->next = WINHASH(win);
+  WINHASH(win) = cur;
+
+  debugf(
+    "window %#010lx added: root %#010lx, parent %#010lx\n",
+    win, root, parent
+  );
+}
+
+static void add_orphan_window(Window win) {
+  add_window(win, None, None);
 }
 
 static struct window *window_of_Window(Window win) {
@@ -416,6 +595,7 @@ static int del_window(Window win) {
   if (cur) {
     *pred=cur->next;
     free(cur->wm_name);
+    free(cur->wm_command);
     free(cur);
     return 0;
   } else return -1;
@@ -505,66 +685,6 @@ static int grabWindow(Window win,int level) {
   return 1;
 }
 
-static char *getWindowTitle(Window win) {
-  int wm_name_size=32;
-  Atom actual_type;
-  int actual_format;
-  unsigned long nitems,bytes_after;
-  unsigned char *wm_name=NULL;
-  char *ret;
-
-  do {
-    if (XGetWindowProperty(dpy,win,netWmNameAtom,0,wm_name_size,False,
-	/*XA_STRING*/AnyPropertyType,&actual_type,&actual_format,&nitems,&bytes_after,
-	&wm_name)) {
-      wm_name = NULL;
-      break; /* window disappeared or not available */
-    }
-    wm_name_size+=bytes_after;
-    if (!bytes_after) break;
-    if (!XFree(wm_name)) fatal("tempo_XFree(wm_name)");
-  } while (1);
-  if (!wm_name) do {
-    if (XGetWindowProperty(dpy,win,XA_WM_NAME,0,wm_name_size,False,
-	/*XA_STRING*/AnyPropertyType,&actual_type,&actual_format,&nitems,&bytes_after,
-	&wm_name))
-      return NULL; /* window disappeared */
-    if (wm_name_size >= nitems + 1) break;
-    wm_name_size += bytes_after + 1;
-    if (!XFree(wm_name)) fatal("tempo_XFree(wm_name)");
-  } while (1);
-  if (actual_type==None) {
-    XFree(wm_name);
-    return NULL;
-  }
-  wm_name[nitems++] = 0;
-  ret = strdup((char *) wm_name);
-  XFree(wm_name);
-  debugf("type %ld name %s len %ld\n",actual_type,ret,nitems);
-#ifdef HAVE_ICONV_H
-  {
-    if (actual_type == utf8StringAtom && utf8Conv != (iconv_t)(-1)) {
-      char *ret2;
-      size_t input_size, output_size;
-      char *input, *output;
-
-      input_size = nitems;
-      input = ret;
-      output_size = nitems * MB_CUR_MAX;
-      output = ret2 = malloc(output_size);
-      if (iconv(utf8Conv, &input, &input_size, &output, &output_size) == -1) {
-	free(ret2);
-      } else {
-	free(ret);
-	ret = realloc(ret2, nitems * MB_CUR_MAX - output_size);
-	debugf("-> %s\n",ret);
-      }
-    }
-  }
-#endif /* HAVE_ICONV_H */
-  return ret;
-}
-
 static int grabWindows(Window win,int level) {
   Window root,parent,*children;
   unsigned int nchildren,i;
@@ -574,41 +694,58 @@ static int grabWindows(Window win,int level) {
 
   if (!XQueryTree(dpy,win,&root,&parent,&children,&nchildren)) return 0;
 
-  add_window(win,root,getWindowTitle(win));
+  add_window(win,root,parent);
 
   if (!children) return 1;
 
-  for (i=0;i<nchildren;i++)
-    if (children[i] && !grabWindows(children[i],level+1)) {
+  for (i=0; i<nchildren; i+=1) {
+    if (children[i] && !grabWindows(children[i], level+1)) {
       res=0;
       break;
     }
+  }
 
   if (!XFree(children)) fatal("XFree(children)");
   return res;
 }
 
-static void setName(const struct window *window) {
-  if (!window->wm_name) {
-    if (window->win!=window->root)
-      api_setName("window without name");
-  } else api_setName(window->wm_name);
+static void writeStateToFile(const char *file, const char *state) {
+  if (*file) {
+    FILE *stream = fopen(file, "w");
+
+    if (stream) {
+      fputs(state, stream);
+      fclose(stream);
+    }
+  }
 }
 
 static void setFocus(Window win) {
   curWindow=win;
   api_setFocus((uint32_t)win);
 
-  if (!quiet) {
-    struct window *window = window_of_Window(win);
+  struct window *window = window_of_Window(win);
+  const char *windowName = NULL;
+  char *commandName = NULL;
 
-    if (window) {
-      setName(window);
-    } else {
-      fprintf(stderr, gettext("xbrlapi: didn't grab window %#010lx but got focus\n"), win);
-      api_setName(isRootWindow(win)? "root window": "unnamed window");
-    }
+  if (window) {
+    windowName = window->wm_name;
+    commandName = getWindowApplicationName(win);
+  } else {
+    fprintf(stderr, gettext("xbrlapi: didn't grab window %#010lx but got focus\n"), win);
+    windowName = isRootWindow(win)? "root window": "unknown window";
   }
+
+  if (!windowName) windowName = "";
+  if (!*windowName) windowName = "unnamed window";
+  debugf("focused window: %s\n", windowName);
+  writeStateToFile(windowNameFile, windowName);
+  if (!quiet) api_setName(windowName);
+
+  if (!commandName) commandName = strdup("");
+  debugf("focused command: %s\n", commandName);
+  writeStateToFile(commandNameFile, commandName);
+  free(commandName);
 }
 
 #ifdef CAN_SIMULATE_KEY_PRESSES
@@ -711,6 +848,7 @@ static void toX_f(const char *display) {
 #endif /* CAN_SIMULATE_KEY_PRESSES */
   }
   netWmNameAtom = XInternAtom(dpy,"_NET_WM_NAME",False);
+  netWmCommandAtom = None;
   utf8StringAtom = XInternAtom(dpy,"UTF8_STRING",False);
 
 #if defined(HAVE_NL_LANGINFO) && defined(HAVE_ICONV_H)
@@ -783,15 +921,18 @@ static void toX_f(const char *display) {
       /* create & destroy events */
       case CreateNotify: {
       /* there's a race condition here : a window may get the focus or change
-       * its title between it is created and we achieve XSelectInput on it */
+       * its name between when it's created and we achieve XSelectInput on it */
 	Window win = ev.xcreatewindow.window;
-	struct window *window;
-	if (!grabWindow(win,0)) break; /* window already disappeared ! */
+	if (!grabWindow(win,0)) break; /* window already disappeared! */
 	debugf("win %#010lx created\n",win);
-	if (!(window = window_of_Window(ev.xcreatewindow.parent))) {
+
+	struct window *parent_window;
+	if (!(parent_window = window_of_Window(ev.xcreatewindow.parent))) {
 	  fprintf(stderr,gettext("xbrlapi: didn't grab parent of %#010lx\n"),win);
-	  add_window(win,None,getWindowTitle(win));
-	} else add_window(win,window->root,getWindowTitle(win));
+	  add_orphan_window(win);
+	} else {
+          add_window(win, parent_window->root, parent_window->win);
+        }
       } break;
       case DestroyNotify:
 	debugf("win %#010lx destroyed\n",ev.xdestroywindow.window);
@@ -800,25 +941,50 @@ static void toX_f(const char *display) {
 	break;
 
       /* Property change: WM_NAME ? */
-      case PropertyNotify:
-	if (ev.xproperty.atom==XA_WM_NAME ||
-	    (netWmNameAtom != None && ev.xproperty.atom == netWmNameAtom)) {
-	  Window win = ev.xproperty.window;
-	  debugf("WM_NAME property of %#010lx changed\n",win);
-	  struct window *window;
-	  if (!(window=window_of_Window(win))) {
-	    fprintf(stderr,gettext("xbrlapi: didn't grab window %#010lx\n"),win);
-	    add_window(win,None,getWindowTitle(win));
+      case PropertyNotify: {
+        Window win = ev.xproperty.window;
+        struct window *window = window_of_Window(win);
+
+	if (isWindowProperty(ev.xproperty.atom, netWmNameAtom, XA_WM_NAME)) {
+	  debugf("WM_NAME property of %#010lx changed\n", win);
+
+	  if (!window) {
+	    fprintf(stderr, gettext("xbrlapi: didn't grab window %#010lx\n"), win);
+	    add_orphan_window(win);
 	  } else {
-	    if (window->wm_name)
+	    if (window->wm_name) {
 	      if (!XFree(window->wm_name)) fatal(gettext("XFree(wm_name) for change"));
-	    if ((window->wm_name=getWindowTitle(win))) {
-	      if (!quiet && win==curWindow)
+            }
+
+	    if ((window->wm_name = getWindowName(win))) {
+	      if (!quiet && (win == curWindow)) {
 		api_setName(window->wm_name);
-	    } else fprintf(stderr,gettext("xbrlapi: window %#010lx changed to NULL name\n"),win);
+              }
+	    } else {
+              fprintf(stderr,gettext("xbrlapi: window %#010lx changed to NULL name\n"), win);
+            }
+	  }
+	} else if (isWindowProperty(ev.xproperty.atom, netWmCommandAtom, XA_WM_COMMAND)) {
+	  debugf("WM_COMMAND property of %#010lx changed\n", win);
+
+	  if (!window) {
+	    fprintf(stderr, gettext("xbrlapi: didn't grab window %#010lx\n"), win);
+	    add_orphan_window(win);
+	  } else {
+	    if (window->wm_command) {
+	      if (!XFree(window->wm_command)) fatal(gettext("XFree(wm_command) for change"));
+            }
+
+	    if ((window->wm_command = getWindowCommand(win))) {
+	    } else {
+              fprintf(stderr,gettext("xbrlapi: window %#010lx changed to NULL command\n"), win);
+            }
 	  }
 	}
+
 	break;
+      }
+
       case MappingNotify:
 	XRefreshKeyboardMapping(&ev.xmapping);
 	break;
@@ -1034,18 +1200,7 @@ static void term_handler(int foo) {
 
 int
 main (int argc, char *argv[]) {
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "xbrlapi",
-
-      .usage = {
-        .purpose = strtext("Augment an X session by supporting input typed on the braille device, showing the title of the focused window on the braille display, and switching braille focus to it."),
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
   signal(SIGTERM,term_handler);
   signal(SIGINT,term_handler);

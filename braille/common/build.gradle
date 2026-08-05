@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 apply from: "../../shared.gradle"
 
+android {
+    namespace = "com.google.android.accessibility.braille.common"
+}
+
 dependencies {
     implementation project(':brailleinterfaces')
     implementation project(':brailletranslate')
     implementation project(':proguard')
     implementation project(':utils')
-}
-
-android {
-    namespace "com.google.android.accessibility.braille.common"
 }

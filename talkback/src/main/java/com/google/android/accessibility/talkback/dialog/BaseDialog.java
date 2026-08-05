@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import androidx.annotation.Nullable;
@@ -30,10 +31,16 @@ import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline.FeedbackReturner;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.actor.DimScreenActor;
+import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
+import com.google.android.accessibility.utils.DisplayUtils;
 import com.google.android.accessibility.utils.FormFactorUtils;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
+import com.google.android.accessibility.utils.material.AlertDialogUtils;
 import com.google.android.accessibility.utils.widget.DialogUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * This is a base class to handle show, dismiss and click events from dialogs. If the context is
@@ -46,10 +53,12 @@ public abstract class BaseDialog {
 
   protected final Context context;
   private final int dialogTitleResId;
+  @Nullable private String dialogTitle;
   @Nullable private A11yAlertDialogWrapper dialog;
   @Nullable private FeedbackReturner pipeline;
   private boolean isSoftInputMode = false;
   private boolean needToRestoreFocus = false;
+  private boolean includePositiveButton = true;
   private boolean includeNegativeButton = true;
   private int positiveButtonStringRes;
   private int negativeButtonStringRes;
@@ -77,7 +86,7 @@ public abstract class BaseDialog {
    * Gets the message string for dialog to display.
    *
    * <p>The message which is shown in the customized message area should be set by {@link
-   * BaseDialog#getCustomizedView()}.
+   * BaseDialog#getCustomizedView(LayoutInflater)}.
    *
    * @return the dialog message which is shown in the default message area. Return null, if the
    *     message is shown in the customized message area.
@@ -85,10 +94,15 @@ public abstract class BaseDialog {
   public abstract String getMessageString();
 
   /** Gets the customized view for dialog to display. */
-  public abstract View getCustomizedView();
+  public abstract View getCustomizedView(LayoutInflater inflater);
 
   ////////////////////////////////////////////////////////////////////////////
   // Optional setter for dialog
+
+  /** Sets the dialog title to the given text. */
+  public void setTitle(String title) {
+    dialogTitle = title;
+  }
 
   /**
    * Enables the button on the dialog.
@@ -149,9 +163,18 @@ public abstract class BaseDialog {
     this.pipeline = pipeline;
   }
 
+  @CanIgnoreReturnValue
+  /** Sets ok Button on the dialog depending on the boolean value. */
+  public BaseDialog setIncludePositiveButton(boolean includePositiveButton) {
+    this.includePositiveButton = includePositiveButton;
+    return this;
+  }
+
+  @CanIgnoreReturnValue
   /** Sets cancel Button on the dialog depending on the boolean value. */
-  public void setIncludeNegativeButton(boolean includeNegativeButton) {
+  public BaseDialog setIncludeNegativeButton(boolean includeNegativeButton) {
     this.includeNegativeButton = includeNegativeButton;
+    return this;
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -168,17 +191,48 @@ public abstract class BaseDialog {
       return dialog;
     }
 
+    boolean isDimScreenEnabled =
+        DimScreenActor.isDimScreenEnabled(
+            context, SharedPreferencesUtils.getSharedPreferences(context));
+
     final DialogInterface.OnClickListener onClickListener =
         (dialog, buttonClicked) -> clickDialogInternal(buttonClicked);
     final DialogInterface.OnDismissListener onDismissListener = dialog -> dismissDialogInternal();
 
-    A11yAlertDialogWrapper.Builder dialogBuilder =
-        A11yAlertDialogWrapper.materialDialogBuilder(
-                new ContextThemeWrapper(context, R.style.A11yAlertDialogCustomViewTheme))
-            .setTitle(dialogTitleResId)
-            .setPositiveButton(positiveButtonStringRes, onClickListener)
-            .setOnDismissListener(onDismissListener)
-            .setCancelable(true);
+    A11yAlertDialogWrapper.Builder dialogBuilder;
+    LayoutInflater inflater;
+    // Support multi-display
+    final Context displayContext =
+        (context instanceof TalkBackService service)
+            ? DisplayUtils.getDisplayContextByWindow(
+                service, AccessibilityServiceCompatUtils.getActiveWidow(service))
+            : context;
+    if (isDimScreenEnabled) {
+      // Use black theme when screen is dimming.
+      dialogBuilder =
+          A11yAlertDialogWrapper.materialDialogBuilder(displayContext, R.style.BlackAlertDialog);
+      inflater =
+          LayoutInflater.from(new ContextThemeWrapper(displayContext, R.style.BlackAlertDialog));
+    } else {
+      dialogBuilder =
+          A11yAlertDialogWrapper.materialDialogBuilder(
+              new ContextThemeWrapper(displayContext, R.style.A11yAlertDialogCustomViewTheme));
+      inflater =
+          LayoutInflater.from(
+              new ContextThemeWrapper(displayContext, R.style.TalkbackMaterialDialogTheme));
+    }
+    dialogBuilder = dialogBuilder.setOnDismissListener(onDismissListener).setCancelable(true);
+
+    if (!TextUtils.isEmpty(dialogTitle)) {
+      dialogBuilder = dialogBuilder.setTitle(dialogTitle);
+    } else {
+      dialogBuilder = dialogBuilder.setTitle(dialogTitleResId);
+    }
+
+    if (includePositiveButton) {
+      dialogBuilder = dialogBuilder.setPositiveButton(positiveButtonStringRes, onClickListener);
+    }
+
     if (includeNegativeButton) {
       dialogBuilder = dialogBuilder.setNegativeButton(negativeButtonStringRes, onClickListener);
     }
@@ -191,11 +245,12 @@ public abstract class BaseDialog {
     if (!TextUtils.isEmpty(message)) {
       dialogBuilder = dialogBuilder.setMessage(message);
     }
-    View customizedView = getCustomizedView();
+
+    View customizedView = getCustomizedView(inflater);
     if (customizedView != null) {
       dialogBuilder = dialogBuilder.setView(customizedView);
 
-      if (FormFactorUtils.getInstance().isAndroidWear()) {
+      if (FormFactorUtils.isAndroidWear()) {
         // Support Wear rotary input
         customizedView.requestFocus();
       }
@@ -213,7 +268,8 @@ public abstract class BaseDialog {
           "Create BaseDialog from context not instance of TalkBackService, class:"
               + context.getClass());
     }
-    dialog.show();
+
+    AlertDialogUtils.safeShow(dialog);
 
     registerServiceDialog(isSoftInputMode);
     return dialog;

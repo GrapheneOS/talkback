@@ -62,19 +62,19 @@ public class BrailleImeAnalytics {
   public void collectSessionEvents() {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionKeySpace() {}
+  public void logGestureActionKeySpace(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionKeyDeleteCharacter() {}
+  public void logGestureActionKeyDeleteCharacter(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionKeyDeleteWord() {}
+  public void logGestureActionKeyDeleteWord(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionKeyNewline() {}
+  public void logGestureActionKeyNewline(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSubmitText() {}
+  public void logGestureActionSubmitText(boolean customized) {}
 
   /** Stub implementation does nothing. */
   public void logGestureActionCloseKeyboard() {}
@@ -86,10 +86,10 @@ public class BrailleImeAnalytics {
   public void logGestureActionOpenOptionsMenu() {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorForward() {}
+  public void logGestureActionMoveCursorForward(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorBackward() {}
+  public void logGestureActionMoveCursorBackward(boolean customized) {}
 
   /** Stub implementation does nothing. */
   public void logContractedToggle(boolean contractedModeOn) {}
@@ -131,62 +131,68 @@ public class BrailleImeAnalytics {
       CalibrationTriggeredType calibrationType, boolean tabletop, boolean isEight) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorForwardByCharacter() {}
+  public void logGestureActionMoveCursorForwardByCharacter(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorBackwardByCharacter() {}
+  public void logGestureActionMoveCursorBackwardByCharacter(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorForwardByWord() {}
+  public void logGestureActionMoveCursorForwardByWord(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorBackwardByWord() {}
+  public void logGestureActionMoveCursorBackwardByWord(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorForwardByLine() {}
+  public void logGestureActionMoveCursorForwardByLine(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorBackwardByLine() {}
+  public void logGestureActionMoveCursorBackwardByLine(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorToBeginning() {}
+  public void logGestureActionMoveCursorToBeginning(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionMoveCursorToEnd() {}
+  public void logGestureActionMoveCursorToEnd(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSelectNextCharacter() {}
+  public void logGestureActionSelectNextCharacter(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSelectPreviousCharacter() {}
+  public void logGestureActionSelectPreviousCharacter(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSelectNextWord() {}
+  public void logGestureActionSelectNextWord(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSelectPreviousWord() {}
+  public void logGestureActionSelectPreviousWord(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSelectNextLine() {}
+  public void logGestureActionSelectNextLine(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSelectPreviousLine() {}
+  public void logGestureActionSelectPreviousLine(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSelectAllText() {}
+  public void logGestureActionSelectAllText(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionCut() {}
+  public void logGestureActionSelectCursorToStart(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionCopy() {}
+  public void logGestureActionSelectCursorToEnd(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionPaste() {}
+  public void logGestureActionCut(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSwitchToNextEditingGranularity() {}
+  public void logGestureActionCopy(boolean customized) {}
 
   /** Stub implementation does nothing. */
-  public void logGestureActionSwitchToPreviousEditingGranularity() {}
+  public void logGestureActionPaste(boolean customized) {}
+
+  /** Stub implementation does nothing. */
+  public void logGestureActionSwitchToNextEditingGranularity(boolean customized) {}
+
+  /** Stub implementation does nothing. */
+  public void logGestureActionSwitchToPreviousEditingGranularity(boolean customized) {}
 }

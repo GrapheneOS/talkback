@@ -33,6 +33,14 @@ import java.util.zip.ZipInputStream;
 public class TranslateUtils {
   private static final String TAG = "TranslateUtils";
 
+  /**
+   * Extracts the tables from the zip file.
+   *
+   * @param resources the resources
+   * @param rawResId the raw resource id of the zip file
+   * @param output the output directory
+   * @return true if the extraction is successful, false otherwise
+   */
   public static boolean extractTables(Resources resources, int rawResId, File output) {
     List<File> extractedFiles = new ArrayList<>();
     final InputStream stream = resources.openRawResource(rawResId);

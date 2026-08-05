@@ -17,6 +17,8 @@
 package com.google.android.accessibility.brailleime;
 
 import static android.content.Context.WINDOW_SERVICE;
+import static com.google.android.accessibility.braille.common.translate.BrailleTranslateUtils.getDotsDescription;
+import static java.lang.Math.max;
 
 import android.Manifest;
 import android.animation.ArgbEvaluator;
@@ -32,7 +34,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.InputMethodService;
 import android.os.Build;
-import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -54,6 +56,15 @@ import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import com.google.android.accessibility.braille.common.BrailleUserPreferences;
 import com.google.android.accessibility.braille.common.ImeConnection;
+import com.google.android.accessibility.brailleime.input.DotHoldSwipe;
+import com.google.android.accessibility.brailleime.input.Gesture;
+import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.Constants;
+import com.google.android.accessibility.utils.BuildVersionUtils;
+import com.google.android.accessibility.utils.PreferenceSettingsUtils;
+import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -125,8 +136,7 @@ public class Utils {
    */
   public static int getPaintTextBaselineInPixels(Paint paint) {
     Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-    int baseline = (int) ((fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom);
-    return baseline;
+    return (int) ((fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom);
   }
 
   /**
@@ -145,17 +155,12 @@ public class Utils {
     if (vector.x == 0 || vector.y == 0) {
       return true;
     }
-    return Math.max(Math.abs(vector.x / vector.y), Math.abs(vector.y / vector.x)) > ratioThreshold;
+    return max(Math.abs(vector.x / vector.y), Math.abs(vector.y / vector.x)) > ratioThreshold;
   }
 
   /** Inserts space between characters. Example: "abc" -> "a b c". */
   public static String insertSpacesInto(String arg) {
     return arg.replace("", " ").trim();
-  }
-
-  /** Returns {@code true} if the runtime is Robolectric. */
-  public static boolean isRobolectric() {
-    return "robolectric".equals(Build.FINGERPRINT);
   }
 
   /** Formats {@code substring} as {@code drawable}. */
@@ -211,20 +216,6 @@ public class Utils {
     } catch (RuntimeException e) {
       return Optional.empty();
     }
-  }
-
-  /**
-   * Attaches a Settings Highlight description {@link Bundle} with the given {@link Intent}.
-   *
-   * <p>Only works on Pixel devices; has no effect on other devices.
-   *
-   * <p>For more information, see
-   * https://docs.google.com/document/d/1LnnoitwKYd-dNxQ7HE9PRynBp_vLa2aT-s-3D4VD8u4
-   */
-  public static void attachSettingsHighlightBundle(Intent intent, ComponentName componentName) {
-    Bundle bundle = new Bundle();
-    bundle.putString(":settings:fragment_args_key", componentName.flattenToString());
-    intent.putExtra(":settings:show_fragment_args", bundle);
   }
 
   /**
@@ -335,21 +326,6 @@ public class Utils {
     return resId > 0 && resources.getInteger(resId) == NAV_BAR_MODE_GESTURAL;
   }
 
-  /**
-   * Capitalize the first letter of a string. Supports Unicode.
-   *
-   * @param str The input {@link String} for which to capitalize the first letter
-   * @return The input {@link String} with the first letter capitalized
-   */
-  public static String capitalizeFirstLetter(String str) {
-    if (TextUtils.isEmpty(str)) {
-      return str;
-    }
-    return Character.isUpperCase(str.charAt(0))
-        ? str
-        : str.substring(0, 1).toUpperCase(Locale.getDefault()) + str.substring(1);
-  }
-
   /** Returns the braille keyboard display name. */
   public static String getBrailleKeyboardDisplayName(Context context) {
     String name;
@@ -404,5 +380,83 @@ public class Utils {
       return extractedText.hint;
     }
     return "";
+  }
+
+  /** Highlights TalkBack item in Accessibility Settings upon arriving there (Pixel only). */
+  public static void highlightTalkBackSettings(Context context) {
+    Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+    intent.addFlags(
+        Intent.FLAG_ACTIVITY_NEW_TASK
+            | Intent.FLAG_ACTIVITY_CLEAR_TASK
+            | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    // Highlight TalkBack item in Accessibility Settings upon arriving there (Pixel only).
+    PreferenceSettingsUtils.attachSettingsHighlightBundle(intent, Constants.TALKBACK_SERVICE);
+    context.startActivity(intent);
+  }
+
+  /** Collapses the notification panel. */
+  public static void collapseNotificationPanel(Context context) {
+    // The ACTION_CLOSE_SYSTEM_DIALOGS intent action is deprecated from S. The platform will
+    // automatically collapse the proper system dialogs in the proper use-cases.
+    if (!BuildVersionUtils.isAtLeastS()) {
+      // Collapse notification panel (quick settings).
+      context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+    }
+  }
+
+  /** Returns true if the device supports the multi-touch system feature. */
+  public static boolean isMultiTouchSupported(Context context) {
+    return context
+        .getPackageManager()
+        .hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_JAZZHAND);
+  }
+
+  /**
+   * Returns the combined gesture description for a list of gestures.
+   *
+   * <p>If the list contains a DotHoldSwipe gesture, the combined gesture description will be "Hold
+   * and swipe" followed by the swipe direction.
+   *
+   * <p>If the list contains a single gesture, the gesture description will be returned.
+   *
+   * <p>If the list contains multiple gestures, the first gesture will be returned.
+   */
+  public static String getCombinedGestureDescription(Context context, List<Gesture> gestures) {
+    StringBuilder sb = new StringBuilder();
+    if (gestures.size() > 1 && gestures.get(0) instanceof DotHoldSwipe) {
+      Collections.sort(gestures, Comparator.comparingInt(lhs -> lhs.getHeldDots().toInt()));
+      Gesture firsetGesture = gestures.get(0);
+      Gesture secondGesture = gestures.get(1);
+      int touchCount = firsetGesture.getSwipe().getTouchCount();
+      String dotDescription =
+          context.getString(
+              R.string.gesture1_or_gesture2,
+              getDotsDescription(context.getResources(), firsetGesture.getHeldDots()),
+              getDotsDescription(context.getResources(), secondGesture.getHeldDots()));
+      if (touchCount > 1) {
+        sb.append(
+            context
+                .getResources()
+                .getString(
+                    R.string.gesture_hold_and_swipe_multiple_finger,
+                    dotDescription,
+                    firsetGesture.getSwipe().getDirection().getDescription(context.getResources()),
+                    NumberFormat.getNumberInstance(Locale.getDefault()).format(touchCount)));
+      } else {
+        sb.append(
+            context
+                .getResources()
+                .getString(
+                    R.string.gesture_hold_and_swipe_one_finger,
+                    dotDescription,
+                    firsetGesture
+                        .getSwipe()
+                        .getDirection()
+                        .getDescription(context.getResources())));
+      }
+    } else {
+      sb.append(gestures.get(0).getDescription(context.getResources()));
+    }
+    return sb.toString();
   }
 }

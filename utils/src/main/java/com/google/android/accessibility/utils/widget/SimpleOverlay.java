@@ -19,24 +19,31 @@ package com.google.android.accessibility.utils.widget;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.WindowManager.BadTokenException;
 import android.view.WindowManager.LayoutParams;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewTreeLifecycleOwner;
+import androidx.savedstate.ViewTreeSavedStateRegistryOwner;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.android.libraries.accessibility.utils.servicecompat.AccessibilityServiceCompat;
 
 /** Provides a simple full-screen overlay. Behaves like a {@link android.app.Dialog} but simpler. */
 public class SimpleOverlay {
+
+  private static final String LOG_TAG = "SimpleOverlay";
+
   private final Context context;
   private final WindowManager windowManager;
-  private final ViewGroup contentView;
+  private final ViewGroup rootView;
   private final LayoutParams params;
   private final int id;
 
@@ -76,7 +83,7 @@ public class SimpleOverlay {
   public SimpleOverlay(Context context, int id, final boolean sendsAccessibilityEvents) {
     this.context = context;
     windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-    contentView =
+    rootView =
         new FrameLayout(context) {
           @Override
           public boolean dispatchKeyEvent(KeyEvent event) {
@@ -126,6 +133,10 @@ public class SimpleOverlay {
             }
           }
         };
+    if (context instanceof AccessibilityServiceCompat accessibilityServiceCompat) {
+      ViewTreeLifecycleOwner.set(rootView, accessibilityServiceCompat);
+      ViewTreeSavedStateRegistryOwner.set(rootView, accessibilityServiceCompat);
+    }
 
     params = new WindowManager.LayoutParams();
     params.type = LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
@@ -195,11 +206,16 @@ public class SimpleOverlay {
     // The parent is ViewRootImpl which is available after adding view to the window.
     // If we have ViewRootImpl and isVisible is false, it means we adding the view failed.
     // And we try to remove the view from WindowManagerGlobal.
-    if (contentView.getParent() != null) {
-      windowManager.removeViewImmediate(contentView);
+    if (rootView.getParent() != null) {
+      windowManager.removeViewImmediate(rootView);
     }
 
-    windowManager.addView(contentView, params);
+    try {
+      windowManager.addView(rootView, params);
+    } catch (BadTokenException e) {
+      LogUtils.e(LOG_TAG, e, "BadTokenException is detected in %s.", getClass().getName());
+      return;
+    }
     isVisible = true;
 
     if (listener != null) {
@@ -218,7 +234,7 @@ public class SimpleOverlay {
       return;
     }
 
-    windowManager.removeViewImmediate(contentView);
+    windowManager.removeViewImmediate(rootView);
     isVisible = false;
 
     if (listener != null) {
@@ -258,7 +274,7 @@ public class SimpleOverlay {
   /** Updates the current layout if this overlay is visible. */
   public void updateViewLayout() {
     if (isVisible) {
-      windowManager.updateViewLayout(contentView, this.params);
+      windowManager.updateViewLayout(rootView, params);
     }
   }
 
@@ -268,31 +284,18 @@ public class SimpleOverlay {
   }
 
   /**
-   * Inflates the specified resource ID and sets it as the content view.
-   *
-   * @param layoutResId The layout ID of the view to set as the content view.
-   */
-  public void setContentView(int layoutResId) {
-    contentView.removeAllViews();
-    final LayoutInflater inflater = LayoutInflater.from(context);
-    inflater.inflate(layoutResId, contentView);
-  }
-
-  /**
    * Sets the specified view as the content view.
    *
    * @param content The view to set as the content view.
    */
   public void setContentView(View content) {
-    contentView.removeAllViews();
-    contentView.addView(content);
+    rootView.removeAllViews();
+    rootView.addView(content);
   }
 
-  /**
-   * Returns the root {@link View} for this overlay. This is <strong>not</strong> the content view.
-   */
-  public View getRootView() {
-    return contentView;
+  /** Returns the root {@link View} for this overlay. */
+  public ViewGroup getRootView() {
+    return rootView;
   }
 
   /**
@@ -302,7 +305,7 @@ public class SimpleOverlay {
    * @return The view with the specified ID, or {@code null} if not found.
    */
   public View findViewById(int id) {
-    return contentView.findViewById(id);
+    return rootView.findViewById(id);
   }
 
   /** Handles overlay visibility change callbacks. */
@@ -312,13 +315,13 @@ public class SimpleOverlay {
      *
      * @param overlay The overlay that was displayed.
      */
-    public void onShow(SimpleOverlay overlay);
+    void onShow(SimpleOverlay overlay);
 
     /**
      * Called after the overlay is hidden.
      *
      * @param overlay The overlay that was hidden.
      */
-    public void onHide(SimpleOverlay overlay);
+    void onHide(SimpleOverlay overlay);
   }
 }

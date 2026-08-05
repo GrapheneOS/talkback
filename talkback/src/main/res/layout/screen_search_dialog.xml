@@ -62,7 +62,7 @@
         android:layout_toEndOf="@id/button_divider"
         android:layout_toStartOf="@+id/clear_keyword"
         android:background="@android:color/transparent"
-        android:hint="@string/hint_type_search_term"
+        android:hint="@string/screen_search_hint_type_search_screen"
         android:ellipsize="end"
         android:maxLines="1"
         android:imeOptions="actionSearch|flagNoExtractUi"

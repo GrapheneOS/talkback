@@ -76,7 +76,7 @@ public class GridTraversalManager {
     int currentColumn = currentNode.getCollectionItemInfo().getColumnIndex();
 
     switch (searchDirection) {
-      case TraversalStrategy.SEARCH_FOCUS_FORWARD:
+      case TraversalStrategy.SEARCH_FOCUS_FORWARD -> {
         if (currentColumn + 1 == numColumns) {
           if (currentRow + 1 == numRows) {
             // End of grid.
@@ -86,7 +86,8 @@ public class GridTraversalManager {
           return Pair.create(currentRow + 1, 0);
         }
         return Pair.create(currentRow, currentColumn + 1);
-      case TraversalStrategy.SEARCH_FOCUS_BACKWARD:
+      }
+      case TraversalStrategy.SEARCH_FOCUS_BACKWARD -> {
         if (currentColumn == 0) {
           if (currentRow == 0) {
             // Beginning of grid.
@@ -96,8 +97,10 @@ public class GridTraversalManager {
           return Pair.create(currentRow - 1, numColumns - 1);
         }
         return Pair.create(currentRow, currentColumn - 1);
-      default:
+      }
+      default -> {
         return null;
+      }
     }
   }
 

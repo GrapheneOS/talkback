@@ -35,6 +35,7 @@
   <string name="symbol_period">ຈ້ຳເມັດ</string>
   <string name="symbol_pi">​ປີ້</string>
   <string name="symbol_pound">ປອນ</string>
+  <string name="symbol_hash">ແຮຊ</string>
   <string name="symbol_pound_sterling">ເຄື່ອງໝາຍສະກຸນເງິນພາວ</string>
   <string name="symbol_currency_peso">ເຄື່ອງໝາຍເປໂຊ</string>
   <string name="symbol_currency_dong">ເຄື່ອງໝາຍດົງ</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">ວົງຂໍຂວາ</string>
   <string name="symbol_square_root">ຮາກຂັ້ນ​ສອງ</string>
   <string name="symbol_trademark">ເຄື່ອງຫມາຍການຄ້າ</string>
+  <string name="symbol_check_mark">ໝາຍຖືກ</string>
   <string name="symbol_underscore">​ຂີດ​ກ້ອງ</string>
   <string name="symbol_vertical_bar">​ເສັ້ນ​ລວງຕັ້ງ</string>
   <string name="symbol_yen">ເຢນ</string>

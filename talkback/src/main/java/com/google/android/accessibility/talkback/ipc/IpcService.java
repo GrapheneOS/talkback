@@ -16,6 +16,8 @@
 
 package com.google.android.accessibility.talkback.ipc;
 
+import static com.google.android.accessibility.talkback.trainingcommon.TrainingActivity.EXTRA_TRAINING_SHOW_EXIT_BANNER;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -27,8 +29,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import androidx.annotation.MainThread;
+import com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId;
-import com.google.android.accessibility.utils.caption.ImageCaptionUtils.CaptionType;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -54,6 +56,8 @@ public class IpcService extends Service {
   public static final int MSG_DOWNLOAD_ICON_DETECTION = 8;
   public static final int MSG_DOWNLOAD_IMAGE_DESCRIPTION = 9;
 
+  public static final int MSG_NOTIFY_HAS_TRAINING_BANNER = 10;
+
   /**
    * Receives the data from {@link IpcClient} or sends the response to {@link IpcClient}.
    *
@@ -68,46 +72,42 @@ public class IpcService extends Service {
               LogUtils.v(TAG, "handleMessage(): %s", msg.what);
 
               switch (msg.what) {
-                case MSG_REQUEST_GESTURES:
-                  {
-                    Messenger clientMessenger = msg.replyTo;
-                    if (clientMessenger == null || sClientCallback == null) {
-                      LogUtils.e(TAG, "No client messenger or clientCallback.");
-                      return;
-                    }
-                    Bundle data =
-                        sClientCallback.onRequestGesture(IpcService.this.getApplicationContext());
-                    Message message = Message.obtain(/* h= */ null, MSG_REQUEST_GESTURES);
-                    message.setData(data);
-                    try {
-                      clientMessenger.send(message);
-                    } catch (RemoteException e) {
-                      LogUtils.w(TAG, "Fail to send gestures to client.");
-                    }
-                    break;
+                case MSG_REQUEST_GESTURES -> {
+                  Messenger clientMessenger = msg.replyTo;
+                  if (clientMessenger == null || sClientCallback == null) {
+                    LogUtils.e(TAG, "No client messenger or clientCallback.");
+                    return;
                   }
-                case MSG_TRAINING_PAGE_SWITCHED:
-                  {
-                    @Nullable PageId pageId =
-                        (PageId) msg.getData().getSerializable(EXTRA_TRAINING_PAGE_ID);
-                    if (pageId == null) {
-                      return;
-                    }
-                    if (sClientCallback == null) {
-                      LogUtils.w(TAG, "clientCallback is null.");
-                      return;
-                    }
-                    sClientCallback.onPageSwitched(pageId);
-                    break;
+                  Bundle data =
+                      sClientCallback.onRequestGesture(IpcService.this.getApplicationContext());
+                  Message message = Message.obtain(/* h= */ null, MSG_REQUEST_GESTURES);
+                  message.setData(data);
+                  try {
+                    clientMessenger.send(message);
+                  } catch (RemoteException e) {
+                    LogUtils.w(TAG, "Fail to send gestures to client.");
                   }
-                case MSG_TRAINING_FINISH:
+                }
+                case MSG_TRAINING_PAGE_SWITCHED -> {
+                  @Nullable PageId pageId =
+                      (PageId) msg.getData().getSerializable(EXTRA_TRAINING_PAGE_ID);
+                  if (pageId == null) {
+                    return;
+                  }
+                  if (sClientCallback == null) {
+                    LogUtils.w(TAG, "clientCallback is null.");
+                    return;
+                  }
+                  sClientCallback.onPageSwitched(pageId);
+                }
+                case MSG_TRAINING_FINISH -> {
                   if (sClientCallback == null) {
                     LogUtils.w(TAG, "clientCallback is null.");
                     return;
                   }
                   sClientCallback.onTrainingFinish();
-                  break;
-                case MSG_ON_CLIENT_CONNECTED:
+                }
+                case MSG_ON_CLIENT_CONNECTED -> {
                   if (sClientCallback == null) {
                     LogUtils.w(
                         TAG,
@@ -117,22 +117,22 @@ public class IpcService extends Service {
                     return;
                   }
                   sClientCallback.onClientConnected(new ServerOnDestroyListenerImpl(msg.replyTo));
-                  break;
-                case MSG_ON_CLIENT_DISCONNECTED:
+                }
+                case MSG_ON_CLIENT_DISCONNECTED -> {
                   if (sClientCallback == null) {
                     LogUtils.w(TAG, "clientCallback is null.");
                     return;
                   }
                   sClientCallback.onClientDisconnected();
-                  break;
-                case MSG_REQUEST_DISABLE_TALKBACK:
+                }
+                case MSG_REQUEST_DISABLE_TALKBACK -> {
                   if (sClientCallback == null) {
                     LogUtils.w(TAG, "clientCallback is null.");
                     return;
                   }
                   sClientCallback.onRequestDisableTalkBack();
-                  break;
-                case MSG_REQUEST_AVAILABLE_FEATURES:
+                }
+                case MSG_REQUEST_AVAILABLE_FEATURES -> {
                   {
                     Messenger clientMessenger = msg.replyTo;
                     if (clientMessenger == null || sClientCallback == null) {
@@ -149,8 +149,8 @@ public class IpcService extends Service {
                       LogUtils.w(TAG, "Fail to send gestures to client.");
                     }
                   }
-                  break;
-                case MSG_DOWNLOAD_ICON_DETECTION:
+                }
+                case MSG_DOWNLOAD_ICON_DETECTION -> {
                   {
                     if (sClientCallback == null) {
                       LogUtils.e(TAG, "No client clientCallback.");
@@ -158,9 +158,8 @@ public class IpcService extends Service {
                     }
                     sClientCallback.onRequestDownloadLibrary(CaptionType.ICON_LABEL);
                   }
-
-                  break;
-                case MSG_DOWNLOAD_IMAGE_DESCRIPTION:
+                }
+                case MSG_DOWNLOAD_IMAGE_DESCRIPTION -> {
                   {
                     if (sClientCallback == null) {
                       LogUtils.e(TAG, "No client clientCallback.");
@@ -168,8 +167,19 @@ public class IpcService extends Service {
                     }
                     sClientCallback.onRequestDownloadLibrary(CaptionType.IMAGE_DESCRIPTION);
                   }
-                  break;
-                default:
+                }
+                case MSG_NOTIFY_HAS_TRAINING_BANNER -> {
+                  {
+                    if (sClientCallback == null) {
+                      LogUtils.e(TAG, "No client clientCallback.");
+                      return;
+                    }
+                    boolean hasExitBanner =
+                        msg.getData().getBoolean(EXTRA_TRAINING_SHOW_EXIT_BANNER, false);
+                    sClientCallback.notifyHasExitBanner(hasExitBanner);
+                  }
+                }
+                default -> {}
               }
             }
           });
@@ -182,7 +192,7 @@ public class IpcService extends Service {
 
   /** The listener to be notified when the server is destroyed. */
   public interface ServerOnDestroyListener {
-    /** Invoked when the client is ready. */
+    /** Invoked when the server is destroyed. */
     void onServerDestroy();
   }
 
@@ -237,9 +247,12 @@ public class IpcService extends Service {
 
     /** Invoked to request downloading library. */
     void onRequestDownloadLibrary(CaptionType captionType);
+
+    /** Invoked to notify it has TalkBack-exit banner in training when training created. */
+    void notifyHasExitBanner(boolean hasExitBanner);
   }
 
-  @Nullable private static IpcClientCallback sClientCallback;
+  private static @Nullable IpcClientCallback sClientCallback;
 
   @MainThread
   public static void setClientCallback(IpcClientCallback clientCallback) {

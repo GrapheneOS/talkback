@@ -22,10 +22,8 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
-import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.Role;
-import java.util.Locale;
 
 /** Role description for {@link Role.ROLE_SWITCH}. */
 public final class SwitchDescription implements RoleDescription {
@@ -63,23 +61,20 @@ public final class SwitchDescription implements RoleDescription {
       Context context,
       ImageContents imageContents,
       GlobalVariables globalVariables) {
-    Locale locale =
-        (globalVariables.getUserPreferredLocale() != null)
-            ? globalVariables.getUserPreferredLocale()
-            : AccessibilityNodeInfoUtils.getLocalesByNode(node);
-    CharSequence contentDescription =
-        AccessibilityNodeFeedbackUtils.getNodeContentDescription(node, context, locale);
-    if (!TextUtils.isEmpty(contentDescription)) {
-      return contentDescription;
+    CharSequence contentAndSupplementalDescription =
+        AccessibilityNodeFeedbackUtils.getNodeContentAndSupplementalDescription(
+            node, context, globalVariables);
+    if (!TextUtils.isEmpty(contentAndSupplementalDescription)) {
+      return contentAndSupplementalDescription;
     }
     // Fallbacks to node text if stateDescription is not set (android version < R).
     // To prevent node state description string speeched repeatedly by SwitchDescription nodeName()
     // and nodeState(). stateDescription() should replace the content with node text string here
     // if stateDescription() already returns node state description string.
     CharSequence stateDescription =
-        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, locale);
+        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables);
     if (!TextUtils.isEmpty(stateDescription)) {
-      return AccessibilityNodeFeedbackUtils.getNodeText(node, context, locale);
+      return AccessibilityNodeFeedbackUtils.getNodeText(node, context, globalVariables);
     }
     // Fallbacks to node label.
     return AccessibilityNodeFeedbackUtils.getNodeLabelText(node, imageContents);
@@ -88,17 +83,14 @@ public final class SwitchDescription implements RoleDescription {
   /** Returns switch node state description text. */
   private static CharSequence stateDescription(
       AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
-    Locale locale =
-        (globalVariables.getUserPreferredLocale() != null)
-            ? globalVariables.getUserPreferredLocale()
-            : AccessibilityNodeInfoUtils.getLocalesByNode(node);
     CharSequence stateDescription =
-        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, locale);
+        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables);
     if (!TextUtils.isEmpty(stateDescription)) {
       return stateDescription;
     }
     // Fallbacks to node text.
-    CharSequence nodeText = AccessibilityNodeFeedbackUtils.getNodeText(node, context, locale);
+    CharSequence nodeText =
+        AccessibilityNodeFeedbackUtils.getNodeText(node, context, globalVariables);
     if (!TextUtils.isEmpty(nodeText)) {
       return nodeText;
     }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_typing_method_prefix_key"
+      android:summary="@string/message_pref_typing_method_prefix"
+      android:selectable="false" />
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_typing_confirmation_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/value_type_confirmation_double_tap"
+        app:singleLineTitle="false"/>
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/value_type_confirmation_lift_to_type"
+        app:singleLineTitle="false"/>
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/value_type_confirmation_lift_to_type_for_any_key"
+        app:singleLineTitle="false"/>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_typing_method_postfix_key"
+      android:summary="@string/message_pref_typing_method_postfix"
+      android:selectable="false" />
+</PreferenceScreen>

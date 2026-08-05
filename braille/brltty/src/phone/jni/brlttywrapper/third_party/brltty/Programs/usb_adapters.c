@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -170,10 +170,36 @@ const UsbSerialAdapter usbSerialAdapterTable[] = {
     .operations = &usbSerialOperations_CDC_ACM
   },
 
+  { /* HIMS eMotion (legacy) */
+    .vendor=0X1A86, .product=0X55D3,
+    .generic = 1,
+    .operations = &usbSerialOperations_CDC_ACM
+  },
+
   { /* NLS eReader Zoomax */
     .vendor=0X1A86, .product=0X7523,
     .generic = 1,
     .operations = &usbSerialOperations_CH341
+  },
+
+  { /* EuroBraille b.note */
+    .vendor=0X28AC, .product=0X0012,
+    .operations = &usbSerialOperations_CDC_ACM
+  },
+
+  { /* EuroBraille b.note 2 */
+    .vendor=0X28AC, .product=0X0013,
+    .operations = &usbSerialOperations_CDC_ACM
+  },
+
+  { /* EuroBraille b.book (internal) */
+    .vendor=0X28AC, .product=0X0020,
+    .operations = &usbSerialOperations_CDC_ACM
+  },
+
+  { /* EuroBraille b.book (external) */
+    .vendor=0X28AC, .product=0X0021,
+    .operations = &usbSerialOperations_CDC_ACM
   },
 };
 

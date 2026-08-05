@@ -31,15 +31,12 @@ public interface TalkBackSpeaker {
     ENQUEUE;
 
     public static int getQueueMode(AnnounceType announceType) {
-      switch (announceType) {
-        case ENQUEUE:
-          return SpeechController.QUEUE_MODE_QUEUE;
-        case INTERRUPT:
-          return SpeechController.QUEUE_MODE_INTERRUPT;
-        case INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH:
-          return SpeechController.QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH;
-      }
-      return SpeechController.QUEUE_MODE_INTERRUPT;
+      return switch (announceType) {
+        case ENQUEUE -> SpeechController.QUEUE_MODE_QUEUE;
+        case INTERRUPT -> SpeechController.QUEUE_MODE_INTERRUPT;
+        case INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH ->
+            SpeechController.QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH;
+      };
     }
   }
 

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -63,8 +63,8 @@ usbHidGetItems (
         ssize_t result = usbControlRead(
           device, UsbControlRecipient_Interface, UsbControlType_Standard,
           UsbStandardRequest_GetDescriptor,
-          (descriptor->bDescriptorType << 8) | interface,
-          number, items->bytes, length, timeout
+          (descriptor->bDescriptorType << 8) | number,
+          interface, items->bytes, length, timeout
         );
 
         if (result != -1) {

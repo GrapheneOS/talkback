@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Este titorial é para o mapa de teclas mellorado, que inclúe moitos comandos novos. Para seleccionar o mapa de teclas, vai á configuración de TalkBack, entra en Configuración avanzada e selecciona Atallos de teclado.\n\nPreme a tecla de acción + Frecha dereita para seleccionar un tema. Para desfrutar da mellor experiencia, activa TalkBack antes de comezar.</string>
+  <string name="basic_interaction_link_text">Interacción básica</string>
+  <string name="basic_interaction_link_subtext">Pasa dun elemento a outro, vai lendo por liñas ou usa os menús, entre outras cousas</string>
+  <string name="browse_mode_link_text">Modo de navegación</string>
+  <string name="browse_mode_link_subtext">Desprázate polo contido web máis rapidamente cos comandos de navegación</string>
+  <string name="reading_controls_link_text">Controis de lectura</string>
+  <string name="reading_controls_link_subtext">Usa os controis de lectura para pasar dun elemento a outro, axustar a configuración da fala e moito máis</string>
+  <string name="image_descriptions_link_text">Descricións de imaxes</string>
+  <string name="image_descriptions_link_subtext">Proba as descricións de imaxes</string>
+  <string name="keyboard_shortcuts_link_text">Practicar os atallos de teclado</string>
+  <string name="keyboard_shortcuts_link_subtext">Preme as teclas e as combinacións de teclas para saber que fan</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack ofréceche comentarios de voz para que poidas usar o dispositivo sen mirar a pantalla. Esta función pode ser útil para as persoas que teñan dificultades para ver a pantalla. Cando TalkBack está activado, o elemento enfocado na pantalla lese en voz alta.\n\nO primeiro é familiarizarse co teclado. Busca a tecla de acción, que está enriba da tecla Maiúsculas da esquerda. Agora busca as teclas de frecha, que están preto da esquina inferior dereita do teclado. Preme a tecla de acción + Frecha dereita para pasar ao seguinte elemento.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Este é o seguinte elemento. Para ir ao elemento anterior, preme a tecla de acción + Frecha esquerda.\n\nCando esteas nun elemento interactivo, como un botón, preme a tecla de acción + Espazo para activalo. Busca o seguinte botón e continúa co titorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Deletreo do texto ou lectura por palabras ou por parágrafos</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Pode que, nalgunha ocasión, queiras que se che deletree o texto en voz alta.\n\nPara facelo, podes usar a navegación polos controis de lectura. Preme a tecla de acción + Maiúsculas + Frecha dereita ou Frecha esquerda ata que oias \"caracteres\".\n\nLogo preme a tecla de acción + Frecha arriba para mover o enfoque da navegación cara atrás, carácter por carácter. Preme a tecla de acción + Frecha abaixo para mover o enfoque da navegación cara adiante, carácter por carácter.\n\nFai a proba. Tamén podes escoller se queres ler por palabras, liñas ou parágrafos usando a tecla de acción + Maiúsculas + Frecha dereita ou Frecha esquerda.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navegación do sistema</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Se probas estes atallos de teclado agora, pecharase o titorial. Recomendámosche que agardes ata completar o titorial.\n\nPara cambiar entre as ventás das aplicacións abertas e os elementos do sistema, como as notificacións e a barra de tarefas, preme a tecla de acción + Alt + Control + Frecha arriba ou abaixo.\n\nPara abrir a lista de aplicacións, preme a tecla de acción.\n\nPara ir á pantalla de inicio e minimizar todas as ventás abertas, preme a tecla de acción + H ou Inicio na fila superior.\n\nPara ir ás aplicacións recentes, preme a tecla de acción + Tabulador ou Visión xeral na fila superior.\n\nPara cambiar rapidamente entre as ventás, mantén premida a tecla Alt e preme Tabulador.\n\nPara volver atrás, preme a tecla de acción + Esc ou Atrás na fila superior.\n\nPara abrir as notificacións, preme a tecla de acción + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Axuste da configuración de voz</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">O volume da voz de TalkBack recibe o nome de \"volume de accesibilidade\". Axústase de forma independente ao volume do contido multimedia.\n\nPara axustar o volume de accesibilidade, preme a tecla de acción + Subida ou baixada de volume.\n\nPara axustar a velocidade da fala, preme a tecla de acción + Control + Subida de volume para aumentala ou Baixada de volume para reducila.\n\nPara deter a fala en calquera momento, preme Control.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menú de TalkBack e máis atallos de teclado</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">O menú de TalkBack inclúe controis e opcións de configuración que podes necesitar a miúdo.\n\nPara abrir o menú de TalkBack, preme a tecla de acción + Control + M. Podes personalizar o menú de TalkBack e os controis de lectura máis tarde na configuración de TalkBack.\n\nO menú de atallos de teclado de TalkBack inclúe todos os atallos que podes usar.\n\nPara abrir o menú de atallos de teclado, preme a tecla de acción + Maiúsculas + /.\n\nPara obter máis información sobre o teclado e practicar cos atallos, preme a tecla de acción + 0 para abrir a pantalla de práctica.</string>
+  <string name="keyboard_tutorial_finished_page_title">Todo listo!</string>
+  <string name="keyboard_tutorial_finished_page_text">Xa tes todo listo para usar TalkBack.\n\nPodes seguir aprendendo acerca doutros temas ou consultar esta información de novo cando queiras na configuración de TalkBack.\n\nPara activar ou desactivar TalkBack en calquera momento, preme a tecla de acción + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Desprazamento máis rápido polo contido web co modo de navegación</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Cando esteas no navegador e nas aplicacións web, podes activar o modo de navegación e saltar entre distintos tipos de granularidade de lectura e controis premendo só unha tecla. Deste xeito, navegar por unha páxina é similar a navegar nunha caixa de edición de texto (por exemplo, as frechas esquerda e dereita serven para moverse por caracteres, e as frechas arriba e abaixo, para moverse por liñas).\n\nPara activar ou desactivar o modo de navegación, preme dúas veces a tecla de acción.\n\nCando o modo de navegación está activado, preme D para pasar ao seguinte punto de referencia, F para pasar ao seguinte control ou campo de formulario, B para pasar ao seguinte botón, K para pasar á seguinte ligazón e H para pasar ao seguinte título. Mantén premida a tecla Maiúsculas e preme estas teclas para retroceder.\n\nTamén podes usar as frechas arriba e abaixo para saltar liñas, as frechas esquerda e dereita para saltar letras e Control + Frechas esquerda e dereita para saltar palabras.\n\nPreme a tecla de acción + Frecha dereita para acceder a unha zona de práctica. Mentres esteas na zona de práctica, as ligazóns, os campos de formulario e os botóns non farán nada.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Niveis de título</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Os sitios web e as aplicacións web adoitan usar títulos de distintos niveis para estruturar o contido. Cando o modo de navegación estea activado, preme do 1 ao 6 para saltar aos niveis de título. Mantén premida a tecla Maiúsculas e preme estas teclas para retroceder.\n\nPreme a tecla de acción + Frecha dereita para acceder a unha zona de práctica.</string>
+  <string name="keyboard_tutorial_tables_page_title">Táboas</string>
+  <string name="keyboard_tutorial_tables_page_text">O modo de navegación tamén facilita a navegación polas táboas. Cando o modo de navegación estea activado, preme Alt + Control + Frecha arriba ou Frecha abaixo para ir dunha fila a outra, e Alt + Control + Frecha esquerda ou Frecha dereita para ir dunha columna a outra.\n\nPreme a tecla de acción + Frecha dereita para acceder a unha zona de práctica.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Edición de texto</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Cando accedas a un campo de texto, o modo de navegación desactivarase temporalmente para que poidas usar todas as teclas para escribir. Oirás un anuncio e un son cando se desactive. Cando saias do campo de texto, o modo de navegación volverá activarse e oirás outro anuncio e outro son.\n\nPreme a tecla de acción + Frecha dereita para acceder a unha zona de práctica.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Máis información sobre o modo de navegación</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Para consultar a lista completa de elementos entre os que podes desprazarte no modo de navegación, preme a tecla de acción + Maiúsculas + / e busca \"modo de exploración\" no menú dos atallos de teclado.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Deletreo do texto ou lectura por palabras ou por parágrafos</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Pode que, nalgunha ocasión, queiras que se che deletree o texto en voz alta.\n\nPara facelo, podes usar a navegación polos controis de lectura. Preme a tecla de acción + Maiúsculas + Frecha dereita ou Frecha esquerda ata que oias \"caracteres\". A continuación, preme a tecla de acción + Frecha arriba para mover o enfoque da navegación cara atrás, carácter por carácter. Preme a tecla de acción + Frecha abaixo para mover o enfoque da navegación cara adiante, carácter por carácter.\n\nFai a proba. Tamén podes escoller se queres ler por palabras, liñas ou parágrafos usando a tecla de acción + Maiúsculas + Frecha dereita ou frecha esquerda.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Paso dun control a outro</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Os controis son elementos cos que podes interactuar, como botóns, caixas de verificación e caixas de texto.\n\nNalgunhas páxinas, pode que che interese pasar dun control a outro para atopar axiña unha determinada acción (por exemplo, o seguinte botón).\n\nPara facelo, preme a tecla de acción + Maiúsculas + Frecha dereita ata que escoites \"controis\". A continuación, preme a tecla de acción + Frecha arriba para ir ao botón anterior e a tecla de acción + Frecha abaixo para ir ao seguinte.\n\nPróbao agora e atopa o seguinte botón.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Paso dunha ligazón a outra</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Tamén podes pasar dunha ligazón a outra dentro dunha páxina.\n\nPara facelo, preme a tecla de acción + Maiúsculas + Frecha dereita ata que oias \"ligazóns\". A continuación, preme a tecla de acción + Frecha abaixo para atopar a denominada \"Ligazón 5\". Se tocas dúas veces esta ligazón dentro do titorial, non se levará a cabo ningunha acción.\n\nPreme a tecla de acción + Frecha dereita para buscar o seguinte botón e ir á páxina seguinte.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Paso dun título a outro</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Tamén podes pasar dun título a outro dentro dunha páxina.\n\nPara probar esta función, preme a tecla de acción + Maiúsculas + Frecha dereita ata que oias \"títulos\". A continuación, preme a tecla de acción + Frecha abaixo para atopar o título Navegación.</string>
+  <string name="keyboard_tutorial_find_next_button">Preme a tecla de acción + Frecha dereita para atopar o seguinte botón.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Paso dun contedor a outro</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Para saír dun contedor (por exemplo, unha lista ou grade), preme a tecla de acción + Alt + Control + Frecha dereita ou Frecha esquerda. É unha opción útil cando queiras saír dunha lista longa de elementos.\n\nSe desexas probala, preme a tecla de acción + Frecha dereita para entrar na lista. Despois preme a tecla de acción + Alt + Control + Frecha dereita para ir ao seguinte contedor.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Para ir ao seguinte contedor, preme a tecla de acción + Alt + Control + Frecha dereita</string>
+  <string name="keyboard_tutorial_exit_container">Para saír deste contedor, preme a tecla de acción + Alt + Control + Frecha dereita</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Saíches do contedor. Tamén podes engadir contedores aos controis de lectura e, a continuación, premer a tecla de acción + Maiúsculas + Frecha dereita ou Frecha esquerda para seleccionar contedores, e a tecla de acción + Frecha abaixo ou Frecha arriba para saltar dun contedor a outro. Para actualizar os controis de lectura, vai a TalkBack &gt; Configuración &gt; Personalizar menús &gt; Personalizar controis de lectura.\n\nPreme a tecla de acción + Frecha dereita para atopar o seguinte botón.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Personalización dos controis de lectura</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Tamén podes axustar a configuración da voz mediante os controis de lectura e personalizar o que podes facer con eles en TalkBack &gt; Configuración &gt; Personalizar menús &gt; Personalizar controis de lectura.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Proba das descricións de imaxes</string>
+  <string name="keyboard_tutorial_image_description_page_text">Cando enfoques unha imaxe, preme a tecla de acción + R, e despois I. Abaixo hai unha foto. Proba a facer o que che acabamos de indicar.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Podes cambiar a opción de descrición de imaxes en calquera momento na configuración de TalkBack &gt; descricións de iconas e imaxes.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Podes cambiar a opción de descrición de imaxes en calquera momento na configuración de TalkBack, onde as descricións de iconas e imaxes.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Imaxe de exemplo. Preme a tecla de acción + R e, a continuación, I para oír unha descrición.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Comandos de voz</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Podes usar a voz para controlar TalkBack de forma rápida.\n\nPor exemplo, podes dicir un comando para cambiar o modo de navegación, pasar ao seguinte título, copiar texto e facer outras moitas cousas.\n\nSe queres probalo agora, preme o botón de acción + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Uso da función de busca directa</string>
+  <string name="keyboard_tutorial_screen_search_page_text">A función de busca directa permíteche procurar contido específico na pantalla.\n\nPara probala, preme o botón de acción + CTRL + /. Escribe unha palabra clave, como \"seguinte\", para encontrar elementos con ese texto na pantalla.\n\nProba a buscar \"seguinte\" para atopar o botón Seguinte.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navegación coa función de busca directa</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Podes moverte rapidamente entre os diferentes resultados da busca directa despois de seleccionar un.\n\nPara facelo, podes usar a navegación cos controis de lectura. Preme a tecla de acción + Maiúsculas + Frecha dereita ou Frecha esquerda ata que oias \"busca directa\". A continuación, preme o botón de acción + Frecha abaixo ou Frecha arriba para desprazarte polos resultados da busca directa.\n\nVamos facer unha proba. Abaixo tes unha lista de tres botóns, todos co texto \"acción\" incluído. Busca \"acción\" mediante a busca directa e, despois, explora os resultados.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Práctica cos atallos de teclado</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Preme unha tecla ou unha combinación de teclas do teclado físico para escoitar a súa función. Preme Control + W ou Escape para saír.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Descubre a maxestade das sequoias de California&lt;/h1&gt;
+      &lt;p&gt;As sequoias de California, principalmente as sequoias vermellas (Sequoia sempervirens), son as árbores máis altas do mundo. Algunhas miden máis de 115 metros (380 pés) e poden vivir miles de anos. Prosperan no clima húmido da costa do norte de California, onde se benefician da chuvia e da néboa.&lt;/p&gt;
+
+      &lt;h2&gt;Onde se poden ver?&lt;/h2&gt;
+      &lt;p&gt;Podes atopar estes xigantes nunha estreita franxa ao longo da costa do Pacífico. Entre os parques máis importantes, destacan os seguintes:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Parques nacionais e estatais de Redwood&lt;/li&gt;
+        &lt;li&gt;Parque estatal de Humboldt Redwoods&lt;/li&gt;
+        &lt;li&gt;Parque estatal de Big Basin Redwoods&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Planifica a túa visita aquí: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Parques estatais de California: Sequoias&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Apoia a conservación&lt;/h2&gt;
+      &lt;p&gt;Protexer estes bosques milenarios é fundamental. Podes axudar seguindo as normas do parque e apoiando as iniciativas de conservación.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Comparte a túa experiencia&lt;/h2&gt;
+        &lt;p&gt;Estiveches algunha vez no bosque de sequoias?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Si&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Non&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Cóntanos a túa experiencia&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Enviar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Que máis che gustaría saber sobre as sequoias?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Enviar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;As sequoias: Un elemento fundamental para manter a saúde do medio ambiente&lt;/h1&gt;
+    &lt;p&gt;As sequoias son importantes para o noso planeta e desempeñan un papel fundamental na saúde do medio ambiente.&lt;/p&gt;
+
+    &lt;h1&gt;Xigantescos purificadores de aire&lt;/h1&gt;
+    &lt;p&gt;Estas árbores son excelentes para absorber o dióxido de carbono do aire. Ao absorberen tanta cantidade, as sequoias axudan a manter o aire limpo.&lt;/p&gt;
+
+    &lt;h2&gt;Fogar para os animais&lt;/h2&gt;
+    &lt;p&gt;As sequoias son o fogar e o refuxio de moitos animais, desde as aves que aniñan nas súas ramas ata as pequenas criaturas que viven no chan.&lt;/p&gt;
+
+    &lt;h3&gt;Magos da auga&lt;/h3&gt;
+    &lt;p&gt;Son moi eficaces para captar a néboa, que logo gotea ata o chan do bosque. Deste xeito, o chan mantense húmido e proporciónase auga a outras plantas e animais, sobre todo cando está seco.&lt;/p&gt;
+
+    &lt;h4&gt;Protectores do chan&lt;/h4&gt;
+    &lt;p&gt;As súas fortes raíces manteñen o chan no seu lugar, o que evita que o leve a auga durante as chuvias intensas e prevén a erosión.&lt;/p&gt;
+
+    &lt;h5&gt;Creadores de bosques&lt;/h5&gt;
+    &lt;p&gt;Cando as sequoias vellas caen, a súa madeira convértese en alimento e refuxio para novas plantas e criaturas, o que crea un chan rico para o crecemento de novas especies.&lt;/p&gt;
+
+    &lt;h6&gt;Ecosistemas únicos&lt;/h6&gt;
+    &lt;p&gt;Como as sequoias son tan grandes e viven tanto tempo, crean ambientes forestais especiais que sustentan a vida que non se atopa en ningún outro lugar.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Animais dos bosques de sequoias&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animais dos bosques de sequoias\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Descrición&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Hábitat&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Curiosidade&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Lesma banana&lt;/th&gt;
+            &lt;td&gt;Lesma grande, amarela e viscosa&lt;/td&gt;
+            &lt;td&gt;No chan do bosque&lt;/td&gt;
+            &lt;td&gt;A segunda lesma máis grande do mundo&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamántiga xigante do Pacífico&lt;/th&gt;
+            &lt;td&gt;Salamántiga grande de cor escura&lt;/td&gt;
+            &lt;td&gt;Preto de regatos e zonas húmidas&lt;/td&gt;
+            &lt;td&gt;Pode chegar a medir 30 cm&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Cervo de Roosevelt&lt;/th&gt;
+            &lt;td&gt;Cervo grande con cornos impresionantes&lt;/td&gt;
+            &lt;td&gt;Pasto en claros do bosque&lt;/td&gt;
+            &lt;td&gt;Os machos poden pesar máis de 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bufo mouro do norte&lt;/th&gt;
+            &lt;td&gt;Bufo de tamaño mediano que caza de noite&lt;/td&gt;
+            &lt;td&gt;En bosques de sequoias densos e maduros&lt;/td&gt;
+            &lt;td&gt;Unha \"especie indicadora\": a súa saúde reflicte a do bosque&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Oso negro&lt;/th&gt;
+            &lt;td&gt;Mamífero grande, normalmente negro ou marrón&lt;/td&gt;
+            &lt;td&gt;Busca comida por todo o bosque&lt;/td&gt;
+            &lt;td&gt;Gabean moi ben e adoitan verse nas árbores&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;A túa opinión sobre as sequoias e a natureza&lt;/h1&gt;
+
+      &lt;p&gt;Que máis che gustaría aprender sobre as sequoias?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Cal é o teu lugar favorito da natureza?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Que concepto da natureza che gustaría aprender?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

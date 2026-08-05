@@ -21,6 +21,7 @@ import static com.google.android.accessibility.talkback.eventprocessor.Processor
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
@@ -28,18 +29,18 @@ import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.Feedback.InterruptLevel;
-import com.google.android.accessibility.talkback.TalkBackService.ProximitySensorListener;
 import com.google.android.accessibility.talkback.compositor.Compositor;
 import com.google.android.accessibility.talkback.eventprocessor.AccessibilityEventProcessor.AccessibilityEventIdleListener;
+import com.google.android.accessibility.talkback.monitor.ProximitySensorMonitor;
 import com.google.android.accessibility.talkback.utils.DiagnosticOverlayControllerImpl;
 import com.google.android.accessibility.talkback.utils.VerbosityPreferences;
 import com.google.android.accessibility.utils.AccessibilityEventListener;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Performance.EventIdAnd;
-import com.google.android.accessibility.utils.ProximitySensor;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.WeakReferenceHandler;
+import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
 import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
 import com.google.android.accessibility.utils.output.SpeechController.UtteranceCompleteRunnable;
@@ -209,6 +210,18 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
           Feedback feedback = Feedback.create(eventId, Feedback.speech(text, options).build());
           execute(feedback);
         }
+
+        @Override
+        public void addSpeech(
+            CharSequence text,
+            @Nullable EventId eventId,
+            Bundle speechParams,
+            LoadSpeechResultNotifier statusNotifier) {
+          Feedback feedback =
+              Feedback.create(
+                  eventId, Feedback.synthesize(text, speechParams, statusNotifier).build());
+          execute(feedback);
+        }
       };
 
   public Compositor.Speaker getSpeaker() {
@@ -244,7 +257,7 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
       Interpreters interpreters,
       Mappers mappers,
       Actors actors,
-      ProximitySensorListener proximitySensorListener,
+      ProximitySensorMonitor proximitySensorMonitor,
       SpeechController speechController,
       DiagnosticOverlayControllerImpl diagnosticOverlayController,
       Compositor compositor,
@@ -270,7 +283,7 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
     actors.setUserInterface(userInterface);
 
     feedbackDelayer = new FeedbackDelayer(this, actors);
-    speechObserver = new SpeechObserver(proximitySensorListener, speechController);
+    speechObserver = new SpeechObserver(proximitySensorMonitor, speechController);
   }
 
   //////////////////////////////////////////////////////////////////////////////////
@@ -348,8 +361,8 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
           && speakUsageHints(context)) {
         final CharSequence hintTTSOutput = part.speech().hint();
         final int hintFlags = part.speech().hintSpeakOptions().mFlags;
-        final @InterruptGroup int hintInterruptGroup = part.speech().hintInterruptGroup();
-        final @InterruptLevel int hintInterruptLevel = part.speech().hintInterruptLevel();
+        @InterruptGroup final int hintInterruptGroup = part.speech().hintInterruptGroup();
+        @InterruptLevel final int hintInterruptLevel = part.speech().hintInterruptLevel();
         part.speech()
             .hintSpeakOptions()
             .setCompletedAction(
@@ -545,11 +558,14 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
   public void onUnbind(
       float finalAnnouncementVolume, UtteranceCompleteRunnable disableTalkBackCompleteAction) {
     cancelAllDelays();
+    actors.prepareForOnUnbind(finalAnnouncementVolume);
+    // Prepares for the last speech EVENT_SPOKEN_FEEDBACK_DISABLED.
     compositor.handleEventWithCompletionHandler(
         Compositor.EVENT_SPOKEN_FEEDBACK_DISABLED,
         Performance.EVENT_ID_UNTRACKED,
         disableTalkBackCompleteAction);
-    actors.onUnbind(finalAnnouncementVolume);
+    // Mute and should not generate any speech after it.
+    actors.onUnbind();
   }
 
   public void interruptAllFeedback(boolean stopTtsSpeechCompletely) {
@@ -573,6 +589,18 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
 
   public void setUsePunctuation(boolean use) {
     actors.setUsePunctuation(use);
+  }
+
+  public void setPunctuationVerbosity(int verbosity) {
+    actors.setPunctuationVerbosity(verbosity);
+  }
+
+  public void setFormattingOptions(int options) {
+    actors.setFormattingOptions(options);
+  }
+
+  public void setFormattingFeedbackMode(int mode) {
+    actors.setFormattingFeedbackMode(mode);
   }
 
   public void setSpeechPitch(float pitch) {
@@ -648,12 +676,12 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
   private static class SpeechObserver implements SpeechController.Observer {
     private static final String TAG = "SpeechControllerObserverInterpreter";
 
-    private final ProximitySensorListener proximitySensorListener;
+    private final ProximitySensorMonitor proximitySensorMonitor;
     private final SpeechController speechController;
 
     public SpeechObserver(
-        ProximitySensorListener proximitySensorListener, SpeechController speechController) {
-      this.proximitySensorListener = proximitySensorListener;
+        ProximitySensorMonitor proximitySensorMonitor, SpeechController speechController) {
+      this.proximitySensorMonitor = proximitySensorMonitor;
       this.speechController = speechController;
       this.speechController.addObserver(this);
     }
@@ -661,19 +689,19 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
     @Override
     public void onSpeechStarting() {
       // Always enable the proximity sensor when speaking.
-      proximitySensorListener.setProximitySensorState(true);
+      proximitySensorMonitor.setProximitySensorState(true);
     }
 
     @Override
     public void onSpeechCompleted() {
       // If the screen is on, keep the proximity sensor on.
-      proximitySensorListener.setProximitySensorStateByScreen();
+      proximitySensorMonitor.setProximitySensorStateByScreen();
     }
 
     @Override
     public void onSpeechPaused() {
       // If the screen is on, keep the proximity sensor on.
-      proximitySensorListener.setProximitySensorStateByScreen();
+      proximitySensorMonitor.setProximitySensorStateByScreen();
     }
 
     /** Shuts down the manager and releases resources. */
@@ -682,21 +710,4 @@ public class Pipeline implements AccessibilityEventListener, AccessibilityEventI
       speechController.removeObserver(this);
     }
   }
-
-  /** Stops the TTS engine when the proximity sensor is close. */
-  private final ProximitySensor.ProximityChangeListener proximityChangeListener =
-      new ProximitySensor.ProximityChangeListener() {
-        @Override
-        public void onProximityChanged(boolean isClose) {
-          // Stop feedback if the user is close to the sensor.
-          if (isClose) {
-            interruptAllFeedback(/* stopTtsSpeechCompletely= */ false);
-          }
-        }
-      };
-
-  public ProximitySensor.ProximityChangeListener getProximityChangeListener() {
-    return proximityChangeListener;
-  }
-
 }

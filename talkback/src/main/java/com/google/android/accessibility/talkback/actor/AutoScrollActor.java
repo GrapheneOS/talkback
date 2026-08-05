@@ -18,23 +18,26 @@ package com.google.android.accessibility.talkback.actor;
 
 import static androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SHOW_ON_SCREEN;
 
+import android.os.Bundle;
 import android.os.SystemClock;
-import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
+import com.google.android.accessibility.talkback.Pipeline.FeedbackReturner;
 import com.google.android.accessibility.talkback.Pipeline.SyntheticEvent;
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForLogicalNavigation;
+import com.google.android.accessibility.talkback.interpreters.AutoScrollInterpreter;
 import com.google.android.accessibility.utils.AccessibilityNode;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.DelayHandler;
-import com.google.android.accessibility.utils.PerformActionUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Performance.EventIdAnd;
 import com.google.android.accessibility.utils.Supplier;
 import com.google.android.accessibility.utils.input.ScrollEventInterpreter.ScrollTimeout;
 import com.google.android.accessibility.utils.output.ScrollActionRecord;
+import com.google.android.accessibility.utils.output.ScrollActionRecord.AutoScrollSuccessChecker;
 import com.google.android.accessibility.utils.output.ScrollActionRecord.UserAction;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 
@@ -57,6 +60,8 @@ public class AutoScrollActor {
 
   /** Limited read-only interface to pull state data. */
   public class StateReader implements Supplier<ScrollActionRecord> {
+
+    /** Returns the current scrolling record or the null if we are not in scrolling. */
     @Override
     public ScrollActionRecord get() {
       return AutoScrollActor.this.scrollActionRecord;
@@ -77,7 +82,8 @@ public class AutoScrollActor {
   // pipeline, with single delay-handler for all actors.
   private final DelayHandler<EventIdAnd<Boolean>> postDelayHandler;
 
-  private Pipeline.EventReceiver pipeline;
+  private Pipeline.EventReceiver pipelineReceiver;
+  private Pipeline.FeedbackReturner feedbackReturner;
 
   /**
    * Used as identifier at the next auto-scroll action. Each action is assigned with a unique
@@ -95,11 +101,16 @@ public class AutoScrollActor {
         };
   }
 
+  // A null scrollActionRecord represents that we are not in scrolling.
   @Nullable private ScrollActionRecord scrollActionRecord = null;
   @Nullable private ScrollActionRecord failedScrollActionRecord = null;
 
   public void setPipelineEventReceiver(Pipeline.EventReceiver pipeline) {
-    this.pipeline = pipeline;
+    this.pipelineReceiver = pipeline;
+  }
+
+  public void setPipeline(FeedbackReturner feedbackReturner) {
+    this.feedbackReturner = feedbackReturner;
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////
@@ -119,6 +130,9 @@ public class AutoScrollActor {
    * @param scrollAccessibilityAction Accessibility scroll action
    * @param scrollSource The type of scroll caller
    * @param scrollTimeout Timeout of the scrolling result from framework
+   * @param autoScrollAttempt The number of auto scroll attempts
+   * @param bundle The bundle to pass to the feedback
+   * @param autoScrollChecker The checker to check if the auto scroll is successful
    * @param eventId EventId for performance tracking.
    * @return {@code true} If the action is successfully performed.
    */
@@ -129,18 +143,32 @@ public class AutoScrollActor {
       int scrollAccessibilityAction,
       String scrollSource,
       ScrollTimeout scrollTimeout,
+      int autoScrollAttempt,
+      Bundle bundle,
+      @Nullable AutoScrollSuccessChecker autoScrollChecker,
       EventId eventId) {
     if (node == null && nodeCompat == null) {
       return false;
     }
     long currentTime = SystemClock.uptimeMillis();
+
     boolean result =
-        ((node != null) && node.performAction(scrollAccessibilityAction, eventId))
-            || ((nodeCompat != null)
-                && PerformActionUtils.performAction(
-                    nodeCompat, scrollAccessibilityAction, eventId));
+        (node != null
+                && feedbackReturner.returnFeedback(
+                    eventId, Feedback.nodeAction(node, scrollAccessibilityAction, bundle)))
+            || (nodeCompat != null
+                && feedbackReturner.returnFeedback(
+                    eventId, Feedback.nodeAction(nodeCompat, scrollAccessibilityAction, bundle)));
     if (result) {
-      setScrollRecord(userAction, node, nodeCompat, scrollSource, currentTime, scrollTimeout);
+      setScrollRecord(
+          userAction,
+          node,
+          nodeCompat,
+          scrollSource,
+          currentTime,
+          scrollTimeout,
+          autoScrollAttempt,
+          autoScrollChecker);
     }
     LogUtils.d(
         TAG,
@@ -166,9 +194,18 @@ public class AutoScrollActor {
 
     long currentTime = SystemClock.uptimeMillis();
     boolean result =
-        PerformActionUtils.performAction(actionNodeCompat, ACTION_SHOW_ON_SCREEN.getId(), eventId);
+        feedbackReturner.returnFeedback(
+            eventId, Feedback.nodeAction(actionNodeCompat, ACTION_SHOW_ON_SCREEN.getId()));
     if (result) {
-      setScrollRecord(userAction, null, nodeCompat, scrollSource, currentTime, scrollTimeout);
+      setScrollRecord(
+          userAction,
+          /* node= */ null,
+          nodeCompat,
+          scrollSource,
+          currentTime,
+          scrollTimeout,
+          /* autoScrollAttempt= */ 0,
+          /* autoScrollSuccessChecker= */ null);
     }
     LogUtils.d(
         TAG,
@@ -189,11 +226,31 @@ public class AutoScrollActor {
       @Nullable AccessibilityNodeInfoCompat nodeCompat,
       String scrollSource,
       long currentTime,
-      ScrollTimeout scrollTimeout) {
-    final int scrollInstanceId = createScrollInstanceId();
+      ScrollTimeout scrollTimeout,
+      int autoScrollAttempt,
+      @Nullable AutoScrollSuccessChecker autoScrollSuccessChecker) {
+    int scrollInstanceId;
+    if (autoScrollAttempt > 0 && scrollActionRecord != null) {
+      scrollInstanceId = scrollActionRecord.scrollInstanceId;
+      LogUtils.i(
+          TAG,
+          "autoScrollAttempt=%d > 0 so keep scrollActionRecord=%d the same.",
+          autoScrollAttempt,
+          scrollInstanceId);
+    } else {
+      scrollInstanceId = createScrollInstanceId();
+      LogUtils.i(TAG, "new AutoScrollRecord with scrollActionRecord=%d", scrollInstanceId);
+    }
+
     setAutoScrollRecord(
         new ScrollActionRecord(
-            scrollInstanceId, node, nodeCompat, userAction, currentTime, scrollSource));
+            scrollInstanceId,
+            node,
+            nodeCompat,
+            userAction,
+            currentTime,
+            scrollSource,
+            autoScrollSuccessChecker));
 
     postDelayHandler.removeMessages();
     postDelayHandler.delay(
@@ -207,6 +264,21 @@ public class AutoScrollActor {
     scrollActionRecord = newRecord;
   }
 
+  /**
+   * Resets {@code scrollActionRecord} once the auto-scrolling action is completed. The caller which
+   * invokes {@link AutoScrollActor#scroll} should be responsible for resetting it. Currently, only
+   * {@link FocusProcessorForLogicalNavigation} in {@link DirectionNavigationActor} can perform
+   * auto-scrolling action via {@link AutoScrollInterpreter}. It means that if the caller isn't
+   * interested in {@code AutoScrollCallback} for this auto-scrolling action anymore, it should be
+   * responsible for calling this method to reset the records.
+   */
+  public void resetScrollActionRecords() {
+    failedScrollActionRecord = null;
+    // Once the auto scroll is stopped, we should clear scrollActionRecord. So, if
+    // scrollActionRecord is null, it means we are not in auto-scrolling.
+    scrollActionRecord = null;
+  }
+
   private void handleAutoScrollFailed() {
     if (scrollActionRecord == null) {
       return;
@@ -217,11 +289,10 @@ public class AutoScrollActor {
     // Clear cached auto scroll record before invoking callback. REFERTO for detail.
     scrollActionRecord = null;
 
-    pipeline.input(SyntheticEvent.Type.SCROLL_TIMEOUT);
+    pipelineReceiver.input(SyntheticEvent.Type.SCROLL_TIMEOUT);
   }
 
-  @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-  public int createScrollInstanceId() {
+  private int createScrollInstanceId() {
     int scrollInstanceId = nextScrollInstanceId;
     nextScrollInstanceId++;
     if (nextScrollInstanceId < 0) {

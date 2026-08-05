@@ -1,6 +1,5 @@
 package com.google.android.libraries.accessibility.utils.screencapture;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +14,6 @@ import android.media.Image.Plane;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
@@ -27,10 +25,9 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.nio.ByteBuffer;
 
 /**
- * Manages the capture of images from the device's frame buffer as {@link Bitmap}s via
- * {@link MediaProjection} APIs.
+ * Manages the capture of images from the device's frame buffer as {@link Bitmap}s via {@link
+ * MediaProjection} APIs.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
 public class ScreenCaptureController {
 
   private static final String TAG = "ScreenCaptureController";
@@ -76,11 +73,6 @@ public class ScreenCaptureController {
   }
 
   public ScreenCaptureController(Context context, Handler handler) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-      this.context = null;
-      return;
-    }
-
     this.context = context;
     this.handler = handler;
     this.projectionManager =
@@ -105,10 +97,6 @@ public class ScreenCaptureController {
    *     authorization request.
    */
   public void authorizeCaptureAsync(@Nullable final AuthorizationListener listener) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-      return;
-    }
-
     if (canRequestScreenCapture()) {
       LogUtils.w(TAG, "Authorization requested for previously authorized instance.");
       // Instance already authorized
@@ -141,16 +129,12 @@ public class ScreenCaptureController {
   }
 
   /**
-   * Deauthorizes this instance from being able to request screen capture data. Once called,
-   * {@link #authorizeCaptureAsync(AuthorizationListener)} may be invoked to request a new
-   * authorization, and calls to {@link #requestScreenCaptureAsync(CaptureListener)} will implicitly
-   * attempt to authorize this instance.
+   * Deauthorizes this instance from being able to request screen capture data. Once called, {@link
+   * #authorizeCaptureAsync(AuthorizationListener)} may be invoked to request a new authorization,
+   * and calls to {@link #requestScreenCaptureAsync(CaptureListener)} will implicitly attempt to
+   * authorize this instance.
    */
   public void deauthorizeCapture() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-      return;
-    }
-
     LogUtils.i(TAG, "Deauthorizing.");
     if (activeProjection != null) {
       activeProjection.unregisterCallback(projectionCallback);
@@ -167,37 +151,28 @@ public class ScreenCaptureController {
     }
   }
 
-  /**
-   * Deauthorizes capture and shuts down all resources managed by this instance.
-   */
+  /** Deauthorizes capture and shuts down all resources managed by this instance. */
   public void shutdown() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-      return;
-    }
-
     deauthorizeCapture();
   }
 
   /**
    * Captures a single frame from the device's frame buffer. The frame is captured asynchronously
-   * and passed to the supplied {@code listener}'s
-   * {@link CaptureListener#onScreenCaptureFinished(Bitmap, boolean)}
-   * <p>
-   * NOTE: If this instance has not been authorized and {@link #canRequestScreenCapture()} returns
-   * {@code false}, calling this method will attempt to automatically authorize and deauthorize this
-   * instance. This process is asynchronous and may require the user to interact with a consent
-   * dialog displayed by the Android OS prior to performing screen capture. As such, screen capture
-   * may not occur at the exact point in time that it was requested. For more precise control over
-   * when screen capture occurs, use {@link #authorizeCaptureAsync(AuthorizationListener)} and wait
-   * for a successful callback before calling this method.
+   * and passed to the supplied {@code listener}'s {@link
+   * CaptureListener#onScreenCaptureFinished(Bitmap, boolean)}
+   *
+   * <p>NOTE: If this instance has not been authorized and {@link #canRequestScreenCapture()}
+   * returns {@code false}, calling this method will attempt to automatically authorize and
+   * deauthorize this instance. This process is asynchronous and may require the user to interact
+   * with a consent dialog displayed by the Android OS prior to performing screen capture. As such,
+   * screen capture may not occur at the exact point in time that it was requested. For more precise
+   * control over when screen capture occurs, use {@link
+   * #authorizeCaptureAsync(AuthorizationListener)} and wait for a successful callback before
+   * calling this method.
    *
    * @param listener A {@link CaptureListener} to be notified when screen capture has completed.
    */
   public void requestScreenCaptureAsync(final CaptureListener listener) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-      return;
-    }
-
     if (!canRequestScreenCapture()) {
       requestManagedScreenCaptureAsync(listener);
       return;

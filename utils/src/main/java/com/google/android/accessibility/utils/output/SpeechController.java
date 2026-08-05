@@ -20,11 +20,14 @@ import static com.google.android.accessibility.utils.StringBuilderUtils.optional
 
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import androidx.annotation.IntDef;
 import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.StringBuilderUtils;
+import com.google.android.accessibility.utils.output.FailoverTextToSpeech.SpeechParam;
+import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
+import com.google.android.accessibility.utils.output.SpeechCachePlayer.SpeechInfo;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,7 +36,11 @@ import java.util.Set;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+/** Interface for controlling speech output. */
 public interface SpeechController {
+  /** Default announcement pitch to use for tts. */
+  float ANNOUNCEMENT_PITCH = 1.2f;
+
   /** Default stream for speech output. */
   int DEFAULT_STREAM =
       BuildVersionUtils.isAtLeastO()
@@ -46,6 +53,9 @@ public interface SpeechController {
   int QUEUE_MODE_BIT_UNINTERRUPTIBLE_BY_NEW_SPEECH = 1 << 1;
   int QUEUE_MODE_BIT_CAN_IGNORE_INTERRUPTS = 1 << 2;
   int QUEUE_MODE_BIT_FLUSH_ALL = 1 << 3;
+
+  /** Indicates that this {@link FeedbackItem} won't be interrupted in any case. */
+  int QUEUE_MODE_BIT_GLOBALLY_UNINTERRUPTED = 1 << 4;
 
   // Queue modes.
   int QUEUE_MODE_INTERRUPT = QUEUE_MODE_BIT_INTERRUPT;
@@ -83,6 +93,15 @@ public interface SpeechController {
       QUEUE_MODE_BIT_UNINTERRUPTIBLE_BY_NEW_SPEECH | QUEUE_MODE_BIT_CAN_IGNORE_INTERRUPTS;
 
   /**
+   * FeedbackItems in this mode have the same property as
+   * QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH_CAN_IGNORE_INTERRUPTS and additionally it wouldn't be
+   * interrupted in any case.
+   */
+  int QUEUE_MODE_GLOBALLY_UNINTERRUPTED =
+      QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH_CAN_IGNORE_INTERRUPTS
+          | QUEUE_MODE_BIT_GLOBALLY_UNINTERRUPTED;
+
+  /**
    * FeedbackItems in this mode have the properties of both QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH
    * and QUEUE_MODE_INTERRUPT.
    */
@@ -97,7 +116,8 @@ public interface SpeechController {
     QUEUE_MODE_FLUSH_ALL,
     QUEUE_MODE_CAN_IGNORE_INTERRUPTS,
     QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH_CAN_IGNORE_INTERRUPTS,
-    QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH
+    QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH,
+    QUEUE_MODE_GLOBALLY_UNINTERRUPTED
   })
   @Retention(RetentionPolicy.SOURCE)
   public @interface QueueMode {}
@@ -144,7 +164,7 @@ public interface SpeechController {
 
     boolean isMicrophoneActiveAndHeadphoneOff();
 
-    boolean isSsbActiveAndHeadphoneOff();
+    boolean isSsbActive();
 
     boolean isPhoneCallActive();
 
@@ -169,6 +189,34 @@ public interface SpeechController {
   /** Receives events when speech starts and stops. */
   interface Observer {
     void onSpeechStarting();
+
+    /**
+     * Called when the speech rate is changed.
+     *
+     * @param rate The new speech rate.
+     */
+    default void onSpeechRateChanged(float rate) {}
+
+    /**
+     * Called when the speech pitch is changed.
+     *
+     * @param pitch The new speech pitch.
+     */
+    default void onSpeechPitchChanged(float pitch) {}
+
+    /**
+     * Called when the default pitch from TextToSpeech is changed.
+     *
+     * @param pitch The new default pitch.
+     */
+    default void onDefaultPitchChanged(float pitch) {}
+
+    /**
+     * Called when the default rate from TextToSpeech is changed.
+     *
+     * @param rate The new default rate.
+     */
+    default void onDefaultRateChanged(float rate) {}
 
     void onSpeechCompleted();
 
@@ -221,7 +269,7 @@ public interface SpeechController {
     public @Nullable Set<Integer> mHaptics = null;
     public int mQueueMode = QUEUE_MODE_BIT_DEFAULT;
     public int mFlags = 0;
-    public @UtteranceGroup int mUtteranceGroup = UTTERANCE_GROUP_DEFAULT;
+    @UtteranceGroup public int mUtteranceGroup = UTTERANCE_GROUP_DEFAULT;
     public @Nullable Bundle mSpeechParams = null;
     public @Nullable Bundle mNonSpeechParams = null;
     public @Nullable UtteranceStartRunnable mStartingAction = null;
@@ -367,28 +415,23 @@ public interface SpeechController {
     if (hasQueueModeFlagSet(mode, QUEUE_MODE_BIT_FLUSH_ALL)) {
       buffer.append("/FLUSH_ALL");
     }
+    if (hasQueueModeFlagSet(mode, QUEUE_MODE_BIT_GLOBALLY_UNINTERRUPTED)) {
+      buffer.append("/GLOBALLY_UNINTERRUPTED");
+    }
     return buffer.toString();
   }
 
   public static @NonNull String utteranceGroupToString(@UtteranceGroup int group) {
-    switch (group) {
-      case UTTERANCE_GROUP_DEFAULT:
-        return "UTTERANCE_GROUP_DEFAULT";
-      case UTTERANCE_GROUP_TEXT_SELECTION:
-        return "UTTERANCE_GROUP_TEXT_SELECTION";
-      case UTTERANCE_GROUP_SEEK_PROGRESS:
-        return "UTTERANCE_GROUP_SEEK_PROGRESS";
-      case UTTERANCE_GROUP_PROGRESS_BAR_PROGRESS:
-        return "UTTERANCE_GROUP_PROGRESS_BAR_PROGRESS";
-      case UTTERANCE_GROUP_SCREEN_MAGNIFICATION:
-        return "UTTERANCE_GROUP_SCREEN_MAGNIFICATION";
-      case UTTERANCE_GROUP_CONTENT_CHANGE:
-        return "UTTERANCE_GROUP_CONTENT_CHANGE";
-      case UTTERANCE_GROUP_CONTENT_HINTS:
-        return "UTTERANCE_GROUP_CONTENT_HINTS";
-      default:
-        return "(unknown utterance group)";
-    }
+    return switch (group) {
+      case UTTERANCE_GROUP_DEFAULT -> "UTTERANCE_GROUP_DEFAULT";
+      case UTTERANCE_GROUP_TEXT_SELECTION -> "UTTERANCE_GROUP_TEXT_SELECTION";
+      case UTTERANCE_GROUP_SEEK_PROGRESS -> "UTTERANCE_GROUP_SEEK_PROGRESS";
+      case UTTERANCE_GROUP_PROGRESS_BAR_PROGRESS -> "UTTERANCE_GROUP_PROGRESS_BAR_PROGRESS";
+      case UTTERANCE_GROUP_SCREEN_MAGNIFICATION -> "UTTERANCE_GROUP_SCREEN_MAGNIFICATION";
+      case UTTERANCE_GROUP_CONTENT_CHANGE -> "UTTERANCE_GROUP_CONTENT_CHANGE";
+      case UTTERANCE_GROUP_CONTENT_HINTS -> "UTTERANCE_GROUP_CONTENT_HINTS";
+      default -> "(unknown utterance group)";
+    };
   }
 
   void toggleVoiceFeedback();
@@ -498,6 +541,15 @@ public interface SpeechController {
 
   boolean isSpeaking();
 
+  /**
+   * For applications which support pause/resume speech, which must implement this interface.
+   *
+   * @return Whether a speech has been interrupted & cached.
+   */
+  default boolean readyToPause() {
+    return false;
+  }
+
   boolean isSpeakingOrSpeechQueued();
 
   void addObserver(Observer observer);
@@ -576,6 +628,64 @@ public interface SpeechController {
    */
   FailoverTextToSpeech getFailoverTts();
 
+  /**
+   * Returns whether the TTS engine is ready for use.
+   *
+   * @return True for ready, false otherwise.
+   */
+  boolean isTtsReady();
+
+  /**
+   * Sets the voice for TTS engine.
+   *
+   * @param voice The voice to set.
+   */
+  void setVoice(Voice voice);
+
+  /**
+   * Gets the available voice from TTS engine. Result may be null if attempting to get voice before
+   * TTS is initialized or if a crash is encountered.
+   *
+   * <p>Important: This method may contain the wrong voice for users who use both S2S and Talkback.
+   * This is due to both being related TTS sub apps, which takes the superset of their voices into
+   * consideration when selecting a voice.
+   *
+   * @return The available voice.
+   */
+  @Nullable Voice getVoice();
+
+  /**
+   * Gets the available voices from TTS engine. Result may be null if attempting to get voices
+   * before TTS is initialized or if a crash is encountered. This is the default method for non-sub
+   * application configured applications.
+   *
+   * @return The available voices.
+   */
+  @Nullable Set<Voice> getVoices();
+
+  /**
+   * Only use this method if the application is configured as a TTS sub application. Gets the
+   * available voices from TTS engine and returns only the ones with the target applicationId set in
+   * their features. Result may be null if attempting to get voices before TTS is initialized or if
+   * a crash is encountered.
+   *
+   * @param applicationId The sub application id to filter the voices by.
+   * @return The available voices.
+   */
+  @Nullable Set<Voice> getVoices(String applicationId);
+
+  /**
+   * Gets the default voice for S2S.
+   *
+   * <p>Select to speak and Talkback are TTS configured sub applications. Because they are TTS
+   * configured sub applications, the default voice is determined by the superset of all their
+   * voices. The default voice will always come from S2S (not a voice supported by Talkback). It is
+   * not possible to get the default voice for Talkback through the TTS API method.
+   *
+   * @return The default voice for S2S.
+   */
+  @Nullable Voice getDefaultVoiceForS2S();
+
   /** Sets the listener for starting, stopping and queuing speech. */
   void setSpeechListener(SpeechControllerListener speechListener);
 
@@ -583,7 +693,7 @@ public interface SpeechController {
    * Sets whether to handle TTS callback in main thread. If {@code false}, the callback will be
    * handled in TTS thread.
    */
-  void setHandleTtsCallbackInMainThread(boolean shouldHandleInMainThread);
+  void setHandleTtsCallbackInHandlerThread(boolean shouldHandleInMainThread);
 
   /**
    * Stops current feedbackFragment but don't callback UtteranceCompleteAction since it's an
@@ -599,4 +709,47 @@ public interface SpeechController {
    * Observer#onSpeechStarting()} will be called if it works successfully.
    */
   void resume();
+
+  /** Return true if there is some paused speech recorded for the continuous reading. */
+  boolean isContinuousReadingPaused();
+
+  /**
+   * When the paused speech is not valid for some reason, such as the focus changed during the pause
+   * state in CRM, using the method to perform the paused speech clearance.
+   */
+  void ignorePause();
+
+  /**
+   * Primes the TTS engine for the selected voice. This is recommended to minimize latency on first
+   * synthesis.
+   */
+  void primeTtsEngine();
+
+  /**
+   * Adds a speech to the speech cache.
+   *
+   * @param text the text to be spoken
+   * @param resultNotifier the callback to notify whether the speech cache is loaded or failed.
+   * @param speechParams The parameters of {@link SpeechParam} for playing the speech.
+   * @param eventId the event id triggering this action, used for logging
+   */
+  void addSpeech(
+      CharSequence text,
+      LoadSpeechResultNotifier resultNotifier,
+      @Nullable Bundle speechParams,
+      @Nullable EventId eventId);
+
+  /** Removes the speech from the speech cache with the given {@link SpeechInfo}. */
+  void removeSpeech(SpeechInfo speechInfo);
+
+  /** Clears the entire in-memory speech cache. */
+  void cleanCache();
+
+  /**
+   * Gets the memory usage of the speech cache in MB. Returns -1 if the local cache is not enabled.
+   */
+  long getCacheSizeMb();
+
+  /** Stops speech and shuts down this controller. */
+  void shutdown();
 }

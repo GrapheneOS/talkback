@@ -28,14 +28,14 @@ import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.DimScreenDialog;
 import com.google.android.accessibility.talkback.actor.FullScreenReadDialog;
-import com.google.android.accessibility.talkback.actor.voicecommands.SpeechRecognitionDialog;
+import com.google.android.accessibility.talkback.actor.voicecommands.VoiceCommandDialog;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
 /**
  * Provides interfaces and utils for first-time-use dialogs in
  * <li>DimScreen {@link DimScreenDialog}
  * <li>FullScreenRead {@link FullScreenReadDialog}
- * <li>Voice commands {@link SpeechRecognitionDialog}
+ * <li>Voice commands {@link VoiceCommandDialog}
  */
 public abstract class FirstTimeUseDialog extends BaseDialog {
 
@@ -97,8 +97,7 @@ public abstract class FirstTimeUseDialog extends BaseDialog {
   }
 
   @Override
-  public View getCustomizedView() {
-    LayoutInflater inflater = LayoutInflater.from(context);
+  public View getCustomizedView(LayoutInflater inflater) {
     final ScrollView root = (ScrollView) inflater.inflate(R.layout.first_time_use_dialog, null);
     checkBox = root.findViewById(R.id.show_message_checkbox);
     final TextView mainContent = root.findViewById(R.id.dialog_content);
@@ -124,8 +123,8 @@ public abstract class FirstTimeUseDialog extends BaseDialog {
   }
 
   /**
-   * Sets dialog message text if customization is needed. And it's only for SpeechRecognitionDialog
-   * used now.
+   * Sets dialog message text if customization is needed. And it's only for VoiceCommandDialog used
+   * now.
    *
    * @param mainMessage string for the main dialog message
    */

@@ -16,21 +16,25 @@
 
 package com.google.android.accessibility.talkback.contextmenu;
 
-import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_NEXT;
+import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_CURSOR;
 import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_TOP;
 import static com.google.android.accessibility.talkback.Feedback.DimScreen.Action.BRIGHTEN;
 import static com.google.android.accessibility.talkback.Feedback.DimScreen.Action.DIM;
+import static com.google.android.accessibility.talkback.Feedback.Keyboard.Action.SHOW_KEYBOARD_SHORTCUTS_DIALOG;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.COPY_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.REPEAT_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.SPELL_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.UniversalSearch.Action.TOGGLE_SEARCH;
 import static com.google.android.accessibility.talkback.Feedback.VoiceRecognition.Action.START_LISTENING;
+import static com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.TYPE_CONTEXT_MENU;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 import static com.google.android.accessibility.utils.preference.PreferencesActivity.FRAGMENT_NAME;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import com.android.talkback.TalkBackPreferencesActivity;
 import com.google.android.accessibility.talkback.Feedback;
@@ -38,26 +42,35 @@ import com.google.android.accessibility.talkback.Feedback.TriggerIntent.Action;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
+import com.google.android.accessibility.talkback.menurules.CustomActionMenu;
 import com.google.android.accessibility.talkback.preference.base.VerbosityPrefFragment;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 
 /** Class for processing the clicks on menu items */
 public class ContextMenuItemClickProcessor {
 
+  private static final String TAG = "ContextMenuItemClickProcessor";
+
   private final TalkBackService service;
   private final Pipeline.FeedbackReturner pipeline;
+  private final SharedPreferences prefs;
+  private final TalkBackAnalytics analytics;
 
   public ContextMenuItemClickProcessor(
-      TalkBackService service, Pipeline.FeedbackReturner pipeline) {
+      TalkBackService service, Pipeline.FeedbackReturner pipeline, TalkBackAnalytics analytics) {
     this.service = service;
     this.pipeline = pipeline;
+    prefs = SharedPreferencesUtils.getSharedPreferences(service);
+    this.analytics = analytics;
   }
 
   /**
-   * Checks these menuitems that need ContextMenuItemClickProcessor to handle onMenuItemClicked
+   * Checks these menu items that need ContextMenuItemClickProcessor to handle onMenuItemClicked
    * feedback.
    *
    * @param menuItem The menuItem to check if ContextMenuItemClickProcessor can handle
@@ -65,7 +78,9 @@ public class ContextMenuItemClickProcessor {
    * @return {@code true} if supports item click feedback, {@code false} otherwise.
    */
   public boolean isItemSupported(MenuItem menuItem) {
-    if (menuItem == null) {
+    // Custom action ids may be the same as predefined menu ids in TalkBack menu, so filter
+    // them by group id.
+    if (menuItem == null || menuItem.getGroupId() == CustomActionMenu.CUSTOM_ACTION_GROUP_ID) {
       return false;
     }
     final int itemId = menuItem.getItemId();
@@ -83,9 +98,12 @@ public class ContextMenuItemClickProcessor {
         || (itemId == R.id.tts_settings)
         || (itemId == R.id.enable_dimming)
         || (itemId == R.id.disable_dimming)
+        || (itemId == R.id.enable_telling_time)
+        || (itemId == R.id.disable_telling_time)
         || (itemId == R.id.screen_search)
         || (itemId == R.id.voice_commands)
-        || (itemId == R.id.braille_display_settings);
+        || (itemId == R.id.braille_display_settings)
+        || (itemId == R.id.show_keyboard_shortcuts);
   }
 
   public boolean onMenuItemClicked(MenuItem menuItem) {
@@ -100,7 +118,7 @@ public class ContextMenuItemClickProcessor {
     if (itemId == R.id.read_from_top) {
       pipeline.returnFeedback(eventId, Feedback.continuousRead(START_AT_TOP));
     } else if (itemId == R.id.read_from_current) {
-      pipeline.returnFeedback(eventId, Feedback.continuousRead(START_AT_NEXT));
+      pipeline.returnFeedback(eventId, Feedback.continuousRead(START_AT_CURSOR));
     } else if (itemId == R.id.repeat_last_utterance) {
       pipeline.returnFeedback(
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(REPEAT_SAVED)));
@@ -149,9 +167,24 @@ public class ContextMenuItemClickProcessor {
     } else if (itemId == R.id.braille_display_settings) {
       pipeline.returnFeedback(
           eventId, Feedback.triggerIntent(Action.TRIGGER_BRAILLE_DISPLAY_SETTINGS));
+    } else if (itemId == R.id.enable_telling_time) {
+      onManuallyChangeSetting(R.string.pref_speak_time_key);
+      SharedPreferencesUtils.putBooleanPref(
+          prefs, service.getResources(), R.string.pref_speak_time_key, true);
+    } else if (itemId == R.id.disable_telling_time) {
+      onManuallyChangeSetting(R.string.pref_speak_time_key);
+      SharedPreferencesUtils.putBooleanPref(
+          prefs, service.getResources(), R.string.pref_speak_time_key, false);
+    } else if (itemId == R.id.show_keyboard_shortcuts) {
+      pipeline.returnFeedback(eventId, Feedback.keyboard(SHOW_KEYBOARD_SHORTCUTS_DIALOG));
     }
 
     return true;
+  }
+
+  private void onManuallyChangeSetting(@StringRes int key) {
+    LogUtils.d(TAG, "onManuallyChangeSetting: " + service.getString(key));
+    analytics.onManuallyChangeSetting(service.getString(key), TYPE_CONTEXT_MENU);
   }
 
   @VisibleForTesting

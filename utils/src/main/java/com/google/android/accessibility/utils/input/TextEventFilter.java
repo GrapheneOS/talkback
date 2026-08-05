@@ -90,6 +90,7 @@ public class TextEventFilter {
 
   private final Context context;
   private @Nullable VoiceActionDelegate voiceActionDelegate;
+  private @Nullable VoiceDictationDelegate voiceDictationDelegate;
 
   private final TextEventHistory textEventHistory;
   private long lastKeyEventTime = -1;
@@ -115,6 +116,10 @@ public class TextEventFilter {
 
   public void setVoiceActionDelegate(@Nullable VoiceActionDelegate delegate) {
     voiceActionDelegate = delegate;
+  }
+
+  public void setVoiceDictationDelegate(@Nullable VoiceDictationDelegate delegate) {
+    voiceDictationDelegate = delegate;
   }
 
   public void setOnScreenKeyboardEcho(@KeyboardEchoType int value) {
@@ -157,9 +162,8 @@ public class TextEventFilter {
         (textEventInterpreted == null) ? event.getEventType() : textEventInterpreted.getEvent();
 
     switch (eventType) {
-
+      case AccessibilityEvent.TYPE_VIEW_FOCUSED -> {
         // For focus fallback events, drop events with a source node.
-      case AccessibilityEvent.TYPE_VIEW_FOCUSED:
         {
           // Update cursor position when an empty edit text is focused. TalkBack will not receive
           // the initial {@link AccessibilityEvent#TYPE_VIEW_TEXT_SELECTION_CHANGED} event when an
@@ -175,17 +179,24 @@ public class TextEventFilter {
           }
         }
         return;
-
         // Text input change
-      case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED:
-      case TextEventInterpretation.TEXT_CLEAR:
-      case TextEventInterpretation.TEXT_REMOVE:
-      case TextEventInterpretation.TEXT_ADD:
-      case TextEventInterpretation.TEXT_REPLACE:
-      case TextEventInterpretation.TEXT_PASSWORD_ADD:
-      case TextEventInterpretation.TEXT_PASSWORD_REMOVE:
-      case TextEventInterpretation.TEXT_PASSWORD_REPLACE:
+      }
+      case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED,
+          TextEventInterpretation.TEXT_CLEAR,
+          TextEventInterpretation.TEXT_REMOVE,
+          TextEventInterpretation.TEXT_ADD,
+          TextEventInterpretation.TEXT_REPLACE,
+          TextEventInterpretation.TEXT_PASSWORD_ADD,
+          TextEventInterpretation.TEXT_PASSWORD_REMOVE,
+          TextEventInterpretation.TEXT_PASSWORD_REPLACE -> {
         {
+          boolean voiceRecognitionActive =
+              voiceActionDelegate != null && voiceActionDelegate.isVoiceRecognitionActive();
+          if (voiceDictationDelegate != null
+              && textEventInterpreted != null
+              && voiceRecognitionActive) {
+            voiceDictationDelegate.onTextEventAndInterpretation(event, textEventInterpreted);
+          }
           if (dropTextChangeEvent(event)) {
             return;
           }
@@ -193,28 +204,27 @@ public class TextEventFilter {
           textEventHistory.setTextChangesAwaitingSelection(1);
           textEventHistory.setLastTextChangeTime(event.getEventTime());
           textEventHistory.setLastTextChangePackageName(event.getPackageName());
-          if ((voiceActionDelegate != null) && voiceActionDelegate.isVoiceRecognitionActive()) {
+          if (voiceRecognitionActive) {
             LogUtils.d(TAG, "Drop TYPE_VIEW_TEXT_CHANGED event: Voice recognition is active.");
             return;
           }
         }
-        break;
-
         // Text input selection change
-      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
-      case AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY:
-      case TextEventInterpretation.SELECTION_FOCUS_EDIT_TEXT:
-      case TextEventInterpretation.SELECTION_MOVE_CURSOR_TO_BEGINNING:
-      case TextEventInterpretation.SELECTION_MOVE_CURSOR_TO_END:
-      case TextEventInterpretation.SELECTION_MOVE_CURSOR_NO_SELECTION:
-      case TextEventInterpretation.SELECTION_MOVE_CURSOR_WITH_SELECTION:
-      case TextEventInterpretation.SELECTION_MOVE_CURSOR_SELECTION_CLEARED:
-      case TextEventInterpretation.SELECTION_CUT:
-      case TextEventInterpretation.SELECTION_PASTE:
-      case TextEventInterpretation.SELECTION_TEXT_TRAVERSAL:
-      case TextEventInterpretation.SELECTION_SELECT_ALL:
-      case TextEventInterpretation.SELECTION_SELECT_ALL_WITH_KEYBOARD:
-      case TextEventInterpretation.SELECTION_RESET_SELECTION:
+      }
+      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED,
+          AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY,
+          TextEventInterpretation.SELECTION_FOCUS_EDIT_TEXT,
+          TextEventInterpretation.SELECTION_MOVE_CURSOR_TO_BEGINNING,
+          TextEventInterpretation.SELECTION_MOVE_CURSOR_TO_END,
+          TextEventInterpretation.SELECTION_MOVE_CURSOR_NO_SELECTION,
+          TextEventInterpretation.SELECTION_MOVE_CURSOR_WITH_SELECTION,
+          TextEventInterpretation.SELECTION_MOVE_CURSOR_SELECTION_CLEARED,
+          TextEventInterpretation.SELECTION_CUT,
+          TextEventInterpretation.SELECTION_PASTE,
+          TextEventInterpretation.SELECTION_TEXT_TRAVERSAL,
+          TextEventInterpretation.SELECTION_SELECT_ALL,
+          TextEventInterpretation.SELECTION_SELECT_ALL_WITH_KEYBOARD,
+          TextEventInterpretation.SELECTION_RESET_SELECTION -> {
         {
           if (shouldSkipCursorMovementEvent(event) || shouldDropTextSelectionEvent(event)) {
             return;
@@ -233,10 +243,11 @@ public class TextEventFilter {
             return;
           }
         }
-        break;
-
-      default:
-        return; // Send only text-events to listeners / compositor.
+      }
+      default -> {
+        return;
+        // Send only text-events to listeners / compositor.
+      }
     }
 
     TextEventInterpreter.Interpretation interpretation =
@@ -386,5 +397,4 @@ public class TextEventFilter {
 
     return false;
   }
-
 }

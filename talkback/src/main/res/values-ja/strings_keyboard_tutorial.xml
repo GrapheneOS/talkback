@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">このチュートリアルは、多数の新しいコマンドを含む拡張キーマップを対象としています。キーマップを選択するには、[TalkBack の設定] &gt; [詳細設定] &gt; [キーボード ショートカット] に移動します。\n\nAction+右矢印キーを押して、トピックを選択してください。始める前に TalkBack を ON にすると、操作しやすくなります。</string>
+  <string name="basic_interaction_link_text">基本的な操作</string>
+  <string name="basic_interaction_link_subtext">項目間の移動、行単位の読み上げ、メニューの使用などを行えます</string>
+  <string name="browse_mode_link_text">ブラウズモード</string>
+  <string name="browse_mode_link_subtext">ジャンプ コマンドでウェブ コンテンツ内をすばやく移動できます</string>
+  <string name="reading_controls_link_text">読み上げコントロール</string>
+  <string name="reading_controls_link_subtext">読み上げコントロールを使用して、項目間の移動や音声設定の調整などを行えます</string>
+  <string name="image_descriptions_link_text">画像の説明</string>
+  <string name="image_descriptions_link_subtext">画像の説明を聞いてみる</string>
+  <string name="keyboard_shortcuts_link_text">キーボード ショートカットの練習</string>
+  <string name="keyboard_shortcuts_link_subtext">キーを押したり、キーを組み合わせて押したりして、その機能を確認しましょう</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack から音声フィードバックが出力されるので、画面を見ずにデバイスを使用できます。TalkBack は目の不自由な方に役立つ機能です。TalkBack が ON の場合、画面上のフォーカスのある項目が読み上げられます。\n\nまず、キーボードに慣れましょう。Action キーは左の Shift キーの上にあります。では、キーボードの右下にある矢印キーを探しましょう。Action+右矢印キーを押すと、次の項目に移動します。</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">これが次の項目です。前の項目に戻るには、Action+左矢印キーを押します。\n\nボタンなどの操作可能な項目に移動した場合は、Action+Space キーを押すとその項目が有効になります。[次へ] ボタンを見つけて、チュートリアルを続けましょう。</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">文字単位、単語単位、段落単位での読み上げ</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">1 文字ずつテキストを読み上げることもできます。\n\nこの機能には、読み上げコントロールのナビゲーションを使用できます。「文字」という音声が流れるまで、Action+Shift+右矢印または左矢印キーを押します。\n\n次に、Action+上矢印キーを押すと、操作フォーカスが前の文字に戻ります。Action+下矢印キーを押すと、操作フォーカスが次の文字に移動します。\n\nでは、やってみましょう。Action+Shift+右矢印または左矢印キーを使用して、単語単位、行単位、段落単位での読み上げに切り替えることもできます。</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">システム ナビゲーション</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">では、これらのキーボード ショートカットを行ってチュートリアルを終了してみましょう。チュートリアルを完了するまで待つこともできます。\n\n開いているアプリのウィンドウと、通知やタスクバーなどのシステム要素の間を移動するには、Action+Alt+Ctrl+上矢印または下矢印キーを押します。\n\nアプリ一覧を開くには、Action キーを押します。\n\nホーム画面に移動して、開いているすべてのウィンドウを最小化するには、Action+H キーまたは最上段の Home キーを押します。\n\n最近使ったアプリに移動するには、Action+Tab キーまたは最上段の Overview キーを押します。\n\nウィンドウをすばやく切り替えるには、Alt キーを押しながら Tab キーを押します。\n\n戻るには、Action+Esc キーまたは最上段の Back キーを押します。\n\n通知を開くには、Action+N キーを押します。</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">読み上げの設定の調整</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack の読み上げの音量は、ユーザー補助機能の音量と呼ばれています。この音量はメディアの音量とは別に調整します。\n\nユーザー補助機能の音量を調整するには、Action キー+音量大または音量小ボタンを押します。\n\n読み上げ速度を上げるには、Action+Ctrl キー+音量大ボタンを押し、速度を下げるには、Action+Ctrl キー+音量小ボタンを押します。\n\nCtrl キーを押すと、読み上げをいつでも停止できます。</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack メニューとその他のキーボード ショートカット</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack メニューには、必要になることが多い設定やコントロールがあります。\n\nTalkBack メニューを開くには、Action+Ctrl+M キーを押します。TalkBack メニューと読み上げコントロールは、[TalkBack の設定] で後からカスタマイズできます。\n\nTalkBack のキーボード ショートカット メニューには、使用できるすべてのキーボード ショートカットが含まれています。\n\nキーボード ショートカット メニューを開くには、Action+Shift+/ キーを押します。\n\nキーボードの詳細を確認したり、キーボード ショートカットを練習したりするには、Action+0 キーを押して練習画面を開いてください。</string>
+  <string name="keyboard_tutorial_finished_page_title">設定完了</string>
+  <string name="keyboard_tutorial_finished_page_text">TalkBack を使用できるようになりました。\n\n引き続き、その他のトピックをご覧ください。なお、この情報はいつでも TalkBack の設定で確認できます。\n\nTalkBack の ON / OFF は、Action+Alt+T キーでいつでも切り替えられます。</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">ブラウズモードでウェブ コンテンツ内をすばやく移動</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">ブラウザやウェブアプリを使用しているときに、ブラウズモードを ON にすると、キーを 1 回押すだけで読み上げ単位の切り替えやコントロール間の移動を行えるようになります。ページ内を移動する際の操作方法は、テキスト編集ボックス内の場合と同じです。文字単位で移動するには左右の矢印キー、行単位で移動するには上下の矢印キーを使用します。\n\nブラウズモードの ON / OFF を切り替えるには、Action キーを 2 回押します。\n\nブラウズモードが ON のときに、D キーを押すと次のランドマークに移動し、F キーを押すと次のコントロールまたはフォーム フィールドに移動します。また、B キーを押すと次のボタン、K キーを押すと次のリンク、H キーを押すと次の見出しに移動します。Shift キーを押しながらこれらのキーを押すと、前に戻ります。\n\n上下の矢印キーで行単位、左右の矢印キーで文字単位、Ctrl キーを押しながら左右の矢印キーで単語単位で移動することもできます。\n\nAction+右矢印キーを押して、練習エリアに入りましょう。練習エリアでは、リンク、フォーム フィールド、ボタンは機能しません。</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">見出しのレベル</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">ウェブサイトやウェブアプリでは、多くの場合、さまざまなレベルの見出しを使用してコンテンツが構造化されています。ブラウズモードが ON の場合、見出しレベルに移動するには、1～6 のキーを押します。Shift キーを押しながらこれらのキーを押すと、前に戻ります。\n\nAction+右矢印キーを押して、練習エリアに入りましょう。</string>
+  <string name="keyboard_tutorial_tables_page_title">表</string>
+  <string name="keyboard_tutorial_tables_page_text">ブラウズモードでは、表の中も簡単に移動できます。ブラウズモードが ON の場合、行間を移動するには Alt+Ctrl+上矢印または下矢印キーを押し、列間を移動するには Alt+Ctrl+左矢印または右矢印キーを押します。\n\nAction+右矢印キーを押して、練習エリアに入りましょう。</string>
+  <string name="keyboard_tutorial_editing_text_page_title">テキストの編集</string>
+  <string name="keyboard_tutorial_editing_text_page_text">テキスト フィールドに入ると、ブラウズモードが一時的に OFF になり、すべてのキーを使って入力できるようになります。OFF になると、お知らせと音が流れます。テキスト フィールドから移動すると、ブラウズモードが ON に戻り、再びお知らせと音が流れます。\n\nAction+右矢印キーを押して、練習エリアに入りましょう。</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">ブラウズモードの詳細</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">ブラウズモードの場合に移動できる項目の一覧を確認するには、Action+Shift+/ キーを押して、キーボード ショートカット メニューで「ブラウズモード」を検索します。</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">文字単位、単語単位、段落単位での読み上げ</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">1 文字ずつテキストを読み上げることもできます。\n\nこの機能には、読み上げコントロールのナビゲーションを使用できます。「文字」という音声が流れるまで、Action+Shift+右矢印または左矢印キーを押します。次に、Action+上矢印キーを押すと、操作フォーカスが前の文字に戻ります。Action+下矢印キーを押すと、操作フォーカスが次の文字に移動します。\n\nでは、やってみましょう。Action+Shift+右矢印または左矢印キーを使用して、単語単位、行単位、段落単位での読み上げに切り替えることもできます。</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">コントロール間の移動</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">コントロールとは、ボタン、チェックボックス、テキスト ボックスなど、ユーザーが操作できる項目のことです。\n\nページによっては、コントロール間を移動することで、[次へ] ボタンなど、アクションをすばやく見つけることができます。\n\nコントロール間を移動するには、「コントロール」という音声が流れるまで、Action+Shift+右矢印キーを押します。次に、Action+上矢印キーを押すと、前のボタンに戻り、Action+下矢印キーを押すと、次のボタンに移動します。\n\nでは、[次へ] ボタンを見つけてみましょう。</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">リンク間の移動</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">ページ上のリンク間を移動することもできます。\n\nリンク間を移動するには、「リンク」という音声が流れるまで Action+Shift+右矢印キーを押します。次に、Action+下矢印キーを押して、「リンク 5」というリンクを見つけます。なお、チュートリアルでは、このリンクをダブルタップしても何も実行されません。\n\nAction+右矢印キーを押して [次へ] ボタンを見つけて、次のページに移動しましょう。</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">見出し間の移動</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">ページ上の見出し間を移動することもできます。\n\nでは、やってみましょう。「見出し」という音声が流れるまで、Action+Shift+右矢印キーを押します。次に、Action+下矢印キーを押して「ナビゲーション」という見出しを見つけます。</string>
+  <string name="keyboard_tutorial_find_next_button">Action+右矢印キーを押して [次へ] ボタンを見つけます。</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">コンテナ間の移動</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">リストやグリッドなどのコンテナを終了するには、Action+Alt+Ctrl+右矢印または左矢印キーを押します。この操作は、項目の長いリストから移動する場合に便利です。\n\nでは、やってみましょう。Action+右矢印キーを押してリストに入ります。次に、Action+Alt+Ctrl+右矢印キーを押して、次のコンテナに移動します。</string>
+  <string name="keyboard_tutorial_go_to_next_container">次のコンテナに移動するには、Action+Alt+Ctrl+右矢印キーを押します</string>
+  <string name="keyboard_tutorial_exit_container">このコンテナを終了するには、Action+Alt+Ctrl+右矢印キーを押します</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">コンテナを終了しました。読み上げコントロールにコンテナを追加することもできます。追加後に、コンテナを選択するには、Action+Shift+右矢印または左矢印キーを押します。コンテナ間を移動するには、Action+下矢印または上矢印キーを押します。読み上げコントロールを更新するには、[TalkBack] &gt; [設定] &gt; [メニューをカスタマイズ] &gt; [読み上げコントロールをカスタマイズ] に移動します。\n\nAction+右矢印キーを押して [次へ] ボタンを見つけましょう。</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">読み上げコントロールのカスタマイズ</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">読み上げコントロールを使用した読み上げの設定を調整することもできます。読み上げコントロールによる操作をカスタマイズするには、[TalkBack] &gt; [設定] &gt; [メニューをカスタマイズ] &gt; [読み上げコントロールをカスタマイズ] に移動します。</string>
+  <string name="keyboard_tutorial_image_description_page_title">画像の説明の入手</string>
+  <string name="keyboard_tutorial_image_description_page_text">画像にフォーカスを合わせたら、Action+R キーを押してから I キーを押します。以下の写真を例に、説明を聞いてみましょう。</string>
+  <string name="keyboard_tutorial_image_description_settings_description">画像の説明の設定は、[TalkBack の設定] &gt; [画像とアイコンの説明] でいつでも変更できます。</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">画像の説明の設定は、[TalkBack の設定] &gt; [画像とアイコンの説明] でいつでも変更できます。</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">これはサンプル画像です。Action+R キーを押してから I キーを押すと、説明が読み上げられます。</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">音声コマンド</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">音声で TalkBack をすばやく操作できます。\n\nたとえば、ナビゲーションの変更や、次の見出しへの移動、テキストのコピーなどのコマンドを使用できます。\n\nでは、やってみましょう。Action+\\ キーを押します。</string>
+  <string name="keyboard_tutorial_screen_search_page_title">画面検索の使用</string>
+  <string name="keyboard_tutorial_screen_search_page_text">画面検索機能を使用すると、画面上の特定のコンテンツを検索できます。\n\nでは、やってみましょう。Action+Ctrl+/ キーを押します。「次へ」などのキーワードを入力すると、そのテキストを含む項目を画面上で検索できます。\n\nでは、「次へ」を検索して [次へ] ボタンを見つけましょう。</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">画面検索による移動</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">検索結果を選択すると、画面検索から別の検索結果にすばやく移動できます。\n\nこの機能には、読み上げコントロールのナビゲーションを使用できます。「画面検索」という音声が流れるまで、Action+Shift+右矢印キーまたは左矢印キーを押します。次に、Action+下矢印キーまたは上矢印キーを押して、画面検索で検索結果間を移動します。\n\nでは、やってみましょう。以下の 3 つのボタンには、いずれも「action」というテキストが含まれています。画面検索を使用して「action」を検索し、画面検索でボタン間を移動できます。</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">キーボード ショートカットの練習</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">物理的なキーボード キーまたはキーの組み合わせを押すと、その機能が読み上げられます。Ctrl+W キーまたは Esc キーを押すと、終了します。</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;カリフォルニアのレッドウッドの壮大さを体験しよう&lt;/h1&gt;
+      &lt;p&gt;カリフォルニアのレッドウッド、主にコースト レッドウッド（セコイア アメスギ）は、世界で最も高い木です。中には樹高が 115 メートルを超え、樹齢が数千年に及ぶ木もあります。雨や霧に恵まれた、カリフォルニア州北部の湿潤な沿岸気候で育ちます。&lt;/p&gt;
+
+      &lt;h2&gt;見られる場所&lt;/h2&gt;
+      &lt;p&gt;これらの巨木は太平洋沿岸の帯状の地域で見られます。主要な公園は次のとおりです。&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;レッドウッド国立州立公園&lt;/li&gt;
+        &lt;li&gt;ハンボルト レッドウッド州立公園&lt;/li&gt;
+        &lt;li&gt;ビッグベイスン レッドウッド州立公園&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;旅行を計画する場合は、&lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;（英語）をご覧ください。&lt;/p&gt;
+
+      &lt;h2&gt;保護活動を支援する&lt;/h2&gt;
+      &lt;p&gt;これらの古代の森を保護することは非常に重要です。公園のガイドラインに沿って、保護活動を支援することで、この取り組みに協力できます。&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;体験を共有する&lt;/h2&gt;
+        &lt;p&gt;レッドウッドを見に行ったことはありますか？&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;はい&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;いいえ&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;体験談をお聞かせください&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;送信&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;レッドウッドについて他に知りたいことはありますか？&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;送信&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;レッドウッドの森: 地球環境を健全に保つ&lt;/h1&gt;
+    &lt;p&gt;レッドウッドは地球にとって重要な存在であり、地球環境を健全に保つうえで非常に大きな役割を果たしています。&lt;/p&gt;
+
+    &lt;h1&gt;巨大な空気清浄機&lt;/h1&gt;
+    &lt;p&gt;レッドウッドは、空気中の二酸化炭素を吸収する能力に優れています。多くの二酸化炭素を吸収して、空気をきれいに保つ役割を果たしています。&lt;/p&gt;
+
+    &lt;h2&gt;動物たちの家&lt;/h2&gt;
+    &lt;p&gt;レッドウッドは、枝に止まる鳥から土の中の小さな生物まで、多くの動物たちの家やシェルターになっています。&lt;/p&gt;
+
+    &lt;h3&gt;水の魔法使い&lt;/h3&gt;
+    &lt;p&gt;レッドウッドは霧を巧みに受け取り、霧は水分となって林床に流れます。地面を湿らせ、他の動植物に水分を供給するため、乾期には特に重要です。&lt;/p&gt;
+
+    &lt;h4&gt;土壌の保護&lt;/h4&gt;
+    &lt;p&gt;強い根が土壌を支え、大雨の際に土壌の流出を止め、浸食を防ぎます。&lt;/p&gt;
+
+    &lt;h5&gt;森の形成&lt;/h5&gt;
+    &lt;p&gt;レッドウッドの老木が倒れると、その木は新たな動植物の肥料やえさ、住み家となり、新たな成長のための豊かな土壌が作られます。&lt;/p&gt;
+
+    &lt;h6&gt;他にはない生態系&lt;/h6&gt;
+    &lt;p&gt;レッドウッドは巨大で、樹齢も長いため、他では見られない生物を支える特別な森林環境を作り出します。&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;レッドウッドの森の動物&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"レッドウッドの森の動物\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;動物&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;説明&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;生息地&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;豆知識&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;バナナ ナメクジ&lt;/th&gt;
+            &lt;td&gt;大きくて黄色い、ぬめぬめしたナメクジ&lt;/td&gt;
+            &lt;td&gt;林床&lt;/td&gt;
+            &lt;td&gt;世界で 2 番目に大きいナメクジ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;オオトラフ サンショウウオ&lt;/th&gt;
+            &lt;td&gt;大きくて濃い色をしたサンショウウオ&lt;/td&gt;
+            &lt;td&gt;小川や湿った場所の近く&lt;/td&gt;
+            &lt;td&gt;体長 30 cm ほどに成長することがある&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ルーズベルト エルク&lt;/th&gt;
+            &lt;td&gt;立派な角を持つ大きなシカ&lt;/td&gt;
+            &lt;td&gt;森の中の開けた場所で草を食べる&lt;/td&gt;
+            &lt;td&gt;オスは 450 kg を超えることがある&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;マダラ フクロウ&lt;/th&gt;
+            &lt;td&gt;中型のフクロウで、夜に狩りをする&lt;/td&gt;
+            &lt;td&gt;うっそうとした、レッドウッドの成熟林&lt;/td&gt;
+            &lt;td&gt;「指標生物」であり、このフクロウの健康状態が森の健全性を示す&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;アメリカ クロクマ&lt;/th&gt;
+            &lt;td&gt;大型の哺乳類で、通常は黒または茶色&lt;/td&gt;
+            &lt;td&gt;森全体でエサを探す&lt;/td&gt;
+            &lt;td&gt;木登りが得意で、木の上でよく見かける&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;レッドウッドと自然についての感想&lt;/h1&gt;
+
+      &lt;p&gt;レッドウッドについて他に知りたいことはありますか？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;自然の中で行きたいお気に入りの場所はどこですか？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;自然についてもっと知りたいことを 1 つ挙げるとしたら、何ですか？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -23,15 +23,20 @@
 #include "embed.h"
 #include "log.h"
 #include "log_history.h"
+#include "alert.h"
 #include "message.h"
 #include "defaults.h"
 #include "async_wait.h"
 #include "async_task.h"
 #include "utf8.h"
+#include "unicode.h"
 #include "brl_utils.h"
 #include "brl_cmds.h"
+#include "clipboard.h"
+#include "match.h"
 #include "spk.h"
 #include "ktb_types.h"
+#include "ctb.h"
 #include "update.h"
 #include "cmd_queue.h"
 #include "api_control.h"
@@ -40,10 +45,12 @@
 int messageHoldTimeout = DEFAULT_MESSAGE_HOLD_TIMEOUT;
 
 typedef struct {
-  const char *mode;
+  const char *label;
   MessageOptions options;
-  unsigned presented:1;
-  unsigned deallocate:1;
+
+  unsigned char presented:1;
+  unsigned char deallocate:1;
+
   char text[0];
 } MessageParameters;
 
@@ -55,21 +62,114 @@ typedef struct {
 typedef struct {
   const MessageParameters *parameters;
 
+  int timeout;
+  unsigned char endWait:1;
+  unsigned char hold:1;
+  unsigned char touch:1;
+
   struct {
     const MessageSegment *first;
     const MessageSegment *current;
     const MessageSegment *last;
   } segments;
 
-  int timeout;
-  unsigned endWait:1;
-  unsigned hold:1;
-  unsigned touch:1;
+  struct {
+    ClipboardObject *main;
+    const wchar_t *start;
+    size_t offset;
+  } clipboard;
+
+  struct {
+    const wchar_t *message;
+    const wchar_t *characters;
+    int *toMessageOffset;
+  } braille;
 } MessageData;
 
 ASYNC_CONDITION_TESTER(testEndMessageWait) {
   const MessageData *mgd = data;
   return mgd->endWait;
+}
+
+static inline const wchar_t *
+getMessageStart (const MessageData *mgd) {
+  return mgd->segments.first->start;
+}
+
+static inline const wchar_t *
+getMessageEnd (const MessageData *mgd) {
+  const MessageSegment *last = mgd->segments.last;
+  return last->start + last->length;
+}
+
+static inline size_t
+getMessageLength (const MessageData *mgd) {
+  return getMessageEnd(mgd) - getMessageStart(mgd);
+}
+
+static const wchar_t *
+toMessageCharacter (int arg, int end, const MessageData *mgd) {
+  if (arg < 0) return NULL;
+  int column = arg % brl.textColumns;
+  int row = arg / brl.textColumns;
+  if (row >= brl.textRows) return NULL;
+
+  if ((column -= textStart) < 0) return NULL;
+  if (column >= textCount) return NULL;
+
+  const MessageSegment *segment = mgd->segments.current;
+  size_t offset = (row * textCount) + column;
+
+  if (offset >= segment->length) {
+    if (!end) return NULL;
+    offset = segment->length - 1;
+  }
+
+  const wchar_t *character = segment->start + offset;
+  offset = character - mgd->braille.characters;
+
+  if (mgd->braille.characters != mgd->braille.message) {
+    const int *toMessageOffset = mgd->braille.toMessageOffset;
+
+    if (toMessageOffset) {
+      if (end) {
+        while (toMessageOffset[++offset] == CTB_NO_OFFSET);
+        // we're now at the start of the next contraction
+      } else {
+        while (toMessageOffset[offset] == CTB_NO_OFFSET) offset -= 1;
+        // we're now at the start of the current contraction
+      }
+
+      offset = toMessageOffset[offset];
+      if (end) offset -= 1;
+    }
+  }
+
+  return mgd->braille.message + offset;
+}
+
+static void
+startClipboardCopy (int append, MessageData *mgd) {
+  mgd->clipboard.offset = append? getClipboardContentLength(mgd->clipboard.main): 0;
+  alert(ALERT_COPY_BEGIN);
+}
+
+static void
+beginClipboardCopy (const wchar_t *start, int append, MessageData *mgd) {
+  mgd->clipboard.start = start;
+  startClipboardCopy(append, mgd);
+}
+
+static int
+endClipboardCopy (const wchar_t *characters, size_t length, int insertLineDelimiter, const MessageData *mgd) {
+  lockMainClipboard();
+  int copied = copyToClipboard(mgd->clipboard.main, characters, length, mgd->clipboard.offset, insertLineDelimiter);
+  unlockMainClipboard();
+
+  if (!copied) return 0;
+  alert(ALERT_COPY_END);
+  onMainClipboardUpdated();
+  return 1;
 }
 
 static int
@@ -79,11 +179,14 @@ handleMessageCommands (int command, void *data) {
   switch (command & BRL_MSK_CMD) {
     case BRL_CMD_LNUP:
     case BRL_CMD_PRDIFLN:
+    case BRL_CMD_PRNBWIN:
     case BRL_CMD_FWINLTSKIP:
     case BRL_CMD_FWINLT: {
       if (mgd->segments.current > mgd->segments.first) {
         mgd->segments.current -= 1;
         mgd->endWait = 1;
+      } else {
+        alert(ALERT_BOUNCE);
       }
 
       mgd->hold = 1;
@@ -92,6 +195,7 @@ handleMessageCommands (int command, void *data) {
 
     case BRL_CMD_LNDN:
     case BRL_CMD_NXDIFLN:
+    case BRL_CMD_NXNBWIN:
     case BRL_CMD_FWINRTSKIP:
     case BRL_CMD_FWINRT: {
       if ((mgd->hold = mgd->segments.current < mgd->segments.last)) {
@@ -102,13 +206,149 @@ handleMessageCommands (int command, void *data) {
     }
 
     default: {
-      int arg = command & BRL_MSK_ARG;
+      int arg1 = BRL_CODE_GET(ARG, command);
+      int arg2 = BRL_CODE_GET(EXT, command);
 
       switch (command & BRL_MSK_BLK) {
         case BRL_CMD_BLK(TOUCH_AT):
-          if ((mgd->touch = arg != BRL_MSK_ARG)) return 1;
+          if ((mgd->touch = arg1 != BRL_MSK_ARG)) return 1;
           mgd->timeout = 1000;
           break;
+
+        {
+          int append;
+
+        case BRL_CMD_BLK(CLIP_NEW):
+          append = 0;
+          goto doClipBegin;
+
+        case BRL_CMD_BLK(CLIP_ADD):
+          append = 1;
+          goto doClipBegin;
+
+        doClipBegin:
+          {
+            const wchar_t *first = toMessageCharacter(arg1, 0, mgd);
+
+            if (first) {
+              beginClipboardCopy(first, append, mgd);
+              mgd->hold = 1;
+              return 1;
+            }
+          }
+
+          alert(ALERT_COMMAND_REJECTED);
+          return 1;
+        }
+
+        {
+          int insertLineDelimiter;
+
+        case BRL_CMD_BLK(COPY_RECT):
+          insertLineDelimiter = 1;
+          goto doClipEnd;
+
+        case BRL_CMD_BLK(COPY_LINE):
+          insertLineDelimiter = 0;
+          goto doClipEnd;
+
+        doClipEnd:
+          {
+            const wchar_t *first = mgd->clipboard.start;
+
+            if (first) {
+              const wchar_t *last = toMessageCharacter(arg1, 1, mgd);
+
+              if (last) {
+                if (last > first) {
+                  size_t count = last - first + 1;
+
+                  if (endClipboardCopy(first, count, insertLineDelimiter, mgd)) {
+                    mgd->hold = 1;
+                    return 1;
+                  }
+                }
+              }
+            }
+          }
+
+          alert(ALERT_COMMAND_REJECTED);
+          return 1;
+        }
+
+        {
+          int append;
+
+        case BRL_CMD_BLK(CLIP_COPY):
+          append = 0;
+          goto doClipCopy;
+
+        case BRL_CMD_BLK(CLIP_APPEND):
+          append = 1;
+          goto doClipCopy;
+
+        doClipCopy:
+          {
+            const wchar_t *first = toMessageCharacter(arg1, 0, mgd);
+
+            if (first) {
+              const wchar_t *last = toMessageCharacter(arg2, 1, mgd);
+
+              if (last) {
+                startClipboardCopy(append, mgd);
+                size_t count = last - first + 1;
+
+                if (endClipboardCopy(first, count, 0, mgd)) {
+                  mgd->hold = 1;
+                  return 1;
+                }
+              }
+            }
+          }
+
+          alert(ALERT_COMMAND_REJECTED);
+          return 1;
+        }
+
+        {
+          int append;
+
+        case BRL_CMD_BLK(COPY_SMART_NEW):
+          append = 0;
+          goto doSmartCopy;
+
+        case BRL_CMD_BLK(COPY_SMART_ADD):
+          append = 1;
+          goto doSmartCopy;
+
+        doSmartCopy:
+          {
+            const wchar_t *target = toMessageCharacter(arg1, 0, mgd);
+
+            if (target) {
+              const wchar_t *messageStart = getMessageStart(mgd);
+              int matchOffset, matchLength;
+
+              int matched = matchSmart(
+                messageStart, getMessageLength(mgd),
+                (target - messageStart),
+                &matchOffset, &matchLength
+              );
+
+              if (matched) {
+                startClipboardCopy(append, mgd);
+
+                if (endClipboardCopy(messageStart + matchOffset, matchLength, 0, mgd)) {
+                  mgd->hold = 1;
+                  return 1;
+                }
+              }
+            }
+          }
+
+          alert(ALERT_COMMAND_REJECTED);
+          break;
+        }
 
         default:
           mgd->hold = 0;
@@ -123,58 +363,184 @@ handleMessageCommands (int command, void *data) {
   return 1;
 }
 
-ASYNC_TASK_CALLBACK(presentMessage) {
-  MessageParameters *mgp = data;
-
+int
+sayMessage (const char *text) {
 #ifdef ENABLE_SPEECH_SUPPORT
-  if (!(mgp->options & MSG_SILENT)) {
-    if (isAutospeakActive()) {
-      sayString(&spk, mgp->text, SAY_OPT_MUTE_FIRST);
+  if (isAutospeakActive()) {
+    if (!sayString(&spk, text, SAY_OPT_MUTE_FIRST)) {
+      return 0;
     }
   }
 #endif /* ENABLE_SPEECH_SUPPORT */
 
-  if (canBraille()) {
-    MessageData mgd = {
-      .hold = 0,
-      .touch = 0,
-      .parameters = mgp
-    };
+  return 1;
+}
 
-    const size_t characterCount = countUtf8Characters(mgp->text);
-    MessageSegment messageSegments[characterCount];
-    wchar_t characters[characterCount + 1];
-    makeWcharsFromUtf8(mgp->text, characters, ARRAY_COUNT(characters));
+static const MessageSegment *
+makeSegments (MessageSegment *segment, const wchar_t *characters, size_t characterCount, int wordWrap) {
+  const MessageSegment *lastSegment = NULL;
+  const size_t windowLength = textCount * brl.textRows;
 
-    const size_t brailleSize = textCount * brl.textRows;
-    wchar_t brailleBuffer[brailleSize];
+  const wchar_t *character = characters;
+  const wchar_t *const charactersEnd = character + characterCount;
 
-    {
-      const wchar_t *character = characters;
-      const wchar_t *const end = character + characterCount;
+  while (*character) {
+    /* strip leading spaces */
+    while ((character < charactersEnd) && iswspace(*character)) character += 1;
 
-      MessageSegment *segment = messageSegments;
-      mgd.segments.current = mgd.segments.first = segment;
+    const size_t charactersLeft = charactersEnd - character;
+    if (!charactersLeft) break;
+    segment->start = character;
 
-      while (*character) {
-        /* strip leading spaces */
-        while ((character < end) && iswspace(*character)) character += 1;
+    if (charactersLeft <= windowLength) {
+      segment->length = charactersLeft;
+    } else {
+      segment->length = windowLength;
 
-        const size_t charactersLeft = end - character;
-        if (!charactersLeft) break;
+      if (wordWrap) {
+        const wchar_t *segmentEnd = segment->start + segment->length;
 
-        segment->start = character;
-        segment->length = MIN(charactersLeft, brailleSize);
+        if (!iswspace(*segmentEnd)) {
+          while (--segmentEnd >= segment->start) {
+            if (iswspace(*segmentEnd)) break;
+          }
 
-        character += segment->length;
-        segment += 1;
+          if (segmentEnd > segment->start) {
+            segment->length = segmentEnd - segment->start + 1;
+          }
+        }
       }
-
-      mgd.segments.last = segment - 1;
     }
 
-    int wasLinked = api.isServerLinked();
-    if (wasLinked) api.unlinkServer();
+    character += segment->length;
+    lastSegment = segment++;
+  }
+
+  return lastSegment;
+}
+
+static wchar_t *
+makeBraille (const wchar_t *text, size_t textLength, size_t *brailleLength, int **offsetMap) {
+  wchar_t *braille = NULL;
+
+  *brailleLength = 0;
+  *offsetMap = NULL;
+
+  int cellsSize = MAX(0X10, textLength) * 2;
+  int cellsLimit = textLength * 10;
+
+  do {
+    unsigned char cells[cellsSize];
+    int toCellOffset[textLength + 1];
+
+    int textCount = textLength;
+    int cellCount = cellsSize;
+
+    contractText(
+      contractionTable, NULL,
+      text, &textCount,
+      cells, &cellCount,
+      toCellOffset, CTB_NO_CURSOR
+    );
+
+    // this shouldn't happen
+    if (textCount > textLength) break;
+
+    if (textCount == textLength) {
+      toCellOffset[textCount] = cellCount;
+
+      int *toTextOffset = makeInverseOffsetMap(toCellOffset, textLength);
+      if (!toTextOffset) break;
+
+      if ((braille = allocateCharacters(cellCount + 1))) {
+        const unsigned char *cell = cells;
+        const unsigned char *end = cell + cellCount;
+        wchar_t *character = braille;
+
+        while (cell < end) {
+          unsigned char dots = *cell++;
+          *character++ = dots? (dots | UNICODE_BRAILLE_ROW): WC_C(' ');
+        }
+
+        *character = 0;
+        *brailleLength = character - braille;
+        *offsetMap = toTextOffset;
+      } else {
+        free(toTextOffset);
+      }
+
+      break;
+    }
+  } while ((cellsSize <<= 1) <= cellsLimit);
+
+  return braille;
+}
+
+ASYNC_TASK_CALLBACK(presentMessage) {
+  MessageParameters *mgp = data;
+
+  if (!(mgp->options & MSG_SILENT)) {
+    sayMessage(mgp->text);
+  }
+
+  if (canBraille()) {
+    MessageData mgd = {
+      .parameters = mgp,
+      .hold = 0,
+      .touch = 0,
+
+      .clipboard = {
+        .main = getMainClipboard(),
+        .start = NULL,
+        .offset = 0,
+      },
+    };
+
+    const size_t textLength = countUtf8Characters(mgp->text);
+    wchar_t text[textLength + 1];
+    makeWcharsFromUtf8(mgp->text, text, ARRAY_COUNT(text));
+
+    mgd.braille.message = text;
+    mgd.braille.characters = text;
+    mgd.braille.toMessageOffset = NULL;
+
+    wchar_t *characters = text;
+    size_t characterCount = textLength;
+    int wordWrap = prefs.wordWrap;
+
+    if (isContracting()) {
+      size_t brailleLength;
+      int *offsetMap;
+      wchar_t *braille = makeBraille(text, textLength, &brailleLength, &offsetMap);
+
+      if (braille) {
+        characters = braille;
+        characterCount = brailleLength;
+        wordWrap = 1;
+
+        mgd.braille.characters = braille;
+        mgd.braille.toMessageOffset = offsetMap;
+      }
+    }
+
+    MessageSegment messageSegments[characterCount];
+    {
+      MessageSegment *firstSegment = messageSegments;
+
+      mgd.segments.current = mgd.segments.first = firstSegment;
+      mgd.segments.last = makeSegments(firstSegment, characters, characterCount, wordWrap);
+
+      if (!mgd.segments.last) {
+        firstSegment->start = characters;
+        firstSegment->length = 0;
+        mgd.segments.last = firstSegment;
+      }
+
+      mgd.clipboard.start = getMessageStart(&mgd);
+    }
+
+    int apiWasLinked = api.isServerLinked();
+    if (apiWasLinked) api.unlinkServer();
 
     suspendUpdates();
     pushCommandEnvironment("message", NULL, NULL);
@@ -183,20 +549,17 @@ ASYNC_TASK_CALLBACK(presentMessage) {
 
     while (1) {
       const MessageSegment *segment = mgd.segments.current;
-      size_t cellCount = segment->length;
-      int lastSegment = segment == mgd.segments.last;
-
-      wmemcpy(brailleBuffer, segment->start, cellCount);
+      int isLastSegment = segment == mgd.segments.last;
       brl.cursor = BRL_NO_CURSOR;
 
-      if (!writeBrailleCharacters(mgp->mode, brailleBuffer, cellCount)) {
+      if (!writeBrailleCharacters(mgp->label, segment->start, segment->length)) {
         mgp->presented = 0;
         break;
       }
 
       mgd.timeout = messageHoldTimeout - brl.writeDelay;
       drainBrailleOutput(&brl, 0);
-      if (!mgd.hold && lastSegment && (mgp->options & MSG_NODELAY)) break;
+      if (!mgd.hold && isLastSegment && (mgp->options & MSG_NODELAY)) break;
       mgd.timeout = MAX(mgd.timeout, 0);
 
       while (1) {
@@ -210,7 +573,7 @@ ASYNC_TASK_CALLBACK(presentMessage) {
         if (mgd.hold || mgd.touch) {
           mgd.timeout = 1000000;
         } else if (timedOut) {
-          if (lastSegment) goto DONE;
+          if (isLastSegment) goto DONE;
           mgd.segments.current += 1;
           mgd.timeout = messageHoldTimeout;
           break;
@@ -221,16 +584,19 @@ ASYNC_TASK_CALLBACK(presentMessage) {
     }
 
   DONE:
+    if (characters != text) free(characters);
+    if (mgd.braille.toMessageOffset) free(mgd.braille.toMessageOffset);
+
     popCommandEnvironment();
     resumeUpdates(1);
-    if (wasLinked) api.linkServer();
+    if (apiWasLinked) api.linkServer();
   }
 
   if (mgp->deallocate) free(mgp);
 }
 
 int 
-message (const char *mode, const char *text, MessageOptions options) {
+message (const char *label, const char *text, MessageOptions options) {
   if (options & MSG_LOG) pushLogMessage(text);
 
   int presented = 0;
@@ -239,7 +605,7 @@ message (const char *mode, const char *text, MessageOptions options) {
 
   if ((mgp = malloc(size))) {
     memset(mgp, 0, size);
-    mgp->mode = mode? mode: "";
+    mgp->label = label? label: "";
     mgp->options = options;
     mgp->presented = 1;
     strcpy(mgp->text, text);

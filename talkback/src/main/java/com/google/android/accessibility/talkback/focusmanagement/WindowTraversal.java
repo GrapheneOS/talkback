@@ -65,28 +65,35 @@ public class WindowTraversal {
       }
 
       if (windowA.getType() == windowB.getType()) {
-        return compareBounds(windowA, windowB, mIsInRTL);
+        return compareInternal(windowA, windowB);
       } else if (windowA.getType() == AccessibilityWindowInfo.TYPE_SYSTEM) {
         return 1;
       } else if (windowB.getType() == AccessibilityWindowInfo.TYPE_SYSTEM) {
         return -1;
       } else {
-        return compareBounds(windowA, windowB, mIsInRTL);
+        return compareInternal(windowA, windowB);
       }
     }
 
-    /** Sorts orders by vertical, then horizontal position. */
-    private static int compareBounds(
-        AccessibilityWindowInfo windowA, AccessibilityWindowInfo windowB, boolean isRTL) {
+    /**
+     * Sorts orders by vertical, then horizontal position. This logic appears to mirror
+     * AccessibilityWindowInfoUtils.WindowPositionComparator.
+     */
+    private int compareInternal(AccessibilityWindowInfo windowA, AccessibilityWindowInfo windowB) {
       Rect rectA = new Rect();
       Rect rectB = new Rect();
       windowA.getBoundsInScreen(rectA);
       windowB.getBoundsInScreen(rectB);
 
+      // Check if bounds are the same (for example, AndroidXR 2DViews), if so compare by id.
+      if (rectA.equals(rectB)) {
+        return windowA.getId() - windowB.getId();
+      }
+
       if (rectA.top != rectB.top) {
         return rectA.top - rectB.top;
       } else {
-        return isRTL ? rectB.right - rectA.right : rectA.left - rectB.left;
+        return mIsInRTL ? rectB.right - rectA.right : rectA.left - rectB.left;
       }
     }
   }

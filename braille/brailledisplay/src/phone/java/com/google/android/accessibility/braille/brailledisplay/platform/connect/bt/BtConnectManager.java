@@ -16,6 +16,8 @@
 
 package com.google.android.accessibility.braille.brailledisplay.platform.connect.bt;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -24,49 +26,59 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.os.ParcelUuid;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 import androidx.core.os.BuildCompat;
 import com.google.android.accessibility.braille.brailledisplay.BrailleDisplayLog;
+import com.google.android.accessibility.braille.brailledisplay.platform.ConnectStage;
 import com.google.android.accessibility.braille.brailledisplay.platform.connect.ConnectManager;
+import com.google.android.accessibility.braille.brailledisplay.platform.connect.Connector;
+import com.google.android.accessibility.braille.brailledisplay.platform.connect.D2dConnection;
 import com.google.android.accessibility.braille.brailledisplay.platform.connect.device.ConnectableBluetoothDevice;
 import com.google.android.accessibility.braille.brailledisplay.platform.connect.device.ConnectableDevice;
 import com.google.android.accessibility.braille.brailledisplay.platform.lib.Utils;
+import com.google.android.accessibility.utils.BuildVersionUtils;
+import com.google.android.accessibility.utils.SettingsUtils;
+import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReference;
 
 /** Handles the listening of bluetooth scanning, bluetooth bonding, and bluetooth radio on/off. */
 public class BtConnectManager extends ConnectManager {
   private static final String TAG = "BtConnectManager";
-
   // How long to keep the scanner scanning. For example, a duration of 60_000 means that after 1
   // minute, scanning should be halted, unless a new notification comes in.
   private static final long KEEP_SCANNING_DURATION_MS = 30_000;
-
+  private static final String HID_UUID = "00001124-0000-1000-8000-00805f9b34fb";
   private final Context context;
-  private final Callback callback;
+  private final ConnectManager.Callback connectManagerCallback;
   // Some runtimes, such as emulators, do not have bluetooth; allow that btAdapter might be null.
   @Nullable private final BluetoothAdapter btAdapter;
   private final LinkedHashSet<ConnectableDevice> foundDevices = new LinkedHashSet<>();
   private final MainHandler mainHandler;
-  private final BtBondedReceiver btBondedReceiver;
+  private final BtConnectStateReceiver btBondedReceiver;
   private final BtOnOffReceiver btOnOffReceiver;
   private final BtScanReceiver btScanReceiver;
+  private boolean isInitialScanCycle = true;
+  private Connector btConnector;
+  private D2dConnection deviceConnection;
+  private final AtomicReference<ConnectableDevice> bondingDevice = new AtomicReference<>();
 
-  private BtConnector btConnector;
-  private BtConnection deviceConnection;
-
-  public BtConnectManager(Context context, Callback callback) {
+  public BtConnectManager(Context context, ConnectManager.Callback callback) {
     Utils.assertMainThread();
     this.context = context;
-    this.callback = callback;
-    btBondedReceiver = new BtBondedReceiver(context, btBondedReceiverCallback);
+    this.connectManagerCallback = callback;
+    btBondedReceiver = new BtConnectStateReceiver(context, btBondedReceiverCallback);
     btOnOffReceiver = new BtOnOffReceiver(context, btOnOffReceiverCallback);
     btScanReceiver = new BtScanReceiver(context, btScanReceiverCallback);
     btAdapter =
@@ -85,7 +97,7 @@ public class BtConnectManager extends ConnectManager {
     btScanReceiver.registerSelf();
     btOnOffReceiver.registerSelf();
     btBondedReceiver.registerSelf();
-    startScanPossibly(Reason.START_STARTED);
+    startSearch(Reason.START_STARTED);
   }
 
   /** Instructs this manager to stop its behaviors. */
@@ -103,28 +115,60 @@ public class BtConnectManager extends ConnectManager {
     startScanPossibly(reason);
   }
 
+  /**
+   * Establishes a connection to the specified device.
+   *
+   * <p>If the connector is currently connected/connecting to another device, this method will first
+   * disconnect it before establishing a new connection to the provided device.
+   *
+   * @param device The device to connect to.
+   */
   @Override
   public void connect(ConnectableDevice device) {
-    btConnector = new BtConnector(device, new BtConnectorCallback());
-    btConnector.connect();
+    BrailleDisplayLog.d(TAG, "connect: " + device);
+    if (isConnectingOrConnected(device.address())) {
+      return;
+    }
+    // Disconnect the device that is not currently connected or connecting.
+    disconnect();
+    // Cancel discovery because it otherwise slows down the connection.
+    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+    BluetoothDevice bluetoothDevice = ((ConnectableBluetoothDevice) device).bluetoothDevice();
+    boolean result = bluetoothDevice.createBond();
+    BrailleDisplayLog.d(TAG, "createBond: " + result);
+    if (result) {
+      // We have a bond state listener that monitors for the result.
+      BrailleDisplayLog.d(TAG, "Wait for bonding result.");
+      bondingDevice.set(device);
+    } else {
+      internalConnect(device);
+    }
   }
 
   @Override
   public void disconnect() {
+    BrailleDisplayLog.d(TAG, "disconnect");
     if (btConnector != null) {
-      btConnector.shutdown();
+      btConnector.disconnect();
       btConnector = null;
     }
     if (deviceConnection != null) {
       deviceConnection.shutdown();
       deviceConnection = null;
-      callback.onDisconnected();
+      connectManagerCallback.onDisconnected();
     }
+    bondingDevice.set(null);
+  }
+
+  @Override
+  public void forget(ConnectableDevice device) {
+    BluetoothDevice bluetoothDevice = ((ConnectableBluetoothDevice) device).bluetoothDevice();
+    removeBond(bluetoothDevice);
   }
 
   @Override
   public boolean isConnecting() {
-    return btConnector != null;
+    return bondingDevice.get() != null || (btConnector != null && deviceConnection == null);
   }
 
   @Override
@@ -132,7 +176,7 @@ public class BtConnectManager extends ConnectManager {
     return deviceConnection != null;
   }
 
-  /** Gets the set of currently bonded devices. */
+  /** Gets the set of currently bonded devices. It's empty when bluetooth is off. */
   @Override
   public Set<ConnectableDevice> getBondedDevices() {
     Set<BluetoothDevice> bondedDevices = new HashSet<>();
@@ -148,21 +192,36 @@ public class BtConnectManager extends ConnectManager {
         .map(
             bluetoothDevice ->
                 ConnectableBluetoothDevice.builder().setBluetoothDevice(bluetoothDevice).build())
-        .collect(Collectors.toSet());
+        .collect(toImmutableSet());
   }
 
   @Override
-  public Optional<ConnectableDevice> getCurrentlyConnectingDevice() {
-    return Optional.ofNullable(btConnector).map(BtConnector::getDevice);
+  public Optional<ConnectableDevice> getConnectingOrConnectedDevice() {
+    return bondingDevice.get() != null
+        ? Optional.of(bondingDevice.get())
+        : Optional.ofNullable(btConnector).map(Connector::getDevice);
   }
 
   @Override
-  public Optional<ConnectableDevice> getCurrentlyConnectedDevice() {
-    return Optional.ofNullable(deviceConnection).map(BtConnection::getDevice);
+  public boolean isHidDevice(ConnectableDevice device) {
+    BluetoothDevice bluetoothDevice = ((ConnectableBluetoothDevice) device).bluetoothDevice();
+    if (bluetoothDevice.fetchUuidsWithSdp()) {
+      ParcelUuid[] uu = bluetoothDevice.getUuids();
+      if (uu != null) {
+        for (ParcelUuid u : uu) {
+          if (u.getUuid().toString().equals(HID_UUID)) {
+            return true;
+          }
+        }
+      }
+    }
+    BrailleDisplayLog.w(TAG, "HID UUID not found.");
+    return false;
   }
 
   @Override
   public void sendOutgoingPacket(byte[] packet) {
+    BrailleDisplayLog.d(TAG, "sendOutgoingPacket");
     if (deviceConnection != null) {
       deviceConnection.sendOutgoingPacket(packet);
     }
@@ -182,34 +241,39 @@ public class BtConnectManager extends ConnectManager {
     return new ArrayList<>(foundDevices);
   }
 
-  private boolean isScanningOngoing() {
-    return mainHandler.isOngoing();
-  }
-
-  private void startScanPossibly(Reason reason) {
-    BrailleDisplayLog.d(TAG, "startScanPossibly reason: " + reason);
-    foundDevices.clear();
-    callback.onDeviceListCleared();
-    mainHandler.scheduleStopChecks();
-    boolean startSuccess = false;
-    boolean shouldStartScan =
-        reason == Reason.START_USER_SELECTED_RESCAN || !isConnectingOrConnected();
-    if (shouldStartScan && btAdapter != null && mayScan()) {
-      startSuccess = btAdapter.startDiscovery();
-    }
-    if (!startSuccess) {
-      BrailleDisplayLog.e(TAG, "startScanPossibly failed to start discovery");
-      stopSearch(Reason.STOP_DISCOVERY_FAILED);
-      callback.onSearchFailure();
-    }
-  }
-
   @Override
   public void stopSearch(Reason reason) {
     BrailleDisplayLog.d(TAG, "stopScan " + reason);
     mainHandler.cancelStopCheck();
     if (btAdapter != null && mayScan()) {
       btAdapter.cancelDiscovery();
+    }
+  }
+
+  private boolean isScanningOngoing() {
+    return mainHandler.isOngoing();
+  }
+
+  private void startScanPossibly(Reason reason) {
+    BrailleDisplayLog.d(TAG, "startScanPossibly reason: " + reason);
+    if (!SettingsUtils.allowLinksOutOfSettings(context)) {
+      BrailleDisplayLog.d(TAG, "Disable bluetooth scanning in setup wizard");
+      return;
+    }
+    if (reason == Reason.START_USER_SELECTED_RESCAN && isScanning()) {
+      stopSearch(Reason.START_USER_SELECTED_RESCAN);
+    }
+    boolean shouldStartScan =
+        reason == Reason.START_USER_SELECTED_RESCAN
+            || (!isConnectingOrConnected() && !isScanning());
+    if (shouldStartScan && btAdapter != null && mayScan()) {
+      isInitialScanCycle = true;
+      mainHandler.scheduleStopChecks();
+      if (!btAdapter.startDiscovery()) {
+        BrailleDisplayLog.e(TAG, "startScanPossibly failed to start discovery");
+        stopSearch(Reason.STOP_DISCOVERY_FAILED);
+        connectManagerCallback.onSearchFailure();
+      }
     }
   }
 
@@ -228,8 +292,41 @@ public class BtConnectManager extends ConnectManager {
             == PackageManager.PERMISSION_GRANTED);
   }
 
-  private boolean isConnectingOrConnected() {
-    return isConnecting() || isConnected();
+  private void removeBond(BluetoothDevice device) {
+    try {
+      Method method = device.getClass().getMethod("removeBond");
+      if (method != null) {
+        boolean result = (boolean) method.invoke(device);
+        BrailleDisplayLog.i(TAG, "removeBond: " + result);
+      }
+    } catch (ReflectiveOperationException e) {
+      BrailleDisplayLog.w(TAG, "Unable to call removeBond. ", e);
+    }
+  }
+
+  private void internalConnect(ConnectableDevice device) {
+    if (BuildVersionUtils.isAtLeastV() && useHid(context, device)) {
+      BrailleDisplayLog.i(TAG, "Braille HID is supported.");
+      connectManagerCallback.onConnectStarted(/* initial= */ true, ConnectStage.HID);
+      // Try HID protocol first, if it fails, fallback to RFCOMM.
+      btConnector =
+          new BtHidConnector(
+              context, device, new HidConnectorCallback(), getBrailleDisplayController());
+    } else {
+      connectManagerCallback.onConnectStarted(/* initial= */ true, ConnectStage.RFCOMM);
+      btConnector = new BtRfCommConnector(device, new BtRfCommConnectorCallback());
+    }
+    btConnector.connect();
+  }
+
+  @VisibleForTesting
+  public Connector testing_getConnector() {
+    return btConnector;
+  }
+
+  @VisibleForTesting
+  public void testing_setConnector(Connector connector) {
+    this.btConnector = connector;
   }
 
   @SuppressLint("HandlerLeak")
@@ -261,24 +358,72 @@ public class BtConnectManager extends ConnectManager {
     }
   }
 
-  private class BtConnectorCallback implements BtConnector.Callback {
+  private class BtRfCommConnectorCallback implements Connector.Callback {
 
     @Override
-    public void onConnectStarted() {
-      callback.onConnectStarted();
+    public void onConnectSuccess(D2dConnection connection) {
+      BrailleDisplayLog.d(TAG, "RFCOMM onConnectSuccess");
+      deviceConnection = connection;
+      connectManagerCallback.onConnectStarted(/* initial= */ false, ConnectStage.BRLTTY);
+      connectManagerCallback.onConnected(ConnectStage.RFCOMM, deviceConnection);
     }
 
     @Override
-    public void onConnectSuccess(BtConnection btConnection) {
-      BrailleDisplayLog.d(TAG, "onConnectSuccess");
-      BtConnectManager.this.deviceConnection = btConnection;
-      callback.onConnected(btConnection);
+    public void onDisconnected() {
+      BrailleDisplayLog.d(TAG, "RFCOMM onDisconnected");
+      disconnect();
     }
 
     @Override
     public void onConnectFailure(ConnectableDevice device, Exception exception) {
-      BrailleDisplayLog.d(TAG, "onConnectFailure: " + exception.getMessage());
-      callback.onConnectFailure(device, exception);
+      BrailleDisplayLog.d(TAG, "RFCOMM onConnectFailure: " + exception.getMessage());
+      disconnect();
+      connectManagerCallback.onConnectFailure(device, ConnectStage.RFCOMM, exception);
+    }
+  }
+
+  private class HidConnectorCallback implements Connector.Callback {
+    private static final Duration BRAILLE_DISPLAY_CONTROLLER_DELAY = Duration.ofMillis(500);
+    private static final int MAXIMUM_RETRY_TIMES = 5;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private int attemptedConnect = 0;
+
+    @Override
+    public void onConnectSuccess(D2dConnection connection) {
+      BrailleDisplayLog.d(TAG, "HID onConnectSuccess");
+      deviceConnection = connection;
+      attemptedConnect = 0;
+      // BRLTTY connection will start after HID connected.
+      connectManagerCallback.onConnectStarted(/* initial= */ false, ConnectStage.BRLTTY);
+      connectManagerCallback.onConnected(ConnectStage.HID, connection);
+    }
+
+    @Override
+    public void onDisconnected() {
+      BrailleDisplayLog.d(TAG, "HID onDisconnected");
+      attemptedConnect = 0;
+      disconnect();
+    }
+
+    @Override
+    public void onConnectFailure(ConnectableDevice device, Exception exception) {
+      BrailleDisplayLog.d(TAG, "HID onConnectFailure: " + exception.getMessage());
+      if (attemptedConnect < MAXIMUM_RETRY_TIMES) {
+        attemptedConnect++;
+        handler.postDelayed(
+            () -> {
+              if (btConnector != null) {
+                btConnector.connect();
+              }
+            },
+            attemptedConnect * BRAILLE_DISPLAY_CONTROLLER_DELAY.toMillis());
+      } else {
+        disconnect();
+        // Fallback to old method.
+        connectManagerCallback.onConnectStarted(/* initial= */ false, ConnectStage.RFCOMM);
+        btConnector = new BtRfCommConnector(device, new BtRfCommConnectorCallback());
+        btConnector.connect();
+      }
     }
   }
 
@@ -287,12 +432,21 @@ public class BtConnectManager extends ConnectManager {
         @Override
         public void onDiscoveryStarted() {
           BrailleDisplayLog.d(TAG, "onDiscoveryStarted");
-          callback.onSearchStatusChanged();
+          if (isInitialScanCycle) {
+            BrailleDisplayLog.d(TAG, "Initial scan cycle detected. Clearing old device list.");
+            foundDevices.clear();
+            connectManagerCallback.onDeviceListCleared();
+            // Turn the flag off so subsequent restarts within this 30-second session do not
+            // clear the list.
+            isInitialScanCycle = false;
+          }
+          connectManagerCallback.onSearchStatusChanged();
         }
 
         @Override
         public void onDiscoveryFinished() {
-          callback.onSearchStatusChanged();
+          BrailleDisplayLog.d(TAG, "onDiscoveryFinished");
+          connectManagerCallback.onSearchStatusChanged();
           if (btAdapter != null && isScanningOngoing() && mayScan()) {
             BrailleDisplayLog.d(TAG, "onDiscoveryFinished restart discovery");
             btAdapter.startDiscovery();
@@ -303,10 +457,11 @@ public class BtConnectManager extends ConnectManager {
 
         @Override
         public void onDeviceSeen(BluetoothDevice device) {
+          BrailleDisplayLog.d(TAG, "onDeviceSeen");
           ConnectableBluetoothDevice connectedDevice =
               ConnectableBluetoothDevice.builder().setBluetoothDevice(device).build();
           foundDevices.add(connectedDevice);
-          callback.onDeviceSeen(connectedDevice);
+          connectManagerCallback.onDeviceSeenOrUpdated(connectedDevice);
         }
       };
 
@@ -325,22 +480,67 @@ public class BtConnectManager extends ConnectManager {
         @Override
         public void onBluetoothTurnedOn() {
           BrailleDisplayLog.d(TAG, "onBluetoothTurnedOn");
-          callback.onConnectivityEnabled(/* enabled= */ true);
+          connectManagerCallback.onConnectivityEnabled(/* enabled= */ true);
         }
 
         @Override
         public void onBluetoothTurnedOff() {
           BrailleDisplayLog.d(TAG, "onBluetoothTurnedOff");
-          callback.onConnectivityEnabled(/* enabled= */ false);
+          connectManagerCallback.onConnectivityEnabled(/* enabled= */ false);
         }
       };
 
-  private final BtBondedReceiver.Callback btBondedReceiverCallback =
-      new BtBondedReceiver.Callback() {
+  private final BtConnectStateReceiver.Callback btBondedReceiverCallback =
+      new BtConnectStateReceiver.Callback() {
         @Override
-        public void onBonded(BluetoothDevice device) {
-          BrailleDisplayLog.d(TAG, "onBonded " + device.getName());
-          callback.onDeviceSeen(
+        public void onBonded(BluetoothDevice bluetoothDevice) {
+          BrailleDisplayLog.d(TAG, "onBonded");
+          ConnectableDevice device =
+              ConnectableBluetoothDevice.builder().setBluetoothDevice(bluetoothDevice).build();
+          if (isConnecting(device.address())) {
+            BrailleDisplayLog.d(TAG, "It's waiting for result!");
+            bondingDevice.set(null);
+            internalConnect(device);
+          }
+          connectManagerCallback.onDeviceSeenOrUpdated(device);
+        }
+
+        @Override
+        public void onUnBonded(BluetoothDevice device) {
+          BrailleDisplayLog.d(TAG, "onUnBonded");
+          connectManagerCallback.onDeviceDeleted(
+              ConnectableBluetoothDevice.builder().setBluetoothDevice(device).build());
+        }
+
+        @Override
+        public void onConnected(BluetoothDevice device) {
+          BrailleDisplayLog.d(TAG, "onConnected");
+          if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+            BrailleDisplayLog.d(TAG, "device is not paired yet.");
+            return;
+          }
+          // After initiating the Bluetooth pairing process with the createBond() function,
+          // onConnected will come before prompting the user to confirm the pairing. Once the user
+          // confirms, onBonded callback will signify successful pairing.
+          if (!isConnectingOrConnected()) {
+            connectManagerCallback.onDeviceSeenOrUpdated(
+                ConnectableBluetoothDevice.builder().setBluetoothDevice(device).build());
+          }
+        }
+
+        @Override
+        public void onDisconnected(BluetoothDevice device) {
+          BrailleDisplayLog.d(TAG, "onDisconnected");
+          // The disconnected device might not be the current connected device.
+          if (isConnectingOrConnected(device.getAddress())) {
+            disconnect();
+          }
+        }
+
+        @Override
+        public void onUpdated(BluetoothDevice device) {
+          BrailleDisplayLog.d(TAG, "onUpdated");
+          connectManagerCallback.onDeviceSeenOrUpdated(
               ConnectableBluetoothDevice.builder().setBluetoothDevice(device).build());
         }
       };

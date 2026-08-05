@@ -22,11 +22,11 @@ import android.database.ContentObserver;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.Constants;
@@ -37,13 +37,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** Monitor for the state of the input method (onscreen keyboard). */
 public class InputMethodMonitor {
   private final AccessibilityService service;
-  private final FormFactorUtils formFactorUtils;
   private final Handler handler = new Handler(Looper.myLooper());
   private volatile String activeInputMethod;
 
   public InputMethodMonitor(@NonNull AccessibilityService service) {
     this.service = service;
-    formFactorUtils = FormFactorUtils.getInstance();
   }
 
   /** Hook for when the {@link TalkBackService} is resumed. */
@@ -100,7 +98,7 @@ public class InputMethodMonitor {
    * whenever it is on screen, even if it the {@link AccessibilityWindowInfo} disagrees.
    */
   public boolean useInputWindowAsActiveWindow() {
-    if (!formFactorUtils.isAndroidTv()
+    if (!FormFactorUtils.isAndroidTv()
         || activeInputMethod == null
         || !activeInputMethod.startsWith(Constants.GBOARD_PACKAGE_NAME)) {
       return false;
@@ -112,6 +110,21 @@ public class InputMethodMonitor {
             : Constants.GBOARD_PACKAGE_NAME;
     int installedVersion = findInstalledVersionOfPackage(packageName);
     return installedVersion >= Constants.GBOARD_MIN_SUPPORTED_VERSION;
+  }
+
+  /** Returns whether the current input method supports voice dictation roles. */
+  public boolean supportVoiceDictationRoles() {
+    if (activeInputMethod == null || !activeInputMethod.startsWith(Constants.GBOARD_PACKAGE_NAME)) {
+      return false;
+    }
+
+    String activePackageName = activeInputMethod.split("/")[0];
+    // Only checks version for default Gboard, and allows all versions for canary/dev Gboard.
+    if (TextUtils.equals(activePackageName, Constants.GBOARD_PACKAGE_NAME)) {
+      int installedVersion = findInstalledVersionOfPackage(Constants.GBOARD_PACKAGE_NAME);
+      return installedVersion >= Constants.GBOARD_MIN_VOICE_DICTATION_VERSION;
+    }
+    return true;
   }
 
   private final ContentObserver contentObserver =

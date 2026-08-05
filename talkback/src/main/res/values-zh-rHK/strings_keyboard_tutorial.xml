@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">此教學課程適用於強化按鍵配置，當中包含多項新指令。如要選取按鍵配置，請前往 TalkBack 設定 &gt; [進階設定] &gt; [鍵盤快速鍵]。\n\n按下快捷操作鍵 + 向右箭咀，即可選取主題。請先開啟 TalkBack 再開始操作，以獲得最佳體驗。</string>
+  <string name="basic_interaction_link_text">基本互動</string>
+  <string name="basic_interaction_link_subtext">在項目之間移動、逐行閱讀、使用選單等等</string>
+  <string name="browse_mode_link_text">瀏覽模式</string>
+  <string name="browse_mode_link_subtext">使用跳轉指令，可更快速導覽網絡內容</string>
+  <string name="reading_controls_link_text">朗讀控制項</string>
+  <string name="reading_controls_link_subtext">使用朗讀控制項在項目之間跳轉、調整語音設定等等</string>
+  <string name="image_descriptions_link_text">圖片描述</string>
+  <string name="image_descriptions_link_subtext">嘗試取得圖片描述</string>
+  <string name="keyboard_shortcuts_link_text">練習使用鍵盤快速鍵</string>
+  <string name="keyboard_shortcuts_link_subtext">按下按鍵和按鍵組合瞭解其功能</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack 提供朗讀功能，讓你無需查看螢幕亦可使用裝置。Talkback 可讓無法看清楚螢幕的使用者瞭解螢幕內容。TalkBack 開啟後，系統會朗讀螢幕上的焦點項目。\n\n首先，我們來熟習鍵盤。找出位於左 Shift 鍵上方的快捷操作鍵。現在，找出鍵盤右下方的箭咀鍵。按下快捷操作鍵 + 向右箭咀，即可移至下一個項目。</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">這是下一個項目。如要移至上一個項目，請按下快捷操作鍵 + 向左箭咀。\n\n移至按鈕等互動項目時，按下快捷操作鍵 + 空白鍵即可啟用該項目。找出 [繼續] 按鈕，並繼續教學課程。</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">逐個字元、字詞或段落朗讀</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">有時，你可能想系統逐個字元朗讀。\n\n如要這樣做，你可以使用朗讀控制項導覽。請按下快捷操作鍵 + Shift 鍵 + 向右箭咀或向左箭咀，直至聽到「字元」。\n\n然後，按下快捷操作鍵 + 向上箭咀，即可逐個字元向後移動瀏覽焦點。按下快捷操作鍵 + 向下箭咀，即可逐個字元向前移動瀏覽焦點。\n\n立即試試。你亦可使用快捷操作鍵 + Shift 鍵 + 向右箭咀或向左箭咀，選擇逐個字詞、逐行或逐個段落朗讀。</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">系統導覽</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">現在試用鍵盤快速鍵會關閉教學課程，建議你待完成教學課程後才試用。\n\n如要切換已開啟的應用程式視窗和系統元素 (例如通知和工作列)，請按下快捷操作鍵 + Alt 鍵 + Ctrl 鍵 + 向上箭咀或向下箭咀。\n\n如要開啟應用程式清單，請按下快捷操作鍵。\n\n如要前往主畫面並將所有已開啟的視窗最小化，請按下快捷操作鍵 + H 鍵或頂列的主畫面鍵。\n\n如要前往最近使用的應用程式，請按下快捷操作鍵 + Tab 鍵或頂列的「概覽」鍵。\n\n如要快速切換視窗，請按住 Alt 鍵並按下 Tab 鍵。\n\n如要返回，請按下快捷操作鍵 + Esc 鍵或頂列的返回鍵。\n\n如要開啟通知，請按下快捷操作鍵 + N 鍵。</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">調整語音設定</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack 語音的音量稱為無障礙功能音量，需要與媒體音量分開調整。\n\n如要調整無障礙功能音量，請按下快捷操作鍵 + 調高音量或調低音量鍵。\n\n如要調整語音速度，請按下快捷操作鍵 + Ctrl 鍵 + 調高音量鍵以加快語音速度，或按下快捷操作鍵 + Ctrl 鍵 + 調低音量鍵以減慢語音速度。\n\n隨時按下 Ctrl 鍵即可停止語音。</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack 選單和其他鍵盤快速鍵</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack 選單包含你可能經常用到的設定和控制項。\n\n如要開啟 TalkBack 選單，請按下快捷操作鍵 + Ctrl 鍵 + M 鍵。你可稍後在 TalkBack 設定中自訂 TalkBack 選單和朗讀控制項。\n\nTalkBack 鍵盤快速鍵選單包含所有可用的鍵盤快速鍵。\n\n如要開啟鍵盤快速鍵選單，請按下快捷操作鍵 + Shift 鍵 + / 鍵。\n\n如要進一步瞭解鍵盤並練習使用鍵盤快速鍵，請按下快捷操作鍵 + 0 鍵開啟練習畫面。</string>
+  <string name="keyboard_tutorial_finished_page_title">完成！</string>
+  <string name="keyboard_tutorial_finished_page_text">你可以開始使用 TalkBack 了。\n\n你現在可繼續瞭解其他主題，也可隨時到 TalkBack 設定查看這些資訊。\n\n隨時按下快捷操作鍵 + Alt 鍵 + T 鍵，即可開啟或關閉 TalkBack。</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">使用瀏覽模式，可更快速導覽網絡內容</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">使用瀏覽器和網絡應用程式時，你可以開啟瀏覽模式，只需按下一個鍵，即可切換不同類型的朗讀精細度和控制項。此模式讓你以類似導覽文字編輯框的方式導覽頁面，例如使用向左箭咀和向右箭咀逐個字元移動，以及使用向上箭咀和向下箭咀逐行移動。\n\n如要開啟或關閉瀏覽模式，請按兩下快捷操作鍵。\n\n開啟瀏覽模式後，按下 D 鍵即可跳到下一個標籤，按下 F 鍵即可跳到下一個控制項或表格欄位，按下 B 鍵即可跳到下一個按鈕，按下 K 鍵即可跳到下一個連結，按下 H 鍵即可跳到下一個標題。按住 Shift 鍵並按下這些按鍵，即可向後移動。\n\n你亦可使用向上箭咀和向下箭咀逐行跳讀、使用向左箭咀和向右箭咀逐個字母跳讀，以及使用 Ctrl 鍵 + 向左箭咀和向右箭咀逐個字詞跳讀。\n\n按下快捷操作鍵 + 向右箭咀，即可進入練習區。在練習區中，按下連結、表格欄位和按鈕不會觸發任何動作。</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">標題層級</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">網站和網絡應用程式通常使用不同層級的標題來整理內容。開啟瀏覽模式後，按下 1 鍵至 6 鍵即可跳讀標題層級。按住 Shift 鍵並按下這些按鍵，即可向後移動。\n\n按下快捷操作鍵 + 向右箭咀，即可進入練習區。</string>
+  <string name="keyboard_tutorial_tables_page_title">表格</string>
+  <string name="keyboard_tutorial_tables_page_text">瀏覽模式亦可讓表格導覽更輕鬆。開啟瀏覽模式後，按下 Alt 鍵 + Ctrl 鍵 + 向上箭咀和向下箭咀即可在列之間跳讀，按下 Alt 鍵 + Ctrl 鍵 + 向左箭咀和向右箭咀即可在欄之間跳讀。\n\n按下快捷操作鍵 + 向右箭咀，即可進入練習區。</string>
+  <string name="keyboard_tutorial_editing_text_page_title">編輯文字</string>
+  <string name="keyboard_tutorial_editing_text_page_text">當你進入文字欄位時，瀏覽模式會暫時關閉，以便你使用所有按鍵輸入文字。瀏覽模式關閉時，你會聽到語音通知和音效。離開文字欄位後，瀏覽模式會重新開啟，你會聽到另一個語音通知和音效。\n\n按下快捷操作鍵 + 向右箭咀，即可進入練習區。</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">進一步瞭解瀏覽模式</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">如要查看瀏覽模式中可跳讀的完整項目清單，請按下快捷操作鍵 + Shift 鍵 + / 鍵，然後在鍵盤快速鍵選單中搜尋「瀏覽模式」。</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">逐個字元、字詞或段落朗讀</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">有時，你可能想系統逐個字元朗讀。\n\n如要這樣做，你可以使用朗讀控制項導覽。請按下快捷操作鍵 + Shift 鍵 + 向右箭咀或向左箭咀，直至聽到「字元」。然後，按下快捷操作鍵 + 向上箭咀，即可逐個字元向後移動瀏覽焦點。按下快捷操作鍵 + 向下箭咀，即可逐個字元向前移動瀏覽焦點。\n\n立即試試。你亦可使用快捷操作鍵 + Shift 鍵 + 向右箭咀或向左箭咀，選擇逐個字詞、逐行或逐個段落朗讀。</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">在控制項之間跳讀</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">控制項指按鈕、選框和文字框等互動項目。\n\n在部分頁面上，你可能想在控制項之間跳讀，以更快找到所需操作，例如下一個按鈕。\n\n如要這樣做，請按下快捷操作鍵 + Shift 鍵 + 向右箭咀，直至聽到「控制項」。然後，按下快捷操作鍵 + 向上箭咀以前往上一個按鈕，或按下快捷操作鍵 + 向下箭咀以前往下一個按鈕。\n\n現在就試試找出下一個按鈕。</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">在連結之間跳讀</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">你亦可在頁面的連結之間跳讀。\n\n如要這樣做，請按下快捷操作鍵 + Shift 鍵 + 向右箭咀，直至聽到「連結」。然後，按下快捷操作鍵 + 向下箭咀，找出名為「連結 5」的連結。在教學課程中，輕按兩下此連結並不會觸發任何動作。\n\n請按下快捷操作鍵 + 向右箭咀找出「下一頁」按鈕，然後前往下一頁。</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">在標題之間跳讀</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">你亦可在頁面的標題之間跳讀。\n\n如要立即試用，請按下快捷操作鍵 + Shift 鍵 + 向右箭咀，直至聽到「標題」。然後，按下快捷操作鍵 + 向下箭咀，找出「導覽」標題。</string>
+  <string name="keyboard_tutorial_find_next_button">按下快捷操作鍵 + 向右箭咀，即可找出下一個按鈕。</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">在容器之間跳讀</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">按下快捷操作鍵 + Alt 鍵 + Ctrl 鍵 + 向右箭咀或向左箭咀，即可離開清單或格狀檢視等容器。此操作適用於離開較長的項目清單。\n\n如要立即試用，按下快捷操作鍵 + 向右箭咀，即可進入清單。然後，按下快捷操作鍵 + Alt 鍵 + Ctrl 鍵 + 向右箭咀，即可前往下一個容器。</string>
+  <string name="keyboard_tutorial_go_to_next_container">如要前往下一個容器，請按下快捷操作鍵 + Alt 鍵 + Ctrl 鍵 + 向右箭咀</string>
+  <string name="keyboard_tutorial_exit_container">如要離開此容器，請按下快捷操作鍵 + Alt 鍵 + Ctrl 鍵 + 向右箭咀</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">你已離開容器。你亦可將容器新增至朗讀控制項，然後按下快捷操作鍵 + Shift 鍵 + 向右箭咀或向左箭咀以選取容器，按下快捷操作鍵 + 向下箭咀或向上箭咀以在容器之間跳讀。如要更新朗讀控制項，請前往 TalkBack &gt; [設定] &gt; [自訂選單] &gt; [自訂朗讀控制項]。\n\n按下快捷操作鍵 + 向右箭咀，即可找出下一個按鈕。</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">自訂朗讀控制項</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">你亦可使用朗讀控制項調整語音設定和自訂朗讀控制項的功能，前往 TalkBack &gt; [設定] &gt; [自訂選單] &gt; [自訂朗讀控制項] 即可。</string>
+  <string name="keyboard_tutorial_image_description_page_title">嘗試取得圖片描述</string>
+  <string name="keyboard_tutorial_image_description_page_text">將焦點放在圖片上時，按下快捷操作鍵 + R 鍵，然後按下 I 鍵。下方有一張相片，請嘗試取得圖片描述。</string>
+  <string name="keyboard_tutorial_image_description_settings_description">你可隨時前往 TalkBack 設定 &gt; [圖片和圖示描述] 變更圖片描述設定。</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">你可以隨時去 TalkBack 設定㩒圖片同圖示描述變更圖片描述設定。</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">範例圖片。按下快捷操作鍵 + R 鍵，再按下 I 鍵，即可聽取描述。</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">語音指令</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">你可使用語音快速控制 TalkBack。\n\n例如，用語音指令變更導覽方式、跳至下一個標題、複製文字等。\n\n現在試試按下操作鍵 + \\。</string>
+  <string name="keyboard_tutorial_screen_search_page_title">使用螢幕搜尋功能搜尋</string>
+  <string name="keyboard_tutorial_screen_search_page_text">你可透過螢幕搜尋功能尋找螢幕上的特定內容。\n\n如要試用有關功能，請按下操作鍵 + CTRL + /。輸入「下一頁」等關鍵字以尋找螢幕上含有有關文字的項目。\n\n你現可嘗試搜尋「下一頁」，以找出「下一頁」按鈕。</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">使用螢幕搜尋功能導覽</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">選取搜尋結果後，你可以在螢幕搜尋中的其他搜尋結果之間快速切換。\n\n如要使用此功能，請使用朗讀控制項導覽。按下操作鍵 + Shift + 向右箭咀或向左箭咀，直至你聽到「螢幕搜尋」。然後，按下操作鍵 + 向下箭咀或向上箭咀，即可根據螢幕搜尋結果導覽。\n\n立即試用。下方有 3 個載有「操作」一字的按鈕。你可使用螢幕搜尋功能搜尋「操作」，然後透過螢幕搜尋功能導覽，在這些按鈕之間切換。</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">練習使用鍵盤快速鍵</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">按下實體鍵盤按鍵或按鍵組合，即可聽取功能說明。按下 Ctrl + W 鍵或 Esc 鍵即可結束。</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;探索加州紅木的壯麗景色&lt;/h1&gt;
+      &lt;p&gt;加州紅木主要為海岸紅杉 (Sequoia sempervrens)，是世界上最高的樹木。有些樹木高達 380 呎 (115 米) 以上，壽命可達數千年。它們在加州北部潮濕的沿海氣候中茁壯成長，雨水和霧氣都有助於它們的生長。&lt;/p&gt;
+
+      &lt;h2&gt;觀賞地點&lt;/h2&gt;
+      &lt;p&gt;你可以在太平洋沿岸狹窄地帶找到這些巨樹。主要公園包括：&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;紅木國家公園和州立公園&lt;/li&gt;
+        &lt;li&gt;洪堡紅木州立公園&lt;/li&gt;
+        &lt;li&gt;大盆地紅木州立公園&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;請瀏覽以下網址以規劃行程：&lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;加州州立公園 - 紅木&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;支持保育工作&lt;/h2&gt;
+      &lt;p&gt;保護這些古老的森林至關重要。遵守公園指引並支持保育工作，便可為保護紅木出一分力。&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;分享你的體驗&lt;/h2&gt;
+        &lt;p&gt;你曾到訪紅木公園嗎？&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;是&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;否&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;請分享你的體驗&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;提交&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;你還想瞭解紅木的哪些資訊？&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;提交&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;紅木：維持環境健康&lt;/h1&gt;
+    &lt;p&gt;紅木對地球非常重要，在維持環境健康方面擔當重要角色。&lt;/p&gt;
+
+    &lt;h1&gt;巨型空氣淨化器&lt;/h1&gt;
+    &lt;p&gt;這些樹木能有效吸收空氣中的二氧化碳。紅木吸收大量二氧化碳，有助保持空氣潔淨。&lt;/p&gt;
+
+    &lt;h2&gt;動物的家園&lt;/h2&gt;
+    &lt;p&gt;紅木為許多動物提供家園和庇護所，包括樹枝上的鳥類到土壤中的微小生物。&lt;/p&gt;
+
+    &lt;h3&gt;水精靈&lt;/h3&gt;
+    &lt;p&gt;紅木擅於貯藏霧氣，然後讓水滴到森林地面。這有助保持地面濕潤，並為其他植物和動物提供水源，尤其是在乾旱時節。&lt;/p&gt;
+
+    &lt;h4&gt;土壤保護者&lt;/h4&gt;
+    &lt;p&gt;紅木強壯的樹根可固定土壤，防止土壤在暴雨期間被沖走，並防止侵蝕。&lt;/p&gt;
+
+    &lt;h5&gt;森林建設者&lt;/h5&gt;
+    &lt;p&gt;當老紅木倒下時，其木材會成為新植物和生物的食物和庇護所，為新植物的生長創造肥沃的土壤。&lt;/p&gt;
+
+    &lt;h6&gt;獨特的生態系統&lt;/h6&gt;
+    &lt;p&gt;由於紅木體積龐大且壽命長，因此可創造特殊的森林環境，為該地獨有的生物提供棲息地。&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;紅木森林的動物&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;動物&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;描述&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;棲息地&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;有趣小知識&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;香蕉蛞蝓&lt;/th&gt;
+            &lt;td&gt;黏滑的黃色大蛞蝓&lt;/td&gt;
+            &lt;td&gt;森林地面的動物&lt;/td&gt;
+            &lt;td&gt;全球第二大的蛞蝓&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;太平洋巨型蠑螈&lt;/th&gt;
+            &lt;td&gt;深色大蠑螈&lt;/td&gt;
+            &lt;td&gt;溪流和潮濕地區附近的動物&lt;/td&gt;
+            &lt;td&gt;可長至一呎長&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;羅斯福麋鹿&lt;/th&gt;
+            &lt;td&gt;鹿角驚人的大鹿&lt;/td&gt;
+            &lt;td&gt;在森林內空地放牧的動物&lt;/td&gt;
+            &lt;td&gt;雄性可重達 1,000 磅以上&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;北方斑點貓頭鷹&lt;/th&gt;
+            &lt;td&gt;中型貓頭鷹，在夜間狩獵&lt;/td&gt;
+            &lt;td&gt;在茂密、成熟的紅木森林中的動物&lt;/td&gt;
+            &lt;td&gt;「指標物種」：其健康狀況顯示森林健康狀況&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;美洲黑熊&lt;/th&gt;
+            &lt;td&gt;大型哺乳動物，通常為黑色或棕色&lt;/td&gt;
+            &lt;td&gt;在整個森林中尋找食物&lt;/td&gt;
+            &lt;td&gt;擅長攀爬，經常在樹上出現&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;你對紅木和大自然的想法&lt;/h1&gt;
+
+      &lt;p&gt;你還想瞭解紅木的哪些方面？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;你最喜歡到大自然的哪個地方？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;你最想進一步瞭解大自然的哪個概念？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -25,38 +25,30 @@
 extern "C" {
 #endif /* __cplusplus */
 
-extern void moveScreenCharacters(ScreenSegmentCharacter *to,
-                                 const ScreenSegmentCharacter *from,
-                                 size_t count);
-extern void setScreenCharacters(ScreenSegmentCharacter *from,
-                                const ScreenSegmentCharacter *to,
-                                const ScreenSegmentCharacter *character);
-extern void propagateScreenCharacter(ScreenSegmentCharacter *from,
-                                     const ScreenSegmentCharacter *to);
+extern void moveScreenCharacters (ScreenSegmentCharacter *to, const ScreenSegmentCharacter *from, size_t count);
+extern void setScreenCharacters (ScreenSegmentCharacter *from, const ScreenSegmentCharacter *to, const ScreenSegmentCharacter *character);
+extern void propagateScreenCharacter (ScreenSegmentCharacter *from, const ScreenSegmentCharacter *to);
 
-#define SCREEN_SEGMENT_COLOR(r, g, b) \
-  { .red = r, .green = g, .blue = b }
-#define SCREEN_SEGMENT_COLOR_LEVEL 0XAA
-#define SCREEN_SEGMENT_COLOR_BLACK SCREEN_SEGMENT_COLOR(0, 0, 0)
-#define SCREEN_SEGMENT_COLOR_WHITE                                             \
-  SCREEN_SEGMENT_COLOR(SCREEN_SEGMENT_COLOR_LEVEL, SCREEN_SEGMENT_COLOR_LEVEL, \
-                       SCREEN_SEGMENT_COLOR_LEVEL)
+typedef enum {
+  SCI_OFF = 0X00,
+  SCI_DIM = 0X55,
+  SCI_REG = 0XAA,
+  SCI_MAX = 0XFF,
+} ScreenColorIntensity;
 
-extern void fillScreenRows(ScreenSegmentHeader *segment, unsigned int row,
-                           unsigned int count,
-                           const ScreenSegmentCharacter *character);
-extern void moveScreenRows(ScreenSegmentHeader *segment, unsigned int from,
-                           unsigned int to, unsigned int count);
-extern void scrollScreenRows(ScreenSegmentHeader *segment, unsigned int top,
-                             unsigned int size, unsigned int count, int down);
+#define SCREEN_SEGMENT_COLOR(r, g, b) {.red=r, .green=g, .blue=b}
+#define SCREEN_SEGMENT_COLOR_BLACK SCREEN_SEGMENT_COLOR(SCI_OFF, SCI_OFF, SCI_OFF)
+#define SCREEN_SEGMENT_COLOR_WHITE SCREEN_SEGMENT_COLOR(SCI_REG, SCI_REG, SCI_REG)
 
-extern ScreenSegmentHeader *createScreenSegment(int *identifier, key_t key,
-                                                int columns, int rows,
-                                                int enableRowArray);
-extern int destroyScreenSegment(int identifier);
+extern void fillScreenRows (ScreenSegmentHeader *segment, unsigned int row, unsigned int count, const ScreenSegmentCharacter *character);
+extern void moveScreenRows (ScreenSegmentHeader *segment, unsigned int from, unsigned int to, unsigned int count);
+extern void scrollScreenRows (ScreenSegmentHeader *segment, unsigned int top, unsigned int size, unsigned int count, int down);
 
-extern int createMessageQueue(int *queue, key_t key);
-extern int destroyMessageQueue(int queue);
+extern ScreenSegmentHeader *createScreenSegment (int *identifier, key_t key, int height, int width, int enableRowArray);
+extern int destroyScreenSegment (int identifier);
+
+extern int createMessageQueue (int *queue, key_t key);
+extern int destroyMessageQueue (int queue);
 
 #ifdef __cplusplus
 }

@@ -16,7 +16,6 @@
 
 package com.google.android.accessibility.talkback.interpreters;
 
-import static android.view.accessibility.AccessibilityNodeInfo.FOCUS_ACCESSIBILITY;
 import static android.view.accessibility.AccessibilityNodeInfo.FOCUS_INPUT;
 
 import android.view.accessibility.AccessibilityEvent;
@@ -112,18 +111,12 @@ public class InputFocusInterpreter
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event, EventId eventId) {
     switch (event.getEventType()) {
-      case AccessibilityEvent.TYPE_VIEW_FOCUSED:
-        handleViewInputFocusedEvent(event, eventId);
-        break;
-      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
-        // Update focused editable immediately, in case screen-change event comes too late.
-        initLastEditableFocusForGlobalVariables();
-        break;
-      case AccessibilityEvent.TYPE_VIEW_SELECTED:
-        handleViewSelectedEvent(event, eventId);
-        break;
-      default:
-        break;
+      case AccessibilityEvent.TYPE_VIEW_FOCUSED -> handleViewInputFocusedEvent(event, eventId);
+      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED ->
+          // Update focused editable immediately, in case screen-change event comes too late.
+          initLastEditableFocusForGlobalVariables();
+      case AccessibilityEvent.TYPE_VIEW_SELECTED -> handleViewSelectedEvent(event, eventId);
+      default -> {}
     }
   }
 
@@ -182,7 +175,7 @@ public class InputFocusInterpreter
       // inputFocusActionRecord.
 
       AccessibilityNodeInfoCompat a11yFocusableNode =
-          getA11yFocusableNodeFromInputFocusedNode(sourceNode, focusFinder);
+          getA11yFocusableNodeFromInputFocusedNode(sourceNode);
       if (a11yFocusableNode != null) {
         targetViewChangeListener.onViewTargeted(eventId, event, a11yFocusableNode);
       }
@@ -205,7 +198,7 @@ public class InputFocusInterpreter
   // very sensitive to input focus.
   // TODO: Move the logic below into FocusProcessorForSynchronization.
   private static @Nullable AccessibilityNodeInfoCompat getA11yFocusableNodeFromInputFocusedNode(
-      AccessibilityNodeInfoCompat eventSourceNode, FocusFinder focusFinder) {
+      AccessibilityNodeInfoCompat eventSourceNode) {
     /* Ignore it when the event is sent from a collection container.
      *
      * There are three common TYPE_VIEW_FOCUSED events that are not under TalkBack's control:
@@ -226,19 +219,10 @@ public class InputFocusInterpreter
       return null;
     }
 
-    if (AccessibilityNodeInfoUtils.shouldFocusNode(eventSourceNode)) {
-      return eventSourceNode;
-    }
-
-    // TODO: Doing a BFS looks like searching for a11y focusable node inside a collection.
-    // Since we ignore focus event from list or grid, shall we remove this?
-    AccessibilityNodeInfoCompat existingFocus = focusFinder.findFocusCompat(FOCUS_ACCESSIBILITY);
-    if (existingFocus == null) {
-      return AccessibilityNodeInfoUtils.searchFromBfs(
-          eventSourceNode, AccessibilityNodeInfoUtils.FILTER_SHOULD_FOCUS);
-    } else {
+    if (!AccessibilityNodeInfoUtils.shouldFocusNode(eventSourceNode)) {
       return null;
     }
+    return eventSourceNode;
   }
 
   /**
@@ -246,39 +230,27 @@ public class InputFocusInterpreter
    *
    * <p>Only items in {@link android.widget.AdapterView} to be selected. When an item is selected,
    * we received multiple events from the AdapterView, item container layout view, and some control
-   * widgets. We only care about the event from AdapterView, and ignore other events.
+   * widgets. We only care about the event from the selected child node, and ignore other events.
    */
   private void handleViewSelectedEvent(AccessibilityEvent event, EventId eventId) {
-    AccessibilityNodeInfoCompat selectedNode = getTargetChildFromAdapterView(event);
+    AccessibilityNodeInfoCompat selectedNode = getSelectedItemFromAdapterView(event);
     if (selectedNode != null && AccessibilityNodeInfoUtils.shouldFocusNode(selectedNode)) {
       targetViewChangeListener.onViewTargeted(eventId, event, selectedNode);
     }
   }
 
-  /** Gets target child node from the source AdapterView node. */
-  private static @Nullable AccessibilityNodeInfoCompat getTargetChildFromAdapterView(
+  /** Gets the source selected item from the AdapterView. */
+  private static @Nullable AccessibilityNodeInfoCompat getSelectedItemFromAdapterView(
       AccessibilityEvent event) {
     AccessibilityNodeInfoCompat sourceNode = AccessibilityNodeInfoUtils.toCompat(event.getSource());
     if (sourceNode == null) {
       return null;
     }
 
-    if (event.getItemCount() <= 0 || event.getFromIndex() < 0 || event.getCurrentItemIndex() < 0) {
+    if (!sourceNode.isSelected() || !AccessibilityNodeInfoUtils.isTopLevelScrollItem(sourceNode)) {
       return null;
     }
-    int index = event.getCurrentItemIndex() - event.getFromIndex();
-    if (index < 0 || index >= sourceNode.getChildCount()) {
-      return null;
-    }
-    AccessibilityNodeInfoCompat targetChildNode = sourceNode.getChild(index);
-
-    // TODO: Think about to replace childNode check with sourceNode check.
-    if ((targetChildNode == null)
-        || !AccessibilityNodeInfoUtils.isTopLevelScrollItem(targetChildNode)) {
-      return null;
-    } else {
-      return targetChildNode;
-    }
+    return sourceNode;
   }
 
   private boolean isFromSavedFocusAction(AccessibilityEvent event) {

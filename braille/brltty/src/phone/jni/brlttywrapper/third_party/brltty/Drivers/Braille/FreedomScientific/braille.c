@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -686,6 +686,7 @@ connectResource (BrailleDisplay *brl, const char *identifier) {
   descriptor.usb.channelDefinitions = usbChannelDefinitions;
 
   descriptor.bluetooth.channelNumber = 1;
+  descriptor.bluetooth.discoverChannel = 1;
 
   if (connectBrailleResource(brl, identifier, &descriptor, NULL)) {
     return 1;

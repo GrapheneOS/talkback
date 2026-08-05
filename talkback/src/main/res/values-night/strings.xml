@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+  <!-- An example to test announcing text formatting feature. [CHAR_LIMIT=NONE]-->
+  <string name="announcing_text_formatiing_sample"><![CDATA[This text is in <b>bold</b>, a confident shout,
+<br>While this is <u>underlined</u>, a whisper, no doubt.<br>
+<br><span style="background-color:#b22222;">Roses are red</span>, a classic, it\'s true,
+<br><span style="background-color:#0000cd;">Violets are blue</span>, a lovely soft hue.
+<br>
+<br>Some are <small>small</small>, like secrets barely there,
+<br>And some are <big>huge</big>, demanding all the air.
+<br>
+<br>Colors can splash, a vibrant display,
+<br>From <font color="#f08080">fiery red</font> to <font color="#80da88">verdant green\'s</font> gentle sway.]]></string>
+
+</resources>

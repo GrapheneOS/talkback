@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,8 +19,8 @@
 #ifndef BRLTTY_INCLUDED_TUNE_BUILDER
 #define BRLTTY_INCLUDED_TUNE_BUILDER
 
-#include "cmdline_types.h"
 #include "tune.h"
+#include "cmdline_types.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,23 +35,23 @@ typedef enum {
 } TuneStatus;
 
 typedef struct TuneBuilderStruct TuneBuilder;
-extern DECLARE_USAGE_NOTES(tuneBuilderUsageNotes);
+extern DECLARE_COMMAND_LINE_NOTES(tuneBuilderNotes);
 
-extern TuneBuilder *newTuneBuilder(void);
-extern void resetTuneBuilder(TuneBuilder *tune);
-extern void destroyTuneBuilder(TuneBuilder *tb);
+extern TuneBuilder *newTuneBuilder (void);
+extern void resetTuneBuilder (TuneBuilder *tune);
+extern void destroyTuneBuilder (TuneBuilder *tb);
 
-extern TuneStatus getTuneStatus(TuneBuilder *tb);
-extern void setTuneSourceName(TuneBuilder *tb, const char *name);
-extern void setTuneSourceIndex(TuneBuilder *tb, unsigned int index);
-extern void incrementTuneSourceIndex(TuneBuilder *tb);
+extern TuneStatus getTuneStatus (TuneBuilder *tb);
+extern void setTuneSourceName (TuneBuilder *tb, const char *name);
+extern void setTuneSourceIndex (TuneBuilder *tb, unsigned int index);
+extern void incrementTuneSourceIndex (TuneBuilder *tb);
 
-extern int parseTuneString(TuneBuilder *tune, const char *string);
-extern int parseTuneText(TuneBuilder *tune, const wchar_t *text);
-extern ToneElement *getTune(TuneBuilder *tune);
+extern int parseTuneString (TuneBuilder *tune, const char *string);
+extern int parseTuneText (TuneBuilder *tune, const wchar_t *text);
+extern ToneElement *getTune (TuneBuilder *tune);
 
-extern int addTone(TuneBuilder *tune, const ToneElement *tone);
-extern int addNote(TuneBuilder *tune, unsigned char note, int duration);
+extern int addTone (TuneBuilder *tune, const ToneElement *tone);
+extern int addNote (TuneBuilder *tune, unsigned char note, int duration);
 
 #ifdef __cplusplus
 }

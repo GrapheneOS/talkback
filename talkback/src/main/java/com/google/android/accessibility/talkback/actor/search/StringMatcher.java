@@ -29,9 +29,15 @@ public class StringMatcher {
 
   // TODO: [Screen Search] Enables AutoValue for screen search when AOSP verified to
   // allow using AutoValue
-  static final class MatchResult {
+  /** The screen search match result. */
+  public static final class MatchResult {
     private int start;
     private int end;
+
+    MatchResult(CharSequence text) {
+      this.start = 0;
+      this.end = text.length();
+    }
 
     MatchResult(int start, int end) {
       this.start = start;
@@ -55,7 +61,7 @@ public class StringMatcher {
    * @param target, the target where the matching will be performed
    * @param keyword, the keyword used to perform the matching
    */
-  static List<MatchResult> findMatches(String target, String keyword) {
+  public static List<MatchResult> findMatches(String target, String keyword) {
     if (TextUtils.isEmpty(target) || TextUtils.isEmpty(keyword)) {
       return Collections.emptyList();
     }

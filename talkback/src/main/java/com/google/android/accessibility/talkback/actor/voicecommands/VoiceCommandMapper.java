@@ -16,7 +16,7 @@
 package com.google.android.accessibility.talkback.actor.voicecommands;
 
 import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_ACCESSIBILITY_ALL_APPS;
-import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_NEXT;
+import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_CURSOR;
 import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_TOP;
 import static com.google.android.accessibility.talkback.Feedback.DimScreen.Action.BRIGHTEN;
 import static com.google.android.accessibility.talkback.Feedback.DimScreen.Action.DIM;
@@ -60,7 +60,7 @@ public class VoiceCommandMapper {
     @Nullable CharSequence text = voiceCommand.text();
 
     switch (voiceCommand.command()) {
-      case VOICE_COMMAND_NEXT_GRANULARITY:
+      case VOICE_COMMAND_NEXT_GRANULARITY -> {
         if (voiceCommand.granularity() == null) {
           return toFeedback(eventId, Feedback.nextHeading(INPUT_MODE_TOUCH).build());
         } else {
@@ -68,114 +68,103 @@ public class VoiceCommandMapper {
               eventId,
               Feedback.nextGranularity(INPUT_MODE_TOUCH, voiceCommand.granularity()).build());
         }
-
-      case VOICE_COMMAND_SELECT_ALL:
+      }
+      case VOICE_COMMAND_SELECT_ALL -> {
         if (node != null) {
           return toFeedback(eventId, Feedback.edit(node, SELECT_ALL));
         }
-        break;
-
-      case VOICE_COMMAND_START_SELECT:
+      }
+      case VOICE_COMMAND_START_SELECT -> {
         if (node != null) {
           return toFeedback(eventId, Feedback.edit(node, START_SELECT));
         }
-        break;
-
-      case VOICE_COMMAND_END_SELECT:
+      }
+      case VOICE_COMMAND_END_SELECT -> {
         if (node != null) {
           return toFeedback(eventId, Feedback.edit(node, END_SELECT));
         }
-        break;
-
-      case VOICE_COMMAND_COPY:
+      }
+      case VOICE_COMMAND_COPY -> {
         if (node != null) {
           return toFeedback(eventId, Feedback.edit(node, COPY));
         }
-        break;
-
-      case VOICE_COMMAND_CUT:
+      }
+      case VOICE_COMMAND_CUT -> {
         if (node != null) {
           return toFeedback(eventId, Feedback.edit(node, CUT));
         }
-        break;
-
-      case VOICE_COMMAND_PASTE:
+      }
+      case VOICE_COMMAND_PASTE -> {
         if (node != null) {
           return toFeedback(eventId, Feedback.edit(node, PASTE));
         }
-        break;
-
-      case VOICE_COMMAND_DELETE:
+      }
+      case VOICE_COMMAND_DELETE -> {
         if (node != null) {
           return toFeedback(eventId, Feedback.edit(node, DELETE));
         }
-        break;
-
-      case VOICE_COMMAND_INSERT:
+      }
+      case VOICE_COMMAND_INSERT -> {
         if (node != null && !TextUtils.isEmpty(text)) {
           return toFeedback(eventId, Feedback.edit(node, INSERT).setText(text));
         }
-        break;
-
-      case VOICE_COMMAND_LABEL:
+      }
+      case VOICE_COMMAND_LABEL -> {
         if (node != null && !TextUtils.isEmpty(text)) {
           return toFeedback(eventId, Feedback.label(text.toString(), node).build().label());
         }
-        break;
-
-      case VOICE_COMMAND_REPEAT_SEARCH:
+      }
+      case VOICE_COMMAND_REPEAT_SEARCH -> {
         return toFeedback(eventId, Feedback.repeatSearch());
-
-      case VOICE_COMMAND_FIND:
+      }
+      case VOICE_COMMAND_FIND -> {
         if (!TextUtils.isEmpty(text)) {
           return toFeedback(eventId, Feedback.searchFromTop(text));
         }
-        break;
-
-      case VOICE_COMMAND_START_AT_TOP:
+      }
+      case VOICE_COMMAND_START_AT_TOP -> {
         return toFeedback(eventId, START_AT_TOP);
-
-      case VOICE_COMMAND_START_AT_NEXT:
-        return toFeedback(eventId, START_AT_NEXT);
-
-      case VOICE_COMMAND_COPY_LAST_SPOKEN_UTTERANCE:
+      }
+      case VOICE_COMMAND_START_AT_CURSOR -> {
+        return toFeedback(eventId, START_AT_CURSOR);
+      }
+      case VOICE_COMMAND_COPY_LAST_SPOKEN_UTTERANCE -> {
         return toFeedback(eventId, COPY_SAVED);
-
-      case VOICE_COMMAND_FIRST:
+      }
+      case VOICE_COMMAND_FIRST -> {
         return toFeedback(eventId, Feedback.focusTop(INPUT_MODE_TOUCH).build().focusDirection());
-
-      case VOICE_COMMAND_LAST:
+      }
+      case VOICE_COMMAND_LAST -> {
         return toFeedback(eventId, Feedback.focusBottom(INPUT_MODE_TOUCH).build().focusDirection());
-
-      case VOICE_COMMAND_HOME:
+      }
+      case VOICE_COMMAND_HOME -> {
         return toFeedback(eventId, AccessibilityService.GLOBAL_ACTION_HOME);
-
-      case VOICE_COMMAND_BACK:
+      }
+      case VOICE_COMMAND_BACK -> {
         return toFeedback(eventId, AccessibilityService.GLOBAL_ACTION_BACK);
-
-      case VOICE_COMMAND_RECENT:
+      }
+      case VOICE_COMMAND_RECENT -> {
         return toFeedback(eventId, AccessibilityService.GLOBAL_ACTION_RECENTS);
-
-      case VOICE_COMMAND_ALL_APPS:
+      }
+      case VOICE_COMMAND_ALL_APPS -> {
         return toFeedback(eventId, GLOBAL_ACTION_ACCESSIBILITY_ALL_APPS);
-
-      case VOICE_COMMAND_NOTIFICATIONS:
+      }
+      case VOICE_COMMAND_NOTIFICATIONS -> {
         return toFeedback(eventId, AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS);
-
-      case VOICE_COMMAND_QUICK_SETTINGS:
+      }
+      case VOICE_COMMAND_QUICK_SETTINGS -> {
         return toFeedback(eventId, AccessibilityService.GLOBAL_ACTION_QUICK_SETTINGS);
-
-      case VOICE_COMMAND_BRIGHTEN_SCREEN:
+      }
+      case VOICE_COMMAND_BRIGHTEN_SCREEN -> {
         return toFeedback(eventId, BRIGHTEN);
-
-      case VOICE_COMMAND_DIM_SCREEN:
+      }
+      case VOICE_COMMAND_DIM_SCREEN -> {
         return toFeedback(eventId, DIM);
-
-      case VOICE_COMMAND_SHOW_COMMAND_LIST:
+      }
+      case VOICE_COMMAND_SHOW_COMMAND_LIST -> {
         return toFeedback(eventId, SHOW_COMMAND_LIST);
-
-      default:
-        break;
+      }
+      default -> {}
     }
     return null;
   }

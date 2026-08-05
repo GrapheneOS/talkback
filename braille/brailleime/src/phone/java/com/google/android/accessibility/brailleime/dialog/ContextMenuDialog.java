@@ -83,7 +83,7 @@ public class ContextMenuDialog extends ViewAttachedDialog {
     this.context = context;
     this.callback = callback;
     itemsAndActions = new ArrayList<>();
-    basicActionsDialog = new BasicActionsMaterialDialog(context, this::dismiss);
+    basicActionsDialog = new BasicActionsDialog(context, this::dismiss);
   }
 
   @Override
@@ -103,7 +103,7 @@ public class ContextMenuDialog extends ViewAttachedDialog {
         .setAdapter(contextMenuListAdapter, null)
         // TODO: put onDialogHidden in onDismissListener.
         .setNegativeButton(
-            android.R.string.cancel, (dialogInterface, i) -> callback.onDialogHidden())
+            R.string.context_menu_close_button, (dialogInterface, i) -> callback.onDialogHidden())
         .setOnCancelListener(dialogInterface -> callback.onDialogHidden());
     contextMenuDialog = dialogBuilder.create();
     contextMenuDialog.setOnShowListener(dialogInterface -> callback.onDialogShown());

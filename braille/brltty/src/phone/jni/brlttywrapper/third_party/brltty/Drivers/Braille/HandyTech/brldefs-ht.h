@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -22,39 +22,41 @@
 #define HT_USB_VENDOR 0X1FE4
 
 typedef enum {
-  HT_MODEL_UsbHidAdapter = 0X03,
-  HT_MODEL_BrailleWave = 0X05,
-  HT_MODEL_ModularEvolution64 = 0X36,
-  HT_MODEL_ModularEvolution88 = 0X38,
-  HT_MODEL_ModularConnect88 = 0X3A,
-  HT_MODEL_EasyBraille = 0X44,
-  HT_MODEL_ActiveBraille = 0X54,
-  HT_MODEL_ConnectBraille40 = 0X55,
-  HT_MODEL_Actilino = 0X61,
-  HT_MODEL_ActiveStar40 = 0X64,
-  HT_MODEL_Braillino = 0X72,
-  HT_MODEL_BrailleStar40 = 0X74,
-  HT_MODEL_BrailleStar80 = 0X78,
-  HT_MODEL_Modular20 = 0X80,
-  HT_MODEL_BasicBraille16 = 0X81,
-  HT_MODEL_BasicBraille20 = 0X82,
-  HT_MODEL_BasicBraille32 = 0X83,
-  HT_MODEL_BasicBraille40 = 0X84,
-  HT_MODEL_BasicBraille64 = 0X86,
-  HT_MODEL_BasicBraille80 = 0X87,
-  HT_MODEL_Modular80 = 0X88,
-  HT_MODEL_Modular40 = 0X89,
-  HT_MODEL_BasicBraille48 = 0X8A,
-  HT_MODEL_BasicBraille160 = 0X8B,
-  HT_MODEL_Bookworm = 0X90,
-  HT_MODEL_BasicBraillePlus20 = 0X92,
-  HT_MODEL_BasicBraillePlus32 = 0X93,
-  HT_MODEL_BasicBraillePlus40 = 0X94,
-  HT_MODEL_BasicBraillePlus64 = 0X96,
-  HT_MODEL_BasicBraillePlus80 = 0X97,
-  HT_MODEL_BasicBraillePlus48 = 0X9A,
-  HT_MODEL_BasicBraillePlus84 = 0X9C,
-  HT_MODEL_Activator = 0XA4
+  HT_MODEL_UsbHidAdapter       = 0X03,
+  HT_MODEL_BrailleWave         = 0X05,
+  HT_MODEL_ModularEvolution64  = 0X36,
+  HT_MODEL_ModularEvolution88  = 0X38,
+  HT_MODEL_ModularConnect88    = 0X3A,
+  HT_MODEL_EasyBraille         = 0X44,
+  HT_MODEL_ActiveBraille       = 0X54,
+  HT_MODEL_ConnectBraille40    = 0X55,
+  HT_MODEL_Actilino            = 0X61,
+  HT_MODEL_ActiveStar40        = 0X64,
+  HT_MODEL_Braillino           = 0X72,
+  HT_MODEL_BrailleStar40       = 0X74,
+  HT_MODEL_BrailleStar80       = 0X78,
+  HT_MODEL_Modular20           = 0X80,
+  HT_MODEL_BasicBraille16      = 0X81,
+  HT_MODEL_BasicBraille20      = 0X82,
+  HT_MODEL_BasicBraille32      = 0X83,
+  HT_MODEL_BasicBraille40      = 0X84,
+  HT_MODEL_BasicBraille64      = 0X86,
+  HT_MODEL_BasicBraille80      = 0X87,
+  HT_MODEL_Modular80           = 0X88,
+  HT_MODEL_Modular40           = 0X89,
+  HT_MODEL_BasicBraille48      = 0X8A,
+  HT_MODEL_BasicBraille160     = 0X8B,
+  HT_MODEL_Bookworm            = 0X90,
+  HT_MODEL_BasicBraillePlus20  = 0X92,
+  HT_MODEL_BasicBraillePlus32  = 0X93,
+  HT_MODEL_BasicBraillePlus40  = 0X94,
+  HT_MODEL_BasicBraillePlus64  = 0X96,
+  HT_MODEL_BasicBraillePlus80  = 0X97,
+  HT_MODEL_BasicBraillePlus48  = 0X9A,
+  HT_MODEL_BasicBraillePlus84  = 0X9C,
+  HT_MODEL_Activator           = 0XA4,
+  HT_MODEL_ActivatorPro64      = 0XA6,
+  HT_MODEL_ActivatorPro80      = 0XA8,
 } HT_ModelIdentifier;
 
 /* Packet definition */
@@ -85,6 +87,7 @@ typedef enum {
   HT_EXTPKT_ReadingPosition       = 0X55,
   HT_EXTPKT_SetFirmness           = 0X60,
   HT_EXTPKT_GetFirmness           = 0X61,
+  HT_EXTPKT_NoReconnect           = 0XAE,
   HT_EXTPKT_GetProtocolProperties = 0XC1,
   HT_EXTPKT_GetFirmwareVersion    = 0XC2
 } HT_ExtendedPacketType;
@@ -205,15 +208,15 @@ typedef enum {
   HT_KEY_SpaceRight = 0X18,
 
   /* Actilino keys */
-  HT_KEY_JoystickLeft = 0X74,
-  HT_KEY_JoystickRight = 0X75,
-  HT_KEY_JoystickUp = 0X76,
-  HT_KEY_JoystickDown = 0X77,
-  HT_KEY_JoystickAction = 0X78,
+  HT_KEY_JoystickLeft       = 0X74,
+  HT_KEY_JoystickRight      = 0X75,
+  HT_KEY_JoystickUp         = 0X76,
+  HT_KEY_JoystickDown       = 0X77,
+  HT_KEY_JoystickAction     = 0X78,
 
   /* Activator keys */
-  HT_KEY_LeftCenter = 0X7A,
-  HT_KEY_RightCenter = 0X7B,
+  HT_KEY_LeftCenter         = 0X7A,
+  HT_KEY_RightCenter        = 0X7B,
 
   /* ranges and flags */
   HT_KEY_ROUTING = 0X20,

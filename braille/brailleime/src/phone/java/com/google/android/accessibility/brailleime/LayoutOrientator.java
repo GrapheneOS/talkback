@@ -24,7 +24,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import com.google.android.accessibility.braille.common.TouchDots;
-import com.google.common.annotations.VisibleForTesting;
 import java.util.Optional;
 
 /** Auto detects whether the device is tabletop or screen away. */
@@ -35,7 +34,7 @@ public class LayoutOrientator {
   private Optional<TouchDots> autoModeLayout;
 
   /** Callback for clients of this class. */
-  interface LayoutOrientatorCallback {
+  public interface LayoutOrientatorCallback {
     boolean useSensorsToDetectLayout();
 
     void onDetectionChanged(boolean isTabletop, boolean firstChangedEvent);
@@ -76,7 +75,7 @@ public class LayoutOrientator {
               Utils.adjustAccelOrientation(
                   Utils.getDisplayRotationDegrees(context), sensorEvent.values);
           boolean isFlat = Utils.isFlat(sensorEventValues);
-          boolean firstChangedEvent = !autoModeLayout.isPresent();
+          boolean firstChangedEvent = autoModeLayout.isEmpty();
           TouchDots newLayout = isFlat ? TouchDots.TABLETOP : TouchDots.SCREEN_AWAY;
           boolean shouldChange = firstChangedEvent || (autoModeLayout.get() != newLayout);
           autoModeLayout = Optional.of(newLayout);
@@ -88,9 +87,4 @@ public class LayoutOrientator {
         @Override
         public void onAccuracyChanged(Sensor sensor, int i) {}
       };
-
-  @VisibleForTesting
-  SensorEventListener getSensorEventListener() {
-    return sensorEventListener;
-  }
 }

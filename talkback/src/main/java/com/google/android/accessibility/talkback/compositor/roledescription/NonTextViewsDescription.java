@@ -22,10 +22,9 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
 import com.google.android.accessibility.utils.Role;
-import java.util.Locale;
 
 /**
  * Role description for non-text-view {@link Role.ROLE_IMAGE} and {@link Role.ROLE_IMAGE_BUTTON}.
@@ -73,9 +72,8 @@ public final class NonTextViewsDescription implements RoleDescription {
       AccessibilityNodeInfoCompat node,
       Context context,
       GlobalVariables globalVariables) {
-    Locale preferredLocale = globalVariables.getPreferredLocaleByNode(node);
     CharSequence nodeStateDescription =
-        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, preferredLocale);
+        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables);
     if (!TextUtils.isEmpty(nodeStateDescription)) {
       return nodeStateDescription;
     }

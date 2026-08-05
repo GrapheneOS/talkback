@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">‏זהו מדריך על מפת המקשים המשופרת, שכוללת הרבה פקודות חדשות. כדי לבחור את מפת המקשים, עוברים אל ההגדרות של TalkBack &gt; הגדרות מתקדמות &gt; מקשי קיצור.\n\nכדי לבחור נושא, לוחצים על מקש הפעולה + החץ ימינה. כדי ליהנות מחוויית השימוש הטובה ביותר, מומלץ להפעיל את TalkBack לפני שמתחילים.</string>
+  <string name="basic_interaction_link_text">אינטראקציה בסיסית</string>
+  <string name="basic_interaction_link_subtext">מעבר בין פריטים, קריאה לפי שורות, שימוש בתפריטים ועוד</string>
+  <string name="browse_mode_link_text">מצב סמן</string>
+  <string name="browse_mode_link_subtext">ניווט מהיר יותר בתוכן מהאינטרנט עם פקודות דילוג</string>
+  <string name="reading_controls_link_text">כפתורי ההקראה</string>
+  <string name="reading_controls_link_subtext">שימוש בממשק לשליטה בהקראה כדי לעבור בין פריטים, לכוונן את הגדרות הדיבור ועוד</string>
+  <string name="image_descriptions_link_text">תיאורי תמונות</string>
+  <string name="image_descriptions_link_subtext">קבלת תיאורים של תמונות</string>
+  <string name="keyboard_shortcuts_link_text">תרגול השימוש במקשי הקיצור</string>
+  <string name="keyboard_shortcuts_link_subtext">לחיצה על מקשים או על שילובים של מקשים כדי לגלות מה הם עושים</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">‏התכונה TalkBack היא קורא מסך קולי שמאפשר להשתמש במכשיר בלי להביט במסך. זה יכול להועיל לאנשים שמתקשים לראות את המסך. כש-TalkBack מופעל, הוא מקריא את הפריט שנמצא במיקוד במסך.\n\nקודם כל, כדאי להכיר את המקלדת. מקש הפעולה נמצא מעל מקש Shift השמאלי. עכשיו נחפש את מקשי החיצים שקרובים לפינה הימנית התחתונה של המקלדת. כדי לעבור לפריט הבא, לוחצים על מקש הפעולה + החץ ימינה.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">‏זהו הפריט הבא. כדי לעבור לפריט הקודם, לוחצים על מקש הפעולה + החץ שמאלה.\n\nכשעוברים לפריט אינטראקטיבי כמו כפתור, לוחצים על מקש הפעולה + מקש הרווח כדי להפעיל אותו. כדי להמשיך בהדרכה, צריך ללחוץ על כפתור \"הבא\".</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">הקראה של כל תו, מילה או פסקה בנפרד</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">‏בנוסף, יש לך אפשרות לשמוע הקראה של טקסט, תו אחד בכל פעם.\n\nכדי לעשות זאת, אפשר להשתמש בניווט באמצעות כפתורי ההקראה. לוחצים על מקש הפעולה + Shift + החץ ימינה או שמאלה עד ששומעים את המילה \"תווים\".\n\nאחר כך לוחצים על מקש הפעולה + החץ למעלה כדי להזיז את ההתמקדות ברכיב הממשק אחורה לפי התווים. לוחצים על מקש הפעולה + החץ למטה כדי להזיז את ההתמקדות ברכיב הממשק קדימה לפי התווים.\n\nרוצה לנסות זאת עכשיו? אפשר גם לבחור בהקראה לפי מילים, שורות או פסקאות באמצעות לחיצה על מקש הפעולה + Shift + החץ ימינה או שמאלה.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">ניווט במערכת</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">‏הניסיון להשתמש עכשיו במקשי הקיצור האלה יסגור את המדריך. מומלץ לחכות עד לסיום המדריך.\n\nכדי לעבור בין חלונות פתוחים של אפליקציות ורכיבי מערכת כמו התראות וסרגל האפליקציות, לוחצים על מקש הפעולה + Alt‏ + Ctrl + החץ למעלה או למטה.\n\nכדי לפתוח את רשימת האפליקציות, לוחצים על מקש הפעולה.\n\nכדי לעבור למסך הבית ולמזער את כל החלונות הפתוחים, לוחצים על מקש הפעולה + H או על \"בית\" בשורה העליונה.\n\nכדי לעבור לאפליקציות האחרונות, לוחצים על מקש הפעולה + מקש Tab או על \"מסכים אחרונים\" בשורה העליונה.\n\nכדי לעבור במהירות בין חלונות, לוחצים לחיצה ארוכה על Alt ולוחצים על מקש Tab.‏\n\nכדי לחזור אחורה, לוחצים על מקש הפעולה + Esc או על \"חזרה\" בשורה העליונה.\n\nכדי לפתוח את ההתראות, לוחצים על מקש הפעולה + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">שינוי הגדרות הדיבור</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">‏עוצמת הדיבור של TalkBack נקראת עוצמת הקול לנגישות. אפשר לכוונן אותה בנפרד מעוצמת הקול של המדיה.\n\nכדי לכוונן את עוצמת הקול לנגישות, לוחצים על מקש הפעולה + המקש להגברת או להחלשת עוצמת הקול.\n\nכדי לכוונן את קצב הדיבור, לוחצים על מקש הפעולה + Ctrl + המקש להגברת עוצמת הקול כדי להגביר את קצב הדיבור, ועל מקש הפעולה + Ctrl + המקש להחלשת עוצמת הקול כדי להאט את קצב הדיבור.\n\nכדי להפסיק את הדיבור בכל שלב, לוחצים על Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">‏תפריט TalkBack ומקשי קיצור נוספים</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">‏תפריט TalkBack כולל הגדרות ורכיבים אינטראקטיביים שעשויים לשמש אותך בתדירות גבוהה.\n\nכדי לפתוח את תפריט TalkBack, לוחצים על מקש הפעולה + Ctrl‏ + M. אפשר להתאים אישית את תפריט TalkBack ואת כפתורי ההקראה בהגדרות של TalkBack.‏\n\nתפריט מקשי הקיצור של TalkBack כולל את כל מקשי הקיצור שאפשר להשתמש בהם.\n\nכדי לפתוח את תפריט מקשי הקיצור, לוחצים על מקש הפעולה + Shift‏ + /‏.\n\nכדי לקבל מידע נוסף על המקלדת ולתרגל מקשי קיצור, לוחצים על מקש הפעולה + 0 כדי לפתוח את מסך התרגול.</string>
+  <string name="keyboard_tutorial_finished_page_title">הכול מוכן!</string>
+  <string name="keyboard_tutorial_finished_page_text">‏הכול מוכן לשימוש ב-TalkBack‏.\n\nאפשר להמשיך עכשיו ולקרוא על נושאים נוספים, או לעיין בכל שלב במידע הרצוי בהגדרות של TalkBack‏.\n\nכדי להפעיל או להשבית את TalkBack בכל שלב, לוחצים על מקש הפעולה + Alt‏+ T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">ניווט מהיר יותר בתוכן מהאינטרנט עם מצב הסמן</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">‏כשנמצאים בדפדפן ובאפליקציות אינטרנט, אפשר להפעיל את מצב הסמן ולעבור בין סוגים שונים של רזולוציות הניווט בקריאה או הרכיבים האינטראקטיביים בלחיצה אחת על מקש. במצב הזה אפשר לנווט בדף באופן דומה לניווט בכלי לעריכת טקסט, למשל באמצעות החיצים שמאלה וימינה כדי לעבור בין תווים, ובאמצעת החיצים למעלה ולמטה כדי לעבור בין שורות.\n\nכדי להפעיל או להשבית את מצב הסמן, לוחצים לחיצה כפולה על מקש הפעולה.\n\nכשמצב הסמן מופעל, לוחצים על D כדי לעבור לנקודת הציון הבאה, על F כדי לעבור לרכיב האינטראקטיבי הבא או לשדה הבא בטופס, על B כדי לעבור לכפתור הבא, על K כדי לעבור לקישור הבא ועל H כדי לעבור לכותרת הבאה. כדי לחזור אחורה, לוחצים לחיצה ארוכה על Shift ולוחצים על המקשים האלה.\n\nאפשר גם ללחוץ על החיצים למעלה ולמטה כדי לדלג בין שורות, על החיצים שמאלה וימינה כדי לדלג בין אותיות, ועל Ctrl + החיצים שמאלה וימינה כדי לדלג בין מילים.\n\nכדי להיכנס לאזור התרגול, לוחצים על מקש הפעולה + החץ ימינה. בזמן שנמצאים באזור התרגול, הקישורים, השדות בטופס והכפתורים לא פועלים.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">רמות הכותרות</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">‏באתרים ובאפליקציות אינטרנט משתמשים לעיתים קרובות בכותרות ברמות שונות כדי לארגן את התוכן. כשמצב הסמן מופעל, לוחצים על 1 עד 6 כדי לעבור לרמות של הכותרות. כדי לחזור אחורה, לוחצים לחיצה ארוכה על Shift ולוחצים על המקשים האלה.\n\nכדי להיכנס לאזור התרגול, לוחצים על מקש הפעולה + החץ ימינה.</string>
+  <string name="keyboard_tutorial_tables_page_title">טבלאות</string>
+  <string name="keyboard_tutorial_tables_page_text">‏מצב הסמן גם מקל על ניווט בטבלאות. כשמצב הסמן מופעל, לוחצים על Alt‏ + Ctrl + החץ למעלה או למטה כדי לעבור בין השורות, ועל Alt‏ + Ctrl + החץ שמאלה או ימינה כדי לעבור בין העמודות.\n\nכדי להיכנס לאזור התרגול, לוחצים על מקש הפעולה + החץ ימינה.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">עריכת טקסט</string>
+  <string name="keyboard_tutorial_editing_text_page_text">‏כשנכנסים לתיבת טקסט, מצב הסמן מושבת באופן זמני כדי לאפשר להשתמש בכל המקשים להקלדה. כשמצב הסמן יושבת, יושמעו הודעה וצליל. כשיוצאים מתיבת הטקסט, מצב הסמן יופעל מחדש ויושמעו הודעה וצליל נוספים.\n\nכדי להיכנס לאזור התרגול, לוחצים על מקש הפעולה + החץ ימינה.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">מידע נוסף על מצב הסמן</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">‏כדי לבדוק את הרשימה המלאה של הפריטים שאפשר לעבור ביניהם במצב הסמן, לוחצים על מקש הפעולה + Shift + / ומחפשים את האפשרות \"מצב סמן\" בתפריט של מקשי הקיצור.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">הקראה של כל תו, מילה או פסקה בנפרד</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">‏בנוסף, יש לך אפשרות לשמוע הקראה של טקסט, תו אחד בכל פעם.\n\nכדי לעשות זאת, אפשר להשתמש בניווט באמצעות כפתורי ההקראה. לוחצים על מקש הפעולה + Shift + החץ ימינה או שמאלה עד ששומעים את המילה \"תווים\". אחר כך, לוחצים על מקש הפעולה + החץ למעלה כדי להזיז את ההתמקדות ברכיב הממשק אחורה לפי התווים. לוחצים על מקש הפעולה + החץ למטה כדי להזיז את ההתמקדות ברכיב הממשק קדימה לפי התווים.\n\nרוצה לנסות זאת עכשיו? אפשר גם לבחור בהקראה לפי מילים, שורות או פסקאות באמצעות לחיצה על מקש הפעולה + Shift + החץ ימינה או שמאלה.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">מעבר בין רכיבים אינטראקטיביים</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">‏רכיבים אינטראקטיביים הם פריטים שאפשר לבצע איתם אינטראקציה, כמו כפתורים, תיבות סימון ותיבות טקסט.\n\nלפעמים, בדפים מסוימים, צריך לעבור בין הרכיבים האלו כדי למצוא במהירות פעולה מסוימת, כמו הכפתור \"הבא\".\n\nכדי לעשות זאת, לוחצים על מקש הפעולה + Shift + החץ ימינה עד ששומעים את המילה \"רכיבים אינטראקטיביים\". ואז, לוחצים על מקש הפעולה + החץ למעלה כדי לעבור לכפתור הקודם, ועל מקש הפעולה + החץ למטה כדי לעבור לכפתור הבא.\n\nאפשר לנסות עכשיו כדי למצוא את הכפתור \"הבא\".</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">מעבר בין קישורים</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">‏אפשר גם לעבור בין קישורים בדף מסוים.\n\nכדי לעשות זאת, לוחצים על מקש הפעולה + Shift + החץ ימינה עד ששומעים את המילה \"קישורים\". ואז, לוחצים על מקש הפעולה + החץ למטה כדי למצוא את הקישור בשם \"קישור 5\". לחיצה כפולה על הקישור הזה בזמן שנמצאים במדריך לא תגרום לשום פעולה.\n\nצריך ללחוץ על מקש הפעולה + החץ ימינה כדי למצוא את הכפתור \"הבא\" ולעבור לדף הבא.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">מעבר בין כותרות</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">‏אפשר גם לעבור בין כותרות בדף מסוים.\n\nכדי לנסות את זה עכשיו, לוחצים על מקש הפעולה + Shift + החץ ימינה עד ששומעים את המילה \"כותרות\". ואז, לוחצים על מקש הפעולה + החץ למטה כדי למצוא את הכותרת \"ניווט\".</string>
+  <string name="keyboard_tutorial_find_next_button">כדי למצוא את הכפתור \"הבא\", לוחצים על מקש הפעולה + החץ ימינה.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">מעבר בין מאגרים</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">‏כדי לצאת ממאגר, למשל מאגר במבנה של רשימה או רשת, לוחצים על מקש הפעולה + Alt‏ + Ctrl + החץ ימינה או שמאלה. זאת דרך נוחה לצאת מרשימת פריטים ארוכה.\n\nכדי לנסות את זה עכשיו, לוחצים על מקש הפעולה + החץ ימינה כדי להיכנס לרשימה. ואז, לוחצים על מקש הפעולה + Alt‏ + Ctrl + החץ ימינה כדי לעבור למאגר הבא.</string>
+  <string name="keyboard_tutorial_go_to_next_container">‏כדי לעבור למאגר הבא, לוחצים על מקש הפעולה + Alt‏ + Ctrl + החץ ימינה</string>
+  <string name="keyboard_tutorial_exit_container">‏כדי לצאת מהמאגר הזה, לוחצים על מקש הפעולה + Alt‏ + Ctrl + החץ ימינה</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">‏יצאת מהמאגר. אפשר גם להוסיף מאגרים לכפתורי ההקראה ואז ללחוץ על מקש הפעולה + Shift + החץ ימינה או שמאלה כדי לבחור מאגרים, ועל מקש הפעולה + החץ למטה או למעלה כדי לעבור בין המאגרים. כדי לעדכן את כפתורי ההקראה, עוברים אל TalkBack &gt; הגדרות &gt; התאמה אישית של התפריטים &gt; התאמה אישית של כפתורי ההקראה.\n\nכדי למצוא את הכפתור \"הבא\", לוחצים על מקש הפעולה + החץ ימינה.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">התאמה אישית של כפתורי הקריאה</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">‏אפשר גם לשנות את הגדרות הדיבור באמצעות כפתורי ההקראה, ולערוך את הפעולות שאפשר לבצע באמצעותם דרך TalkBack &gt; הגדרות &gt; התאמה אישית של התפריטים &gt; התאמה אישית של כפתורי הקראה.</string>
+  <string name="keyboard_tutorial_image_description_page_title">כך מקבלים תיאורי תמונות</string>
+  <string name="keyboard_tutorial_image_description_page_text">‏כשהמיקוד נמצא על תמונה, לוחצים על מקש הפעולה + R ואז על I. למטה יש תמונה אחת. אפשר לנסות לקבל תיאור לתמונה.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">‏תמיד אפשר לשנות את ההגדרות של תיאורי התמונות דרך \"ההגדרות של TalkBack\" &gt; \"תיאורי תמונות וסמלים\".</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">‏תמיד אפשר לשנות את ההגדרות של תיאור התמונות דרך \"ההגדרות של TalkBack\" ואז ב\"תיאורי תמונות וסמלים\".</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">‏תמונה לדוגמה. כדי לשמוע תיאור, לוחצים על מקש הפעולה + R ואז על I.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">פקודות קוליות</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">‏יש לך אפשרות להשתמש בקול שלך כדי לשלוט בפעולות TalkBack במהירות.\n\nלדוגמה, אפשר לומר פקודה כדי לשנות ניווט, לעבור לכותרת הבאה, להעתיק טקסט ועוד.\n\nכדי לנסות זאת עכשיו, צריך ללחוץ על מקש הפעולה + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">שימוש בחיפוש מהמסך</string>
+  <string name="keyboard_tutorial_screen_search_page_text">‏התכונה \"חיפוש מהמסך\" מאפשרת לחפש תוכן ספציפי במסך.\n\nכדי לנסות אותה, לוחצים על מקש הפעולה + CTRL +‏ /. מקלידים מילת מפתח, כמו \"הבא\", כדי למצוא פריטים במסך שכוללים את הטקסט הזה.\n\nאפשר לחפש את המילה \"הבא\" עכשיו כדי למצוא את הכפתור \"הבא\".</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">ניווט באמצעות חיפוש מהמסך</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">‏אחרי שבוחרים תוצאה, אפשר לעבור במהירות בין תוצאות חיפוש שונות דרך התכונה \"חיפוש מהמסך\".\n\nכדי לעשות זאת, אפשר להשתמש בניווט בממשק לשליטה בהקראה. לוחצים על מקש הפעולה + Shift + החץ ימינה או שמאלה עד ששומעים את האפשרות \"חיפוש מהמסך\". עכשיו, לוחצים על מקש הפעולה + החץ למטה או למעלה כדי לנווט בין תוצאות החיפוש מהמסך.\n\nשננסה עכשיו? למטה מופיעה רשימה של 3 כפתורים, שבכולם מופיעה המילה \"פעולה\". מחפשים את המילה \"פעולה\" באמצעות \"חיפוש מהמסך\", ואז משתמשים בתכונה כדי לעבור ביניהם.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">תרגול השימוש במקשי הקיצור</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">‏כדי לשמוע מה מקש או שילוב מקשים עושים, לוחצים עליהם במקלדת הפיזית. כדי לצאת, לוחצים על Ctrl + W או על Escape.</string>
+  <string name="browse_mode_practice_general">‏&lt;main&gt;
+      &lt;h1&gt;מגלים את העוצמה של עצי הסקוויה של קליפורניה&lt;/h1&gt;
+      &lt;p&gt;עצי הסקוויה של קליפורניה, בעיקר עצי הסקוויה של אזור החוף (Sequoia sempervirens), הם העצים הגבוהים בעולם. חלקם מתנשאים לגובה של יותר מ-115 מטרים ויכולים לחיות אלפי שנים. הם משגשגים באקלים החופי והלח של צפון קליפורניה, שכולל גשם וערפל.&lt;/p&gt;
+
+      &lt;h2&gt;איפה אפשר לראות אותם&lt;/h2&gt;
+      &lt;p&gt;העצים הענקיים האלה גדלים ברצועה צרה לאורך חוף האוקיינוס השקט. בין הפארקים העיקריים:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;הפארק הלאומי והפארקים המדינתיים רדווד&lt;/li&gt;
+        &lt;li&gt;הפארק המדינתי רדווד המבולדט&lt;/li&gt;
+        &lt;li&gt;פארק רדווד ביג בייסן&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;אפשר לתכנן את הביקור בכתובת: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;תמיכה בשימור&lt;/h2&gt;
+      &lt;p&gt;חשוב להגן על היערות העתיקים האלה. אפשר לעזור לנו לשמר את הפארק על ידי הקפדה על ההנחיות ותמיכה במאמצי השימור.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;רוצה לשתף אותנו בחוויה שלך?&lt;/h2&gt;
+        &lt;p&gt;ביקרת ביערות עצי הסקוויה?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;כן&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;לא&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;נשמח לשמוע על החוויה שלך&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;שליחה&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;מה עוד מעניין אותך לדעת על עצי הסקוויה?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;שליחה&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">‏&lt;h1&gt;עצי סקוויה: שומרים על הסביבה שלנו בריאה&lt;/h1&gt;
+    &lt;p&gt;עצי הסקוויה חשובים לכדור הארץ שלנו, והם ממלאים תפקיד חשוב בשמירה על הסביבה שלנו בריאה.&lt;/p&gt;
+
+    &lt;h1&gt;מטהרי אוויר ענקיים&lt;/h1&gt;
+    &lt;p&gt;העצים האלה מצוינים בספיגת פחמן דו-חמצני מהאוויר. העצים האלה קולטים כמות גדולה של פחמן דו-חמצני, וכך עוזרים לשמור על האוויר נקי.&lt;/p&gt;
+
+    &lt;h2&gt;בית לבעלי חיים&lt;/h2&gt;
+    &lt;p&gt;עצי הסקוויה משמשים בית ומחסה לבעלי חיים רבים, מציפורים בענפים ועד ליצורים קטנים באדמה.&lt;/p&gt;
+
+    &lt;h3&gt;קסם המים&lt;/h3&gt;
+    &lt;p&gt;העצים לוכדים ערפל, שנוטף אחר כך אל קרקע היער. זה שומר על האדמה לחה ומספק מים לצמחים ולבעלי חיים אחרים, במיוחד בעונה היבשה.&lt;/p&gt;
+
+    &lt;h4&gt;מגנים על האדמה&lt;/h4&gt;
+    &lt;p&gt;השורשים החזקים שלהם מחזיקים את האדמה במקום, מונעים ממנה להיסחף בגשמים כבדים ומונעים סחיפה.&lt;/p&gt;
+
+    &lt;h5&gt;בוני יערות&lt;/h5&gt;
+    &lt;p&gt;כשעצי סקוויה עתיקים נופלים, העץ שלהם הופך למזון ולמקום מחסה לצמחים וליצורים חדשים, ויוצר אדמה עשירה לצמיחה חדשה.&lt;/p&gt;
+
+    &lt;h6&gt;מערכות אקולוגיות ייחודיות&lt;/h6&gt;
+    &lt;p&gt;הודות לגודל העצום של עצי הסקוויה ומחזור חייהם הארוך, הם יוצרים סביבות יער מיוחדות שתומכות במינים שונים שלא נמצאים בשום מקום אחר.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">‏&lt;h2&gt;בעלי חיים ביערות הסקוויה&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"בעלי חיים ביערות הסקוויה\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;בעל החיים&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;תיאור&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;אזור מחייה&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;עובדה מעניינת&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;חשופית בננה&lt;/th&gt;
+            &lt;td&gt;חשופית גדולה, צהובה וחלקלקה&lt;/td&gt;
+            &lt;td&gt;על קרקע היער&lt;/td&gt;
+            &lt;td&gt;החשופית השנייה בגודלה בעולם&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;סלמנדרת ענק של אזור הפסיפיק&lt;/th&gt;
+            &lt;td&gt;סלמנדרה גדולה בצבע כהה&lt;/td&gt;
+            &lt;td&gt;ליד נחלים ובאזורים לחים&lt;/td&gt;
+            &lt;td&gt;יכולה לגדול עד לאורך של 30 ס\"מ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;אייל קורא רוזוולט&lt;/th&gt;
+            &lt;td&gt;אייל גדול עם קרניים מרשימות&lt;/td&gt;
+            &lt;td&gt;רועה בשטחים פתוחים בתוך היערות&lt;/td&gt;
+            &lt;td&gt;הזכרים יכולים לשקול יותר מ-450 ק\"ג&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;לילית צפונית מנוקדת&lt;/th&gt;
+            &lt;td&gt;לילית בגודל בינוני, צדה בלילה&lt;/td&gt;
+            &lt;td&gt;ביערות של עצי סקוויה צפופים ובוגרים&lt;/td&gt;
+            &lt;td&gt;מין אינידקטור, כלומר, מצב הבריאות של המין הזה מעיד על מצב הבריאות של היער&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;דוב שחור&lt;/th&gt;
+            &lt;td&gt;יונק גדול, בדרך כלל שחור או חום&lt;/td&gt;
+            &lt;td&gt;מחפש מזון בכל רחבי היער&lt;/td&gt;
+            &lt;td&gt;מטפסים מצוינים, לעיתים קרובות נצפים כשהם על עצים&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">‏&lt;h1&gt;מה דעתך על עצי סקוויה ועל הטבע?&lt;/h1&gt;
+
+      &lt;p&gt;מה עוד מעניין אותך ללמוד על עצי סקוויה?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;מה המקום האהוב עליך בטבע?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;איזה מושג שקשור לטבע היית רוצה ללמוד יותר לעומק?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Este instructivo es para el mapa de teclas mejorado, que incluye muchos comandos nuevos. Para seleccionar el mapa de teclas, ve a la configuración de TalkBack &gt; Configuración avanzada &gt; Combinaciones de teclas.\n\nPresiona Acción + flecha hacia la derecha para seleccionar un tema. Para tener la mejor experiencia, activa TalkBack antes de iniciar.</string>
+  <string name="basic_interaction_link_text">Interacción básica</string>
+  <string name="basic_interaction_link_subtext">Muévete entre los elementos, lee por líneas, usa menús y más</string>
+  <string name="browse_mode_link_text">Modo de navegación</string>
+  <string name="browse_mode_link_subtext">Navega por el contenido web más rápido con los comandos de salto</string>
+  <string name="reading_controls_link_text">Controles de lectura</string>
+  <string name="reading_controls_link_subtext">Usa los controles de lectura para navegar de un elemento a otro, ajustar la configuración de voz y más</string>
+  <string name="image_descriptions_link_text">Descripciones de imágenes</string>
+  <string name="image_descriptions_link_subtext">Prueba obtener descripciones de imágenes</string>
+  <string name="keyboard_shortcuts_link_text">Practicar combinaciones de teclas</string>
+  <string name="keyboard_shortcuts_link_subtext">Presiona teclas y combinaciones de teclas, y descubre qué hacen</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack brinda descripciones por voz para que puedas usar el dispositivo sin mirar la pantalla. Puede resultar útil para personas que no logran ver la pantalla. Cuando TalkBack está activado, el elemento enfocado en la pantalla se describe en voz alta.\n\nPrimero, familiarízate con el teclado. Busca la tecla Acción, que se encuentra arriba de la tecla Mayúsculas izquierda. Ahora, busca las teclas de flechas cerca del área inferior derecha del teclado. Presiona Acción + flecha hacia la derecha para pasar al siguiente elemento.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Este es el siguiente elemento. Para ir al elemento anterior, presiona Acción + flecha hacia la izquierda.\n\nCuando te muevas a un elemento interactivo, como un botón, presiona Acción + barra espaciadora para activarlo. Busca el botón Siguiente y continúa con el instructivo.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Lectura por carácter, palabra o párrafo</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">A veces, es posible que quieras escuchar la lectura en voz alta del texto de a un carácter por vez.\n\nPara ello, puedes usar la navegación con controles de lectura. Presiona Acción + Mayúsculas + flecha hacia la derecha o la izquierda hasta que oigas \"caracteres\".\n\nLuego, presiona Acción + flecha hacia arriba para mover el foco de navegación hacia atrás por caracteres. Presiona Acción + flecha hacia abajo para mover el foco de navegación hacia adelante por caracteres.\n\nPruébalo ahora. También puedes elegir leer por palabras, líneas o párrafos con Acción + Mayúsculas + flecha hacia la derecha o la izquierda.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navegación del sistema</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Si pruebas estas combinaciones de teclas ahora, se cerrará el instructivo. Espera hasta completar el instructivo.\n\nPara pasar de una ventana de app abierta a otra y a elementos del sistema, como notificaciones y la Barra de tareas, presiona Acción + Alt + Ctrl + flecha hacia arriba o abajo.\n\nPara abrir la lista de apps, presiona Acción.\n\nPara ir a la pantalla principal y minimizar todas las ventanas abiertas, presiona Acción + H o Inicio en la fila superior.\n\nPara ir a tus apps recientes, presiona Acción + Tab o Recientes en la fila superior.\n\nPara pasar rápidamente de una ventana a otra, mantén presionado Alt y presiona Tab.\n\nPara volver, presiona Acción + Esc o Atrás en la fila superior.\n\nPara abrir las notificaciones, presiona Acción + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Cómo ajustar la configuración de voz</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">El volumen de la voz de TalkBack se denomina volumen de accesibilidad. Se ajusta por separado del volumen multimedia.\n\nPara ajustar el volumen de accesibilidad, presiona Acción + subir o bajar volumen.\n\nPara ajustar la velocidad de habla, presiona Acción + Ctrl + subir volumen para aumentar y Acción + Ctrl + bajar volumen para disminuir.\n\nPara detener la voz en cualquier momento, presiona Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menú de TalkBack y más combinaciones de teclas</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">El menú de TalkBack contiene opciones de configuración y controles que podrías necesitar con frecuencia.\n\nPara abrirlo, presiona Acción + Ctrl + M. Puedes personalizar el menú de TalkBack y los controles de lectura más adelante en la configuración de TalkBack.\n\nEl menú de combinaciones de teclas de TalkBack incluye todas las que puedes usar.\n\nPara abrir el menú de combinaciones de teclas, presiona Acción + Mayúsculas + /.\n\nPara obtener más información sobre el teclado y practicar las combinaciones de teclas, presiona Acción + 0 para abrir la pantalla de práctica.</string>
+  <string name="keyboard_tutorial_finished_page_title">Todo listo</string>
+  <string name="keyboard_tutorial_finished_page_text">Ya puedes usar TalkBack.\n\nDescubre más sobre otros temas a continuación o revisa esta información cuando quieras desde la configuración de TalkBack.\n\nPara activar o desactivar TalkBack en cualquier momento, presiona Acción + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Navega por el contenido web más rápido con el modo de navegación</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">En navegadores y apps web, solo tienes que presionar una tecla para activar el modo de navegación y cambiar entre niveles de detalle de lectura y controles. Esto hace que la navegación por una página sea similar a la de un cuadro de edición de texto: las flechas hacia la izquierda y la derecha sirven para moverse entre caracteres, y las flechas hacia arriba y abajo permiten moverse entre líneas.\n\nPara activar o desactivar el modo de navegación, presiona dos veces la tecla de acción.\n\nCuando el modo de navegación está activado, presiona D para ir al siguiente punto de referencia, F para ir al siguiente control o campo de formulario, B para ir al siguiente botón, K para ir al siguiente vínculo y H para ir al siguiente encabezado. Mantén presionada la tecla Mayúsculas y presiona estas teclas para retroceder.\n\nTambién puedes usar las flechas hacia arriba y hacia abajo para saltar por líneas, las flechas hacia la izquierda y hacia la derecha para saltar por letras, y Ctrl + las flechas hacia la izquierda y la derecha para pasar de una palabra a otra.\n\nPresiona Acción + flecha hacia la derecha para ingresar a un área de práctica. Mientras estés allí, no funcionarán los vínculos, los campos de formulario ni los botones.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Niveles de encabezado</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Los sitios y las apps web suelen usar encabezados con diferentes niveles para estructurar el contenido. Cuando el modo de navegación esté activado, presiona del 1 al 6 para ir a los niveles de encabezado. Mantén presionada la tecla Mayúsculas y presiona estas teclas para retroceder.\n\nPresiona Acción + flecha hacia la derecha para ingresar a un área de práctica.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tablas</string>
+  <string name="keyboard_tutorial_tables_page_text">El modo de navegación también facilita la navegación por las tablas. Cuando el modo de navegación está activado, presiona Alt + Ctrl + flecha hacia arriba o abajo para saltar entre filas, y Alt + Ctrl + flecha hacia la izquierda o la derecha para pasar de una columna a otra.\n\nPresiona Acción + flecha hacia la derecha para ingresar a un área de práctica.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Edición de texto</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Cuando ingreses a un campo de texto, el modo de navegación se desactivará temporalmente para que puedas usar todas las teclas para escribir. Escucharás un anuncio y un sonido cuando se desactive. Una vez que salgas del campo de texto, se volverá a activar el modo de navegación y escucharás otro anuncio y sonido.\n\nPresiona Acción + flecha hacia la derecha para ingresar a un área de práctica.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Más información sobre el modo de navegación</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Para consultar la lista completa de elementos entre los que puedes saltar en el modo de navegación, presiona Acción + Mayúsculas + / y busca \"modo de navegación\" en el menú de combinaciones de teclas.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Lectura por carácter, palabra o párrafo</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">A veces, es posible que quieras escuchar la lectura en voz alta del texto de a un carácter por vez.\n\nPara ello, puedes usar la navegación con controles de lectura. Presiona Acción + Mayúsculas + flecha hacia la derecha o la izquierda hasta que oigas \"caracteres\". Luego, presiona Acción + flecha hacia arriba para mover el foco de navegación hacia atrás por caracteres. Presiona Acción + flecha hacia abajo para mover el foco de navegación hacia adelante por caracteres.\n\nPruébalo ahora. También puedes elegir la lectura por palabras, líneas o párrafos con la combinación de teclas Acción + Mayúsculas + flecha hacia la derecha o la izquierda.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Cómo ir de un control a otro</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Los controles son elementos con los que puedes interactuar, como botones, casillas de verificación y cuadros de texto.\n\nEn algunas páginas, es posible que quieras cambiar de controles con el objetivo de encontrar más rápido una acción, como el botón siguiente.\n\nPara ello, presiona Acción + Mayúsculas + flecha hacia la derecha hasta que oigas \"controles\". Luego, presiona Acción + flecha hacia arriba para ir al botón anterior y Acción + flecha hacia abajo para ir al botón siguiente.\n\nPrueba ahora y encuentra el botón siguiente.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Cómo ir de un vínculo a otro</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">También puedes ir de un vínculo a otro en una página.\n\nPara ello, presiona Acción + Mayúsculas + flecha hacia la derecha hasta que oigas \"vínculos\". Luego, presiona Acción + flecha hacia abajo para encontrar el vínculo llamado \"Vínculo 5\". Presionar dos veces este vínculo durante el instructivo no realizará ninguna acción.\n\nPresiona Acción + flecha hacia la derecha para encontrar el botón Siguiente e ir a la próxima página.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Cómo ir de un encabezado a otro</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">También puedes moverte entre encabezados de una página.\n\nPara probarlo ahora, presiona Acción + Mayúsculas + flecha hacia la derecha hasta que escuches \"encabezados\". Luego, presiona Acción + flecha hacia abajo para encontrar el encabezado \"Navegación\".</string>
+  <string name="keyboard_tutorial_find_next_button">Presiona Acción + flecha hacia la derecha para encontrar el botón Siguiente.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Cómo moverse entre contenedores</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Para salir de un contenedor, como una lista o una cuadrícula, presiona Acción + Alt + Ctrl + flecha hacia la derecha o la izquierda. Esta función es útil cuando quieres salir de una lista larga de elementos.\n\nPara probarla ahora, presiona Acción + flecha hacia la derecha para ingresar a la lista. Luego, presiona Acción + Alt + Ctrl + flecha hacia la derecha para ir al siguiente contenedor.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Para ir al siguiente contenedor, presiona Acción + Alt + Ctrl + flecha hacia la derecha</string>
+  <string name="keyboard_tutorial_exit_container">Para salir de este contenedor, presiona Acción + Alt + Ctrl + flecha hacia la derecha</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Saliste del contenedor. También puedes agregar contenedores a tus controles de lectura y presionar Acción + Mayúsculas + flecha hacia la derecha o la izquierda para seleccionar contenedores y Acción + flecha hacia abajo o arriba para saltar entre contenedores. Para actualizar los controles de lectura, ve a TalkBack &gt; Configuración &gt; Personalizar menús &gt; Personalizar controles de lectura.\n\nPresiona Acción + flecha hacia la derecha para encontrar el botón Siguiente.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Cómo personalizar controles de lectura</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">También puedes ajustar la configuración de voz con los controles de lectura y personalizar lo que puedes hacer con ellos en TalkBack &gt; Configuración &gt; Personalizar menús &gt; Personalizar controles de lectura.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Cómo obtener descripciones de imágenes</string>
+  <string name="keyboard_tutorial_image_description_page_text">Cuando te enfoques en una imagen, presiona Acción + R y, luego, I. Aquí tienes una foto. Intenta obtener una descripción.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Puedes cambiar los parámetros de la descripción de imágenes en cualquier momento en la configuración de TalkBack &gt; Descripciones de imágenes e íconos.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Puedes cambiar los parámetros de la descripción de imágenes en cualquier momento en la configuración de TalkBack y, luego, Descripciones de imágenes e íconos.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Imagen de muestra. Presiona Acción + R y, luego, I para escuchar una descripción.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Comandos por voz</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Puedes controlar TalkBack rápidamente con la voz.\n\nPor ejemplo, di un comando para cambiar de navegación, ir al siguiente encabezado, copiar texto y hacer otras acciones.\n\nPruébalo ahora presionando Acción + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Cómo usar la búsqueda directa</string>
+  <string name="keyboard_tutorial_screen_search_page_text">La función de búsqueda directa te permite buscar contenido específico en la pantalla.\n\nPara probarla, presiona Acción + Ctrl + /. Escribe una palabra clave, como \"siguiente\", para encontrar elementos con ese texto en la pantalla.\n\nIntenta buscar \"siguiente\" ahora para encontrar el botón Siguiente.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Cómo navegar con la búsqueda directa</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Puedes moverte rápidamente entre los diferentes resultados de la búsqueda directa después de seleccionar uno.\n\nPara ello, usa la navegación con controles de lectura. Presiona Acción + Mayúsculas + flecha hacia la derecha o la izquierda hasta que escuches \"búsqueda directa\". Luego, presiona Acción + flecha hacia abajo o arriba para navegar por los resultados de la búsqueda directa.\n\nPruébalo ahora. A continuación, se muestra una lista de 3 botones que contienen el texto \"acción\". Busca \"acción\" con la búsqueda directa y navega por la búsqueda directa para moverte entre ellos.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Cómo practicar combinaciones de teclas</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Presiona una tecla o combinación de teclas del teclado físico para escuchar qué hace. Presiona Ctrl + W o escape para salir.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Descubre la majestuosidad de las secuoyas de California&lt;/h1&gt;
+      &lt;p&gt;Las secuoyas de California, principalmente la secuoya roja (Sequoia sempervirens), son los árboles más altos del mundo. Algunos miden más de 115 metros y pueden vivir miles de años. Prosperan en el clima costero húmedo del norte de California, ya que se benefician de la lluvia y la niebla.&lt;/p&gt;
+
+      &lt;h2&gt;Dónde verlas&lt;/h2&gt;
+      &lt;p&gt;Encontrarás estos gigantes en una franja estrecha a lo largo de la costa del Pacífico. Estos son algunos de los principales parques:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Parques Nacional y Estatal de Redwood&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Planifica tu visita aquí: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Parques Estatales de California - Secuoyas&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Apoya la conservación&lt;/h2&gt;
+      &lt;p&gt;Proteger estos bosques antiguos es fundamental. Puedes ayudar cumpliendo con las normas del parque y apoyando los esfuerzos de conservación.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Comparte tu experiencia&lt;/h2&gt;
+        &lt;p&gt;¿Fuiste a ver las secuoyas?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Sí&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;No&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Cuéntanos sobre tu experiencia&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Enviar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;¿Qué más te gustaría saber sobre las secuoyas?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Enviar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Las secuoyas mantienen nuestro medioambiente sano&lt;/h1&gt;
+    &lt;p&gt;Las secuoyas son importantes para nuestro planeta, ya que desempeñan un papel fundamental para tener un medioambiente saludable.&lt;/p&gt;
+
+    &lt;h1&gt;Grandes purificadores de aire&lt;/h1&gt;
+    &lt;p&gt;Estos árboles son muy eficaces para absorber dióxido de carbono del aire. Como absorben muchísima cantidad, ayudan a mantener el aire limpio.&lt;/p&gt;
+
+    &lt;h2&gt;Hogar de animales&lt;/h2&gt;
+    &lt;p&gt;Las secuoyas proporcionan hogar y refugio a muchos animales, desde aves en sus ramas hasta pequeñas criaturas en el suelo.&lt;/p&gt;
+
+    &lt;h3&gt;Magos del agua&lt;/h3&gt;
+    &lt;p&gt;Son excelentes para atrapar la niebla, que luego gotea al suelo del bosque. Esto lo mantiene húmedo y proporciona agua a otras plantas y animales, especialmente cuando está seco.&lt;/p&gt;
+
+    &lt;h4&gt;Protectores del suelo&lt;/h4&gt;
+    &lt;p&gt;Sus fuertes raíces evitan que suelo se deslice durante las lluvias intensas y que se produzca erosión.&lt;/p&gt;
+
+    &lt;h5&gt;Creadores de bosques&lt;/h5&gt;
+    &lt;p&gt;Cuando las secuoyas viejas caen, su madera se convierte en alimento y refugio para nuevas plantas y criaturas, lo que crea un suelo rico para que se desarrolle vida nueva.&lt;/p&gt;
+
+    &lt;h6&gt;Ecosistemas únicos&lt;/h6&gt;
+    &lt;p&gt;Como las secuoyas son tan grandes y viven tanto tiempo, crean entornos forestales especiales que sustentan formas de vida que no se encuentran en ningún otro lugar.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Animales de los bosques de secuoyas&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animales de los bosques de secuoyas\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Descripción&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dónde vive&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dato curioso&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Babosa banana&lt;/th&gt;
+            &lt;td&gt;Babosa grande, amarilla y viscosa&lt;/td&gt;
+            &lt;td&gt;En el suelo del bosque&lt;/td&gt;
+            &lt;td&gt;Es la segunda babosa más grande del mundo&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamandra gigante del Pacífico&lt;/th&gt;
+            &lt;td&gt;Salamandra grande de color oscuro&lt;/td&gt;
+            &lt;td&gt;Cerca de arroyos y áreas húmedas&lt;/td&gt;
+            &lt;td&gt;Puede crecer hasta 35 cm de largo&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Wapití de Roosevelt&lt;/th&gt;
+            &lt;td&gt;Ciervo grande con astas impresionantes&lt;/td&gt;
+            &lt;td&gt;Pastorea en claros dentro del bosque&lt;/td&gt;
+            &lt;td&gt;Los machos pueden pesar más de 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Cárabo californiano&lt;/th&gt;
+            &lt;td&gt;Lechuza de tamaño mediano que caza de noche&lt;/td&gt;
+            &lt;td&gt;En bosques de secuoyas densos y maduros&lt;/td&gt;
+            &lt;td&gt;Es una \"especie indicadora\": su salud muestra la salud del bosque&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Oso negro&lt;/th&gt;
+            &lt;td&gt;Mamífero grande, generalmente negro o marrón&lt;/td&gt;
+            &lt;td&gt;Busca comida por todo el bosque&lt;/td&gt;
+            &lt;td&gt;Es un excelente escalador, a menudo se lo ve arriba de los árboles&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Tus opiniones sobre las secuoyas y la naturaleza&lt;/h1&gt;
+
+      &lt;p&gt;¿Qué más te gustaría aprender sobre las secuoyas?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;¿Cuál es tu lugar favorito de la naturaleza para visitar?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;¿Sobre qué concepto de la naturaleza te gustaría aprender más?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

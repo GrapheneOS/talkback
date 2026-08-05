@@ -1,8 +1,26 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.brailledisplay.controller;
 
 import static com.google.android.accessibility.braille.common.translate.BrailleTranslateUtils.PASSWORD_BULLET;
 import static com.google.android.accessibility.braille.common.translate.EditBufferUtils.NO_CURSOR;
 import static com.google.android.accessibility.braille.interfaces.BrailleCharacter.EMPTY_CELL;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 import android.text.TextUtils;
 import android.util.Range;
@@ -112,7 +130,7 @@ abstract class AssembledResult {
     private final BrailleWord textFieldWord;
     private final ImmutableList<Integer> textFieldTextToBraillePositions;
     private final ImmutableList<Integer> textFieldTextBrailleToTextPositions;
-    private final boolean showPassword;
+    private final boolean textMasked;
     private Range<Integer> holdingsClickableByteRange;
     private Range<Integer> actionClickableByteRange;
     private int textDisplacement;
@@ -122,7 +140,7 @@ abstract class AssembledResult {
     public Builder(BrailleTranslator translator, ResultForDisplay resultForDisplay) {
       this.translator = translator;
       this.resultForDisplay = resultForDisplay;
-      this.showPassword = resultForDisplay.showPassword();
+      this.textMasked = resultForDisplay.textMasked();
       BrailleWord holdingsWord =
           new BrailleWord(resultForDisplay.holdingsInfo().holdings().array());
       int holdingsPosition = resultForDisplay.holdingsInfo().position();
@@ -131,7 +149,7 @@ abstract class AssembledResult {
           new Range<>(
               resultForDisplay.textSelection().getLower(),
               resultForDisplay.textSelection().getUpper());
-      if (showPassword) {
+      if (textMasked) {
         BrailleWord bullet = translateIfPossible(PASSWORD_BULLET, NO_CURSOR).cells();
         this.holdingsWord = new BrailleWord(bullet, holdingsWord.size());
         this.holdingsPosition = bullet.size() * holdingsPosition;
@@ -157,7 +175,7 @@ abstract class AssembledResult {
       return this;
     }
 
-    private void doAppendHint() throws IOException {
+    private void doAppendHint() {
       if (TextUtils.isEmpty(resultForDisplay.hint())) {
         return;
       }
@@ -181,6 +199,7 @@ abstract class AssembledResult {
       // user input is put after hint.
       textDisplacement += hint.length();
     }
+
     /** Whether to append action. */
     @CanIgnoreReturnValue
     public Builder appendAction(boolean append) {
@@ -215,7 +234,7 @@ abstract class AssembledResult {
           /* positionsToCopy= */ result.brailleToTextPositions());
       textOnOverlay.append(action);
       actionClickableByteRange =
-          new Range<>(brailleWord.size(), brailleWord.size() + result.cells().size());
+          createValidatedRange(brailleWord.size(), brailleWord.size() + result.cells().size());
       brailleWord.append(result.cells());
     }
 
@@ -243,16 +262,26 @@ abstract class AssembledResult {
       } catch (IOException e) {
         BrailleDisplayLog.w(TAG, "Build result failed: ", e);
       }
-      int lowerIndex = textSelectionRange.getLower() + textDisplacement;
-      int lowerByteIndex =
-          lowerIndex == textOnOverlay.length()
-              ? brailleWord.size()
-              : textToBraillePositions.get(lowerIndex);
-      int upperIndex = textSelectionRange.getUpper() + textDisplacement;
-      int upperByteIndex =
-          upperIndex == textOnOverlay.length()
-              ? brailleWord.size()
-              : textToBraillePositions.get(upperIndex);
+      int lowerByteIndex;
+      if (textSelectionRange.getLower() == NO_CURSOR) {
+        lowerByteIndex = NO_CURSOR;
+      } else {
+        int lowerIndex = textSelectionRange.getLower() + textDisplacement;
+        lowerByteIndex =
+            lowerIndex == textOnOverlay.length()
+                ? brailleWord.size()
+                : textToBraillePositions.get(lowerIndex);
+      }
+      int upperByteIndex;
+      if (textSelectionRange.getUpper() == NO_CURSOR) {
+        upperByteIndex = NO_CURSOR;
+      } else {
+        int upperIndex = textSelectionRange.getUpper() + textDisplacement;
+        upperByteIndex =
+            upperIndex == textOnOverlay.length()
+                ? brailleWord.size()
+                : textToBraillePositions.get(upperIndex);
+      }
       TranslationResult allTranslationResult =
           TranslationResult.builder()
               .setText(textOnOverlay.toString())
@@ -270,7 +299,7 @@ abstract class AssembledResult {
     }
 
     private void appendTextFieldTextBeforeSelection() {
-      if (TextUtils.isEmpty(textFieldText) || textSelectionRange.getLower() == 0) {
+      if (TextUtils.isEmpty(textFieldText) || textSelectionRange.getLower() <= 0) {
         return;
       }
       int textFieldByteBeforeCursorLength = textFieldWord.size();
@@ -287,7 +316,7 @@ abstract class AssembledResult {
       BrailleWord textFieldSubwordBeforeCursor =
           textFieldWord.subword(0, textFieldByteBeforeCursorLength);
       textFieldTextClickableByteRange.add(
-          new Range<>(
+          createValidatedRange(
               brailleWord.size(),
               brailleWord.size()
                   + (cursorAtEnd
@@ -341,7 +370,7 @@ abstract class AssembledResult {
           /* endIndexToAppend= */ textFieldWordEnd,
           /* positionsToCopy= */ textFieldTextBrailleToTextPositions);
       textFieldTextClickableByteRange.add(
-          new Range<>(
+          createValidatedRange(
               brailleWord.size(), brailleWord.size() + textFieldSubwordBetweenCursor.size()));
       textOnOverlay.append(textFieldTextBetweenCursor);
       brailleWord.append(textFieldSubwordBetweenCursor);
@@ -355,7 +384,7 @@ abstract class AssembledResult {
           holdingsWord.size() == holdingsPosition
               && textFieldText.length() == textSelectionRange.getLower();
       holdingsClickableByteRange =
-          new Range<>(brailleWord.size(), brailleWord.size() + holdingsWord.size());
+          createValidatedRange(brailleWord.size(), brailleWord.size() + holdingsWord.size());
       for (int i = 0; i < holdingsWord.size(); i++) {
         textToBraillePositions.add(brailleWord.size());
         brailleToTextPositions.add(textOnOverlay.length());
@@ -371,12 +400,15 @@ abstract class AssembledResult {
 
     private void appendTextFieldTextAfterSelection() {
       if (TextUtils.isEmpty(textFieldText)
-          || textSelectionRange.getUpper().intValue() == textFieldText.length()
-          || textSelectionRange.getUpper() == NO_CURSOR) {
+          || textSelectionRange.getUpper().intValue() == textFieldText.length()) {
         return;
       }
-      int textAfterCursor = textSelectionRange.getUpper();
-      String textFieldTextAfterCursor = textFieldText.substring(textAfterCursor);
+      int textAfterCursor =
+          textSelectionRange.getUpper() == NO_CURSOR ? 0 : textSelectionRange.getUpper();
+      String textFieldTextAfterCursor =
+          textSelectionRange.getUpper() == NO_CURSOR
+              ? textFieldText
+              : textFieldText.substring(textAfterCursor);
       int textFieldWordStart = textFieldTextToBraillePositions.get(textAfterCursor);
       BrailleWord textFieldSubwordAfterCursor =
           textFieldWord.subword(textFieldWordStart, textFieldWord.size());
@@ -393,7 +425,8 @@ abstract class AssembledResult {
           /* endIndexToAppend= */ textFieldWord.size(),
           /* positionsToCopy= */ textFieldTextBrailleToTextPositions);
       textFieldTextClickableByteRange.add(
-          new Range<>(brailleWord.size(), brailleWord.size() + textFieldSubwordAfterCursor.size()));
+          createValidatedRange(
+              brailleWord.size(), brailleWord.size() + textFieldSubwordAfterCursor.size()));
       textOnOverlay.append(textFieldTextAfterCursor);
       brailleWord.append(textFieldSubwordAfterCursor);
     }
@@ -420,6 +453,12 @@ abstract class AssembledResult {
       brailleToTextPositions.add(textOnOverlay.length());
       brailleWord.append(EMPTY_CELL);
       textOnOverlay.append(SPACE);
+    }
+
+    private Range<Integer> createValidatedRange(int value1, int value2) {
+      Integer lower = min(value1, value2);
+      Integer upper = max(value1, value2);
+      return new Range<>(lower, upper);
     }
 
     private static void appendPositionsToList(

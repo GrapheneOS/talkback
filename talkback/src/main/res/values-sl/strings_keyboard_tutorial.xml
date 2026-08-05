@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ta vadnica je namenjena izboljšani razporeditvi tipk, ki vključuje številne nove ukaze. Če želite izbrati razporeditev tipk, odprite nastavitve funkcije TalkBack &gt; »Dodatne nastavitve« &gt; »Bližnjične tipke«.\n\nČe želite izbrati temo, pritisnite tipko za dejanja + puščico desno. Za najboljšo izkušnjo vklopite funkcijo TalkBack, preden začnete.</string>
+  <string name="basic_interaction_link_text">Osnovna interakcija</string>
+  <string name="basic_interaction_link_subtext">Premikanje po posameznih elementih, branje po vrsticah, uporaba menijev in drugo</string>
+  <string name="browse_mode_link_text">Brskalni način</string>
+  <string name="browse_mode_link_subtext">Hitrejše pomikanje po spletni vsebini z ukazi za skok</string>
+  <string name="reading_controls_link_text">Kontrolniki za branje</string>
+  <string name="reading_controls_link_subtext">Skakanje med elementi, prilagajanje nastavitev govora in drugo s kontrolniki za branje</string>
+  <string name="image_descriptions_link_text">Opisi slik</string>
+  <string name="image_descriptions_link_subtext">Poskusite pridobiti opise slik</string>
+  <string name="keyboard_shortcuts_link_text">Vaja uporabe bližnjičnih tipk</string>
+  <string name="keyboard_shortcuts_link_subtext">Pritisnite tipke in kombinacije tipk, da spoznate, katera dejanja sprožijo</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">Funkcija TalkBack posreduje glasovni odziv, da lahko napravo uporabljate, ne da bi gledali na njen zaslon. Funkcija TalkBack je lahko uporabna za osebe s težavami pri razločevanju vsebine zaslona. Ko je funkcija TalkBack vklopljena, je element na zaslonu, ki je v fokusu, izgovorjen na glas.\n\nNajprej se seznanimo s tipkovnico. Tipko za dejanja najdete nad levo tipko Shift. Poiščimo puščične tipke v spodnjem desnem delu tipkovnice. Pritisnite tipko za dejanja + puščico desno, da se pomaknete na naslednji element.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">To je naslednji element. Če se želite premakniti na prejšnji element, pritisnite tipko za dejanja + puščico levo.\n\nKo se premaknete na interaktivni element, kot je gumb, pritisnite tipko za dejanja + preslednico, da ga aktivirate. Poiščite gumb za naprej in nadaljujte vadnico.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Branje po znakih, besedah ali odstavkih</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Občasno boste morda želeli, da funkcija TalkBack na glas bere posamezne znake.\n\nTo lahko storite s pomikanjem s kontrolniki za branje. Pritiskajte tipko za dejanja + Shift + puščico desno ali levo, dokler ne zaslišite »znaki«.\n\nNato pritisnite tipko za dejanja + puščico gor, da fokus pomikanja premaknete za en znak nazaj. Pritisnite tipko za dejanja + puščico dol, da fokus pomikanja premaknete za en znak naprej.\n\nPreizkusite zdaj. S tipko za dejanja + Shift + puščico desno ali levo lahko izberete tudi branje po besedah, vrsticah ali odstavkih.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Pomikanje po sistemu</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Če zdaj preizkusite te bližnjične tipke, boste zaprli vadnico. Priporočamo, da počakate, dokler ne dokončate vadnice.\n\nČe želite preklapljati med odprtimi okni aplikacij in sistemskimi elementi, kot so obvestila in opravilna vrstica, pritisnite tipko za dejanja + Alt + Ctrl + puščico gor ali dol.\n\nČe želite odpreti seznam aplikacij, pritisnite tipko za dejanja.\n\nČe želite odpreti začetni zaslon in pomanjšati vsa odprta okna, pritisnite tipko za dejanja + H ali Home v zgornji vrstici.\n\nČe želite odpreti nedavne aplikacije, pritisnite tipko za dejanja + tabulatorko ali Pregled v zgornji vrstici.\n\nČe želite hitro preklapljati med okni, pridržite Alt in pritisnite tabulatorko.\n\nČe se želite vrniti, pritisnite tipko za dejanja + Esc ali Back v zgornji vrstici.\n\nČe želite odpreti obvestila, pritisnite tipko za dejanja + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Prilagajanje nastavitev govora</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Glasnost za govor funkcije TalkBack se imenuje glasnost za funkcije dostopnosti. Prilagodite jo ločeno od glasnosti predstavnosti.\n\nČe želite prilagoditi glasnost za funkcije dostopnosti, pritisnite tipko za dejanja + gumb za povečanje ali zmanjšanje glasnosti.\n\nČe želite prilagoditi hitrost govora, pritisnite tipko za dejanja + Ctrl + gumb za povečanje glasnosti, da povečate hitrost, ali tipko za dejanja + Ctrl + gumb za zmanjšanje glasnosti, da zmanjšate hitrost.\n\nČe želite kadar koli ustaviti govor, pritisnite Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Meni funkcije TalkBack in več bližnjičnih tipk</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Meni funkcije TalkBack vsebuje nastavitve in kontrolnike, ki jih boste morda pogosto potrebovali.\n\nČe želite odpreti meni funkcije TalkBack, pritisnite tipko za dejanja + Ctrl + M. Meni funkcije TalkBack in kontrolnike za branje lahko prilagodite pozneje v nastavitvah funkcije TalkBack.\n\nMeni bližnjičnih tipk za TalkBack vključuje vse bližnjične tipke, ki jih lahko uporabljate.\n\nČe želite odpreti meni bližnjičnih tipk, pritisnite tipko za dejanja + Shift + /.\n\nČe želite izvedeti več o tipkovnici in vaditi bližnjične tipke, pritisnite tipko za dejanja + 0, da odprete zaslon za vadbo.</string>
+  <string name="keyboard_tutorial_finished_page_title">Vse je pripravljeno!</string>
+  <string name="keyboard_tutorial_finished_page_text">Pripravljeni ste na uporabo funkcije TalkBack.\n\nZdaj lahko nadaljujete raziskovanje drugih tem ali pa te informacije kadar koli pregledate v nastavitvah funkcije TalkBack.\n\nČe želite funkcijo TalkBack kadar koli vklopiti ali izklopiti, pritisnite tipko za dejanja + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Hitrejše pomikanje po spletni vsebini z brskalnim načinom</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Ko ste v brskalniku in spletnih aplikacijah, lahko vklopite brskalni način in s pritiskom ene tipke preklapljate med različnimi vrstami podrobnosti branja in kontrolniki. S tem je pomikanje po strani podobno pomikanju v besedilnem polju za urejanje, na primer s puščicama levo in desno za premikanje po znakih ter s puščicama gor in dol za premikanje po vrsticah.\n\nČe želite vklopiti ali izklopiti brskalni način, dvakrat pritisnite tipko za dejanja.\n\nKo je brskalni način vklopljen, pritisnite D, da skočite na naslednji identifikator območja na strani, F za naslednji kontrolnik ali polje obrazca, B za naslednji gumb, K za naslednjo povezavo in H za naslednji naslov. Če se želite premakniti nazaj, pridržite tipko Shift in pritisnite te tipke.\n\nUporabite lahko tudi puščici gor in dol za premikanje po vrsticah, puščici levo in desno za premikanje po črkah ter Ctrl + puščici levo in desno za premikanje po besedah.\n\nPritisnite tipko za dejanja + puščico desno, da odprete območje za vadbo. Ko ste v povezavah območja za vadbo, polja obrazca in gumbi ne bodo izvedli nobenega dejanja.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Ravni naslovov</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Spletna mesta in spletne aplikacije pogosto uporabljajo naslove različnih ravni za strukturiranje vsebine. Ko je brskalni način vklopljen, pritisnite 1–6, da skočite na ravni naslovov. Pridržite tipko Shift in pritisnite te tipke, če se želite premakniti nazaj.\n\nPritisnite tipko za dejanja + puščico desno, da odprete območje za vadbo.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabele</string>
+  <string name="keyboard_tutorial_tables_page_text">Brskalni način poenostavi tudi pomikanje po tabelah. Ko je brskalni način vklopljen, pritisnite Alt + Ctrl + puščico gor ali puščico dol, če se želite premikati med vrsticami, ter Alt + Ctrl + puščico levo ali puščico desno, če se želite premikati med stolpci.\n\nPritisnite tipko za dejanja + puščico desno, da odprete območje za vadbo.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Urejanje besedila</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Ko se pomaknete v besedilno polje, se brskalni način začasno izklopi, da lahko za tipkanje uporabljate vse tipke. Ko bo način izklopljen, boste zaslišali obvestilo in zvok. Ko boste zapustili besedilno polje, se bo način brskanja znova vklopil in zaslišali boste še eno obvestilo in zvok.\n\nPritisnite tipko za dejanja + puščico desno, da odprete območje za vadbo.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Več o brskalnem načinu</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Če si želite ogledati celoten seznam elementov, med katerimi se lahko pomikate v brskalnem načinu, pritisnite tipko za dejanja + Shift + / in v meniju bližnjičnih tipk poiščite »brskalni način«.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Branje po znakih, besedah ali odstavkih</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Občasno boste morda želeli, da funkcija TalkBack na glas bere posamezne znake.\n\nTo lahko storite s pomikanjem s kontrolniki za branje. Pritiskajte tipko za dejanja + Shift + puščico desno ali levo, dokler ne zaslišite »znaki«. Nato pritisnite tipko za dejanja + puščico gor, da fokus pomikanja premaknete za en znak nazaj. Pritisnite tipko za dejanja + puščico dol, da fokus pomikanja premaknete za en znak naprej.\n\nPreizkusite zdaj. S tipko za dejanja + Shift + puščico desno ali levo lahko izberete tudi branje po besedah, vrsticah ali odstavkih.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Pomikanje med kontrolniki</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Kontrolniki so interaktivni elementi, kot so gumbi, potrditvena polja in besedilna polja.\n\nNa nekaterih straneh se boste morda želeli pomikati med kontrolniki, da boste hitro našli dejanje, kot je gumb za naprej.\n\nTo storite tako, da pritisnete tipko za dejanja + Shift + puščico desno, dokler ne zaslišite »kontrolniki«. Nato pritisnite tipko za dejanja + puščico gor, da se pomaknete na prejšnji gumb, in tipko za dejanja + puščico dol, da se pomaknete na naslednji gumb.\n\nPoskusite zdaj in poiščite naslednji gumb.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Pomikanje med povezavami</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Pomikate se lahko tudi med povezavami na strani.\n\nTo storite tako, da pritiskate tipko za dejanja + Shift + puščico desno, dokler ne zaslišite »povezave«. Nato pritisnite tipko za dejanja + puščico dol, da najdete povezavo z imenom »Povezava 5«. Ko ste v vadnici, z dvakratnim dotikom te povezave ne boste izvedli nobenega dejanja.\n\nPritisnite tipko za dejanja + puščico desno, da poiščete gumb za naprej, in se pomaknite na naslednjo stran.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Pomikanje med naslovi</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Pomikate se lahko tudi med naslovi na strani.\n\nČe želite to preizkusiti zdaj, pritisnite gumb za dejanja + Shift + puščico desno, dokler ne zaslišite »naslovi«. Nato pritisnite tipko za dejanja + puščico dol, da poiščete naslov »Krmarjenje«.</string>
+  <string name="keyboard_tutorial_find_next_button">Če želite poiskati naslednji gumb, pritisnite tipko za dejanja + puščico desno.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Pomikanje med vsebniki</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Če želite zapustiti vsebnik, na primer seznam ali mrežo, pritisnite tipko za dejanja + Alt + Ctrl + puščico desno ali levo. To je uporabno, ko se želite premakniti z dolgega seznama elementov.\n\nČe želite to preizkusiti zdaj, pritisnite tipko za dejanja + puščico desno, da odprete seznam. Nato pritisnite tipko za dejanja + Alt + Ctrl + puščico desno, da se pomaknete na naslednji vsebnik.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Če se želite pomakniti na naslednji vsebnik, pritisnite tipko za dejanja + Alt + Ctrl + puščico desno</string>
+  <string name="keyboard_tutorial_exit_container">Če želite zapustiti ta vsebnik, pritisnite tipko za dejanja + Alt + Ctrl + puščico desno</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Zapustili ste vsebnik. V kontrolnike za branje lahko dodate tudi vsebnike, nato pa pritisnete tipko za dejanja + Shift + puščico desno ali levo, da izberete vsebnike, in tipko za dejanja + puščico dol ali gor, da preklapljate med vsebniki. Če želite posodobiti kontrolnike za branje, odprite »TalkBack« &gt; »Nastavitve« &gt; »Prilagajanje menijev« &gt; »Prilagajanje kontrolnikov za branje«.\n\nČe želite poiskati naslednji gumb, pritisnite tipko za dejanja + puščico desno.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Prilagajanje kontrolnikov za branje</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Nastavitve govora lahko prilagodite tudi s kontrolniki za branje, v meniju »TalkBack« &gt; »Nastavitve« &gt; »Prilagajanje menijev« &gt; »Prilagajanje kontrolnikov za branje« pa lahko prilagodite, kaj lahko počnete s kontrolniki za branje.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Poskusite pridobiti opise slik</string>
+  <string name="keyboard_tutorial_image_description_page_text">Ko je fokus na sliki, pritisnite tipko za dejanja + R, nato I. Spodaj je fotografija. Poskusite pridobiti njen opis.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Nastavitve opisov slik lahko kadar koli spremenite v nastavitvah funkcije TalkBack« &gt; »Opisi slik in ikon«.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Nastavitve opisov slik lahko kadar koli spremenite v nastavitvah funkcije TalkBack &gt; »Opisi slik in ikon«.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Vzorčna slika. Pritisnite tipko za dejanja + R in nato I, če želite slišati opis.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Glasovni ukazi</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Z glasom lahko hitro upravljate funkcijo TalkBack.\n\nPrimer: Izgovorite ukaz, da spremenite nastavitev pomikanja, skočite na naslednji naslov, kopirate besedilo in izvedete druga dejanja.\n\nČe želite to preizkusiti zdaj, pritisnite tipko za dejanja + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Uporaba pregleda zaslona</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Funkcija pregleda zaslona vam omogoča, da na zaslonu poiščete določeno vsebino.\n\nČe želite preizkusiti to funkcijo, pritisnite tipko za dejanja + CTRL + /. Vnesite ključno besedo, na primer »naprej«, da  na zaslonu najdete elemente s tem besedilom.\n\nZdaj poskusite poiskati besedo »naprej«, da najdete gumb za naprej.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Krmarjenje s pregledom zaslona</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Ko izberete rezultat, se lahko hitro pomikate med različnimi rezultati iskanja v sklopu pregleda zaslona.\n\nTo storite z uporabo pomikanja s kontrolniki za branje. Pritiskajte tipko za dejanja + Shift + puščico desno ali levo, dokler ne zaslišite »pregled zaslona«. Nato pritisnite tipko za dejanja in puščico dol ali gor, če se želite pomikati po rezultatih pregleda zaslona.\n\nPa poskusimo. Spodaj je seznam treh gumbov, ki vsi vsebujejo besedo »dejanje«. S funkcijo pregleda zaslona poiščite ključno besedo »dejanje« in se nato pomikajte po rezultatih v sklopu pregleda zaslona.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Vaja uporabe bližnjičnih tipk</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Pritisnite tipko ali kombinacijo tipk na fizični tipkovnici, če želite slišati, kaj naredi. Pritisnite Ctrl + W ali Esc, če želite zapreti.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Odkrijte veličastnost kalifornijskih sekvoj&lt;/h1&gt;
+      &lt;p&gt;Kalifornijske sekvoje, predvsem obalne sekvoje (Sequoia sempervrens), so najvišja drevesa na svetu. Nekatera drevesa so visoka več kot 115 metrov in lahko živijo več tisoč let. Uspevajo v vlažnem obalnem podnebju severne Kalifornije, kjer jim koristita dež in megla.&lt;/p&gt;
+
+      &lt;h2&gt;Kje jih lahko vidite&lt;/h2&gt;
+      &lt;p&gt;Te velikane boste našli v ozkem pasu ob tihooceanski obali. Med ključnimi parki so:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Narodni parki in državni parki Redwood&lt;/li&gt;
+        &lt;li&gt;Državni park Humboldt Redwoods&lt;/li&gt;
+        &lt;li&gt;Državni park Big Basin Redwoods&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Obisk načrtujte tukaj: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Državni parki Kalifornije – sekvoje&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Podprite ohranjanje narave&lt;/h2&gt;
+      &lt;p&gt;Zaščita teh starodavnih gozdov je izjemno pomembna. Pomagate lahko tako, da upoštevate smernice parka in podpirate prizadevanja za ohranjanje.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Delite svojo izkušnjo&lt;/h2&gt;
+        &lt;p&gt;Ste že bili pri sekvojah?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Da&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Ne&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Povejte nam o svoji izkušnji&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Pošlji&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Kaj bi še radi izvedeli o sekvojah?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Pošlji&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekvoje: Skrbijo za zdravje našega okolja&lt;/h1&gt;
+    &lt;p&gt;Sekvoje so pomembne za naš planet in imajo ključno vlogo pri ohranjanju zdravja našega okolja.&lt;/p&gt;
+
+    &lt;h1&gt;Velikanske čistilke zraka&lt;/h1&gt;
+    &lt;p&gt;Ta drevesa izjemno učinkovito vsrkavajo ogljikov dioksid iz zraka. Z vsrkavanjem tolikšnih količin sekvoje pomagajo ohranjati čist zrak.&lt;/p&gt;
+
+    &lt;h2&gt;Dom za živali&lt;/h2&gt;
+    &lt;p&gt;Sekvoje nudijo dom in zavetje številnim živalim, od ptic v vejah do podzemnih živalic.&lt;/p&gt;
+
+    &lt;h3&gt;Vodni čarovniki&lt;/h3&gt;
+    &lt;p&gt;Odlično lovijo meglo, ki nato kaplja na gozdna tla. Tako tla ostanejo vlažna in zagotavljajo vodo drugim rastlinam in živalim, zlasti v sušnem obdobju.&lt;/p&gt;
+
+    &lt;h4&gt;Zaščitniki tal&lt;/h4&gt;
+    &lt;p&gt;Z močnimi koreninami zadržujejo prst, da je ne odplakne med močnim deževjem, in tako preprečujejo erozijo.&lt;/p&gt;
+
+    &lt;h5&gt;Ustvarjalci gozdov&lt;/h5&gt;
+    &lt;p&gt;Ko se stare sekvoje podrejo, njihov les postane hrana in zavetje za nove rastline in živali ter ustvari rodovitna tla za nove rastline.&lt;/p&gt;
+
+    &lt;h6&gt;Edinstveni ekosistemi&lt;/h6&gt;
+    &lt;p&gt;Ker so sekvoje tako velike in dolgožive, ustvarjajo posebna gozdna okolja z življenjem, ki ga ni nikjer drugje.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Živali v gozdovih sekvoj&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Živali v gozdovih sekvoj\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Žival&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Opis&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Življenjski prostor&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Zanimivost&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bananski polž&lt;/th&gt;
+            &lt;td&gt;Velik, rumen, sluzast polž&lt;/td&gt;
+            &lt;td&gt;Na gozdnih tleh&lt;/td&gt;
+            &lt;td&gt;Drugi največji polž na svetu&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Tihooceanski orjaški močerad&lt;/th&gt;
+            &lt;td&gt;Velik, temno obarvan močerad&lt;/td&gt;
+            &lt;td&gt;V bližini potokov in vlažnih območij&lt;/td&gt;
+            &lt;td&gt;Lahko zraste do 30 cm v dolžino&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Rooseveltov vapiti&lt;/th&gt;
+            &lt;td&gt;Velik jelen z impresivnim rogovjem&lt;/td&gt;
+            &lt;td&gt;Paša na gozdnih jasah&lt;/td&gt;
+            &lt;td&gt;Samci lahko tehtajo več kot 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Severna pegasta sova&lt;/th&gt;
+            &lt;td&gt;Srednje velika sova, ki lovi ponoči&lt;/td&gt;
+            &lt;td&gt;V gostih, zrelih gozdovih sekvoj&lt;/td&gt;
+            &lt;td&gt;Je »indikatorska vrsta« – njeno zdravje odraža zdravje gozda&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Črni medved&lt;/th&gt;
+            &lt;td&gt;Velik sesalec, običajno črne ali rjave barve&lt;/td&gt;
+            &lt;td&gt;Nabira hrano po gozdu&lt;/td&gt;
+            &lt;td&gt;Odlično pleza, pogosto ga je mogoče videti na drevesih&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Vaše misli o sekvojah in naravi&lt;/h1&gt;
+
+      &lt;p&gt;Kaj bi še želeli izvedeti o sekvojah?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Katera je vaša najljubša točka v naravi, ki jo radi obiščete?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Kateri naravni pojav bi radi bolje spoznali?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

@@ -16,16 +16,11 @@
 
 package com.google.android.accessibility.braille.brailledisplay.controller.utils;
 
-import android.os.Build;
 
 /** Utils for display module. */
 public class Utils {
 
   private Utils() {}
-
-  public static boolean isRobolectric() {
-    return "robolectric".equals(Build.FINGERPRINT);
-  }
 
   /**
    * Convert byte[] to space-separated String of hex-encoded bytes. Useful for debugging.

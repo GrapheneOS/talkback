@@ -21,7 +21,7 @@ import static com.google.android.accessibility.talkback.Feedback.UniversalSearch
 
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
-import com.google.android.accessibility.talkback.RingerModeAndScreenMonitor;
+import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMonitor;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.input.WindowEventInterpreter;
 import com.google.android.accessibility.utils.input.WindowEventInterpreter.EventInterpretation;

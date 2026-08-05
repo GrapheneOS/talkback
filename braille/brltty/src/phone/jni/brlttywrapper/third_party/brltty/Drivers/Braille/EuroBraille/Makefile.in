@@ -2,7 +2,7 @@
 # BRLTTY - A background process providing access to the console screen (when in
 #          text mode) for a blind person using a refreshable braille display.
 #
-# Copyright (C) 1995-2023 by The BRLTTY Developers.
+# Copyright (C) 1995-2026 by The BRLTTY Developers.
 #
 # BRLTTY comes with ABSOLUTELY NO WARRANTY.
 #
@@ -18,30 +18,21 @@
 
 DRIVER_CODE = eu
 DRIVER_NAME = EuroBraille
-DRIVER_USAGE = AzerBraille, Clio, Esys, Iris, NoteBraille, Scriba
+DRIVER_USAGE = AzerBraille, Clio, NoteBraille, Scriba, Esys, Esytime, Iris, b.note, b.book
 DRIVER_VERSION = 2.0
 DRIVER_DEVELOPERS = Yannick PLASSIARD <yan@mistigri.org>, Olivier BERT <obert01@mistigri.org>, Nicolas PITRE <nico@fluxnic.net>
+DRIVER_OBJECTS = braille.$O clio.$O esysiris.$O
 include $(SRC_TOP)braille.mk
 
-SRC_FILES = eu_braille.c eu_clio.c eu_esysiris.c
-
-OBJ_FILES = $(SRC_FILES:.c=.$O)
-
-braille.$O: $(OBJ_FILES)
-	$(MKREL) $@ $(OBJ_FILES)
-
-eu_braille.$O:
-	$(CC) $(BRL_CFLAGS) -o $@ -c $(SRC_DIR)/eu_braille.c
-
-eu_clio.$O:
-	$(CC) $(BRL_CFLAGS) -o $@ -c $(SRC_DIR)/eu_clio.c
-
-eu_esysiris.$O:
-	$(CC) $(BRL_CFLAGS) -o $@ -c $(SRC_DIR)/eu_esysiris.c
+$(DRIVER_OBJECTS): %.o: $(SRC_DIR)/%.c
+	$(CC) $(DRIVER_CFLAGS) -o $@ -c $<
 
 ###############################################################################
 
 EU_TRANSFER_OBJECTS = eutp_brl.$O eutp_convert.$O eutp_debug.$O eutp_pc.$O eutp_tools.$O eutp_transfer.$O eutp_main.$O
+
+$(EU_TRANSFER_OBJECTS): %.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 EU_TRANSFER_TOOL = eutp$X
 EU_TRANSFER_MAN = $(SRC_DIR)/eutp.1

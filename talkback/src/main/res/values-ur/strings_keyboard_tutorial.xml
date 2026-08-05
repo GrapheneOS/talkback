@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">‏یہ ٹیوٹوریل بہتر کردہ کی میپ کیلئے ہے، جس میں بہت سی نئی کمانڈز شامل ہیں۔ کی میپ منتخب کرنے کیلئے، TalkBack کی ترتیبات &gt; جدید ترین ترتیبات &gt; کی بورڈ شارٹ کٹس پر جائیں۔\n\nکوئی موضوع منتخب کرنے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔ بہترین تجربے کیلئے، شروع کرنے سے پہلے TalkBack کو آن کریں۔</string>
+  <string name="basic_interaction_link_text">بنیادی تعامل</string>
+  <string name="basic_interaction_link_subtext">آئٹمز کے درمیان حرکت کریں، لائنوں کے لحاظ سے پڑھیں، مینیوز استعمال کریں، اور مزید</string>
+  <string name="browse_mode_link_text">براؤز وضع</string>
+  <string name="browse_mode_link_subtext">ویب مواد کو جمپ ہدایات کے ساتھ تیز نیویگیٹ کریں</string>
+  <string name="reading_controls_link_text">ریڈنگ کنٹرولز</string>
+  <string name="reading_controls_link_subtext">آئٹمز کے درمیان جمپ کرنے، اسپیچ کی ترتیبات کو ایڈجسٹ کرنے وغیرہ کیلئے ریڈنگ کنٹرولز استعمال کریں</string>
+  <string name="image_descriptions_link_text">تصویر کی تفصیلات</string>
+  <string name="image_descriptions_link_subtext">تصاویر کی وضاحتیں حاصل کرنے کی کوشش کریں</string>
+  <string name="keyboard_shortcuts_link_text">کی بورڈ شارٹ کٹس کی مشق کریں</string>
+  <string name="keyboard_shortcuts_link_subtext">کلید اور کلیدوں کے امتزاج کو دبائیں اور جانیں کہ وہ کیا کرتے ہیں</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">‏‫TalkBack صوتی تاثرات فراہم کرتا ہے تاکہ آپ اسکرین پر دیکھے بغیر اپنا آلہ استعمال کر سکیں۔ ‫TalkBack ان لوگوں کیلئے مفید ثابت ہو سکتا ہے جنہیں اسکرین دیکھنے میں دشواری پیش آتی ہے۔ جب TalkBack آن ہوتا ہے تو اسکرین پر فوکس کردہ آئٹم کو بلند آواز میں پڑھا جاتا ہے۔\n\nآئیے سب سے پہلے آپ کے کی بورڈ سے واقف ہوں۔ ایکشن کلید تلاش کریں جو بائیں شفٹ کلید کے اوپر ہے۔ اب کی بورڈ کے نیچے دائیں جانب تیر کے نشان والی کلیدوں کو تلاش کرتے ہیں۔ اگلے آئٹم پر جانے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">‏یہ اگلا آئٹم ہے۔ پچھلے آئٹم پر جانے کیلئے، ایکشن + بائیں تیر کے نشان والی کلید کو دبائیں۔\n\nجب آپ کسی تعاملاتی آئٹم، جیسے بٹن پر جاتے ہیں تو اسے فعال کرنے کیلئے ایکشن + اسپیس کلید دبائیں۔ اگلا بٹن تلاش کریں اور ٹیوٹوریل جاری رکھیں۔</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">حرف، لفظ یا پیراگراف کے ذریعے پڑھیں</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">‏کبھی کبھار، ممکن ہے کہ آپ ایک وقت میں ایک حرف کو بلند آواز میں پڑھ کر سننا چاہیں۔\n\nایسا کرنے کیلئے، آپ ریڈنگ کنٹرولز نیویگیشن کا استعمال کر سکتے ہیں۔ ‫\"حروف\" سنائی دینے تک ایکشن + شفٹ + دائیں یا بائیں تیر کے نشان والی کلید کو دبائیں۔\n\nاس کے بعد، حرف کے لحاظ سے نیویگیشن فوکس کو پیچھے کی طرف منتقل کرنے کیلئے ایکشن + اوپر تیر کے نشان والی کلید کو دبائیں۔ حرف کے ذریعے نیویگیشن فوکس کو آگے کی طرف منتقل کرنے کیلئے ایکشن + نیچے تیر کے نشان والی کلید کو دبائیں۔\n\nاسے ابھی آزمائیں۔ آپ ایکشن + شفٹ + دائیں یا بائیں تیر کے نشان والی کلید کا استعمال کرتے ہوئے الفاظ، لائنز یا پیراگرافس کے لحاظ سے پڑھنے کا انتخاب بھی کر سکتے ہیں۔</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">سسٹم نیویگیشن</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">‏ان کی بورڈ شارٹ کٹس کو ابھی آزمانے سے ٹیوٹوریل بند ہو جائے گا۔ آپ ٹیوٹوریل مکمل ہونے تک انتظار کرنا چاہیں گے۔\n\nکھلی ایپ ونڈوز اور سسٹم کے عناصر جیسے اطلاعات اور ٹاسک بار کے درمیان جانے کیلئے، ایکشن + Alt + ‏Ctrl + اوپر یا نیچے تیر کے نشان والی کلید کو دبائیں۔\n\nایپ کی فہرست کھولنے کیلئے، ایکشن دبائیں۔\n\nہوم اسکرین پر جانے اور تمام کھلی ونڈوز کو کم سے کم کرنے کیلئے، اوپری قطار میں ایکشن + H یا ہوم دبائیں۔\n\nاپنی حالیہ ایپس پر جانے کیلئے، اوپری قطار میں ایکشن + Tab یا مجموعی جائزہ دبائیں۔\n\nونڈوز کے درمیان تیزی سے جانے کیلئے، Alt کو دبائے رکھیں اور Tab دبائیں۔\n\nواپس جانے کیلئے، اوپری قطار میں ایکشن + Esc یا \'واپس جائیں\' کلید دبائیں۔\n\nاطلاعات کھولنے کیلئے، ایکشن + N دبائیں۔</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">اسپیچ کی ترتیبات کو ایڈجسٹ کریں</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">‏‫TalkBack اسپیچ کے والیوم کو ایکسیسبیلٹی والیوم کہا جاتا ہے۔ اسے میڈیا والیوم سے الگ ایڈجسٹ کیا جاتا ہے۔\n\nایکسیسبیلٹی والیوم کو ایڈجسٹ کرنے کیلئے، ایکشن + والیوم بڑھانے یا کم کرنے کا بٹن دبائیں۔\n\nپڑھنے کی رفتار کو ایڈجسٹ کرنے کیلئے، بڑھانے کیلئے ایکشن + Ctrl + والیوم بڑھانے کا بٹن اور کم کرنے کیلئے ایکشن + Ctrl + والیوم کم کرنے کا بٹن دبائیں۔\n\nکسی بھی وقت اسپیچ کو روکنے کیلئے، Ctrl دبائیں۔</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">‏‫TalkBack مینو اور مزید کی بورڈ شارٹ کٹس</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">‏‫TalkBack مینو میں وہ ترتیبات اور کنٹرولز شامل ہیں جن کی آپ کو اکثر و بیشتر ضرورت پڑ سکتی ہے۔\n\n‏TalkBack مینو کھولنے کیلئے، ایکشن + Ctrl + ‏M دبائیں۔ آپ بعد میں TalkBack کی ترتیبات میں TalkBack مینو اور اپنے ریڈنگ کنٹرولز کو حسب ضرورت بنا سکتے ہیں۔\n\n‫TalkBack کی بورڈ شارٹ کٹس مینو میں وہ تمام کی بورڈ شارٹ کٹس شامل ہیں جنہیں آپ استعمال کر سکتے ہیں۔\n\nکی بورڈ شارٹ کٹس مینو کھولنے کیلئے، ایکشن + شفٹ + / دبائیں۔\n\nکی بورڈ کے بارے میں مزید جاننے اور کی بورڈ شارٹ کٹس کی مشق کرنے کیلئے، مشق کی اسکرین کھولنے کیلئے ایکشن + 0 دبائیں۔</string>
+  <string name="keyboard_tutorial_finished_page_title">سب کچھ تیار ہے!</string>
+  <string name="keyboard_tutorial_finished_page_text">‏آپ TalkBack استعمال کرنے کیلئے تیار ہیں۔\n\nابھی دیگر موضوعات کے بارے میں جاننا جاری رکھیں یا TalkBack کی ترتیبات میں کسی بھی وقت اس معلومات کا جائزہ لیں۔\n\nکسی بھی وقت TalkBack کو آن یا آف کرنے کیلئے، ایکشن + Alt + ‏T دبائیں۔</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">براؤز وضع کے ساتھ ویب مواد کو تیزی سے نیویگیٹ کریں</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">‏جب آپ براؤزر اور ویب ایپس میں ہوتے ہیں تو آپ براؤز وضع کو آن کر سکتے ہیں اور کلید کو ایک بار دبا کر مختلف اقسام کی ریڈنگ گرینیولٹی اور کنٹرولز کے درمیان جا سکتے ہیں۔ یہ صفحے پر نیویگیٹ کرنے کو ٹیکسٹ ایڈیٹنگ باکس میں نیویگیٹ کرنے سے ملتا جلتا بناتا ہے، جیسے کہ حرف کے لحاظ سے منتقل کرنے کیلئے دائیں اور بائیں تیر کے نشانات اور لائن کے لحاظ سے منتقل کرنے کیلئے اوپر اور نیچے تیر کے نشانات۔\n\nبراؤز وضع کو آن یا آف کرنے کیلئے، ایکشن کلید کو دو بار دبائیں۔\n\nبراؤز وضع آن ہونے پر، اگلے لینڈ مارک پر جانے کیلئے D، اگلے کنٹرول یا فارم فیلڈ کیلئے F، اگلے بٹن کیلئے B، اگلے لنک کیلئے K اور اگلی ہیڈنگ کیلئے H دبائیں۔ پیچھے جانے کیلئے شفٹ کو دبائے رکھیں اور ان کلیدوں کو دبائیں۔\n\nآپ لائنز کے لحاظ سے جانے کیلئے اوپر اور نیچے تیر کے نشانات، حروف کے لحاظ سے جانے کیلئے دائیں اور بائیں تیر کے نشانات اور الفاظ کے لحاظ سے جانے کیلئے Ctrl + دائیں اور بائیں تیر کے نشانات والی کلیدوں کا بھی استعمال کر سکتے ہیں۔\n\nپریکٹس ایریا میں داخل ہونے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔ پریکٹس ایریا میں لنکس، فارم فیلڈز اور بٹنز کام نہیں کریں گے۔</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">ہیڈنگ لیولز</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">‏ویب سائٹس اور ویب ایپس اکثر مواد کو منظم کرنے کیلئے مختلف لیولز کے ساتھ ہیڈنگز کا استعمال کرتی ہیں۔ براؤز وضع آن ہونے پر، ہیڈنگ لیولز پر جانے کیلئے 1 سے 6 تک دبائیں۔ پیچھے جانے کیلئے شفٹ کو دبائے رکھیں اور ان کلیدوں کو دبائیں۔\n\nپریکٹس ایریا میں داخل ہونے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔</string>
+  <string name="keyboard_tutorial_tables_page_title">ٹیبلز</string>
+  <string name="keyboard_tutorial_tables_page_text">‏براؤز وضع ٹیبل نیویگیشن کو بھی آسان بناتا ہے۔ جب براؤز وضع آن ہو تو قطاروں کے درمیان جانے کیلئے Alt + ‏Ctrl + اوپر اور نیچے تیر کے نشانات والی کلیدوں کو دبائیں اور کالمز کے درمیان جانے کیلئے Alt + ‏Ctrl + دائیں اور بائیں تیر کے نشانات والی کلیدوں کو دبائیں۔\n\nپریکٹس ایریا میں داخل ہونے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔</string>
+  <string name="keyboard_tutorial_editing_text_page_title">متن میں ترمیم کرنا</string>
+  <string name="keyboard_tutorial_editing_text_page_text">‏جب آپ ٹیکسٹ فیلڈ میں داخل ہوں گے تو براؤز وضع کو عارضی طور پر آف کر دیا جائے گا تاکہ آپ ٹائپ کرنے کیلئے تمام کلیدوں کا استعمال کر سکیں۔ اس کے آف ہونے پر آپ کو ایک اعلان اور ایک آواز سنائی دے گی۔ ٹیکسٹ فیلڈ چھوڑنے کے بعد، براؤز وضع دوبارہ آن ہو جائے گا اور آپ کو ایک اور اعلان اور آواز سنائی دے گی۔\n\nپریکٹس ایریا میں داخل ہونے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">براؤز وضع کے بارے میں مزید</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">براؤز وضع میں آپ جن آئٹمز کے درمیان جا سکتے ہیں ان کی مکمل فہرست چیک کرنے کیلئے، ایکشن + شفٹ + / کلید دبائیں اور کی بورڈ شارٹ کٹس مینو میں\"براؤز وضع\" تلاش کریں۔</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">حرف، لفظ یا پیراگراف کے ذریعے پڑھیں</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">‏کبھی کبھار، ممکن ہے کہ آپ ایک وقت میں ایک حرف کو بلند آواز میں پڑھ کر سننا چاہیں۔\n\nایسا کرنے کیلئے، آپ ریڈنگ کنٹرولز نیویگیشن کا استعمال کر سکتے ہیں۔ ‫\"حروف\" سنائی دینے تک ایکشن + شفٹ + دائیں یا بائیں تیر کے نشان والی کلید کو دبائیں۔ اس کے بعد، حرف کے لحاظ سے نیویگیشن فوکس کو پیچھے کی طرف منتقل کرنے کیلئے ایکشن + اوپر تیر کے نشان والی کلید کو دبائیں۔ حرف کے ذریعے نیویگیشن فوکس کو آگے کی طرف منتقل کرنے کیلئے ایکشن + نیچے تیر کے نشان والی کلید کو دبائیں۔\n\nاسے ابھی آزمائیں۔ آپ ایکشن + شفٹ + دائیں یا بائیں تیر کے نشان والی کلید کا استعمال کرتے ہوئے الفاظ، لائنز یا پیراگرافس کے ذریعے پڑھنے کا انتخاب بھی کر سکتے ہیں۔</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">ایک سے دوسرے کنٹرول پر جائيں</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">‏کنٹرولز وہ آئٹمز ہیں جن کے ساتھ آپ تعامل کر سکتے ہیں، جیسے بٹنز، چیک باکسز اور ٹیکسٹ باکسز۔\n\nکچھ صفحات پر، آپ فوری طور پر کوئی کارروائی تلاش کرنے کیلئے کنٹرولز کے درمیان جانا چاہ سکتے ہیں، جیسے کہ اگلا بٹن۔\n\nایسا کرنے کیلئے، جب تک آپ کو \"کنٹرولز\" سنائی نہ دے تب تک ایکشن + شفٹ + دائیں تیر کے نشان والی کلید کو دبائیں۔ اس کے بعد، پچھلے بٹن پر جانے کیلئے ایکشن + اوپر تیر کے نشان والی کلید اور اگلے بٹن پر جانے کیلئے ایکشن + نیچے تیر کے نشان والی کلید کو دبائیں۔\n\nابھی اسے آزمائیں اور اگلا بٹن تلاش کریں۔</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">ایک لنک سے دوسرے لنک پر جائیں</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">‏آپ کسی صفحے پر ایک سے دوسرے لنک پر بھی جا سکتے ہیں۔\n\nایسا کرنے کیلئے، \"لنکس\" کے سنائی دینے تک ایکشن + شفٹ + دائیں تیر کے نشان والی کلید کو دبائیں۔ اس کے بعد، \"لنک 5\" نامی لنک تلاش کرنے کیلئے ایکشن + نیچے تیر کے نشان والی کلید کو دبائیں۔ ٹیوٹوریل میں رہنے کے دوران، اس لنک پر دو بار تھپتھپانے سے کوئی اثر نہیں ہوگا۔\n\nاگلا بٹن تلاش کرنے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں اور اگلے صفحے پر جائیں۔</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">ایک سے دوسری ہیڈنگ پر جائیں</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">‏آپ کسی صفحے پر ایک سے دوسری ہیڈنگ میں جا سکتے ہیں۔\n\nابھی اسے آزمانے کیلئے، \"ہیڈنگز\" کے سنائی دینے تک ایکشن + شفٹ + دائیں تیر کے نشان والی کلید کو دبائیں۔ اس کے بعد، \"نیویگیشن\" ہیڈنگ تلاش کرنے کیلئے ایکشن + نیچے تیر کے نشان والی کلید کو دبائیں۔</string>
+  <string name="keyboard_tutorial_find_next_button">اگلا بٹن تلاش کرنے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">کنٹینرز کے درمیان سوئچ کریں</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">‏کسی کنٹینر سے باہر نکلنے کیلئے، جیسے کہ فہرست یا گرڈ، ایکشن + Alt + ‏Ctrl + دائیں یا بائیں تیر کے نشان والی کلید دبائیں۔ جب آپ آئٹمز کی طویل فہرست سے باہر جانا چاہتے ہیں تو یہ مفید ہے۔\n\nابھی اسے آزمانے کیلئے، فہرست میں داخل ہونے کی خاطر ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔ پھر اگلے کنٹینر پر جانے کیلئے ایکشن + Alt + ‏Ctrl + دائیں تیر کے نشان والی کلید کو دبائیں۔</string>
+  <string name="keyboard_tutorial_go_to_next_container">‏اگلے کنٹینر پر جانے کیلئے، ایکشن + Alt + ‏Ctrl + دائیں تیر کے نشان والی کلید کو دبائیں</string>
+  <string name="keyboard_tutorial_exit_container">‏اس کنٹینر سے باہر نکلنے کیلئے، ایکشن + Alt + ‏Ctrl + دائیں تیر کے نشان والی کلید کو دبائیں</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">‏آپ کنٹینر سے باہر نکل گئے ہیں۔ آپ اپنے ریڈنگ کنٹرولز میں کنٹینرز بھی شامل کر سکتے ہیں اور پھر کنٹینرز کو منتخب کرنے کیلئے ایکشن + شفٹ + دائیں یا بائیں تیر کے نشان والی کلید اور کنٹینرز کے درمیان جمپ کرنے کیلئے ایکشن + نیچے یا اوپر تیر کے نشان والی کلید کو دبائیں۔ ریڈنگ کنٹرولز کو اپ ڈیٹ کرنے کیلئے، TalkBack &gt; ترتیبات &gt; مینوز کو حسب ضرورت بنائیں &gt; ریڈنگ کنٹرولز کو حسب ضرورت بنائیں پر جائیں۔\n\nاگلا بٹن تلاش کرنے کیلئے ایکشن + دائیں تیر کے نشان والی کلید کو دبائیں۔</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">ریڈنگ کنٹرولز کو حسب ضرورت بنائیں</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">‏آپ ریڈنگ کنٹرولز کا استعمال کرتے ہوئے اسپیچ کی ترتیبات کو بھی ایڈجسٹ کر سکتے ہیں اور TalkBack &gt; ترتیبات &gt; مینوز کو حسب ضرورت بنائیں &gt; ریڈنگ کنٹرولز کو حسب ضرورت بنائیں میں ریڈنگ کنٹرولز کے ساتھ آپ کیا کر سکتے ہیں اسے حسب ضرورت بنا سکتے ہیں۔</string>
+  <string name="keyboard_tutorial_image_description_page_title">تصویر کی وضاحتیں حاصل کرنے کی کوشش کریں</string>
+  <string name="keyboard_tutorial_image_description_page_text">‏جب آپ کسی تصویر پر توجہ مرکوز کرتے ہیں تو ایکشن + R، پھر I دبائیں۔ نیچے ایک تصویر ہے۔ اس کی تفصیل حاصل کرنے کی کوشش کریں۔</string>
+  <string name="keyboard_tutorial_image_description_settings_description">‏آپ TalkBack کی ترتیبات &gt; تصویر اور آئیکن کی تفاصیل میں کسی بھی وقت تصویر کی تفصیل کی ترتیبات تبدیل کر سکتے ہیں۔</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">‏آپ TalkBack کی ترتیبات پھر تصویر اور آئیکن کی تفصیلات میں کسی بھی وقت تصویر کی تفصیل کی ترتیبات تبدیل کر سکتے ہیں۔</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">‏نمونہ تصویر۔ تفصیل سننے کیلئے ایکشن + R، پھر I دبائیں۔</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">صوتی کمانڈز</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">‏آپ TalkBack کو فوری طور پر کنٹرول کرنے کے لئے اپنی آواز کا استعمال کر سکتے ہیں۔‎\n\nمثلا، نیویگشن تبدیل کرنے کے لئے کوئی ہدایت دیں، اگلی ہیڈنگ پر جائیں، ٹیکسٹ کاپی کریں اور بہت کچھ کریں۔‎\n\nاسے ابھی آزمانے کے لئے کارروائی + \\ دبائیں۔</string>
+  <string name="keyboard_tutorial_screen_search_page_title">\'سکرین پر تلاش\' کا استعمال کرتے ہوئے تلاش کریں</string>
+  <string name="keyboard_tutorial_screen_search_page_text">‏\'سکرین پر تلاش\' کی خصوصیت آپ کو اسکرین پر مخصوص مواد تلاش کرنے کی اجازت دیتی ہے۔\n\nاسے آزمانے کے لیے، ایکشن + CTRL + / دبائیں۔ اسکرین پر ٹیکسٹ والے آئٹمز تلاش کرنے کے لیے ایک کلیدی لفظ جیسے \"اگلا\" ٹائپ کریں۔‎\n\nاگلا بٹن تلاش کرنے کے لیے ابھی \"اگلا\" تلاش کرنے کی کوشش کریں۔</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">\'سکرین پر تلاش\' کے ذریعے نیویگیٹ کریں</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">‏آپ نتیجہ منتخب کرنے کے بعد \'سکرین پر تلاش\' سے تلاش کے مختلف نتائج کے مابین تیزی سے منتقل ہو سکتے ہیں۔‎\n\nایسا کرنے کے لیے، آپ ریڈنگ کنٹرولز نیویگیشن کا استعمال کر سکتے ہیں۔ \'اسکرین پر تلاش\' سنائی دینے تک ایکشن + شفٹ + دائیں یا بائیں تیر کا نشان دبائیں۔ اس کے بعد، اسکرین پر تلاش کے نتائج کے ذریعے نیویگیٹ کرنے کے لیے ایکشن + نیچے یا اوپر تیر کا نشان دبائیں۔‎\n\nآئیے اسے ابھی آزماتے ہیں۔ ذیل میں 3 بٹنز کی فہرست دی گئی ہے، ان سبھی میں ٹیکسٹ کا \"ایکشن\" شامل ہے۔ \'سکرین پر تلاش\' کا استعمال کر کے\"ایکشن\" تلاش کریں، پھر ان کے مابین منتقل ہونے کے لیے سکرین پر تلاش کے ذریعے نیویگیٹ کریں۔</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">کی بورڈ شارٹ کٹس کی مشق کریں</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">‏فزیکل کی بورڈ کی کلید یا کلید کے امتزاج کو یہ سننے کے لیے دبائیں کہ یہ کیا کرتا ہے۔ باہر نکلنے کے لیے Ctrl + W یا Escape دبائیں۔</string>
+  <string name="browse_mode_practice_general">‏&lt;main&gt;
+      &lt;h1&gt;کیلیفورنیا کے ریڈ ووڈز کی شان و شوکت دریافت کریں&lt;/h1&gt;
+      &lt;p&gt;کیلیفورنیا کے ریڈ ووڈز، بنیادی طور پر کوسٹ ریڈ ووڈ (Sequoia sempervrens)، دنیا کے سب سے اونچے درخت ہیں۔ کچھ 380 فٹ (115 میٹر) سے زیادہ اونچے ہوتے ہیں اور ہزاروں سال تک زندہ رہ سکتے ہیں۔ وہ شمالی کیلیفورنیا کے مرطوب ساحلی آب و ہوا میں پروان چڑھتے ہیں، بارش اور دھند سے فائدہ اٹھاتے ہیں۔&lt;/p&gt;
+
+      &lt;h2&gt;انہیں کہاں دیکھ سکتے ہیں&lt;/h2&gt;
+      &lt;p&gt;آپ کو یہ دیو ہیکل بحرالکاہل کے ساحل کے ساتھ ایک تنگ پٹی میں ملیں گے۔ اہم پارکس میں شامل ہیں:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;ریڈ ووڈ نیشنل اور اسٹیٹ پارکس&lt;/li&gt;
+        &lt;li&gt;ہمبولٹ ریڈ ووڈز اسٹیٹ پارک&lt;/li&gt;
+        &lt;li&gt;بگ بیسن ریڈ ووڈز اسٹیٹ پارک&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;یہاں اپنے دورے کی منصوبہ بندی کریں: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;کیلیفورنیا اسٹیٹ پارکس - ریڈ ووڈز&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;تحفظ کو سپورٹ کریں&lt;/h2&gt;
+      &lt;p&gt;ان قدیم جنگلات کی حفاظت ضروری ہے۔ آپ پارک کی گائیڈلائنز پر عمل کر کے اور تحفظ ماحولیات کی کوششوں کو سپورٹ کر کے مدد کر سکتے ہیں۔&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;اپنے تجربے کا اشتراک کریں&lt;/h2&gt;
+        &lt;p&gt;کیا آپ ریڈ ووڈز گئے ہیں؟&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;ہاں&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;نہیں&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;ہمیں اپنے تجربے کے بارے میں بتائیں&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;جمع کرائیں&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;آپ ریڈ ووڈز کے بارے میں اور کیا جاننا چاہیں گے؟&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;جمع کرائیں&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">‏&lt;h1&gt;ریڈ ووڈ کے درخت: ہمارے ماحول کو صحت مند رکھنا&lt;/h1&gt;
+    &lt;p&gt;ریڈ ووڈز ہمارے سیارے کے لیے اہم ہیں، جو ہمارے ماحول کو صحت مند رکھنے میں بہت بڑا کردار ادا کرتے ہیں۔&lt;/p&gt;
+
+    &lt;h1&gt;دیوہیکل ہوا صاف کرنے والے&lt;/h1&gt;
+    &lt;p&gt;یہ درخت ہوا سے کاربن ڈائی آکسائیڈ کو جذب کرنے میں حیرت انگیز ہیں۔ اس میں سے بہت کچھ لے کر، ریڈ ووڈز ہماری ہوا کو صاف رکھنے میں مدد کرتے ہیں۔&lt;/p&gt;
+
+    &lt;h2&gt;جانوروں کے لیے گھر&lt;/h2&gt;
+    &lt;p&gt;ریڈ ووڈز بہت سے جانوروں کے لیے گھر اور پناہ گاہ فراہم کرتے ہیں، شاخوں میں پرندوں سے لے کر مٹی میں چھوٹے جانداروں تک کے لیے۔&lt;/p&gt;
+
+    &lt;h3&gt;پانی کے جادوگر&lt;/h3&gt;
+    &lt;p&gt;وہ دھند کو پکڑنے میں بہت اچھے ہیں، جو پھر جنگل کے فرش پر ٹپکتی ہے۔ اس سے زمین نم رہتی ہے اور دوسرے پودوں اور جانوروں کو پانی ملتا ہے، خاص طور پر جب یہ خشک ہو۔&lt;/p&gt;
+
+    &lt;h4&gt;مٹی کے محافظین&lt;/h4&gt;
+    &lt;p&gt;ان کی مضبوط جڑیں مٹی کو اپنی جگہ پر رکھتی ہیں، جس سے تیز بارشوں کے دوران مٹی بہتی نہیں ہے اور کٹاؤ کو روکتی ہیں۔&lt;/p&gt;
+
+    &lt;h5&gt;جنگل بنانے والے&lt;/h5&gt;
+    &lt;p&gt;جب پرانے ریڈ ووڈز گرتے ہیں تو ان کی لکڑی نئے پودوں اور مخلوقات کے لیے خوراک اور پناہ گاہ بن جاتی ہے، جس سے نئی نشوونما کے لیے زرخیز مٹی پیدا ہوتی ہے۔&lt;/p&gt;
+
+    &lt;h6&gt;منفرد ایکو سسٹمز&lt;/h6&gt;
+    &lt;p&gt;چونکہ ریڈ ووڈز بہت بڑے ہوتے ہیں اور بہت طویل عرصے تک زندہ رہتے ہیں، اس لیے وہ جنگل کے لیے ایسے خاص ماحول پیدا کرتے ہیں جو کسی اور جگہ نہیں پائے جاتے ہیں۔&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">‏&lt;h2&gt;ریڈ ووڈ جنگلات کے جانور&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Description&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;وہ کہاں رہتے ہیں&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;دلچسپ حقیقت&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;کیلے کا سلگ&lt;/th&gt;
+            &lt;td&gt;بڑا، پیلا، کیچڑ والا سلگ&lt;/td&gt;
+            &lt;td&gt;جنگل کے فرش پر&lt;/td&gt;
+            &lt;td&gt;دنیا کا دوسرا سب سے بڑا سلگ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;بڑا پیسیفک سیلامینڈر&lt;/th&gt;
+            &lt;td&gt;بڑا، گہرے رنگ کا سیلامینڈر&lt;/td&gt;
+            &lt;td&gt;ندیوں اور مرطوب علاقوں کے قریب&lt;/td&gt;
+            &lt;td&gt;ایک فٹ تک بڑھ سکتا ہے&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;روزویلٹ ایلک&lt;/th&gt;
+            &lt;td&gt;متاثر کن سینگوں والا بڑا ہرن&lt;/td&gt;
+            &lt;td&gt;جنگل کے اندر صاف جگہوں پر چرتا ہے&lt;/td&gt;
+            &lt;td&gt;نر کا وزن 1,000 پاؤنڈ سے زیادہ ہو سکتا ہے&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;شمالی دھبے والا اُلو&lt;/th&gt;
+            &lt;td&gt;درمیانے سائز کا الو، رات میں شکار کرتا ہے&lt;/td&gt;
+            &lt;td&gt;گھنے، پختہ ریڈ ووڈ جنگلات میں&lt;/td&gt;
+            &lt;td&gt;ایک \"انڈیکیٹر اسپیشیز\" – اس کی صحت جنگل کی صحت کو ظاہر کرتی ہے&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;کالا ریچھ&lt;/th&gt;
+            &lt;td&gt;بڑا ممالیہ، عام طور پر سیاہ یا بھورا&lt;/td&gt;
+            &lt;td&gt;پورے جنگل میں خوراک کی تلاش کرتا ہے&lt;/td&gt;
+            &lt;td&gt;بہترین چڑھنے والا، اکثر درختوں میں دیکھا جاتا ہے&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">‏&lt;h1&gt;ریڈ ووڈز اور فطرت کے بارے میں آپ کے خیالات&lt;/h1&gt;
+
+      &lt;p&gt;آپ ریڈ ووڈز کے بارے میں اور کیا جاننا چاہیں گے؟&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;قدرتی جگہوں میں سیاحت کیلئے آپ کا پسندیدہ مقام کون سا ہے؟&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;فطرت میں وہ کون سا تصور ہے جس کے بارے میں آپ مزید جاننا چاہتے ہیں؟&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

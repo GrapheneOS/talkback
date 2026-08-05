@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -26,22 +26,23 @@
 extern "C" {
 #endif /* __cplusplus */
 
+typedef struct LogEntryStruct LogEntry;
+extern const LogEntry *getNewestLogEntry (int endSquash);
+extern const LogEntry *getPreviousLogEntry (const LogEntry *entry);
+
+extern const char *getLogEntryText (const LogEntry *entry);
+extern const TimeValue *getLogEntryTime (const LogEntry *entry);
+extern unsigned int getLogEntryCount (const LogEntry *entry);
+
 typedef enum {
   LPO_NOLOG  = 0X01,
   LPO_SQUASH = 0X02,
 } LogEntryPushOptions;
 
-typedef struct LogEntryStruct LogEntry;
-extern const LogEntry *getPreviousLogEntry (const LogEntry *entry);
-extern const char *getLogEntryText (const LogEntry *entry);
-extern const TimeValue *getLogEntryTime (const LogEntry *entry);
-extern unsigned int getLogEntryCount (const LogEntry *entry);
-
 extern int pushLogEntry (LogEntry **head, const char *text, LogEntryPushOptions options);
 extern int popLogEntry (LogEntry **head);
 
-extern const LogEntry *getNewestLogMessage (int freeze);
-extern void pushLogMessage (const char *message);
+extern void pushLogMessage (const char *text);
 
 #ifdef __cplusplus
 }

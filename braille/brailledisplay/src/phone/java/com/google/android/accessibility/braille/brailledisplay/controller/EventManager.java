@@ -1,5 +1,23 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.brailledisplay.controller;
 
+import static android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT;
+import static android.view.accessibility.AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_FOCUSED;
@@ -7,15 +25,18 @@ import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_TEXT_SELEC
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOWS_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
+import static com.google.android.accessibility.braille.brltty.BrailleInputEvent.CMD_TOGGLE_BRAILLE_GRADE;
 
 import android.content.Context;
 import android.os.PowerManager;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
+import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.braille.brailledisplay.BrailleDisplayLog;
 import com.google.android.accessibility.braille.brailledisplay.FeatureFlagReader;
 import com.google.android.accessibility.braille.brailledisplay.R;
+import com.google.android.accessibility.braille.brailledisplay.SupportedCommand;
 import com.google.android.accessibility.braille.brailledisplay.analytics.BrailleDisplayAnalytics;
 import com.google.android.accessibility.braille.brailledisplay.controller.BdController.BehaviorDisplayer;
 import com.google.android.accessibility.braille.brailledisplay.controller.BdController.BehaviorFocus;
@@ -24,17 +45,27 @@ import com.google.android.accessibility.braille.brailledisplay.controller.BdCont
 import com.google.android.accessibility.braille.brailledisplay.controller.BdController.BehaviorNodeText;
 import com.google.android.accessibility.braille.brailledisplay.controller.BdController.BehaviorScreenReader;
 import com.google.android.accessibility.braille.brailledisplay.controller.CellsContentConsumer.Reason;
+import com.google.android.accessibility.braille.brailledisplay.controller.popupmessage.PopUpHistory;
+import com.google.android.accessibility.braille.brailledisplay.controller.popupmessage.SnackbarParser;
 import com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils;
-import com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils.SupportedCommand;
 import com.google.android.accessibility.braille.brltty.BrailleInputEvent;
+import com.google.android.accessibility.braille.common.BrailleCommonTalkBackSpeaker;
 import com.google.android.accessibility.braille.common.BrailleUserPreferences;
+import com.google.android.accessibility.braille.common.FeedbackManager;
+import com.google.android.accessibility.braille.common.TalkBackSpeaker.AnnounceType;
 import com.google.android.accessibility.braille.interfaces.ScreenReaderActionPerformer.ScreenReaderAction;
 import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleDisplay.CustomLabelAction;
+import com.google.android.accessibility.utils.AccessibilityEventUtils;
+import com.google.android.accessibility.utils.ClassLoadingCache;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /** A class that transfers events to responding event consumers. */
 public class EventManager implements EventConsumer {
   private static final String TAG = "EventManager";
+
+  /** Accessibility event types that are related to announcements. */
+  private static final int ANNOUNCEMENT_EVENT_MASK =
+      TYPE_NOTIFICATION_STATE_CHANGED | TYPE_ANNOUNCEMENT | TYPE_WINDOW_CONTENT_CHANGED;
 
   /** Accessibility event types that warrant rechecking the current state. */
   private static final int UPDATE_STATE_EVENT_MASK =
@@ -44,11 +75,14 @@ public class EventManager implements EventConsumer {
           | TYPE_WINDOW_CONTENT_CHANGED
           | TYPE_VIEW_ACCESSIBILITY_FOCUSED
           | TYPE_VIEW_TEXT_SELECTION_CHANGED
-          | TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED;
+          | TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED
+          | ANNOUNCEMENT_EVENT_MASK;
 
   private final Context context;
   private final DefaultConsumer defaultConsumer;
   private final EditorConsumer editorConsumer;
+  private final SystemEventConsumer systemEventConsumer;
+  private final CaptionConsumer captionConsumer;
   private final BehaviorIme behaviorIme;
   private final BehaviorFocus behaviorFocus;
   private final BehaviorNodeText behaviorNodeText;
@@ -59,8 +93,12 @@ public class EventManager implements EventConsumer {
   private final PowerManager powerManager;
   private final AutoScrollManager autoScrollManager;
   private final FeedbackManager feedbackManager;
+  private final PopUpHistory popUpHistory;
   private EventConsumer currentConsumer;
   private boolean windowActive;
+  private boolean learningModeActive;
+  private static final String LEARNING_MODE_CLASS_NAME =
+      "com.google.android.accessibility.braille.brailledisplay.settings.BrailleLearningModeActivity";
 
   public EventManager(
       Context context,
@@ -74,8 +112,9 @@ public class EventManager implements EventConsumer {
       BehaviorNavigation behaviorNavigation) {
     this.context = context;
     this.cellsContentConsumer = cellsContentConsumer;
-    autoScrollManager =
+    this.autoScrollManager =
         new AutoScrollManager(context, behaviorNavigation, feedbackManager, behaviorDisplayer);
+    this.popUpHistory = new PopUpHistory(context, behaviorDisplayer);
     this.behaviorIme = behaviorIme;
     this.behaviorScreenReader = behaviorScreenReader;
     this.behaviorFocus = behaviorFocus;
@@ -93,7 +132,10 @@ public class EventManager implements EventConsumer {
             behaviorScreenReader,
             behaviorDisplayer,
             behaviorIme);
-    editorConsumer = new EditorConsumer(context, behaviorIme);
+    editorConsumer = new EditorConsumer(context, feedbackManager, behaviorIme);
+    systemEventConsumer =
+        new SystemEventConsumer(context, behaviorDisplayer, cellsContentConsumer, popUpHistory);
+    captionConsumer = new CaptionConsumer(context, cellsContentConsumer);
     currentConsumer = defaultConsumer;
     powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
     windowActive = behaviorIme.isOnscreenKeyboardActive();
@@ -117,7 +159,7 @@ public class EventManager implements EventConsumer {
       if ((event.getEventType() & UPDATE_STATE_EVENT_MASK) == 0) {
         return;
       }
-      updateConsumer();
+      updateConsumer(event);
       currentConsumer.onAccessibilityEvent(event);
     } else {
       // Clear the cell bar.
@@ -133,74 +175,96 @@ public class EventManager implements EventConsumer {
         displayKeyboardVisibilityChangedTimedMessage(windowActive);
       }
     }
+    // Update learning mode state based on focused activity.
+    if (FeatureFlagReader.enableBrailleDisplayLearnMode(context)
+        && event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+      boolean previouslyActive = learningModeActive;
+      learningModeActive = event.getClassName() == LEARNING_MODE_CLASS_NAME;
+      maybeAnnounceLearningModeState(previouslyActive, learningModeActive);
+    }
   }
 
   @Override
   @CanIgnoreReturnValue
   public boolean onMappedInputEvent(BrailleInputEvent event) {
+    BrailleDisplayLog.v(TAG, "onMappedInputEvent: " + event.getCommand());
     int command = event.getCommand();
     logBrailleCommands(command);
+    if (shouldOverrideCommandForLearningMode() && handleLearningModeOverrides(command)) {
+      return true;
+    }
     if (shouldPanUp(command)) {
       if (behaviorNavigation.panUp()) {
         return true;
       }
-      feedbackManager.emitFeedback(FeedbackManager.TYPE_NAVIGATE_OUT_OF_BOUNDS);
+      feedbackManager.emitFeedback(FeedbackManager.Type.NAVIGATE_OUT_OF_BOUNDS);
     } else if (shouldPanDown(command)) {
-      if (behaviorNavigation.panDown()) {
+      if (behaviorNavigation.panDownWhenAutoScrollDisabled()) {
         return true;
       }
-      feedbackManager.emitFeedback(FeedbackManager.TYPE_NAVIGATE_OUT_OF_BOUNDS);
+      feedbackManager.emitFeedback(FeedbackManager.Type.NAVIGATE_OUT_OF_BOUNDS);
     } else {
-      if (handleAutoscrollCommands(command, event.getArgument())) {
+      if (handleHigherPriorityCommands(event)) {
         return true;
-      }
-      if (cellsContentConsumer.isTimedMessageDisplaying()) {
-        cellsContentConsumer.clearTimedMessage();
-        // Skip route key events when a timed message is showing because route key event should
-        // do nothing about taking action on the timed message.
-        if (event.getCommand() == BrailleInputEvent.CMD_ROUTE) {
-          return true;
-        }
       }
       // Global commands can't be overridden.
       if (handleGlobalCommands(event)) {
         return true;
       }
-      if (handleHighPriorityCommands(event)) {
+      if (handleTalkBackCommands(event)) {
         return true;
       }
-      if (currentConsumer.onMappedInputEvent(event)) {
+      if (handleGeneralCommands(event)) {
         return true;
       }
-      feedbackManager.emitFeedback(FeedbackManager.TYPE_UNKNOWN_COMMAND);
+      if (handleOtherCommands(event)) {
+        return true;
+      }
+      feedbackManager.emitFeedback(FeedbackManager.Type.UNKNOWN_COMMAND);
     }
     return false;
   }
 
-  /** Called when the reading control changes state. */
-  public void onReadingControlChanged(String readingControlDescription) {
-    displayTimedMessage(readingControlDescription);
+  /** Called when the reading control settings is changed. */
+  public void onReadingControlSettingsChanged(String readingControlDescription) {
+    behaviorDisplayer.displayTimedMessage(readingControlDescription);
   }
 
-  private void updateConsumer() {
-    if (behaviorIme.acceptInput()) {
-      if (currentConsumer != editorConsumer) {
-        currentConsumer.onDeactivate();
-        currentConsumer = editorConsumer;
-        currentConsumer.onActivate();
-      }
+  /** Called when the reading control value is changed. */
+  @Override
+  public void onReadingControlValueChanged() {
+    currentConsumer.onReadingControlValueChanged();
+  }
+
+  private void updateConsumer(@Nullable AccessibilityEvent event) {
+    if (FeatureFlagReader.usePopupMessage(context)
+        && BrailleUserPreferences.readPopupMessageEnabled(context)
+        && event != null
+        && isAnnouncement(event)) {
+      setCurrentConsumer(systemEventConsumer);
+    } else if (behaviorIme.acceptInput()) {
+      setCurrentConsumer(editorConsumer);
+    } else if (BrailleUserPreferences.readCaptionEnabled(context)
+        && event != null
+        && isCaption(event)) {
+      setCurrentConsumer(captionConsumer);
     } else {
-      if (currentConsumer != defaultConsumer) {
-        currentConsumer.onDeactivate();
-        currentConsumer = defaultConsumer;
-        currentConsumer.onActivate();
-      }
+      setCurrentConsumer(defaultConsumer);
+    }
+  }
+
+  /** Set the current consumer to the given consumer. */
+  private void setCurrentConsumer(EventConsumer consumer) {
+    if (currentConsumer != consumer) {
+      currentConsumer.onDeactivate();
+      currentConsumer = consumer;
+      currentConsumer.onActivate();
     }
   }
 
   /** Logs triggered command. */
   private void logBrailleCommands(int command) {
-    for (SupportedCommand cmd : BrailleKeyBindingUtils.getSupportedCommands(context)) {
+    for (SupportedCommand cmd : SupportedCommand.getAvailableSupportedCommands(context)) {
       if (cmd.getCommand() == command) {
         BrailleDisplayAnalytics.getInstance(context).logBrailleCommand(command);
         break;
@@ -230,24 +294,16 @@ public class EventManager implements EventConsumer {
     } else {
       timedMessage = context.getString(R.string.bd_keyboard_hidden);
     }
-    displayTimedMessage(timedMessage);
-  }
-
-  private void displayTimedMessage(String timedMessage) {
-    if (behaviorDisplayer.isBrailleDisplayConnected()) {
-      cellsContentConsumer.setTimedContent(
-          new CellsContent(timedMessage),
-          BrailleUserPreferences.getTimedMessageDurationInMillisecond(
-              context, timedMessage.length()));
-    }
+    behaviorDisplayer.displayTimedMessage(timedMessage);
   }
 
   /** Handles the auto-scroll commands. */
-  private boolean handleAutoscrollCommands(int command, int argument) {
+  private boolean handleAutoscrollCommands(BrailleInputEvent event) {
     if (autoScrollManager.isActive()) {
-      if (command == BrailleInputEvent.CMD_BRAILLE_KEY) {
+      if (event.getCommand() == BrailleInputEvent.CMD_BRAILLE_KEY) {
         SupportedCommand supportedCommand =
-            BrailleKeyBindingUtils.convertToCommand(context, /* hasSpace= */ false, argument);
+            BrailleKeyBindingUtils.convertToCommand(
+                context, /* hasSpace= */ false, event.getArgument());
         if (shouldDecreaseAutoScrollDuration(supportedCommand)) {
           autoScrollManager.decreaseDuration();
           return true;
@@ -257,6 +313,13 @@ public class EventManager implements EventConsumer {
         }
       }
       autoScrollManager.stop();
+      return true;
+    } else if (event.getCommand() == BrailleInputEvent.CMD_TOGGLE_AUTO_SCROLL) {
+      if (autoScrollManager.isActive()) {
+        autoScrollManager.stop();
+      } else {
+        autoScrollManager.start();
+      }
       return true;
     }
     return false;
@@ -274,6 +337,32 @@ public class EventManager implements EventConsumer {
         && supportedCommand.getCommand() == BrailleInputEvent.CMD_DECREASE_AUTO_SCROLL_DURATION;
   }
 
+  /** Return whether the event is with type of announcements */
+  private boolean isAnnouncement(AccessibilityEvent event) {
+    if ((event.getEventType() & ANNOUNCEMENT_EVENT_MASK) != 0) {
+      if ((event.getEventType() & TYPE_WINDOW_CONTENT_CHANGED) != 0) {
+        return SnackbarParser.isAlert(AccessibilityEventUtils.sourceCompat(event));
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /** Return whether the event is with the class name of {@code SubtitleView}. */
+  private boolean isCaption(AccessibilityEvent event) {
+    AccessibilityNodeInfoCompat sourceNode = AccessibilityEventUtils.sourceCompat(event);
+    if (sourceNode == null) {
+      return false;
+    }
+    return ClassLoadingCache.checkInstanceOf(
+        sourceNode.getClassName(), "androidx.media3.ui.SubtitleView");
+  }
+
+  /** Handles higher priority because it's in a special mode. */
+  private boolean handleHigherPriorityCommands(BrailleInputEvent event) {
+    return handleAutoscrollCommands(event) || handleTimedMessage(event);
+  }
+
   /**
    * Handles global commands.
    *
@@ -284,46 +373,35 @@ public class EventManager implements EventConsumer {
   private boolean handleGlobalCommands(BrailleInputEvent event) {
     boolean success;
     switch (event.getCommand()) {
-      case BrailleInputEvent.CMD_GLOBAL_HOME:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_HOME);
-        break;
-      case BrailleInputEvent.CMD_GLOBAL_BACK:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_BACK);
-        break;
-      case BrailleInputEvent.CMD_GLOBAL_RECENTS:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_RECENTS);
-        break;
-      case BrailleInputEvent.CMD_GLOBAL_NOTIFICATIONS:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_NOTIFICATIONS);
-        break;
-      case BrailleInputEvent.CMD_QUICK_SETTINGS:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_QUICK_SETTINGS);
-        break;
-      case BrailleInputEvent.CMD_ALL_APPS:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_ALL_APPS);
-        break;
-      default:
+      case BrailleInputEvent.CMD_GLOBAL_HOME ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_HOME);
+      case BrailleInputEvent.CMD_GLOBAL_BACK ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_BACK);
+      case BrailleInputEvent.CMD_GLOBAL_RECENTS ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_RECENTS);
+      case BrailleInputEvent.CMD_GLOBAL_NOTIFICATIONS ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_NOTIFICATIONS);
+      case BrailleInputEvent.CMD_QUICK_SETTINGS ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_QUICK_SETTINGS);
+      case BrailleInputEvent.CMD_ALL_APPS ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.GLOBAL_ALL_APPS);
+      default -> {
         return false;
-    }
-    if (success) {
-      if (behaviorIme.isBrailleKeyboardActivated()) {
-        behaviorIme.onFocusCleared();
       }
-    } else {
-      feedbackManager.emitFeedback(FeedbackManager.TYPE_COMMAND_FAILED);
     }
+    handleCommandCompletion(success);
+    // Always return true because we own these actions.
     return true;
   }
 
-  /** Handles the commands not restricted in any situation. */
-  private boolean handleHighPriorityCommands(BrailleInputEvent event) {
+  /** Handles the commands related to TalkBack. */
+  private boolean handleTalkBackCommands(BrailleInputEvent event) {
     boolean success = false;
     AccessibilityNodeInfoCompat node;
     switch (event.getCommand()) {
-      case BrailleInputEvent.CMD_TOGGLE_SCREEN_SEARCH:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.SCREEN_SEARCH);
-        break;
-      case BrailleInputEvent.CMD_EDIT_CUSTOM_LABEL:
+      case BrailleInputEvent.CMD_TOGGLE_SCREEN_SEARCH ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.SCREEN_SEARCH);
+      case BrailleInputEvent.CMD_EDIT_CUSTOM_LABEL -> {
         node = behaviorFocus.getAccessibilityFocusNode(false);
         if (node != null && behaviorNodeText.supportsLabel(node)) {
           CharSequence viewLabel = behaviorNodeText.getCustomLabelText(node);
@@ -335,45 +413,164 @@ public class EventManager implements EventConsumer {
                   : CustomLabelAction.EDIT_LABEL,
               node);
         }
-        break;
-      case BrailleInputEvent.CMD_OPEN_TALKBACK_MENU:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.OPEN_TALKBACK_MENU);
-        break;
-      case BrailleInputEvent.CMD_LONG_PRESS_CURRENT:
-        success = behaviorScreenReader.performAction(ScreenReaderAction.LONG_CLICK_CURRENT);
-        break;
-      case BrailleInputEvent.CMD_LONG_PRESS_ROUTE:
-        node = cellsContentConsumer.getAccessibilityNode(event.getArgument());
+      }
+      case BrailleInputEvent.CMD_OPEN_TALKBACK_MENU ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.OPEN_TALKBACK_MENU);
+      case BrailleInputEvent.CMD_PLAY_PAUSE_MEDIA ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.PLAY_PAUSE_MEDIA);
+      default -> {
+        return false;
+      }
+    }
+    handleCommandCompletion(success);
+    // Always return true because we own these actions.
+    return true;
+  }
+
+  /** Handles the commands not restricted in any situation. */
+  private boolean handleGeneralCommands(BrailleInputEvent event) {
+    boolean success;
+    switch (event.getCommand()) {
+      case BrailleInputEvent.CMD_LONG_PRESS_CURRENT ->
+          success = behaviorScreenReader.performAction(ScreenReaderAction.LONG_CLICK_CURRENT);
+      case BrailleInputEvent.CMD_LONG_PRESS_ROUTE -> {
+        AccessibilityNodeInfoCompat node =
+            cellsContentConsumer.getAccessibilityNode(event.getArgument());
         if (node == null) {
           success = behaviorScreenReader.performAction(ScreenReaderAction.LONG_CLICK_CURRENT);
           break;
         }
         success = behaviorScreenReader.performAction(ScreenReaderAction.LONG_CLICK_NODE, node);
-        break;
-      case BrailleInputEvent.CMD_TOGGLE_AUTO_SCROLL:
-        if (autoScrollManager.isActive()) {
-          autoScrollManager.stop();
-        } else {
-          autoScrollManager.start();
-        }
-        success = true;
-        break;
-      case BrailleInputEvent.CMD_PLAY_PAUSE_MEDIA:
-        success =
-            !FeatureFlagReader.usePlayPauseMedia(context)
-                || behaviorScreenReader.performAction(ScreenReaderAction.PLAY_PAUSE_MEDIA);
-        break;
-      default:
-        return false;
-    }
-    if (success) {
-      if (behaviorIme.isBrailleKeyboardActivated()) {
-        behaviorIme.onFocusCleared();
       }
-    } else {
-      feedbackManager.emitFeedback(FeedbackManager.TYPE_COMMAND_FAILED);
+      case BrailleInputEvent.CMD_NEXT_INPUT_METHOD ->
+          success = behaviorIme.switchToNextInputMethod();
+      case CMD_TOGGLE_BRAILLE_GRADE -> {
+        behaviorDisplayer.toggleBrailleContractedMode();
+        success = true;
+      }
+      case BrailleInputEvent.CMD_SHOW_POPUP_MESSAGE_HISTORY -> {
+        if (!FeatureFlagReader.usePopupMessage(context)) {
+          return false;
+        }
+        popUpHistory.showHistory();
+        success = true;
+      }
+      default -> {
+        return false;
+      }
+    }
+    handleCommandCompletion(success);
+    // Always return true because we own these actions.
+    return true;
+  }
+
+  /** Handles the commands related to captions. */
+  private boolean handleCaptionCommands(BrailleInputEvent event) {
+    if (!FeatureFlagReader.useShowCaptions(context)) {
+      return false;
+    }
+    boolean result = false;
+    switch (event.getCommand()) {
+      case BrailleInputEvent.CMD_CAPTION_ENTER_OR_EXIT ->
+          BrailleUserPreferences.writeCaptionEnabled(
+              context, !BrailleUserPreferences.readCaptionEnabled(context));
+      case BrailleInputEvent.CMD_NAV_BOTTOM -> {
+        // If captions are not enabled or not displaying, the event will be passed to the consumer
+        // for processing.
+        if (!cellsContentConsumer.isCaptionShowing()) {
+          BrailleDisplayLog.v(TAG, "Not showing caption.");
+          return false;
+        }
+        result = cellsContentConsumer.showLatestCaption();
+      }
+      default -> {
+        return false;
+      }
+    }
+    if (!result) {
+      feedbackManager.emitFeedback(FeedbackManager.Type.COMMAND_FAILED);
     }
     // Always return true because we own these actions.
     return true;
+  }
+
+  private boolean handleTimedMessage(BrailleInputEvent event) {
+    if (handleCaptionCommands(event)) {
+      return true;
+    }
+    if (cellsContentConsumer.isTimedMessageDisplaying()) {
+      cellsContentConsumer.dismissTimedMessage();
+      if (cellsContentConsumer.isTimedMessageDisplaying()) {
+        // Need to dismiss queued message. No action is taken on this event.
+        return true;
+      } else {
+        // Skip route key because they should do nothing about taking action on the timed message.
+        return event.getCommand() == BrailleInputEvent.CMD_ROUTE;
+      }
+    }
+    return false;
+  }
+
+  private boolean handleOtherCommands(BrailleInputEvent event) {
+    updateConsumer(/* event= */ null);
+    return currentConsumer.onMappedInputEvent(event);
+  }
+
+  private void handleCommandCompletion(boolean success) {
+    if (success) {
+      if (behaviorIme.isBrailleKeyboardActivated()) {
+        behaviorIme.commitHoldings();
+      }
+    } else {
+      feedbackManager.emitFeedback(FeedbackManager.Type.COMMAND_FAILED);
+    }
+  }
+
+  /** Returns whether learning mode is enabled. */
+  private boolean shouldOverrideCommandForLearningMode() {
+    return FeatureFlagReader.enableBrailleDisplayLearnMode(context) && learningModeActive;
+  }
+
+  /**
+   * Changes command behavior for learning mode. Supported command will announce the description
+   * defined in {@link BrailleKeyBindingUtils}. Returns false if command is not a supported command.
+   *
+   * @param command Maps to the keyboard commands defined in {@link BrailleInputEvent}.
+   */
+  private boolean handleLearningModeOverrides(int command) {
+    SupportedCommand supportedCommand =
+        SupportedCommand.getAvailableSupportedCommands(context).stream()
+            .filter(c -> c.getCommand() == command)
+            .findFirst()
+            .orElse(null);
+    if (supportedCommand == null) {
+      return false;
+    }
+    String commandDescription = supportedCommand.getCommandDescription(context.getResources());
+    BrailleCommonTalkBackSpeaker.getInstance().speak(commandDescription, AnnounceType.INTERRUPT);
+    behaviorDisplayer.displayTimedMessage(commandDescription);
+    return true;
+  }
+
+  /**
+   * Announces learning mode intro or outro message if active state has changed.
+   *
+   * @param previouslyActive Whether learning mode was active before the current event.
+   * @param currentlyActive Whether learning mode is active after the current event.
+   */
+  private void maybeAnnounceLearningModeState(boolean previouslyActive, boolean currentlyActive) {
+    if (previouslyActive == currentlyActive) {
+      return;
+    }
+    if (!behaviorDisplayer.isBrailleDisplayConnected()) {
+      return;
+    }
+    if (currentlyActive) {
+      BrailleCommonTalkBackSpeaker.getInstance()
+          .speak(context.getString(R.string.bd_learning_mode_instructions), AnnounceType.INTERRUPT);
+      return;
+    }
+    BrailleCommonTalkBackSpeaker.getInstance()
+        .speak(context.getString(R.string.bd_learning_mode_outro_message), AnnounceType.INTERRUPT);
   }
 }

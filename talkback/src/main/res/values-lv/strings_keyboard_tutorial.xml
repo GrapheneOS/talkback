@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Šī pamācība ir par uzlaboto taustiņu piesaisti, kurā ir daudz jaunu komandu. Lai atlasītu taustiņu piesaisti, pārejiet uz TalkBack iestatījumiem &gt; Papildu iestatījumi &gt; Īsinājumtaustiņi.\n\nLai atlasītu tēmu, nospiediet darbības taustiņu un labās bultiņas taustiņu. Lai gūtu vislabāko pieredzi, ieslēdziet funkciju TalkBack pirms darba sākšanas.</string>
+  <string name="basic_interaction_link_text">Pamata darbības</string>
+  <string name="basic_interaction_link_subtext">Varat pārvietoties starp vienumiem, lasīt pa rindām, izmantot izvēlnes un veikt citas darbības.</string>
+  <string name="browse_mode_link_text">Pārlūkošanas režīms</string>
+  <string name="browse_mode_link_subtext">Izmantojot pāriešanas komandas, varat ātrāk pārvietoties tīmekļa saturā.</string>
+  <string name="reading_controls_link_text">Lasīšanas vadīklas</string>
+  <string name="reading_controls_link_subtext">Varat izmantot lasīšanas vadīklas, lai pārvietotos starp vienumiem, pielāgotu runas iestatījumus un veiktu citas darbības.</string>
+  <string name="image_descriptions_link_text">Attēlu apraksti</string>
+  <string name="image_descriptions_link_subtext">Mēģiniet iegūt attēlu aprakstus.</string>
+  <string name="keyboard_shortcuts_link_text">Pavingrinieties īsinājumtaustiņu izmantošanā</string>
+  <string name="keyboard_shortcuts_link_subtext">Nospiediet taustiņus un taustiņu kombinācijas un uzziniet, kāda ir to funkcija.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">Funkcija TalkBack nodrošina balss komentārus — tādējādi varat izmantot ierīci, neskatoties tās ekrānā. Funkcija TalkBack var būt noderīga lietotājiem ar redzes traucējumiem. Ja funkcija TalkBack ir ieslēgta, ekrānā izceltais vienums tiek izrunāts.\n\nVispirms apgūstiet tastatūras lietošanu. Atrodiet darbību taustiņu, kas atrodas virs pārslēgšanas taustiņa kreisajā pusē. Tagad atrodiet bulttaustiņus, kas atrodas tastatūras apakšējā labajā stūrī. Lai pārietu uz nākamo vienumu, nospiediet darbību taustiņu un labo bultiņu.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Šis ir nākamais vienums. Lai pārietu uz iepriekšējo vienumu, nospiediet darbību taustiņu un kreiso bultiņu.\n\nKad pārejat uz interaktīvu vienumu, piemēram, pogu, nospiediet darbību taustiņu un atstarpes taustiņu, lai to aktivizētu. Atrodiet pogu Tālāk un turpiniet pamācības apguvi.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Lasīšana pa rakstzīmēm, vārdiem vai rindkopām</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Dažkārt tekstu ir nepieciešams noklausīties pa vienai rakstzīmei.\n\nLai izmantotu šo iespēju, pāriešanai varat izmantot lasīšanas vadīklu. Vienlaikus nospiediet darbību taustiņu, taustiņu Shift un labo vai kreiso bultiņu, līdz dzirdat paziņojumu “rakstzīmes”.\n\nPēc tam nospiediet darbību taustiņu un augšupvērsto bultiņu, lai navigācijā tiktu izcelta iepriekšējā rakstzīme. Lai navigācijā tiktu izcelta nākamā rakstzīme, nospiediet darbību taustiņu un lejupvērsto bultiņu.\n\nIzmēģiniet tūlīt! Varat arī izvēlēties lasīt pa vārdiem, rindām vai rindkopām, nospiežot darbību taustiņu kopā ar taustiņu Shift un labo vai kreiso bultiņu.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Pāriešana sistēmā</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Ja šos īsinājumtaustiņus izmēģināsiet tūlīt, pamācība tiks aizvērta. Ieteicams pagaidīt, līdz pabeigsiet pamācību.\n\nLai pārietu starp atvērtajiem lietotņu logiem un sistēmas elementiem, piemēram, paziņojumiem un uzdevumjoslu, nospiediet darbību taustiņu kopā ar taustiņiem Alt un Ctrl un augšupvērsto bultiņu vai lejupvērsto bultiņu.\n\nLai atvērtu lietotņu sarakstu, nospiediet darbību taustiņu.\n\nLai pārietu uz sākuma ekrānu un samazinātu visus atvērtos logus, nospiediet darbību taustiņu kopā ar taustiņu H vai Home augšējā rindā.\n\nLai pārietu uz nesen izmantotajām lietotnēm, nospiediet darbību taustiņu un taustiņu Tab vai kopsavilkuma taustiņu augšējā rindā.\n\nLai ātri pārietu starp logiem, turiet nospiestu taustiņu Alt un nospiediet taustiņu Tab.\n\nLai pārietu atpakaļ, nospiediet darbību taustiņu un taustiņu Esc vai taustiņu pāriešanai atpakaļ augšējā rindā.\n\nLai atvērtu paziņojumus, nospiediet darbību taustiņu un taustiņu N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Pielāgojiet runas iestatījumus</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack runas skaļums tiek dēvēts par pieejamības skaļumu. Tas ir pielāgojams atsevišķi no multivides skaļuma.\n\nLai pielāgotu pieejamības skaļumu, nospiediet darbību taustiņu un skaļuma palielināšanas vai samazināšana taustiņu.\n\nVarat pielāgot runas ātrumu, nospiežot darbību taustiņu kopā ar taustiņu Ctrl un skaļuma palielināšanas taustiņu, lai ātrumu palielinātu, vai nospiežot darbību taustiņu kopā ar taustiņu Ctrl un skaļuma samazināšanas taustiņu, lai ātrumu samazinātu.\n\nJebkurā brīdī varat apturēt runas atskaņošanu, nospiežot taustiņu Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack izvēlne un citi īsinājumtaustiņi</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack izvēlnē ir noderīgi iestatījumi un vadīklas.\n\nLai atvērtu TalkBack izvēlni, nospiediet darbību taustiņu kopā ar taustiņu Ctrl un M. Vēlāk TalkBack iestatījumos varat pielāgot TalkBack izvēlni un lasīšanas vadīklas.\n\nTalkBack īsinājumtaustiņu izvēlnē ir iekļauti visi īsinājumtaustiņi, ko varat izmantot.\n\nLai atvērtu īsinājumtaustiņu izvēlni, nospiediet darbību taustiņu kopā ar taustiņu Shift un /.\n\nLai uzzinātu vairāk par tastatūru un pavingrinātos īsinājumtaustiņu lietošanā, nospiediet darbību taustiņu un taustiņu 0, lai atvērtu vingrināšanās ekrānu.</string>
+  <string name="keyboard_tutorial_finished_page_title">Gatavs!</string>
+  <string name="keyboard_tutorial_finished_page_text">Tagad varat izmantot funkciju TalkBack.\n\nVarat turpināt apgūt citas tēmas tagad vai jebkurā laikā pārskatīt šo informāciju, atverot TalkBack iestatījumus.\n\nLai ieslēgtu vai izslēgtu funkciju TalkBack, nospiediet darbību taustiņu kopā ar taustiņu Alt un T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Pārlūkošanas režīmā varat ātrāk pārvietoties tīmekļa saturā</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Kad izmantojat pārlūku un tīmekļa lietotnes, varat ieslēgt pārlūkošanas režīmu un pāriet starp dažādiem lasīšanas precizitātes līmeņiem un vadīklām, vienreiz nospiežot taustiņu. Tādējādi lapā varat pārvietoties līdzīgi kā teksta rediģēšanas lodziņā, piemēram, izmantojot kreiso bultiņu un labo bultiņu, lai pārvietotos pa rakstzīmēm, un augšupvērsto bultiņu vai lejupvērsto bultiņu, lai pārvietotos pa rindām.\n\nLai ieslēgtu vai izslēgtu pārlūkošanas režīmu, divreiz nospiediet darbību taustiņu.\n\nKad pārlūkošanas režīms ir ieslēgts, nospiediet taustiņu D, lai pārietu uz nākamo orientieri, taustiņu F, lai pārietu uz nākamo vadīklu vai veidlapas lauku, taustiņu B, lai pārietu uz nākamo pogu, taustiņu K, lai pārietu uz nākamo saiti, un taustiņu H, lai pārietu uz nākamo virsrakstu. Lai pārietu atpakaļ, turiet nospiestu taustiņu Shift un nospiediet iepriekš minētos taustiņus.\n\nVarat arī izmantot augšupvērsto un lejupvērsto bultiņu, lai pārietu pa rindām, kreiso un labo bultiņu, lai pārietu pa burtiem, un taustiņu Ctrl kopā ar kreiso un labo bultiņu, lai pārietu pa vārdiem.\n\nLai pārietu uz vingrināšanās apgabalu, nospiediet darbību taustiņu un labo bultiņu. Kamēr atrodaties vingrināšanās apgabalā, saites, veidlapu lauki un pogas nedarbosies.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Virsrakstu līmeņi</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Strukturētākam izkārtojumam vietnēs un tīmekļa lietotnēs bieži tiek izmantoti dažāda līmeņa virsraksti. Kad ir ieslēgts pārlūkošanas režīms, nospiediet taustiņus 1–6, lai pārietu pa virsrakstu līmeņiem. Lai pārietu atpakaļ, turiet nospiestu taustiņu Shift un nospiediet iepriekš minētos taustiņus.\n\nNospiediet darbību taustiņu un labo bultiņu, lai pārietu uz vingrināšanās apgabalu.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabulas</string>
+  <string name="keyboard_tutorial_tables_page_text">Tabulās ir ērtāk pārvietoties, izmantojot pārlūkošanas režīmu. Kad ir ieslēgts pārlūkošanas režīms, nospiediet taustiņu kombināciju Alt + Ctrl un augšupvērsto vai lejupvērsto bultiņu, lai pārietu pa rindām, un Alt + Ctrl un kreiso vai labo bultiņu, lai pārietu starp kolonnām.\n\nNospiediet darbību taustiņu un labo bultiņu, lai pārietu uz vingrināšanās apgabalu.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Teksta rediģēšana</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Kad atvērsiet teksta lauku, pārlūkošanas režīms tiks īslaicīgi izslēgts, lai visus taustiņus varētu izmantot rakstīšanai. Kad pārlūkošanas režīms būs izslēgts, tiks atskaņots paziņojums un skaņa. Kad pametīsiet teksta lauku, pārlūkošanas režīms tiks atkal ieslēgts un tiks atskaņots cits paziņojums un skaņa.\n\nLai pārietu uz vingrināšanās apgabalu, nospiediet darbību taustiņu un labo bultiņu.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Plašāka informācija par pārlūkošanas režīmu</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Lai skatītu visu vienumu sarakstu, pa kuriem varat pārvietoties pārlūkošanas režīmā, nospiediet darbību taustiņu kopā ar taustiņu Shift + / un īsinājumtaustiņu izvēlnē meklējiet vienumu “pārlūkošanas režīms”.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Lasīšana pa rakstzīmēm, vārdiem vai rindkopām</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Dažkārt tekstu ir nepieciešams noklausīties pa vienai rakstzīmei.\n\nLai izmantotu šo iespēju, pāriešanai varat izmantot lasīšanas vadīklu. Nospiediet darbību taustiņu kopā ar taustiņu Shift un labo vai kreiso bultiņu, līdz dzirdat paziņojumu “rakstzīmes”. Pēc tam nospiediet darbību taustiņu un augšupvērsto bultiņu, lai navigācijā tiktu izcelta iepriekšējā rakstzīme. Lai navigācijā tiktu izcelta nākamā rakstzīme, nospiediet darbību taustiņu un lejupvērsto bultiņu.\n\nIzmēģiniet tūlīt! Varat arī izvēlēties lasīt pa vārdiem, rindām vai rindkopām, nospiežot darbību taustiņu kopā ar taustiņu Shift un labo vai kreiso bultiņu.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Pāriešana starp vadīklām</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Vadīklas ir interaktīvi elementi, piemēram, pogas, izvēles rūtiņas un tekstlodziņi.\n\nDažās lapās var būt noderīgi pāriet starp vadīklām, lai ātri atrastu nākamo elementu, kas ļauj veikt darbību, piemēram, nākamo pogu.\n\nLai to izdarītu, nospiediet darbību taustiņu kopā ar taustiņu Shift un labo taustiņu, līdz dzirdat paziņojumu “vadīklas”. Pēc tam nospiediet darbību taustiņu un augšupvērsto bultiņu, lai pārietu uz iepriekšējo pogu, vai darbības taustiņu un lejupvērsto bultiņu, lai pārietu uz nākamo pogu.\n\nIzmēģiniet tūlīt un atrodiet nākamo pogu.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Pāriešana starp saitēm</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Varat arī pāriet starp lapā esošajām saitēm.\n\nLai to paveiktu, nospiediet darbību taustiņu kopā ar taustiņu Shift un labo bultiņu, līdz tiks dzirdat paziņojumu “saites”. Pēc tam nospiediet darbību taustiņu un lejupvērsto bultiņu, lai atrastu saiti ar nosaukumu “Piektā saite”. Pamācības laikā veicot dubultskārienu šai saitei, netiks veikta nekāda darbība.\n\nNospiediet darbību taustiņu un labo bultiņu, lai atrastu pogu Tālāk un pārietu uz nākamo lapu.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Pāriešana starp virsrakstiem</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Varat arī pāriet starp lapā esošajiem virsrakstiem.\n\nLai to izmēģinātu, nospiediet darbību taustiņu kopā ar taustiņu Shift un labo bultiņu, līdz dzirdat paziņojumu “virsraksti”. Pēc tam nospiediet darbību taustiņu un lejupvērsto bultiņu, lai atrastu virsrakstu “Navigācija”.</string>
+  <string name="keyboard_tutorial_find_next_button">Nospiediet darbību taustiņu un labo bultiņu, lai atrastu nākamo pogu.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Pāriešana starp konteineriem</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Lai izietu no konteinera, piemēram, saraksta vai režģa, nospiediet darbību taustiņu kopā ar taustiņu Alt, Ctrl un labo vai kreiso bultiņu. Tas ir noderīgi, ja vēlaties iziet no gara vienumu saraksta.\n\nLai to izmēģinātu un atvērtu sarakstu, nospiediet darbību taustiņu un labo bultiņu. Pēc tam nospiediet darbību taustiņu kopā ar taustiņu Alt, Ctrl un labo bultiņu, lai pārietu uz nākamo konteineru.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Lai pārietu uz nākamo konteineru, nospiediet darbību taustiņu kopā ar taustiņu Alt, Ctrl un labo bultiņu.</string>
+  <string name="keyboard_tutorial_exit_container">Lai izietu no šī konteinera, nospiediet darbību taustiņu kopā ar taustiņu Alt, Ctrl un labo bultiņu.</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Jūs izgājāt no konteinera. Varat arī pievienot konteinerus lasīšanas vadīklām un pēc tam nospiest darbību taustiņu, Shift un labo vai kreiso bultiņu, lai atlasītu konteinerus, un darbību taustiņu kopā ar lejupvērsto vai augšupvērsto bultiņu, lai pārietu starp konteineriem. Lai atjauninātu lasīšanas vadīklas, pārejiet uz sadaļu TalkBack &gt; Iestatījumi &gt; Pielāgot izvēlnes &gt; Pielāgot lasīšanas vadīklas.\n\nNospiediet darbību taustiņu un labo bultiņu, lai atrastu nākamo pogu.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Lasīšanas kontroles vadīklu pielāgošana</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Varat arī pielāgot runas iestatījumus, izmantojot lasīšanas vadīklas, kā pielāgot darbības, ko varat veikt ar TalkBack lasīšanas vadīklām: TalkBack &gt; Iestatījumi &gt; Pielāgot izvēlnes &gt; Pielāgot lasīšanas vadīklas.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Mēģiniet iegūt attēlu aprakstus</string>
+  <string name="keyboard_tutorial_image_description_page_text">Kad ir izcelts attēls, nospiediet darbību taustiņu un taustiņu R un pēc tam — taustiņu I. Tālāk ir redzams viens fotoattēls. Mēģiniet iegūt tā aprakstu.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Jebkurā brīdī varat mainīt attēlu aprakstu iestatījumus sadaļā TalkBack iestatījumi &gt; Attēlu un ikonu apraksti.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Jebkurā brīdī varat mainīt attēlu aprakstu iestatījumus sadaļas “TalkBack iestatījumi” apakšsadaļā “Attēlu un ikonu apraksti”.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Attēla paraugs. Lai noklausītos aprakstu, nospiediet darbību taustiņu un taustiņu R un pēc tam — taustiņu I.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Balss komandas</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBack varat ātri pārvaldīt, izmantojot balss komandas.\n\nVarat izrunāt komandu, lai, piemēram, mainītu navigācijas iestatījumus, pārietu uz nākamo virsrakstu, kopētu tekstu un veiktu citas darbības.\n\nLai to izmēģinātu, nospiediet darbības modificētājtaustiņu un \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Kā izmantot meklēšanu ekrānā</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Izmantojot meklēšanu ekrānā, varat atrast konkrētu saturu ekrānā.\n\nLai to izmēģinātu, nospiediet darbības modificētājtaustiņu un CTRL + /. Ievadiet atslēgvārdu, piemēram, “tālāk”, lai ekrānā meklētu vienumus ar šo tekstu.\n\nPēc tam veiciet atslēgvārda “tālāk” meklēšanu, lai atrastu pogu “Tālāk”.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Pārvietošanās, izmantojot meklēšanu ekrānā</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Kad pēc meklēšanas ekrānā ir atlasīts kāds rezultāts, varat ātri pārvietoties pa pārējiem meklēšanas rezultātiem.\n\nLai to paveiktu, varat izmantot lasīšanas vadīklu navigāciju. Vienlaikus nospiediet darbības modificētājtaustiņu, Shift un labo vai kreiso bultiņu, līdz dzirdat paziņojumu “meklēšana ekrānā”. Pēc tam nospiediet darbības modificētājtaustiņu un lejupvērsto vai augšupvērsto bultiņu, lai pārvietotos pa ekrānā atrastajiem meklēšanas rezultātiem.\n\nIzmēģiniet jau tūlīt. Tālāk ir norādīts trīs pogu saraksts, un katras pogas nosaukumā ir ietverts teksts “darbība”. Izmantojot meklēšanu ekrānā, meklējiet atslēgvārdu “darbība”, un pēc tam ekrānā pārvietojieties pa meklēšanas rezultātiem.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Pavingrinieties īsinājumtaustiņu izmantošanā</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Nospiediet fiziskās tastatūras taustiņu vai taustiņu kombināciju, lai uzzinātu, kāda ir tā funkcija. Lai izietu, nospiediet taustiņu kombināciju Ctrl+W vai taustiņu Escape.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Iepazīstiet majestātiskās Kalifornijas sekvojas&lt;/h1&gt;
+      &lt;p&gt;Kalifornijas sekvojas, galvenokārt mūžzaļās sekvojas (Sequoia sempervirens), ir garākie koki pasaulē. Dažu šo koku garums pārsniedz 115 metrus, un to mūžs var sasniegt tūkstošiem gadu. Tiem patīk mitrais Ziemeļkalifornijas piekrastes klimats, jo lietus un migla labvēlīgi ietekmē augšanu.&lt;/p&gt;
+
+      &lt;h2&gt;Kur tie ir sastopami&lt;/h2&gt;
+      &lt;p&gt;Šie milzeņi aug šaurā joslā gar Klusā okeāna piekrasti. Tālāk ir norādīti daži nozīmīgākie parki.&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Valsts un štatu sekvoju parki (Redwood National and State Parks)&lt;/li&gt;
+        &lt;li&gt;Humbolta Štata sekvoju parks (Humboldt Redwoods State Park)&lt;/li&gt;
+        &lt;li&gt;Bigbeisinas Štata sekvoju parks (Big Basin Redwoods State Park)&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Plānojiet apmeklējumu šeit: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Kalifornijas štata parki — sekvojas&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Atbalstiet saglabāšanu&lt;/h2&gt;
+      &lt;p&gt;Šo seno mežu aizsardzība ir ļoti svarīga. Jūs varat palīdzēt, ievērojot parka vadlīnijas un atbalstot saglabāšanas pasākumus.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Pastāstiet par savu pieredzi&lt;/h2&gt;
+        &lt;p&gt;Vai esat apmeklējis sekvoju mežus?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Jā&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nē&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Pastāstiet par savu pieredzi&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Iesniegt&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Ko vēl vēlaties uzzināt par sekvojām?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Iesniegt&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekvojas rūpējas par apkārtējo vidi&lt;/h1&gt;
+    &lt;p&gt;Sekvojas ir ļoti svarīgas mūsu planētai, jo tām ir ļoti liela nozīme veselīgas apkārtējās vides saglabāšanā.&lt;/p&gt;
+
+    &lt;h1&gt;Milzu gaisa attīrītāji&lt;/h1&gt;
+    &lt;p&gt;Šie koki lieliski absorbē gaisā esošo oglekļa dioksīdu. Uzņemot lielu daudzumu oglekļa dioksīda, sekvojas attīra gaisu.&lt;/p&gt;
+
+    &lt;h2&gt;Mājvieta dzīvām būtnēm&lt;/h2&gt;
+    &lt;p&gt;Sekvojas ir mājvieta un patvērums daudzām dzīvām būtnēm — no putniem, kas ligzdo to zaros, līdz maziem radījumiem augsnē.&lt;/p&gt;
+
+    &lt;h3&gt;Ūdens gari&lt;/h3&gt;
+    &lt;p&gt;Sekvojas piesaista miglas ūdeni, kas pēc tam nopil uz meža zemsedzes. Tādējādi augsnē tiek uzturēts mitrums un ūdens ir pieejams arī citiem augiem un dzīvniekiem, it īpaši sausuma periodos.&lt;/p&gt;
+
+    &lt;h4&gt;Augsnes sargi&lt;/h4&gt;
+    &lt;p&gt;Šo koku spēcīgās saknes notur augsni vietā, neļaujot tai aizskaloties stipru lietavu laikā un novēršot eroziju.&lt;/p&gt;
+
+    &lt;h5&gt;Meža veidotāji&lt;/h5&gt;
+    &lt;p&gt;Kad vecās sekvojas nogāžas, to koksne kļūst par barību un patvērumu citiem augiem un dzīvniekiem, radot labvēlīgus apstākļus jaunai dzīvībai.&lt;/p&gt;
+
+    &lt;h6&gt;Unikālas ekosistēmas&lt;/h6&gt;
+    &lt;p&gt;Tā kā sekvojas ir tik lielas un to mūžs ir tik garš, tās veido īpašas meža vides, kurās var mitināties citur nesastopamas dzīvas būtnes.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Dzīvnieki sekvoju mežos&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Dzīvnieki sekvoju mežos\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dzīvnieks&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Apraksts&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dzīvesvieta&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Interesants fakts&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banānu gliemezis&lt;/th&gt;
+            &lt;td&gt;Liels, dzeltens, gļotains gliemezis&lt;/td&gt;
+            &lt;td&gt;Meža zemsedze&lt;/td&gt;
+            &lt;td&gt;Otrs lielākais gliemezis pasaulē&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Klusā okeāna milzu salamandra&lt;/th&gt;
+            &lt;td&gt;Liela, tumšu krāsu salamandra&lt;/td&gt;
+            &lt;td&gt;Strautu un mitru vietu tuvumā&lt;/td&gt;
+            &lt;td&gt;Var izaugt līdz 30 cm gara&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Rūzvelta briedis&lt;/th&gt;
+            &lt;td&gt;Liels briedis ar iespaidīgiem ragiem&lt;/td&gt;
+            &lt;td&gt;Ganās meža izcirtumos&lt;/td&gt;
+            &lt;td&gt;Tēviņu svars var pārsniegt 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Ziemeļu plankumainā pūce&lt;/th&gt;
+            &lt;td&gt;Vidēja izmēra pūce, kas medī naktī&lt;/td&gt;
+            &lt;td&gt;Biezi, veci sekvoju meži&lt;/td&gt;
+            &lt;td&gt;Indikatorsuga — tās stāvoklis ir meža veselības rādītājs&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Melnais lācis&lt;/th&gt;
+            &lt;td&gt;Liels zīdītājs, parasti melns vai brūns&lt;/td&gt;
+            &lt;td&gt;Meklē barību visā mežā&lt;/td&gt;
+            &lt;td&gt;Lieliski kāpelētāji, bieži redzami kokos&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Jūsu domas par sekvojām un dabu&lt;/h1&gt;
+
+      &lt;p&gt;Ko vēl vēlaties uzzināt par sekvojām?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Kura ir jūsu iecienītākā vieta dabā, kur mēdzat doties?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Kādu dabas daļu vēlaties izpētīt vairāk?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

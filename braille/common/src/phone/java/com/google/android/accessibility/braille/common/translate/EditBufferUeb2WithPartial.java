@@ -192,19 +192,6 @@ public class EditBufferUeb2WithPartial implements EditBuffer {
   }
 
   @Override
-  public boolean moveCursorToBeginning(ImeConnection imeConnection) {
-    commit(imeConnection);
-    return imeConnection.inputConnection.setSelection(0, 0);
-  }
-
-  @Override
-  public boolean moveCursorToEnd(ImeConnection imeConnection) {
-    commit(imeConnection);
-    int end = EditBufferUtils.getTextFieldText(imeConnection.inputConnection).length();
-    return imeConnection.inputConnection.setSelection(end, end);
-  }
-
-  @Override
   public boolean moveHoldingsCursor(ImeConnection imeConnection, int index) {
     if (0 <= index && index <= holdings.size()) {
       // TODO: speak feedback.
@@ -217,20 +204,6 @@ public class EditBufferUeb2WithPartial implements EditBuffer {
   @Override
   public HoldingsInfo getHoldingsInfo(ImeConnection imeConnection) {
     return HoldingsInfo.create(ByteBuffer.wrap(holdings.toByteArray()), holdingPosition);
-  }
-
-  @Override
-  public boolean selectAllText(ImeConnection imeConnection) {
-    if (!holdings.isEmpty()) {
-      commit(imeConnection);
-    }
-    String textFieldText = EditBufferUtils.getTextFieldText(imeConnection.inputConnection);
-    boolean result = imeConnection.inputConnection.setSelection(0, textFieldText.length());
-    if (result) {
-      EditBufferUtils.speakSelectAll(context, talkBack, textFieldText);
-      return true;
-    }
-    return false;
   }
 
   @Override

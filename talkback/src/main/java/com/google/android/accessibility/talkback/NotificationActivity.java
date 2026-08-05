@@ -19,13 +19,13 @@ package com.google.android.accessibility.talkback;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentActivity;
 import android.text.TextUtils;
-import android.view.Window;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import com.google.android.accessibility.talkback.utils.RemoteIntentUtils;
@@ -105,6 +105,8 @@ public class NotificationActivity extends FragmentActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    // We need to explicitly call it because we don't call setContentView or addContentView here.
+    initializeViewTreeOwners();
 
     final Bundle extras = getIntent().getExtras();
     if (extras == null) {
@@ -137,18 +139,27 @@ public class NotificationActivity extends FragmentActivity {
           if (notificationId != Integer.MIN_VALUE) {
             dismissNotification();
           }
-          Window window = a11yAlertDialogWrapper.getWindow();
-          if (!TextUtils.isEmpty(url) && window != null) {
+          if (!TextUtils.isEmpty(url)) {
             Uri uri = Uri.parse(url);
             // This is used for the wear only.
             RemoteIntentUtils.startRemoteActivityToOpenUriOnPhone(
                 uri,
                 NotificationActivity.this.getApplicationContext(),
-                window.getDecorView(),
-                success -> dialog.dismiss());
+                NotificationActivity.this,
+                success -> {
+                  dismissDialogAndFinishActivity(dialog);
+                });
+          } else {
+            dismissDialogAndFinishActivity(dialog);
           }
         };
 
+    int positiveButtonIconId =
+        TextUtils.isEmpty(url)
+            ? com.google.android.accessibility.utils.R.drawable.ic_button_check
+            : R.drawable.ic_open_in_phone;
+
+    // TODO: Test setDismissOnClick on Wear apk.
     a11yAlertDialogWrapper =
         A11yAlertDialogWrapper.materialDialogBuilder(this, getSupportFragmentManager())
             .setTitle(dialogTitle)
@@ -159,9 +170,17 @@ public class NotificationActivity extends FragmentActivity {
             // the wear version.
             .setOnDismissListener((dialog) -> finish())
             // Sets the icon of the button for the wear only.
-            .setPositiveButtonIconId(R.drawable.ic_open_in_phone)
+            .setPositiveButtonIconId(positiveButtonIconId)
+            .setDismissOnClick(false)
             .create();
     a11yAlertDialogWrapper.show();
+  }
+
+  private void dismissDialogAndFinishActivity(DialogInterface dialog) {
+    if (dialog != null) {
+      dialog.dismiss();
+    }
+    finish();
   }
 
   private void dismissNotification() {

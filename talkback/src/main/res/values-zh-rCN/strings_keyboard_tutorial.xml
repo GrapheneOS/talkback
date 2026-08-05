@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">本教程适用于增强型按键映射，其中包含许多新命令。如要选择按键映射，请依次前往“TalkBack 设置”&gt;“高级设置”&gt;“键盘快捷键”。\n\n按快捷操作按键 + 向右键可选择主题。为了获得最佳体验，请先开启 TalkBack。</string>
+  <string name="basic_interaction_link_text">基本互动</string>
+  <string name="basic_interaction_link_subtext">在各项内容之间移动、逐行朗读、使用菜单等</string>
+  <string name="browse_mode_link_text">浏览模式</string>
+  <string name="browse_mode_link_subtext">使用跳转命令更快捷地浏览 Web 内容</string>
+  <string name="reading_controls_link_text">朗读控件</string>
+  <string name="reading_controls_link_subtext">使用朗读控件可在各项内容之间跳转，调整语音设置，并执行其他操作</string>
+  <string name="image_descriptions_link_text">图片描述</string>
+  <string name="image_descriptions_link_subtext">尝试获取图片的描述</string>
+  <string name="keyboard_shortcuts_link_text">练习使用键盘快捷键</string>
+  <string name="keyboard_shortcuts_link_subtext">按下按键或按键组合，了解相应的功能</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack 可提供语音反馈，让您无需查看屏幕就能使用设备。对于难以看清屏幕的用户来说，TalkBack 是一项非常实用的功能。TalkBack 处于开启状态时，系统会将屏幕上聚焦的内容大声读出来。\n\n首先，我们来熟悉一下键盘。找到快捷操作按键，它位于左侧 Shift 键上方。现在，我们找到键盘右下角附近的箭头键。按快捷操作按键 + 向右键可移至下一项。</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">这是下一项。如要移至上一项，请按快捷操作按键 + 向左键。\n\n当您移至按钮等互动项时，按快捷操作按键 + 空格键即可启用。找到“继续”按钮，继续学习教程。</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">按字符、字词或段落朗读</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">有时，您可能想让系统逐字符朗读文字。\n\n如要实现此目的，可以使用朗读控件导航。按快捷操作按键 + Shift + 向右键或向左键，直至听到“字符”为止。\n\n接着，按快捷操作按键 + 向上键，即可将导航焦点逐字符向后移动。按快捷操作按键 + 向下键，即可将导航焦点逐字符向前移动。\n\n现在就试试吧。您还可以使用快捷操作按键 + Shift + 向右键或向左键，选择按字词、行或段落朗读。</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">系统导航</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">如果您现在尝试这些键盘快捷键，将关闭教程。建议您等到完成教程后再尝试。\n\n如要在打开的应用窗口和系统元素（例如通知和任务栏）之间跳转，请按快捷操作按键 + Alt + Ctrl + 向上键/向下键。\n\n如要打开应用列表，请按快捷操作按键。\n\n如要前往主屏幕并最小化所有打开的窗口，请按快捷操作按键 + H 或顶行中的 Home。\n\n如要前往最近用过的应用，请按快捷操作按键 + Tab 或顶行中的概览键。\n\n如要在各窗口之间快速跳转，请在按住 Alt 的同时按 Tab。\n\n如要返回，请按快捷操作按键 + Esc 或顶行中的 Back。\n\n如要打开通知，请按快捷操作按键 + N。</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">调整语音设置</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack 语音的音量称为无障碍功能音量，与媒体音量分开调节。\n\n如要调节无障碍功能音量，请按快捷操作按键 + 音量调高或调低按钮。\n\n如要调节语速，请按快捷操作按键 + Ctrl + 音量调高按钮调高语速，或按快捷操作按键 + Ctrl + 音量调低按钮调低语速。\n\n如要随时停止朗读，请按 Ctrl。</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack 菜单和更多键盘快捷键</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack 菜单包含您可能经常会用到的设置和控件。\n\n如要打开 TalkBack 菜单，请按快捷操作按键 + Ctrl + M。您可以在 TalkBack 设置中自定义 TalkBack 菜单和朗读控件。\n\nTalkBack 键盘快捷键菜单包含您可以使用的所有键盘快捷键。\n\n如要打开键盘快捷键菜单，请按快捷操作按键 + Shift + /。\n\n如要详细了解键盘并练习使用键盘快捷键，请按快捷操作按键 + 0 打开练习界面。</string>
+  <string name="keyboard_tutorial_finished_page_title">设置完毕！</string>
+  <string name="keyboard_tutorial_finished_page_text">您可以使用 TalkBack 了。\n\n现在，您可以继续了解其他主题，也可以随时在 TalkBack 设置中复习本教程。\n\n您可以随时按快捷操作按键 + Alt + T，开启或关闭 TalkBack。</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">使用浏览模式更快捷地浏览 Web 内容</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">在浏览器和 Web 应用中，您可以开启浏览模式，只需按一下相应键，即可在不同类型的朗读单位和控件之间跳转。这种模式使网页导航体验与文本编辑框导航类似。例如，使用向左键和向右键可逐个字符移动，使用向上键和向下键可逐行移动。\n\n如要开启或关闭浏览模式，请连按两下快捷操作按键。\n\n浏览模式开启后，按 D 可跳转到下一个位置标记，按 F 可跳转到下一个控件或表单字段，按 B 可跳转到下一个按钮，按 K 可跳转到下一个链接，按 H 可跳转到下一个标题。按住 Shift 的同时按这些键可向后移动。\n\n您还可以使用向上键和向下键逐行跳过，使用向左键和向右键逐字母跳过，以及使用 Ctrl + 向左键和 Ctrl + 向右键逐字词跳过。\n\n按快捷操作按键 + 向右键可进入练习区。在练习区中，链接、表单字段和按钮不会执行任何操作。</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">标题级别</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">网站和 Web 应用通常使用不同级别的标题来构建内容结构。浏览模式开启时，按 1 到 6 可跳转到相应标题级别。按住 Shift 的同时按这些键可向后移动。\n\n按快捷操作按键 + 向右键可进入练习区。</string>
+  <string name="keyboard_tutorial_tables_page_title">表格</string>
+  <string name="keyboard_tutorial_tables_page_text">浏览模式还使得表格导航变得更轻松。当浏览模式开启时，按 Alt + Ctrl + 向上键和向下键可在行之间跳转，按 Alt + Ctrl + 向左键和向右键可在列之间跳转。\n\n按快捷操作按键 + 向右键可进入练习区。</string>
+  <string name="keyboard_tutorial_editing_text_page_title">编辑文字</string>
+  <string name="keyboard_tutorial_editing_text_page_text">当您进入文本字段时，浏览模式会暂时关闭，以便您可以使用所有按键进行输入操作。当浏览模式关闭时，您会听到通知和提示音。退出文本字段后，浏览模式会重新开启，您会听到另一条通知和提示音。\n\n按快捷操作按键 + 向右键可进入练习区。</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">详细了解浏览模式</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">如要查看浏览模式下可跳转项的完整列表，请按快捷操作按键 + Shift + /，然后在键盘快捷键菜单中搜索“浏览模式”。</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">按字符、字词或段落朗读</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">有时，您可能想让系统逐字符朗读文字。\n\n如要实现此目的，可以使用朗读控件导航。按快捷操作按键 + Shift + 向右键或向左键，直至听到“字符”为止。接着，按快捷操作按键 + 向上键，即可将导航焦点逐字符向后移动。按快捷操作按键 + 向下键，即可将导航焦点逐字符向前移动。\n\n现在就试试吧。您还可以使用快捷操作按键 + Shift + 向右键或向左键，选择按字词、行或段落朗读。</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">在控件间跳转</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">控件是您可与之互动的项目，例如按钮、复选框和文本框。\n\n在某些页面上，您可能想要在控件间跳转以快速找到某项操作，例如“继续”按钮。\n\n如要实现此目的，请按快捷操作按键 + Shift + 向右键，直至听到“控件”为止。接下来，按快捷操作按键 + 向上键即可前往上一个按钮，按快捷操作按键 + 向下键即可前往下一个按钮。\n\n立即尝试，找到“继续”按钮。</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">在链接间跳转</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">您还可在页面上的链接间跳转。\n\n如要实现此目的，请按快捷操作按键 + Shift + 向右键，直至听到“链接”为止。接下来，按快捷操作按键 + 向下键，找到名为“链接 5”的链接。在本教程中，点按两次此链接将不会触发任何操作。\n\n按快捷操作按键 + 向右键找到“继续”按钮，前往下一页。</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">在标题间跳转</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">您还可在页面上的标题间跳转。\n\n如要立即尝试，请按快捷操作按键 + Shift + 向右键，直至听到“标题”为止。接下来，按快捷操作按键 + 向下键，找到“导航”标题。</string>
+  <string name="keyboard_tutorial_find_next_button">按快捷操作按键 + 向右键，找到“继续”按钮。</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">在容器间跳转</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">如要退出某个容器（例如列表或网格），请按快捷操作按键 + Alt + Ctrl + 向右键或向左键。当您想要从一长串列表项中退出时，此功能非常有用。\n\n如要立即尝试，请按快捷操作按键 + 向右键进入列表。然后，按快捷操作按键 + Alt + Ctrl + 向右键，即可前往下一个容器。</string>
+  <string name="keyboard_tutorial_go_to_next_container">如要前往下一个容器，请按快捷操作按键 + Alt + Ctrl + 向右键</string>
+  <string name="keyboard_tutorial_exit_container">如要退出此容器，请按快捷操作按键 + Alt + Ctrl + 向右键</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">您已退出容器。您还可以将容器添加到朗读控件，然后按快捷操作按键 + Shift + 向右键或向左键来选择容器，按快捷操作按键 + 向下键或向上键在容器之间跳转。如要更新朗读控件，请依次前往“TalkBack”&gt;“设置”&gt;“自定义菜单”&gt;“自定义朗读控件”。\n\n按快捷操作按键 + 向右键，找到“继续”按钮。</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">自定义朗读控件</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">您还可使用朗读控件调整语音设置，并依次前往“TalkBack”&gt;“设置”&gt;“自定义菜单”&gt;“自定义朗读控件”来自定义朗读控件的功能。</string>
+  <string name="keyboard_tutorial_image_description_page_title">尝试获取图片描述</string>
+  <string name="keyboard_tutorial_image_description_page_text">将焦点置于某个图片上时，按快捷操作按键 + R，然后按 I。下面有一张照片。请尝试为该照片添加描述。</string>
+  <string name="keyboard_tutorial_image_description_settings_description">您可以随时更改图片描述设置，只需依次选择“TalkBack 设置”&gt;“图片和图标描述”。</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">您可以随时更改图片描述设置，只需依次选择“TalkBack 设置”和“图片和图标描述”。</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">示例图片。按快捷操作按键 + R，然后按 I 即可听取描述。</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">语音指令</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">您可以使用语音快速控制 TalkBack。\n\n例如，通过语音指令来更改导航方式、跳转到下一个标题、复制文字等。\n\n如要立即尝试，请按快捷操作按键 + \\。</string>
+  <string name="keyboard_tutorial_screen_search_page_title">使用屏幕搜索功能进行搜索</string>
+  <string name="keyboard_tutorial_screen_search_page_text">您可以使用屏幕搜索功能查找屏幕上的特定内容。\n\n如要试用，请按快捷操作按键 + Ctrl + /。输入关键字（例如“继续”），即可在屏幕上找到包含该文字的项目。\n\n现在，请尝试搜索“继续”，找到“继续”按钮。</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">通过屏幕搜索进行导航</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">选择某个结果后，您可以在屏幕搜索的不同搜索结果之间快速切换。\n\n为此，您可以使用朗读控件导航。按快捷操作按键 + Shift + 向右键或向左键，直到听到“屏幕搜索”为止。接下来，按快捷操作按键 + 向下键或向上键，即可按屏幕搜索结果进行导航。\n\n现在就来试试吧。下面是包含 3 个按钮的列表，每个按钮均含有“操作”一词。请使用屏幕搜索功能搜索“操作”，然后通过屏幕搜索功能在这些按钮之间移动导航焦点。</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">练习使用键盘快捷键</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">按实体键盘上的某个按键或按键组合，即可听取功能说明。按 Ctrl + W 组合键或 Esc 键即可退出。</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;探索加利福尼亚红杉的雄伟壮丽&lt;/h1&gt;
+      &lt;p&gt;加利福尼亚的红杉（主要是海岸红杉，学名为 Sequoia sempervirens）是世界上最高的树木。其中一些红杉高达 380 多英尺（115 米），寿命可达数千年。它们在北加利福尼亚州潮湿的沿海气候中茁壮成长，那里的雨水和雾气有利于它们生长。&lt;/p&gt;
+
+      &lt;h2&gt;观赏地点&lt;/h2&gt;
+      &lt;p&gt;您会在太平洋沿岸狭长地带发现这些巨树。主要公园包括：&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;红杉树国家和州立公园&lt;/li&gt;
+        &lt;li&gt;洪堡红杉州立公园&lt;/li&gt;
+        &lt;li&gt;大盆地红杉州立公园&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;在此规划您的行程：&lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;加州州立公园 - 红杉&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;支持环保工作&lt;/h2&gt;
+      &lt;p&gt;保护这些古老森林至关重要。您可以通过遵守公园规定和支持环保工作来出一份力。&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;分享您的体验&lt;/h2&gt;
+        &lt;p&gt;您去过红杉林吗？&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;去过&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;没去过&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;请告诉我们您的体验&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;提交&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;您还想了解哪些关于红杉的信息？&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;提交&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;红杉树：维护我们的环境健康&lt;/h1&gt;
+    &lt;p&gt;红杉对我们的星球至关重要，在维护环境健康方面发挥着巨大作用。&lt;/p&gt;
+
+    &lt;h1&gt;天然巨型空气净化器&lt;/h1&gt;
+    &lt;p&gt;这些树木能有效地吸收空气中的二氧化碳。红杉能大量吸收二氧化碳，有助于保持空气洁净。&lt;/p&gt;
+
+    &lt;h2&gt;动物的家园&lt;/h2&gt;
+    &lt;p&gt;红杉为许多动物提供家园和庇护所，从枝头的鸟类到土壤中的小生物，不一而足。&lt;/p&gt;
+
+    &lt;h3&gt;水资源魔法师&lt;/h3&gt;
+    &lt;p&gt;它们擅长捕捉雾气，将雾气凝结成水滴，滋润着森林的每一寸土地。这有助于保持土壤湿润，并为其他植物和动物提供水源，尤其是在干旱时期。&lt;/p&gt;
+
+    &lt;h4&gt;土壤保护者&lt;/h4&gt;
+    &lt;p&gt;它们强壮的根系能固定土壤，防止土壤在暴雨中流失，从而防止侵蚀。&lt;/p&gt;
+
+    &lt;h5&gt;森林建设者&lt;/h5&gt;
+    &lt;p&gt;当老红杉倒下时，其木材会成为新植物和生物的食物和庇护所，为新的生长创造肥沃的土壤。&lt;/p&gt;
+
+    &lt;h6&gt;独特的生态系统&lt;/h6&gt;
+    &lt;p&gt;由于红杉体型巨大且寿命长久，它们创造了独特的森林环境，滋养着他处难觅的生物。&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;红杉林中的动物&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"红杉林中的动物\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;动物&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;描述&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;栖息地&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;趣闻&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;香蕉蛞蝓&lt;/th&gt;
+            &lt;td&gt;大型黄色黏滑蛞蝓&lt;/td&gt;
+            &lt;td&gt;生活在森林地表层&lt;/td&gt;
+            &lt;td&gt;世界第二大蛞蝓&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;太平洋巨型蝾螈&lt;/th&gt;
+            &lt;td&gt;大型深色蝾螈&lt;/td&gt;
+            &lt;td&gt;生活在溪流和潮湿区域附近&lt;/td&gt;
+            &lt;td&gt;体长可达 1 英尺&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;罗斯福麋鹿&lt;/th&gt;
+            &lt;td&gt;长着巨大鹿角的庞大鹿科动物&lt;/td&gt;
+            &lt;td&gt;在林中空地吃草&lt;/td&gt;
+            &lt;td&gt;雄性体重可超过 1,000 磅&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;北方斑点猫头鹰&lt;/th&gt;
+            &lt;td&gt;中型猫头鹰，夜间捕食&lt;/td&gt;
+            &lt;td&gt;生活在茂密成熟的红杉林中&lt;/td&gt;
+            &lt;td&gt;是一种“指示物种”，其健康状况可反映森林健康状况&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;黑熊&lt;/th&gt;
+            &lt;td&gt;大型哺乳动物，通常为黑色或棕色&lt;/td&gt;
+            &lt;td&gt;在整个森林中觅食&lt;/td&gt;
+            &lt;td&gt;攀爬能力出众，常现身于林间树木之上&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;您对红杉和自然的看法&lt;/h1&gt;
+
+      &lt;p&gt;您还想了解红杉的哪些方面？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;您最喜欢去大自然中的哪个地方？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;您想详细了解大自然中的哪个概念？&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

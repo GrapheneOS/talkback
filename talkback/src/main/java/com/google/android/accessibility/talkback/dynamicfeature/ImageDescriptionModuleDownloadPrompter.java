@@ -16,16 +16,16 @@
 
 package com.google.android.accessibility.talkback.dynamicfeature;
 
-import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
-import static com.google.android.accessibility.utils.caption.ImageCaptionUtils.CaptionType.IMAGE_DESCRIPTION;
+import static com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType.IMAGE_DESCRIPTION;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.Feedback;
-import com.google.android.accessibility.talkback.Pipeline;
+import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.DownloadDialogResources;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.ImageCaptionPreferenceKeys;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.UninstallDialogResources;
+import com.google.common.collect.ImmutableList;
 
 /**
  * Shows a confirmation dialog to guide users through the download of the image description module
@@ -33,32 +33,34 @@ import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConsta
  */
 public class ImageDescriptionModuleDownloadPrompter extends ModuleDownloadPrompter {
 
-  @Nullable private Pipeline.FeedbackReturner pipeline;
-
   /**
    * Creates a {@link ModuleDownloadPrompter} to handle the process of image description download
    * and uninstallation.
    */
   public ImageDescriptionModuleDownloadPrompter(
-      Context context, FeatureDownloader featureDownloader) {
+      Context context, Downloader downloader, @Nullable Downloader downloaderLegacy) {
     super(
         context,
-        featureDownloader,
-        IMAGE_DESCRIPTION,
+        downloader,
+        downloaderLegacy,
+        ImmutableList.of(IMAGE_DESCRIPTION),
         ImageCaptionPreferenceKeys.IMAGE_DESCRIPTION,
         DownloadDialogResources.IMAGE_DESCRIPTION,
         UninstallDialogResources.IMAGE_DESCRIPTION);
   }
 
-  public void setPipeline(@Nullable Pipeline.FeedbackReturner pipeline) {
-    this.pipeline = pipeline;
+  @Override
+  public int getDownloadSuccessfulHint() {
+    return R.string.download_image_description_successful_hint;
+  }
+
+  @Override
+  public int getDownloadingHint() {
+    return R.string.downloading_image_description_hint;
   }
 
   @Override
   protected boolean initModule() {
-    if (pipeline == null) {
-      return false;
-    }
-    return pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.initializeImageDescription());
+    return returnFeedback(Feedback.initializeImageDescription());
   }
 }

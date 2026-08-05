@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -39,7 +39,7 @@ ASYNC_ALARM_CALLBACK(handleFreezeReminderAlarm) {
   asyncDiscardHandle(freezeReminderAlarm);
   freezeReminderAlarm = NULL;
 
-  alert(ALERT_FREEZE_REMINDER);
+  alert(ALERT_SCREEN_FROZEN);
   startFreezeReminderAlarm();
 }
 
@@ -61,7 +61,7 @@ stopFreezeReminderAlarm (void) {
 
 static int
 construct_FrozenScreen (BaseScreen *source) {
-  describeBaseScreen(source, &screenDescription);
+  describeScreenObject(&screenDescription, source);
 
   if ((screenCharacters = calloc(screenDescription.rows*screenDescription.cols, sizeof(*screenCharacters)))) {
     const ScreenBox box = {

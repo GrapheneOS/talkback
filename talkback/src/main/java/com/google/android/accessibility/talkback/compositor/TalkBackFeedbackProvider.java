@@ -28,8 +28,10 @@ import com.google.android.accessibility.talkback.compositor.Compositor.Flavor;
 import com.google.android.accessibility.talkback.compositor.Compositor.HandleEventOptions;
 import com.google.android.accessibility.talkback.compositor.hint.AccessibilityFocusHint;
 import com.google.android.accessibility.talkback.compositor.hint.tv.AccessibilityFocusHintForTV;
+import com.google.android.accessibility.talkback.compositor.hint.xr.AccessibilityFocusHintForXR;
 import com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor;
 import com.google.android.accessibility.talkback.compositor.roledescription.TreeNodesDescription;
+import com.google.android.accessibility.talkback.compositor.rule.ActionableNonmodalAlertAppearedFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeAnnouncementFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeHoverEnterFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeNotificationStateChangedFeedbackRule;
@@ -40,6 +42,7 @@ import com.google.android.accessibility.talkback.compositor.rule.EventTypeViewLo
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeViewSelectedFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeWindowContentChangedFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeWindowStateChangedFeedbackRule;
+import com.google.android.accessibility.talkback.compositor.rule.HeadsUpNotificationAppearedFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.HintFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.InputDescribeNodeFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.InputTextFeedbackRules;
@@ -49,9 +52,12 @@ import com.google.android.accessibility.talkback.compositor.rule.KeyboardLockCha
 import com.google.android.accessibility.talkback.compositor.rule.MagnificationStateChangedFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.ScrollPositionFeedbackRule;
 import com.google.android.accessibility.talkback.compositor.rule.ServiceStateChangedFeedbackRules;
+import com.google.android.accessibility.talkback.compositor.rule.SynthesizeSpeechFeedbackRule;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.HashMap;
 import java.util.Map;
@@ -127,8 +133,11 @@ public class TalkBackFeedbackProvider implements EventFeedbackProvider {
     MagnificationStateChangedFeedbackRule.addFeedbackRules(feedbackRules, context, globalVariables);
 
     // Accessibility event
-    EventTypeAnnouncementFeedbackRule.addFeedbackRule(feedbackRules, globalVariables);
-    EventTypeHoverEnterFeedbackRule.addFeedbackRule(feedbackRules, globalVariables);
+    if (!FeatureFlagReader.deprecateTypeAnnouncementEvent(context)) {
+      EventTypeAnnouncementFeedbackRule.addFeedbackRule(feedbackRules, globalVariables);
+    }
+    EventTypeHoverEnterFeedbackRule.addFeedbackRule(
+        context, feedbackRules, processorPhoneticLetters, treeNodesDescription, globalVariables);
     EventTypeNotificationStateChangedFeedbackRule.addFeedbackRule(
         feedbackRules, context, globalVariables);
     EventTypeViewAccessibilityFocusedFeedbackRule.addFeedbackRule(
@@ -160,9 +169,17 @@ public class TalkBackFeedbackProvider implements EventFeedbackProvider {
     AccessibilityFocusHint accessibilityFocusHint =
         (flavor == FLAVOR_TV)
             ? new AccessibilityFocusHintForTV(context, globalVariables)
-            : new AccessibilityFocusHint(context, globalVariables);
+            : FormFactorUtils.isAndroidXr()
+                ? new AccessibilityFocusHintForXR(context, globalVariables)
+                : new AccessibilityFocusHint(context, globalVariables);
     HintFeedbackRule.addFeedbackRule(
         feedbackRules, context, accessibilityFocusHint, globalVariables);
+    HeadsUpNotificationAppearedFeedbackRule.addFeedbackRule(
+        feedbackRules, context, globalVariables);
+    ActionableNonmodalAlertAppearedFeedbackRule.addFeedbackRule(
+        feedbackRules, context, globalVariables);
+
+    SynthesizeSpeechFeedbackRule.addFeedbackRule(feedbackRules, roleDescriptionExtractor);
   }
 
   private boolean requestRefreshSourceNode(int event, AccessibilityNodeInfoCompat node) {

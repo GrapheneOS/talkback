@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Bu təlimat bir çox yeni əmrləri əhatə edən təkmilləşdirilmiş klaviatura düzülüşü üçün nəzərdə tutulub. Klaviatura düzülüşünü seçmək üçün TalkBack ayarları &gt; Təkmil ayarlar &gt; Klaviatura qısayolları bölməsinə keçin.\n\nMövzu seçmək üçün Əməliyyat + Sağ ox düymələrinə basın. Ən yaxşı təcrübə üçün başlamazdan əvvəl TalkBack-i aktiv edin.</string>
+  <string name="basic_interaction_link_text">Sadə interaksiya</string>
+  <string name="basic_interaction_link_subtext">Elementlər arasında hərəkət edin, sətirlərlə oxuyun, menyulardan istifadə edin və s.</string>
+  <string name="browse_mode_link_text">Axtarış rejimi</string>
+  <string name="browse_mode_link_subtext">Veb-kontentdə daha sürətli hərəkət etmək üçün keçid əmrlərindən istifadə edin</string>
+  <string name="reading_controls_link_text">Oxuma kontrolu</string>
+  <string name="reading_controls_link_subtext">Oxuma kontrollarından istifadə edərək elementlər arasında keçid edin, nitq ayarlarını tənzimləyin və s.</string>
+  <string name="image_descriptions_link_text">Şəkil təsvirləri</string>
+  <string name="image_descriptions_link_subtext">Şəkillərin təsvirlərini əldə etməyə çalışın</string>
+  <string name="keyboard_shortcuts_link_text">Klaviatura qısayollarını məşq edin</string>
+  <string name="keyboard_shortcuts_link_subtext">Düymələri və düymə kombinasiyalarını basın və onların nə etdiyini öyrənin</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack-in səsli rəyi ilə ekrana baxmadan cihazdan istifadə edə bilərsiniz. TalkBack ekranı görməkdə çətinlik çəkən şəxslər üçün faydalı ola bilər. TalkBack aktiv olduqda ekranda fokuslanan element yüksək səslə səsləndirilir.\n\nƏvvəlcə klaviaturanızla tanış olaq. Sol Shift düyməsinin yuxarısında olan Əməliyyat düyməsini tapın. İndi isə klaviaturanın aşağı sağ hissəsindəki ox düymələrini tapaq. Növbəti elementə keçmək üçün Əməliyyat + Sağ ox düymələrinə basın.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Bu, növbəti elementdir. Əvvəlki elementə keçmək üçün Əməliyyat + Sol ox düymələrinə basın.\n\nDüymə kimi interaktiv elementə keçdiyiniz zaman onu aktivləşdirmək üçün Əməliyyat + Boşluq düymələrinə basın. Növbəti düyməsini tapın və təlimata davam edin.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Simvol, söz və ya paraqraf əsasında oxumaq</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Bəzən mətnin simvol-simvol səsləndirilməsini istəyə bilərsiniz.\n\nBunu etmək üçün oxuma kontrolu naviqasiyasından istifadə edə bilərsiniz. \"Simvollar\" sözünü eşidənə qədər Əməliyyat + Shift + Sağ və ya Sol ox düymələrinə basın.\n\nSonra naviqasiya fokusunu simvol əsasında geri hərəkət etdirmək üçün Əməliyyat + Yuxarı ox düymələrinə basın. Naviqasiyanın fokusunu simvol əsasında irəli hərəkət etdirmək üçün Əməliyyat + Aşağı ox düyməsinə basın.\n\nElə indi yoxlayın. Həmçinin Əməliyyat + Shift + Sağ və ya Sol ox düyməsi vasitəsilə sözlər, sətirlər və ya paraqraflar üzrə oxumağı seçə bilərsiniz.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Sistem naviqasiyası</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Bu klaviatura qısayollarını indi sınasanız, təlimat bağlanacaq. Təlimatı tamamlayana qədər gözləmək istəyə bilərsiniz.\n\nAçıq tətbiq pəncərələri, habelə bildirişlər və İşləmə paneli kimi sistem elementləri arasında keçid etmək üçün Əməliyyat + Alt + Ctrl + Yuxarı və ya Aşağı ox düymələrinə basın.\n\nTətbiq siyahısını açmaq üçün Əməliyyat düyməsinə basın.\n\nƏsas ekrana keçmək və bütün açıq pəncərələri kiçiltmək üçün yuxarı sətirdə Əməliyyat + H və ya Əsas səhifə düymələrinə basın.\n\nSon tətbiqlərə keçmək üçün yuxarı sətirdə Əməliyyat + Tab və ya İcmal düymələrinə basın.\n\nPəncərələr arasında sürətli keçid etmək üçün Alt düyməsini basıb saxlayaraq Tab düyməsinə basın.\n\nGeri qayıtmaq üçün yuxarı sətirdə Əməliyyat + Esc və ya Geri düymələrinə basın.\n\nBildirişləri açmaq üçün Əməliyyat + N düymələrinə basın.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Nitq ayarlarını tənzimləyin</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack nitqi üçün səs səviyyəsi əlçatanlıq səs səviyyəsi adlanır. O, medianın səs səviyyəsindən ayrı tənzimlənir.\n\nƏlçatanlıq səs səviyyəsini tənzimləmək üçün Əməliyyat + Səs səviyyəsini artırma və ya azaltma düymələrinə basın.\n\nNitq sürətini tənzimləyərkən artırmaq üçün Əməliyyat + Ctrl + Səsi artırın, yaxud azaltmaq üçün Əməliyyat + Ctrl + Səsi azaldın düymələrinə basın.\n\nİstənilən vaxt nitqi dayandırmaq üçün Ctrl düyməsinə basın.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack menyusu və daha çox klaviatura qısayolu</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack menyusuna tez-tez ehtiyacınız ola biləcək ayarlar və nizamlayıcılar daxildir.\n\nTalkBack menyusunu açmaq üçün Əməliyyat + Ctrl + M düymələrinə basın. TalkBack menyusunu və oxuma kontrolunu daha sonra TalkBack ayarlarında fərdiləşdirə bilərsiniz.\n\nTalkBack klaviatura qısayolları menyusuna istifadə edə biləcəyiniz bütün klaviatura qısayolları daxildir.\n\nKlaviatura qısayolları menyusunu açmaq üçün Əməliyyat + Shift + / düymələrinə basın.\n\nKlaviatura haqqında ətraflı məlumat əldə etmək və klaviatura qısayollarını məşq etmək üçün Əməliyyat + 0 düymələrini basaraq məşq ekranını açın.</string>
+  <string name="keyboard_tutorial_finished_page_title">Hər şey hazırdır!</string>
+  <string name="keyboard_tutorial_finished_page_text">TalkBack-dən istifadə etməyə hazırsınız.\n\nİndi digər mövzular haqqında öyrənməyə davam edin, yaxud TalkBack ayarlarında bu məlumatları istənilən vaxt nəzərdən keçirin.\n\nTalkBack-i istənilən vaxt yandırmaq və ya söndürmək üçün Əməliyyat + Alt + T düymələrinə basın.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Axtarış rejimi ilə veb-kontentdə daha sürətli hərəkət edin</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Brauzer və veb-tətbiqlərdə olduqda axtarış rejimini aktiv edə və bir düyməyə basmaqla müxtəlif növ oxu dəqiqliyi və kontrolları arasında keçid edə bilərsiniz. Səhifədə naviqasiyanı mətn redaktoru xanasındakı naviqasiyaya bənzədir, məsələn, simvol üzrə hərəkət etmək üçün sol və sağ oxlar, sətir üzrə hərəkət etmək üçün yuxarı və aşağı oxlar.\n\nAxtarış rejimini aktiv və ya deaktiv etmək üçün Əməliyyat düyməsinə iki dəfə basın.\n\nAxtarış rejimi aktiv olduqda növbəti nişana keçmək üçün D, növbəti kontrol və ya forma sahəsi üçün F, növbəti düymə üçün B, növbəti keçid üçün K və növbəti başlıq üçün H düyməsinə basın. Geri hərəkət etmək üçün Shift düyməsinə basıb saxlayın və bu düymələrə basın.\n\nSətirlər üzrə keçid etmək üçün Yuxarı və Aşağı oxlardan, hərflər üzrə keçid etmək üçün Sol və Sağ oxlardan, sözlər üzrə keçid etmək üçün Ctrl + Sol və Sağ oxlardan da istifadə edə bilərsiniz.\n\nMəşq sahəsinə daxil olmaq üçün Əməliyyat + Sağ ox düyməsinə basın. Məşq sahəsində keçidlər, forma sahələri və düymələr heç bir funksiyanı yerinə yetirməyəcək.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Başlıq səviyyələri</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Veb-saytlar və veb-tətbiqlər kontenti strukturlaşdırmaq üçün adətən müxtəlif səviyyələrdəki başlıqlardan istifadə edir. Axtarış rejimi aktiv olduqda 1-dən 6-ya qədər rəqəmləri basaraq müxtəlif səviyyəli başlıqlara keçə bilərsiniz. Geri hərəkət etmək üçün Shift düyməsinə basıb saxlayın və bu düymələrə basın.\n\nMəşq sahəsinə daxil olmaq üçün Əməliyyat + Sağ ox düyməsinə basın.</string>
+  <string name="keyboard_tutorial_tables_page_title">Cədvəllər</string>
+  <string name="keyboard_tutorial_tables_page_text">Axtarış rejimi cədvəldə naviqasiyanı da asanlaşdırır. Axtarış rejimi aktiv olduqda sətirlər arasında keçid etmək üçün Alt + Ctrl + Yuxarı və Aşağı oxlar, sütunlar arasında keçid etmək üçün isə Alt + Ctrl + Sol və Sağ oxlar üzərinə basın.\n\nMəşq sahəsinə daxil olmaq üçün Əməliyyat + Sağ ox düymələrinə basın.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Mətn redaktəsi</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Mətn sahəsinə daxil olduqda yazmaq üçün bütün düymələrdən istifadə edə bilməyinizə görə baxış rejimi müvəqqəti olaraq deaktiv ediləcək. Deaktiv edildikdə elan və səs eşidəcəksiniz. Mətn sahəsindən çıxdıqdan sonra axtarış rejimi yenidən aktiv olacaq və başqa elan və səs eşidəcəksiniz.\n\nMəşq sahəsinə daxil olmaq üçün Əməliyyat + Sağ ox düymələrinə basın.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Axtarış rejimi haqqında ətraflı</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Axtarış rejimində keçid edə biləcəyiniz elementlərin tam siyahısını yoxlamaq üçün Əməliyyat + Shift + / düymələrinə basın və klaviatura qısayolları menyusunda \"axtarış rejimini\" axtarın.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Simvol, söz və ya paraqraf əsasında oxumaq</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Bəzən mətnin simvol-simvol səsləndirilməsini istəyə bilərsiniz.\n\nBunu etmək üçün oxuma kontrolu naviqasiyasından istifadə edə bilərsiniz. \"Simvollar\" sözünü eşidənə qədər Əməliyyat + Shift + Sağ və ya Sol ox düyməsinə basın. Sonra naviqasiya fokusunu simvol əsasında geri hərəkət etdirmək üçün Əməliyyat + Yuxarı ox düyməsinə basın. Naviqasiyanın fokusunu simvol əsasında irəli hərəkət etdirmək üçün Əməliyyat + Aşağı ox düyməsinə basın.\n\nElə indi yoxlayın. Əməliyyat + Shift + Sağ və ya Sol oxdan istifadə edərək sözlər, sətirlər və ya paraqraflar üzrə oxumağı da seçə bilərsiniz.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Nizamlayıcılar arasında keçid edin</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Nizamlayıcılar düymələr, qeyd xanaları və mətn qutuları kimi interaksiya yarada biləcəyiniz elementlərdir.\n\nBəzi səhifələrdə növbəti düyməsi kimi əməliyyatı tez tapmaq üçün nizamlayıcılar arasında keçid etmək istəyə bilərsiniz.\n\nBunu etmək üçün \"nizamlayıcılar\" eşidənə qədər Əməliyyat + Shift + Sağ ox düymələrinə basın. Sonra əvvəlki düyməyə keçmək üçün Əməliyyat + Yuxarı ox, növbəti düyməyə keçmək üçün Əməliyyat + Aşağı ox düymələrinə basın.\n\nElə indi sınayın və növbəti düyməsini tapın.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Keçidlər arasında keçid edin</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Səhifədəki keçidlər arasında da keçid edə bilərsiniz.\n\nBunu etmək üçün \"keçidlər\" eşidənə qədər Əməliyyat + Shift + Sağ ox düymələrinə basın. Sonra \"Keçid 5\" adlı keçidi tapmaq üçün Əməliyyat + Aşağı ox düymələrinə basın. Təlimatda olarkən bu keçidə iki dəfə toxunsanız, heç nə dəyişməyəcək.\n\nNövbəti düyməni tapmaq və növbəti səhifəyə keçmək üçün Əməliyyat + Sağ ox düymələrinə basın.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Başlıqlar arasında keçid edin</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Səhifədəki başlıqlar arasında da keçid edə bilərsiniz.\n\nElə indi sınamaq üçün \"başlıqlar\" eşidənə qədər Əməliyyat + Shift + Sağ ox düymələrinə basın. Sonra \"Naviqasiya\" başlığını tapmaq üçün Əməliyyat + Aşağı ox düymələrinə basın.</string>
+  <string name="keyboard_tutorial_find_next_button">Növbəti düyməsini tapmaq üçün Əməliyyat + Sağ ox düymələrinə basın.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Konteynerlər arasında keçid edin</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Siyahı və ya tor kimi konteynerdən çıxmaq üçün Əməliyyat + Alt + Ctrl + Sağ və ya Sol ox düymələrinə basın. Bu, uzun elementlər siyahısından çıxmaq istədiyiniz zaman faydalıdır.\n\nElə indi sınamaq üçün Əməliyyat + Sağ ox düymələrinə basaraq siyahıya daxil olun. Sonra növbəti konteynerə keçmək üçün Əməliyyat + Alt + Ctrl + Sağ ox düymələrinə basın.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Növbəti konteynerə keçmək üçün Əməliyyat + Alt + Ctrl + Sağ ox düymələrinə basın</string>
+  <string name="keyboard_tutorial_exit_container">Konteynerdən çıxmaq üçün Əməliyyat + Alt + Ctrl + Sağ ox düymələrinə basın</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Konteynerdən çıxdınız. Oxuma kontroluna konteynerlər də əlavə edə və sonra konteynerləri seçmək üçün Əməliyyat + Shift + Sağ və ya Sol ox, konteynerlər arasında keçid etmək üçün Əməliyyat + Aşağı və ya Yuxarı ox düymələrinə basa bilərsiniz. Oxuma kontrolunu güncəlləmək üçün TalkBack &gt; Ayarlar &gt; Menyuları fərdiləşdirin &gt; Oxuma kontrolunu fərdiləşdirin bölməsinə keçin.\n\nNövbəti düyməni tapmaq üçün Əməliyyat + Sağ ox düymələrinə basın.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Oxuma kontrolunu fərdiləşdirin</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Oxuma kontrolundan istifadə edərək nitq ayarlarını da tənzimləyə və TalkBack &gt; Ayarlar &gt; Menyuları fərdiləşdirin &gt; Oxuma kontrolunu fərdiləşdirin bölməsində oxuma kontrolu ilə edə biləcəklərinizi fərdiləşdirə bilərsiniz.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Şəkil təsvirlərini əldə etməyə çalışın</string>
+  <string name="keyboard_tutorial_image_description_page_text">Şəklə fokuslandıqda Əməliyyat + R, sonra isə I kombinasiyalarına basın. Aşağıda bir foto var. Onun üçün təsvir əldə edin.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Şəkil təsviri ayarlarını istənilən vaxt TalkBack ayarları &gt; Şəkil və ikon təsvirləri bölməsində dəyişə bilərsiniz.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Şəkil təsviri ayarlarını istənilən vaxt TalkBack ayarları, sonra isə Şəkil və ikon təsvirləri bölməsində dəyişə bilərsiniz.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Nümunə şəkil. Təsviri eşitmək üçün Əməliyyat + R, sonra isə I kombinasiyalarına basın.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Səsli əmrlər</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBack-i sürətlə idarə etmək üçün səsinizdən istifadə edə bilərsiniz.\n\nMəsələn, naviqasiyanı dəyişmək, növbəti başlığa keçmək, mətni kopiyalamaq və s. üçün əmr səsləndirin.\n\nElə indi sınamaq üçün Əməliyyat + \\ düymələrinə basın.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Ekranda axtarışdan istifadə</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Ekranda axtarış funksiyası ekranda konkret kontenti axtarmağınıza imkan verir.\n\nSınamaq üçün Əməliyyat + CTRL + / düymələrinə basın. Ekranda mətnin olduğu elementləri tapmaq üçün \"növbəti\" kimi bir açar söz daxil edin.\n\nNövbəti düyməsini tapmaq üçün \"növbəti\" sözünü axtarın.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Ekranda axtarış üzrə naviqasiya edin</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Müəyyən nəticəni seçdikdən sonra ekranda axtarış funksiyasındakı müxtəlif axtarış nəticələri arasında sürətlə hərəkət edə bilərsiniz.\n\nBunun üçün oxuma kontrolu naviqasiyasından istifadə edə bilərsiniz. \"Ekranda axtarış\" eşidənə qədər Əməliyyat + Shift + Sağ və ya Sol ox düyməsinə basın. Sonra ekranda axtarış nəticələri üzrə hərəkət etmək üçün Əməliyyat + Aşağı və ya Yuxarı ox düyməsinə basın.\n\nGəlin indi sınayaq. Aşağıda hamısında \"əməliyyat\" sözü olan 3 düymənin siyahısı verilib. Ekranda axtarış funksiyasından istifadə edərək \"əməliyyat\" sözünü axtarın, sonra düymələr arasında hərəkət etmək üçün ekranda axtarış üzrə naviqasiya edin.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Klaviatura qısayollarını məşq edin</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Nə etdiyini eşitmək üçün fiziki klaviatura düyməsinə və ya düymə kombinasiyasına basın. Çıxmaq üçün Ctrl + W və ya Escape düymələrinə basın.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Kaliforniya Sekvoyalarının möhtəşəmliyini kəşf edin&lt;/h1&gt;
+      &lt;p&gt;Kaliforniyanın sekvoyaları, xüsusilə sahil sekvoyası (Sequoia sempervrens) dünyanın ən hündür ağaclarıdır. Bəziləri 380 futdan (115 metr) yüksəkdir və min illər yaşaya bilər. Onlar şimali Kaliforniyanın rütubətli sahil iqlimində yağış və dumandan faydalanaraq böyüyürlər.&lt;/p&gt;
+
+      &lt;h2&gt;Onları harada görmək olar&lt;/h2&gt;
+      &lt;p&gt;Bu nəhəngləri Sakit okean sahilindəki dar zolaqda tapa bilərsiniz. Əsas parklara daxildir:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood milli və dövlət parkları&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods dövlət parkı&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods dövlət parkı&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Buraya səfərinizi planlaşdırın: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Kaliforniya dövlət parkları - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Mühafizəni dəstəkləyin&lt;/h2&gt;
+      &lt;p&gt;Bu qədim meşələrin qorunması çox vacibdir. Park qaydalarına əməl etməklə və qoruma səylərini dəstəkləməklə bağlı kömək edə bilərsiniz.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Təcrübənizi paylaşın&lt;/h2&gt;
+        &lt;p&gt;Sekvoyalara getmisiniz?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Bəli&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Xeyr&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Təcrübəniz haqqında bizə məlumat verin&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Göndərin&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Sekvoyalar haqqında daha nə öyrənmək istərdiniz?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Göndərin&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekvoya ağacları: Ətraf mühitimizi sağlam saxlamaq&lt;/h1&gt;
+    &lt;p&gt;Sekvoyalar planetimiz üçün vacibdir və ətraf mühiti sağlam saxlamaqda böyük rol oynayır.&lt;/p&gt;
+
+    &lt;h1&gt;Nəhəng hava təmizləyiciləri&lt;/h1&gt;
+    &lt;p&gt;Bu ağaclar havadakı karbon qazını udmaqda heyrətamizdir. Sekvoyalar karbon qazını udmaqla havanı təmizləyir.&lt;/p&gt;
+
+    &lt;h2&gt;Heyvanlar üçün ev&lt;/h2&gt;
+    &lt;p&gt;Sekvoyalar budaqlarındakı quşlardan tutmuş torpaqdakı kiçik canlılara qədər bir çox heyvan üçün ev və sığınacaq təmin edir.&lt;/p&gt;
+
+    &lt;h3&gt;Su sehrbazları&lt;/h3&gt;
+    &lt;p&gt;Onlar dumanı tutmaqda çox yaxşıdırlar, sonra bu duman meşə döşəməsinə damcılar şəklində düşür. Bu, torpağı nəmli saxlayır və xüsusən də quru olduqda digər bitki və heyvanlar üçün su təmin edir.&lt;/p&gt;
+
+    &lt;h4&gt;Torpaq qoruyucuları&lt;/h4&gt;
+    &lt;p&gt;Onların güclü kökləri torpağı yerində saxlayır, güclü yağışlar zamanı torpağın yuyulmasının və eroziyanın qarşısını alır.&lt;/p&gt;
+
+    &lt;h5&gt;Meşə qurucuları&lt;/h5&gt;
+    &lt;p&gt;Köhnə sekvoyalar yıxıldıqda onların odunu yeni bitki və canlılar üçün yemək və sığınacaq olur, zəngin torpaq yaradır.&lt;/p&gt;
+
+    &lt;h6&gt;Unikal ekosistemlər&lt;/h6&gt;
+    &lt;p&gt;Sekvoyalar çox böyük və uzun müddət yaşadığı üçün başqa heç yerdə rast gəlinməyən həyatı dəstəkləyən xüsusi meşə mühitləri yaradır.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Sekvoya meşələrinin heyvanları&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Heyvan&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Təsvir&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Yaşayış yeri&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Maraqlı fakt&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banana Slug&lt;/th&gt;
+            &lt;td&gt;Böyük, sarı, sürüşkən ilbiz&lt;/td&gt;
+            &lt;td&gt;Meşənin torpağında&lt;/td&gt;
+            &lt;td&gt;Dünyanın ikinci ən böyük ilbizi&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Sakit Okean nəhəng salamandrası&lt;/th&gt;
+            &lt;td&gt;Böyük, tünd rəngli salamandra&lt;/td&gt;
+            &lt;td&gt;Çaylar və nəmli ərazilərin yaxınlığında&lt;/td&gt;
+            &lt;td&gt;Bir fut uzunluğa qədər böyüyə bilər&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Ruzvelt maralı&lt;/th&gt;
+            &lt;td&gt;Təsirli buynuzları olan böyük maral&lt;/td&gt;
+            &lt;td&gt;Meşənin içindəki açıqlıqlarda otlayır&lt;/td&gt;
+            &lt;td&gt;Erkəklərin çəkisi 1000 funtdan çox ola bilər&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Şimal ləkəli bayquşu&lt;/th&gt;
+            &lt;td&gt;Orta ölçülü bayquş, gecə ov edir&lt;/td&gt;
+            &lt;td&gt;Sıx, yetkin sekvoya meşələrində&lt;/td&gt;
+            &lt;td&gt;\"İndikator növü\" – onun sağlamlığı meşənin sağlamlığını göstərir&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Qara ayı&lt;/th&gt;
+            &lt;td&gt;Böyük məməli, adətən qara və ya qəhvəyi&lt;/td&gt;
+            &lt;td&gt;Meşə boyunca yemək axtarır&lt;/td&gt;
+            &lt;td&gt;Əla dırmaşırlar, tez-tez ağaclarda görünürlər&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Sekvoyalar və təbiət haqqında fikirləriniz&lt;/h1&gt;
+
+      &lt;p&gt;Sekvoyalar haqqında daha nə öyrənmək istərdiniz?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Təbiətdə ən sevdiyiniz yer hansıdır?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Təbiətdə daha çox öyrənmək istədiyiniz konsept hansıdır?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

@@ -16,12 +16,14 @@
 
 package com.google.android.accessibility.talkback.gesture;
 
+import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD;
 import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_FAKED_SPLIT_TYPING;
 import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TAP_HOLD_AND_2ND_FINGER_BACKWARD_DOUBLE_TAP;
 import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TAP_HOLD_AND_2ND_FINGER_FORWARD_DOUBLE_TAP;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.FingerprintGestureController;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -32,11 +34,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
-import com.google.android.accessibility.talkback.FeatureFlagReader;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.GestureShortcutProvider;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.utils.FeatureSupport;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Logger;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.WindowUtils;
@@ -210,6 +213,11 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         MULTI_FINGER,
         R.string.pref_shortcut_2finger_1tap_key,
         R.string.pref_shortcut_2finger_1tap_default),
+    TWO_FINGER_SINGLE_TAP_AND_HOLD(
+        GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD,
+        MULTI_FINGER,
+        R.string.pref_shortcut_2finger_1tap_hold_key,
+        R.string.pref_shortcut_2finger_1tap_hold_default),
     TWO_FINGER_DOUBLE_TAP(
         AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP,
         MULTI_FINGER,
@@ -383,6 +391,7 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     final int gestureId;
     @GestureType final int gestureType;
     @RTLType final int rtlType;
+
     /**
      * For mapping the gesture id to action, we need to consider the variance when gesture set is
      * introduced. When gesture set 0 (default set) is activated, the mapping key is the same as
@@ -400,8 +409,12 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     // Basic navigation.
     PERFORM_CLICK(
         R.string.shortcut_value_perform_click_action, R.string.shortcut_perform_click_action),
+    PERFORM_DOUBLE_CLICK(
+        R.string.shortcut_value_perform_double_click_action,
+        R.string.shortcut_perform_double_click_action),
     PERFORM_LONG_CLICK(
-        R.string.shortcut_value_perform_click_action, R.string.shortcut_perform_long_click_action),
+        R.string.shortcut_value_perform_long_click_action,
+        R.string.shortcut_perform_long_click_action),
     PREVIOUS(R.string.shortcut_value_previous, R.string.shortcut_previous),
     NEXT(R.string.shortcut_value_next, R.string.shortcut_next),
     FIRST_IN_SCREEN(R.string.shortcut_value_first_in_screen, R.string.shortcut_first_in_screen),
@@ -432,6 +445,11 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     READ_FROM_TOP(R.string.shortcut_value_read_from_top, R.string.shortcut_read_from_top),
     READ_FROM_CURRENT(
         R.string.shortcut_value_read_from_current, R.string.shortcut_read_from_current),
+    REPEAT_LAST_PHRASE(
+        R.string.shortcut_value_repeat_last_spoken_phrase,
+        R.string.title_repeat_last_spoken_phrase),
+    SPELL_LAST_PHRASE(
+        R.string.shortcut_value_spell_last_spoken_phrase, R.string.title_spell_last_spoken_phrase),
     PAUSE_OR_RESUME_FEEDBACK(
         R.string.shortcut_value_pause_or_resume_feedback,
         R.string.shortcut_pause_or_resume_feedback),
@@ -473,6 +491,10 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
     // Special features.
     MEDIA_CONTROL(R.string.shortcut_value_media_control, R.string.shortcut_media_control),
+    VOICE_INPUT(R.string.shortcut_value_voice_input, R.string.shortcut_voice_input),
+    MEDIA_CONTROL_OR_VOICE_INPUT(
+        R.string.shortcut_value_media_control_or_voice_input,
+        R.string.shortcut_media_control_or_voice_input),
     INCREASE_VOLUME(R.string.shortcut_value_increase_volume, R.string.shortcut_increase_volume),
     DECREASE_VOLUME(R.string.shortcut_value_decrease_volume, R.string.shortcut_decrease_volume),
     VOICE_COMMANDS(R.string.shortcut_value_voice_commands, R.string.shortcut_voice_commands),
@@ -489,12 +511,41 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         R.string.shortcut_value_braille_display_settings,
         R.string.shortcut_braille_display_settings),
     TUTORIAL(R.string.shortcut_value_tutorial, R.string.shortcut_tutorial),
+    CONTROL_TELLING_TIME(
+        R.string.shortcut_value_control_telling_time, R.string.shortcut_control_speak_time),
     PRACTICE_GESTURE(
         R.string.shortcut_value_practice_gestures, R.string.shortcut_practice_gestures),
     REPORT_GESTURE(R.string.shortcut_value_report_gesture, R.string.shortcut_report_gesture),
     TOGGLE_BRAILLE_DISPLAY_ON_OFF(
         R.string.shortcut_value_toggle_braille_display, R.string.shortcut_toggle_braille_display),
-    DESCRIBE_IMAGE(R.string.shortcut_value_describe_image, R.string.title_image_caption);
+    SCREEN_OVERVIEW(R.string.shortcut_value_screen_overview, R.string.title_summarize_view),
+    DESCRIBE_IMAGE(R.string.shortcut_value_describe_image, R.string.title_image_caption),
+    ANNOUNCE_CURRENT_TIME_AND_DATE(
+        R.string.shortcut_value_announce_current_time_and_date,
+        R.string.shortcut_announce_current_time_and_date),
+    ANNOUNCE_CURRENT_TITLE(
+        R.string.shortcut_value_announce_current_title, R.string.shortcut_announce_current_title),
+    ANNOUNCE_BATTERY_STATE(
+        R.string.shortcut_value_announce_battery_state, R.string.shortcut_announce_battery_state),
+    ANNOUNCE_PHONETIC_PRONUNCIATION(
+        R.string.shortcut_value_announce_phonetic_pronunciation,
+        R.string.shortcut_announce_phonetic_pronunciation),
+    SPEECH_PITCH_INCREASE(
+        R.string.shortcut_value_speech_pitch_increase, R.string.shortcut_speech_pitch_increase),
+    SPEECH_PITCH_DECREASE(
+        R.string.shortcut_value_speech_pitch_decrease, R.string.shortcut_speech_pitch_decrease),
+    SPEECH_RATE_INCREASE(
+        R.string.shortcut_value_speech_rate_increase, R.string.shortcut_speech_rate_increase),
+    SPEECH_RATE_DECREASE(
+        R.string.shortcut_value_speech_rate_decrease, R.string.shortcut_speech_rate_decrease),
+    PREVIOUS_ROW(R.string.shortcut_value_row_up, R.string.shortcut_row_up),
+    PREVIOUS_COLUMN(R.string.shortcut_value_column_left, R.string.shortcut_column_left),
+    NEXT_ROW(R.string.shortcut_value_row_down, R.string.shortcut_row_down),
+    NEXT_COLUMN(R.string.shortcut_value_column_right, R.string.shortcut_column_right),
+    CONTROL_TEXT_FORMATTING(
+        R.string.shortcut_value_control_text_formatting, R.string.title_switch_text_formatting),
+    DESCRIBE_TEXT_FORMATTING(
+        R.string.shortcut_value_describe_text_formatting, R.string.title_text_formatting_menu);
 
     @StringRes final int actionKeyResId;
     @StringRes final int actionNameResId;
@@ -532,6 +583,9 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
   protected String actionReadingMenuUp;
   protected String actionReadingMenuDown;
   protected String actionShortcut;
+  protected String nextWindowShortcut;
+  protected String mediaControlShortcut;
+  protected String legacyMediaControlShortcut;
 
   private final String actionGestureUnsupported;
 
@@ -541,11 +595,9 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
   private int currentGestureSet;
   private final SharedPreferences prefs;
   private int previousScreenLayout = 0;
-  private final List<HashMap<String, GestureCollector>> actionToGesture =
-      new ArrayList<HashMap<String, GestureCollector>>();
-  private final List<HashMap<Integer, String>> gestureIdToActionKey =
-      new ArrayList<HashMap<Integer, String>>();
-  private final HashMap<Integer, String> fingerprintGestureIdToActionKey = new HashMap<>();
+  private final List<HashMap<String, GestureCollector>> actionToGesture = new ArrayList<>();
+  private final List<HashMap<Integer, String>> gestureIdToActionKey = new ArrayList<>();
+  private HashMap<Integer, String> fingerprintGestureIdToActionKey = new HashMap<>();
 
   /** Reloads preferences whenever their values change. */
   private final OnSharedPreferenceChangeListener sharedPreferenceChangeListener =
@@ -581,6 +633,9 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         context.getString(R.string.shortcut_value_selected_setting_previous_action);
     actionReadingMenuDown = context.getString(R.string.shortcut_value_selected_setting_next_action);
     actionShortcut = context.getString(R.string.shortcut_value_show_custom_actions);
+    nextWindowShortcut = context.getString(R.string.shortcut_value_next_window);
+    mediaControlShortcut = context.getString(R.string.shortcut_value_media_control_or_voice_input);
+    legacyMediaControlShortcut = context.getString(R.string.shortcut_value_media_control);
     prefs = SharedPreferencesUtils.getSharedPreferences(context);
     prefs.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     loadGestureIdToActionKeyMap();
@@ -667,6 +722,21 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
   @Nullable
   public CharSequence actionsShortcut() {
     return getGestureFromActionKey(actionShortcut);
+  }
+
+  @Override
+  @Nullable
+  public CharSequence nextWindowShortcut() {
+    return getGestureFromActionKey(nextWindowShortcut);
+  }
+
+  @Override
+  @Nullable
+  public CharSequence mediaControlShortcut() {
+    CharSequence shortcut = getGestureFromActionKey(mediaControlShortcut);
+    return TextUtils.isEmpty(shortcut)
+        ? getGestureFromActionKey(legacyMediaControlShortcut)
+        : shortcut;
   }
 
   /**
@@ -807,15 +877,14 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
             + isMultiFingerOn
             + " isFingerprintOn : "
             + isFingerprintOn);
-    actionToGesture.clear();
-    gestureIdToActionKey.clear();
-    fingerprintGestureIdToActionKey.clear();
 
+    // We initialize the list in the first run and later only update its elements.
+    boolean isFirstRun = actionToGesture.isEmpty();
+
+    HashMap<Integer, String> newFingerPrintGestureIdToActionKey = new HashMap<>();
     for (int index = 0; index < NUMBER_OF_GESTURE_SET; index++) {
       HashMap<Integer, String> gestureIdToActionKeyMap = new HashMap<>();
       HashMap<String, GestureCollector> actionToGestureMap = new HashMap<>();
-      gestureIdToActionKey.add(gestureIdToActionKeyMap);
-      actionToGesture.add(actionToGestureMap);
       // Load TalkBack gestures.
       for (TalkBackGesture gesture : TalkBackGesture.values()) {
         // For some gestures, we have different behavior if the device is RTL. Skip the value of
@@ -861,7 +930,10 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         // Load the mapping table of the gesture id to the action.
         if (gesture.gestureType == FINGERPRINT) {
           // Fingerprint gestures use another gesture id system.
-          fingerprintGestureIdToActionKey.put(gesture.gestureId, action);
+          newFingerPrintGestureIdToActionKey.put(
+              gesture.gestureId,
+              prefs.getString(
+                  context.getString(gesture.keyId), context.getString(gesture.defaultActionId)));
         } else {
           gestureIdToActionKeyMap.put(gesture.gestureId, action);
         }
@@ -872,7 +944,16 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
           GESTURE_FAKED_SPLIT_TYPING, context.getString(R.string.shortcut_value_split_typing));
       // Don't need to keep unassigned action in the map.
       actionToGestureMap.remove(actionUnassigned);
+
+      if (isFirstRun) {
+        gestureIdToActionKey.add(gestureIdToActionKeyMap);
+        actionToGesture.add(actionToGestureMap);
+      } else {
+        gestureIdToActionKey.set(index, gestureIdToActionKeyMap);
+        actionToGesture.set(index, actionToGestureMap);
+      }
     }
+    fingerprintGestureIdToActionKey = newFingerPrintGestureIdToActionKey;
   }
 
   private boolean skipGestureForRTL(TalkBackGesture gesture) {
@@ -901,6 +982,7 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
       dumpLogger.log(
           "Gesture = %s, action = %s", getGestureString(context, entry.getKey()), entry.getValue());
     }
+    dumpLogger.log("");
   }
 
   /** Returns the corresponding action resource Id of action key. */
@@ -958,141 +1040,180 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
   /** Returns the corresponding gesture string of gesture id. */
   @Nullable
+  @SuppressLint("NullTernary") // existing logic
   public static String getGestureString(Context context, int gestureId) {
-    switch (gestureId) {
-      case AccessibilityService.GESTURE_SWIPE_UP:
-        return context.getString(R.string.title_pref_shortcut_up);
-      case AccessibilityService.GESTURE_SWIPE_DOWN:
-        return context.getString(R.string.title_pref_shortcut_down);
-      case AccessibilityService.GESTURE_SWIPE_LEFT:
-        return context.getString(R.string.title_pref_shortcut_left);
-      case AccessibilityService.GESTURE_SWIPE_RIGHT:
-        return context.getString(R.string.title_pref_shortcut_right);
-      case AccessibilityService.GESTURE_SWIPE_UP_AND_DOWN:
-        return context.getString(R.string.title_pref_shortcut_up_and_down);
-      case AccessibilityService.GESTURE_SWIPE_DOWN_AND_UP:
-        return context.getString(R.string.title_pref_shortcut_down_and_up);
-      case AccessibilityService.GESTURE_SWIPE_LEFT_AND_RIGHT:
-        return context.getString(R.string.title_pref_shortcut_left_and_right);
-      case AccessibilityService.GESTURE_SWIPE_RIGHT_AND_LEFT:
-        return context.getString(R.string.title_pref_shortcut_right_and_left);
-      case AccessibilityService.GESTURE_SWIPE_UP_AND_RIGHT:
-        return context.getString(R.string.title_pref_shortcut_up_and_right);
-      case AccessibilityService.GESTURE_SWIPE_UP_AND_LEFT:
-        return context.getString(R.string.title_pref_shortcut_up_and_left);
-      case AccessibilityService.GESTURE_SWIPE_DOWN_AND_RIGHT:
-        return context.getString(R.string.title_pref_shortcut_down_and_right);
-      case AccessibilityService.GESTURE_SWIPE_DOWN_AND_LEFT:
-        return context.getString(R.string.title_pref_shortcut_down_and_left);
-      case AccessibilityService.GESTURE_SWIPE_RIGHT_AND_DOWN:
-        return context.getString(R.string.title_pref_shortcut_right_and_down);
-      case AccessibilityService.GESTURE_SWIPE_RIGHT_AND_UP:
-        return context.getString(R.string.title_pref_shortcut_right_and_up);
-      case AccessibilityService.GESTURE_SWIPE_LEFT_AND_DOWN:
-        return context.getString(R.string.title_pref_shortcut_left_and_down);
-      case AccessibilityService.GESTURE_SWIPE_LEFT_AND_UP:
-        return context.getString(R.string.title_pref_shortcut_left_and_up);
-      case AccessibilityService.GESTURE_2_FINGER_SWIPE_UP:
-        return context.getString(R.string.title_pref_shortcut_2finger_swipe_up);
-      case AccessibilityService.GESTURE_2_FINGER_SWIPE_DOWN:
-        return context.getString(R.string.title_pref_shortcut_2finger_swipe_down);
-      case AccessibilityService.GESTURE_2_FINGER_SWIPE_LEFT:
-        return context.getString(R.string.title_pref_shortcut_2finger_swipe_left);
-      case AccessibilityService.GESTURE_2_FINGER_SWIPE_RIGHT:
-        return context.getString(R.string.title_pref_shortcut_2finger_swipe_right);
-      case AccessibilityService.GESTURE_2_FINGER_SINGLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_2finger_1tap);
-      case AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_2finger_2tap);
-      case AccessibilityService.GESTURE_2_FINGER_TRIPLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_2finger_3tap);
-      case AccessibilityService.GESTURE_3_FINGER_SWIPE_UP:
-        return context.getString(R.string.title_pref_shortcut_3finger_swipe_up);
-      case AccessibilityService.GESTURE_3_FINGER_SWIPE_DOWN:
-        return context.getString(R.string.title_pref_shortcut_3finger_swipe_down);
-      case AccessibilityService.GESTURE_3_FINGER_SWIPE_LEFT:
-        return context.getString(R.string.title_pref_shortcut_3finger_swipe_left);
-      case AccessibilityService.GESTURE_3_FINGER_SWIPE_RIGHT:
-        return context.getString(R.string.title_pref_shortcut_3finger_swipe_right);
-      case AccessibilityService.GESTURE_3_FINGER_SINGLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_3finger_1tap);
-      case AccessibilityService.GESTURE_3_FINGER_DOUBLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_3finger_2tap);
-      case AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_3finger_3tap);
-      case AccessibilityService.GESTURE_4_FINGER_SWIPE_UP:
-        return context.getString(R.string.title_pref_shortcut_4finger_swipe_up);
-      case AccessibilityService.GESTURE_4_FINGER_SWIPE_DOWN:
-        return context.getString(R.string.title_pref_shortcut_4finger_swipe_down);
-      case AccessibilityService.GESTURE_4_FINGER_SWIPE_LEFT:
-        return context.getString(R.string.title_pref_shortcut_4finger_swipe_left);
-      case AccessibilityService.GESTURE_4_FINGER_SWIPE_RIGHT:
-        return context.getString(R.string.title_pref_shortcut_4finger_swipe_right);
-      case AccessibilityService.GESTURE_4_FINGER_SINGLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_4finger_1tap);
-      case AccessibilityService.GESTURE_4_FINGER_DOUBLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_4finger_2tap);
-      case AccessibilityService.GESTURE_4_FINGER_TRIPLE_TAP:
-        return context.getString(R.string.title_pref_shortcut_4finger_3tap);
-      case AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP_AND_HOLD:
-        return context.getString(R.string.title_pref_shortcut_2finger_2tap_hold);
-      case AccessibilityService.GESTURE_3_FINGER_DOUBLE_TAP_AND_HOLD:
-        return context.getString(R.string.title_pref_shortcut_3finger_2tap_hold);
-      case AccessibilityService.GESTURE_4_FINGER_DOUBLE_TAP_AND_HOLD:
-        return context.getString(R.string.title_pref_shortcut_4finger_2tap_hold);
-      case GESTURE_TOUCH_EXPLORATION:
-        return FeatureSupport.supportGestureMotionEvents()
-            ? context.getString(R.string.gesture_name_touch_explore)
-            : null;
-      case GESTURE_PASSTHROUGH:
-        return FeatureSupport.supportGestureMotionEvents()
-            ? context.getString(R.string.gesture_name_pass_through)
-            : null;
-      case AccessibilityService.GESTURE_UNKNOWN:
-        return FeatureSupport.supportGestureMotionEvents()
-            ? context.getString(R.string.gesture_name_unknown)
-            : null;
-      case AccessibilityService.GESTURE_DOUBLE_TAP:
-        return FeatureSupport.supportGestureMotionEvents()
-            ? context.getString(R.string.gesture_name_double_tap)
-            : null;
-      case AccessibilityService.GESTURE_DOUBLE_TAP_AND_HOLD:
-        return FeatureSupport.supportGestureMotionEvents()
-            ? context.getString(R.string.gesture_name_double_tap_and_hold)
-            : null;
-      case AccessibilityService.GESTURE_2_FINGER_TRIPLE_TAP_AND_HOLD:
-        return FeatureSupport.supportGestureMotionEvents()
-            ? context.getString(R.string.gesture_name_2finger_3tap_hold)
-            : null;
-      case AccessibilityService.GESTURE_3_FINGER_SINGLE_TAP_AND_HOLD:
-        return FeatureSupport.supportGestureMotionEvents()
-            ? context.getString(R.string.gesture_name_3finger_tap_hold)
-            : null;
-      case AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP_AND_HOLD:
-        return FeatureSupport.supportGestureMotionEvents()
-            ? context.getString(R.string.gesture_name_3finger_3tap_hold)
-            : null;
-      case GESTURE_FAKED_SPLIT_TYPING:
-        return context.getString(R.string.shortcut_value_split_typing);
-      default:
-        return null;
+
+    if (FormFactorUtils.isAndroidXr()) {
+      return getGestureStringForXR(context, gestureId);
     }
+
+    return switch (gestureId) {
+      case AccessibilityService.GESTURE_SWIPE_UP ->
+          context.getString(R.string.title_pref_shortcut_up);
+      case AccessibilityService.GESTURE_SWIPE_DOWN ->
+          context.getString(R.string.title_pref_shortcut_down);
+      case AccessibilityService.GESTURE_SWIPE_LEFT ->
+          context.getString(R.string.title_pref_shortcut_left);
+      case AccessibilityService.GESTURE_SWIPE_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_right);
+      case AccessibilityService.GESTURE_SWIPE_UP_AND_DOWN ->
+          context.getString(R.string.title_pref_shortcut_up_and_down);
+      case AccessibilityService.GESTURE_SWIPE_DOWN_AND_UP ->
+          context.getString(R.string.title_pref_shortcut_down_and_up);
+      case AccessibilityService.GESTURE_SWIPE_LEFT_AND_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_left_and_right);
+      case AccessibilityService.GESTURE_SWIPE_RIGHT_AND_LEFT ->
+          context.getString(R.string.title_pref_shortcut_right_and_left);
+      case AccessibilityService.GESTURE_SWIPE_UP_AND_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_up_and_right);
+      case AccessibilityService.GESTURE_SWIPE_UP_AND_LEFT ->
+          context.getString(R.string.title_pref_shortcut_up_and_left);
+      case AccessibilityService.GESTURE_SWIPE_DOWN_AND_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_down_and_right);
+      case AccessibilityService.GESTURE_SWIPE_DOWN_AND_LEFT ->
+          context.getString(R.string.title_pref_shortcut_down_and_left);
+      case AccessibilityService.GESTURE_SWIPE_RIGHT_AND_DOWN ->
+          context.getString(R.string.title_pref_shortcut_right_and_down);
+      case AccessibilityService.GESTURE_SWIPE_RIGHT_AND_UP ->
+          context.getString(R.string.title_pref_shortcut_right_and_up);
+      case AccessibilityService.GESTURE_SWIPE_LEFT_AND_DOWN ->
+          context.getString(R.string.title_pref_shortcut_left_and_down);
+      case AccessibilityService.GESTURE_SWIPE_LEFT_AND_UP ->
+          context.getString(R.string.title_pref_shortcut_left_and_up);
+      case AccessibilityService.GESTURE_2_FINGER_SWIPE_UP ->
+          context.getString(R.string.title_pref_shortcut_2finger_swipe_up);
+      case AccessibilityService.GESTURE_2_FINGER_SWIPE_DOWN ->
+          context.getString(R.string.title_pref_shortcut_2finger_swipe_down);
+      case AccessibilityService.GESTURE_2_FINGER_SWIPE_LEFT ->
+          context.getString(R.string.title_pref_shortcut_2finger_swipe_left);
+      case AccessibilityService.GESTURE_2_FINGER_SWIPE_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_2finger_swipe_right);
+      case AccessibilityService.GESTURE_2_FINGER_SINGLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_2finger_1tap);
+      case AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_2finger_2tap);
+      case AccessibilityService.GESTURE_2_FINGER_TRIPLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_2finger_3tap);
+      case AccessibilityService.GESTURE_3_FINGER_SWIPE_UP ->
+          context.getString(R.string.title_pref_shortcut_3finger_swipe_up);
+      case AccessibilityService.GESTURE_3_FINGER_SWIPE_DOWN ->
+          context.getString(R.string.title_pref_shortcut_3finger_swipe_down);
+      case AccessibilityService.GESTURE_3_FINGER_SWIPE_LEFT ->
+          context.getString(R.string.title_pref_shortcut_3finger_swipe_left);
+      case AccessibilityService.GESTURE_3_FINGER_SWIPE_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_3finger_swipe_right);
+      case AccessibilityService.GESTURE_3_FINGER_SINGLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_3finger_1tap);
+      case AccessibilityService.GESTURE_3_FINGER_DOUBLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_3finger_2tap);
+      case AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_3finger_3tap);
+      case AccessibilityService.GESTURE_4_FINGER_SWIPE_UP ->
+          context.getString(R.string.title_pref_shortcut_4finger_swipe_up);
+      case AccessibilityService.GESTURE_4_FINGER_SWIPE_DOWN ->
+          context.getString(R.string.title_pref_shortcut_4finger_swipe_down);
+      case AccessibilityService.GESTURE_4_FINGER_SWIPE_LEFT ->
+          context.getString(R.string.title_pref_shortcut_4finger_swipe_left);
+      case AccessibilityService.GESTURE_4_FINGER_SWIPE_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_4finger_swipe_right);
+      case AccessibilityService.GESTURE_4_FINGER_SINGLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_4finger_1tap);
+      case AccessibilityService.GESTURE_4_FINGER_DOUBLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_4finger_2tap);
+      case AccessibilityService.GESTURE_4_FINGER_TRIPLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_4finger_3tap);
+      case AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP_AND_HOLD ->
+          context.getString(R.string.title_pref_shortcut_2finger_2tap_hold);
+      case AccessibilityService.GESTURE_3_FINGER_DOUBLE_TAP_AND_HOLD ->
+          context.getString(R.string.title_pref_shortcut_3finger_2tap_hold);
+      case AccessibilityService.GESTURE_4_FINGER_DOUBLE_TAP_AND_HOLD ->
+          context.getString(R.string.title_pref_shortcut_4finger_2tap_hold);
+      case GESTURE_TOUCH_EXPLORATION ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_touch_explore)
+              : null;
+      case GESTURE_PASSTHROUGH ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_pass_through)
+              : null;
+      case AccessibilityService.GESTURE_UNKNOWN ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_unknown)
+              : null;
+      case AccessibilityService.GESTURE_DOUBLE_TAP ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_double_tap)
+              : null;
+      case AccessibilityService.GESTURE_DOUBLE_TAP_AND_HOLD ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_double_tap_and_hold)
+              : null;
+      case AccessibilityService.GESTURE_2_FINGER_TRIPLE_TAP_AND_HOLD ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_2finger_3tap_hold)
+              : null;
+      case GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_2finger_tap_hold)
+              : null;
+      case AccessibilityService.GESTURE_3_FINGER_SINGLE_TAP_AND_HOLD ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_3finger_tap_hold)
+              : null;
+      case AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP_AND_HOLD ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_3finger_3tap_hold)
+              : null;
+      case GESTURE_FAKED_SPLIT_TYPING -> context.getString(R.string.shortcut_value_split_typing);
+      default -> null;
+    };
   }
 
   @Nullable
   public static String getFingerprintGestureString(Context context, int fingerprintGestureId) {
-    switch (fingerprintGestureId) {
-      case FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_UP:
-        return context.getString(R.string.title_pref_shortcut_fingerprint_up);
-      case FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_DOWN:
-        return context.getString(R.string.title_pref_shortcut_fingerprint_down);
-      case FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_RIGHT:
-        return context.getString(R.string.title_pref_shortcut_fingerprint_right);
-      case FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_LEFT:
-        return context.getString(R.string.title_pref_shortcut_fingerprint_left);
-      default:
-        return null;
-    }
+    return switch (fingerprintGestureId) {
+      case FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_UP ->
+          context.getString(R.string.title_pref_shortcut_fingerprint_up);
+      case FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_DOWN ->
+          context.getString(R.string.title_pref_shortcut_fingerprint_down);
+      case FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_fingerprint_right);
+      case FingerprintGestureController.FINGERPRINT_GESTURE_SWIPE_LEFT ->
+          context.getString(R.string.title_pref_shortcut_fingerprint_left);
+      default -> null;
+    };
+  }
+
+  @Nullable
+  @SuppressLint("NullTernary") // existing logic
+  private static String getGestureStringForXR(Context context, int gestureId) {
+    return switch (gestureId) {
+      case AccessibilityService.GESTURE_SWIPE_UP ->
+          context.getString(R.string.title_pref_shortcut_up_xr);
+      case AccessibilityService.GESTURE_SWIPE_DOWN ->
+          context.getString(R.string.title_pref_shortcut_down_xr);
+      case AccessibilityService.GESTURE_SWIPE_LEFT ->
+          context.getString(R.string.title_pref_shortcut_left_xr);
+      case AccessibilityService.GESTURE_SWIPE_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_right_xr);
+      case AccessibilityService.GESTURE_2_FINGER_SINGLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_2finger_1tap_xr);
+      case AccessibilityService.GESTURE_3_FINGER_SWIPE_LEFT ->
+          context.getString(R.string.title_pref_shortcut_3finger_swipe_left_xr);
+      case AccessibilityService.GESTURE_3_FINGER_SWIPE_RIGHT ->
+          context.getString(R.string.title_pref_shortcut_3finger_swipe_right_xr);
+      case AccessibilityService.GESTURE_3_FINGER_SINGLE_TAP ->
+          context.getString(R.string.title_pref_shortcut_3finger_1tap_xr);
+      case AccessibilityService.GESTURE_DOUBLE_TAP ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_double_tap_xr)
+              : null;
+      case AccessibilityService.GESTURE_DOUBLE_TAP_AND_HOLD ->
+          FeatureSupport.supportGestureMotionEvents()
+              ? context.getString(R.string.gesture_name_double_tap_and_hold_xr)
+              : null;
+      default -> null;
+    };
   }
 
   /** Keeps different kind of gestures for a TalkBack action, and prioritizes gestures. */

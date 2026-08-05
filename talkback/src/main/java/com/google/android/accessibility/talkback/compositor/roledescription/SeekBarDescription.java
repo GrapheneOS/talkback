@@ -26,8 +26,8 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.RangeInfoCom
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 
@@ -94,8 +94,7 @@ public final class SeekBarDescription implements RoleDescription {
       Context context,
       GlobalVariables globalVariables) {
     CharSequence stateDescription =
-        AccessibilityNodeFeedbackUtils.getNodeStateDescription(
-            node, context, globalVariables.getPreferredLocaleByNode(node));
+        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables);
     if (!TextUtils.isEmpty(stateDescription)) {
       return stateDescription;
     }
@@ -108,21 +107,21 @@ public final class SeekBarDescription implements RoleDescription {
     @Nullable RangeInfoCompat rangeInfo = node.getRangeInfo();
     float current = rangeInfo == null ? 0 : rangeInfo.getCurrent();
     int type = rangeInfo == null ? -1 : rangeInfo.getType();
-    switch (type) {
-      case RangeInfoCompat.RANGE_TYPE_PERCENT:
-        return context.getString(R.string.template_percent, String.valueOf(current));
-      case RangeInfoCompat.RANGE_TYPE_INT:
-        return context.getString(R.string.template_value, String.valueOf((int) current));
-      case RangeInfoCompat.RANGE_TYPE_FLOAT:
-        return context.getString(R.string.template_value, String.valueOf(current));
-      default:
-        return event.getItemCount() > 0
-            ? context.getString(
-                R.string.template_percent,
-                String.valueOf(
-                    AccessibilityNodeInfoUtils.roundForProgressPercent(
-                        AccessibilityNodeInfoUtils.getProgressPercent(node))))
-            : "";
-    }
+    return switch (type) {
+      case RangeInfoCompat.RANGE_TYPE_PERCENT ->
+          context.getString(R.string.tb_template_percent, String.valueOf(current));
+      case RangeInfoCompat.RANGE_TYPE_INT ->
+          context.getString(R.string.template_value, String.valueOf((int) current));
+      case RangeInfoCompat.RANGE_TYPE_FLOAT ->
+          context.getString(R.string.template_value, String.valueOf(current));
+      default ->
+          event.getItemCount() > 0
+              ? context.getString(
+                  R.string.tb_template_percent,
+                  String.valueOf(
+                      AccessibilityNodeInfoUtils.roundForProgressPercent(
+                          AccessibilityNodeInfoUtils.getProgressPercent(node))))
+              : "";
+    };
   }
 }

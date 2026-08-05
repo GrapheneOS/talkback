@@ -19,7 +19,7 @@ package com.google.android.accessibility.braille.brailledisplay.platform.connect
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.os.Bundle;
-import com.google.android.accessibility.braille.brailledisplay.platform.lib.ActionReceiver;
+import com.google.android.accessibility.braille.common.lib.ActionReceiver;
 
 /** A BroadcastReceiver that listens for the turning on and off this device's bluetooth radio. */
 public class BtOnOffReceiver extends ActionReceiver<BtOnOffReceiver, BtOnOffReceiver.Callback> {

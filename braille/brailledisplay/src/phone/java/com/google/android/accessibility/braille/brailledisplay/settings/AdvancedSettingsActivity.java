@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.brailledisplay.settings;
 
 import static com.google.android.accessibility.braille.common.BrailleUserPreferences.BRAILLE_SHARED_PREFS_FILENAME;
@@ -6,11 +22,15 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
 import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreference;
+import com.google.android.accessibility.braille.brailledisplay.FeatureFlagReader;
 import com.google.android.accessibility.braille.brailledisplay.R;
 import com.google.android.accessibility.braille.brailledisplay.analytics.BrailleDisplayAnalytics;
 import com.google.android.accessibility.braille.common.BrailleUserPreferences;
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
+import com.google.android.accessibility.utils.material.MaterialComponentUtils;
 import com.google.android.accessibility.utils.preference.PreferencesActivity;
 import java.util.Locale;
 
@@ -30,9 +50,12 @@ public class AdvancedSettingsActivity extends PreferencesActivity {
   }
 
   /** Fragment that holds advanced settings preferences. */
-  public static class AdvancedSettingsFragment extends PreferenceFragmentCompat {
+    public static class AdvancedSettingsFragment extends PreferenceFragmentCompat {
+
     private ListPreference timedMessageDurationPreference;
     private ListPreference blinkingIntervalPreference;
+    private SwitchPreference onScreenOverlayPreference;
+    private SwitchPreference popupHistoryMessagePreference;
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
@@ -43,6 +66,7 @@ public class AdvancedSettingsActivity extends PreferencesActivity {
           findPreference(getString(R.string.pref_bd_timed_message_duration_fraction_key));
       blinkingIntervalPreference =
           findPreference(getString(R.string.pref_bd_blinking_interval_key));
+      onScreenOverlayPreference = findPreference(getString(R.string.pref_braille_overlay_key));
       getPreferenceManager()
           .getSharedPreferences()
           .registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
@@ -78,17 +102,39 @@ public class AdvancedSettingsActivity extends PreferencesActivity {
             getResources()
                 .getQuantityString(
                     R.plurals.bd_blinking_interval,
-                    getQuantity(second),
+                    (int) Math.ceil(second),
                     numberFormat.format(second));
       }
       blinkingIntervalPreference.setEntries(entries);
       blinkingIntervalPreference.setValue(
           String.valueOf(BrailleUserPreferences.readBlinkingIntervalMs(getContext())));
-    }
 
-    private int getQuantity(float number) {
-      // All number should be a plural except 1.
-      return number == 1 ? 1 : 2;
+      // Popup message.
+      Preference popupMessagePreference =
+          findPreference(getString(R.string.pref_bd_popup_announcement_key));
+      popupMessagePreference.setVisible(FeatureFlagReader.usePopupMessage(getContext()));
+      popupHistoryMessagePreference =
+          findPreference(getString(R.string.pref_bd_popup_announcement_history_key));
+      popupHistoryMessagePreference.setVisible(FeatureFlagReader.usePopupMessage(getContext()));
+      popupHistoryMessagePreference.setEnabled(
+          BrailleUserPreferences.readPopupMessageEnabled(getContext()));
+      popupHistoryMessagePreference.setOnPreferenceChangeListener(
+          (preference, newValue) -> {
+            if (!(boolean) newValue) {
+              return true;
+            }
+            MaterialComponentUtils.alertDialogBuilder(getContext())
+                .setTitle(R.string.popup_message_history_consent_dialog_title)
+                .setMessage(R.string.popup_message_history_consent_dialog_msg)
+                .setNegativeButton(R.string.popup_message_history_consent_dialog_negative_btn, null)
+                .setPositiveButton(
+                    R.string.popup_message_history_consent_dialog_positive_btn,
+                    (dialog, which) -> popupHistoryMessagePreference.setChecked(true))
+                .setCancelable(false)
+                .create()
+                .show();
+            return false;
+          });
     }
 
     private final OnSharedPreferenceChangeListener onSharedPreferenceChangeListener =
@@ -107,6 +153,12 @@ public class AdvancedSettingsActivity extends PreferencesActivity {
                             BrailleUserPreferences.readTimedMessageDurationFraction(getContext()))
                         * MILLIS_PER_SECOND);
             BrailleDisplayAnalytics.getInstance(getContext()).logTimedMessageDurationMs(durationMs);
+          } else if (key.equals(getString(R.string.pref_braille_overlay_key))) {
+            onScreenOverlayPreference.setChecked(
+                BrailleUserPreferences.readOnScreenOverlayEnabled(getContext()));
+          } else if (key.equals(getString(R.string.pref_bd_popup_announcement_key))) {
+            popupHistoryMessagePreference.setEnabled(
+                BrailleUserPreferences.readPopupMessageEnabled(getContext()));
           }
         };
   }

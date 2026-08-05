@@ -21,6 +21,7 @@
       app:fontFamily="@string/accessibility_font" />
 
   <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/talkback_description_text"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/training_banner_padding"

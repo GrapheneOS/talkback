@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -98,11 +98,16 @@ USB_DEVICE_ENTRY(0X0452, 0X0100, "mt"),
 // HIMS [Braille Sense (USB 1.1)]
 // HIMS [Braille Sense (USB 2.0)]
 // HIMS [Braille Sense U2 (USB 2.0)]
+// HIMS [BrailleSense 6 (USB 2.1)]
 USB_DEVICE_ENTRY(0X045E, 0X930A, "hm"),
 
 // Device: 045E:930B
 // HIMS [Braille Edge and QBrailleXL]
 USB_DEVICE_ENTRY(0X045E, 0X930B, "hm"),
+
+// Device: 045E:940A
+// HIMS [eMotion (HID)]
+USB_DEVICE_ENTRY(0X045E, 0X940A, "hm"),
 
 // Device: 0483:A1D3
 // Baum [Orbit Reader 20 (20 cells)]
@@ -301,6 +306,7 @@ USB_DEVICE_ENTRY(0X0F4E, 0X0114, "fs"),
 // Generic Identifier
 // Vendor: Cygnal Integrated Products, Inc.
 // Product: CP210x UART Bridge / myAVR mySmartUSB light
+// BrailleMemo [Next Touch 40]
 // BrailleMemo [Pocket]
 // Seika [Braille Display]
 USB_DEVICE_ENTRY(0X10C4, 0XEA60, "mm", "sk"),
@@ -323,6 +329,13 @@ USB_DEVICE_ENTRY(0X1209, 0XABC0, "ic"),
 // Device: 16C0:05E1
 // Canute [all models]
 USB_DEVICE_ENTRY(0X16C0, 0X05E1, "cn"),
+
+// Device: 1A86:55D3
+// Generic Identifier
+// Vendor: QinHeng Electronics
+// Product: USB Single Serial
+// HIMS [eMotion (legacy)]
+USB_DEVICE_ENTRY(0X1A86, 0X55D3, "hm"),
 
 // Device: 1A86:7523
 // Generic Identifier
@@ -457,9 +470,61 @@ USB_DEVICE_ENTRY(0X1FE4, 0X008A, "ht"),
 // HandyTech [Basic Braille 160]
 USB_DEVICE_ENTRY(0X1FE4, 0X008B, "ht"),
 
+// Device: 1FE4:0092
+// HandyTech [Basic Braille 20 Plus]
+USB_DEVICE_ENTRY(0X1FE4, 0X0092, "ht"),
+
+// Device: 1FE4:0093
+// HandyTech [Basic Braille 32 Plus]
+USB_DEVICE_ENTRY(0X1FE4, 0X0093, "ht"),
+
+// Device: 1FE4:0094
+// HandyTech [Basic Braille 40 Plus]
+USB_DEVICE_ENTRY(0X1FE4, 0X0094, "ht"),
+
+// Device: 1FE4:0096
+// HandyTech [Basic Braille 64 Plus]
+USB_DEVICE_ENTRY(0X1FE4, 0X0096, "ht"),
+
+// Device: 1FE4:0097
+// HandyTech [Basic Braille 80 Plus]
+USB_DEVICE_ENTRY(0X1FE4, 0X0097, "ht"),
+
+// Device: 1FE4:009A
+// HandyTech [Basic Braille 48 Plus]
+USB_DEVICE_ENTRY(0X1FE4, 0X009A, "ht"),
+
+// Device: 1FE4:009C
+// HandyTech [Basic Braille 84 Plus]
+USB_DEVICE_ENTRY(0X1FE4, 0X009C, "ht"),
+
 // Device: 1FE4:00A4
 // HandyTech [Activator]
 USB_DEVICE_ENTRY(0X1FE4, 0X00A4, "ht"),
+
+// Device: 1FE4:00A6
+// HandyTech [Activator Pro 64]
+USB_DEVICE_ENTRY(0X1FE4, 0X00A6, "ht"),
+
+// Device: 1FE4:00A8
+// HandyTech [Activator Pro 80]
+USB_DEVICE_ENTRY(0X1FE4, 0X00A8, "ht"),
+
+// Device: 28AC:0012
+// EuroBraille [b.note]
+USB_DEVICE_ENTRY(0X28AC, 0X0012, "eu"),
+
+// Device: 28AC:0013
+// EuroBraille [b.note 2]
+USB_DEVICE_ENTRY(0X28AC, 0X0013, "eu"),
+
+// Device: 28AC:0020
+// EuroBraille [b.book (internal)]
+USB_DEVICE_ENTRY(0X28AC, 0X0020, "eu"),
+
+// Device: 28AC:0021
+// EuroBraille [b.book (external)]
+USB_DEVICE_ENTRY(0X28AC, 0X0021, "eu"),
 
 // Device: 4242:0001
 // Pegasus [all models]

@@ -16,12 +16,16 @@
 
 package com.google.android.accessibility.talkback.trainingcommon.content;
 
+import static android.view.View.LAYOUT_DIRECTION_RTL;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.icu.text.NumberFormat;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.LeadingMarginSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +35,7 @@ import android.widget.TextView.BufferType;
 import androidx.annotation.StringRes;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingIpcClient.ServiceData;
+import java.util.Locale;
 
 /** A text that starts with a number. */
 public class TextWithNumber extends PageContentConfig {
@@ -49,13 +54,15 @@ public class TextWithNumber extends PageContentConfig {
       LayoutInflater inflater, ViewGroup container, Context context, ServiceData data) {
     final View view = inflater.inflate(R.layout.training_text_with_number, container, false);
     final TextView textView = view.findViewById(R.id.training_text_with_number);
-    SpannableString spannableString = new SpannableString(context.getString(textResId));
+    String text = context.getString(textResId);
+    SpannableString spannableString = new SpannableString(text);
     spannableString.setSpan(
         new NumberLeadingMarginSpan(number),
         0,
         spannableString.length(),
         Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     textView.setText(spannableString, BufferType.SPANNABLE);
+    textView.setContentDescription(number + ". " + text);
     return view;
   }
 
@@ -88,8 +95,19 @@ public class TextWithNumber extends PageContentConfig {
         boolean first,
         Layout layout) {
       boolean isFirst = ((Spanned) text).getSpanStart(this) == start;
+      NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
       if (isFirst) {
-        canvas.drawText(number + ".", current, baseline, paint);
+        float width = 0;
+        String numberText = numberFormat.format(number);
+        if (TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == LAYOUT_DIRECTION_RTL) {
+          numberText = "." + numberText;
+          // Need to displacement text width space for LTR languages, otherwise the text will drawn
+          // in out of the TextView.
+          width = paint.measureText(numberText);
+        } else {
+          numberText = numberText + ".";
+        }
+        canvas.drawText(numberText, current - width, baseline, paint);
       }
     }
   }

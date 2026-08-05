@@ -30,7 +30,6 @@ import com.google.android.accessibility.talkback.compositor.TalkBackFeedbackProv
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.StringBuilderUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -61,9 +60,7 @@ public final class EventTypeViewClickedFeedbackRule {
         EVENT_TYPE_VIEW_CLICKED,
         (eventOptions) ->
             EventFeedback.builder()
-                .setTtsOutput(
-                    computeTtsOutput(
-                        eventOptions.sourceNode, context, globalVariables.getUserPreferredLocale()))
+                .setTtsOutput(computeTtsOutput(eventOptions.sourceNode, context, globalVariables))
                 .setQueueMode(QUEUE_MODE_QUEUE)
                 .setTtsAddToHistory(true)
                 .setForceFeedbackEvenIfAudioPlaybackActive(true)
@@ -76,13 +73,14 @@ public final class EventTypeViewClickedFeedbackRule {
   }
 
   private static Optional<CharSequence> computeTtsOutput(
-      AccessibilityNodeInfoCompat node, Context context, Locale locale) {
+      AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalvariables) {
     if (node == null) {
       LogUtils.v(TAG, "source node is null");
       return Optional.empty();
     } else {
       // TtsOutput fallbacks [checkedState, selectedState, collapsedOrExpandedState]
-      CharSequence checkedState = getViewCheckStateText(node, context, locale);
+      CharSequence checkedState = getViewCheckStateText(node, context, globalvariables);
+
       if (!TextUtils.isEmpty(checkedState)) {
         LogUtils.v(TAG, " ttsOutputRule= checkedState");
         return Optional.of(checkedState);
@@ -95,7 +93,7 @@ public final class EventTypeViewClickedFeedbackRule {
                 StringBuilderUtils.optionalTag("srcIsSelected", node.isSelected())));
 
         CharSequence selectedState =
-            AccessibilityNodeFeedbackUtils.getSelectedStateText(node, context);
+            AccessibilityNodeFeedbackUtils.getSelectedStateText(node, context, globalvariables);
         if (!TextUtils.isEmpty(selectedState)) {
           LogUtils.v(TAG, " ttsOutputRule= selectedState");
           return Optional.of(selectedState);
@@ -113,8 +111,8 @@ public final class EventTypeViewClickedFeedbackRule {
    * doesn't have valid node checked state, it checks the descendant node.
    */
   private static CharSequence getViewCheckStateText(
-      AccessibilityNodeInfoCompat node, Context context, Locale locale) {
-    CharSequence nodeChecked = getNodeCheckedStateText(node, context, locale);
+      AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
+    CharSequence nodeChecked = getNodeCheckedStateText(node, context, globalVariables);
     if (!TextUtils.isEmpty(nodeChecked)) {
       return nodeChecked;
     }
@@ -125,7 +123,7 @@ public final class EventTypeViewClickedFeedbackRule {
     for (int i = 0; i < childCount; i++) {
       AccessibilityNodeInfoCompat childNode = node.getChild(i);
       if (childNode != null) {
-        nodeChecked = getNodeCheckedStateText(childNode, context, locale);
+        nodeChecked = getNodeCheckedStateText(childNode, context, globalVariables);
         if (!TextUtils.isEmpty(nodeChecked)) {
           LogUtils.v(
               TAG,
@@ -141,7 +139,7 @@ public final class EventTypeViewClickedFeedbackRule {
 
   /** Returns the node checked state text of the input node. */
   private static CharSequence getNodeCheckedStateText(
-      AccessibilityNodeInfoCompat node, Context context, Locale locale) {
+      AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
     if (node == null) {
       return "";
     }
@@ -149,7 +147,7 @@ public final class EventTypeViewClickedFeedbackRule {
     // if stateDescription is set, the CONTENT_CHANGE_TYPE_STATE_DESCRIPTION event will
     // speak out the state description.
     CharSequence stateDescription =
-        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, locale);
+        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables);
     if (!node.isCheckable() || !TextUtils.isEmpty(stateDescription)) {
       return "";
     }

@@ -41,26 +41,39 @@ public class NodeRoleHint {
   private final LongClickableHint longClickableHint;
 
   public NodeRoleHint(Context context, GlobalVariables globalVariables) {
+    this(
+        context,
+        globalVariables,
+        new ClickableHint(context, globalVariables),
+        new LongClickableHint(context, globalVariables));
+  }
+
+  public NodeRoleHint(
+      Context context,
+      GlobalVariables globalVariables,
+      ClickableHint clickableHint,
+      LongClickableHint longClickableHint) {
     this.context = context;
     this.globalVariables = globalVariables;
+    this.clickableHint = clickableHint;
+    this.longClickableHint = longClickableHint;
+  }
 
-    clickableHint = new ClickableHint(context, globalVariables);
-    longClickableHint = new LongClickableHint(context, globalVariables);
+  public ClickableHint getClickableHint() {
+    return clickableHint;
   }
 
   /** Returns the hint by the node role. */
   public CharSequence getHint(AccessibilityNodeInfoCompat node) {
     int role = Role.getRole(node);
-    switch (role) {
-      case ROLE_DROP_DOWN_LIST:
-        return clickableHint.getSpinnerClickableHint(node);
-      case ROLE_EDIT_TEXT:
-        return getEditTextHint(node, context, globalVariables, clickableHint, longClickableHint);
-      case ROLE_SEEK_CONTROL:
-        return getSeekBarHint(node, globalVariables, clickableHint, longClickableHint);
-      default:
-        return getDefaultHint(node, clickableHint, longClickableHint);
-    }
+    return switch (role) {
+      case ROLE_DROP_DOWN_LIST -> clickableHint.getSpinnerClickableHint(node);
+      case ROLE_EDIT_TEXT ->
+          getEditTextHint(node, context, globalVariables, clickableHint, longClickableHint);
+      case ROLE_SEEK_CONTROL ->
+          getSeekBarHint(node, globalVariables, clickableHint, longClickableHint);
+      default -> getDefaultHint(node, clickableHint, longClickableHint);
+    };
   }
 
   private CharSequence getDefaultHint(
@@ -90,7 +103,7 @@ public class NodeRoleHint {
     List<CharSequence> joinList = new ArrayList<>();
     // Prepare custom clickable hint.
     boolean isFocused = node.isFocused();
-    if (!isFocused) {
+    if (!isFocused && node.isEditable()) {
       joinList.add(clickableHint.getEditTextClickableHint(node));
     }
 
@@ -98,7 +111,7 @@ public class NodeRoleHint {
     joinList.add(longClickableHint.getHint(node));
 
     // Prepare typo hint.
-    int typoCount = AccessibilityNodeInfoUtils.getTypoCount(node);
+    int typoCount = AccessibilityNodeInfoUtils.getTypoCount(context, node);
     if (typoCount > 0 && TalkbackFeatureSupport.supportTextSuggestion()) {
       joinList.add(
           context.getString(

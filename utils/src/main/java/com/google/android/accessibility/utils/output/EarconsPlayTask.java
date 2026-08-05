@@ -16,6 +16,8 @@
 
 package com.google.android.accessibility.utils.output;
 
+import static java.lang.Math.min;
+
 import android.media.SoundPool;
 import android.os.AsyncTask;
 
@@ -29,7 +31,7 @@ public class EarconsPlayTask extends AsyncTask<Void, Integer, Boolean> {
   public EarconsPlayTask(SoundPool soundPool, int soundId, float volume, float rate) {
     this.mSoundPool = soundPool;
     this.soundId = soundId;
-    this.volume = volume;
+    this.volume = min(1.0f, volume);
     this.rate = rate;
   }
 

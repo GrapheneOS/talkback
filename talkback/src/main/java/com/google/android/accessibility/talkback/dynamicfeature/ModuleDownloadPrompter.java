@@ -18,12 +18,16 @@ package com.google.android.accessibility.talkback.dynamicfeature;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.talkback.imagecaption.CaptionRequest.ErrorCode;
+import com.google.android.accessibility.talkback.Feedback;
+import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.DownloadDialogResources;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.ImageCaptionPreferenceKeys;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.UninstallDialogResources;
-import com.google.android.accessibility.utils.caption.ImageCaptionUtils.CaptionType;
+import com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType;
+import com.google.android.accessibility.talkback.imagecaption.Request.ErrorCode;
+import com.google.common.collect.ImmutableList;
 
 /** Shows a confirmation dialog to guide users through the download of a module dynamically. */
 public abstract class ModuleDownloadPrompter {
@@ -67,17 +71,24 @@ public abstract class ModuleDownloadPrompter {
 
   public ModuleDownloadPrompter(
       Context context,
-      FeatureDownloader featureDownloader,
-      CaptionType captionType,
+      Downloader downloader,
+      Downloader downloaderLegacy,
+      ImmutableList<CaptionType> captionTypes,
       ImageCaptionPreferenceKeys preferenceKeys,
       DownloadDialogResources downloadDialogResources,
       UninstallDialogResources uninstallDialogResources) {}
+
+  public void setPipeline(@Nullable Pipeline.FeedbackReturner pipeline) {}
 
   public void setDownloadStateListener(@Nullable DownloadStateListener downloadStateListener) {}
 
   public void setUninstallStateListener(@Nullable UninstallStateListener uninstallStateListener) {}
 
   public void setCaptionNode(@Nullable AccessibilityNodeInfoCompat node) {}
+
+  public boolean isLegacyModuleAvailable() {
+    return false;
+  }
 
   public boolean isModuleAvailable() {
     return false;
@@ -101,5 +112,17 @@ public abstract class ModuleDownloadPrompter {
 
   public void shutdown() {}
 
+  public boolean installModule() {
+    return false;
+  }
+
+  public abstract @StringRes int getDownloadSuccessfulHint();
+
+  public abstract @StringRes int getDownloadingHint();
+
   protected abstract boolean initModule();
+
+  protected boolean returnFeedback(Feedback.Part.Builder feedback) {
+    return false;
+  }
 }

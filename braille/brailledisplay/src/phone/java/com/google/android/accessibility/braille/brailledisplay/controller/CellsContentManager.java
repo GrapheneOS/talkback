@@ -13,8 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package com.google.android.accessibility.braille.brailledisplay.controller;
 
+import static com.google.android.accessibility.braille.brailledisplay.controller.TimedMessager.INDICATOR_START_OR_END;
 import static com.google.android.accessibility.braille.common.BrailleUserPreferences.BRAILLE_SHARED_PREFS_FILENAME;
 import static com.google.android.accessibility.braille.common.translate.EditBufferUtils.NO_CURSOR;
 import static java.lang.Math.max;
@@ -25,9 +27,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.text.style.ClickableSpan;
 import android.util.Range;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.braille.brailledisplay.BrailleDisplayLog;
 import com.google.android.accessibility.braille.brailledisplay.analytics.BrailleDisplayAnalytics;
+import com.google.android.accessibility.braille.brailledisplay.controller.ContentHelper.WrapStrategyRetriever;
 import com.google.android.accessibility.braille.brailledisplay.controller.DisplayInfo.Source;
 import com.google.android.accessibility.braille.brailledisplay.controller.TranslatorManager.OutputCodeChangedListener;
 import com.google.android.accessibility.braille.brailledisplay.controller.wrapping.EditorWordWrapStrategy;
@@ -35,12 +40,15 @@ import com.google.android.accessibility.braille.brailledisplay.controller.wrappi
 import com.google.android.accessibility.braille.brailledisplay.controller.wrapping.WrapStrategy;
 import com.google.android.accessibility.braille.common.BrailleUserPreferences;
 import com.google.android.accessibility.braille.common.R;
+import com.google.android.accessibility.braille.interfaces.BrailleWord;
 import com.google.android.accessibility.braille.interfaces.SelectionRange;
 import com.google.android.accessibility.braille.translate.TranslationResult;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -77,23 +85,26 @@ public class CellsContentManager implements CellsContentConsumer {
     void displayDots(byte[] patterns, CharSequence text, int[] brailleToTextPositions);
   }
 
+  private static final int WHAT_PULSE = 0;
   private final Context context;
   private final ImeStatusProvider imeStatusProvider;
   private final TranslatorManager translatorManager;
-  private final Pulser pulseHandler;
+  private final CellContentUpdater cellContentUpdater;
   private final TimedMessager timedMessager;
   private final DotDisplayer inputEventListener;
   private WrapStrategy editingWrapStrategy;
   private WrapStrategy preferredWrapStrategy;
-  private boolean overlaysOn;
   private boolean panUpOverflow;
   private Range<Integer> holdingsRange;
   private List<Range<Integer>> onScreenRange;
   private Range<Integer> actionRange;
   private DisplayInfoWrapper commonDisplayInfoWrapper;
-  private DisplayInfoWrapper timedMessageDisplayInfoWrapper;
+  private DisplayInfoWrapper timedMessagePopupWrapper;
+  private DisplayInfoWrapper timedMessageAnnouncementWrapper;
+  private DisplayInfoWrapper timedMessageCaptionWrapper;
   private final List<OnDisplayContentChangeListener> onDisplayContentChangeListeners =
       new ArrayList<>();
+  private final CellContentOverlay pulseUpdate = new CellContentOverlay();
 
   /**
    * Creates an instance of this class and starts the internal thread to connect to the braille
@@ -111,8 +122,8 @@ public class CellsContentManager implements CellsContentConsumer {
     this.imeStatusProvider = imeStatusProvider;
     translatorManager = translatorManagerArg;
     inputEventListener = inputEventListenerArg;
-    pulseHandler = new Pulser(this::pulse, BrailleUserPreferences.readBlinkingIntervalMs(context));
-    timedMessager = new TimedMessager(timedMessagerCallback);
+    cellContentUpdater = new CellContentUpdater();
+    timedMessager = new TimedMessager(context, timedMessagerCallback);
   }
 
   public void start(int numTextCells) {
@@ -120,7 +131,13 @@ public class CellsContentManager implements CellsContentConsumer {
     editingWrapStrategy = new EditorWordWrapStrategy(numTextCells);
     commonDisplayInfoWrapper =
         new DisplayInfoWrapper(new ContentHelper(translatorManager, wrapStrategyRetriever));
-    timedMessageDisplayInfoWrapper =
+    timedMessagePopupWrapper =
+        new DisplayInfoWrapper(
+            new ContentHelper(translatorManager, new WordWrapStrategy(numTextCells)));
+    timedMessageAnnouncementWrapper =
+        new DisplayInfoWrapper(
+            new ContentHelper(translatorManager, new WordWrapStrategy(numTextCells)));
+    timedMessageCaptionWrapper =
         new DisplayInfoWrapper(
             new ContentHelper(translatorManager, new WordWrapStrategy(numTextCells)));
     translatorManager.addOnOutputTablesChangedListener(outputCodeChangedListener);
@@ -129,7 +146,7 @@ public class CellsContentManager implements CellsContentConsumer {
   }
 
   public void shutdown() {
-    pulseHandler.cancelPulse();
+    cellContentUpdater.cancelAll();
     translatorManager.removeOnOutputTablesChangedListener(outputCodeChangedListener);
     BrailleUserPreferences.getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
         .unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
@@ -165,7 +182,8 @@ public class CellsContentManager implements CellsContentConsumer {
       Range<Integer> actionRange,
       SelectionRange selection,
       TranslationResult overlayTranslationResult,
-      boolean isMultiLine) {
+      boolean isMultiLine,
+      boolean retranslate) {
     this.onScreenRange = onScreenRange;
     this.holdingsRange = holdingsRange;
     this.actionRange = actionRange;
@@ -184,7 +202,7 @@ public class CellsContentManager implements CellsContentConsumer {
             ? max(selection.start, selection.end)
             : Iterables.getLast(onScreenRange).getUpper();
     commonDisplayInfoWrapper.renewDisplayInfo(
-        CellsContent.PAN_CURSOR,
+        retranslate ? CellsContent.PAN_KEEP : CellsContent.PAN_CURSOR,
         selection,
         beginningOfInput,
         max(holdingsPosition, textCursorPosition),
@@ -197,10 +215,20 @@ public class CellsContentManager implements CellsContentConsumer {
   }
 
   @Override
-  public void setTimedContent(CellsContent content, int durationInMilliseconds) {
+  public void setTimedContent(
+      TimedMessager.Type type, CellsContent content, int durationInMilliseconds) {
     Preconditions.checkNotNull(content, "content can't be null");
     Preconditions.checkNotNull(content.getText(), "content text is null");
-    timedMessager.setTimedMessage(content, durationInMilliseconds);
+    // Replace end indicator with new coming caption.
+    if (isStartOrEndIndicatorShowing()) {
+      timedMessagePopupWrapper.clear();
+    }
+    timedMessager.setTimedMessage(type, content, durationInMilliseconds);
+    if (type == TimedMessager.Type.ANNOUNCEMENT) {
+      BrailleDisplayAnalytics.getInstance(context).logPopupUsage();
+    } else if (type == TimedMessager.Type.CAPTION) {
+      BrailleDisplayAnalytics.getInstance(context).logCaptionUsage();
+    }
   }
 
   @Override
@@ -218,6 +246,15 @@ public class CellsContentManager implements CellsContentConsumer {
     return getCurrentDisplayInfoWrapper().getContentHelper().getClickableSpans(routingKeyIndex);
   }
 
+  /** Dismisses current timed message and shows next type of timed message if possible. */
+  @Override
+  public void dismissTimedMessage() {
+    TimedMessager.Type type = getCurrentTimedMessageType();
+    if (type != null) {
+      timedMessager.clearAllTimedMessage(type);
+    }
+  }
+
   /** Checks whether split point exists. */
   public boolean hasSplitPoints() {
     return editingWrapStrategy.hasSplitPoints();
@@ -231,12 +268,26 @@ public class CellsContentManager implements CellsContentConsumer {
   /** Checks whether the timed message is showing. */
   @Override
   public boolean isTimedMessageDisplaying() {
-    return timedMessager.isTimedMessageDisplaying();
+    if (isPopupShowing() || isAnnouncementShowing() || isCaptionShowing()) {
+      BrailleDisplayLog.v(TAG, "timedMessage is displaying");
+      return true;
+    }
+    return false;
   }
 
   @Override
-  public void clearTimedMessage() {
-    timedMessager.clearTimedMessage();
+  public boolean isCaptionShowing() {
+    return getCurrentDisplayInfoWrapper() == timedMessageCaptionWrapper;
+  }
+
+  @Override
+  public boolean showLatestCaption() {
+    boolean result = timedMessager.showLatestCaption();
+    if (result || isCaptionShowing()) {
+      refreshToTail();
+      result = true;
+    }
+    return result;
   }
 
   /** Maps the click index on the braille display to its index in the whole content. */
@@ -279,16 +330,20 @@ public class CellsContentManager implements CellsContentConsumer {
    * Returns {@code true} if panning the displayed info up successfully, {@code false} if reach to
    * the end.
    */
+  @CanIgnoreReturnValue
   public boolean panUp() {
     DisplayInfoWrapper displayInfoWrapper = getCurrentDisplayInfoWrapper();
     if (displayInfoWrapper.panUp()) {
       refresh();
       cellOnDisplayContentChanged();
-    } else if (timedMessager.isTimedMessageDisplaying()) {
-      clearTimedMessage();
     } else {
-      panUpOverflow = true;
-      return false;
+      TimedMessager.Type type = getCurrentTimedMessageType();
+      if (type != null) {
+        timedMessager.onReachedBeginningOrEnd(type);
+      } else {
+        panUpOverflow = true;
+        return false;
+      }
     }
     return true;
   }
@@ -297,22 +352,21 @@ public class CellsContentManager implements CellsContentConsumer {
    * Returns {@code true} if panning the displayed info down successfully, {@code false} if reach to
    * the end.
    */
+  @CanIgnoreReturnValue
   public boolean panDown() {
     DisplayInfoWrapper displayInfoWrapper = getCurrentDisplayInfoWrapper();
     if (displayInfoWrapper.panDown()) {
       refresh();
       cellOnDisplayContentChanged();
-    } else if (timedMessager.isTimedMessageDisplaying()) {
-      clearTimedMessage();
     } else {
-      return false;
+      TimedMessager.Type type = getCurrentTimedMessageType();
+      if (type != null) {
+        timedMessager.onReachedBeginningOrEnd(type);
+      } else {
+        return false;
+      }
     }
     return true;
-  }
-
-  private void pulse() {
-    overlaysOn = !overlaysOn;
-    refresh();
   }
 
   private void refreshToTail() {
@@ -326,35 +380,91 @@ public class CellsContentManager implements CellsContentConsumer {
   private void refresh() {
     DisplayInfo displayInfoTarget = getCurrentDisplayInfoWrapper().getDisplayInfo();
     if (displayInfoTarget == null) {
+      BrailleDisplayLog.v(TAG, "no displayInfoTarget");
+      getCurrentDisplayInfoWrapper().clear();
       return;
     }
-    byte[] toDisplay =
-        overlaysOn
-            ? displayInfoTarget.displayedOverlaidBraille().array()
-            : displayInfoTarget.displayedBraille().array();
+    cellContentUpdater.cancelAll();
+    pulseUpdate.setOverlay(
+        Arrays.asList(
+            new BrailleWord(displayInfoTarget.displayedBraille().array()),
+            new BrailleWord(displayInfoTarget.displayedOverlaidBraille().array())));
+    if (displayInfoTarget.blink()) {
+      cellContentUpdater.schedule(
+          WHAT_PULSE, pulser, BrailleUserPreferences.readBlinkingIntervalMs(context));
+    }
+    refreshSelf();
+  }
+
+  private void refreshSelf() {
+    DisplayInfo displayInfoTarget = getCurrentDisplayInfoWrapper().getDisplayInfo();
+    if (displayInfoTarget == null) {
+      getCurrentDisplayInfoWrapper().clear();
+      return;
+    }
+    byte[] toDisplay = pulseUpdate.getOverlay().toByteArray();
     inputEventListener.displayDots(
         toDisplay,
         displayInfoTarget.displayedText(),
         displayInfoTarget.displayedBrailleToTextPositions().stream()
             .mapToInt(Integer::intValue)
             .toArray());
-    if (displayInfoTarget.blink()) {
-      pulseHandler.schedulePulse();
-    } else {
-      pulseHandler.cancelPulse();
-      overlaysOn = true;
+  }
+
+  @Nullable
+  private TimedMessager.Type getCurrentTimedMessageType() {
+    TimedMessager.Type type = null;
+    if (isPopupShowing()) {
+      type = TimedMessager.Type.POPUP;
+    } else if (isAnnouncementShowing()) {
+      type = TimedMessager.Type.ANNOUNCEMENT;
+    } else if (isCaptionShowing()) {
+      type = TimedMessager.Type.CAPTION;
     }
+    return type;
   }
 
   private DisplayInfoWrapper getCurrentDisplayInfoWrapper() {
     // Timed message has higher priority than common message.
-    return timedMessageDisplayInfoWrapper.hasDisplayInfo()
-        ? timedMessageDisplayInfoWrapper
-        : commonDisplayInfoWrapper;
+    if (timedMessagePopupWrapper.hasDisplayInfo()) {
+      BrailleDisplayLog.v(TAG, "popup wrapper");
+      return timedMessagePopupWrapper;
+    } else if (timedMessageAnnouncementWrapper.hasDisplayInfo()) {
+      BrailleDisplayLog.v(TAG, "announcement wrapper");
+      return timedMessageAnnouncementWrapper;
+    } else if (timedMessageCaptionWrapper.hasDisplayInfo()) {
+      BrailleDisplayLog.v(TAG, "caption wrapper");
+      return timedMessageCaptionWrapper;
+    }
+    BrailleDisplayLog.v(TAG, "common wrapper");
+    return commonDisplayInfoWrapper;
   }
 
-  private final ContentHelper.WrapStrategyRetriever wrapStrategyRetriever =
-      new ContentHelper.WrapStrategyRetriever() {
+  private boolean isPopupShowing() {
+    return getCurrentDisplayInfoWrapper() == timedMessagePopupWrapper;
+  }
+
+  private boolean isAnnouncementShowing() {
+    return getCurrentDisplayInfoWrapper() == timedMessageAnnouncementWrapper;
+  }
+
+  private boolean isStartOrEndIndicatorShowing() {
+    return isPopupShowing()
+        && timedMessagePopupWrapper
+            .getDisplayInfo()
+            .displayedText()
+            .toString()
+            .equals(INDICATOR_START_OR_END);
+  }
+
+  private final Runnable pulser =
+      () -> {
+        pulseUpdate.update();
+        refreshSelf();
+      };
+
+  private final WrapStrategyRetriever wrapStrategyRetriever =
+      new WrapStrategyRetriever() {
         @Override
         public WrapStrategy getWrapStrategy() {
           return imeStatusProvider.isImeOpen() ? editingWrapStrategy : preferredWrapStrategy;
@@ -365,8 +475,10 @@ public class CellsContentManager implements CellsContentConsumer {
       new OutputCodeChangedListener() {
         @Override
         public void onOutputCodeChanged() {
-          timedMessageDisplayInfoWrapper.retranslate();
           commonDisplayInfoWrapper.retranslate();
+          timedMessagePopupWrapper.retranslate();
+          timedMessageAnnouncementWrapper.retranslate();
+          timedMessageCaptionWrapper.retranslate();
           refresh();
           cellOnDisplayContentChanged();
         }
@@ -377,25 +489,62 @@ public class CellsContentManager implements CellsContentConsumer {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
           if (context.getString(R.string.pref_bd_blinking_interval_key).equals(key)) {
-            pulseHandler.setFrequencyMillis(BrailleUserPreferences.readBlinkingIntervalMs(context));
+            cellContentUpdater.schedule(
+                WHAT_PULSE, pulser, BrailleUserPreferences.readBlinkingIntervalMs(context));
+          } else if (context.getString(R.string.pref_bd_caption_key).equals(key)) {
+            if (!BrailleUserPreferences.readCaptionEnabled(context)) {
+              timedMessager.clearAllTimedMessage(TimedMessager.Type.CAPTION);
+            }
+          } else if (context.getString(R.string.pref_bd_popup_announcement_key).equals(key)) {
+            if (!BrailleUserPreferences.readPopupMessageEnabled(context)) {
+              timedMessager.clearAllTimedMessage(TimedMessager.Type.POPUP);
+            }
           }
         }
       };
-
   private final TimedMessager.Callback timedMessagerCallback =
       new TimedMessager.Callback() {
         @Override
-        public void onTimedMessageDisplayed(CellsContent content) {
-          timedMessageDisplayInfoWrapper.renewDisplayInfo(
-              content.getText(), content.getPanStrategy(), content.isSplitParagraphs());
-          refresh();
-          cellOnDisplayContentChanged();
+        public void onTimedMessageDisplayed(TimedMessager.Type type, CellsContent content) {
+          BrailleDisplayLog.v(TAG, "onTimedMessageDisplayed: " + type);
+          DisplayInfoWrapper wrapper = null;
+          boolean refresh = false;
+          switch (type) {
+            case POPUP -> {
+              wrapper = timedMessagePopupWrapper;
+              refresh = true;
+            }
+            case ANNOUNCEMENT -> {
+              wrapper = timedMessageAnnouncementWrapper;
+              refresh = !isPopupShowing();
+            }
+            case CAPTION -> {
+              wrapper = timedMessageCaptionWrapper;
+              refresh = !isPopupShowing() && !isAnnouncementShowing();
+            }
+          }
+          BrailleDisplayLog.v(TAG, "refresh: " + refresh);
+          if (wrapper != null) {
+            wrapper.renewDisplayInfo(
+                content.getText(), content.getPanStrategy(), content.isSplitParagraphs());
+          }
+          if (refresh) {
+            refresh();
+            cellOnDisplayContentChanged();
+          }
         }
 
         @Override
-        public void onTimedMessageCleared() {
-          if (timedMessageDisplayInfoWrapper.hasDisplayInfo()) {
-            timedMessageDisplayInfoWrapper.clear();
+        public void onTimedMessageCleared(TimedMessager.Type type) {
+          BrailleDisplayLog.v(TAG, "onTimedMessageCleared: " + type);
+          DisplayInfoWrapper wrapper =
+              switch (type) {
+                case POPUP -> timedMessagePopupWrapper;
+                case ANNOUNCEMENT -> timedMessageAnnouncementWrapper;
+                case CAPTION -> timedMessageCaptionWrapper;
+              };
+          if (wrapper != null) {
+            wrapper.clear();
             refresh();
             cellOnDisplayContentChanged();
           }
@@ -424,7 +573,7 @@ public class CellsContentManager implements CellsContentConsumer {
   }
 
   @VisibleForTesting
-  ContentHelper.WrapStrategyRetriever testing_getWrapStrategyRetriever() {
+  WrapStrategyRetriever testing_getWrapStrategyRetriever() {
     return wrapStrategyRetriever;
   }
 

@@ -18,5 +18,6 @@
 <resources>
 
     <integer name="config_slop_default_multiplier">3</integer>
+    <dimen name="tts_bubble_overlay_max_width">500dp</dimen>
 
 </resources>

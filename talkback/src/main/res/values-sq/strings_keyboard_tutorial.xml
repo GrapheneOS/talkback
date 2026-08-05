@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ky udhëzues është për hartën e përmirësuar të tasteve, e cila përfshin shumë komanda të reja. Për të zgjedhur hartën e tasteve, shko te cilësimet e TalkBack &gt; Cilësimet e përparuara &gt; Shkurtoret e tastierës.\n\nShtyp tastin e veprimit + shigjetën djathtas për të zgjedhur një temë. Për përvojën më të mirë, aktivizo TalkBack para se të fillosh.</string>
+  <string name="basic_interaction_link_text">Ndërveprimi bazë</string>
+  <string name="basic_interaction_link_subtext">Zhvendos midis dy artikujve, lexo sipas rreshtave, përdor menytë dhe më shumë</string>
+  <string name="browse_mode_link_text">Modaliteti i shfletimit</string>
+  <string name="browse_mode_link_subtext">Navigo më shpejt në përmbajtjet e uebit me komandat e kalimit</string>
+  <string name="reading_controls_link_text">Kontrollet e leximit</string>
+  <string name="reading_controls_link_subtext">Përdor kontrollet e leximit për të kaluar midis artikujve, për të rregulluar cilësimet e ligjërimit dhe më shumë</string>
+  <string name="image_descriptions_link_text">Përshkrimet e imazheve</string>
+  <string name="image_descriptions_link_subtext">Provo të marrësh përshkrimet e imazheve</string>
+  <string name="keyboard_shortcuts_link_text">Praktiko shkurtoret e tastierës</string>
+  <string name="keyboard_shortcuts_link_subtext">Shtyp tastet dhe kombinimet e tasteve për të mësuar se çfarë bëjnë</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack jep komente me zë në mënyrë që të mund ta përdorësh pajisjen pa parë në ekran. TalkBack mund të jetë i dobishëm për njerëzit që kanë vështirësi në shikimin e ekranit. Kur TalkBack është aktiv, artikulli i fokusuar në ekran shqiptohet me zë.\n\nNë fillim, le të njihemi me tastierën. Gjej tastin e veprimit, i cili është mbi tastin Shift majtas. Tani le të gjejmë tastet e shigjetave pranë zonës poshtë djathtas në tastierë. Shtyp tastin e veprimit + shigjetën djathtas për të kaluar tek artikulli tjetër.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Ky është artikulli tjetër. Për të kaluar tek artikulli i mëparshëm, shtyp tastin e veprimit + shigjetën majtas.\n\nKur të kalosh te një artikull ndërveprues, si p.sh. një buton, shtyp tastin e veprimit + hapësirën për ta aktivizuar atë. Gjej butonin \"Para\" dhe vazhdo me udhëzuesin.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Lexo sipas karaktereve, fjalëve ose paragrafëve</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Ndonjëherë mund të duash të dëgjosh një tekst të lexuar me zë të lartë karakter pas karakteri.\n\nPër ta bërë këtë, mund të përdorësh navigimin me kontrollet e leximit. Shtyp tastin e veprimit + Shift + shigjetën djathtas ose shigjetën majtas derisa të dëgjosh \"karakteret\".\n\nMë pas, shtyp tastin e veprimit + shigjetën lart për ta lëvizur fokusin e navigimit prapa sipas karaktereve. Shtyp tastin e veprimit + shigjetën poshtë për ta zhvendosur fokusin e navigimit përpara sipas karaktereve.\n\nProvoje tani. Mund të zgjedhësh gjithashtu të lexosh sipas fjalëve, rreshtave ose paragrafëve duke përdorur tastin e veprimit + Shift + shigjetën djathtas ose majtas.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigimi i sistemit</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Nëse i provon këto shkurtore të tastierës tani, kjo do ta mbyllë udhëzuesin. Mund të të duhet të presësh derisa të kesh përfunduar udhëzuesin.\n\nPër të ndërruar dritaret e aplikacioneve të hapura dhe elementet e sistemit, si p.sh. njoftimet dhe shiriti i detyrave, shtyp tastin e veprimit + Alt + Ctrl + shigjetën lart ose poshtë.\n\nPër të hapur listën e aplikacioneve, shtyp tastin e veprimit.\n\nPër të shkuar tek ekrani bazë dhe për të minimizuar të gjitha dritaret e hapura, shtyp tastin e veprimit + H ose Home në rreshtin e sipërm.\n\nPër të shkuar tek aplikacionet e tua të fundit, shtyp tastin e veprimit + Tab ose \"Përmbledhja\" në rreshtin e sipërm.\n\nPër të ndërruar me shpejtësi dritaret, mbaj shtypur Alt dhe shtyp Tab.\n\nPër t\'u kthyer prapa, shtyp tastin e veprimit + Esc ose \"Prapa\" në rreshtin e sipërm.\n\nPër të hapur njoftimet, shtyp tastin e veprimit + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Rregullo cilësimet e ligjërimit</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Volumi për ligjërimin e TalkBack quhet volumi i qasshmërisë. Ai rregullohet veçmas nga volumi i medias.\n\nPër të rregulluar volumin e qasshmërisë, shtyp tastin e veprimit + tastin e ngritjes ose uljes së volumit.\n\nPër të rregulluar shpejtësinë e ligjërimit, shtyp tastin e veprimit + Ctrl + tastin e ngritjes së volumit për ta rritur dhe tastin e veprimit + Ctrl + tastin e uljes së volumit për ta ulur.\n\nPër të ndaluar ligjërimin në çdo kohë, shtyp Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menyja e TalkBack dhe shkurtoret e tjera të tastierës</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Menyja e TalkBack përfshin cilësimet dhe kontrollet që mund të të duhen shpesh.\n\nPër të hapur menynë e TalkBack, shtyp tastin e veprimit + Ctrl + M. Mund ta personalizosh menynë e TalkBack dhe kontrollet e leximit më vonë te cilësimet e TalkBack.\n\nMenyja e shkurtoreve të tastierës për TalkBack përfshin të gjitha shkurtoret e tastierës që mund të përdorësh.\n\nPër të hapur menynë e shkurtoreve të tastierës, shtyp tastin e veprimit + Shift + /.\n\nPër të mësuar më shumë rreth tastierës dhe për të praktikuar shkurtoret e tastierës, shtyp tastin e veprimit + 0 për të hapur ekranin e praktikës.</string>
+  <string name="keyboard_tutorial_finished_page_title">Plotësisht gati!</string>
+  <string name="keyboard_tutorial_finished_page_text">Tani je gati për të përdorur TalkBack.\n\nVazhdo të mësosh rreth temave të tjera tani ose rishikoji këto informacione në çdo moment te cilësimet e TalkBack.\n\nPër ta aktivizuar ose çaktivizuar TalkBack në çdo moment, shtyp tastin e veprimit + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Navigo më shpejt në përmbajtjet e uebit me modalitetin e shfletimit</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Kur je në shfletues dhe në aplikacionet e uebit, mund ta aktivizosh modalitetin e shfletimit dhe të ndërrosh midis llojeve të ndryshme të shkallës së detajeve dhe kontrolleve të leximit me një shtypje të vetme të një tasti. Kjo e bën navigimin në një faqe të ngjashëm me navigimin në një kuti redaktimi teksti, si p.sh. shigjetat majtas dhe djathtas për të lëvizur sipas karaktereve dhe shigjetat lart dhe poshtë për të lëvizur sipas rreshtave.\n\nPër të aktivizuar ose çaktivizuar modalitetin e shfletimit, shtyp dy herë tastin e veprimit.\n\nKur modaliteti i shfletimit është aktiv, shtyp tastin D për të kaluar te pika tjetër e referimit, F për fushën e formularit ose kontrollin tjetër, B për butonin tjetër, K për lidhjen tjetër dhe H për titullin tjetër. Mbaj shtypur tastin Shift dhe shtyp këto taste për të lëvizur prapa.\n\nMund të përdorësh gjithashtu shigjetat lart dhe poshtë për të kaluar sipas rreshtave, shigjetat majtas dhe djathtas për të kaluar sipas shkronjave dhe tastet Ctrl + shigjetat majtas dhe djathtas për të kaluar sipas fjalëve.\n\nShtyp tastin e veprimit + shigjetën djathtas për të hyrë në një zonë të praktikës. Kur je në zonën e praktikës, lidhjet, fushat e formularëve dhe butonat nuk do të bëjnë asgjë.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Nivelet e titujve</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Uebsajtet dhe aplikacionet e uebit përdorin shpesh tituj me nivele të ndryshme për të strukturuar përmbajtjen. Kur modaliteti i shfletimit është aktiv, shtyp numrat nga 1 deri në 6 për të kaluar në nivele të ndryshme të titujve. Mbaj shtypur tastin Shift dhe shtyp këto taste për të lëvizur prapa.\n\nShtyp tastin e veprimit + shigjetën djathtas për të hyrë në një zonë të praktikës.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabelat</string>
+  <string name="keyboard_tutorial_tables_page_text">Modaliteti i shfletimit e bën gjithashtu më të lehtë navigimin në një tabelë. Kur modaliteti i shfletimit është aktiv, shtyp tastet Alt + Ctrl + shigjetën lart dhe shigjetën poshtë për të kaluar nga një rresht te tjetri dhe tastet Alt + Ctrl + shigjetën majtas dhe shigjetën djathtas për të kaluar nga një kolonë te tjetra.\n\nShtyp tastin e veprimit + shigjetën djathtas për të hyrë në një zonë të praktikës.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Redaktimi i tekstit</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Kur hyn në një fushë teksti, modaliteti i shfletimit do të çaktivizohet përkohësisht që të mund të përdorësh të gjitha tastet për të shkruar. Do të dëgjosh një njoftim dhe një tingull kur të çaktivizohet ai. Pasi të dalësh nga fusha e tekstit, modaliteti i shfletimit do të aktivizohet përsëri dhe do të dëgjosh një njoftim dhe tingull tjetër.\n\nShtyp tastin e veprimit + shigjetën djathtas për të hyrë në një zonë të praktikës.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Më shumë rreth modalitetit të shfletimit</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Për të kontrolluar listën e plotë të artikujve mes të cilëve mund të kalosh në modalitetin e shfletimit, shtyp tastin e veprimit + Shift + / dhe kërko për \"modalitetin e shfletimit\" në menynë e shkurtoreve të tastierës.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Lexo sipas karaktereve, fjalëve ose paragrafëve</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Ndonjëherë mund të duash të dëgjosh një tekst të lexuar me zë të lartë karakter pas karakteri.\n\nPër ta bërë këtë, mund të përdorësh navigimin me kontrollet e leximit. Shtyp tastin e veprimit + Shift + shigjetën djathtas ose shigjetën majtas derisa të dëgjosh \"karakteret\". Më pas, shtyp tastin e veprimit + shigjetën lart për ta lëvizur fokusin e navigimit prapa sipas karaktereve. Shtyp tastin e veprimit + shigjetën poshtë për ta zhvendosur fokusin e navigimit përpara sipas karaktereve.\n\nProvoje tani. Mund të zgjedhësh gjithashtu të lexosh sipas fjalëve, rreshtave ose paragrafëve duke përdorur tastin e veprimit + Shift + shigjetën djathtas ose majtas.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Kalo mes kontrolleve</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Kontrollet janë artikuj me të cilët mund të ndërveprosh, si p.sh. butonat, kutitë e zgjedhjes dhe kutitë e tekstit.\n\nNë disa faqe, mund të kalosh mes kontrolleve për të gjetur me shpejtësi një veprim, si p.sh. butonin \"përpara\".\n\nPër ta bërë këtë, shtyp tastin e veprimit + Shift + shigjetën djathtas derisa të dëgjosh \"kontrollet\". Më pas shtyp tastin e veprimit + shigjetën lart për të shkuar te butoni i mëparshëm dhe tastin e veprimit + shigjetën poshtë për të shkuar te butoni tjetër.\n\nProvoje tani dhe gjej butonin tjetër.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Kalo mes lidhjeve</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Mund të kalosh po ashtu mes lidhjeve në një faqe.\n\nPër ta bërë këtë, shtyp tastin e veprimit + Shift + shigjetën djathtas derisa të dëgjosh \"lidhjet\". Më pas shtyp tastin e veprimit + shigjetën poshtë për të gjetur lidhjen me emrin \"Lidhja 5\". Kur je në udhëzues, trokitja dy herë te kjo lidhje nuk do të bëjë asgjë.\n\nShtyp tastin e veprimit + shigjetën djathtas për të gjetur butonin \"Para\" dhe për të shkuar te faqja tjetër.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Kalo mes titujve</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Mund të kalosh po ashtu mes titujve në një faqe.\n\nPër ta provuar tani, shtyp tastin e veprimit + Shift + shigjetën djathtas derisa të dëgjosh \"titujt\". Më pas shtyp tastin e veprimit + shigjetën poshtë për të gjetur titullin \"Navigimi\".</string>
+  <string name="keyboard_tutorial_find_next_button">Shtyp tastin e veprimit + shigjetën djathtas për të gjetur butonin tjetër.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Kalo mes kontejnerëve</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Për të dalë nga një kontejner, si p.sh. një listë ose një rrjetë, shtyp tastin e veprimit + Alt + Ctrl + shigjetën djathtas ose majtas. Kjo është e dobishme kur dëshiron të dalësh nga një listë e gjatë artikujsh.\n\nPër ta provuar tani, shtyp tastin e veprimit + shigjetën djathtas për të hyrë në listë. Më pas shtyp tastin e veprimit + Alt + Ctrl + shigjetën djathtas për të shkuar te kontejneri tjetër.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Për të shkuar te kontejneri tjetër, shtyp tastin e veprimit + Alt + Ctrl + shigjetën djathtas</string>
+  <string name="keyboard_tutorial_exit_container">Për të dalë nga ky kontejner, shtyp tastin e veprimit + Alt + Ctrl + shigjetën djathtas</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Ke dalë nga kontejneri. Mund të shtosh gjithashtu kontejnerë te kontrollet e leximit dhe më pas të shtypësh tastin e veprimit + Shift + shigjetën djathtas ose shigjetën majtas për të zgjedhur kontejnerët dhe tastin e veprimit + shigjetën poshtë ose shigjetën lart për të kaluar nga një kontejner te tjetri. Për të përditësuar kontrollet e leximit, shko te TalkBack &gt; Cilësimet &gt; Personalizo menytë &gt; Personalizo kontrollet e leximit.\n\nShtyp tastin e veprimit + shigjetën djathtas për të gjetur butonin tjetër.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Personalizo kontrollet e leximit</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Mund t\'i rregullosh gjithashtu cilësimet e ligjërimit duke përdorur kontrollet e leximit dhe të personalizosh se çfarë mund të bësh me kontrollet e leximit te TalkBack &gt; Cilësimet &gt; Personalizo menytë &gt; Personalizo kontrollet e leximit.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Provo të marrësh përshkrimet e imazheve</string>
+  <string name="keyboard_tutorial_image_description_page_text">Kur je i fokusuar te një imazh, shtyp tastin e veprimit + R dhe më pas tastin I. Më poshtë është një fotografi. Provo të marrësh përshkrimin e saj.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Mund t\'i ndryshosh cilësimet e përshkrimeve në çdo kohë te Cilësimet e TalkBack &gt; Përshkrimet e imazheve dhe ikonave.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Mund t\'i ndryshosh cilësimet e përshkrimeve në çdo kohë te \"Cilësimet e TalkBack\" dhe më pas te \"Përshkrimet e imazheve dhe ikonave\".</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Shembull imazhi. Shtyp tastin e veprimit + R dhe më pas tastin I për të dëgjuar një përshkrim.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Komandat zanore</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Mund të përdorësh zërin për të kontrolluar shpejt TalkBack.\n\nPër shembull, thuaj një komandë për të ndryshuar navigimin, për të kaluar te titulli i radhës, për të kopjuar tekst etj.\n\nPër ta provuar tani, shtyp tastin e veprimit + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Përdorimi i kërkimit të ekranit</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Veçoria e kërkimit të ekranit të lejon që të kërkosh për përmbajtje specifike në ekran.\n\nPër ta provuar, shtyp tastin e veprimit + CTRL + /. Shkruaj një fjalë kyçe, si p.sh. \"para\", për të gjetur artikujt me atë tekst në ekran.\n\nProvo të kërkosh për \"para\" tani për të gjetur butonin \"Para\".</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navigo me anë të kërkimit të ekranit</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Mund të lëvizësh me shpejtësi mes rezultateve të ndryshme të kërkimit nga kërkimi i ekranit pasi të kesh zgjedhur një rezultat.\n\nPër ta bërë këtë, mund të përdorësh navigimin me kontrollet e leximit. Shtyp tastin e veprimit + Shift + shigjetën djathtas ose shigjetën majtas derisa të dëgjosh \"kërkimi i ekranit\". Më pas, shtyp tastin e veprimit + shigjetën poshtë ose lart për të naviguar sipas rezultateve të kërkimit të ekranit.\n\nLe ta provojmë tani. Më poshtë është një listë me 3 butona, ku të gjithë përfshijnë tekstin \"veprimi\". Kërko për \"veprimi\" duke përdorur kërkimin e ekranit dhe më pas navigo me kërkimin e ekranit për të lëvizur mes tyre.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Praktiko shkurtoret e tastierës</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Shtyp një tast ose një kombinim tastesh të tastierës fizike për të dëgjuar çfarë bën. Shtyp Ctrl + W ose Escape për të dalë.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Zbulo madhështinë e sekuojave të Kalifornisë&lt;/h1&gt;
+      &lt;p&gt;Sekuojat e Kalifornisë, kryesisht sekuojat bregdetare (sequoia sempervrens), janë pemët më të gjata në botë. Disa janë mbi 115 metra (380 këmbë) të gjata dhe mund të jetojnë për mijëra vite. Ato rriten në klimën bregdetare me lagështi të Kalifornisë së veriut, duke përfituar nga shiu dhe mjegulla.&lt;/p&gt;
+
+      &lt;h2&gt;Ku mund t\'i shikosh&lt;/h2&gt;
+      &lt;p&gt;Këto pemë gjigante do t\'i gjesh në një brez të ngushtë përgjatë bregdetit të Paqësorit. Parqet kryesore përfshijnë:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Planifiko vizitën tënde këtu: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Parqet e shtetit të Kalifornisë - sekuojat&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Mbështet konservimin&lt;/h2&gt;
+      &lt;p&gt;Mbrojtja e këtyre pyjeve të lashta është jetësore. Mund të ndihmosh duke ndjekur udhëzimet e parkut dhe duke mbështetur përpjekjet për konservimin.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Ndaj përvojën tënde&lt;/h2&gt;
+        &lt;p&gt;Ke qenë në pyjet e sekuojave?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Po&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Jo&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Na trego për përvojën tënde&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Dërgo&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Çfarë tjetër dëshiron të mësosh për sekuojat?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Dërgo&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Pemët e sekuojave: Sigurimi i një mjedisi të shëndetshëm&lt;/h1&gt;
+    &lt;p&gt;Sekuojat janë të rëndësishme për planetin tonë, duke luajtur një rol të madh për sigurimin e një mjedisi të shëndetshëm.&lt;/p&gt;
+
+    &lt;h1&gt;Pastruesit gjigantë të ajrit&lt;/h1&gt;
+    &lt;p&gt;Këto pemë janë të mrekullueshme për thithjen e dioksidit të karbonit nga ajri. Duke thithur kaq shumë prej tij, sekuojat ndihmojnë për ta mbajtur të pastër ajrin.&lt;/p&gt;
+
+    &lt;h2&gt;Streha e kafshëve&lt;/h2&gt;
+    &lt;p&gt;Sekuojat sigurojnë strehimin për shumë kafshë, nga zogjtë në degët e tyre e deri te krijesat e vogla në tokë.&lt;/p&gt;
+
+    &lt;h3&gt;Magjistaret e ujit&lt;/h3&gt;
+    &lt;p&gt;Ato janë të shkëlqyera për të kapur mjegullën, e cila më pas pikon në tokën e pyllit. Kjo e mban tokën të lagësht dhe siguron ujë për bimët dhe kafshët e tjera, sidomos kur është një mot i thatë.&lt;/p&gt;
+
+    &lt;h4&gt;Mbrojtëset e tokës&lt;/h4&gt;
+    &lt;p&gt;Rrënjët e tyre të forta e mbajnë tokën në vend, duke ndaluar lëvizjen e saj gjatë shirave të dendura dhe duke parandaluar erozionin.&lt;/p&gt;
+
+    &lt;h5&gt;Ndërtueset e pyjeve&lt;/h5&gt;
+    &lt;p&gt;Kur sekuojat e vjetra bien, druri i tyre bëhet ushqim dhe strehë për krijesat dhe bimët e reja, duke krijuar një tokë të pasur për zhvillimin e tyre.&lt;/p&gt;
+
+    &lt;h6&gt;Ekosisteme unike&lt;/h6&gt;
+    &lt;p&gt;Duke qenë se sekuojat janë kaq të mëdha dhe jetojnë për një kohë kaq të gjatë, ato krijojnë mjedise të veçanta pyjore që mbështesin gjallesat, gjë që nuk gjendet askund tjetër.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Kafshët e pyjeve të sekuojave&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Kafshët e pyjeve të sekuojave\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Kafsha&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Përshkrimi&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Ku jeton&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Fakt argëtues&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Kërmilli i bananes&lt;/th&gt;
+            &lt;td&gt;Kërmill jargavec i madh i verdhë&lt;/td&gt;
+            &lt;td&gt;Në tokën e pyllit&lt;/td&gt;
+            &lt;td&gt;Kërmilli i dytë më i madh në botë&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamandra gjigante e Paqësorit&lt;/th&gt;
+            &lt;td&gt;Salamandër e madhe me ngjyrë të errët&lt;/td&gt;
+            &lt;td&gt;Pranë përrenjve dhe zonave me lagështi&lt;/td&gt;
+            &lt;td&gt;Mund të rritet deri në 30 cm (1 këmbë) gjatësi&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Dreri i Ruzveltit&lt;/th&gt;
+            &lt;td&gt;Drer i madh me brirë mbresëlënës&lt;/td&gt;
+            &lt;td&gt;Ushqehet në lëndinat brenda pyllit&lt;/td&gt;
+            &lt;td&gt;Meshkujt mund të peshojnë mbi 450 kg (1000 paundë)&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bufi i veriut me pika&lt;/th&gt;
+            &lt;td&gt;Buf me madhësi mesatare, gjuan gjatë natës&lt;/td&gt;
+            &lt;td&gt;Në pyjet e mëdhenj dhe të dendur të sekuojave&lt;/td&gt;
+            &lt;td&gt;Një \"specie treguese\" - shëndeti i tij tregon shëndetin e pyllit&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Ariu i zi&lt;/th&gt;
+            &lt;td&gt;Gjitar i madh, zakonisht me ngjyrë të zezë ose kafe&lt;/td&gt;
+            &lt;td&gt;Kërkon për ushqim kudo në pyll&lt;/td&gt;
+            &lt;td&gt;Me aftësi të shkëlqyera për t\'u ngjitur, vihet re shpesh lart në pemë&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Mendimet e tua për sekuojat dhe natyrën&lt;/h1&gt;
+
+      &lt;p&gt;Çfarë tjetër dëshiron të mësosh për sekuojat?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Cili është vendi yt i preferuar në natyrë për ta vizituar?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Cili është ai koncept në lidhje me natyrën për të cilin dëshiron të mësosh më shumë?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

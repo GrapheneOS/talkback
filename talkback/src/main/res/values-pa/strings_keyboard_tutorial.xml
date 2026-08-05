@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">ਇਹ ਟਿਊਟੋਰੀਅਲ ਵਿਸਤ੍ਰਿਤ ਕੀਮੈਪ ਲਈ ਹੈ, ਜਿਸ ਵਿੱਚ ਕਈ ਨਵੇਂ ਆਦੇਸ਼ ਸ਼ਾਮਲ ਹਨ। ਕੀਮੈਪ ਚੁਣਨ ਲਈ, TalkBack ਸੈਟਿੰਗਾਂ &gt; ਅਡਵਾਂਸ ਸੈਟਿੰਗਾਂ &gt; ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ \'ਤੇ ਜਾਓ।\n\nਕਿਸੇ ਵਿਸ਼ੇ ਨੂੰ ਚੁਣਨ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ। ਬਿਹਤਰੀਨ ਅਨੁਭਵ ਲਈ, ਸ਼ੁਰੂਆਤ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ TalkBack ਨੂੰ ਚਾਲੂ ਕਰੋ।</string>
+  <string name="basic_interaction_link_text">ਮੂਲ ਅੰਤਰਕਿਰਿਆ</string>
+  <string name="basic_interaction_link_subtext">ਇੱਕ ਆਈਟਮ ਤੋਂ ਦੂਜੀ ਆਈਟਮ \'ਤੇ ਜਾਓ, ਲਾਈਨ ਦਰ ਲਾਈਨ ਪੜ੍ਹੋ, ਮੀਨੂ ਵਰਤੋ ਅਤੇ ਹੋਰ ਵੀ ਬਹੁਤ ਕੁਝ ਕਰੋ</string>
+  <string name="browse_mode_link_text">ਬ੍ਰਾਊਜ਼ ਮੋਡ</string>
+  <string name="browse_mode_link_subtext">ਜੰਪ ਕਮਾਂਡਾਂ ਵਰਤ ਕੇ ਤੇਜ਼ੀ ਨਾਲ ਵੈੱਬ ਸਮੱਗਰੀ \'ਤੇ ਜਾਓ</string>
+  <string name="reading_controls_link_text">ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲ</string>
+  <string name="reading_controls_link_subtext">ਇੱਕ ਆਈਟਮ ਤੋਂ ਦੂਜੀ ਆਈਟਮ \'ਤੇ ਜਾਣ ਲਈ, ਬੋਲੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰਨ ਲਈ ਅਤੇ ਹੋਰ ਚੀਜ਼ਾਂ ਲਈ ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲਾਂ ਨੂੰ ਵਰਤੋ</string>
+  <string name="image_descriptions_link_text">ਚਿੱਤਰ ਸੰਬੰਧੀ ਵਰਣਨ</string>
+  <string name="image_descriptions_link_subtext">ਚਿੱਤਰਾਂ ਸੰਬੰਧੀ ਵਰਣਨ ਪ੍ਰਾਪਤ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+  <string name="keyboard_shortcuts_link_text">ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ ਦਾ ਅਭਿਆਸ ਕਰੋ</string>
+  <string name="keyboard_shortcuts_link_subtext">ਕੁੰਜੀਆਂ ਅਤੇ ਕੁੰਜੀ ਸੁਮੇਲਾਂ ਨੂੰ ਦਬਾਓ ਅਤੇ ਉਨ੍ਹਾਂ ਦੇ ਕਾਰਜ ਬਾਰੇ ਜਾਣੋ</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack ਵਿਸ਼ੇਸ਼ਤਾ ਬੋਲ ਕੇ ਫ਼ੀਡਬੈਕ ਮੁਹੱਈਆ ਕਰਵਾਉਂਦੀ ਹੈ, ਤਾਂ ਜੋ ਤੁਸੀਂ ਬਿਨਾਂ ਸਕ੍ਰੀਨ ਦੇਖੇ ਆਪਣੇ ਡੀਵਾਈਸ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕੋ। TalkBack ਵਿਸ਼ੇਸ਼ਤਾ ਉਨ੍ਹਾਂ ਲੋਕਾਂ ਲਈ ਲਾਹੇਵੰਦ ਹੋ ਸਕਦੀ ਹੈ, ਜਿਨ੍ਹਾਂ ਨੂੰ ਸਕ੍ਰੀਨ ਦੇਖਣ ਵਿੱਚ ਮੁਸ਼ਕਲ ਆਉਂਦੀ ਹੈ। TalkBack ਚਾਲੂ ਹੋਣ \'ਤੇ, ਸਕ੍ਰੀਨ ਦੀ ਫੋਕਸ ਹੋਈ ਆਈਟਮ ਨੂੰ ਉੱਚੀ ਅਵਾਜ਼ ਵਿੱਚ ਬੋਲਿਆ ਜਾਂਦਾ ਹੈ।\n\nਪਹਿਲਾਂ ਆਓ ਤੁਹਾਡੇ ਕੀ-ਬੋਰਡ ਤੋਂ ਜਾਣੂ ਹੋਈਏ। ਕਾਰਵਾਈ ਕੁੰਜੀ ਲੱਭੋ, ਜੋ ਖੱਬੀ Shift ਕੁੰਜੀ ਦੇ ਉੱਪਰ ਹੈ। ਹੁਣ ਆਓ ਕੀ-ਬੋਰਡ ਦੇ ਹੇਠਲੇ-ਸੱਜੇ ਖੇਤਰ ਦੇ ਨੇੜੇ ਤੀਰ ਕੁੰਜੀਆਂ ਨੂੰ ਲੱਭੀਏ। ਅਗਲੀ ਆਈਟਮ \'ਤੇ ਜਾਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">ਇਹ ਅਗਲੀ ਆਈਟਮ ਹੈ। ਪਿਛਲੀ ਆਈਟਮ \'ਤੇ ਜਾਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + ਖੱਬਾ ਤੀਰ ਦਬਾਓ।\n\nਜਦੋਂ ਤੁਸੀਂ ਕਿਸੇ ਬਟਨ ਵਰਗੀ ਅੰਤਰਕਿਰਿਆਤਮਕ ਆਈਟਮ \'ਤੇ ਜਾਂਦੇ ਹੋ, ਤਾਂ ਇਸਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰਨ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + Space ਦਬਾਓ। ਅਗਲਾ ਬਟਨ ਲੱਭੋ ਅਤੇ ਟਿਊਟੋਰੀਅਲ ਜਾਰੀ ਰੱਖੋ।</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">ਅੱਖਰ-ਚਿੰਨ੍ਹ, ਸ਼ਬਦ ਜਾਂ ਪੈਰੇ ਮੁਤਾਬਕ ਪੜ੍ਹੋ</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">ਕਈ ਵਾਰ, ਸ਼ਾਇਦ ਤੁਸੀਂ ਇੱਕ ਸਮੇਂ ਇੱਕ ਹੀ ਅੱਖਰ-ਚਿੰਨ੍ਹ ਨੂੰ ਉੱਚੀ ਅਵਾਜ਼ ਵਿੱਚ ਪੜ੍ਹਦੇ ਸੁਣਨਾ ਚਾਹੋ।\n\nਅਜਿਹਾ ਕਰਨ ਲਈ, ਤੁਸੀਂ \'ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲ\' ਨੈਵੀਗੇਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ। ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + ਸੱਜਾ ਜਾਂ ਖੱਬਾ ਤੀਰ ਨੂੰ ਉਦੋਂ ਤੱਕ ਦਬਾ ਕੇ ਰੱਖੋ, ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ \"ਅੱਖਰ-ਚਿੰਨ੍ਹ\" ਨਹੀਂ ਸੁਣਦੇ।\n\nਅੱਗੇ, ਨੈਵੀਗੇਸ਼ਨ ਫੋਕਸ ਨੂੰ ਅੱਖਰ-ਚਿੰਨ੍ਹ ਦੇ ਮੁਤਾਬਕ ਪਿੱਛੇ ਲਿਜਾਉਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਉੱਪਰ ਤੀਰ ਦਬਾਓ। ਨੈਵੀਗੇਸ਼ਨ ਫੋਕਸ ਨੂੰ ਅੱਖਰ-ਚਿੰਨ੍ਹ ਦੇ ਮੁਤਾਬਕ ਅੱਗੇ ਲਿਜਾਉਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਹੇਠਾਂ ਤੀਰ ਕੁੰਜੀ ਨੂੰ ਦਬਾਓ।\n\nਇਸਨੂੰ ਹੁਣੇ ਵਰਤ ਕੇ ਦੇਖੋ। ਤੁਸੀਂ ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + ਸੱਜੇ ਜਾਂ ਖੱਬੇ ਤੀਰ ਦੀ ਵਰਤੋਂ ਕਰ ਕੇ ਸ਼ਬਦਾਂ, ਲਾਈਨਾਂ ਜਾਂ ਪੈਰਿਆਂ ਮੁਤਾਬਕ ਪੜ੍ਹਨਾ ਵੀ ਚੁਣ ਸਕਦੇ ਹੋ।</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">ਸਿਸਟਮ ਨੈਵੀਗੇਸ਼ਨ</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">ਹੁਣੇ ਇਨ੍ਹਾਂ ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ ਨੂੰ ਅਜ਼ਮਾਉਣ ਨਾਲ ਟਿਊਟੋਰੀਅਲ ਬੰਦ ਹੋ ਜਾਵੇਗਾ। ਜੇ ਤੁਸੀਂ ਚਾਹੋ, ਤਾਂ ਟਿਊਟੋਰੀਅਲ ਪੂਰਾ ਹੋਣ ਤੱਕ ਉਡੀਕ ਕਰ ਸਕਦੇ ਹੋ।\n\nਖੁੱਲ੍ਹੀਆਂ ਐਪ ਵਿੰਡੋਆਂ ਅਤੇ ਸੂਚਨਾਵਾਂ ਅਤੇ ਟਾਸਕਬਾਰ ਵਰਗੇ ਸਿਸਟਮ ਤੱਤਾਂ ਵਿਚਕਾਰ ਸਵਿੱਚ ਕਰਨ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ+ Alt + Ctrl + ਉੱਪਰ ਜਾਂ ਹੇਠਾਂ ਤੀਰ ਦਬਾਓ।\n\nਐਪ ਸੂਚੀ ਖੋਲ੍ਹਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ ਦਬਾਓ।\n\nਹੋਮ ਸਕ੍ਰੀਨ \'ਤੇ ਜਾਣ ਅਤੇ ਸਾਰੀਆਂ ਖੁੱਲ੍ਹੀਆਂ ਵਿੰਡੋਆਂ ਨੂੰ ਛੋਟਾ ਕਰਨ ਲਈ, ਸਿਖਰਲੀ ਕਤਾਰ ਵਿੱਚ ਕਾਰਵਾਈ ਕੁੰਜੀ + H ਜਾਂ ਹੋਮ ਦਬਾਓ।\n\nਆਪਣੀਆਂ ਹਾਲੀਆ ਐਪਾਂ \'ਤੇ ਜਾਣ ਲਈ, ਸਿਖਰਲੀ ਕਤਾਰ ਵਿੱਚ ਕਾਰਵਾਈ ਕੁੰਜੀ + Tab ਜਾਂ ਰੂਪ-ਰੇਖਾ ਦਬਾਓ।\n\nਵਿੰਡੋਆਂ ਵਿਚਕਾਰ ਤੇਜ਼ੀ ਨਾਲ ਸਵਿੱਚ ਕਰਨ ਲਈ, Alt ਦਬਾ ਕੇ ਰੱਖੋ ਅਤੇ Tab ਦਬਾਓ।\n\nਵਾਪਸ ਜਾਣ ਲਈ, ਸਿਖਰਲੀ ਕਤਾਰ ਵਿੱਚ ਕਾਰਵਾਈ ਕੁੰਜੀ + Esc ਜਾਂ ਵਾਪਸ ਦਬਾਓ।\n\nਸੂਚਨਾਵਾਂ ਖੋਲ੍ਹਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + N ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">ਸਪੀਚ ਸੈਟਿੰਗਾਂ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰੋ</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack ਬੋਲੀ ਲਈ ਅਵਾਜ਼ ਨੂੰ ਪਹੁੰਚਯੋਗਤਾ ਅਵਾਜ਼ ਕਿਹਾ ਜਾਂਦਾ ਹੈ। ਇਸਨੂੰ ਮੀਡੀਆ ਅਵਾਜ਼ ਤੋਂ ਵੱਖਰੇ ਤੌਰ \'ਤੇ ਵਿਵਸਥਿਤ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।\n\nਪਹੁੰਚਯੋਗਤਾ ਅਵਾਜ਼ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰਨ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + ਅਵਾਜ਼ ਵਧਾਓ ਜਾਂ ਘਟਾਓ ਦਬਾਓ।\n\nਸਪੀਚ ਰੇਟ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰਨ ਲਈ, ਵਧਾਉਣ ਵਾਸਤੇ ਕਾਰਵਾਈ ਕੁੰਜੀ + Ctrl + ਅਵਾਜ਼ ਵਧਾਓ ਅਤੇ ਘਟਾਉਣ ਵਾਸਤੇ ਕਾਰਵਾਈ ਕੁੰਜੀ + Ctrl + ਅਵਾਜ਼ ਘਟਾਓ ਦਬਾਓ।\n\nਕਿਸੇ ਵੀ ਸਮੇਂ ਬੋਲਣਾ ਬੰਦ ਕਰਨ ਲਈ, Ctrl ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack ਮੀਨੂ ਅਤੇ ਹੋਰ ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack ਮੀਨੂ ਵਿੱਚ ਉਹ ਸੈਟਿੰਗਾਂ ਅਤੇ ਕੰਟਰੋਲ ਸ਼ਾਮਲ ਹਨ ਜਿਨ੍ਹਾਂ ਦੀ ਤੁਹਾਨੂੰ ਅਕਸਰ ਲੋੜ ਪੈ ਸਕਦੀ ਹੈ।\n\nTalkBack ਮੀਨੂ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Ctrl + M ਦਬਾਓ। ਤੁਸੀਂ ਬਾਅਦ ਵਿੱਚ TalkBack ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਜਾ ਕੇ TalkBack ਮੀਨੂ ਅਤੇ ਆਪਣੇ ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲਾਂ ਨੂੰ ਵਿਉਂਤਬੱਧ ਕਰ ਸਕਦੇ ਹੋ।\n\nTalkBack ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਮੀਨੂ ਵਿੱਚ ਉਹ ਸਾਰੇ ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਸ਼ਾਮਲ ਹੁੰਦੇ ਹਨ, ਜਿਨ੍ਹਾਂ ਦੀ ਤੁਸੀਂ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ।\n\nਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਮੀਨੂ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + / ਦਬਾਓ।\n\nਕੀ-ਬੋਰਡ ਬਾਰੇ ਹੋਰ ਜਾਣਨ ਅਤੇ ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ ਦਾ ਅਭਿਆਸ ਕਰਨ ਲਈ, ਅਭਿਆਸ ਸਕ੍ਰੀਨ ਖੋਲ੍ਹਣ ਵਾਸਤੇ ਕਾਰਵਾਈ ਕੁੰਜੀ + 0 ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_finished_page_title">ਸਭ ਹੋ ਗਿਆ!</string>
+  <string name="keyboard_tutorial_finished_page_text">ਤੁਸੀਂ TalkBack ਨੂੰ ਵਰਤਣ ਲਈ ਤਿਆਰ ਹੋ।\n\nਹੁਣੇ ਹੋਰ ਵਿਸ਼ਿਆਂ ਬਾਰੇ ਜਾਣਨਾ ਜਾਰੀ ਰੱਖੋ ਜਾਂ ਕਿਸੇ ਵੇਲੇ ਵੀ TalkBack ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਇਸ ਜਾਣਕਾਰੀ ਦੀ ਸਮੀਖਿਆ ਕਰੋ।\n\nਕਿਸੇ ਵੀ ਸਮੇਂ TalkBack ਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰਨ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Alt + T ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">ਬ੍ਰਾਊਜ਼ ਮੋਡ ਨਾਲ ਤੇਜ਼ੀ ਨਾਲ ਵੈੱਬ ਸਮੱਗਰੀ \'ਤੇ ਜਾਓ</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">ਜਦੋਂ ਤੁਸੀਂ ਬ੍ਰਾਊਜ਼ਰ ਅਤੇ ਵੈੱਬ ਐਪਾਂ ਵਿੱਚ ਹੁੰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਨੂੰ ਚਾਲੂ ਕਰ ਸਕਦੇ ਹੋ ਅਤੇ ਕਿਸੇ ਕੁੰਜੀ ਨੂੰ ਇੱਕ ਵਾਰ ਦਬਾ ਕੇ ਵੱਖ-ਵੱਖ ਕਿਸਮਾਂ ਦੀ ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਗ੍ਰੈਨਿਊਲੈਰਿਟੀ ਅਤੇ ਕੰਟਰੋਲਾਂ ਵਿਚਕਾਰ ਸਵਿੱਚ ਕਰ ਸਕਦੇ ਹੋ। ਇਹ ਪੰਨੇ ਨੂੰ ਨੈਵੀਗੇਟ ਕਰਨ ਨੂੰ ਲਿਖਤ ਸੰਪਾਦਨ ਬਾਕਸ ਵਿੱਚ ਨੈਵੀਗੇਟ ਕਰਨ ਵਰਗਾ ਬਣਾਉਂਦਾ ਹੈ, ਜਿਵੇਂ ਕਿ ਅੱਖਰ-ਚਿੰਨ੍ਹ ਮੁਤਾਬਕ ਜਾਣ ਲਈ ਖੱਬੇ ਅਤੇ ਸੱਜੇ ਤੀਰ ਅਤੇ ਲਾਈਨ ਮੁਤਾਬਕ ਜਾਣ ਲਈ ਉੱਪਰ ਅਤੇ ਹੇਠਾਂ ਤੀਰ।\n\nਬ੍ਰਾਊਜ਼ ਮੋਡ ਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰਨ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ ਨੂੰ ਦੋ ਵਾਰ ਦਬਾਓ।\n\nਬ੍ਰਾਊਜ਼ ਮੋਡ ਚਾਲੂ ਹੋਣ \'ਤੇ, ਅਗਲੇ ਲੈਂਡਮਾਰਕ \'ਤੇ ਜਾਣ ਲਈ D, ਅਗਲੇ ਕੰਟਰੋਲ ਜਾਂ ਫ਼ਾਰਮ ਖੇਤਰ ਲਈ F, ਅਗਲੇ ਬਟਨ ਲਈ B, ਅਗਲੇ ਲਿੰਕ ਲਈ K ਅਤੇ ਅਗਲੇ ਸਿਰਲੇਖ ਲਈ H ਦਬਾਓ। ਪਿੱਛੇ ਵੱਲ ਜਾਣ ਲਈ Shift ਦਬਾ ਕੇ ਇਨ੍ਹਾਂ ਕੁੰਜੀਆਂ ਨੂੰ ਦਬਾਓ।\n\nਤੁਸੀਂ ਲਾਈਨਾਂ ਮੁਤਾਬਕ ਅੱਗੇ-ਪਿੱਛੇ ਜਾਣ ਲਈ ਉੱਪਰ ਅਤੇ ਹੇਠਾਂ ਤੀਰ, ਅੱਖਰਾਂ ਮੁਤਾਬਕ ਅੱਗੇ-ਪਿੱਛੇ ਜਾਣ ਲਈ ਖੱਬਾ ਅਤੇ ਸੱਜਾ ਤੀਰ ਅਤੇ ਸ਼ਬਦਾਂ ਮੁਤਾਬਕ ਅੱਗੇ-ਪਿੱਛੇ ਜਾਣ ਲਈ Ctrl + ਖੱਬਾ ਅਤੇ ਸੱਜਾ ਤੀਰ ਵੀ ਵਰਤ ਸਕਦੇ ਹੋ।\n\nਅਭਿਆਸ ਖੇਤਰ ਵਿੱਚ ਦਾਖਲ ਹੋਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ। ਅਭਿਆਸ ਖੇਤਰ ਵਿੱਚ ਲਿੰਕ, ਫ਼ਾਰਮ ਖੇਤਰ ਅਤੇ ਬਟਨ ਕੁਝ ਨਹੀਂ ਕਰਨਗੇ।</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">ਸਿਰਲੇਖ ਦੇ ਪੱਧਰ</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">ਵੈੱਬਸਾਈਟਾਂ ਅਤੇ ਵੈੱਬ ਐਪਾਂ ਅਕਸਰ ਸਮੱਗਰੀ ਨੂੰ ਢਾਂਚਾ ਦੇਣ ਲਈ ਵੱਖ-ਵੱਖ ਪੱਧਰਾਂ ਵਾਲੇ ਸਿਰਲੇਖਾਂ ਦੀ ਵਰਤੋਂ ਕਰਦੀਆਂ ਹਨ। ਬ੍ਰਾਊਜ਼ ਮੋਡ ਚਾਲੂ ਹੋਣ \'ਤੇ, ਸਿਰਲੇਖ ਪੱਧਰਾਂ \'ਤੇ ਜਾਣ ਲਈ 1 ਤੋਂ 6 ਦਬਾਓ। ਪਿੱਛੇ ਜਾਣ ਲਈ Shift ਨੂੰ ਦਬਾਈ ਰੱਖੋ ਅਤੇ ਇਨ੍ਹਾਂ ਕੁੰਜੀਆਂ ਨੂੰ ਦਬਾਓ।\n\nਅਭਿਆਸ ਖੇਤਰ ਵਿੱਚ ਦਾਖਲ ਹੋਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_tables_page_title">ਸਾਰਨੀਆਂ</string>
+  <string name="keyboard_tutorial_tables_page_text">ਬ੍ਰਾਊਜ਼ ਮੋਡ ਸਾਰਨੀ ਨੈਵੀਗੇਸ਼ਨ ਨੂੰ ਵੀ ਆਸਾਨ ਬਣਾਉਂਦਾ ਹੈ। ਜਦੋਂ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਚਾਲੂ ਹੁੰਦਾ ਹੈ, ਤਾਂ ਕਤਾਰਾਂ ਵਿਚਾਲੇ ਜਾਣ ਲਈ Alt + Ctrl + ਉੱਪਰ ਅਤੇ ਹੇਠਾਂ ਤੀਰ ਅਤੇ ਕਾਲਮਾਂ ਵਿਚਾਲੇ ਜਾਣ ਲਈ Alt + Ctrl + ਖੱਬਾ ਅਤੇ ਸੱਜਾ ਤੀਰ ਦਬਾਓ।\n\nਅਭਿਆਸ ਖੇਤਰ ਵਿੱਚ ਦਾਖਲ ਹੋਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_editing_text_page_title">ਲਿਖਤ ਦਾ ਸੰਪਾਦਨ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
+  <string name="keyboard_tutorial_editing_text_page_text">ਜਦੋਂ ਤੁਸੀਂ ਲਿਖਤ ਖੇਤਰ ਵਿੱਚ ਦਾਖਲ ਹੁੰਦੇ ਹੋ, ਤਾਂ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਨੂੰ ਕੁਝ ਸਮੇਂ ਲਈ ਬੰਦ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ, ਤਾਂ ਜੋ ਤੁਸੀਂ ਟਾਈਪ ਕਰਨ ਲਈ ਸਾਰੀਆਂ ਕੁੰਜੀਆਂ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕੋ। ਇਸਦੇ ਬੰਦ ਹੋਣ \'ਤੇ, ਤੁਹਾਨੂੰ ਇੱਕ ਘੋਸ਼ਣਾ ਅਤੇ ਇੱਕ ਧੁਨੀ ਸੁਣਾਈ ਦੇਵੇਗੀ। ਇੱਕ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਲਿਖਤ ਖੇਤਰ ਛੱਡ ਦਿੰਦੇ ਹੋ, ਤਾਂ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਵਾਪਸ ਚਾਲੂ ਹੋ ਜਾਵੇਗਾ ਅਤੇ ਤੁਹਾਨੂੰ ਇੱਕ ਹੋਰ ਘੋਸ਼ਣਾ ਅਤੇ ਧੁਨੀ ਸੁਣਾਈ ਦੇਵੇਗੀ।\n\nਅਭਿਆਸ ਖੇਤਰ ਵਿੱਚ ਦਾਖਲ ਹੋਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">ਬ੍ਰਾਊਜ਼ ਮੋਡ ਬਾਰੇ ਹੋਰ ਜਾਣਕਾਰੀ</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">ਉਨ੍ਹਾਂ ਆਈਟਮਾਂ ਦੀ ਪੂਰੀ ਸੂਚੀ ਦੇਖਣ ਲਈ, ਜਿਨ੍ਹਾਂ ਵਿਚਕਾਰ ਤੁਸੀਂ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਵਿੱਚ ਜਾ ਸਕਦੇ ਹੋ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + / ਦਬਾਓ ਅਤੇ ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਮੀਨੂ ਵਿੱਚ \"ਬ੍ਰਾਊਜ਼ ਮੋਡ\" ਖੋਜੋ।</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">ਅੱਖਰ-ਚਿੰਨ੍ਹ, ਸ਼ਬਦ ਜਾਂ ਪੈਰੇ ਮੁਤਾਬਕ ਪੜ੍ਹੋ</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">ਕਈ ਵਾਰ, ਸ਼ਾਇਦ ਤੁਸੀਂ ਇੱਕ ਸਮੇਂ ਇੱਕ ਹੀ ਅੱਖਰ-ਚਿੰਨ੍ਹ ਨੂੰ ਉੱਚੀ ਅਵਾਜ਼ ਵਿੱਚ ਪੜ੍ਹਦੇ ਸੁਣਨਾ ਚਾਹੋ।\n\nਅਜਿਹਾ ਕਰਨ ਲਈ, ਤੁਸੀਂ \'ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲ\' ਨੈਵੀਗੇਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ। ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + ਸੱਜਾ ਜਾਂ ਖੱਬਾ ਤੀਰ ਨੂੰ ਉਦੋਂ ਤੱਕ ਦਬਾ ਕੇ ਰੱਖੋ, ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ \"ਅੱਖਰ-ਚਿੰਨ੍ਹ\" ਨਹੀਂ ਸੁਣਦੇ। ਅੱਗੇ, ਨੈਵੀਗੇਸ਼ਨ ਫੋਕਸ ਨੂੰ ਅੱਖਰ-ਚਿੰਨ੍ਹ ਦੇ ਮੁਤਾਬਕ ਪਿੱਛੇ ਲਿਜਾਉਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਉੱਪਰ ਤੀਰ ਦਬਾਓ। ਨੈਵੀਗੇਸ਼ਨ ਫੋਕਸ ਨੂੰ ਅੱਖਰ-ਚਿੰਨ੍ਹ ਦੇ ਮੁਤਾਬਕ ਅੱਗੇ ਲਿਜਾਉਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਹੇਠਾਂ ਤੀਰ ਕੁੰਜੀ ਨੂੰ ਦਬਾਓ।\n\nਇਸਨੂੰ ਹੁਣੇ ਵਰਤ ਕੇ ਦੇਖੋ। ਤੁਸੀਂ ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + ਸੱਜੇ ਜਾਂ ਖੱਬੇ ਤੀਰ ਦੀ ਵਰਤੋਂ ਕਰ ਕੇ ਸ਼ਬਦਾਂ, ਲਾਈਨਾਂ ਜਾਂ ਪੈਰਿਆਂ ਮੁਤਾਬਕ ਪੜ੍ਹਨਾ ਵੀ ਚੁਣ ਸਕਦੇ ਹੋ।</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">ਇੱਕ ਤੋਂ ਦੂਜੇ ਕੰਟਰੋਲ \'ਤੇ ਜਾਓ</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">ਕੰਟਰੋਲ ਅਜਿਹੀਆਂ ਆਈਟਮਾਂ ਹੁੰਦੀਆਂ ਹਨ, ਜਿਨ੍ਹਾਂ ਨਾਲ ਤੁਸੀਂ ਅੰਤਰਕਿਰਿਆ ਕਰ ਸਕਦੇ ਹੋ, ਜਿਵੇਂ ਕਿ ਬਟਨ, ਚੈੱਕ-ਬਾਕਸ ਅਤੇ ਲਿਖਤ ਬਾਕਸ।\n\nਕੁਝ ਪੰਨਿਆਂ \'ਤੇ, ਤੁਸੀਂ ਤੇਜ਼ੀ ਨਾਲ ਕਾਰਵਾਈ ਲੱਭਣ ਲਈ ਇੱਕ ਤੋਂ ਦੂਜੇ ਕੰਟਰੋਲ \'ਤੇ ਜਾ ਸਕਦੇ ਹੋ, ਜਿਵੇਂ ਕਿ \'ਅੱਗੇ\' ਬਟਨ।\n\nਅਜਿਹਾ ਕਰਨ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + ਸੱਜਾ ਤੀਰ ਨੂੰ ਉਦੋਂ ਤੱਕ ਦਬਾ ਕੇ ਰੱਖੋ, ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ \"ਕੰਟਰੋਲ\" ਨਹੀਂ ਸੁਣਦੇ। ਅੱਗੇ, ਪਿਛਲੇ ਬਟਨ \'ਤੇ ਜਾਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਉੱਪਰ ਤੀਰ ਅਤੇ ਅਗਲੇ ਬਟਨ \'ਤੇ ਜਾਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਹੇਠਾਂ ਤੀਰ ਦਬਾਓ।\n\nਹੁਣੇ ਇਸਨੂੰ ਅਜ਼ਮਾਓ ਅਤੇ ਅਗਲਾ ਬਟਨ ਲੱਭੋ।</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">ਇੱਕ ਤੋਂ ਦੂਜੇ ਲਿੰਕ \'ਤੇ ਜਾਓ</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">ਤੁਸੀਂ ਪੰਨੇ \'ਤੇ ਇੱਕ ਤੋਂ ਦੂਜੇ ਲਿੰਕ \'ਤੇ ਜਾ ਸਕਦੇ ਹੋ।\n\nਅਜਿਹਾ ਕਰਨ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + ਸੱਜਾ ਤੀਰ ਨੂੰ ਉਦੋਂ ਤੱਕ ਦਬਾ ਕੇ ਰੱਖੋ, ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ \"ਲਿੰਕ\" ਨਹੀਂ ਸੁਣਦੇ। ਅੱਗੇ, \"ਲਿੰਕ 5\" ਨਾਮ ਵਾਲਾ ਲਿੰਕ ਲੱਭਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਹੇਠਾਂ ਤੀਰ ਦਬਾਓ। ਟਿਊਟੋਰੀਅਲ ਦੌਰਾਨ, ਇਸ ਲਿੰਕ \'ਤੇ ਡਬਲ ਟੈਪ ਕਰਨ ਨਾਲ ਕੁਝ ਨਹੀਂ ਹੋਵੇਗਾ।\n\nਅਗਲਾ ਬਟਨ ਲੱਭਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ ਅਤੇ ਅਗਲੇ ਪੰਨੇ \'ਤੇ ਜਾਓ।</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">ਇੱਕ ਤੋਂ ਦੂਜੇ ਸਿਰਲੇਖ \'ਤੇ ਜਾਓ</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">ਤੁਸੀਂ ਕਿਸੇ ਪੰਨੇ \'ਤੇ ਇੱਕ ਤੋਂ ਦੂਜੇ ਸਿਰਲੇਖਾਂ \'ਤੇ ਜਾ ਸਕਦੇ ਹੋ।\n\nਇਸਨੂੰ ਹੁਣੇ ਵਰਤ ਕੇ ਦੇਖਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + ਸੱਜਾ ਤੀਰ ਨੂੰ ਉਦੋਂ ਤੱਕ ਦਬਾ ਕੇ ਰੱਖੋ ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ \"ਸਿਰਲੇਖ\" ਨਹੀਂ ਸੁਣਦੇ। ਅੱਗੇ, \"ਨੈਵੀਗੇਸ਼ਨ\" ਸਿਰਲੇਖ ਲੱਭਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਹੇਠਾਂ ਤੀਰ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_find_next_button">ਅਗਲਾ ਬਟਨ ਲੱਭਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">ਇੱਕ ਤੋਂ ਦੂਜੇ ਕੰਟੇਨਰ \'ਤੇ ਜਾਓ</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">ਸੂਚੀ ਜਾਂ ਗਰਿੱਡ ਵਰਗੇ ਕੰਟੇਨਰ ਤੋਂ ਬਾਹਰ ਆਉਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Alt + Ctrl + ਸੱਜਾ ਜਾਂ ਖੱਬਾ ਤੀਰ ਦਬਾਓ। ਇਹ ਉਦੋਂ ਲਾਹੇਵੰਦ ਹੁੰਦਾ ਹੈ, ਜਦੋਂ ਤੁਸੀਂ ਆਈਟਮਾਂ ਦੀ ਲੰਬੀ ਸੂਚੀ ਵਿੱਚੋਂ ਬਾਹਰ ਆਉਣਾ ਚਾਹੁੰਦੇ ਹੋ।\n\nਇਸਨੂੰ ਹੁਣੇ ਅਜ਼ਮਾਉਣ ਲਈ, ਸੂਚੀ ਦਾਖਲ ਕਰਨ ਵਾਸਤੇ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ। ਫਿਰ ਅਗਲੇ ਕੰਟੇਨਰ \'ਤੇ ਜਾਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + Alt + Ctrl + ਸੱਜਾ ਤੀਰ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_go_to_next_container">ਅਗਲੇ ਕੰਟੇਨਰ \'ਤੇ ਜਾਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Alt + Ctrl + ਸੱਜਾ ਤੀਰ ਦਬਾਓ</string>
+  <string name="keyboard_tutorial_exit_container">ਇਸ ਕੰਟੇਨਰ ਤੋਂ ਬਾਹਰ ਜਾਣ ਲਈ, ਕਾਰਵਾਈ ਕੁੰਜੀ + Alt + Ctrl + ਸੱਜਾ ਤੀਰ ਦਬਾਓ</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">ਤੁਸੀਂ ਕੰਟੇਨਰ ਤੋਂ ਬਾਹਰ ਨਿੱਕਲ ਗਏ ਹੋ। ਤੁਸੀਂ ਆਪਣੇ ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲਾਂ ਵਿੱਚ ਕੰਟੇਨਰ ਵੀ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ ਅਤੇ ਫਿਰ ਕੰਟੇਨਰਾਂ ਨੂੰ ਚੁਣਨ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + Shift + ਸੱਜਾ ਜਾਂ ਖੱਬਾ ਤੀਰ ਅਤੇ ਕੰਟੇਨਰਾਂ ਵਿਚਕਾਰ ਸਵਿੱਚ ਕਰਨ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਹੇਠਾਂ ਜਾਂ ਉੱਪਰ ਤੀਰ ਦਬਾ ਸਕਦੇ ਹੋ। ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲਾਂ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨ ਲਈ, TalkBack &gt; ਸੈਟਿੰਗਾਂ &gt; ਮੀਨੂ ਵਿਉਂਤਬੱਧ ਕਰੋ &gt; ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲ ਵਿਉਂਤਬੱਧ ਕਰੋ \'ਤੇ ਜਾਓ।\n\nਅਗਲਾ ਬਟਨ ਲੱਭਣ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + ਸੱਜਾ ਤੀਰ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲਾਂ ਨੂੰ ਵਿਉਂਤਬੱਧ ਕਰੋ</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">ਤੁਸੀਂ ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲਾਂ ਦੀ ਵਰਤੋਂ ਕਰ ਕੇ ਸਪੀਚ ਸੈਟਿੰਗਾਂ ਨੂੰ ਵਿਵਸਥਿਤ ਵੀ ਕਰ ਸਕਦੇ ਹੋ ਅਤੇ TalkBack &gt; ਸੈਟਿੰਗਾਂ &gt; ਮੀਨੂ ਵਿਉਂਤਬੱਧ ਕਰੋ &gt; ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲ ਵਿਉਂਤਬੱਧ ਕਰੋ ਵਿੱਚ ਜਾ ਕੇ ਇਹ ਵਿਉਂਤਬੱਧ ਕਰ ਸਕਦੇ ਹੋ ਕਿ ਤੁਸੀਂ ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲਾਂ ਨਾਲ ਕੀ ਕਰ ਸਕਦੇ ਹੋ।</string>
+  <string name="keyboard_tutorial_image_description_page_title">ਚਿੱਤਰ ਸੰਬੰਧੀ ਵਰਣਨਾਂ ਨੂੰ ਪ੍ਰਾਪਤ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+  <string name="keyboard_tutorial_image_description_page_text">ਜਦੋਂ ਤੁਸੀਂ ਕਿਸੇ ਚਿੱਤਰ\'ਤੇ ਫੋਕਸ ਕਰਦੇ ਹੋ, ਤਾਂ ਕਾਰਵਾਈ ਕੁੰਜੀ + R, ਫਿਰ I ਦਬਾਓ। ਹੇਠਾਂ ਇੱਕ ਫ਼ੋਟੋ ਮੌਜੂਦ ਹੈ। ਇਸ ਦਾ ਵਰਣਨ ਪ੍ਰਾਪਤ ਕਰਕੇ ਦੇਖੋ।</string>
+  <string name="keyboard_tutorial_image_description_settings_description">ਤੁਸੀਂ TalkBack ਸੈਟਿੰਗਾਂ &gt; ਚਿੱਤਰ ਅਤੇ ਪ੍ਰਤੀਕ ਸੰਬੰਧੀ ਵਰਣਨ ਵਿੱਚ ਜਾ ਕੇ ਚਿੱਤਰ ਦੇ ਵਰਣਨ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਬਦਲ ਸਕਦੇ ਹੋ।</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">ਤੁਸੀਂ TalkBack ਸੈਟਿੰਗਾਂ ਫਿਰ ਚਿੱਤਰ ਅਤੇ ਪ੍ਰਤੀਕ ਸੰਬੰਧੀ ਵਰਣਨ ਵਿੱਚ ਜਾ ਕੇ ਚਿੱਤਰ ਦੇ ਵਰਣਨ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਬਦਲ ਸਕਦੇ ਹੋ।</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">ਸੈਂਪਲ ਚਿੱਤਰ। ਵਰਣਨ ਸੁਣਨ ਲਈ ਕਾਰਵਾਈ ਕੁੰਜੀ + R, ਫਿਰ I ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">ਅਵਾਜ਼ੀ ਆਦੇਸ਼</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">ਤੁਸੀਂ TalkBack ਨੂੰ ਤੇਜ਼ੀ ਨਾਲ ਕੰਟਰੋਲ ਕਰਨ ਲਈ ਆਪਣੀ ਅਵਾਜ਼ ਵਰਤ ਸਕਦੇ ਹੋ।\n\nਉਦਾਹਰਨ ਲਈ, ਨੈਵੀਗੇਸ਼ਨ ਬਦਲਣ, ਅਗਲੇ ਸਿਰਲੇਖ \'ਤੇ ਜਾਣ, ਲਿਖਤ ਨੂੰ ਕਾਪੀ ਕਰਨ ਅਤੇ ਹੋਰ ਵੀ ਬਹੁਤ ਕੁਝ ਲਈ ਕੋਈ ਆਦੇਸ਼ ਦਿਓ।\n\nਇਸਨੂੰ ਹੁਣੇ ਵਰਤ ਕੇ ਦੇਖਣ ਲਈ, ਕਾਰਵਾਈ + \\ ਦਬਾਓ।</string>
+  <string name="keyboard_tutorial_screen_search_page_title">ਸਕ੍ਰੀਨ ਖੋਜ ਦੀ ਵਰਤੋਂ ਕਰ ਕੇ ਖੋਜ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
+  <string name="keyboard_tutorial_screen_search_page_text">ਸਕ੍ਰੀਨ ਖੋਜ ਵਿਸ਼ੇਸ਼ਤਾ ਤੁਹਾਨੂੰ ਸਕ੍ਰੀਨ \'ਤੇ ਖਾਸ ਸਮੱਗਰੀ ਦੀ ਖੋਜ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦੀ ਹੈ।\n\nਇਸ ਨੂੰ ਅਜ਼ਮਾਉਣ ਲਈ, ਕਾਰਵਾਈ + CTRL + / ਦਬਾਓ। ਸਕ੍ਰੀਨ \'ਤੇ ਲਿਖਤ ਵਾਲੀਆਂ ਆਈਟਮਾਂ ਨੂੰ ਲੱਭਣ ਲਈ \"ਅੱਗੇ\" ਵਰਗਾ ਪ੍ਰਮੁੱਖ-ਸ਼ਬਦ ਟਾਈਪ ਕਰੋ।\n\nਅਗਲਾ ਬਟਨ ਲੱਭਣ ਲਈ ਹੁਣੇ \"ਅੱਗੇ\" ਖੋਜ ਕੇ ਦੇਖੋ।</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">ਸਕ੍ਰੀਨ ਖੋਜ ਦੀ ਮਦਦ ਨਾਲ ਨੈਵੀਗੇਟ ਕਰੋ</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">ਕਿਸੇ ਨਤੀਜੇ ਨੂੰ ਚੁਣਨ ਤੋਂ ਬਾਅਦ ਤੁਸੀਂ \'ਸਕ੍ਰੀਨ ਖੋਜ\' ਦੀ ਮਦਦ ਨਾਲ ਮਿਲੇ ਵੱਖ-ਵੱਖ ਖੋਜ ਨਤੀਜਿਆਂ ਵਿਚਕਾਰ ਤੇਜ਼ੀ ਨਾਲ ਸਵਿੱਚ ਕਰ ਸਕਦੇ ਹੋ।\n\nਅਜਿਹਾ ਕਰਨ ਲਈ, ਤੁਸੀਂ \'ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਕੰਟਰੋਲ\' ਨੈਵੀਗੇਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ। ਕਾਰਵਾਈ + Shift + ਸੱਜਾ ਜਾਂ ਖੱਬਾ ਤੀਰ ਕੁੰਜੀ ਨੂੰ ਉਦੋਂ ਤੱਕ ਦਬਾ ਕੇ ਰੱਖੋ, ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ \"ਸਕ੍ਰੀਨ ਖੋਜ\" ਨਹੀਂ ਸੁਣਦੇ। ਅੱਗੇ, ਸਕ੍ਰੀਨ ਖੋਜ ਨਤੀਜਿਆਂ ਰਾਹੀਂ ਨੈਵੀਗੇਟ ਕਰਨ ਲਈ ਕਾਰਵਾਈ + ਹੇਠਾਂ ਜਾਂ ਉੱਪਰ ਤੀਰ ਕੁੰਜੀ ਦਬਾਓ।\n\nਆਓ ਇਸਨੂੰ ਹੁਣੇ ਅਜ਼ਮਾ ਕੇ ਦੇਖੀਏ। ਹੇਠਾਂ 3 ਬਟਨਾਂ ਦੀ ਇੱਕ ਸੂਚੀ ਦਿੱਤੀ ਗਈ ਹੈ, ਉਨ੍ਹਾਂ ਸਾਰਿਆਂ \'ਤੇ \"ਕਾਰਵਾਈ\" ਲਿਖਤ ਮੌਜੂਦ ਹੈ। \'ਸਕ੍ਰੀਨ ਖੋਜ\' ਦੀ ਵਰਤੋਂ ਕਰ ਕੇ \"ਕਾਰਵਾਈ\" ਖੋਜੋ, ਫਿਰ ਉਨ੍ਹਾਂ ਵਿਚਕਾਰ ਸਵਿੱਚ ਕਰਨ ਲਈ \'ਸਕ੍ਰੀਨ ਖੋਜ\' ਦੀ ਮਦਦ ਨਾਲ ਨੈਵੀਗੇਟ ਕਰੋ।</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ ਦਾ ਅਭਿਆਸ ਕਰੋ</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">ਇਹ ਕੀ ਕਰਦਾ ਹੈ ਸੁਣਨ ਲਈ ਭੌਤਿਕ ਕੀ-ਬੋਰਡ ਕੁੰਜੀ ਜਾਂ ਕੁੰਜੀ ਸੁਮੇਲ ਦਬਾਓ। ਬਾਹਰ ਜਾਣ ਲਈ Ctrl + W ਜਾਂ Escape ਦਬਾਓ।</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;ਕੈਲੀਫ਼ੋਰਨੀਆ ਦੇ ਰੈੱਡਵੁੱਡ ਦੀ ਸ਼ਾਨ ਨੂੰ ਖੋਜੋ&lt;/h1&gt;
+      &lt;p&gt;ਕੈਲੀਫ਼ੋਰਨੀਆ ਦੇ ਰੈੱਡਵੁੱਡ, ਮੁੱਖ ਤੌਰ \'ਤੇ ਕੋਸਟ ਰੈੱਡਵੁੱਡ (ਸੀਕੋਆ ਸੈਮਪਰਵਿਰੇਨਸ), ਦੁਨੀਆ ਦੇ ਸਭ ਤੋਂ ਲੰਬੇ ਰੁੱਖ ਹਨ। ਕੁਝ 380 ਫੁੱਟ (115 ਮੀਟਰ) ਤੋਂ ਵੱਧ ਲੰਬੇ ਹੁੰਦੇ ਹਨ ਅਤੇ ਹਜ਼ਾਰਾਂ ਸਾਲਾਂ ਤੱਕ ਜੀਵਿਤ ਰਹਿ ਸਕਦੇ ਹਨ। ਉਹ ਉੱਤਰੀ ਕੈਲੀਫ਼ੋਰਨੀਆ ਦੇ ਨਮੀ ਵਾਲੇ ਤੱਟੀ ਮਾਹੌਲ ਵਿੱਚ ਵਧਦੇ-ਫੁੱਲਦੇ ਹਨ, ਜਿਸ ਵਿੱਚ ਉਨ੍ਹਾਂ ਨੂੰ ਮੀਂਹ ਅਤੇ ਧੁੰਦ ਤੋਂ ਲਾਭ ਹੁੰਦਾ ਹੈ।&lt;/p&gt;
+
+      &lt;h2&gt;ਉਨ੍ਹਾਂ ਨੂੰ ਕਿੱਥੇ ਦੇਖਣਾ ਹੈ&lt;/h2&gt;
+      &lt;p&gt;ਤੁਹਾਨੂੰ ਇਹ ਵਿਸ਼ਾਲ ਰੁੱਖ ਪ੍ਰਸ਼ਾਂਤ ਤੱਟ ਦੇ ਨਾਲ-ਨਾਲ ਇੱਕ ਤੰਗ ਪੱਟੀ ਵਿੱਚ ਮਿਲਣਗੇ। ਮੁੱਖ ਪਾਰਕਾਂ ਵਿੱਚ ਇਹ ਸ਼ਾਮਲ ਹਨ:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;ਰੈੱਡਵੁੱਡ ਨੈਸ਼ਨਲ ਐਂਡ ਸਟੇਟ ਪਾਰਕ&lt;/li&gt;
+        &lt;li&gt;ਹੰਬੋਲਟ ਰੈੱਡਵੁੱਡ ਸਟੇਟ ਪਾਰਕ&lt;/li&gt;
+        &lt;li&gt;ਬਿਗ ਬੇਸਿਨ ਰੈੱਡਵੁੱਡ ਸਟੇਟ ਪਾਰਕ&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;ਇੱਥੇ ਆਪਣੀ ਫੇਰੀ ਦੀ ਯੋਜਨਾ ਬਣਾਓ: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;ਕੈਲੀਫ਼ੋਰਨੀਆ ਸਟੇਟ ਪਾਰਕ - ਰੈੱਡਵੁੱਡ&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;ਸੰਰੱਖਿਅਣ ਦਾ ਸਮਰਥਨ ਕਰੋ&lt;/h2&gt;
+      &lt;p&gt;ਇਨ੍ਹਾਂ ਪ੍ਰਾਚੀਨ ਜੰਗਲਾਂ ਦੀ ਸੁਰੱਖਿਆ ਕਰਨਾ ਬਹੁਤ ਮਹੱਤਵਪੂਰਨ ਹੈ। ਤੁਸੀਂ ਪਾਰਕ ਸੰਬੰਧੀ ਸੇਧਾਂ ਦੀ ਪਾਲਣਾ ਕਰ ਕੇ ਅਤੇ ਸੰਰੱਖਿਅਣ ਸੰਬੰਧੀ ਕੋਸ਼ਿਸ਼ਾਂ ਦਾ ਸਮਰਥਨ ਕਰ ਕੇ ਮਦਦ ਕਰ ਸਕਦੇ ਹੋ।&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;ਆਪਣਾ ਅਨੁਭਵ ਸਾਂਝਾ ਕਰੋ&lt;/h2&gt;
+        &lt;p&gt;ਕੀ ਤੁਸੀਂ ਰੈੱਡਵੁੱਡ ਦੇ ਜੰਗਲਾਂ ਵਿੱਚ ਗਏ ਹੋ?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;ਹਾਂ&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;ਨਹੀਂ&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;ਸਾਨੂੰ ਆਪਣੇ ਅਨੁਭਵ ਬਾਰੇ ਦੱਸੋ&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;ਸਪੁਰਦ ਕਰੋ&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;ਤੁਸੀਂ ਰੈੱਡਵੁੱਡ ਦੇ ਜੰਗਲਾਂ ਬਾਰੇ ਹੋਰ ਕੀ ਜਾਣਨਾ ਚਾਹੁੰਦੇ ਹੋ?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;ਸਪੁਰਦ ਕਰੋ&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;ਰੈੱਡਵੁੱਡ ਦੇ ਰੁੱਖ: ਸਾਡੇ ਵਾਤਾਵਰਨ ਨੂੰ ਸਿਹਤਮੰਦ ਰੱਖਣਾ&lt;/h1&gt;
+    &lt;p&gt;ਰੈੱਡਵੁੱਡ ਸਾਡੇ ਗ੍ਰਹਿ ਲਈ ਮਹੱਤਵਪੂਰਨ ਹਨ, ਜੋ ਸਾਡੇ ਵਾਤਾਵਰਨ ਨੂੰ ਸਿਹਤਮੰਦ ਰੱਖਣ ਵਿੱਚ ਵੱਡੀ ਭੂਮਿਕਾ ਨਿਭਾਉਂਦੇ ਹਨ।&lt;/p&gt;
+
+    &lt;h1&gt;ਵੱਡੇ ਹਵਾ ਕਲੀਨਰ&lt;/h1&gt;
+    &lt;p&gt;ਇਹ ਰੁੱਖ ਹਵਾ ਵਿੱਚੋਂ ਕਾਰਬਨ ਡਾਈਆਕਸਾਈਡ ਨੂੰ ਸੋਖਣ ਵਿੱਚ ਬਹੁਤ ਵਧੀਆ ਹਨ। ਇਸਨੂੰ ਸੋਖ ਕੇ, ਰੈੱਡਵੁੱਡ ਸਾਡੀ ਹਵਾ ਨੂੰ ਸਾਫ਼ ਰੱਖਣ ਵਿੱਚ ਮਦਦ ਕਰਦੇ ਹਨ।&lt;/p&gt;
+
+    &lt;h2&gt;ਜਾਨਵਰਾਂ ਲਈ ਘਰ&lt;/h2&gt;
+    &lt;p&gt;ਰੈੱਡਵੁੱਡ ਬਹੁਤ ਸਾਰੇ ਜਾਨਵਰਾਂ ਨੂੰ ਘਰ ਅਤੇ ਪਨਾਹ ਦਿੰਦੇ ਹਨ, ਜਿਵੇਂ ਕਿ ਉਨ੍ਹਾਂ ਦੀਆਂ ਟਾਹਣੀਆਂ ਵਿੱਚ ਪੰਛੀ ਅਤੇ ਮਿੱਟੀ ਵਿੱਚ ਛੋਟੇ ਜੀਵ-ਜੰਤੂ।&lt;/p&gt;
+
+    &lt;h3&gt;ਪਾਣੀ ਦੇ ਜਾਦੂਗਰ&lt;/h3&gt;
+    &lt;p&gt;ਉਹ ਧੁੰਦ ਨੂੰ ਸੋਖਣ ਵਿੱਚ ਬਹੁਤ ਵਧੀਆ ਹੁੰਦੇ ਹਨ, ਜੋ ਫਿਰ ਜੰਗਲ ਦੀ ਜ਼ਮੀਨ \'ਤੇ ਡਿੱਗਦਾ ਹੈ। ਇਸ ਨਾਲ ਧਰਤੀ ਨਮੀ ਵਾਲੀ ਰਹਿੰਦੀ ਹੈ ਅਤੇ ਹੋਰ ਪੌਦਿਆਂ ਅਤੇ ਜਾਨਵਰਾਂ ਨੂੰ ਪਾਣੀ ਮਿਲਦਾ ਹੈ, ਖਾਸ ਕਰਕੇ ਜਦੋਂ ਸੋਕਾ ਪੈਂਦਾ ਹੈ।&lt;/p&gt;
+
+    &lt;h4&gt;ਮਿੱਟੀ ਦੇ ਰੱਖਿਅਕ&lt;/h4&gt;
+    &lt;p&gt;ਇਨ੍ਹਾਂ ਦੀਆਂ ਮਜ਼ਬੂਤ ਜੜ੍ਹਾਂ ਮਿੱਟੀ ਨੂੰ ਥਾਂ \'ਤੇ ਬਰਕਰਾਰ ਰੱਖਦੀਆਂ ਹਨ, ਜਿਸ ਨਾਲ ਭਾਰੀ ਬਾਰਸ਼ਾਂ ਦੌਰਾਨ ਮਿੱਟੀ ਵਹਿਣ ਤੋਂ ਬਚ ਜਾਂਦੀ ਹੈ ਅਤੇ ਮਿੱਟੀ ਦਾ ਖੁਰਨਾ ਰੁਕ ਜਾਂਦਾ ਹੈ।&lt;/p&gt;
+
+    &lt;h5&gt;ਜੰਗਲ ਬਣਾਉਣ ਵਾਲੇ&lt;/h5&gt;
+    &lt;p&gt;ਜਦੋਂ ਪੁਰਾਣੇ ਰੈੱਡਵੁੱਡ ਡਿੱਗ ਜਾਂਦੇ ਹਨ, ਤਾਂ ਉਨ੍ਹਾਂ ਦੀ ਲੱਕੜ ਨਵੇਂ ਪੌਦਿਆਂ ਅਤੇ ਜੀਵਾਂ ਲਈ ਭੋਜਨ ਅਤੇ ਪਨਾਹ ਬਣ ਜਾਂਦੀ ਹੈ, ਜਿਸ ਨਾਲ ਨਵੇਂ ਵਾਧੇ ਲਈ ਉਪਜਾਊ ਮਿੱਟੀ ਬਣ ਜਾਂਦੀ ਹੈ।&lt;/p&gt;
+
+    &lt;h6&gt;ਵਿਲੱਖਣ ਵਿਵਸਥਾਵਾਂ&lt;/h6&gt;
+    &lt;p&gt;ਕਿਉਂਕਿ ਰੈੱਡਵੁੱਡ ਬਹੁਤ ਵੱਡੇ ਹੁੰਦੇ ਹਨ ਅਤੇ ਬਹੁਤ ਲੰਬੇ ਸਮੇਂ ਤੱਕ ਜੀਵਿਤ ਰਹਿੰਦੇ ਹਨ, ਇਸ ਲਈ ਉਹ ਵਿਸ਼ੇਸ਼ ਜੰਗਲੀ ਵਾਤਾਵਰਨ ਬਣਾਉਂਦੇ ਹਨ, ਜੋ ਹੋਰ ਕਿਤੇ ਨਾ ਮਿਲਣ ਵਾਲੇ ਜੀਵਨ ਦਾ ਸਮਰਥਨ ਕਰਦੇ ਹਨ।&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;ਰੈੱਡਵੁੱਡ ਜੰਗਲਾਂ ਦੇ ਜਾਨਵਰ&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"ਰੈੱਡਵੁੱਡ ਜੰਗਲਾਂ ਦੇ ਜਾਨਵਰ\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ਜਾਨਵਰ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ਵਰਣਨ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ਉਹ ਕਿੱਥੇ ਰਹਿੰਦੇ ਹਨ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ਮਜ਼ੇਦਾਰ ਤੱਥ&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ਕੇਲਾ ਸਲੱਗ&lt;/th&gt;
+            &lt;td&gt;ਵੱਡਾ, ਪੀਲਾ, ਚਿਪਚਿਪਾ ਸਲੱਗ&lt;/td&gt;
+            &lt;td&gt;ਜੰਗਲ ਦੀ ਜ਼ਮੀਨ \'ਤੇ&lt;/td&gt;
+            &lt;td&gt;ਦੁਨੀਆ ਦਾ ਦੂਜਾ ਸਭ ਤੋਂ ਵੱਡਾ ਸਲੱਗ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ਪ੍ਰਸ਼ਾਂਤ ਮਹਾਂਸਾਗਰੀ ਵਿਸ਼ਾਲ ਸੈਲਾਮੈਂਡਰ&lt;/th&gt;
+            &lt;td&gt;ਵੱਡਾ, ਗੂੜ੍ਹੇ ਰੰਗ ਦਾ ਸੈਲਾਮੈਂਡਰ&lt;/td&gt;
+            &lt;td&gt;ਨਦੀਆਂ ਅਤੇ ਨਮੀ ਵਾਲੇ ਖੇਤਰਾਂ ਦੇ ਨੇੜੇ&lt;/td&gt;
+            &lt;td&gt;ਇੱਕ ਫੁੱਟ ਤੱਕ ਲੰਬਾ ਹੋ ਸਕਦਾ ਹੈ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ਰੂਜ਼ਵੈਲਟ ਐਲਕ&lt;/th&gt;
+            &lt;td&gt;ਪ੍ਰਭਾਵਸ਼ਾਲੀ ਸਿੰਗਾਂ ਵਾਲਾ ਵੱਡਾ ਹਿਰਨ&lt;/td&gt;
+            &lt;td&gt;ਜੰਗਲ ਦੇ ਅੰਦਰ ਖੁੱਲ੍ਹੀਆਂ ਥਾਵਾਂ \'ਤੇ ਚਰਦਾ ਹੈ&lt;/td&gt;
+            &lt;td&gt;ਨਰ ਦਾ ਭਾਰ 1,000 ਪੌਂਡ ਤੋਂ ਵੱਧ ਹੋ ਸਕਦਾ ਹੈ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ਉੱਤਰੀ ਧੱਬੇਦਾਰ ਉੱਲੂ&lt;/th&gt;
+            &lt;td&gt;ਦਰਮਿਆਨੇ ਆਕਾਰ ਦਾ ਉੱਲੂ, ਰਾਤ ਨੂੰ ਸ਼ਿਕਾਰ ਕਰਦਾ ਹੈ&lt;/td&gt;
+            &lt;td&gt;ਘਣੇ, ਪੁਰਾਣੇ ਰੈੱਡਵੁੱਡ ਜੰਗਲਾਂ ਵਿੱਚ&lt;/td&gt;
+            &lt;td&gt;ਇੱਕ \"ਸੂਚਕ ਪ੍ਰਜਾਤੀ\" – ਇਸਦੀ ਸਿਹਤ ਜੰਗਲ ਦੀ ਸਿਹਤ ਨੂੰ ਦਰਸਾਉਂਦੀ ਹੈ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ਕਾਲਾ ਭਾਲੂ&lt;/th&gt;
+            &lt;td&gt;ਵੱਡਾ ਥਣਧਾਰੀ ਜੀਵ, ਆਮ ਤੌਰ \'ਤੇ ਕਾਲਾ ਜਾਂ ਭੂਰਾ&lt;/td&gt;
+            &lt;td&gt;ਪੂਰੇ ਜੰਗਲ ਵਿੱਚ ਭੋਜਨ ਦੀ ਭਾਲ ਕਰਦਾ ਹੈ&lt;/td&gt;
+            &lt;td&gt;ਸ਼ਾਨਦਾਰ ਚੜ੍ਹਾਈ ਕਰਨ ਵਾਲੇ ਜਾਨਵਰ, ਅਕਸਰ ਰੁੱਖਾਂ ਵਿੱਚ ਦੇਖੇ ਜਾਂਦੇ ਹਨ&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;ਰੈੱਡਵੁੱਡ ਅਤੇ ਕੁਦਰਤ ਬਾਰੇ ਤੁਹਾਡੇ ਵਿਚਾਰ&lt;/h1&gt;
+
+      &lt;p&gt;ਤੁਸੀਂ ਰੈੱਡਵੁੱਡ ਬਾਰੇ ਹੋਰ ਕੀ ਜਾਣਨਾ ਚਾਹੁੰਦੇ ਹੋ?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;ਕੁਦਰਤ ਵਿੱਚ ਤੁਹਾਡੀ ਮਨਪਸੰਦ ਥਾਂ ਕਿਹੜੀ ਹੈ?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;ਕੁਦਰਤ ਵਿੱਚ ਅਜਿਹੀ ਕਿਹੜੀ ਧਾਰਨਾ ਹੈ, ਜਿਸ ਬਾਰੇ ਤੁਸੀਂ ਹੋਰ ਜਾਣਨਾ ਚਾਹੁੰਦੇ ਹੋ?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

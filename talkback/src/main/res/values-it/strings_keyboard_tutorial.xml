@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Questo tutorial riguarda la mappa dei tasti avanzata, che include molti nuovi comandi. Per selezionare la mappa dei tasti, vai alle impostazioni di TalkBack &gt; Impostazioni avanzate &gt; Scorciatoie da tastiera.\n\nPremi Azione + Freccia destra per selezionare un argomento. Per un\'esperienza ottimale, attiva TalkBack prima di iniziare.</string>
+  <string name="basic_interaction_link_text">Interazione di base</string>
+  <string name="basic_interaction_link_subtext">Naviga tra gli elementi, leggi per righe, utilizza i menu e altro ancora</string>
+  <string name="browse_mode_link_text">Modalità navigazione</string>
+  <string name="browse_mode_link_subtext">Naviga più velocemente nei contenuti web con i comandi di spostamento</string>
+  <string name="reading_controls_link_text">Controlli di lettura</string>
+  <string name="reading_controls_link_subtext">Usa i controlli di lettura per passare da un elemento all\'altro, regolare le impostazioni vocali e altro ancora</string>
+  <string name="image_descriptions_link_text">Descrizioni delle immagini</string>
+  <string name="image_descriptions_link_subtext">Prova a chiedere le descrizioni delle immagini</string>
+  <string name="keyboard_shortcuts_link_text">Prova le scorciatoie da tastiera</string>
+  <string name="keyboard_shortcuts_link_subtext">Premi i tasti e le combinazioni di tasti e scopri cosa fanno</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack fornisce una funzione di lettura vocale per permetterti di usare il dispositivo senza guardare lo schermo. TalkBack può essere utile a chi ha difficoltà a vedere lo schermo. Quando la funzionalità TalkBack è attiva, l\'elemento selezionato sullo schermo viene letto ad alta voce.\n\nPer prima cosa, familiarizziamo con la tastiera. Individua il tasto Azione: si trova sopra il tasto Maiusc sinistro. Ora troviamo i tasti freccia vicino all\'area in basso a destra della tastiera. Premi Azione + Freccia destra per passare all\'elemento successivo.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Questo è l\'elemento successivo. Per tornare all\'elemento precedente, premi Azione + Freccia sinistra.\n\nQuando ti sposti su un elemento interattivo come un pulsante, premi Azione + Barra spaziatrice per attivarlo. Trova il pulsante Avanti e continua il tutorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Leggi per carattere, parola o paragrafo</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Qualche volta potresti voler ascoltare il testo letto ad alta voce un carattere alla volta.\n\nPer farlo, puoi utilizzare la navigazione dei controlli di lettura. Premi Azione + Maiusc + Freccia destra o Freccia sinistra finché non senti \"caratteri\".\n\nQuindi, premi Azione + Freccia su per spostare la selezione a ritroso per carattere. Premi Azione + Freccia giù per spostare la selezione in avanti per carattere.\n\nFai subito una prova. Puoi anche scegliere di leggere per parole, righe o paragrafi utilizzando Azione + Maiusc + Freccia destra o Freccia sinistra.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigazione del sistema</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Se provi queste scorciatoie da tastiera ora, il tutorial verrà chiuso. Ti consigliamo di aspettare finché non avrai completato il tutorial.\n\nPer passare da una finestra aperta dell\'app a un elemento di sistema, ad esempio le notifiche e la barra delle app, premi Azione + Alt + Ctrl + Freccia su o Freccia giù.\n\nPer aprire la lista di app, premi Azione.\n\nPer andare alla schermata Home e ridurre a icona tutte le finestre aperte, premi Azione + H o Home nella riga superiore.\n\nPer andare alle app recenti, premi Azione + Tab o Panoramica nella riga superiore.\n\nPer passare rapidamente da una finestra all\'altra, tieni premuto Alt e premi Tab.\n\nPer tornare indietro, premi Azione + Esc o Indietro nella riga superiore.\n\nPer aprire le notifiche, premi Azione + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Regola le impostazioni vocali</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Il volume per la sintesi vocale di TalkBack è denominato volume accessibilità. Viene regolato separatamente dal volume dei contenuti multimediali.\n\nPer regolare il volume accessibilità, premi Azione + Alza il volume o Abbassa il volume.\n\nPer regolare la velocità del parlato, premi Azione + Ctrl + Alza il volume per aumentare e Azione + Ctrl + Abbassa il volume per diminuire.\n\nPer interrompere il parlato in qualsiasi momento, premi Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menu di TalkBack e altre scorciatoie da tastiera</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Il menu di TalkBack include impostazioni e controlli che ti potrebbero servire spesso.\n\nPer aprire il menu di TalkBack, premi Azione + Ctrl + M. Puoi personalizzare il menu di TalkBack e i controlli di lettura in un secondo momento nelle impostazioni di TalkBack.\n\nIl menu delle scorciatoie da tastiera di TalkBack include tutte le scorciatoie da tastiera che puoi utilizzare.\n\nPer aprire il menu delle scorciatoie da tastiera, premi Azione + Maiusc + /.\n\nPer scoprire di più sulla tastiera ed esercitarti con le scorciatoie da tastiera, premi Azione + 0 per aprire la schermata di esercitazione.</string>
+  <string name="keyboard_tutorial_finished_page_title">Fatto.</string>
+  <string name="keyboard_tutorial_finished_page_text">Adesso puoi utilizzare TalkBack.\n\nOra puoi continuare a scoprire nuovi argomenti o rileggere queste informazioni in qualsiasi momento dalle impostazioni di TalkBack.\n\nPer attivare o disattivare TalkBack in qualsiasi momento, premi Azione + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Naviga più velocemente nei contenuti web con la modalità navigazione</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Quando ti trovi nel browser e nelle app web, puoi attivare la modalità navigazione e passare tra diversi tipi di controlli e granularità di lettura con una singola pressione di un tasto. In questo modo, la navigazione in una pagina è simile a quella in una casella di modifica del testo, dove con la Freccia destra e la Freccia sinistra puoi spostarti per carattere e con la Freccia su e la Freccia giù puoi spostarti per riga.\n\nPer attivare o disattivare la modalità navigazione, premi due volte il tasto Azione.\n\nQuando la modalità navigazione è attiva, premi D per passare al punto di riferimento successivo, F per il controllo o il campo di modulo successivo, B per il pulsante Avanti, K per il link successivo e H per l\'intestazione successiva. Tieni premuto Maiusc e premi questi tasti per spostarti indietro.\n\nPuoi anche usare la Freccia su e la Freccia giù per spostarti tra le righe, la Freccia sinistra e la Freccia destra per spostarti tra le lettere e Ctrl + Freccia sinistra e Freccia destra per spostarti tra le parole.\n\nPremi Azione + Freccia destra per accedere a un\'area di esercitazione. Mentre ti trovi nell\'area di esercitazione, i link, i campi di modulo e i pulsanti non funzioneranno.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Livelli di intestazioni</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">I siti web e le app web spesso utilizzano intestazioni con livelli diversi per strutturare i contenuti. Quando la modalità navigazione è attiva, premi i tasti da 1 a 6 per passare da un livello di intestazione all\'altro. Tieni premuto Maiusc e premi questi tasti per tornare indietro.\n\nPremi Azione + Freccia destra per accedere a un\'area di esercitazione.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabelle</string>
+  <string name="keyboard_tutorial_tables_page_text">La modalità navigazione semplifica anche la navigazione nelle tabelle. Quando la modalità navigazione è attiva, premi Alt + Ctrl + Freccia su e Freccia giù per passare da una riga all\'altra e Alt + Ctrl + Freccia sinistra e Freccia destra per passare da una colonna all\'altra.\n\nPremi Azione + Freccia destra per accedere a un\'area di esercitazione.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Modifica del testo</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Quando inserisci un campo di testo, la modalità navigazione verrà temporaneamente disattivata per consentirti di utilizzare tutti i tasti per la digitazione. Quando la modalità navigazione viene disattivata, sentirai un annuncio e un suono. Quando esci dal campo di testo, la modalità navigazione si riattiva e sentirai un altro annuncio e un altro suono.\n\nPremi Azione + Freccia destra per accedere a un\'area di esercitazione.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Scopri di più sulla modalità navigazione</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Per consultare l\'elenco completo degli elementi tra cui puoi spostarti in modalità navigazione, premi Azione + Maiusc + / e cerca \"modalità navigazione\" nel menu delle scorciatoie da tastiera.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Leggi per carattere, parola o paragrafo</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Qualche volta potresti voler ascoltare il testo letto ad alta voce un carattere alla volta.\n\nPer farlo, puoi utilizzare la navigazione dei controlli di lettura. Premi Azione + Maiusc + Freccia destra o Freccia sinistra finché non senti \"caratteri\". Quindi, premi Azione + Freccia su per spostare la selezione a ritroso per carattere. Premi Azione + Freccia giù per spostare la selezione in avanti per carattere.\n\nFai subito una prova. Puoi anche scegliere di leggere per parole, righe o paragrafi utilizzando Azione + Maiusc + Freccia destra o Freccia sinistra.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Spostati da un controllo all\'altro</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">I controlli sono elementi con cui puoi interagire, ad esempio i pulsanti, le caselle di controllo e quelle di testo.\n\nSu alcune pagine, puoi decidere di spostarti da un controllo all\'altro per trovare velocemente un\'azione, ad esempio il pulsante Avanti.\n\nPer farlo, premi Azione + Maiusc + Freccia destra finché non senti \"controlli\". Poi premi Azione + Freccia su per andare al pulsante Indietro e Azione + Freccia giù per andare al pulsante Avanti.\n\nFai subito una prova e trova il pulsante Avanti.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Spostati da un link all\'altro</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Puoi anche spostarti da un link all\'altro su una pagina.\n\nPer farlo, premi Azione + Maiusc + Freccia destra finché non senti \"link\". Quindi, premi Azione + Freccia giù per trovare il link denominato \"Link 5\". Mentre stai utilizzando il tutorial, non accadrà nulla se tocchi due volte questo link.\n\nPremi Azione + Freccia destra per trovare il pulsante Avanti e andare alla pagina successiva.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Spostati da un\'intestazione all\'altra</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Puoi anche spostarti da un\'intestazione all\'altra su una pagina.\n\nPer fare subito una prova, premi Azione + Maiusc + Freccia destra finché non senti \"intestazioni\". Quindi, premi Azione + Freccia giù per trovare l\'intestazione \"Navigazione\".</string>
+  <string name="keyboard_tutorial_find_next_button">Premi Azione + Freccia destra per trovare il pulsante Avanti.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Spostati tra i contenitori</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Per uscire da un contenitore, come un elenco o una griglia, premi Azione + Alt + Ctrl + Freccia destra o Freccia sinistra. Questa opzione è utile quando vuoi uscire da un lungo elenco di elementi.\n\nPer provare subito, premi Azione + Freccia destra per accedere all\'elenco. Quindi, premi Azione + Alt + Ctrl + Freccia destra per passare al contenitore successivo.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Per passare al contenitore successivo, premi Azione + Alt + Ctrl + Freccia destra</string>
+  <string name="keyboard_tutorial_exit_container">Per uscire da questo contenitore, premi Azione + Alt + Ctrl + Freccia destra</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Hai lasciato il contenitore. Puoi anche aggiungere contenitori ai controlli di lettura e poi premere Azione + Maiusc + Freccia destra o Freccia sinistra per selezionare i contenitori e Azione + Freccia giù o Freccia su per passare da un contenitore all\'altro. Per aggiornare i controlli di lettura, vai a TalkBack &gt; Impostazioni &gt; Personalizza menu &gt; Personalizza i controlli di lettura.\n\nPremi Azione + Freccia destra per trovare il pulsante Avanti.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Personalizza i controlli di lettura</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Puoi anche regolare le impostazioni vocali utilizzando i controlli di lettura e personalizzare le azioni che puoi eseguire con questi ultimi in TalkBack &gt; Impostazioni &gt; Personalizza menu &gt; Personalizza i controlli di lettura.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Prova a chiedere le descrizioni delle immagini</string>
+  <string name="keyboard_tutorial_image_description_page_text">Quando selezioni un\'immagine, premi Azione + R, poi I. Di seguito è mostrata una foto. Prova a chiedere una descrizione.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Puoi cambiare le impostazioni di descrizione delle immagini in qualsiasi momento nelle impostazioni di TalkBack &gt; Descrizioni di immagini e icone.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Puoi cambiare le impostazioni di descrizione delle immagini in qualsiasi momento aprendo le impostazioni di TalkBack e poi selezionando Descrizioni di immagini e icone.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Immagine di esempio. Premi Azione + R, poi I per ascoltare una descrizione.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Comandi vocali</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Puoi usare i comandi vocali per controllare velocemente TalkBack.\n\nAd esempio, pronuncia un comando per cambiare modalità di navigazione, passare all\'intestazione successiva, copiare il testo e molto altro.\n\nPer fare subito una prova, premi Azione + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Utilizzo della ricerca sullo schermo</string>
+  <string name="keyboard_tutorial_screen_search_page_text">La funzionalità di ricerca sullo schermo ti consente di cercare contenuti specifici presenti sullo schermo.\n\nPer provarla, premi Azione + CTRL + /. Digita una parola chiave, ad esempio \"avanti\", per trovare elementi sullo schermo che includono quel testo.\n\nProva a cercare \"avanti\" per trovare il pulsante Avanti.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Naviga tramite la ricerca sullo schermo</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Dopo aver selezionato un risultato, puoi spostarti rapidamente tra i diversi risultati della ricerca sullo schermo.\n\nPer farlo, puoi usare la navigazione tramite i controlli di lettura. Premi Azione + Maiusc + Freccia destra o Freccia sinistra finché non senti \"Ricerca sullo schermo\". Quindi, premi Azione + Freccia giù o Freccia su per spostarti tra i risultati della ricerca sullo schermo.\n\nProviamo subito. Di seguito è riportato un elenco di 3 pulsanti, tutti contenenti la parola \"azione\". Cerca \"azione\" con la ricerca sullo schermo, quindi usa la ricerca sullo schermo per spostarti tra i risultati.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Prova le scorciatoie da tastiera</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Premi un tasto o una combinazione di tasti della tastiera fisica per ascoltare la relativa funzione. Premi Ctrl + W o Esc per uscire.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Scopri la maestosità delle sequoie della California&lt;/h1&gt;
+      &lt;p&gt;Le sequoie della California, in particolare le sequoie costiere (Sequoia sempervirens), sono gli alberi più alti del mondo. Alcuni superano i 115 metri di altezza e possono vivere per migliaia di anni. Prosperano nel clima umido costiero della California settentrionale, beneficiando di pioggia e nebbia.&lt;/p&gt;
+
+      &lt;h2&gt;Dove vederle&lt;/h2&gt;
+      &lt;p&gt;Troverai questi giganti in un\'angusta striscia lungo la costa del Pacifico. Tra i parchi principali ci sono:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Pianifica la tua visita qui: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Sostieni la conservazione&lt;/h2&gt;
+      &lt;p&gt;Proteggere queste antiche foreste è fondamentale. Puoi dare il tuo aiuto seguendo le linee guida del parco e sostenendo gli sforzi di conservazione.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Condividi la tua esperienza&lt;/h2&gt;
+        &lt;p&gt;Hai visitato una foresta di sequoie?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Sì&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;No&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Raccontaci la tua esperienza&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Invia&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Cos\'altro vorresti sapere sulle sequoie?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Invia&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Le sequoie: un aiuto per l\'ambiente&lt;/h1&gt;
+    &lt;p&gt;Le sequoie sono importanti per il nostro pianeta e svolgono un ruolo fondamentale nel mantenere sano l\'ambiente.&lt;/p&gt;
+
+    &lt;h1&gt;Enormi purificatori d\'aria&lt;/h1&gt;
+    &lt;p&gt;Questi alberi hanno un\'incredibile capacità di assorbire l\'anidride carbonica dall\'aria. Incamerando una quantità così ingente di CO2, le sequoie contribuiscono a mantenere l\'aria pulita.&lt;/p&gt;
+
+    &lt;h2&gt;Case per gli animali&lt;/h2&gt;
+    &lt;p&gt;Le sequoie fungono da casa e rifugio per molti animali, dagli uccelli sui rami alle piccole creature nel terreno.&lt;/p&gt;
+
+    &lt;h3&gt;Maghi dell\'acqua&lt;/h3&gt;
+    &lt;p&gt;Sono molto efficaci nel trattenere la nebbia, le cui gocce d\'acqua scendono poi fino al suolo della foresta. In questo modo, il terreno rimane umido e si produce acqua per animali e altre piante, soprattutto quando il clima è secco.&lt;/p&gt;
+
+    &lt;h4&gt;Protettori del suolo&lt;/h4&gt;
+    &lt;p&gt;Le loro radici forti trattengono saldamente il terreno, impedendo che venga trascinato via durante le forti piogge e prevenendone l\'erosione.&lt;/p&gt;
+
+    &lt;h5&gt;Costruttori di foreste&lt;/h5&gt;
+    &lt;p&gt;Quando le sequoie secolari cadono, il loro legno diventa cibo e riparo per nuove piante e creature, creando un terreno fertile per la nuova crescita.&lt;/p&gt;
+
+    &lt;h6&gt;Ecosistemi unici&lt;/h6&gt;
+    &lt;p&gt;Grazie alle loro grandezza e longevità, le sequoie creano ambienti forestali speciali che ospitano e supportano forme di vita altrimenti introvabili.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Animali che abitano le foreste di sequoie&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"nimali che abitano le foreste di sequoie\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animale&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Descrizione&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Habitat&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Curiosità&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Lumaca banana&lt;/th&gt;
+            &lt;td&gt;Lumaca grande, gialla e viscida&lt;/td&gt;
+            &lt;td&gt;Suolo della foresta&lt;/td&gt;
+            &lt;td&gt;Seconda lumaca più grande al mondo&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamandra gigante del Pacifico&lt;/th&gt;
+            &lt;td&gt;Salamandra grande e di colore scuro&lt;/td&gt;
+            &lt;td&gt;Vicino a ruscelli e zone umide&lt;/td&gt;
+            &lt;td&gt;Può crescere fino a 30 cm di lunghezza&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Wapiti di Roosevelt&lt;/th&gt;
+            &lt;td&gt;Cervo di grandi dimensioni con corna imponenti&lt;/td&gt;
+            &lt;td&gt;Pascola nelle radure all\'interno della foresta&lt;/td&gt;
+            &lt;td&gt;I maschi possono pesare oltre 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Allocco maculato americano&lt;/th&gt;
+            &lt;td&gt;Gufo di medie dimensioni, caccia di notte&lt;/td&gt;
+            &lt;td&gt;Fitte foreste di sequoie mature&lt;/td&gt;
+            &lt;td&gt;Una \"specie indicatore\": la sua salute rispecchia la salute della foresta&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Orso nero&lt;/th&gt;
+            &lt;td&gt;Grande mammifero, in genere nero o marrone&lt;/td&gt;
+            &lt;td&gt;Cerca cibo in tutta la foresta&lt;/td&gt;
+            &lt;td&gt;Ottimo scalatore, spesso avvistato sugli alberi&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;La tua opinione su sequoie e natura&lt;/h1&gt;
+
+      &lt;p&gt;Cos\'altro vorresti sapere sulle sequoie?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Qual è il tuo luogo naturale che preferisci visitare?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Quale curiosità sulla natura vorresti approfondire?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

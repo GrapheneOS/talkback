@@ -37,6 +37,8 @@ import com.google.android.accessibility.talkback.interpreters.StateChangeEventIn
 import com.google.android.accessibility.talkback.interpreters.SubtreeChangeEventInterpreter;
 import com.google.android.accessibility.talkback.interpreters.UiChangeEventInterpreter;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.input.HeadsUpNotificationEventInterpreter;
+import com.google.android.accessibility.utils.input.NonmodalAlertEventInterpreter;
 import com.google.android.accessibility.utils.input.ScrollEventInterpreter;
 import com.google.android.accessibility.utils.input.SelectionEventInterpreter;
 import com.google.android.accessibility.utils.input.TextEventInterpretation;
@@ -66,6 +68,8 @@ public class Interpreters {
   private final SubtreeChangeEventInterpreter subtreeChangeEventInterpreter;
   private final AccessibilityEventIdleInterpreter accessibilityEventIdleInterpreter;
   private final UiChangeEventInterpreter uiChangeEventInterpreter;
+  @Nullable private final HeadsUpNotificationEventInterpreter notificationEventInterpreter;
+  @Nullable private final NonmodalAlertEventInterpreter nonmodalAlertEventInterpreter;
 
   private final int eventTypeMask; // Union of all sub-interpreter masks
 
@@ -90,7 +94,9 @@ public class Interpreters {
       PassThroughModeInterpreter passThroughModeInterpreter,
       SubtreeChangeEventInterpreter subtreeChangeEventInterpreter,
       AccessibilityEventIdleInterpreter accessibilityEventIdleInterpreter,
-      UiChangeEventInterpreter uiChangeEventInterpreter) {
+      UiChangeEventInterpreter uiChangeEventInterpreter,
+      HeadsUpNotificationEventInterpreter notificationEventInterpreter,
+      NonmodalAlertEventInterpreter nonmodalAlertEventInterpreter) {
 
     this.inputFocusInterpreter = inputFocusInterpreter;
     this.scrollEventInterpreter = scrollEventInterpreter;
@@ -108,6 +114,8 @@ public class Interpreters {
     this.subtreeChangeEventInterpreter = subtreeChangeEventInterpreter;
     this.accessibilityEventIdleInterpreter = accessibilityEventIdleInterpreter;
     this.uiChangeEventInterpreter = uiChangeEventInterpreter;
+    this.notificationEventInterpreter = notificationEventInterpreter;
+    this.nonmodalAlertEventInterpreter = nonmodalAlertEventInterpreter;
 
     // Event-interpreters are chained:
     // scrollEventInterpreter -> manualScrollInterpreter -> accessibilityFocusInterpreter
@@ -126,17 +134,68 @@ public class Interpreters {
                     new Interpretation.CompositorID(Compositor.EVENT_TYPE_VIEW_SELECTED));
           }
         });
+    if (notificationEventInterpreter != null) {
+      notificationEventInterpreter.addListener(
+          (interpretation) -> {
+            pipelineInterpretations
+                .get()
+                .input(
+                    interpretation.eventId,
+                    interpretation.event,
+                    new Interpretation.NonmodalAlertChange(interpretation.notificationGuess));
+            if (interpretation.isHeadsUpAppearance) {
+              pipelineInterpretations
+                  .get()
+                  .input(
+                      interpretation.eventId,
+                      interpretation.event,
+                      new Interpretation.CompositorID(
+                          Compositor.EVENT_HEADS_UP_NOTIFICATION_APPEARED));
+            }
+          });
+    }
+
+    if (nonmodalAlertEventInterpreter != null) {
+      nonmodalAlertEventInterpreter.addListener(
+          (interpretation) -> {
+            if (((interpretation.alertAppeared && interpretation.actionable)
+                || !interpretation.alertAppeared)) {
+              pipelineInterpretations
+                  .get()
+                  .input(
+                      interpretation.eventId,
+                      interpretation.event,
+                      new Interpretation.NonmodalAlertChange(interpretation.alert));
+            }
+            if (interpretation.alertAppeared && interpretation.actionable) {
+              pipelineInterpretations
+                  .get()
+                  .input(
+                      interpretation.eventId,
+                      interpretation.event,
+                      new Interpretation.CompositorID(
+                          Compositor.EVENT_ACTIONABLE_NONMODAL_ALERT_APPEARED),
+                      null);
+            }
+          });
+    }
 
     eventTypeMask =
         inputFocusInterpreter.getEventTypes()
             | scrollEventInterpreter.getEventTypes()
             | selectionInterpreter.getEventTypes()
+            | ((notificationEventInterpreter != null)
+                ? notificationEventInterpreter.getEventTypes()
+                : 0)
             | continuousReadInterpreter.getEventTypes()
             | stateChangeEventInterpreter.getEventTypes()
             | subtreeChangeEventInterpreter.getEventTypes()
             | hintEventInterpreter.getEventTypes()
             | ((passThroughModeInterpreter != null)
                 ? passThroughModeInterpreter.getEventTypes()
+                : 0)
+            | ((nonmodalAlertEventInterpreter != null)
+                ? nonmodalAlertEventInterpreter.getEventTypes()
                 : 0);
   }
 
@@ -153,6 +212,7 @@ public class Interpreters {
     if (passThroughModeInterpreter != null) {
       passThroughModeInterpreter.setActorState(actorState);
     }
+    subtreeChangeEventInterpreter.setActorState(actorState.getScrollerState());
   }
 
   public void setPipelineInterpretationReceiver(Pipeline.InterpretationReceiver pipeline) {
@@ -189,15 +249,42 @@ public class Interpreters {
 
   /** Handles accessibility-event, asynchronously returning interpretations to pipeline. */
   public void onAccessibilityEvent(AccessibilityEvent event, EventId eventId) {
-    hintEventInterpreter.onAccessibilityEvent(event, eventId);
-    inputFocusInterpreter.onAccessibilityEvent(event, eventId);
-    scrollEventInterpreter.onAccessibilityEvent(event, eventId);
-    selectionInterpreter.onAccessibilityEvent(event, eventId);
-    continuousReadInterpreter.onAccessibilityEvent(event, eventId);
-    stateChangeEventInterpreter.onAccessibilityEvent(event, eventId);
-    subtreeChangeEventInterpreter.onAccessibilityEvent(event, eventId);
+    int eventType = event.getEventType();
+    if (hintEventInterpreter.matches(event)) {
+      hintEventInterpreter.onAccessibilityEvent(event, eventId);
+    }
+    if (inputFocusInterpreter.matches(event)) {
+      inputFocusInterpreter.onAccessibilityEvent(event, eventId);
+    }
+    if (scrollEventInterpreter.matches(event)) {
+      scrollEventInterpreter.onAccessibilityEvent(event, eventId);
+    }
+    if (selectionInterpreter.matches(event)) {
+      selectionInterpreter.onAccessibilityEvent(event, eventId);
+    }
+    if (continuousReadInterpreter.matches(event)) {
+      continuousReadInterpreter.onAccessibilityEvent(event, eventId);
+    }
+    if (stateChangeEventInterpreter.matches(event)) {
+      stateChangeEventInterpreter.onAccessibilityEvent(event, eventId);
+    }
+    if (subtreeChangeEventInterpreter.matches(event)) {
+      subtreeChangeEventInterpreter.onAccessibilityEvent(event, eventId);
+    }
     if (passThroughModeInterpreter != null) {
-      passThroughModeInterpreter.onAccessibilityEvent(event, eventId);
+      if (passThroughModeInterpreter.matches(event)) {
+        passThroughModeInterpreter.onAccessibilityEvent(event, eventId);
+      }
+    }
+    if (notificationEventInterpreter != null) {
+      if (notificationEventInterpreter.matches(event)) {
+        notificationEventInterpreter.onAccessibilityEvent(event, eventId);
+      }
+    }
+    if (nonmodalAlertEventInterpreter != null) {
+      if (nonmodalAlertEventInterpreter.matches(event)) {
+        nonmodalAlertEventInterpreter.onAccessibilityEvent(event, eventId);
+      }
     }
   }
 

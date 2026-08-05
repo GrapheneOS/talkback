@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -23,33 +23,59 @@
 #include <search.h>
 
 #include "log.h"
-#include "program.h"
 #include "cmdline.h"
+#include "cmdput.h"
 #include "file.h"
 
-BEGIN_OPTION_TABLE(programOptions)
-END_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+static const char *firstFile;
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+  { .name = "file",
+    .description = "the name of (or path to) the file to process",
+    .setting = &firstFile,
+  },
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-lsinc",
+  .purpose = strtext("List the paths to a data file and those which it recursively includes."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "more",
+    .description = "additional files to process",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 static void
 noMemory (void) {
-  fprintf(stderr, "%s: insufficient memory\n", programName);
+  logMallocError();
   exit(PROG_EXIT_FATAL);
 }
 
 static int
-compareStrings (const void *string1, const void *string2) {
-  return strcmp(string1, string2);
+compareNames (const void *Name1, const void *Name2) {
+  return strcmp(Name1, Name2);
 }
 
 static void
 logFileName (const char *name, void *data) {
   static void *namesTree = NULL;
 
-  if (!tfind(name, &namesTree, compareStrings)) {
+  if (!tfind(name, &namesTree, compareNames)) {
     name = strdup(name);
     if (!name) noMemory();
-    if (!tsearch(name, &namesTree, compareStrings)) noMemory();
-    printf("%s\n", name);
+    if (!tsearch(name, &namesTree, compareNames)) noMemory();
+    putf("%s\n", name);
   }
 }
 
@@ -82,46 +108,32 @@ static DATA_OPERANDS_PROCESSOR(processOperands) {
   return processDirectiveOperand(file, &directives, "attributes table directive", data);
 }
 
+static int
+processFile (const char *path) {
+  const DataFileParameters parameters = {
+    .processOperands = processOperands,
+    .logFileName = logFileName
+  };
+
+  if (testProgramPath(path)) {
+    logFileName(path, parameters.data);
+  } else if (!processDataFile(path, &parameters)) {
+    return 0;
+  }
+
+  return 1;
+}
+
 int
 main (int argc, char *argv[]) {
-  ProgramExitStatus exitStatus;
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-lsinc",
+  int ok = processFile(firstFile);
 
-      .usage = {
-        .purpose = strtext("List the paths to a data file and those which it recursively includes."),
-        .parameters = "file ...",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
+  while (argc > 0) {
+    if (!processFile(*argv++)) ok = 0;
+    argc -= 1;
   }
 
-  if (argc == 0) {
-    logMessage(LOG_ERR, "missing file");
-    exitStatus = PROG_EXIT_SYNTAX;
-  } else {
-    exitStatus = PROG_EXIT_SUCCESS;
-
-    do {
-      const char *path = *argv++;
-      argc -= 1;
-
-      const DataFileParameters parameters = {
-        .processOperands = processOperands,
-        .logFileName = logFileName
-      };
-
-      if (testProgramPath(path)) {
-        logFileName(path, parameters.data);
-      } else if (!processDataFile(path, &parameters)) {
-        exitStatus = PROG_EXIT_SEMANTIC;
-      }
-    } while (argc);
-  }
-
-  return exitStatus;
+  return ok? PROG_EXIT_SUCCESS: PROG_EXIT_SEMANTIC;
 }

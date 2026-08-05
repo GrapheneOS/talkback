@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">This tutorial is for the enhanced keymap, which includes many new commands. To select the keymap, go to TalkBack settings &gt; Advanced settings &gt; Keyboard shortcuts.\n\nPress Action + right arrow to select a topic. For the best experience, turn on TalkBack before getting started.</string>
+  <string name="basic_interaction_link_text">Basic interaction</string>
+  <string name="basic_interaction_link_subtext">Move between items, read by lines, use menus and more</string>
+  <string name="browse_mode_link_text">Browse mode</string>
+  <string name="browse_mode_link_subtext">Navigate web content faster with jump commands</string>
+  <string name="reading_controls_link_text">Reading controls</string>
+  <string name="reading_controls_link_subtext">Use reading controls to jump between items, adjust speech settings and more</string>
+  <string name="image_descriptions_link_text">Image descriptions</string>
+  <string name="image_descriptions_link_subtext">Try getting descriptions of images</string>
+  <string name="keyboard_shortcuts_link_text">Practise keyboard shortcuts</string>
+  <string name="keyboard_shortcuts_link_subtext">Press keys and key combinations and learn what they do</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack provides spoken feedback so that you can use your device without looking at the screen. TalkBack can be helpful for people who have difficulty seeing the screen. When TalkBack is on, the focused item on the screen is spoken out loud.\n\nFirst, let\'s get familiar with your keyboard. Find the Action key, which is above the left shift key. Now let\'s find the arrow keys near the bottom-right area of the keyboard. Press Action + right arrow to move to the next item.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">This is the next item. To move to the previous item, press Action + left arrow.\n\nWhen you move to an interactive item like a button, press Action + Space to activate it. Find the next button and continue the tutorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Read by character, word or paragraph</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Sometimes, you might want to hear text read aloud one character at a time.\n\nTo do this, you can use reading controls navigation. Press Action + shift + right or left arrow until you hear \'characters\'.\n\nNext, press Action + up arrow to move the navigation focus backwards by character. Press Action + down arrow down to move the navigation focus forwards by character.\n\nTry it now. You can also choose to read by words, lines or paragraphs using Action + shift + right or left arrow.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">System navigation</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Trying these keyboard shortcuts now will close the tutorial. You may want to wait until you\'ve completed the tutorial.\n\nTo jump between open app windows and system elements like notifications and the Taskbar, press Action + Alt + Ctrl + Up or down arrow.\n\nTo open the app list, press Action.\n\nTo go to the Home screen and minimise all open windows, press Action + H or Home in the top row.\n\nTo go to your recent apps, press Action + Tab or Overview in the top row.\n\nTo quickly jump between windows, hold down Alt and press Tab.\n\nTo go back, press Action + Esc or Back in the top row.\n\nTo open notifications, press Action + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Adjust speech settings</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">The volume for TalkBack speech is called the accessibility volume. It\'s adjusted separately from the media volume.\n\nTo adjust the accessibility volume, press Action + volume up or down.\n\nTo adjust the speech rate, press Action + Ctrl + volume up to increase and Action + Ctrl + volume down to decrease.\n\nTo stop speech at any time, press Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack menu and more keyboard shortcuts</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">The TalkBack menu includes settings and controls that you may need often.\n\nTo open the TalkBack menu, press Action + Ctrl + M. You can customise the TalkBack menu and your reading controls later in TalkBack settings.\n\nThe TalkBack keyboard shortcuts menu includes all the keyboard shortcuts that you can use.\n\nTo open the keyboard shortcuts menu, press Action + shift + /.\n\nTo learn more about the keyboard and practice keyboard shortcuts, press Action + 0 to open the practice screen.</string>
+  <string name="keyboard_tutorial_finished_page_title">All set!</string>
+  <string name="keyboard_tutorial_finished_page_text">You are ready to use TalkBack.\n\nKeep learning about other topics now, or review this info at any time in TalkBack settings.\n\nTo turn TalkBack on or off at any time, press Action + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Navigate web content faster with browse mode</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">When you are in the browser and web apps, you can turn on browse mode and jump between different types of reading granularity and controls with a single press of a key. It makes navigating a page similar to navigating in a text editing box, such as left and right arrows to move by character and up and down arrows to move by line.\n\nTo turn on or off browse mode, double-press the Action key.\n\nWhen browse mode is on, press D to jump to the next landmark, F for the next control or form field, B for the next button, K for the next link and H for the next heading. Hold shift and press these keys to move backward.\n\nYou can also use the up and down arrows to jump by lines, the left and right arrows to jump by letters and Ctrl + left and right arrows to jump by words.\n\nPress Action + right arrow to enter a practice area. While in the practice area links, form fields and buttons won\'t do anything.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Heading levels</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Websites and web apps often use headings with different levels to structure the content. When browse mode is on, press 1 through 6 to jump to the heading levels. Hold shift and press these keys to move backwards.\n\nPress Action + right arrow to enter a practice area.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tables</string>
+  <string name="keyboard_tutorial_tables_page_text">Browse mode also makes table navigation easier. When browse mode is on, press Alt + Ctrl + up and down arrows to jump between rows and Alt + Ctrl + left and right arrows to jump between columns.\n\nPress Action + right arrow to enter a practice area.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Editing text</string>
+  <string name="keyboard_tutorial_editing_text_page_text">When you enter a text field, browse mode will be temporarily turned off so that you can use all the keys to type. You will hear an announcement and a sound when it\'s turned off. Once you leave the text field, browse mode will turn back on and you will hear another announcement and sound.\n\nPress Action + right arrow to enter a practice area.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">More about browse mode</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">To check the complete list of items that you can jump between in browse mode, press Action + shift + / and search for \'browse mode\' in the keyboard shortcuts menu.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Read by character, word or paragraph</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Sometimes, you might want to hear text read aloud one character at a time.\n\nTo do this, you can use reading controls navigation. Press Action + shift + right or left arrow until you hear \'characters\'. Next, press Action + up arrow to move the navigation focus backward by character. Press Action + down arrow down to move the navigation focus forwards by character.\n\nTry it now. You can also choose to read by words, lines or paragraphs using Action + shift + right or left arrow.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Jump between controls</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Controls are items that you can interact with, like buttons, tick boxes and text boxes.\n\nOn some pages, you may want to jump between controls to quickly find an action, like the next button.\n\nTo do this, press Action + shift + right arrow until you hear \'controls\'. Next, press Action + up arrow to go to the previous button and Action + down arrow to go to the next button.\n\nTry it now and find the next button.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Jump between links</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">You can also jump between links on a page.\n\nTo do this, press Action + shift + right arrow until you hear \'links\'. Next, press Action + down arrow to find the link named \'Link 5\'. While in the tutorial, double-tapping this link won\'t do anything.\n\nPress Action + right arrow to find the next button and go to the next page.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Jump between headings</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">You can also jump between headings on a page.\n\nTo try it now, press Action + shift + right arrow until you hear \'headings\'. Next, press Action + down arrow to find the \'Navigation\' heading.</string>
+  <string name="keyboard_tutorial_find_next_button">Press Action + right arrow to find the next button.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Jump between containers</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">To exit out of a container, like a list or grid, press Action + Alt + Ctrl + right or left arrow. This is useful when you want to move out of a long list of items.\n\nTo try it now, press Action + right arrow to enter the list. Then press Action + Alt + Ctrl + right arrow to go to the next container.</string>
+  <string name="keyboard_tutorial_go_to_next_container">To go to the next container, press Action + Alt + Ctrl + right arrow</string>
+  <string name="keyboard_tutorial_exit_container">To exit this container, press Action + Alt + Ctrl + right arrow</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">You\'ve exited the container. You can also add containers to your reading controls and then press Action + shift + right or left arrow to select containers and Action + down or up arrow to jump between containers. To update reading controls, go to TalkBack &gt; Settings &gt; Customise menus &gt; Customise reading controls.\n\nPress Action + right arrow to find the next button.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Customise reading controls</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">You can also adjust speech settings using reading controls and customise what you can do with reading controls in TalkBack &gt; Settings &gt; Customise menus &gt; Customise reading controls.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Try getting image descriptions</string>
+  <string name="keyboard_tutorial_image_description_page_text">When you\'re focused on an image, press Action + R, then I. There\'s one photo below. Try getting a description for it.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">You can change image description settings at any time in TalkBack settings &gt; Image and icon descriptions.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">You can change image description settings at any time in TalkBack settings, then Image and icon descriptions.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Sample image. Press Action + R, then I to hear a description.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Voice commands</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">You can use your voice to control TalkBack quickly.\n\nFor example, say a command to change navigation, jump to the next heading, copy text and more.\n\nTo try it now, press Action + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Using screen search</string>
+  <string name="keyboard_tutorial_screen_search_page_text">The screen search feature allows you to look for specific content on the screen.\n\nTo try it, press Action + CTRL + /. Type in a keyword, like \'next\', to find items with the text on the screen.\n\nTry searching for \'next\' now to find the next button.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navigate by screen search</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">You can quickly move between different search results from screen search after you\'ve selected a result.\n\nTo do this, you can use reading controls navigation. Press Action + shift + right or left arrow until you hear \'screen search\'. Next, press Action + Down or Up arrow to navigate by screen search results.\n\nLet\'s try it now. Below is a list of 3 buttons, all of them containing the text \'action\'. Search for \'action\' using screen search, then navigate by screen search to move between them.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Practice keyboard shortcuts</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Press a physical keyboard key or key combination to hear what it does. Press Ctrl + W, or Escape to exit.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Discover the majesty of California redwoods&lt;/h1&gt;
+      &lt;p&gt;California\'s redwoods, primarily the coast redwood (Sequoia sempervrens), are the world\'s tallest trees. Some stand over 115 metres (380 feet) and can live for thousands of years. They thrive in the humid coastal climate of northern California, benefiting from rain and fog.&lt;/p&gt;
+
+      &lt;h2&gt;Where to see them&lt;/h2&gt;
+      &lt;p&gt;You\'ll find these giants in a narrow strip along the Pacific coast. Key parks include:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Plan your visit here: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Support conservation&lt;/h2&gt;
+      &lt;p&gt;Protecting these ancient forests is vital. You can help by following park guidelines and supporting conservation efforts.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Share your experience&lt;/h2&gt;
+        &lt;p&gt;Have you been to the redwoods?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Yes&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;No&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Tell us about your experience&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Submit&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;What else would you like to learn about redwoods?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Submit&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Redwood trees: Keeping our environment healthy&lt;/h1&gt;
+    &lt;p&gt;Redwoods are important for our planet, playing a huge role in keeping our environment healthy.&lt;/p&gt;
+
+    &lt;h1&gt;Giant air cleaners&lt;/h1&gt;
+    &lt;p&gt;These trees are amazing at soaking up carbon dioxide from the air. By taking in so much of it, redwoods help keep our air clean.&lt;/p&gt;
+
+    &lt;h2&gt;Home for animals&lt;/h2&gt;
+    &lt;p&gt;Redwoods provide homes and shelter for many animals, from birds in their branches to small creatures in the soil.&lt;/p&gt;
+
+    &lt;h3&gt;Water wizards&lt;/h3&gt;
+    &lt;p&gt;They\'re great at catching fog, which then drips to the forest floor. This keeps the ground moist and provides water for other plants and animals, especially when it\'s dry.&lt;/p&gt;
+
+    &lt;h4&gt;Soil protectors&lt;/h4&gt;
+    &lt;p&gt;Their strong roots hold the soil in place, stopping it from washing away during heavy rains and preventing erosion.&lt;/p&gt;
+
+    &lt;h5&gt;Forest builders&lt;/h5&gt;
+    &lt;p&gt;When old redwoods fall, their wood becomes food and shelter for new plants and creatures, creating rich soil for new growth.&lt;/p&gt;
+
+    &lt;h6&gt;Unique ecosystems&lt;/h6&gt;
+    &lt;p&gt;Because redwoods are so big and live so long, they create special forest environments that support life found nowhere else.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Animals of the redwood forests&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the redwood forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Description&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Where they live&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Fun fact&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banana slug&lt;/th&gt;
+            &lt;td&gt;Large, yellow, slimy slug&lt;/td&gt;
+            &lt;td&gt;On the forest floor&lt;/td&gt;
+            &lt;td&gt;Second-largest slug in the world&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Pacific giant salamander&lt;/th&gt;
+            &lt;td&gt;Large, dark-coloured salamander&lt;/td&gt;
+            &lt;td&gt;Near streams and moist areas&lt;/td&gt;
+            &lt;td&gt;Can grow up to a foot long&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt elk&lt;/th&gt;
+            &lt;td&gt;Large deer with impressive antlers&lt;/td&gt;
+            &lt;td&gt;Grazes in clearings within the forest&lt;/td&gt;
+            &lt;td&gt;Males can weigh over 453 kgs (1,000 pounds)&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Northern spotted owl&lt;/th&gt;
+            &lt;td&gt;Medium-sized owl, hunts at night&lt;/td&gt;
+            &lt;td&gt;In dense, mature redwood forests&lt;/td&gt;
+            &lt;td&gt;An \'indicator species\' – its health shows forest health&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Black bear&lt;/th&gt;
+            &lt;td&gt;Large mammal, typically black or brown&lt;/td&gt;
+            &lt;td&gt;Forages for food throughout the forest&lt;/td&gt;
+            &lt;td&gt;Excellent climbers, often seen in trees&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Your thoughts on redwoods and nature&lt;/h1&gt;
+
+      &lt;p&gt;What else would you like to learn about redwoods?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;What is your favourite place in nature to visit?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;What is one concept in nature that you want to learn more about?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

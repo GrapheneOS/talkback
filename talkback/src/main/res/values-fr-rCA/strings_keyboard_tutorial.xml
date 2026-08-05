@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ce tutoriel concerne le mappage du clavier amélioré, qui comprend de nombreuses nouvelles commandes. Pour sélectionner le mappage du clavier, accédez aux paramètres de TalkBack &gt; Paramètres avancés &gt; Raccourcis-clavier.\n\nAppuyez sur Action+Flèche vers la droite pour sélectionner un sujet. Pour une expérience optimale, activez TalkBack avant de commencer.</string>
+  <string name="basic_interaction_link_text">Interaction de base</string>
+  <string name="basic_interaction_link_subtext">Passez d\'un élément à l\'autre, lisez ligne par ligne, utilisez les menus et plus encore</string>
+  <string name="browse_mode_link_text">Mode Parcourir</string>
+  <string name="browse_mode_link_subtext">Naviguez plus rapidement dans le contenu Web grâce aux commandes d\'accès direct</string>
+  <string name="reading_controls_link_text">Commandes de lecture</string>
+  <string name="reading_controls_link_subtext">Utilisez les commandes de lecture pour passer d\'un élément à l\'autre, ajuster les paramètres de synthèse vocale et plus encore</string>
+  <string name="image_descriptions_link_text">Descriptions des images</string>
+  <string name="image_descriptions_link_subtext">Essayez d\'obtenir des descriptions d\'images</string>
+  <string name="keyboard_shortcuts_link_text">S\'exercer à utiliser les raccourcis-clavier</string>
+  <string name="keyboard_shortcuts_link_subtext">Appuyez sur les touches et les combinaisons de touches et découvrez ce qu\'elles font</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack fournit une rétroaction vocale qui vous permet d\'utiliser votre appareil sans regarder l\'écran. TalkBack peut être utile aux personnes qui ont du mal à voir l\'écran. Lorsque la fonctionnalité TalkBack est activée, l\'élément sélectionné à l\'écran est énoncé à haute voix.\n\nTout d\'abord, familiarisez-vous avec votre clavier. Repérez la touche d\'action, qui se trouve au-dessus de la touche Majuscule de gauche. Maintenant, repérez les touches fléchées près de la partie inférieure droite du clavier. Appuyez sur Action+Flèche vers la droite pour passer à l\'élément suivant.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Ceci est l\'élément suivant. Pour passer à l\'élément précédent, appuyez sur Action+Flèche vers la gauche.\n\nLorsque vous passez à un élément interactif comme un bouton, appuyez sur Action+Espace pour l\'activer. Repérez le bouton Suivant, puis continuez le tutoriel.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Lire caractère par caractère, mot par mot ou paragraphe par paragraphe</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Dans certains cas, vous voudrez peut-être que le texte vous soit lu caractère par caractère.\n\nPour ce faire, vous pouvez utiliser la navigation au moyen des commandes de lecture. Appuyez sur Action+Maj+Flèche vers la droite ou vers la gauche jusqu\'à ce que vous entendiez « caractères ».\n\nEnsuite, appuyez sur Action+Flèche vers le haut pour faire reculer la mise en surbrillance d\'un caractère. Appuyez sur Action+Flèche vers le bas pour faire avancer la mise en surbrillance d\'un caractère.\n\nEssayez maintenant. Vous pouvez également choisir de lire le texte mot par mot, ligne par ligne ou paragraphe par paragraphe en utilisant les touches Action+Maj+Flèche vers la droite ou vers la gauche.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigation système</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Si vous essayez ces raccourcis-clavier maintenant, le tutoriel se fermera. Vous pouvez attendre d\'avoir terminé le tutoriel.\n\nPour passer d\'une fenêtre d\'appli ouverte à des éléments système, tels que les notifications et la barre des tâches, appuyez sur Action+Alt+Ctrl+Flèche vers le haut ou vers le bas.\n\nPour ouvrir la liste des applis, appuyez sur Action.\n\nPour accéder à l\'écran d\'accueil et réduire toutes les fenêtres ouvertes, appuyez sur Action+H ou sur Accueil dans la ligne supérieure.\n\nPour accéder à vos applis récentes, appuyez sur Action+Tabulation ou sur Aperçu dans la ligne supérieure.\n\nPour passer rapidement d\'une fenêtre à l\'autre, maintenez la touche Alt enfoncée et appuyez sur Tabulation.\n\nPour revenir en arrière, appuyez sur Action+Échap ou sur Retour dans la ligne supérieure.\n\nPour ouvrir les notifications, appuyez sur Action+N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Régler les paramètres vocaux</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Le volume de la synthèse vocale TalkBack est désigné sous le nom de volume d\'accessibilité. Il se règle séparément du volume des contenus multimédias.\n\nPour régler le volume d\'accessibilité, appuyez sur Action+Augmentation du volume ou sur Action+Diminution du volume.\n\nPour régler le débit, appuyez sur Action+Ctrl+Augmentation du volume ou sur Action+Ctrl+Diminution du volume.\n\nPour arrêter la lecture à tout moment, appuyez sur Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menu TalkBack et autres raccourcis-clavier</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Le menu TalkBack comprend des paramètres et des commandes que vous pourriez utiliser fréquemment.\n\nPour ouvrir le menu TalkBack, appuyez sur Action+Ctrl+M. Vous pouvez personnaliser le menu TalkBack et vos commandes de lecture ultérieurement dans les paramètres de TalkBack.\n\nLe menu des raccourcis-clavier de TalkBack comprend tous les raccourcis-clavier que vous pouvez utiliser.\n\nPour ouvrir le menu des raccourcis-clavier, appuyez sur Action+Maj+/.\n\nPour en savoir plus sur le clavier et vous exercer à utiliser les raccourcis-clavier, appuyez sur Action+0 pour ouvrir l\'écran d\'exercice.</string>
+  <string name="keyboard_tutorial_finished_page_title">Tout est prêt!</string>
+  <string name="keyboard_tutorial_finished_page_text">Vous êtes prêt à utiliser TalkBack.\n\nVous pouvez continuer à découvrir les autres sujets maintenant ou consulter ces informations en tout temps dans les paramètres de TalkBack.\n\nPour activer ou désactiver TalkBack à tout moment, appuyez sur Action+Alt+T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Naviguer dans le contenu Web plus rapidement grâce au mode Parcourir</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Lorsque vous êtes dans le navigateur et les applis Web, vous pouvez activer le mode Parcourir et passer d\'un type de granularité et de commandes de lecture à l\'autre en appuyant sur une seule touche. Il permet de naviguer sur une page de la même manière que dans une zone de modification de texte, par exemple en utilisant les flèches vers la gauche et vers la droite pour se déplacer caractère par caractère, et les flèches vers le haut et vers le bas pour se déplacer ligne par ligne.\n\nPour activer ou désactiver le mode Parcourir, appuyez deux fois sur la touche d\'action.\n\nLorsque le mode Parcourir est activé, appuyez sur la touche D pour passer au point de repère suivant, sur la touche F pour passer à la commande ou au champ de formulaire suivant, sur la touche B pour passer au bouton suivant, sur la touche K pour passer au lien suivant et sur la touche H pour passer au titre suivant. Maintenez la touche Majuscule enfoncée et appuyez sur ces touches pour reculer.\n\nVous pouvez également utiliser les flèches vers le haut et vers le bas pour sauter des lignes, les flèches vers la gauche et vers la droite pour sauter des lettres, et la combinaison Ctrl+Flèche vers la gauche ou vers la droite pour sauter des mots.\n\nAppuyez sur Action+Flèche vers la droite pour accéder à une zone d\'exercice. Dans la zone d\'exercice, les liens, les champs de formulaire et les boutons ne feront rien.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Niveaux des titres</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Les sites Web et les applis Web utilisent souvent des titres de différents niveaux pour structurer le contenu. Lorsque le mode Parcourir est activé, appuyez sur les touches 1 à 6 pour accéder aux niveaux de titre. Maintenez la touche Majuscule enfoncée et appuyez sur ces touches pour reculer.\n\nAppuyez sur Action+Flèche vers la droite pour accéder à une zone d\'exercice.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tableaux</string>
+  <string name="keyboard_tutorial_tables_page_text">Le mode Parcourir facilite également la navigation dans les tableaux. Lorsque le mode Parcourir est activé, appuyez sur Alt+Ctrl+Flèche vers le haut et vers le bas pour passer d\'une ligne à l\'autre, et sur Alt+Ctrl+Flèche vers la gauche et vers la droite pour passer d\'une colonne à l\'autre.\n\nAppuyez sur Action+Flèche vers la droite pour accéder à une zone d\'exercice.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Modification du texte</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Lorsque vous entrez un message dans un champ de texte, le mode Parcourir est temporairement désactivé afin que vous puissiez utiliser toutes les touches pour taper. Vous entendez une annonce et un son lorsqu\'il est désactivé. Une fois que vous quittez le champ de texte, le mode Parcourir se réactive et vous entendez une autre annonce et un autre son.\n\nAppuyez sur Action+Flèche vers la droite pour accéder à une zone d\'exercice.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">En savoir plus sur le mode Parcourir</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Pour consulter la liste complète des éléments pour lesquels il est possible de passer d\'un élément à un autre en mode Parcourir, appuyez sur Action+Maj+/ et recherchez « mode Parcourir » dans le menu des raccourcis-clavier.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Lire caractère par caractère, mot par mot ou paragraphe par paragraphe</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Dans certains cas, vous voudrez peut-être que le texte vous soit lu caractère par caractère.\n\nPour ce faire, vous pouvez utiliser la navigation au moyen des commandes de lecture. Appuyez sur Action+Maj+Flèche vers la droite ou vers la gauche jusqu\'à ce que vous entendiez « caractères ». Ensuite, appuyez sur Action+Flèche vers le haut pour faire reculer la mise en surbrillance d\'un caractère. Appuyez sur Action+Flèche vers le bas pour faire avancer la mise en surbrillance d\'un caractère.\n\nEssayez maintenant. Vous pouvez également choisir de lire le texte mot par mot, ligne par ligne ou paragraphe par paragraphe en utilisant les touches Action+Maj+Flèche vers la droite ou vers la gauche.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Passer d\'une commande à l\'autre</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Les commandes sont des éléments interactifs tels que des boutons, des cases à cocher et des zones de texte.\n\nSur certaines pages, vous voudrez peut-être passer d\'une commande à l\'autre pour trouver rapidement une action (par exemple, le bouton Suivant).\n\nPour ce faire, appuyez sur Action+Maj+Flèche vers la droite jusqu\'à ce que vous entendiez « commandes ». Ensuite, appuyez sur Action+Flèche vers le haut pour accéder au bouton Précédent et sur Action+Flèche vers le bas pour accéder au bouton Suivant.\n\nEssayez maintenant de trouver le bouton Suivant.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Passer d\'un lien à l\'autre</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Vous pouvez également passer d\'un lien à l\'autre sur une page.\n\nPour ce faire, appuyez sur Action+Maj+Flèche vers la droite jusqu\'à ce que vous entendiez « liens ». Ensuite, appuyez sur Action+Flèche vers le bas pour trouver le lien nommé « Lien 5 ». Lorsque le tutoriel est ouvert, toucher deux fois ce lien n\'a aucun effet.\n\nAppuyez sur Action+Flèche vers la droite pour trouver le bouton Suivant et accéder à la page suivante.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Passer d\'un titre à l\'autre</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Vous pouvez également passer d\'un titre à l\'autre sur une page.\n\nPour essayer, appuyez sur Action+Maj+Flèche vers la droite jusqu\'à ce que vous entendiez « titres ». Ensuite, appuyez sur Action+Flèche vers le bas pour trouver le titre « Navigation ».</string>
+  <string name="keyboard_tutorial_find_next_button">Appuyez sur Action+Flèche vers la droite pour trouver le bouton Suivant.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Passage d\'un conteneur à l\'autre</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Pour quitter un conteneur, comme une liste ou une grille, appuyez sur Action+Alt+Ctrl+Flèche vers la droite ou vers la gauche. Ce raccourci est utile lorsque vous souhaitez sortir d\'une longue liste d\'éléments.\n\nPour essayer, appuyez sur Action+Flèche vers la droite pour accéder à la liste. Appuyez ensuite sur Action+Alt+Ctrl+Flèche vers la droite pour accéder au conteneur suivant.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Pour passer au conteneur suivant, appuyez sur Action+Alt+Ctrl+Flèche vers la droite</string>
+  <string name="keyboard_tutorial_exit_container">Pour quitter ce conteneur, appuyez sur Action+Alt+Ctrl+Flèche vers la droite</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Vous avez quitté le conteneur. Vous pouvez également ajouter des conteneurs à vos commandes de lecture, puis appuyer sur Action+Maj+Flèche vers la droite ou vers la gauche pour sélectionner des conteneurs et sur Action+Flèche vers le bas ou vers le haut pour passer d\'un conteneur à l\'autre. Pour mettre à jour les commandes de lecture, accédez à TalkBack &gt; Paramètres &gt; Personnaliser les menus &gt; Personnaliser les commandes de lecture.\n\nAppuyez sur Action+Flèche vers la droite pour trouver le bouton Suivant.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Personnaliser les commandes de lecture</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Vous pouvez également ajuster les paramètres vocaux à l\'aide des commandes de lecture et personnaliser ce que vous pouvez faire avec les commandes de lecture dans TalkBack &gt; Paramètres &gt; Personnaliser les menus &gt; Personnaliser les commandes de lecture.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Essayer d\'obtenir des descriptions d\'images</string>
+  <string name="keyboard_tutorial_image_description_page_text">Lorsque vous mettez en évidence une image, appuyez sur Action+R, puis sur I. Il y a une photo ci-dessous. Essayez d\'en obtenir une description.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Vous pouvez modifier les paramètres de description d\'image à tout moment dans les paramètres de TalkBack &gt; Descriptions d\'images et d\'icônes.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Vous pouvez modifier les paramètres de description d\'image à tout moment en accédant aux paramètres de TalkBack, puis à Descriptions d\'images et d\'icônes.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Exemple d\'image. Appuyez sur Action+R, puis sur I pour entendre une description.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Commandes vocales</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Vous pouvez contrôler TalkBack rapidement avec votre voix.\n\nPar exemple, énoncez une commande afin de modifier la navigation, de passer au titre suivant, de copier du texte et plus encore.\n\nPour l\'essayer, appuyez sur Action+\\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Utiliser la recherche sur l\'écran</string>
+  <string name="keyboard_tutorial_screen_search_page_text">La fonctionnalité de recherche sur l\'écran vous permet de rechercher du contenu précis sur l\'écran.\n\nPour l\'essayer, appuyez sur Action+CTRL+/. Entrez un mot clé, comme « suivant », pour rechercher les éléments comportant ce texte à l\'écran.\n\nEssayez maintenant de rechercher « suivant » pour trouver le bouton suivant.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Naviguer par la recherche sur l\'écran</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Vous pouvez passer rapidement d\'un résultat de recherche à un autre à partir de la recherche sur l\'écran après avoir sélectionné un résultat.\n\nPour ce faire, vous pouvez utiliser la navigation des commandes de lecture. Appuyez sur Action+Maj+Flèche vers la droite ou vers la gauche jusqu\'à ce que vous entendiez « recherche sur l\'écran ». Ensuite, appuyez sur Action+Flèche vers le bas ou vers le haut pour naviguer par résultats de recherche sur l\'écran.\n\nEssayons-le maintenant. Vous trouverez ci-dessous une liste de trois boutons contenant chacun le texte « action ». Recherchez « action » à l\'aide de la recherche sur l\'écran, puis naviguez par recherche sur l\'écran pour passer de l\'un à l\'autre.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Pratiquer les raccourcis-clavier</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Appuyez sur une touche ou une combinaison de touches du clavier physique pour entendre le son qu\'elles font. Appuyez sur Ctrl+W ou sur Échap. pour quitter.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+&lt;h1&gt;Découvrez la majesté des séquoias de Californie&lt;/h1&gt;
+&lt;p&gt;Les séquoias de Californie, principalement le séquoia géant (séquoia toujours vert), sont les arbres les plus hauts du monde. Certains mesurent plus de 115 mètres (380 pieds) de haut et peuvent vivre des milliers d\'années. Ils prospèrent dans le climat côtier humide du nord de la Californie, bénéficiant de la pluie et du brouillard.&lt;/p&gt;
+
+&lt;h2&gt;Où les voir&lt;/h2&gt;
+&lt;p&gt;Vous trouverez ces géants dans une étroite bande le long de la côte Pacifique. Les principaux parcs sont les suivants :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Parc national et parc d\'État de Redwood&lt;/li&gt;
+&lt;li&gt;Parc d\'État de Humboldt Redwoods&lt;/li&gt;
+&lt;li&gt;Parc d\'État de Big Basin Redwoods&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Planifiez votre visite en cliquant ici : &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – séquoias&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;Soutenir la conservation&lt;/h2&gt;
+&lt;p&gt;La protection de ces forêts anciennes est essentielle. Vous pouvez nous aider en respectant les directives du parc et en soutenant les efforts de conservation.&lt;/p&gt;
+
+&lt;hr&gt;
+&lt;form&gt;
+&lt;h2&gt;Partagez votre expérience&lt;/h2&gt;
+&lt;p&gt;Avez-vous déjà vu des séquoias?&lt;/p&gt;
+&lt;div class=\"radio-group\"&gt;
+&lt;div class=\"radio-option\"&gt;
+&lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+&lt;label for=\"yes\"&gt;Oui&lt;/label&gt;
+&lt;/div&gt;
+&lt;div class=\"radio-option\"&gt;
+&lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+&lt;label for=\"no\"&gt;Non&lt;/label&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Parlez-nous de votre expérience&lt;/p&gt;
+&lt;div&gt;
+&lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;div&gt;
+&lt;button&gt;Envoyer&lt;/button&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+&lt;form&gt;
+&lt;p&gt;Quoi d\'autre souhaiteriez-vous savoir sur les séquoias?&lt;/p&gt;
+&lt;div&gt;
+&lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+&lt;div&gt;
+&lt;button&gt;Envoyer&lt;/button&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+&lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Les séquoias : maintenir notre environnement sain&lt;/h1&gt;
+&lt;p&gt;Les séquoias sont importants pour notre planète, car ils jouent un rôle essentiel dans le maintien de la santé de notre environnement.&lt;/p&gt;
+
+&lt;h1&gt;Purificateurs d\'air géants&lt;/h1&gt;
+&lt;p&gt;Ces arbres sont incroyables pour absorber le dioxyde de carbone de l\'air. En absorbant une grande quantité de dioxyde de carbone, les séquoias aident à garder notre air pur.&lt;/p&gt;
+
+&lt;h2&gt;Un foyer pour les animaux&lt;/h2&gt;
+&lt;p&gt;Les séquoias offrent un foyer et un abri à de nombreux animaux, des oiseaux dans leurs branches aux petites créatures dans le sol.&lt;/p&gt;
+
+&lt;h3&gt;Des magiciens de l\'eau&lt;/h3&gt;
+&lt;p&gt;Ils sont excellents pour capturer le brouillard, qui s\'écoule ensuite sur le sol de la forêt. Cela permet de garder le sol humide et de fournir de l\'eau aux autres plantes et animaux, en particulier pendant les périodes de sécheresse.&lt;/p&gt;
+
+&lt;h4&gt;Protecteurs du sol&lt;/h4&gt;
+&lt;p&gt;Leurs racines solides maintiennent le sol en place, l\'empêchant d\'être emporté par les fortes pluies et prévenant l\'érosion.&lt;/p&gt;
+
+&lt;h5&gt;Constructeurs de forêts&lt;/h5&gt;
+&lt;p&gt;Lorsque les vieux séquoias tombent, leur bois devient nourriture et abri pour de nouvelles plantes et créatures, créant ainsi un sol riche qui favorise la croissance.&lt;/p&gt;
+
+&lt;h6&gt;Écosystèmes uniques&lt;/h6&gt;
+&lt;p&gt;Parce que les séquoias sont si grands et vivent si longtemps, ils créent des environnements forestiers uniques qui abritent des formes de vie introuvables ailleurs.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Les animaux des forêts de séquoias&lt;/h2&gt;
+
+&lt;div&gt;
+&lt;div class=\"table-container\"&gt;
+&lt;table aria-label=\"Les animaux des forêts de séquoias\"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th role=\"columnheader\" scope=\"col\"&gt;Animal&lt;/th&gt;
+&lt;th role=\"columnheader\" scope=\"col\"&gt;Description&lt;/th&gt;
+&lt;th role=\"columnheader\" scope=\"col\"&gt;Où ils vivent&lt;/th&gt;
+&lt;th role=\"columnheader\" scope=\"col\"&gt;Fait amusant&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;th scope=\"row\"&gt;Limace terrestre&lt;/th&gt;
+&lt;td&gt;Grande limace jaune et visqueuse&lt;/td&gt;
+&lt;td&gt;Sur le sol de la forêt&lt;/td&gt;
+&lt;td&gt;Deuxième plus grande limace au monde&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th scope=\"row\"&gt;Grande salamandre du Nord&lt;/th&gt;
+&lt;td&gt;Grande salamandre de couleur foncée&lt;/td&gt;
+&lt;td&gt;Près des ruisseaux et des zones humides&lt;/td&gt;
+&lt;td&gt;Peut atteindre jusqu\'à 30 cm de longueur&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th scope=\"row\"&gt;Wapiti de Roosevelt&lt;/th&gt;
+&lt;td&gt;Grand cerf avec des bois impressionnants&lt;/td&gt;
+&lt;td&gt;Broute dans les clairières de la forêt&lt;/td&gt;
+&lt;td&gt;Les mâles peuvent peser plus de 450 kg&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th scope=\"row\"&gt;Chouette tachetée du Nord&lt;/th&gt;
+&lt;td&gt;Chouette de taille moyenne, chasse la nuit&lt;/td&gt;
+&lt;td&gt;Dans les forêts de séquoias denses et matures&lt;/td&gt;
+&lt;td&gt;Une « espèce indicatrice » : sa santé reflète celle de la forêt&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th scope=\"row\"&gt;Ours noir&lt;/th&gt;
+&lt;td&gt;Grand mammifère, généralement noir ou brun&lt;/td&gt;
+&lt;td&gt;Cherche de la nourriture dans toute la forêt&lt;/td&gt;
+&lt;td&gt;Excellent grimpeur, souvent vu dans les arbres&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Vos réflexions sur les séquoias et la nature&lt;/h1&gt;
+
+&lt;p&gt;Qu\'aimeriez-vous apprendre d\'autre sur les séquoias?&lt;/p&gt;
+&lt;div&gt;
+&lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Quel est votre endroit préféré dans la nature?&lt;/p&gt;
+&lt;div&gt;
+&lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Quel concept de la nature aimeriez-vous approfondir?&lt;/p&gt;
+&lt;div&gt;
+&lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+&lt;/div&gt;</string>
+</resources>

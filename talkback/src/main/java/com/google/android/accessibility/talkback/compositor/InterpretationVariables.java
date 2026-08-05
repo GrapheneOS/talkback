@@ -57,6 +57,8 @@ class InterpretationVariables implements ParseTree.VariableDelegate {
   private final EventInterpretation mEventInterpretation;
   @Nullable private final Locale mUserPreferredLocale;
 
+  private final GlobalVariables globalVariables;
+
   /**
    * Constructs InterpretationVariables, which contains context variables to help generate feedback
    * for an accessibility event.
@@ -66,6 +68,7 @@ class InterpretationVariables implements ParseTree.VariableDelegate {
       ParseTree.VariableDelegate parent,
       EventInterpretation eventInterpreted,
       GlobalVariables globalVariables) {
+    this.globalVariables = globalVariables;
     mUserPreferredLocale = globalVariables.getUserPreferredLocale();
     mContext = context;
     mParent = parent;
@@ -80,54 +83,50 @@ class InterpretationVariables implements ParseTree.VariableDelegate {
   @Override
   public boolean getBoolean(int variableId) {
     switch (variableId) {
-      case EVENT_IS_CUT:
+      case EVENT_IS_CUT -> {
         return AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(mEventInterpretation)
             .getIsCutAction();
-      case EVENT_IS_PASTE:
+      }
+      case EVENT_IS_PASTE -> {
         return AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(mEventInterpretation)
             .getIsPasteAction();
-      case EVENT_HINT_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE:
-        {
-          @Nullable HintEventInterpretation hintInterp = mEventInterpretation.getHint();
-          return (hintInterp != null) && hintInterp.getForceFeedbackEvenIfAudioPlaybackActive();
-        }
-      case EVENT_HINT_FORCE_MICROPHONE_ACTIVE:
-        {
-          @Nullable HintEventInterpretation hintInterp = mEventInterpretation.getHint();
-          return (hintInterp != null) && hintInterp.getForceFeedbackEvenIfMicrophoneActive();
-        }
-      case EVENT_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE:
-        {
-          return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
-                  mEventInterpretation)
-              .getForceFeedbackEvenIfAudioPlaybackActive();
-        }
-      case EVENT_FORCE_FEEDBACK_EVEN_IF_MICROPHONE_ACTIVE:
-        {
-          return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
-                  mEventInterpretation)
-              .getForceFeedbackEvenIfMicrophoneActive();
-        }
-      case EVENT_FORCE_FEEDBACK_EVEN_IF_SSB_ACTIVE:
-        {
-          return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
-                  mEventInterpretation)
-              .getForceFeedbackEvenIfSsbActive();
-        }
-      case EVENT_IS_INITIAL_FOCUS:
-        {
-          return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
-                  mEventInterpretation)
-              .getIsInitialFocusAfterScreenStateChange();
-        }
-      case EVENT_IS_USER_NAVIGATION:
-        {
-          return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
-                  mEventInterpretation)
-              .getIsNavigateByUser();
-        }
-      default:
+      }
+      case EVENT_HINT_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE -> {
+        @Nullable HintEventInterpretation hintInterp = mEventInterpretation.getHint();
+        return (hintInterp != null) && hintInterp.getForceFeedbackEvenIfAudioPlaybackActive();
+      }
+      case EVENT_HINT_FORCE_MICROPHONE_ACTIVE -> {
+        @Nullable HintEventInterpretation hintInterp = mEventInterpretation.getHint();
+        return (hintInterp != null) && hintInterp.getForceFeedbackEvenIfMicrophoneActive();
+      }
+      case EVENT_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE -> {
+        return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
+                mEventInterpretation)
+            .getForceFeedbackEvenIfAudioPlaybackActive();
+      }
+      case EVENT_FORCE_FEEDBACK_EVEN_IF_MICROPHONE_ACTIVE -> {
+        return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
+                mEventInterpretation)
+            .getForceFeedbackEvenIfMicrophoneActive();
+      }
+      case EVENT_FORCE_FEEDBACK_EVEN_IF_SSB_ACTIVE -> {
+        return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
+                mEventInterpretation)
+            .getForceFeedbackEvenIfSsbActive();
+      }
+      case EVENT_IS_INITIAL_FOCUS -> {
+        return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
+                mEventInterpretation)
+            .getIsInitialFocusAfterScreenStateChange();
+      }
+      case EVENT_IS_USER_NAVIGATION -> {
+        return AccessibilityInterpretationFeedbackUtils.safeAccessibilityFocusInterpretation(
+                mEventInterpretation)
+            .getIsNavigateByUser();
+      }
+      default -> {
         return mParent.getBoolean(variableId);
+      }
     }
   }
 
@@ -153,56 +152,64 @@ class InterpretationVariables implements ParseTree.VariableDelegate {
     if (text == null) {
       return mParent.getString(variableId);
     } else {
-      return SpeechCleanupUtils.collapseRepeatedCharactersAndCleanUp(mContext, text);
+      return SpeechCleanupUtils.collapseRepeatedCharactersAndCleanUp(
+          mContext, text, globalVariables.getCountRepeatedSymbols());
     }
   }
 
   @Nullable
   private CharSequence getStringInternal(int variableId) {
     switch (variableId) {
-      case EVENT_TEXT_OR_DESCRIPTION:
+      case EVENT_TEXT_OR_DESCRIPTION -> {
         return AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(mEventInterpretation)
             .getTextOrDescription();
-      case EVENT_REMOVED_TEXT:
+      }
+      case EVENT_REMOVED_TEXT -> {
         return AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(mEventInterpretation)
             .getRemovedText();
-      case EVENT_ADDED_TEXT:
+      }
+      case EVENT_ADDED_TEXT -> {
         return AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(mEventInterpretation)
             .getAddedText();
-      case EVENT_TRAVERSED_TEXT:
+      }
+      case EVENT_TRAVERSED_TEXT -> {
         return AccessibilityInterpretationFeedbackUtils.getEventTraversedText(
             mEventInterpretation, mUserPreferredLocale);
-      case EVENT_DESELECTED_TEXT:
+      }
+      case EVENT_DESELECTED_TEXT -> {
         return AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(mEventInterpretation)
             .getDeselectedText();
-      case EVENT_SELECTED_TEXT:
+      }
+      case EVENT_SELECTED_TEXT -> {
         return AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(mEventInterpretation)
             .getSelectedText();
-      case EVENT_LAST_WORD:
+      }
+      case EVENT_LAST_WORD -> {
         return AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(mEventInterpretation)
             .getInitialWord();
-      case EVENT_HINT_TEXT:
-        {
-          @Nullable HintEventInterpretation hintInterp = mEventInterpretation.getHint();
-          return (hintInterp == null) ? "" : hintInterp.getText();
-        }
-      default:
+      }
+      case EVENT_HINT_TEXT -> {
+        @Nullable HintEventInterpretation hintInterp = mEventInterpretation.getHint();
+        return (hintInterp == null) ? "" : hintInterp.getText();
+      }
+      default -> {
         return null;
+      }
     }
   }
 
   @Override
   public int getEnum(int variableId) {
     switch (variableId) {
-      case EVENT_HINT_TYPE:
-        {
-          @Nullable HintEventInterpretation hintInterp = mEventInterpretation.getHint();
-          return (hintInterp == null)
-              ? HintEventInterpretation.HINT_TYPE_NONE
-              : hintInterp.getHintType();
-        }
-      default:
+      case EVENT_HINT_TYPE -> {
+        @Nullable HintEventInterpretation hintInterp = mEventInterpretation.getHint();
+        return (hintInterp == null)
+            ? HintEventInterpretation.HINT_TYPE_NONE
+            : hintInterp.getHintType();
+      }
+      default -> {
         return mParent.getEnum(variableId);
+      }
     }
   }
 

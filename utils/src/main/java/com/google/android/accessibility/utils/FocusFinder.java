@@ -56,12 +56,14 @@ public class FocusFinder {
   /** Finds the view that has the specified focus type. The type is defined in {@link FocusType}. */
   public @Nullable AccessibilityNodeInfoCompat findFocusCompat(@FocusType int focusType) {
     switch (focusType) {
-      case FOCUS_ACCESSIBILITY:
+      case FOCUS_ACCESSIBILITY -> {
         return FocusFinder.getAccessibilityFocusNode(service, false);
-      case FOCUS_INPUT:
+      }
+      case FOCUS_INPUT -> {
         return AccessibilityNodeInfoUtils.toCompat(
             service.findFocus(AccessibilityNodeInfo.FOCUS_INPUT));
-      default: // fall out
+      }
+      default -> {}
     }
 
     return null;

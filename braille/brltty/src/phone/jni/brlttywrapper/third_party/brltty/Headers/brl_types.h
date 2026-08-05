@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,12 +19,12 @@
 #ifndef BRLTTY_INCLUDED_BRL_TYPES
 #define BRLTTY_INCLUDED_BRL_TYPES
 
-#include "async_types_handle.h"
-#include "ctb_types.h"
 #include "driver.h"
-#include "gio_types.h"
+#include "ctb_types.h"
 #include "ktb_types.h"
+#include "gio_types.h"
 #include "queue.h"
+#include "async_types_handle.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -63,6 +63,9 @@ typedef int SetBrailleFirmnessMethod (BrailleDisplay *brl, BrailleFirmness setti
 typedef int SetTouchSensitivityMethod (BrailleDisplay *brl, TouchSensitivity setting);
 typedef int SetAutorepeatPropertiesMethod (BrailleDisplay *brl, int on, int delay, int interval);
 
+typedef int GetDriverPropertyMethod (BrailleDisplay *brl, uint64_t property, uint64_t *value);
+typedef int SetDriverPropertyMethod (BrailleDisplay *brl, uint64_t property, uint64_t value);
+
 typedef struct {
   struct {
     ContractionCache cache;
@@ -85,6 +88,9 @@ struct BrailleDisplayStruct {
   SetTouchSensitivityMethod *setTouchSensitivity;
   SetAutorepeatPropertiesMethod *setAutorepeatProperties;
 
+  GetDriverPropertyMethod *getDriverProperty;
+  SetDriverPropertyMethod *setDriverProperty;
+
   unsigned int textColumns;
   unsigned int textRows;
   unsigned int statusColumns;
@@ -99,7 +105,7 @@ struct BrailleDisplayStruct {
   unsigned int writeDelay;
 
   unsigned char *buffer;
-  void (*bufferResized)(unsigned int rows, unsigned int columns);
+  void (*bufferResized) (unsigned int rows, unsigned int columns);
 
   struct {
     BrailleRowDescriptor *array;
@@ -114,8 +120,8 @@ struct BrailleDisplayStruct {
   unsigned char isOffline:1;
   unsigned char isSuspended:1;
 
-  unsigned char isCoreBuffer : 1;
-  unsigned char resizeRequired : 1;
+  unsigned char isCoreBuffer:1;
+  unsigned char resizeRequired:1;
 
   unsigned char hideCursor:1;
 

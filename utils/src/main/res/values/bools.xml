@@ -3,5 +3,6 @@
 
   <!-- Defines whether support for speaking text replacements is enabled.  Overridden in some locales -->
   <bool name="supports_text_replacement">true</bool>
+  <bool name="is_large_screen">false</bool>
 
 </resources>

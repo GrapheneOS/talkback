@@ -1,28 +1,40 @@
 package com.google.android.accessibility.braille.brailledisplay;
 
+import static com.google.android.accessibility.utils.FeatureSupport.supportInputConnectionByA11yService;
+
 import android.content.Context;
 
 /** Reader class for accessing feature flags from Google experimentation framework. */
 public final class FeatureFlagReader {
 
-  /** Whether to use cut, copy and paste shortcut. */
-  public static boolean useCutCopyPaste(Context context) {
+  /** Whether braille display hid protocol supported. */
+  public static boolean isBdHidSupported(Context context) {
     return true;
   }
 
-  /** Whether to use select previous/next character/word/line shortcut. */
-  public static boolean useSelectPreviousNextCharacterWordLine(Context context) {
+  /** Whether to enable select current from current cursor to start or end. */
+  public static boolean useSelectCurrentToStartOrEnd(Context context) {
+    return supportInputConnectionByA11yService();
+  }
+
+  /** Whether to use popup message. */
+  public static boolean usePopupMessage(Context context) {
     return true;
   }
 
-  /** Whether to use select all. */
-  public static boolean useSelectAll(Context context) {
-    return true;
-  }
-
-  /** Whether to use play/pause media. */
-  public static boolean usePlayPauseMedia(Context context) {
+  /** Whether to use show captions. */
+  public static boolean useShowCaptions(Context context) {
     return false;
+  }
+
+  /** Whether to enable braille display learn mode. */
+  public static boolean enableBrailleDisplayLearnMode(Context context) {
+    return false;
+  }
+
+  /** Whether to use browse mode. */
+  public static boolean useBrowseMode(Context context) {
+    return true;
   }
 
   private FeatureFlagReader() {}

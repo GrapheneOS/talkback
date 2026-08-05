@@ -19,6 +19,7 @@ package com.google.android.accessibility.utils.material;
 import android.content.Context;
 import androidx.appcompat.app.AlertDialog;
 import android.widget.Button;
+import androidx.annotation.StyleRes;
 import com.google.android.accessibility.utils.R;
 
 /** Utility class for Material component */
@@ -51,6 +52,22 @@ public class MaterialComponentUtils {
    * @return {@code AlertDialog.Builder} return AlertDialog.Builder
    */
   public static AlertDialog.Builder alertDialogBuilder(Context context) {
+    return AlertDialogAdaptiveContrastUtil.v7AlertDialogAdaptiveContrastBuilder(
+        context, R.style.A11yAlertDialogTheme);
+  }
+
+  /**
+   * Creates {@link AlertDialog.Builder} and apply theme. Also customize the Builder so that, the
+   * dialog buttons can adapt the color of foreground text, when the input focus changed, to comply
+   * the contrast criteria.
+   *
+   * @param context the current context
+   * @param materialThemeResId The theme resource id used only for Google internal when the Material
+   *     component is supported
+   * @return {@code AlertDialog.Builder} return AlertDialog.Builder
+   */
+  public static AlertDialog.Builder alertDialogBuilder(
+      Context context, @StyleRes int materialThemeResId) {
     return AlertDialogAdaptiveContrastUtil.v7AlertDialogAdaptiveContrastBuilder(
         context, R.style.A11yAlertDialogTheme);
   }

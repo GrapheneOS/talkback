@@ -34,6 +34,8 @@ class ActionVariables implements ParseTree.VariableDelegate {
   private final ParseTree.VariableDelegate mParentVariables;
   private final AccessibilityActionCompat mAction;
 
+  private final GlobalVariables globalVariables;
+
   /**
    * Constructs a ActionVariables, which contains context variables to help generate feedback for an
    * accessibility action.
@@ -41,10 +43,14 @@ class ActionVariables implements ParseTree.VariableDelegate {
    * @param action The accessibility action for which we are generating feedback.
    */
   public ActionVariables(
-      Context context, ParseTree.VariableDelegate parent, AccessibilityActionCompat action) {
+      Context context,
+      ParseTree.VariableDelegate parent,
+      AccessibilityActionCompat action,
+      GlobalVariables globalVariables) {
     if (action == null) {
       throw new IllegalArgumentException("action cannot be null");
     }
+    this.globalVariables = globalVariables;
     mContext = context;
     mParentVariables = parent;
     mAction = action;
@@ -52,14 +58,11 @@ class ActionVariables implements ParseTree.VariableDelegate {
 
   @Override
   public boolean getBoolean(int variableId) {
-    switch (variableId) {
-      case ACTION_IS_CLICK:
-        return mAction.getId() == AccessibilityNodeInfoCompat.ACTION_CLICK;
-      case ACTION_IS_LONG_CLICK:
-        return mAction.getId() == AccessibilityNodeInfoCompat.ACTION_LONG_CLICK;
-      default:
-        return mParentVariables.getBoolean(variableId);
-    }
+    return switch (variableId) {
+      case ACTION_IS_CLICK -> mAction.getId() == AccessibilityNodeInfoCompat.ACTION_CLICK;
+      case ACTION_IS_LONG_CLICK -> mAction.getId() == AccessibilityNodeInfoCompat.ACTION_LONG_CLICK;
+      default -> mParentVariables.getBoolean(variableId);
+    };
   }
 
   @Override
@@ -76,17 +79,15 @@ class ActionVariables implements ParseTree.VariableDelegate {
   @Nullable
   public CharSequence getString(int variableId) {
     return SpeechCleanupUtils.collapseRepeatedCharactersAndCleanUp(
-        mContext, getStringInternal(variableId));
+        mContext, getStringInternal(variableId), globalVariables.getCountRepeatedSymbols());
   }
 
   @Nullable
   private CharSequence getStringInternal(int variableId) {
-    switch (variableId) {
-      case ACTION_LABEL:
-        return mAction.getLabel() == null ? "" : mAction.getLabel();
-      default:
-        return mParentVariables.getString(variableId);
-    }
+    return switch (variableId) {
+      case ACTION_LABEL -> mAction.getLabel() == null ? "" : mAction.getLabel();
+      default -> mParentVariables.getString(variableId);
+    };
   }
 
   @Override

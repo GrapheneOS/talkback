@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,24 +18,61 @@
 
 #include "prologue.h"
 
+#include <string.h>
+
 #include "scr_utils.h"
+#include "color.h"
+
+const ScreenCharacter defaultScreenCharacter = {
+  .text = WC_C(' '),
+  .color.vgaAttributes = VGA_COLOR_DEFAULT,
+};
 
 void
-setScreenCharacterText (ScreenCharacter *characters, wchar_t text, size_t count) {
+toVGAScreenColor (ScreenColor *color) {
+  if (color->usingRGB) {
+    int foreground = rgbColorToVga(color->foreground, 0);
+    int background = rgbColorToVga(color->background, 1);
+    unsigned char attributes = (foreground << VGA_SHIFT_FG)
+                             | (background << VGA_SHIFT_BG);
+
+    if (color->isBlinking) attributes |= VGA_BIT_BLINK;
+    if (color->isBold) attributes |= VGA_BIT_FG_BRIGHT;
+
+    memset(color, 0, sizeof(*color));
+    color->vgaAttributes = attributes;
+  }
+}
+
+void
+toRGBScreenColor (ScreenColor *color) {
+  if (!color->usingRGB) {
+    unsigned char attributes = color->vgaAttributes;
+    memset(color, 0, sizeof(*color));
+    color->usingRGB = 1;
+
+    color->foreground = vgaToRgb(vgaGetForegroundColor(attributes));
+    color->background = vgaToRgb(vgaGetBackgroundColor(attributes));
+    if (attributes & VGA_BIT_BLINK) color->isBlinking = 1;
+  }
+}
+
+void
+setScreenCharacterText (ScreenCharacter *characters, size_t count, wchar_t text) {
   while (count > 0) {
     characters[--count].text = text;
   }
 }
 
 void
-setScreenCharacterAttributes (ScreenCharacter *characters, unsigned char attributes, size_t count) {
+setScreenCharacterColor (ScreenCharacter *characters, size_t count, const ScreenColor *color) {
   while (count > 0) {
-    characters[--count].attributes = attributes;
+    characters[--count].color = *color;
   }
 }
 
 void
 clearScreenCharacters (ScreenCharacter *characters, size_t count) {
-  setScreenCharacterText(characters, WC_C(' '), count);
-  setScreenCharacterAttributes(characters, SCR_COLOUR_DEFAULT, count);
+  setScreenCharacterText(characters, count, defaultScreenCharacter.text);
+  setScreenCharacterColor(characters, count, &defaultScreenCharacter.color);
 }

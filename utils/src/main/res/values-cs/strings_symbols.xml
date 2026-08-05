@@ -35,6 +35,7 @@
   <string name="symbol_period">tečka</string>
   <string name="symbol_pi">Pí</string>
   <string name="symbol_pound">Křížek</string>
+  <string name="symbol_hash">hodnota hash</string>
   <string name="symbol_pound_sterling">Znak měny (libra)</string>
   <string name="symbol_currency_peso">Znak pesa</string>
   <string name="symbol_currency_dong">Znak dongu</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">Pravá hranatá závorka</string>
   <string name="symbol_square_root">Odmocnina</string>
   <string name="symbol_trademark">Ochranná známka</string>
+  <string name="symbol_check_mark">Značka zaškrtnutí</string>
   <string name="symbol_underscore">Podtržítko</string>
   <string name="symbol_vertical_bar">Svislá čára</string>
   <string name="symbol_yen">Jen</string>

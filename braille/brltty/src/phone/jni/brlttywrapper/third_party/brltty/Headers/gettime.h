@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -40,10 +40,10 @@ getRealTime (struct timeval *now) {
   now->tv_sec = time.tv_sec;
   now->tv_usec = time.tv_nsec / 1000;
 #else /* getRealTime */
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   result = gettimeofday(now, NULL);
-#pragma GCC diagnostic pop
+  #pragma GCC diagnostic pop
 #endif /* getRealTime */
 
   return result;

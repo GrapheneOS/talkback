@@ -15,16 +15,22 @@
  */
 package com.google.android.accessibility.talkback.compositor;
 
+import static com.google.android.accessibility.utils.Role.ROLE_TEXT_ENTRY_KEY;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import androidx.core.view.accessibility.AccessibilityWindowInfoCompat;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.LocaleUtils;
 import com.google.android.accessibility.utils.PackageManagerUtils;
+import com.google.android.accessibility.utils.Role;
 import java.util.List;
 import java.util.Locale;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Utils class that provides common methods that provide accessibility information by {@link
@@ -86,10 +92,9 @@ public final class AccessibilityEventFeedbackUtils {
       AccessibilityEvent event, int index, Locale locale) {
     List<CharSequence> texts = event.getText();
     CharSequence eventText = (texts == null || texts.isEmpty()) ? null : texts.get(index);
-    /**
-     * Wrap the text with user preferred locale changed using language switcher, with an exception
-     * for all talkback created events. As talkback text is always in the system language.
-     */
+
+    // Wrap the text with user preferred locale changed using language switcher, with an exception
+    // for all talkback created events. As talkback text is always in the system language.
     if (PackageManagerUtils.isTalkBackPackage(event.getPackageName())) {
       return (eventText == null) ? "" : eventText;
     }
@@ -116,5 +121,17 @@ public final class AccessibilityEventFeedbackUtils {
       }
     }
     return "";
+  }
+
+  /** Whether the event is related to keyboard key. */
+  public static boolean isEventRelatedToKeyboardKey(@Nullable AccessibilityEvent event) {
+    if (event == null) {
+      return false;
+    }
+    AccessibilityNodeInfo node = event.getSource();
+    return node != null
+        && node.getWindow() != null
+        && node.getWindow().getType() == AccessibilityWindowInfoCompat.TYPE_INPUT_METHOD
+        && Role.getRole(node) == ROLE_TEXT_ENTRY_KEY;
   }
 }

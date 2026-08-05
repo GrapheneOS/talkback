@@ -22,7 +22,6 @@ import android.text.TextUtils;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.talkback.GranularityIterator.TextSegmentIterator;
 import com.google.android.accessibility.talkback.Pipeline.SyntheticEvent;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
@@ -32,6 +31,8 @@ import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.accessibility.utils.input.CursorGranularity;
+import com.google.android.accessibility.utils.input.GranularityIterator;
+import com.google.android.accessibility.utils.input.GranularityIterator.TextSegmentIterator;
 import com.google.android.accessibility.utils.input.TextEventInterpreter;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Map;
@@ -59,6 +60,8 @@ public final class GranularityTraversal {
   private final ProcessorPhoneticLetters processorPhoneticLetters;
   private Optional<Pipeline.FeedbackReturner> pipelineReturner = Optional.empty();
   private Optional<Pipeline.EventReceiver> pipelineReceiver = Optional.empty();
+  private GranularityIterator.LineIteratorMode lineIteratorMode =
+      GranularityIterator.LineIteratorMode.EXCLUDE_NEWLINE;
 
   /**
    * Manages the cursor position for each node while traversing with granularity within Talkback.
@@ -76,6 +79,10 @@ public final class GranularityTraversal {
 
   public void setPipelineEventReceiver(Pipeline.EventReceiver pipeline) {
     pipelineReceiver = Optional.of(pipeline);
+  }
+
+  public void setLineIteratorMode(GranularityIterator.LineIteratorMode mode) {
+    this.lineIteratorMode = mode;
   }
 
   /**
@@ -236,7 +243,8 @@ public final class GranularityTraversal {
       current = forward ? node.getTextSelectionEnd() : node.getTextSelectionStart();
     }
 
-    TextSegmentIterator iterator = GranularityIterator.getLineIterator(node, text);
+    TextSegmentIterator iterator =
+        GranularityIterator.getLineIterator(lineIteratorMode, node, text);
     int[] range = forward ? iterator.following(current) : iterator.preceding(current);
     if (range == null) {
       return false;

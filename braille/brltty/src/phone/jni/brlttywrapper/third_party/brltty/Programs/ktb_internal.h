@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,7 +19,7 @@
 #ifndef BRLTTY_INCLUDED_KTB_INTERNAL
 #define BRLTTY_INCLUDED_KTB_INTERNAL
 
-#include "strfmth.h"
+#include "strfmt_types.h"
 #include "cmd_types.h"
 #include "async_handle.h"
 
@@ -94,10 +94,10 @@ typedef struct {
   wchar_t *name;
   wchar_t *title;
 
-  unsigned char isSpecial : 1;
-  unsigned char isDefined : 1;
-  unsigned char isReferenced : 1;
-  unsigned char isIsolated : 1;
+  unsigned char isSpecial:1;
+  unsigned char isDefined:1;
+  unsigned char isReferenced:1;
+  unsigned char isIsolated:1;
 
   struct {
     KeyBinding *table;
@@ -162,12 +162,13 @@ struct KeyTableStruct {
 
   struct {
     int command;
+    unsigned char force:1;
   } release;
 
   struct {
     AsyncHandle alarm;
     int command;
-    unsigned repeat:1;
+    unsigned char autorepeat;
 
     const char *keyAction;
     unsigned char keyContext;

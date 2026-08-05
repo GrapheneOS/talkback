@@ -19,7 +19,7 @@ package com.google.android.accessibility.talkback.imagedescription;
 import android.content.Context;
 import android.text.TextUtils;
 import androidx.annotation.Nullable;
-import com.google.android.accessibility.talkback.FeatureFlagReader;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.utils.StringBuilderUtils;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;

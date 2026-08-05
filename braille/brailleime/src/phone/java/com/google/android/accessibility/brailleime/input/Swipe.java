@@ -16,8 +16,15 @@
 
 package com.google.android.accessibility.brailleime.input;
 
+import android.content.res.Resources;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import com.google.android.accessibility.braille.interfaces.BrailleCharacter;
+import com.google.android.accessibility.brailleime.R;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Describes a user-initiated swipe on the touch screen.
@@ -26,13 +33,26 @@ import com.google.android.accessibility.braille.interfaces.BrailleCharacter;
  * were touching the screen while the swipe was occurring.
  */
 public class Swipe implements Gesture {
+  private static final Pattern REGEX_PATTERN =
+      Pattern.compile("swipe_(?<direction>[A-Za-z]+)_(?<touchpoints>\\d+)");
 
   /** The direction in which the swipe occurred. */
   public enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
+    UP(R.string.gesture_direction_up),
+    DOWN(R.string.gesture_direction_down),
+    LEFT(R.string.gesture_direction_left),
+    RIGHT(R.string.gesture_direction_right);
+
+    Direction(@StringRes int descriptionRes) {
+      this.descriptionRes = descriptionRes;
+    }
+
+    @StringRes private final int descriptionRes;
+
+    /** Gets the description of the {@link Direction}. */
+    public String getDescription(Resources resources) {
+      return resources.getString(descriptionRes);
+    }
   }
 
   private final Direction direction;
@@ -46,6 +66,15 @@ public class Swipe implements Gesture {
   public Swipe(Swipe swipe) {
     this.direction = swipe.direction;
     this.touchCount = swipe.touchCount;
+  }
+
+  public Swipe(String id) {
+    Matcher matcher = REGEX_PATTERN.matcher(id);
+    if (!matcher.matches()) {
+      throw new IllegalArgumentException("Invalid id");
+    }
+    this.direction = Direction.valueOf(matcher.group("direction").toUpperCase(Locale.ENGLISH));
+    this.touchCount = Integer.parseInt(matcher.group("touchpoints"));
   }
 
   static Swipe createFromRotation90(Swipe swipe) {
@@ -83,6 +112,23 @@ public class Swipe implements Gesture {
     return new Swipe(this);
   }
 
+  @Override
+  public String getDescription(Resources resources) {
+    if (touchCount > 1) {
+      return resources.getString(
+          R.string.gesture_swipe_multiple_fingers,
+          direction.getDescription(resources),
+          NumberFormat.getNumberInstance(Locale.getDefault()).format(touchCount));
+    }
+    return resources.getString(
+        R.string.gesture_swipe_one_finger, direction.getDescription(resources));
+  }
+
+  @Override
+  public String getId() {
+    return "swipe_" + direction.toString().toLowerCase(Locale.ENGLISH) + "_" + touchCount;
+  }
+
   private static Direction rotate90Degrees(Direction oldDirection) {
     if (oldDirection == Direction.UP) {
       return Direction.RIGHT;
@@ -116,15 +162,14 @@ public class Swipe implements Gesture {
 
   @Override
   public String toString() {
-    return "Swipe{" + "direction=" + direction + ", touchCount=" + touchCount + '}';
+    return "Swipe{direction=" + direction + ", touchCount=" + touchCount + "}";
   }
 
   @Override
   public boolean equals(@Nullable Object obj) {
-    if (!(obj instanceof Swipe)) {
+    if (!(obj instanceof Swipe that)) {
       return false;
     }
-    Swipe that = (Swipe) obj;
     return direction.equals(that.direction) && touchCount == that.touchCount;
   }
 

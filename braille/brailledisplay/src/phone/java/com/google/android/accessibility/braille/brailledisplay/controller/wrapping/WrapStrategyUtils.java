@@ -2,6 +2,7 @@ package com.google.android.accessibility.braille.brailledisplay.controller.wrapp
 
 import static com.google.android.accessibility.braille.brailledisplay.controller.wrapping.WrapStrategy.REMOVABLE_BREAK_POINT;
 import static com.google.android.accessibility.braille.brailledisplay.controller.wrapping.WrapStrategy.UNREMOVABLE_BREAK_POINT;
+import static java.lang.Math.min;
 
 import android.util.SparseIntArray;
 import com.google.android.accessibility.braille.interfaces.BrailleWord;
@@ -30,7 +31,7 @@ public final class WrapStrategyUtils {
   public static int findWordWrapCutPoint(
       BrailleWord brailleWord, int cutPoint, int begin, int end) {
     if (brailleWord.get(cutPoint).isEmpty()) {
-      for (int i = cutPoint + 1; i < end; i++) {
+      for (int i = cutPoint + 1; i < min(end, brailleWord.size()); i++) {
         // Find the next non-empty character position.
         if (!brailleWord.get(i).isEmpty()) {
           return i;

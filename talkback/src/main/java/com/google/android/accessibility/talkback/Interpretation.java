@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback;
 
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_UNKNOWN;
 import static com.google.android.accessibility.utils.AccessibilityNodeInfoUtils.toStringShort;
+import static com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
 import static com.google.android.accessibility.utils.traversal.TraversalStrategy.SEARCH_FOCUS_UNKNOWN;
 
 import android.graphics.Rect;
@@ -49,6 +50,7 @@ public abstract class Interpretation {
       SCROLL_CANCEL_TIMEOUT,
       CONTINUOUS_READ_CONTENT_FOCUSED,
       CONTINUOUS_READ_INTERRUPT,
+      CONTINUOUS_READ_IGNORE,
       STATE_CHANGE,
       PASS_THROUGH_INTERACTION_START,
       PASS_THROUGH_INTERACTION_END,
@@ -66,7 +68,7 @@ public abstract class Interpretation {
 
     @Override
     public boolean equals(Object otherObject) {
-      if (otherObject == null || !(otherObject instanceof ID)) {
+      if (!(otherObject instanceof ID)) {
         return false;
       }
       ID otherId = (ID) otherObject;
@@ -88,10 +90,12 @@ public abstract class Interpretation {
   public static final class Power extends Interpretation {
     public final boolean connected;
     public final int percent;
+    public final boolean powerSaveMode;
 
-    public Power(boolean connected, int percent) {
+    public Power(boolean connected, int percent, boolean powerSaveMode) {
       this.connected = connected;
       this.percent = percent;
+      this.powerSaveMode = powerSaveMode;
     }
 
     @Override
@@ -99,12 +103,13 @@ public abstract class Interpretation {
       @Nullable Power other = castOrNull(otherObject, Power.class);
       return (other != null)
           && (this.connected == other.connected)
-          && (this.percent == other.percent);
+          && (this.percent == other.percent)
+          && (this.powerSaveMode == other.powerSaveMode);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(connected, percent);
+      return Objects.hash(connected, percent, powerSaveMode);
     }
 
     @Override
@@ -113,7 +118,49 @@ public abstract class Interpretation {
           "Power{",
           StringBuilderUtils.optionalTag("connected", connected),
           StringBuilderUtils.optionalInt("percent", percent, BatteryMonitor.UNKNOWN_LEVEL),
+          StringBuilderUtils.optionalTag("Battery Saver on", powerSaveMode),
           "}");
+    }
+  }
+
+  /** Interpretation sub-type for nonmodal alert appearances and disappearances. */
+  public static final class NonmodalAlertChange extends Interpretation {
+    private @Nullable AccessibilityNodeInfoCompat nonmodalAlert;
+
+    public NonmodalAlertChange(@Nullable AccessibilityNodeInfoCompat node) {
+      if (node != null) {
+        this.nonmodalAlert = AccessibilityNodeInfoCompat.obtain(node);
+      }
+    }
+
+    /** Returns the node representing the nomodal alert. */
+    public AccessibilityNodeInfoCompat getAlert() {
+      return nonmodalAlert;
+    }
+
+    /** Returns {@code true} if the guess is not null. Otherwise, this is a disappearance. */
+    public boolean isAlertAppearance() {
+      return nonmodalAlert != null;
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+      @Nullable NonmodalAlertChange other = castOrNull(otherObject, NonmodalAlertChange.class);
+
+      return (other != null)
+          && ((this.nonmodalAlert == null && other.nonmodalAlert == null)
+              || (this.nonmodalAlert != null && this.nonmodalAlert.equals(other.nonmodalAlert)));
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(nonmodalAlert);
+    }
+
+    @Override
+    public String toString() {
+      return StringBuilderUtils.joinFields(
+          "NonmodalAlertChange{", StringBuilderUtils.optionalSubObj("node", nonmodalAlert), "}");
     }
   }
 
@@ -123,18 +170,24 @@ public abstract class Interpretation {
     @Compositor.Event public final int value;
     private EventInterpretation eventInterpretation;
     private AccessibilityNodeInfoCompat node;
+    @Nullable private LoadSpeechResultNotifier notifier;
 
-    public CompositorID(@Compositor.Event int v) {
-      this.value = v;
+    public CompositorID(@Compositor.Event int value) {
+      this(value, /* notifier= */ null);
+    }
+
+    public CompositorID(@Compositor.Event int value, @Nullable LoadSpeechResultNotifier notifier) {
+      this.value = value;
       this.eventInterpretation = null;
       this.node = null;
+      this.notifier = notifier;
     }
 
     public CompositorID(
-        @Compositor.Event int v,
+        @Compositor.Event int value,
         @Nullable EventInterpretation eventInterp,
         @Nullable AccessibilityNodeInfoCompat node) {
-      this.value = v;
+      this.value = value;
       this.eventInterpretation = eventInterp;
       if (node != null) {
         this.node = AccessibilityNodeInfoCompat.obtain(node);
@@ -149,9 +202,13 @@ public abstract class Interpretation {
       return node;
     }
 
+    public LoadSpeechResultNotifier getResultNotifier() {
+      return notifier;
+    }
+
     @Override
     public boolean equals(Object otherObject) {
-      if (otherObject == null || !(otherObject instanceof CompositorID)) {
+      if (!(otherObject instanceof CompositorID)) {
         return false;
       }
       CompositorID otherId = (CompositorID) otherObject;
@@ -263,11 +320,15 @@ public abstract class Interpretation {
     @SearchDirection
     public abstract int direction();
 
+    public abstract @Nullable CursorGranularity granularity();
+
     public abstract @Nullable AccessibilityNodeInfoCompat destination();
 
     public static DirectionNavigation create(
-        @SearchDirection int direction, @Nullable AccessibilityNodeInfoCompat destination) {
-      return new AutoValue_Interpretation_DirectionNavigation(direction, destination);
+        @SearchDirection int direction,
+        @Nullable CursorGranularity granularity,
+        @Nullable AccessibilityNodeInfoCompat destination) {
+      return new AutoValue_Interpretation_DirectionNavigation(direction, granularity, destination);
     }
 
     @Override
@@ -275,6 +336,7 @@ public abstract class Interpretation {
       return StringBuilderUtils.joinFields(
           "DirectionNavigation{",
           StringBuilderUtils.optionalInt("direction", direction(), SEARCH_FOCUS_UNKNOWN),
+          ((granularity() == null) ? null : "granularity=" + granularity()),
           ((destination() == null) ? null : "destination=" + toStringShort(destination())),
           "}");
     }
@@ -300,7 +362,7 @@ public abstract class Interpretation {
       VOICE_COMMAND_REPEAT_SEARCH,
       VOICE_COMMAND_FIND,
       VOICE_COMMAND_START_AT_TOP,
-      VOICE_COMMAND_START_AT_NEXT,
+      VOICE_COMMAND_START_AT_CURSOR,
       VOICE_COMMAND_COPY_LAST_SPOKEN_UTTERANCE,
       VOICE_COMMAND_FIRST,
       VOICE_COMMAND_LAST,
@@ -358,7 +420,7 @@ public abstract class Interpretation {
 
     @Override
     public boolean equals(Object otherObject) {
-      if (otherObject == null || !(otherObject instanceof InputFocus)) {
+      if (!(otherObject instanceof InputFocus)) {
         return false;
       }
       InputFocus other = (InputFocus) otherObject;

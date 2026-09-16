@@ -1,5 +1,14 @@
 // For building the open-source release of TalkBack.
 
+android.buildFeatures.buildConfig = true
+android.buildFeatures.resValues = true
+
+// Compose is enabled for every module via buildFeatures below. Under AGP 9's
+// built-in Kotlin, every Android module that enables compose must also apply the
+// Compose compiler plugin, so apply it centrally here (idempotent for the Kotlin
+// modules that also apply it directly).
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+
 ext {
     talkbackApplicationId = "com.android.talkback"
 }
@@ -11,22 +20,32 @@ java {
 }
 
 android {
-    compileSdk 35
-    buildToolsVersion '35.0.0'
+        compileSdk {
+            version = release(36) {
+                it.minorApiLevel = 1
+            }
+        }
+    buildToolsVersion '37.0.0'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    buildFeatures {
-        buildConfig true
-    }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled = true
         minSdk 26
+        targetSdk 36
         ndk {
             abiFilters.clear()
             abiFilters.addAll(['arm64-v8a', 'x86_64'])
+            ndkVersion = "29.0.14206865"
         }
+        // We generate a build config field holding the application ID so that
+        // Java code can reference it.
+        buildConfigField "String", "APPLICATION_ID", "\"" + talkbackApplicationId + "\""
+        // We generate a string resource holding the application ID so that XML
+        // resources can reference it.
+        resValue "string", "app_id", talkbackApplicationId
     }
     flavorDimensions "target"
     productFlavors {
@@ -34,35 +53,59 @@ android {
             dimension "target"
         }
     }
+    buildFeatures {
+        compose = true
+    }
     lint {
-        abortOnError false
+        abortOnError = false
     }
 }
 
 dependencies {
 
     // Google common
-    implementation 'com.google.guava:guava:33.3.1-jre'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:19.0.1'
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.guava:guava:33.6.0-jre'
+    implementation 'com.google.android.material:material:1.13.0'
 
     // Support library
-    implementation 'androidx.annotation:annotation:1.8.2'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.browser:browser:1.8.0'
-    implementation 'androidx.collection:collection:1.4.4'
-    implementation 'androidx.core:core:1.13.1'
-    implementation 'androidx.fragment:fragment:1.8.4'
+    implementation 'androidx.annotation:annotation:1.10.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.collection:collection:1.6.0'
+    implementation 'androidx.core:core:1.18.0'
+    implementation 'androidx.core:core-i18n:1.0.0'
+    implementation 'androidx.fragment:fragment:1.8.9'
+    implementation "androidx.lifecycle:lifecycle-service:2.10.0"
+    implementation "androidx.savedstate:savedstate:1.4.0"
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     implementation 'androidx.preference:preference:1.2.1'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0'
 
     // Nullable
-    implementation 'org.checkerframework:checker-qual:3.48.0'
+    implementation 'org.checkerframework:checker-qual:4.1.0'
 
     // Auto-value
-    implementation 'com.google.auto.value:auto-value-annotations:1.11.0'
-    annotationProcessor 'com.google.auto.value:auto-value:1.11.0'
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'com.google.auto.value:auto-value-annotations:1.11.1'
+    annotationProcessor 'com.google.auto.value:auto-value:1.11.1'
+
+    // Cloud services
+    implementation 'com.android.volley:volley:1.2.1'
+
+    // Compose libraries for all form factors
+    Dependency composeBom = platform('androidx.compose:compose-bom:2026.04.01')
+    implementation composeBom
+    implementation "androidx.activity:activity-compose:1.13.0"
+    implementation "androidx.compose.runtime:runtime"
+    implementation "androidx.compose.runtime:runtime-livedata"
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.material:material-icons-core"
+
+    // Gemineye
+    implementation "com.google.code.gson:gson:2.14.0"
+    implementation 'com.google.protobuf:protobuf-javalite:4.34.1'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    // Apache
+    implementation "org.apache.commons:commons-text:1.15.0"
+
 }

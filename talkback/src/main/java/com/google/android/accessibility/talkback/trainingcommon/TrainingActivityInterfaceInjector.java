@@ -18,15 +18,20 @@ package com.google.android.accessibility.talkback.trainingcommon;
 
 import android.app.Application;
 import android.content.Context;
+import androidx.fragment.app.FragmentActivity;
 import androidx.annotation.Nullable;
+import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Wraps the method of {@link TrainingConfigMapper} and {@link PageConfigMapper} to populate the
  * content with given {@link TrainingId} on {@link TrainingActivity}. Must invoke {@link
- * #initialize(TrainingConfigMapper, PageConfigMapper)} in {@link Application#onCreate()} to ensure
- * the instance is available in another process.
+ * #initialize} in {@link Application#onCreate()} to ensure the instance is available in another
+ * process.
  */
 public class TrainingActivityInterfaceInjector {
 
@@ -45,16 +50,37 @@ public class TrainingActivityInterfaceInjector {
   }
 
   /**
-   * Initializes ths instance with given {@link TrainingConfigMapper} and {@link PageConfigMapper}.
+   * An interface for logging {@link TalkBackAnalytics.TrainingSectionId} events in an activity
+   * session.
+   */
+  public interface TrainingSectionLogger {
+    /** Logs an event for entering a section. */
+    void logEnterSection(TrainingConfig config, @Nullable PageConfig pageConfig);
+  }
+
+  /** An interface to show a warming dialog when TalkBack is off. */
+  public interface TalkBackDisabledWarmingDialog {
+    /** Shows the warming dialog when TalkBack is disabled. */
+    void show(FragmentActivity fragmentActivity, Consumer<Boolean> checkChangedConsumer);
+  }
+
+  /**
+   * Initializes the instance with given {@link TrainingConfigMapper} and {@link PageConfigMapper}.
    * Must be invoked in {@link Application#onCreate()}.
    */
   public static void initialize(
-      TrainingConfigMapper trainingConfigMapper, PageConfigMapper pageConfigMapper) {
+      TrainingConfigMapper trainingConfigMapper,
+      PageConfigMapper pageConfigMapper,
+      Function<TrainingMetricStore, TrainingSectionLogger> trainingSectionLoggerSupplier,
+      Supplier<TalkBackDisabledWarmingDialog> talkBackDisabledWarmingDialogSupplier) {
     trainingActivityInterfaceInjector =
-        new TrainingActivityInterfaceInjector(trainingConfigMapper, pageConfigMapper);
+        new TrainingActivityInterfaceInjector(
+            trainingConfigMapper,
+            pageConfigMapper,
+            trainingSectionLoggerSupplier,
+            talkBackDisabledWarmingDialogSupplier);
   }
 
-  // TODO: b/285329652
   public static TrainingActivityInterfaceInjector getInstance() {
     if (trainingActivityInterfaceInjector == null) {
       throw new IllegalStateException(
@@ -65,23 +91,35 @@ public class TrainingActivityInterfaceInjector {
 
   private final TrainingConfigMapper trainingConfigMapper;
   private final PageConfigMapper pageConfigMapper;
+  private final Function<TrainingMetricStore, TrainingSectionLogger> trainingSectionLoggerSupplier;
+  private final Supplier<TalkBackDisabledWarmingDialog> talkBackDisabledWarmingDialogSupplier;
 
   private TrainingActivityInterfaceInjector(
-      TrainingConfigMapper trainingConfigMapper, PageConfigMapper pageConfigMapper) {
+      TrainingConfigMapper trainingConfigMapper,
+      PageConfigMapper pageConfigMapper,
+      Function<TrainingMetricStore, TrainingSectionLogger> trainingSectionLoggerSupplier,
+      Supplier<TalkBackDisabledWarmingDialog> talkBackDisabledWarmingDialogSupplier) {
     this.pageConfigMapper = pageConfigMapper;
     this.trainingConfigMapper = trainingConfigMapper;
+    this.trainingSectionLoggerSupplier = trainingSectionLoggerSupplier;
+    this.talkBackDisabledWarmingDialogSupplier = talkBackDisabledWarmingDialogSupplier;
   }
 
-  // TODO: b/285329652
   @Nullable
-  public TrainingConfig getTraining(TrainingId trainingId, Context context) {
+  TrainingConfig getTraining(TrainingId trainingId, Context context) {
     return trainingConfigMapper.getTraining(trainingId, context);
   }
 
-  // TODO: b/285329652
-
   @Nullable
-  public PageConfig getPage(PageId pageId, Context context, int vendorPageIndex) {
+  PageConfig getPage(PageId pageId, Context context, int vendorPageIndex) {
     return pageConfigMapper.getPage(pageId, context, vendorPageIndex);
+  }
+
+  TrainingSectionLogger provideTrainingSectionLogger(TrainingMetricStore trainingMetricStore) {
+    return trainingSectionLoggerSupplier.apply(trainingMetricStore);
+  }
+
+  TalkBackDisabledWarmingDialog provideTalkBackDisabledWarmingDialog() {
+    return talkBackDisabledWarmingDialogSupplier.get();
   }
 }

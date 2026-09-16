@@ -20,15 +20,11 @@ import static java.util.stream.Collectors.joining;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import com.google.android.accessibility.braille.interfaces.BrailleCharacter;
 import com.google.android.accessibility.braille.interfaces.BrailleWord;
 import com.google.android.accessibility.braille.translate.BrailleTranslator;
-import com.google.android.accessibility.braille.translate.R;
 import com.google.android.accessibility.braille.translate.TranslationResult;
 import com.google.android.accessibility.braille.translate.liblouis.LouisTranslation.TranslationMode;
-import com.google.android.accessibility.utils.BuildVersionUtils;
-import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,29 +32,14 @@ import java.util.Objects;
 
 /** A LibLouis translator based on the {@link LibLouisTranslator#tableName}. */
 public class LibLouisTranslator implements BrailleTranslator {
-
-  private final String tableName;
   private final Map<BrailleWord, String> bypassMap;
   private final Map<BrailleCharacter, String> commutativityMap;
+  private final String tableName;
+  private final LiblouisLoader loader;
 
   public LibLouisTranslator(Context context, String tableName) {
     this.tableName = tableName;
-    File tablesDir;
-    // Extract tables to device storage so we can read tables before device is unlocked after
-    // reboot.
-    if (BuildVersionUtils.isAtLeastN()) {
-      context = ContextCompat.createDeviceProtectedStorageContext(context);
-    }
-    File customTablesDir = context.getExternalFilesDir(/* type= */ null);
-    File customTablesSubDir = new File(customTablesDir, "/liblouis/tables");
-    File[] files = customTablesSubDir.listFiles();
-    if (files != null && files.length != 0) {
-      tablesDir = customTablesDir;
-    } else {
-      tablesDir = context.getDir("translator", Context.MODE_PRIVATE);
-      TranslateUtils.extractTables(context.getResources(), R.raw.translationtables, tablesDir);
-    }
-    LouisTranslation.setTablesDir(tablesDir.getPath());
+    loader = LiblouisLoader.getInstance(context);
     bypassMap = new LinkedHashMap<>();
     commutativityMap = new LinkedHashMap<>();
   }
@@ -94,12 +75,42 @@ public class LibLouisTranslator implements BrailleTranslator {
 
   @Override
   public String translateToPrint(BrailleWord brailleWord) {
-    return translateToPrintInternal(brailleWord, false);
+    if (!loader.isExtracted()) {
+      return "";
+    }
+    return translateToPrintInternal(brailleWord, /* partial= */ false);
   }
 
   @Override
   public String translateToPrintPartial(BrailleWord brailleWord) {
-    return translateToPrintInternal(brailleWord, true);
+    if (!loader.isExtracted()) {
+      return "";
+    }
+    return translateToPrintInternal(brailleWord, /* partial= */ true);
+  }
+
+  @Override
+  public TranslationResult translate(CharSequence text, int cursorPosition) {
+    if (!loader.isExtracted()) {
+      return TranslationResult.createUnknown(text, cursorPosition);
+    }
+    return LouisTranslation.translate(text, tableName, cursorPosition);
+  }
+
+  @Override
+  public boolean equals(@Nullable Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof LibLouisTranslator libLouisTranslator)) {
+      return false;
+    }
+    return tableName.equals(libLouisTranslator.tableName);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(tableName);
   }
 
   private String translateToPrintInternal(BrailleWord brailleWord, boolean partial) {
@@ -150,26 +161,5 @@ public class LibLouisTranslator implements BrailleTranslator {
       translationSB.append(tokenTranslation);
     }
     return translationSB.toString();
-  }
-
-  @Override
-  public TranslationResult translate(CharSequence text, int cursorPosition) {
-    return LouisTranslation.translate(text, tableName, cursorPosition);
-  }
-
-  @Override
-  public boolean equals(@Nullable Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof LibLouisTranslator)) {
-      return false;
-    }
-    return tableName.equals(((LibLouisTranslator) o).tableName);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(tableName);
   }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:theme="@style/ScreenSearchOverlayVariousListButtonSection">
+  <com.google.android.material.chip.ChipGroup
+      android:id="@+id/search_list_chip_group"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      app:chipSpacingHorizontal="8dp"
+      app:singleLine="true"
+      app:singleSelection="true">
+    <com.google.android.material.chip.Chip
+        android:checked="true"
+        android:id="@+id/all_elements_list_button"
+        style="@style/ScreenSearchOverlayVariousListButton"
+        android:contentDescription="@string/title_all_elements_list_button"
+        android:text="@string/title_all_elements_list_button" />
+    <com.google.android.material.chip.Chip
+        android:id="@+id/heading_list_button"
+        style="@style/ScreenSearchOverlayVariousListButton"
+        android:contentDescription="@string/title_heading_list_button"
+        android:text="@string/title_heading_list_button" />
+    <com.google.android.material.chip.Chip
+        android:id="@+id/landmark_list_button"
+        style="@style/ScreenSearchOverlayVariousListButton"
+        android:contentDescription="@string/title_landmark_list_button"
+        android:text="@string/title_landmark_list_button" />
+    <com.google.android.material.chip.Chip
+        android:id="@+id/link_list_button"
+        style="@style/ScreenSearchOverlayVariousListButton"
+        android:contentDescription="@string/title_link_list_button"
+        android:text="@string/title_link_list_button" />
+    <com.google.android.material.chip.Chip
+        android:id="@+id/control_list_button"
+        style="@style/ScreenSearchOverlayVariousListButton"
+        android:contentDescription="@string/title_control_list_button"
+        android:text="@string/title_control_list_button" />
+    <com.google.android.material.chip.Chip
+        android:id="@+id/table_list_button"
+        style="@style/ScreenSearchOverlayVariousListButton"
+        android:contentDescription="@string/title_table_list_button"
+        android:text="@string/title_table_list_button" />
+  </com.google.android.material.chip.ChipGroup>
+</LinearLayout>

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -23,6 +23,7 @@
 
 #include "log.h"
 #include "cmdline.h"
+#include "cmdput.h"
 #include "datafile.h"
 #include "utf8.h"
 #include "brlapi.h"
@@ -33,7 +34,7 @@ static int opt_getContent;
 static char *opt_setContent;
 static int opt_removeNewline;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "brlapi",
     .letter = 'b',
     .argument = "[host][:port]",
@@ -66,7 +67,27 @@ BEGIN_OPTION_TABLE(programOptions)
     .setting.flag = &opt_removeNewline,
     .description = "Remove a trailing newline."
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-clip",
+  .purpose = strtext("Manage brltty's clipboard from the command line."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "file",
+    .description = "the files to paste (use - for standard input)",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 static const brlapi_param_t apiParameter = BRLAPI_PARAM_CLIPBOARD_CONTENT;
 static const brlapi_param_subparam_t apiSubparam = 0;
@@ -143,21 +164,9 @@ static DATA_OPERANDS_PROCESSOR(processInputLine) {
 
 int
 main (int argc, char *argv[]) {
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
+
   ProgramExitStatus exitStatus = PROG_EXIT_FATAL;
-
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-clip",
-
-      .usage = {
-        .purpose = strtext("Manage brltty's clipboard from the command line."),
-        .parameters = "[{input-file | -} ...]",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
 
   brlapi_connectionSettings_t settings = {
     .host = opt_apiHost,
@@ -166,7 +175,7 @@ main (int argc, char *argv[]) {
 
   brlapi_fileDescriptor fileDescriptor = brlapi_openConnection(&settings, &settings);
 
-  if (fileDescriptor != (brlapi_fileDescriptor)(-1)) {
+  if (fileDescriptor != BRLAPI_INVALID_FILE_DESCRIPTOR) {
     char *oldContent = NULL;
 
     LineProcessingData lpd = {
@@ -191,7 +200,7 @@ main (int argc, char *argv[]) {
 
       exitStatus = processInputFiles(argv, argc, &parameters);
     } else if (argc > 0) {
-      logMessage(LOG_ERR, "too many arguments");
+      logMessage(LOG_ERR, "specifying files conflicts with specifying -g or -s");
       exitStatus = PROG_EXIT_SYNTAX;
     } else {
       exitStatus = PROG_EXIT_SUCCESS;
@@ -243,12 +252,7 @@ main (int argc, char *argv[]) {
           }
         }
 
-        printf("%s", oldContent);
-
-        if (ferror(stdout)) {
-          logMessage(LOG_ERR, "standard output write error: %s", strerror(errno));
-          exitStatus = PROG_EXIT_FATAL;
-        }
+        putString(oldContent);
       }
 
       free(oldContent);

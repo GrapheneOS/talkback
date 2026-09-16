@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!--
+   Source: A notification for incoming call (voice or video) or similar synchronous communication request.
+   Description: This is spoken to the user.
+   e.g. When a user receives a call -->
+  <string name="bd_notification_category_call" translatable="false">call</string>
+  <!--
+    Source: A notification for incoming direct message (SMS, instant message, etc.)
+    Description: This is spoken to the user.
+    e.g. When a user receives a message -->
+  <string name="bd_notification_category_msg" translatable="false">msg</string>
+  <!--
+    Source: A notification for asynchronous bulk message (email)
+    Description: This is spoken to the user.
+    e.g. When a user receives an email -->
+  <string name="bd_notification_category_email" translatable="false">eml</string>
+  <!--
+    Source: A notification for a calendar event.
+    Description: This is spoken to the user.
+    e.g. When a user receives a calendar event. -->
+  <string name="bd_notification_category_event" translatable="false">cal</string>
+  <!--
+    Source: A notification for a promotion or advertisement.
+    Description: This is spoken to the user.
+    e.g. When a user receives promotion or advertisement. -->
+  <string name="bd_notification_category_promo" translatable="false">promo</string>
+  <!--
+    Source: A notification for alarm or timer.
+    Description: This is spoken to the user.
+    e.g. When a user has alarm ringing -->
+  <string name="bd_notification_category_alarm" translatable="false">alarm</string>
+  <!--
+    Source: A notification for progress of a long-running background operation.
+    Description: This is spoken to the user. -->
+  <string name="bd_notification_category_progress" translatable="false">progress</string>
+  <!--
+    Source: A notification from a social network or sharing update.
+    Description: This is spoken to the user.
+    e.g. When a user has an update from a social network -->
+  <string name="bd_notification_cat_social" translatable="false">scl</string>
+  <!--
+    Source: A notification for an error in background operation or authentication status.
+    Description: This is spoken to the user.
+    e.g. When user authentication for email fails -->
+  <string name="bd_notification_category_err" translatable="false">err</string>
+  <!--
+    Source: A notification for system or device status update.  Reserved for system use.
+    Description: This is spoken to the user.
+    e.g. When a user gets an update for the device -->
+  <string name="bd_notification_category_sys" translatable="false">sys</string>
+  <!--
+    Source: A notification for indication of running a background service
+    Description: This is spoken to the user. -->
+  <string name="bd_notification_category_service" translatable="false">svc</string>
+  <!--
+    Source: A toast message.
+    Description: This is spoken to the user. -->
+  <string name="bd_toast_category" translatable="false">toast</string>
+  <!--
+    Source: A non-modal alert message.
+    Description: This is spoken to the user.-->
+  <string name="bd_non_modal_alert_category" translatable="false">alert</string>
+  <!--
+    Source: An announcement message.
+    Description: This is spoken to the user.-->
+  <string name="bd_announcement_category" translatable="false">ann</string>
+</resources>

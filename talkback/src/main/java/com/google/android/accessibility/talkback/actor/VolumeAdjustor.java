@@ -39,12 +39,10 @@ public class VolumeAdjustor {
   // stream volume to be restored to this percentage level when user enables TalkBack.
   private static final int MIN_VOLUME_PERCENTAGE = 30;
   private final Context context;
-  private final FormFactorUtils formFactorUtils;
 
   public VolumeAdjustor(Context context) {
     this.context = context;
-    formFactorUtils = FormFactorUtils.getInstance();
-    if (formFactorUtils.isAndroidWear()) {
+    if (FormFactorUtils.isAndroidWear()) {
       resetVolume();
     }
   }
@@ -65,12 +63,11 @@ public class VolumeAdjustor {
     }
     int streamTypeToAdjust;
     switch (streamType) {
-      case STREAM_TYPE_ACCESSIBILITY:
-        streamTypeToAdjust = STREAM_ACCESSIBILITY;
-        break;
-      default:
+      case STREAM_TYPE_ACCESSIBILITY -> streamTypeToAdjust = STREAM_ACCESSIBILITY;
+      default -> {
         // Not supported
         return false;
+      }
     }
     int maxVolume = Math.max(audioManager.getStreamMaxVolume(streamTypeToAdjust), 1);
     int minVolume = Math.max(audioManager.getStreamMinVolume(streamTypeToAdjust), 1);
@@ -104,7 +101,7 @@ public class VolumeAdjustor {
       return;
     }
     int minAllowedVolume =
-        formFactorUtils.isAndroidWear()
+        FormFactorUtils.isAndroidWear()
             ? (((maxVolume - minVolume) * MIN_VOLUME_PERCENTAGE) / 100) + minVolume
             : minVolume;
 

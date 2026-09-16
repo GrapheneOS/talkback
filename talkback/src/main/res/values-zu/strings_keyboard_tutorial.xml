@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Lesi sifundo esemephu esemqoka ethuthukisiwe, ehlanganisa imiyalo eminingi emisha. Ukuze ukhethe imephu esemqoka, iya kumasethingi eTalkBack &gt; Amasethingi athuthukisiwe &gt; Izinqamuleli zekhibhodi.\n\nCindezela Isenzo + Umcibisholo obheke kwesokudla ukuze ukhethe isihloko. Ukuze uthole umuzwa ohamba phambili, vula iTalkBack ngaphambi kokuqalisa.</string>
+  <string name="basic_interaction_link_text">Ukuxhumana okuyisisekelo</string>
+  <string name="basic_interaction_link_subtext">Hamba phakathi kwezinto, funda ngemigqa, sebenzisa amamenyu, kanye nokuningi</string>
+  <string name="browse_mode_link_text">Imodi yokubhrawuza</string>
+  <string name="browse_mode_link_subtext">Zulazula kukhontenti yewebhu ngokushesha usebenzisa imiyalo yokugxuma</string>
+  <string name="reading_controls_link_text">Izilawuli zokufunda</string>
+  <string name="reading_controls_link_subtext">Sebenzisa izilawuli ezifundayo ukuze ugxume phakathi kwezinto, ulungise amasethingi enkulumo kanye nokuningi</string>
+  <string name="image_descriptions_link_text">Izincazelo zesithombe</string>
+  <string name="image_descriptions_link_subtext">Zama ukuthola izincazelo zezithombe</string>
+  <string name="keyboard_shortcuts_link_text">Phrakthiza izinqamuleli zekhibhodi</string>
+  <string name="keyboard_shortcuts_link_subtext">Cindezela izinkinobho kanye nenhlanganisela yezinkinobho ukuze ufunde ukuthi zenzani</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">ITalkback ikunikeza impendulo yezwi ukuze ukwazi ukusebenzisa idivayisi yakho ngaphandle kokubheka isikrini. ITalkBack ingaba wusizo kubantu abanobunzima bokubona isikrini. Uma iTalkBack ivuliwe, into okugxilwe kuyo esikrinini iyashiwo ngokuzwakalayo.\n\nOkokuqala ake sijwayelane nekhibhodi yakho. Thola Inkinobho yokufinyelela, engaphezu kwenkinobho ethi Shift engakwesobunxele. Manje asithole izinkinobho zemicibisholo eziseduze nendawo ephansi ngakwesokudla sekhibhodi. Cindezela okuthi Isenzo + Umcibisholo obheke kwesokudla ukuze uye entweni elandelayo.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Lena into elandelayo. Ukuze uye entweni yangaphambilini, cindezela okuthi Isenzo + Umcibisholo ongakwesobunxele.\n\nUma uya entweni esebenzisekayo njengenkinobho, cindezela okuthi Isenzo + ISpace ukuze uyivule. Thola inkinobho elandelayo bese uqhubeka nesifundo.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Funda ngohlamvu, ngegama, noma ngesigaba</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Kwesinye isikhathi, ungafuna ukuzwa umbhalo ufundwa ngokuzwakalayo uhlamvu olulodwa ngesikhathi.\n\nUkuze wenze lokhu, ungasebenzisa ukuzulazula kwezilawuli zokufunda. Cindezela okuthi Isenzo + Shift + Umcibisholo wangakwesokudla noma wangakwesobunxele uze uzwe okuthi \"izinhlamvu.\"\n\nOkulandelayo, cindezela okuthi Isenzo + Umcibisholo obheke phezulu ukuze uhambise ukugxila kokuzulazula emuva ngohlamvu. Cindezela Isenzo + Umcibisholo obheke ophansi ukuze uhambise ukugxila kokuzulazula phambili ngohlamvu.\n\nKuzame manje. Ungaphinde ukhethe nokufunda ngamagama, ngemigqa, noma ngezigaba usebenzisa Isenzo + Shift + Umcibisholo obheke kwesokudla noma obheke kwesobunxele.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Ukufuna kwesistimu</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Ukuzama lezi zinqamuleli zekhibhodi manje kuzovala lesi sifundo. Ungase ufune ukulinda uze uqede lesi sifundo.\n\nUkuze ugxume phakathi kwamawindi e-app avuliwe nezakhi zesistimu njengezaziso kanye Nebha yomsebenzi, cindezela Isenzo + Alt + Ctrl + Umcibisholo obheke phezulu noma phansi.\n\nUkuze uvule uhlu lwe-app, cindezela Isenzo.\n\nUkuze uye Esikrinini sasekhaya futhi unciphise wonke amawindi avuliwe, cindezela Isenzo + H noma Ikhaya emgqeni ophezulu.\n\nUkuze uye kuma-app akho obusanda kuwasebenzisa, cindezela Isenzo + Ithebhu noma okuthi Iqoqa emgqeni ophezulu.\n\nUkuze ugxume ngokushesha phakathi kwamawindi, cindezela ungadedeli u-Alt bese ucindezela okuthi Ithebhu.\n\nUkuze ubuyele emuva, cindezela Isenzo + Esc noma okuthi Back emgqeni ophezulu.\n\nUkuze uvule izaziso, cindezela Isenzo + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Lungisa amasethingi enkulumo</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Ivolumu yenkulumo yeTalkBack ibizwa ngevolumu yokufinyeleleka. Ilungiswa ngokuhlukile kuvolumu yemidiya.\n\nUkuze ulungise ivolumu yokufinyeleleka, cindezela Isenzo + Nyusa ivolumu noma yehlisa ivolumu.\n\nUkuze ulungise izinga lokugijima kwenkulumo, cindezela Isenzo + Ctrl + Nyusa ivolumu ukuze ukhuphule kanye Nesenzo + Ctrl + Yehlisa ivolumu ukuze wehlise.\n\nUkuze umise inkulumo noma nini, cindezela u-Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Imenyu yeTalkBack nezinqamuleli zekhibhodi ezengeziwe</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Imenyu yeTalkBack ihlanganisa amasethingi nezilawuli ongase uzidinge njalo.\n\nUkuze uvule imenyu yeTalkBack, cindezela okuthi Isenzo + Ctrl + M. Ungaqamba ngokwabahlinzekelwayo imenyu yeTalkBack nezilawuli zakho zokufunda kamuva kumasethingi eTalkBack.\n\nImenyu yezinqamuleli zekhibhodi yeTalkBack ihlanganisa zonke izinqamuleli zekhibhodi ongazisebenzisa.\n\nUkuze uvule imenyu yezinqamuleli zekhibhodi, cindezela okuthi Isenzo + Shift + /.\n\nUkuze ufunde kabanzi mayelana nekhibhodi futhi uzijwayelanise nezinqamuleli zekhibhodi, cindezela okuthi Isenzo + 0 ukuze uvule isikrini sokuphrakthiza.</string>
+  <string name="keyboard_tutorial_finished_page_title">Konke kusethiwe!</string>
+  <string name="keyboard_tutorial_finished_page_text">Usukulungele ukusebenzisa iTalkBack.\n\nQhubeka nokufunda ngezinye izihloko manje, noma ubuyekeze lolu lwazi noma nini kumasethingi eTalkBack.\n\nUkuze uvule noma uvale iTalkBack noma nini, cindezela okuthi Isenzo + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Funa ikhontenti yewebhu ngokushesha ngemodi yokubhrawuza</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Lapho ukubhrawuza nakuma-app ewebhu, ungavula imodi yokubhrawuza bese ugxuma phakathi kwezinhlobo ezihlukahlukene zokufunda ze-granularity nezilawuli ngokucindezela inkinobho kanye. Kwenza ukufuna ekhasini kufane nokufuna ebhokisini lokuhlela umbhalo, njengokusebenzisa imicibisholo engakwesobunxele nangakwesokudla ukuze uhambe ngohlamvu kanye nokusebenzisa imicibisholo ebheke phezulu naphansi ukuze uhambe ngomugqa.\n\nUkuze uvule noma uvale imodi yokubhrawuza, cindezela kabili Inkinobho yokufinyelela.\n\nUma imodi yokubhrawuza ivuliwe, cindezela u-D ukuze weqele endaweni elandelayo, u-F ukuze uthole isilawuli esilandelayo noma inkambu yefomu, u-B ukuze uthole inkinobho elandelayo, u-K ukuze uthole ilinki elandelayo kanye no-H ukuze uthole isihloko esilandelayo. Cindezela bese ubamba uShift bese ucindezela lezi zinkinobho ukuze uye emuva.\n\nUngaphinde usebenzise Imicibisholo eya phezulu neya phansi ukuze weqe ngemigqa, Iicibisholo eya kwesobunxele neya kwesokudla ukuze weqe ngezinhlamvu, kanye no-Ctrl + imicibisholo eya kwesobunxele neya kwesokudla ukuze weqe ngamagama.\n\nCindezela Isenzo + Umcibisholo oya kwesokudla ukuze ufake indawo yokuphrakthiza. Ngenkathi ukumalinki endawo yokuphrakthiza, izinkambu zefomu, nezinkinobho ngeke kwenze lutho.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Amazinga esihloko</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Amawebhusayithi nama-app ewebhu avame ukusebenzisa izihlokwana ezinamazinga ahlukene ukuze ahlele ikhontenti. Uma imodi yokubhrawuza ivuliwe, cindezela u-1 kuya ku-6 ukuze ugxumele emazingeni esihlokwana. Cindezela bese ubamba uShift bese ucindezela lezi zinkinobho ukuze uyeemuva.\n\nCindezela okuthi Isenzo + Umcibisholo ongakwesokudla ukuze ufake indawo yokuphrakthiza.</string>
+  <string name="keyboard_tutorial_tables_page_title">Amathebula</string>
+  <string name="keyboard_tutorial_tables_page_text">Imodi yokubhrawuza iphinde yenze ukufuna kuthebula kube lula. Uma imodi yokubhrawuza ivuliwe, cindezela u-Alt + Ctrl + Umcibisholo obheke phezulu kanye nobheke phansi ukuze weqe phakathi kwemigqa kanye no-Alt + Ctrl + Umcibisholo obheke kwesokunxele kanye nobheke kwesokudla ukuze weqe phakathi kwamakholomu.\n\nCindezela okuthi Isenzo + Umcibisholo obheke kwesokudla ukuze ufake indawo yokuphrakthiza.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Ukulungisa umbhalo</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Uma ufaka isikhala sombhalo, imodi yokubhrawuza izovalwa okwesikhashana ukuze ukwazi ukusebenzisa zonke izinkinobho ukuze uthayiphe. Uzozwa isimemezelo nomsindo uma ivaliwe. Lapho usuka esikhaleni sombhalo, imodi yokubhrawuza izovuleka futhi uzozwa esinye isimemezelo nomsindo.\n\nCindezela Isenzo + Umcibisholo obheke kwesokudla ukuze ufake indawo yokuphrakthiza.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Okwengeziwe mayelana nemodi yokubhrawuza</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Ukuze uhlole uhlu oluphelele lwezinto ongagxuma phakathi kwazo kumodi yokubhrawuza, cindezela Isenzo + Shift + / bese usesha \"imodi yokubhrawuza\" kumenyu yezinqamuleli zekhibhodi.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Funda ngohlamvu, ngegama, noma ngesigaba</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Kwesinye isikhathi, ungafuna ukuzwa umbhalo ufundwa ngokuzwakalayo uhlamvu olulodwa ngesikhathi.\n\nUkuze wenze lokhu, ungasebenzisa ukuzulazula kwezilawuli zokufunda. Cindezela okuthi Isenzo + Shift + Umcibisholo obheke kwesokudla noma obheke kwesobunxele uze uzwe \"izinhlamvu.\" Okulandelayo, cindezela Isenzo + Umcibisholo obheke phezulu ukuze uhlehlise ukugxila kokuzulazula kuye emuva ngohlamvu. Cindezela Isenzo + Umcibisholo obheke ophansi ukuze uhambise ukugxila kokuzulazula phambili ngohlamvu.\n\nKuzame manje. Ungaphinda ukhethe ukufunda ngamagama, ngemigqa noma ngezigaba usebenzisa Isenzo + Shift + Umcibisholo obheke kwesokudla noma obheke kwesobunxele.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Yeqa phakathi kwezilawuli</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Izilawuli izinto ongasebenzisana nazo, njengezinkinobho, amabhokisi okuhlola, namabhokisi ombhalo.\n\nKwamanye amakhasi, ungase ufune ukweqa phakathi kwezilawuli ukuze uthole ngokushesha isenzo, njengenkinobho elandelayo.\n\nUkuze wenze lokhu, cindezela Isenzo + Shift + Umcibisholo obheke kwesokudla uze uzwe \"izilawuli.\" Okulandelayo, cindezela okuthi Isenzo + Umcibisholo obheke phezulu ukuze uye enkinobheni yangaphambilini kanye nokuthi Action + Umcibisholo obheke phansi ukuze uye enkinobheni elandelayo.\n\nKuzame manje futhi uthole inkinobho elandelayo.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Yeqa phakathi kwamalinki</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Ungaphinda weqe phakathi kwamalinki asekhasini.\n\nUkuze wenze lokhu, cindezela okuthi Isenzo + Shift + Umcibisholo obheke kwesokudla uze uzwe okuthi \"amalinki.\" Okulandelayo, cindezela okuthi Isenzo + Umcibisholo obheke phansi ukuze uthole ilinki eqanjwe ngokuthi \"Ilinki 5.\" Ngenkathi usesifundweni, ukuthepha kabili le linki ngeke kwenze lutho.\n\nCindezela okuthi Isenzo + Umcibisholo obheke kwesokudla ukuze uthole inkinobho elandelayo bese uya ekhasini elilandelayo.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Yeqa phakathi kwezihloko</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Ungaphinda weqe phakathi kwezihloko ezisekhasini.\n\nUkuze ukuzame manje, cindezela okuthi Isenzo + Shift + Umcibisholo obheke kwesokudla uze uzwe okuthi \"izihloko.\" Okulandelayo, cindezela okuthi Isenzo + Umcibisholo obheke phansi ukuze uthole isihloko esithi \"Ukuzulazula\".</string>
+  <string name="keyboard_tutorial_find_next_button">Cindezela okuthi Isenzo + Umcibisholo obheke kwesokudla ukuze uthole inkinobho elandelayo.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Yeqa phakathi kweziqukathi</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Ukuze uphume esiqukathini, njengohlu noma igridi, cindezela okuthi Isenzo + Alt + Ctrl + Umcibisholo obheke kwesokudla noma obheke kwesokunxele. Lokhu kuyasiza uma ufuna ukuphuma ohlwini olude lwezinto.\n\nUkuze ukuzame manje, cindezela Isenzo + Umcibisholo obheke kwesokudla ukuze ufake uhlu. Bese ucindezela okuthi Isenzo + Alt + Ctrl + Umcibisholo obheke kwesokudla ukuze uye esiqukathini esilandelayo.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Ukuze uye esiqukathini esilandelayo, cindezela okuthi Isenzo + Alt + Ctrl + Umcibisholo obheke kwesokudla</string>
+  <string name="keyboard_tutorial_exit_container">Ukuze uphume kulesi siqukathi, cindezela okuthi Isenzo + Alt + Ctrl + Umcibisholo obheke kwesokudla</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Uphumile esiqukathini. Ungakwazi futhi ukwengeza iziqukathi ezilawulini zakho zokufunda bese ucindezela okuthi Isenzo + Shift + Umcibisholo obheke kwesokudla noma obheke kwesobunxele ukuze ukhethe iziqukathi kanye nokuthi Isenzo + Umcibisholo obheke phansi noma obheke phezulu ukuze ugxume phakathi kweziqukathi. Ukuze ubuyekeze izilawuli zokufunda, iya kuTalkBack &gt; Amasethingi &gt; Wenze ngendlela oyithandayo amamenyu &gt; Zenze ngendlela oyithandayo izilawuli zokufunda.\n\nCindezela Isenzo + Umcibisholo obheke kwesokudla ukuze uthole inkinobho elandelayo.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Zenze ngendlela oyithandayo izilawuli zokufunda</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Ungaphinda ulungise amasethingi enkulumo usebenzisa izilawuli zokufunda futhi wenze ngendlela oyithandayo ongakwenza ngezilawuli zokufunda kuTalkBack &gt; Amasethingi &gt; Wenze ngendlela oyithandayo amamenyu &gt; Zenze ngendlela oyithandayo izilawuli zokufunda.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Zama ukuthola izincazelo zesithombe</string>
+  <string name="keyboard_tutorial_image_description_page_text">Uma ugxile esithombeni, cindezela okuthi Isenzo + R, bese ucindezela okuthi I. Kunesithombe esisodwa ngezansi. Zama ukuthola incazelo yaso.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Ungashintsha amasethingi encazelo yesithombe noma nini emasethingini eTalkBack &gt; Izincazelo zesithombe nesithonjana.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Ungashintsha amasethingi encazelo yesithombe noma nini emasethingini eTalkBack bese ushintsha Izincazelo zesithombe nesithonjana.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Isampula yesithombe. Cindezela okuthi Isenzo + R, bese ucindezela okuthi I ukuze uzwe incazelo.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Imiyalo yezwi</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Ungasebenzisa izwi lakho ukulawula iTalkBack ngokushesha.\n\nNgokwesibonelo, yisho umyalo wokushintsha ukuzula, weqele esihlokweni esilandelayo, kopisha umbhalo nokuningi.\n\nUkuze uzame manje, cindezela Isenzo + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Ukusebenzisa ukusesha kwesikrini</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Isakhi sokusesha isikrini sikuvumela ukuthi ubheke ikhontenti yokuthile esikrinini.\n\nUkuze ukuzame, cindezela okuthi Isenzo + CTRL + /. Thayipha igama elisemqoka, njengelithi \"okulandelayo,\" ukuze uthole izinto ezinalowo mbhalo esikrinini.\n\nZama ukusesha okuthi \"okulandelayo\" manje ukuze uthole inkinobho elandelayo.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Funa ngokusesha kwesikrini</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Ungahamba ngokushesha phakathi kwemiphumela yosesho ehlukene ekuseshini kwesikrini ngemva kokukhetha umphumela.\n\nUkwenza lokhu, ungasebenzisa ukuzulazula kwezilawuli zokufunda. Cindezela okuthi Isenzo + Shift + Umcibisholo obheke ngakwesokudla noma ngakwesobunxele kuze kube yilapho uzwa okuthi \"ukusesha kwesikrini.\" Okulandelayo, cindezela okuthi Isenzo + Umcibisholo Oya Phansi noma Oya Phezulu ukuze ufune ngemiphumela yokusesha kwesikrini.\n\nMasikuzame manje. Ngezansi kunohlu lwezinkinobho ezi-3, zonke ziqukethe umbhalo othi\"isenzo.\" Sesha \"isenzo\" usebenzisa ukusesha kwesikrini, bese ufuna ngokusesha kwesikrini ukuze uhambe phakathi kwawo.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Phrakthiza izinqamuleli zekhibhodi</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Cindezela ukhiye wekhibhodi ophathekayo noma inhlanganisela yokhiye ukuze uzwe ukuthi yenzani. Cindezela u-Ctrl + W, noma u-Escape ukuze uphume.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Zitholele Ubukhosi BamaRedwood ase-California&lt;/h1&gt;
+      &lt;p&gt;Amaredwood ase-California, ngokuyinhloko ama-redwood asogwini (Sequoia sempervrens), yizihlahla ezinde kunazo zonke emhlabeni. Amanye amile ngaphezu kwamamitha angu-115 futhi angaphila izinkulungwane zeminyaka. Zichuma esimweni sezulu esinomswakama sasezindaweni ezisogwini olusenyakatho yeCalifornia, zizuza emvuleni nenkungu.&lt;/p&gt;
+
+      &lt;h2&gt;Ungazibona Kanjani&lt;/h2&gt;
+      &lt;p&gt;Uzothola lezi zinhlobo ezinkulu emgqeni omncane osogwini lwePacific. Amapaki ayinhloko ahlanganisa:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Hlela ukuvakasha kwakho lapha: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Sekela Ukulondolozwa&lt;/h2&gt;
+      &lt;p&gt;Ukuvikela lawa mahlathi asendulo kubalulekile. Ungasiza ngokulandela izinkombandlela zepaki futhi usekele imizamo yokulondoloza.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Yabelana Ngolwazi Lwakho&lt;/h2&gt;
+        &lt;p&gt;Wake waya kumaredwood?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Yebo&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Cha&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Sitshele ngolwazi lwakho&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Thumela&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Yini enye ongathanda ukuyifunda ngamaredwood?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Thumela&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Izihlahla zeRedwood: Ukugcina Indawo Yethu Inempilo&lt;/h1&gt;
+    &lt;p&gt;AmaRedwood abalulekile eplanethini yethu, adlala indima enkulu ekugcineni indawo yethu inempilo.&lt;/p&gt;
+
+    &lt;h1&gt;Izihlanzi Zomoya Ezinkulu&lt;/h1&gt;
+    &lt;p&gt;Lezi zihlahla ziyamangalisa ekumunceni i-carbon dioxide emoyeni. Ngokungenisa okuningi kakhulu, amaredwood asiza ukugcina umoya wethu uhlanzekile.&lt;/p&gt;
+
+    &lt;h2&gt;Ikhaya Lezilwane&lt;/h2&gt;
+    &lt;p&gt;Amaredwood ahlinzeka ngamakhaya nezindawo zokukhosela zezilwane eziningi, kusukela ezinyonini emagatsheni azo kuya ezidalweni ezincane emhlabathini.&lt;/p&gt;
+
+    &lt;h3&gt;Osomathuba Bamanzi&lt;/h3&gt;
+    &lt;p&gt;Bakahle kakhulu ekubambeni inkungu, bese iyaconsa phansi ehlathini. Lokhu kugcina umhlabathi unomswakama futhi kunikeza amanzi kwezinye izitshalo nezilwane, ikakhulukazi uma komile.&lt;/p&gt;
+
+    &lt;h4&gt;Izivikeli Zomhlabathi&lt;/h4&gt;
+    &lt;p&gt;Izimpande zazo eziqinile zibamba umhlabathi, ziwuvimbele ukuba ukhukhuleke phakathi nezimvula ezinamandla futhi zivimbele ukuguguleka.&lt;/p&gt;
+
+    &lt;h5&gt;Abakhi Bamahlathi&lt;/h5&gt;
+    &lt;p&gt;Uma amaredwood amadala ewa, ukhuni wawo uba ukudla nendawo yokukhosela yezitshalo nezidalwa ezintsha, kusungulwa umhlabathi ocebile wokukhula okusha.&lt;/p&gt;
+
+    &lt;h6&gt;Ama-Ecosystem Ayingqayizivele&lt;/h6&gt;
+    &lt;p&gt;Ngenxa yokuthi ama-redwood makhulu kangaka futhi aphila isikhathi eside kangaka, asungula izindawo zamahlathi ezikhethekile ezisekela impilo engatholakali kwenye indawo.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Izilwane Zamahlathi ERedwood&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Isilwane&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Incazelo&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Lapho Zihlala Khona&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Iqiniso Elimnandi&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banana Slug&lt;/th&gt;
+            &lt;td&gt;I-slug enkulu, ephuzi, enobulimbu&lt;/td&gt;
+            &lt;td&gt;Phansi ehlathini&lt;/td&gt;
+            &lt;td&gt;I-slug yesibili ngobukhulu emhlabeni&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Pacific Giant Salamander&lt;/th&gt;
+            &lt;td&gt;I-salamander enkulu, enombala omnyama&lt;/td&gt;
+            &lt;td&gt;Eduze kwemifula nezindawo ezinomswakama&lt;/td&gt;
+            &lt;td&gt;Ingakhula ibe ngamamitha angaba ngamashumi amathathu ubude&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt Elk&lt;/th&gt;
+            &lt;td&gt;Inyamazane enkulu enezimpondo ezinhle&lt;/td&gt;
+            &lt;td&gt;Idla ezindaweni ezivulekile ehlathini&lt;/td&gt;
+            &lt;td&gt;Abesilisa bangaba nesisindo esingaphezu kwamakhilogremu angama-450&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Northern Spotted Owl&lt;/th&gt;
+            &lt;td&gt;Isikhova esimaphakathi, sizela ebusuku&lt;/td&gt;
+            &lt;td&gt;Emahlathini aminyene, avuthiwe e-redwood&lt;/td&gt;
+            &lt;td&gt;\"Uhlobo lwesikhombi\" – impilo yaso ibonisa impilo yehlathi&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Black Bear&lt;/th&gt;
+            &lt;td&gt;Isilwane esikhulu, ngokuvamile esimnyama noma esinsundu&lt;/td&gt;
+            &lt;td&gt;Sifuna ukudla kulo lonke ihlathi&lt;/td&gt;
+            &lt;td&gt;Singabagibeli abahle kakhulu, sivame ukubonwa ezihlahleni&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Imicabango yakho ngamaRedwood nemvelo&lt;/h1&gt;
+
+      &lt;p&gt;Yini enye ongathanda ukuyifunda ngamaRedwood?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Iyiphi indawo oyintandokazi emvelweni ongathanda ukuyivakashela?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Yimuphi umqondo owodwa emvelweni ofuna ukufunda kabanzi ngawo?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

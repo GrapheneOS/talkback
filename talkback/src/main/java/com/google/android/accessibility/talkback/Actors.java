@@ -23,6 +23,8 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.google.android.accessibility.talkback.Feedback.AdjustValue.Action.DECREASE_VALUE;
 import static com.google.android.accessibility.talkback.Feedback.AdjustVolume.Action.DECREASE_VOLUME;
 import static com.google.android.accessibility.talkback.Feedback.SpeechRate.Action.INCREASE_RATE;
+import static com.google.android.accessibility.talkback.contextmenu.ListMenuManager.MenuId.CONTEXT;
+import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 import static com.google.android.accessibility.utils.output.SpeechController.UTTERANCE_GROUP_CONTENT_HINTS;
 import static com.google.android.accessibility.utils.preference.PreferencesActivity.FRAGMENT_NAME;
 import static com.google.android.accessibility.utils.traversal.TraversalStrategy.SEARCH_FOCUS_FORWARD;
@@ -31,6 +33,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.view.View.OnClickListener;
 import android.widget.Toast;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.android.talkback.TalkBackPreferencesActivity;
@@ -43,14 +47,19 @@ import com.google.android.accessibility.talkback.Feedback.DimScreen;
 import com.google.android.accessibility.talkback.Feedback.EditText;
 import com.google.android.accessibility.talkback.Feedback.Focus;
 import com.google.android.accessibility.talkback.Feedback.FocusDirection;
+import com.google.android.accessibility.talkback.Feedback.GeminiRequest;
+import com.google.android.accessibility.talkback.Feedback.GeminiResultDialog;
 import com.google.android.accessibility.talkback.Feedback.Gesture;
 import com.google.android.accessibility.talkback.Feedback.ImageCaption;
+import com.google.android.accessibility.talkback.Feedback.ImageCaptionResult;
 import com.google.android.accessibility.talkback.Feedback.InterruptGroup;
 import com.google.android.accessibility.talkback.Feedback.InterruptLevel;
+import com.google.android.accessibility.talkback.Feedback.Keyboard;
 import com.google.android.accessibility.talkback.Feedback.Label;
 import com.google.android.accessibility.talkback.Feedback.Language;
 import com.google.android.accessibility.talkback.Feedback.NodeAction;
 import com.google.android.accessibility.talkback.Feedback.PassThroughMode;
+import com.google.android.accessibility.talkback.Feedback.ScreenOverviewResult;
 import com.google.android.accessibility.talkback.Feedback.Scroll;
 import com.google.android.accessibility.talkback.Feedback.ServiceFlag;
 import com.google.android.accessibility.talkback.Feedback.ShowToast;
@@ -59,9 +68,11 @@ import com.google.android.accessibility.talkback.Feedback.Speech;
 import com.google.android.accessibility.talkback.Feedback.SpeechRate;
 import com.google.android.accessibility.talkback.Feedback.SystemAction;
 import com.google.android.accessibility.talkback.Feedback.TalkBackUI;
+import com.google.android.accessibility.talkback.Feedback.TouchLatency;
 import com.google.android.accessibility.talkback.Feedback.TriggerIntent;
 import com.google.android.accessibility.talkback.Feedback.UiChange;
 import com.google.android.accessibility.talkback.Feedback.UniversalSearch;
+import com.google.android.accessibility.talkback.Feedback.UpdateSpeechOverlayLayout;
 import com.google.android.accessibility.talkback.Feedback.Vibration;
 import com.google.android.accessibility.talkback.Feedback.VoiceRecognition;
 import com.google.android.accessibility.talkback.Feedback.WebAction;
@@ -76,25 +87,31 @@ import com.google.android.accessibility.talkback.actor.FocusActorForTapAndTouchE
 import com.google.android.accessibility.talkback.actor.FullScreenReadActor;
 import com.google.android.accessibility.talkback.actor.GestureReporter;
 import com.google.android.accessibility.talkback.actor.ImageCaptioner;
+import com.google.android.accessibility.talkback.actor.KeyboardActor;
 import com.google.android.accessibility.talkback.actor.LanguageActor;
 import com.google.android.accessibility.talkback.actor.NodeActionPerformer;
 import com.google.android.accessibility.talkback.actor.NumberAdjustor;
 import com.google.android.accessibility.talkback.actor.PassThroughModeActor;
-import com.google.android.accessibility.talkback.actor.SpeechRateActor;
+import com.google.android.accessibility.talkback.actor.SpeechRateAndPitchActor;
 import com.google.android.accessibility.talkback.actor.SystemActionPerformer;
 import com.google.android.accessibility.talkback.actor.TalkBackUIActor;
 import com.google.android.accessibility.talkback.actor.TextEditActor;
+import com.google.android.accessibility.talkback.actor.TouchLatencyAdjustor;
 import com.google.android.accessibility.talkback.actor.TypoNavigator;
 import com.google.android.accessibility.talkback.actor.VolumeAdjustor;
+import com.google.android.accessibility.talkback.actor.gemini.GeminiActor;
+import com.google.android.accessibility.talkback.actor.gemini.GeminiActor.Action;
 import com.google.android.accessibility.talkback.actor.search.SearchScreenNodeStrategy;
 import com.google.android.accessibility.talkback.actor.search.UniversalSearchActor;
-import com.google.android.accessibility.talkback.actor.voicecommands.SpeechRecognizerActor;
+import com.google.android.accessibility.talkback.actor.voicecommands.VoiceCommandActor;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.compositor.WindowContentChangeAnnouncementFilter;
+import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.action.NavigationAction;
 import com.google.android.accessibility.talkback.labeling.TalkBackLabelManager;
-import com.google.android.accessibility.talkback.preference.base.TutorialAndHelpFragment;
+import com.google.android.accessibility.talkback.preference.base.AutomaticDescriptionsFragment;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.utils.AccessibilityNode;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.Constants;
@@ -102,8 +119,13 @@ import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
+import com.google.android.accessibility.utils.monitor.InputDeviceMonitor;
 import com.google.android.accessibility.utils.output.FeedbackController;
+import com.google.android.accessibility.utils.output.SpeechCleanupUtils.PunctuationVerbosity;
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
+import com.google.android.accessibility.utils.output.TextToSpeechBubbleOverlay;
+import com.google.android.accessibility.utils.output.TextToSpeechOverlay;
+import com.google.android.accessibility.utils.output.TextToSpeechSimpleOverlay;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -128,7 +150,6 @@ class Actors {
   private final FocusActorForScreenStateChange focuserWindowChange;
   private final FocusActorForTapAndTouchExploration focuserTouch;
   private final DirectionNavigationActor directionNavigator;
-  private final SearchScreenNodeStrategy searcher;
   private final TextEditActor editor;
   private final TalkBackLabelManager labeler;
   private final NodeActionPerformer nodeActionPerformer;
@@ -137,18 +158,21 @@ class Actors {
   private final LanguageActor languageSwitcher;
   private final AccessibilityFocusMonitor accessibilityFocusMonitor;
   private final TalkBackUIActor talkBackUIActor;
-  private final SpeechRateActor speechRateActor;
+  private final SpeechRateAndPitchActor speechRateAndPitchActor;
   private final NumberAdjustor numberAdjustor;
   private final TypoNavigator typoNavigator;
   private final VolumeAdjustor volumeAdjustor;
   private final ActorStateWritable actorState;
-  private final SpeechRecognizerActor speechRecognizer;
+  private final VoiceCommandActor voiceCommandActor;
   private final GestureReporter gestureReporter;
+  private final KeyboardActor keyboardActor;
   private final ImageCaptioner imageCaptioner;
   private final UniversalSearchActor universalSearchActor;
+  private final GeminiActor geminiActor;
+  private final TouchLatencyAdjustor touchLatencyAdjustor;
   private final ServiceFlagRequester serviceFlagRequester;
-  private final FormFactorUtils formFactorUtils;
   private final BrailleDisplayActor brailleDisplayActor;
+  private final InputDeviceMonitor inputDeviceMonitor;
 
   //////////////////////////////////////////////////////////////////////////
   // Construction methods
@@ -166,7 +190,6 @@ class Actors {
       FocusActorForScreenStateChange focuserWindowChange,
       FocusActorForTapAndTouchExploration focuserTouch,
       DirectionNavigationActor directionNavigator,
-      SearchScreenNodeStrategy searchScreenNodeStrategy,
       TextEditActor editor,
       TalkBackLabelManager labeler,
       NodeActionPerformer nodeActionPerformer,
@@ -174,16 +197,20 @@ class Actors {
       LanguageActor languageSwitcher,
       @Nullable PassThroughModeActor passThroughModeActor,
       TalkBackUIActor talkBackUIActor,
-      SpeechRateActor speechRateActor,
+      SpeechRateAndPitchActor speechRateAndPitchActor,
       NumberAdjustor numberAdjustor,
       TypoNavigator typoNavigator,
       VolumeAdjustor volumeAdjustor,
-      SpeechRecognizerActor speechRecognizer,
+      VoiceCommandActor voiceCommandActor,
       GestureReporter gestureReporter,
+      KeyboardActor keyboardActor,
       ImageCaptioner imageCaptioner,
       UniversalSearchActor universalSearchActor,
+      GeminiActor geminiActor,
+      TouchLatencyAdjustor touchLatencyAdjustor,
       ServiceFlagRequester serviceFlagRequester,
-      BrailleDisplayActor brailleDisplayActor) {
+      BrailleDisplayActor brailleDisplayActor,
+      InputDeviceMonitor inputDeviceMonitor) {
     this.context = context;
     this.analytics = analytics;
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
@@ -196,7 +223,6 @@ class Actors {
     this.focuserWindowChange = focuserWindowChange;
     this.focuserTouch = focuserTouch;
     this.directionNavigator = directionNavigator;
-    searcher = searchScreenNodeStrategy;
     this.editor = editor;
     this.labeler = labeler;
     this.nodeActionPerformer = nodeActionPerformer;
@@ -204,18 +230,21 @@ class Actors {
     this.languageSwitcher = languageSwitcher;
     this.passThroughModeActor = passThroughModeActor;
     this.talkBackUIActor = talkBackUIActor;
-    this.speechRateActor = speechRateActor;
+    this.speechRateAndPitchActor = speechRateAndPitchActor;
     this.numberAdjustor = numberAdjustor;
     this.typoNavigator = typoNavigator;
     this.volumeAdjustor = volumeAdjustor;
-    this.speechRecognizer = speechRecognizer;
+    this.voiceCommandActor = voiceCommandActor;
     this.gestureReporter = gestureReporter;
+    this.keyboardActor = keyboardActor;
     this.imageCaptioner = imageCaptioner;
     this.universalSearchActor = universalSearchActor;
+    this.geminiActor = geminiActor;
     this.serviceFlagRequester = serviceFlagRequester;
+    this.touchLatencyAdjustor = touchLatencyAdjustor;
     this.brailleDisplayActor = brailleDisplayActor;
+    this.inputDeviceMonitor = inputDeviceMonitor;
 
-    this.formFactorUtils = FormFactorUtils.getInstance();
     actorState =
         new ActorStateWritable(
             dimmer.state,
@@ -226,11 +255,14 @@ class Actors {
             directionNavigator.state,
             nodeActionPerformer.stateReader,
             languageSwitcher.state,
-            speechRateActor.state,
+            speechRateAndPitchActor.rateState,
             passThroughModeActor.state,
-            labeler.stateReader());
+            labeler.stateReader(),
+            geminiActor.state,
+            universalSearchActor.state,
+            editor.state);
     // Focuser stores some actor-state in ActorState, because focuser does not use that state
-    // internally, only for communication to interpeters.
+    // internally, only for communication to interpreters.
     this.focuser.setActorState(actorState);
     this.systemActionPerformer.setActorState(actorState);
     ActorState actorStateReadOnly = new ActorState(actorState);
@@ -239,6 +271,7 @@ class Actors {
     this.languageSwitcher.setActorState(actorStateReadOnly);
     this.focuserTouch.setActorState(actorStateReadOnly);
     this.imageCaptioner.setActorState(actorStateReadOnly);
+    this.analytics.setActorState(actorStateReadOnly);
   }
 
   public void setPipelineEventReceiver(Pipeline.EventReceiver pipelineEventReceiver) {
@@ -247,6 +280,7 @@ class Actors {
   }
 
   public void setPipelineFeedbackReturner(Pipeline.FeedbackReturner pipelineFeedbackReturner) {
+    scroller.setPipeline(pipelineFeedbackReturner);
     dimmer.setPipeline(pipelineFeedbackReturner);
     continuousReader.setPipeline(pipelineFeedbackReturner);
     directionNavigator.setPipeline(pipelineFeedbackReturner);
@@ -260,9 +294,11 @@ class Actors {
     focuserTouch.setPipeline(pipelineFeedbackReturner);
     numberAdjustor.setPipeline(pipelineFeedbackReturner);
     typoNavigator.setPipeline(pipelineFeedbackReturner);
-    speechRecognizer.setPipeline(pipelineFeedbackReturner);
+    voiceCommandActor.setPipeline(pipelineFeedbackReturner);
     imageCaptioner.setPipeline(pipelineFeedbackReturner);
     universalSearchActor.setPipeline(pipelineFeedbackReturner);
+    geminiActor.setPipeline(pipelineFeedbackReturner);
+    touchLatencyAdjustor.setPipeline(pipelineFeedbackReturner);
   }
 
   public void setUserInterface(UserInterface userInterface) {
@@ -286,51 +322,40 @@ class Actors {
     // Custom labels
     @Nullable Label label = part.label();
     if (label != null && label.node() != null) {
-      switch (label.action()) {
-        case SET:
-          success &=
-              labeler.stateReader().supportsLabel(label.node())
-                  && labeler.setLabel(label.node(), label.text());
-          break;
-      }
+      success &=
+          switch (label.action()) {
+            case SET ->
+                labeler.stateReader().supportsLabel(label.node())
+                    && labeler.setLabel(label.node(), label.text());
+          };
     }
 
     // Continuous reading
     @Nullable ContinuousRead continuousRead = part.continuousRead();
     if (continuousRead != null && continuousRead.action() != null) {
       switch (continuousRead.action()) {
-        case START_AT_TOP:
-          continuousReader.startReadingFromBeginning(eventId);
-          break;
-        case START_AT_NEXT:
-          continuousReader.startReadingFromNextNode(eventId);
-          break;
-        case READ_FOCUSED_CONTENT:
-          continuousReader.readFocusedContent(eventId);
-          break;
-        case INTERRUPT:
-          continuousReader.interrupt();
-          break;
+        case START_AT_TOP -> continuousReader.startReadingFromBeginning(eventId);
+        case START_AT_CURSOR -> continuousReader.startReadingFromFocusedNode(eventId);
+        case READ_FOCUSED_CONTENT -> continuousReader.readFocusedContent(eventId);
+        case INTERRUPT -> continuousReader.interrupt();
+        case IGNORE -> continuousReader.ignore();
       }
     }
 
     @Nullable DimScreen dim = part.dimScreen();
     if (dim != null && dim.action() != null) {
       switch (dim.action()) {
-        case BRIGHTEN:
-          dimmer.disableDimming();
-          break;
-        case DIM:
-          dimmer.enableDimmingAndShowConfirmDialog();
-          break;
+        case BRIGHTEN -> dimmer.disableDimming();
+        case DIM -> dimmer.enableDimmingAndShowConfirmDialog();
       }
     }
 
     // Speech
     @Nullable Speech speech = part.speech();
     if (speech != null && speech.action() != null) {
+      var unused = false;
       switch (speech.action()) {
-        case SPEAK:
+        case SPEAK -> {
           if ((speech.hint() != null)
               && (speech.hintSpeakOptions() != null)
               && (speech.hintSpeakOptions().mCompletedAction != null)) {
@@ -342,52 +367,46 @@ class Actors {
           if (speech.text() != null) {
             speaker.speak(speech.text(), eventId, speech.options());
           }
-          break;
-        case SAVE_LAST:
-          speaker.saveLastUtterance();
-          break;
-        case COPY_SAVED:
-          speaker.copySavedUtteranceToClipboard(eventId);
-          break;
-        case COPY_LAST:
-          speaker.copyLastUtteranceToClipboard(eventId);
-          break;
-        case REPEAT_SAVED:
-          speaker.repeatSavedUtterance();
-          break;
-        case SPELL_SAVED:
-          speaker.spellSavedUtterance();
-          break;
-        case PAUSE_OR_RESUME:
-          speaker.pauseOrResumeUtterance();
-          break;
-        case TOGGLE_VOICE_FEEDBACK:
-          speaker.toggleVoiceFeedback();
-          break;
-        case SILENCE:
-          speaker.setSilenceSpeech(true);
-          break;
-        case UNSILENCE:
-          speaker.setSilenceSpeech(false);
-          break;
-        case INVALIDATE_FREQUENT_CONTENT_CHANGE_CACHE:
-          WindowContentChangeAnnouncementFilter.invalidateRecordNode();
-          break;
+        }
+        case SAVE_LAST -> speaker.saveLastUtterance();
+        case COPY_SAVED -> speaker.copySavedUtteranceToClipboard(eventId);
+        case COPY_LAST -> speaker.copyLastUtteranceToClipboard(eventId);
+        case REPEAT_SAVED -> speaker.repeatSavedUtterance();
+        case REPEAT_LAST -> unused = speaker.repeatLastUtterance();
+        case SPELL_SAVED -> speaker.spellSavedUtterance();
+        case SPELL_LAST -> unused = speaker.spellLastUtterance();
+        case PAUSE_OR_RESUME -> {
+          boolean doPause = speaker.readyToPause();
+          continuousReader.pauseOrResumeContinuousReadingState(doPause);
+          speaker.pauseOrResumeUtterance(doPause);
+        }
+        case TOGGLE_VOICE_FEEDBACK -> speaker.toggleVoiceFeedback();
+        case SILENCE -> speaker.setSilenceSpeech(true);
+        case UNSILENCE -> speaker.setSilenceSpeech(false);
+        case INVALIDATE_FREQUENT_CONTENT_CHANGE_CACHE ->
+            WindowContentChangeAnnouncementFilter.invalidateRecordNode();
+        case SYNTHESIZE -> {
+          Bundle speechParams = null;
+          if (speech.options() != null) {
+            speechParams = speech.options().mSpeechParams;
+          }
+          speaker.addSpeech(
+              speech.text(), speech.synthesizeStatusNotifier(), speechParams, eventId);
+        }
+        case RESET_FORMATTING_HISTORY -> speaker.clearInlineFormattingHistory();
       }
     }
 
     @Nullable VoiceRecognition voiceRecognition = part.voiceRecognition();
     if (voiceRecognition != null && voiceRecognition.action() != null) {
       switch (voiceRecognition.action()) {
-        case START_LISTENING:
-          speechRecognizer.getSpeechPermissionAndListen(voiceRecognition.checkDialog());
-          break;
-        case STOP_LISTENING:
-          speechRecognizer.stopListening();
-          break;
-        case SHOW_COMMAND_LIST:
-          speechRecognizer.showCommandsHelpPage();
-          break;
+        case START_LISTENING ->
+            voiceCommandActor.getSpeechPermissionAndListen(voiceRecognition.checkDialog());
+        case START_LISTENING_IF_SCREEN_NOT_LOCKED ->
+            voiceCommandActor.startListeningIfScreenNotLocked(
+                voiceRecognition.checkDialog(), voiceRecognition.nodeMenuShortcut());
+        case STOP_LISTENING -> voiceCommandActor.stopListening();
+        case SHOW_COMMAND_LIST -> voiceCommandActor.showCommandsHelpPage();
       }
     }
 
@@ -395,7 +414,12 @@ class Actors {
     @Nullable Sound sound = part.sound();
     if (sound != null) {
       soundAndVibration.playAuditory(
-          sound.resourceId(), sound.rate(), sound.volume(), eventId, sound.separationMillisec());
+          sound.resourceId(),
+          sound.rate(),
+          sound.volume(),
+          sound.ignoreVolumeAdjustment(),
+          eventId,
+          sound.separationMillisec());
     }
 
     // Vibration
@@ -409,26 +433,26 @@ class Actors {
     if (triggerIntent != null) {
       Intent intent = null;
       switch (triggerIntent.action()) {
-        case TRIGGER_TUTORIAL:
-          intent = new Intent(context, TalkBackPreferencesActivity.class);
-          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-          intent.putExtra(FRAGMENT_NAME, TutorialAndHelpFragment.class.getName());
-          break;
-        case TRIGGER_PRACTICE_GESTURE:
-          intent = TutorialInitiator.createPracticeGesturesIntent(context);
-          break;
-        case TRIGGER_ASSISTANT:
+        case TRIGGER_TUTORIAL -> intent = TutorialInitiator.createTutorialIntent(context);
+        case TRIGGER_PRACTICE_GESTURE ->
+            intent = TutorialInitiator.createPracticeGesturesIntent(context);
+        case TRIGGER_ASSISTANT -> {
           // The intent to invoke assistant for watch is different from for phone.
           intent =
-              new Intent(formFactorUtils.isAndroidWear() ? ACTION_ASSIST : ACTION_VOICE_COMMAND);
+              new Intent(FormFactorUtils.isAndroidWear() ? ACTION_ASSIST : ACTION_VOICE_COMMAND);
           intent.setFlags(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
-          break;
-        case TRIGGER_BRAILLE_DISPLAY_SETTINGS:
+        }
+        case TRIGGER_BRAILLE_DISPLAY_SETTINGS -> {
           if (FeatureSupport.supportBrailleDisplay(context)) {
             intent = new Intent().setComponent(Constants.BRAILLE_DISPLAY_SETTINGS);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
           }
-          break;
+        }
+        case TRIGGER_IMAGE_DESCRIPTIONS_SETTINGS -> {
+          intent = new Intent(context, TalkBackPreferencesActivity.class);
+          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+          intent.putExtra(FRAGMENT_NAME, AutomaticDescriptionsFragment.class.getName());
+        }
       }
       try {
         if (intent != null) {
@@ -443,76 +467,48 @@ class Actors {
     @Nullable Language language = part.language();
     if (language != null && language.action() != null) {
       switch (language.action()) {
-        case PREVIOUS_LANGUAGE:
-          languageSwitcher.selectPreviousOrNextLanguage(/* isNext= */ false);
-          break;
-        case NEXT_LANGUAGE:
-          languageSwitcher.selectPreviousOrNextLanguage(/* isNext= */ true);
-          break;
-        case SET_LANGUAGE:
-          languageSwitcher.setLanguage(language.currentLanguage());
-          break;
+        case PREVIOUS_LANGUAGE ->
+            languageSwitcher.selectPreviousOrNextLanguage(/* isNext= */ false);
+        case NEXT_LANGUAGE -> languageSwitcher.selectPreviousOrNextLanguage(/* isNext= */ true);
+        case SET_LANGUAGE -> languageSwitcher.setLanguage(language.currentLanguage());
       }
+    }
+
+    // Touch latency
+    @Nullable TouchLatency touchLatency = part.touchLatency();
+    if (touchLatency != null) {
+      boolean result = touchLatencyAdjustor.adjustLatency(touchLatency);
+      success &= result;
     }
 
     // System action
     @Nullable SystemAction systemAction = part.systemAction();
     if (systemAction != null) {
-      int lastSystemAction = systemAction.systemActionId();
       success &= systemActionPerformer.performAction(systemAction.systemActionId());
     }
 
     // Text editing
     @Nullable EditText edit = part.edit();
     if (edit != null) {
-      switch (edit.action()) {
-        case SELECT_ALL:
-          success &= editor.selectAll(edit.node(), eventId);
-          break;
-
-        case START_SELECT:
-          success &= editor.startSelect(edit.node(), eventId);
-          break;
-
-        case END_SELECT:
-          success &= editor.endSelect(edit.node(), eventId);
-          break;
-
-        case COPY:
-          success &= editor.copy(edit.node(), eventId);
-          break;
-
-        case CUT:
-          success &= editor.cut(edit.node(), eventId);
-          break;
-
-        case PASTE:
-          success &= editor.paste(edit.node(), eventId);
-          break;
-
-        case DELETE:
-          success &= editor.delete(edit.node(), eventId);
-          break;
-
-        case CURSOR_TO_BEGINNING:
-          success &= editor.cursorToBeginning(edit.node(), edit.stopSelecting(), eventId);
-          break;
-
-        case CURSOR_TO_END:
-          success &= editor.cursorToEnd(edit.node(), edit.stopSelecting(), eventId);
-          break;
-
-        case INSERT:
-          success &= editor.insert(edit.node(), edit.text(), eventId);
-          break;
-
-        case TYPO_CORRECTION:
-          success &=
-              editor.correctTypo(edit.node(), edit.text(), edit.spellingSuggestion(), eventId);
-          break;
-        case MOVE_CURSOR:
-          success &= editor.moveCursor(edit.node(), edit.cursorIndex(), eventId);
-      }
+      success &=
+          switch (edit.action()) {
+            case SELECT_ALL -> editor.selectAll(edit.node(), eventId);
+            case SELECT_SEGMENT -> editor.selectSegment(edit.node(), eventId);
+            case START_SELECT -> editor.startSelect(edit.node(), eventId);
+            case END_SELECT -> editor.endSelect(edit.node(), eventId);
+            case COPY -> editor.copy(edit.node(), eventId);
+            case CUT -> editor.cut(edit.node(), eventId);
+            case PASTE -> editor.paste(edit.node(), eventId);
+            case DELETE -> editor.delete(edit.node(), eventId);
+            case CURSOR_TO_BEGINNING ->
+                editor.cursorToBeginning(edit.node(), edit.stopSelecting(), eventId);
+            case CURSOR_TO_END -> editor.cursorToEnd(edit.node(), edit.stopSelecting(), eventId);
+            case INSERT -> editor.insert(edit.node(), edit.text(), eventId);
+            case TYPO_CORRECTION ->
+                editor.correctTypo(edit.node(), edit.text(), edit.spellingSuggestion(), eventId);
+            case MOVE_CURSOR -> editor.moveCursor(edit.node(), edit.cursorIndex(), eventId);
+            case TOGGLE_VOICE_DICTATION -> editor.toggleVoiceDictation(eventId);
+          };
     }
 
     // Node action
@@ -526,35 +522,33 @@ class Actors {
     @Nullable Scroll scroll = part.scroll();
     if (scroll != null) {
       switch (scroll.action()) {
-        case SCROLL:
-          success &=
-              scroller.scroll(
-                  scroll.userAction(),
-                  scroll.node(),
-                  scroll.nodeCompat(),
-                  scroll.nodeAction(),
-                  scroll.source(),
-                  scroll.timeout(),
-                  eventId);
-          break;
-
-        case CANCEL_TIMEOUT:
-          scroller.cancelTimeout();
-          break;
-
-        case ENSURE_ON_SCREEN:
-          success &=
-              scroller.ensureOnScreen(
-                  scroll.userAction(),
-                  scroll.nodeCompat(),
-                  scroll.nodeToMoveOnScreen(),
-                  scroll.source(),
-                  scroll.timeout(),
-                  eventId);
-          break;
-
-        default:
+        case SCROLL ->
+            success &=
+                scroller.scroll(
+                    scroll.userAction(),
+                    scroll.node(),
+                    scroll.nodeCompat(),
+                    scroll.nodeAction(),
+                    scroll.source(),
+                    scroll.timeout(),
+                    scroll.autoScrollAttempt(),
+                    scroll.args(),
+                    scroll.autoScrollChecker(),
+                    eventId);
+        case CANCEL_TIMEOUT -> scroller.cancelTimeout();
+        case RESET_SCROLL_RECORDS -> scroller.resetScrollActionRecords();
+        case ENSURE_ON_SCREEN ->
+            success &=
+                scroller.ensureOnScreen(
+                    scroll.userAction(),
+                    scroll.nodeCompat(),
+                    scroll.nodeToMoveOnScreen(),
+                    scroll.source(),
+                    scroll.timeout(),
+                    eventId);
+        default -> {
           // Do nothing.
+        }
       }
     }
 
@@ -562,7 +556,7 @@ class Actors {
     @Nullable Focus focus = part.focus();
     if (focus != null && focus.action() != null) {
       switch (focus.action()) {
-        case FOCUS:
+        case FOCUS -> {
           if (focus.target() != null) {
             success &=
                 focuser.setAccessibilityFocus(
@@ -571,74 +565,54 @@ class Actors {
                     Objects.requireNonNull(focus.focusActionInfo()),
                     eventId);
           }
-          break;
-        case CLEAR:
-          focuser.clearAccessibilityFocus(eventId);
-          break;
-        case CACHE:
-          success &= focuser.cacheNodeToRestoreFocus(focus.target());
-          break;
-        case MUTE_NEXT_FOCUS:
-          focuser.setMuteNextFocus();
-          break;
-        case RENEW_ENSURE_FOCUS:
-          focuser.renewEnsureFocus();
-          break;
-        case RESTORE_ON_NEXT_WINDOW:
-          focuser.overrideNextFocusRestorationForWindowTransition();
-          break;
-        case RESTORE_TO_CACHE:
-          success &= focuser.restoreFocus(eventId);
-          break;
-        case CLEAR_CACHED:
-          success &= focuser.popCachedNodeToRestoreFocus();
-          break;
-        case INITIAL_FOCUS_RESTORE:
-          success &= focuserWindowChange.restoreLastFocusedNode(focus.screenState(), eventId);
-          break;
-        case INITIAL_FOCUS_FOLLOW_INPUT:
-          success &=
-              focuserWindowChange.syncAccessibilityFocusAndInputFocus(focus.screenState(), eventId);
-          break;
-        case INITIAL_FOCUS_FIRST_CONTENT:
-          success &=
-              focuserWindowChange.focusOnRequestInitialNodeOrFirstFocusableNonTitleNode(
-                  focus.screenState(), eventId);
-          break;
-        case FOCUS_FOR_TOUCH:
-          success &=
-              focuserTouch.setAccessibilityFocus(focus.target(), focus.forceRefocus(), eventId);
-          break;
-        case CLICK_NODE:
-          success &= focuser.clickNode(focus.target(), eventId);
-          break;
-        case LONG_CLICK_NODE:
-          success &= focuser.longClickNode(focus.target(), eventId);
-          break;
-        case CLICK_CURRENT:
-          success &= focuser.clickCurrentFocus(eventId);
-          break;
-        case LONG_CLICK_CURRENT:
-          success &= focuser.longClickCurrentFocus(eventId);
-          break;
-        case CLICK_ANCESTOR:
-          success &= focuser.clickCurrentHierarchical(eventId);
-          break;
-        case SEARCH_FROM_TOP:
+        }
+        case CLEAR -> focuser.clearAccessibilityFocus(eventId);
+        case CACHE -> success &= focuser.cacheNodeToRestoreFocus(focus.target());
+        case MUTE_NEXT_FOCUS -> focuser.setMuteNextFocus();
+        case RENEW_ENSURE_FOCUS -> focuser.renewEnsureFocus();
+        case RESTORE_ON_NEXT_WINDOW -> focuser.overrideNextFocusRestorationForWindowTransition();
+        case RESTORE_TO_CACHE -> success &= focuser.restoreFocus(eventId);
+        case CLEAR_CACHED -> success &= focuser.popCachedNodeToRestoreFocus();
+        case INITIAL_FOCUS_RESTORE ->
+            success &= focuserWindowChange.restoreLastFocusedNode(focus.screenState(), eventId);
+        case INITIAL_FOCUS_FOLLOW_INPUT ->
+            success &=
+                focuserWindowChange.syncAccessibilityFocusAndInputFocus(
+                    focus.screenState(), eventId);
+        case INITIAL_FOCUS_FIRST_CONTENT ->
+            success &=
+                focuserWindowChange.focusOnRequestInitialNodeOrFirstFocusableNonTitleNode(
+                    focus.screenState(), eventId);
+        case FOCUS_FOR_TOUCH ->
+            success &=
+                focuserTouch.setAccessibilityFocus(focus.target(), focus.forceRefocus(), eventId);
+        case CLICK_NODE -> success &= focuser.clickNode(focus.target(), eventId);
+        case DOUBLE_CLICK_NODE -> success &= focuser.doubleClickNode(focus.target(), eventId);
+        case LONG_CLICK_NODE -> success &= focuser.longClickNode(focus.target(), eventId);
+        case CLICK_CURRENT -> success &= focuser.clickCurrentFocus(eventId);
+        case DOUBLE_CLICK_CURRENT -> success &= focuser.doubleClickCurrentFocus(eventId);
+        case LONG_CLICK_CURRENT -> success &= focuser.longClickCurrentFocus(eventId);
+        case CLICK_ANCESTOR -> success &= focuser.clickCurrentHierarchical(eventId);
+        case SEARCH_FROM_TOP -> {
           if (focus.searchKeyword() != null) {
             success &=
-                searcher.searchAndFocus(
+                universalSearchActor.searchAndFocus(
                     /* startAtRoot= */ true, focus.searchKeyword(), directionNavigator);
           }
-          break;
-        case SEARCH_AGAIN:
-          success &=
-              searcher.searchAndFocus(
-                  /* startAtRoot= */ false, searcher.getLastKeyword(), directionNavigator);
-          break;
-        case ENSURE_ACCESSIBILITY_FOCUS_ON_SCREEN:
-          success &= focuser.ensureAccessibilityFocusOnScreen(eventId);
-          break;
+        }
+        case SEARCH_AGAIN ->
+            success &=
+                universalSearchActor.searchAndFocus(
+                    /* startAtRoot= */ false,
+                    universalSearchActor.state.getLastKeyword(),
+                    directionNavigator);
+        case ENSURE_ACCESSIBILITY_FOCUS_ON_SCREEN ->
+            success &= focuser.ensureAccessibilityFocusOnScreen(eventId);
+        case STEAL_NEXT_WINDOW_NAVIGATION ->
+            success &=
+                directionNavigator.updateStealNextWindowNavigation(
+                    focus.stealNextWindowTarget(), focus.stealNextWindowTargetDirection());
+        case READ_NODE_LINK_URL -> success &= focuser.readFocusedContentLinkUrl(eventId);
       }
     }
 
@@ -646,38 +620,27 @@ class Actors {
     @Nullable PassThroughMode passThroughMode = part.passThroughMode();
     if (passThroughMode != null && passThroughModeActor != null) {
       switch (passThroughMode.action()) {
-        case ENABLE_PASSTHROUGH:
-          passThroughModeActor.setTouchExplorePassThrough(/* enable= */ true);
-          break;
-        case DISABLE_PASSTHROUGH:
-          passThroughModeActor.setTouchExplorePassThrough(/* enable= */ false);
-          break;
-        case PASSTHROUGH_CONFIRM_DIALOG:
-          passThroughModeActor.showEducationDialog();
-          break;
-        case STOP_TIMER:
-          passThroughModeActor.cancelPassThroughGuardTimer();
-          break;
-        case LOCK_PASS_THROUGH:
-          passThroughModeActor.lockTouchExplorePassThrough(passThroughMode.region());
-          break;
-        default:
-          break;
+        case ENABLE_PASSTHROUGH ->
+            passThroughModeActor.setTouchExplorePassThrough(/* enable= */ true);
+        case DISABLE_PASSTHROUGH ->
+            passThroughModeActor.setTouchExplorePassThrough(/* enable= */ false);
+        case PASSTHROUGH_CONFIRM_DIALOG -> passThroughModeActor.showEducationDialog();
+        case STOP_TIMER -> passThroughModeActor.cancelPassThroughGuardTimer();
+        case LOCK_PASS_THROUGH ->
+            passThroughModeActor.lockTouchExplorePassThrough(passThroughMode.region());
+        default -> {}
       }
     }
 
     // SpeechRate
     @Nullable SpeechRate speechRate = part.speechRate();
-    if (speechRate != null && speechRateActor != null) {
+    if (speechRate != null && speechRateAndPitchActor != null) {
       switch (speechRate.action()) {
-        case INCREASE_RATE:
-        case DECREASE_RATE:
-          success &=
-              speechRateActor.changeSpeechRate(
-                  /* isIncrease= */ speechRate.action() == INCREASE_RATE);
-          break;
-        default:
-          break;
+        case INCREASE_RATE, DECREASE_RATE ->
+            success &=
+                speechRateAndPitchActor.changeSpeechRate(
+                    /* isIncrease= */ speechRate.action() == INCREASE_RATE);
+        default -> {}
       }
     }
 
@@ -685,12 +648,9 @@ class Actors {
     @Nullable AdjustValue adjustValue = part.adjustValue();
     if (adjustValue != null) {
       switch (adjustValue.action()) {
-        case INCREASE_VALUE:
-        case DECREASE_VALUE:
-          success &= numberAdjustor.adjustValue(adjustValue.action() == DECREASE_VALUE);
-          break;
-        default:
-          break;
+        case INCREASE_VALUE, DECREASE_VALUE ->
+            success &= numberAdjustor.adjustValue(adjustValue.action() == DECREASE_VALUE);
+        default -> {}
       }
     }
 
@@ -705,73 +665,51 @@ class Actors {
     // VolumeValue
     @Nullable AdjustVolume adjustVolume = part.adjustVolume();
     if (adjustVolume != null) {
-      switch (adjustVolume.action()) {
-        case INCREASE_VOLUME:
-        case DECREASE_VOLUME:
-          success &=
-              volumeAdjustor.adjustVolume(
-                  adjustVolume.action() == DECREASE_VOLUME, adjustVolume.streamType());
-          break;
-      }
+      success &=
+          switch (adjustVolume.action()) {
+            case INCREASE_VOLUME, DECREASE_VOLUME ->
+                volumeAdjustor.adjustVolume(
+                    adjustVolume.action() == DECREASE_VOLUME, adjustVolume.streamType());
+          };
     }
 
     // FocusDirection
     @Nullable FocusDirection direction = part.focusDirection();
     if (direction != null) {
       switch (direction.action()) {
-        case NEXT:
-          directionNavigator.navigateWithSpecifiedGranularity(
-              SEARCH_FOCUS_FORWARD,
-              direction.granularity(),
-              direction.wrap(),
-              direction.inputMode(),
-              eventId);
-          break;
-        case FOLLOW:
-          directionNavigator.followTo(direction.targetNode(), direction.direction(), eventId);
-          break;
-        case NEXT_PAGE:
-          directionNavigator.more(eventId);
-          break;
-        case PREVIOUS_PAGE:
-          directionNavigator.less(eventId);
-          break;
-        case SCROLL_UP:
-          directionNavigator.scrollDirection(eventId, NavigationAction.SCROLL_UP);
-          break;
-        case SCROLL_DOWN:
-          directionNavigator.scrollDirection(eventId, NavigationAction.SCROLL_DOWN);
-          break;
-        case SCROLL_LEFT:
-          directionNavigator.scrollDirection(eventId, NavigationAction.SCROLL_LEFT);
-          break;
-        case SCROLL_RIGHT:
-          directionNavigator.scrollDirection(eventId, NavigationAction.SCROLL_RIGHT);
-          break;
-        case TOP:
-          directionNavigator.jumpToTop(direction.inputMode(), eventId);
-          break;
-        case BOTTOM:
-          directionNavigator.jumpToBottom(direction.inputMode(), eventId);
-          break;
-        case SET_GRANULARITY:
-          directionNavigator.setGranularity(
-              direction.granularity(), direction.targetNode(), direction.fromUser(), eventId);
-          break;
-        case NEXT_GRANULARITY:
-          directionNavigator.nextGranularity(eventId);
-          break;
-        case PREVIOUS_GRANULARITY:
-          directionNavigator.previousGranularity(eventId);
-          break;
-        case SELECTION_MODE_ON:
-          directionNavigator.setSelectionModeActive(direction.targetNode(), eventId);
-          break;
-        case SELECTION_MODE_OFF:
-          directionNavigator.setSelectionModeInactive();
-          break;
-
-        case NAVIGATE:
+        case NEXT -> {
+          var unused =
+              directionNavigator.navigateWithSpecifiedGranularity(
+                  SEARCH_FOCUS_FORWARD,
+                  direction.granularity(),
+                  direction.wrap(),
+                  direction.inputMode(),
+                  direction.skipEdgeCheck(),
+                  eventId);
+        }
+        case FOLLOW ->
+            directionNavigator.followTo(
+                direction.targetNode(), direction.granularity(), direction.direction(), eventId);
+        case NEXT_PAGE -> directionNavigator.more(eventId);
+        case PREVIOUS_PAGE -> directionNavigator.less(eventId);
+        case SCROLL_UP -> directionNavigator.scrollDirection(eventId, NavigationAction.SCROLL_UP);
+        case SCROLL_DOWN ->
+            directionNavigator.scrollDirection(eventId, NavigationAction.SCROLL_DOWN);
+        case SCROLL_LEFT ->
+            directionNavigator.scrollDirection(eventId, NavigationAction.SCROLL_LEFT);
+        case SCROLL_RIGHT ->
+            directionNavigator.scrollDirection(eventId, NavigationAction.SCROLL_RIGHT);
+        case TOP -> directionNavigator.jumpToTop(direction.inputMode(), eventId);
+        case BOTTOM -> directionNavigator.jumpToBottom(direction.inputMode(), eventId);
+        case SET_GRANULARITY ->
+            directionNavigator.setGranularity(
+                direction.granularity(), direction.targetNode(), direction.fromUser(), eventId);
+        case NEXT_GRANULARITY -> directionNavigator.nextGranularity(eventId);
+        case PREVIOUS_GRANULARITY -> directionNavigator.previousGranularity(eventId);
+        case SELECTION_MODE_ON ->
+            directionNavigator.setSelectionModeActive(direction.targetNode(), eventId);
+        case SELECTION_MODE_OFF -> directionNavigator.setSelectionModeInactive();
+        case NAVIGATE -> {
           // In case when the user changes granularity linearly with gesture, or change setting with
           // selector, we cannot confirm the change until the user performs a navigation action.
           analytics.logPendingChanges();
@@ -793,6 +731,10 @@ class Actors {
                     direction.direction(),
                     direction.inputMode(),
                     eventId);
+          } else if (direction.hasTableTargetType()) {
+            success &=
+                directionNavigator.tableNavigation(
+                    eventId, direction.direction(), direction.tableTargetType());
           } else if (direction.granularity() != null) {
             success &=
                 directionNavigator.navigateWithSpecifiedGranularity(
@@ -800,6 +742,7 @@ class Actors {
                     direction.granularity(),
                     direction.wrap(),
                     direction.inputMode(),
+                    direction.skipEdgeCheck(),
                     eventId);
           } else {
             success &=
@@ -809,109 +752,120 @@ class Actors {
                     direction.scroll(),
                     direction.defaultToInputFocus(),
                     direction.inputMode(),
+                    direction.skipEdgeCheck(),
                     eventId);
           }
-          break;
+        }
       }
     }
 
     // Web action
     @Nullable WebAction webAction = part.webAction();
     if (webAction != null) {
-      switch (webAction.action()) {
-        case PERFORM_ACTION:
-          success &= focuser.getWebActor().performAction(webAction, eventId);
-          break;
-        case HTML_DIRECTION:
-          success &=
-              focuser
-                  .getWebActor()
-                  .navigateToHtmlElement(webAction.target(), webAction.navigationAction(), eventId);
-          break;
-      }
+      success &=
+          switch (webAction.action()) {
+            case PERFORM_ACTION -> focuser.getWebActor().performAction(webAction, eventId);
+            case HTML_DIRECTION ->
+                focuser
+                    .getWebActor()
+                    .navigateToHtmlElement(
+                        webAction.target(), webAction.navigationAction(), eventId);
+          };
     }
 
     // TalkBack UI
     @Nullable TalkBackUI talkBackUI = part.talkBackUI();
     if (talkBackUI != null) {
-      switch (talkBackUI.action()) {
-        case SHOW_GESTURE_ACTION_UI:
-          success &=
-              talkBackUIActor.showQuickMenu(
-                  talkBackUI.type(), talkBackUI.message(), talkBackUI.showIcon());
-          break;
-        case SHOW_SELECTOR_UI:
-          success &=
-              talkBackUIActor.showQuickMenu(
-                  talkBackUI.type(), talkBackUI.message(), talkBackUI.showIcon());
-          break;
-        case HIDE:
-          success &= talkBackUIActor.hide(talkBackUI.type());
-          break;
-        case SUPPORT:
-          success &= talkBackUIActor.setSupported(talkBackUI.type(), true);
-          break;
-        case NOT_SUPPORT:
-          success &= talkBackUIActor.setSupported(talkBackUI.type(), false);
-          break;
-      }
+      success &=
+          switch (talkBackUI.action()) {
+            case SHOW_GESTURE_OR_KEYBOARD_ACTION_UI, SHOW_SELECTOR_UI ->
+                talkBackUIActor.showQuickMenu(talkBackUI);
+            case HIDE -> talkBackUIActor.hide(talkBackUI.type());
+            case SUPPORT -> talkBackUIActor.setSupported(talkBackUI.type(), true);
+            case NOT_SUPPORT -> talkBackUIActor.setSupported(talkBackUI.type(), false);
+          };
     }
 
     // Show Toast
     @Nullable ShowToast showToast = part.showToast();
     if (showToast != null) {
       switch (showToast.action()) {
-        case SHOW:
-          Toast.makeText(
-                  context,
-                  showToast.message(),
-                  showToast.durationIsLong() ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)
-              .show();
-          break;
+        case SHOW ->
+            Toast.makeText(
+                    context,
+                    showToast.message(),
+                    showToast.durationIsLong() ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)
+                .show();
       }
     }
 
     // Gesture
     @Nullable Gesture gesture = part.gesture();
     if (gesture != null) {
-      switch (gesture.action()) {
-        case SAVE:
-          success &= gestureReporter.record(gesture.currentGesture());
-          break;
-        case REPORT:
-          success &= gestureReporter.report();
-          break;
+      success &=
+          switch (gesture.action()) {
+            case SAVE -> gestureReporter.record(gesture.currentGesture());
+            case REPORT -> gestureReporter.report();
+          };
+    }
+
+    // Keyboard events
+    @Nullable Keyboard keyboard = part.keyboard();
+    if (keyboard != null) {
+      switch (keyboard.action()) {
+        case SHOW_KEYBOARD_SHORTCUTS_DIALOG -> keyboardActor.showKeyboardShortcutsDialog();
       }
     }
 
     // Image caption
     @Nullable ImageCaption imageCaption = part.imageCaption();
     if (imageCaption != null) {
-      switch (imageCaption.action()) {
-        case PERFORM_CAPTIONS:
-          success &=
-              imageCaptioner.caption(
-                  imageCaption.target(), /* isUserRequested= */ imageCaption.userRequested());
-          break;
-        case CONFIRM_DOWNLOAD_AND_PERFORM_CAPTIONS:
-          success &= imageCaptioner.confirmDownloadAndPerformCaption(imageCaption.target());
-          break;
-        case INITIALIZE_ICON_DETECTION:
-          success &= imageCaptioner.initIconDetection();
-          break;
-        case INITIALIZE_IMAGE_DESCRIPTION:
-          success &= imageCaptioner.initImageDescription();
-      }
+      success &=
+          switch (imageCaption.action()) {
+            case PERFORM_CAPTIONS ->
+                imageCaptioner.caption(
+                    imageCaption.target(), /* isUserRequested= */ imageCaption.userRequested());
+            case PERFORM_CAPTION_WITH_GEMINI ->
+                imageCaptioner.captionWithGemini(imageCaption.target());
+            case CONFIRM_DOWNLOAD_AND_PERFORM_CAPTIONS ->
+                imageCaptioner.confirmDownloadAndPerformCaption(imageCaption.target());
+            case INITIALIZE_ICON_DETECTION -> imageCaptioner.initIconDetection();
+            case INITIALIZE_IMAGE_DESCRIPTION -> imageCaptioner.initImageDescription();
+            case ONLINE_GEMINI_FEATURE_OPT_IN ->
+                imageCaptioner.geminiOptInForManualTrigger(
+                    imageCaption.target(), imageCaption.featureType());
+            case PERFORM_CAPTION_WITH_ON_DEVICE_GEMINI ->
+                imageCaptioner.captionWithOnDeviceGemini(imageCaption.target());
+            case ON_DEVICE_DETAILED_DESCRIPTION_OPT_IN ->
+                imageCaptioner.geminiOnDeviceOptInForManualTrigger(imageCaption.target());
+            case CONFIG_DETAILED_IMAGE_DESCRIPTIONS_SETTINGS ->
+                imageCaptioner.geminiConfigDetailedImageDescriptionTrigger(imageCaption.target());
+            case PERFORM_SCREEN_OVERVIEW ->
+                imageCaptioner.geminiScreenOverview(imageCaption.target());
+          };
+    }
+
+    // Image Caption Result
+    @Nullable ImageCaptionResult imageCaptionResult = part.imageCaptionResult();
+    if (imageCaptionResult != null) {
+      success &=
+          imageCaptioner.handleResultFromGemini(
+              imageCaptionResult.requestId(),
+              imageCaptionResult.text(),
+              imageCaptionResult.isSuccess(),
+              imageCaptionResult.finishReason(),
+              imageCaptionResult.errorReason(),
+              imageCaptionResult.userRequested());
     }
 
     // Device info
     @Nullable DeviceInfo deviceInfo = part.deviceInfo();
     if (deviceInfo != null) {
-      switch (deviceInfo.action()) {
-        case CONFIG_CHANGED:
-          success &= talkBackUIActor.onConfigurationChanged(deviceInfo.configuration());
-          break;
-      }
+      success &=
+          switch (deviceInfo.action()) {
+            case CONFIG_CHANGED ->
+                talkBackUIActor.onConfigurationChanged(deviceInfo.configuration());
+          };
     }
 
     // UI change events
@@ -919,16 +873,14 @@ class Actors {
     if (uiChange != null) {
       @Nullable Rect sourceBounds = uiChange.sourceBoundsInScreen();
       switch (uiChange.action()) {
-        case CLEAR_SCREEN_CACHE:
+        case CLEAR_SCREEN_CACHE -> {
           if (sourceBounds == null) {
             success &= imageCaptioner.clearWholeScreenCache();
           } else {
             success &= imageCaptioner.clearPartialScreenCache(sourceBounds);
           }
-          break;
-        case CLEAR_CACHE_FOR_VIEW:
-          success &= imageCaptioner.clearCacheForView(sourceBounds);
-          break;
+        }
+        case CLEAR_CACHE_FOR_VIEW -> success &= imageCaptioner.clearCacheForView(sourceBounds);
       }
     }
 
@@ -936,18 +888,77 @@ class Actors {
     @Nullable UniversalSearch universalSearch = part.universalSearch();
     if (universalSearch != null) {
       switch (universalSearch.action()) {
-        case TOGGLE_SEARCH:
-          universalSearchActor.toggleSearch(eventId);
-          break;
-        case CANCEL_SEARCH:
-          universalSearchActor.cancelSearch(eventId);
-          break;
-        case HANDLE_SCREEN_STATE:
-          universalSearchActor.handleScreenState(eventId);
-          break;
-        case RENEW_OVERLAY:
-          universalSearchActor.renewOverlay(universalSearch.config());
-          break;
+        case TOGGLE_SEARCH -> universalSearchActor.toggleSearch(eventId);
+        case CANCEL_SEARCH -> universalSearchActor.cancelSearch(eventId);
+        case HANDLE_SCREEN_STATE -> universalSearchActor.handleScreenState(eventId);
+        case RENEW_OVERLAY -> universalSearchActor.renewOverlay(universalSearch.config());
+        case SHOW_HEADING_LIST ->
+            universalSearchActor.showVariousList(
+                eventId, SearchScreenNodeStrategy.ListType.HEADING);
+        case SHOW_LANDMARK_LIST ->
+            universalSearchActor.showVariousList(
+                eventId, SearchScreenNodeStrategy.ListType.LANDMARK);
+        case SHOW_LINK_LIST ->
+            universalSearchActor.showVariousList(eventId, SearchScreenNodeStrategy.ListType.LINK);
+        case SHOW_CONTROL_LIST ->
+            universalSearchActor.showVariousList(
+                eventId, SearchScreenNodeStrategy.ListType.CONTROL);
+        case SHOW_TABLE_LIST ->
+            universalSearchActor.showVariousList(eventId, SearchScreenNodeStrategy.ListType.TABLE);
+      }
+    }
+
+    @Nullable UpdateSpeechOverlayLayout updateSpeechOverlay = part.updateSpeechOverlayLayout();
+    if (updateSpeechOverlay != null) {
+      TextToSpeechOverlay overlay = speaker.getTtsOverlay();
+      if (overlay != null) {
+        overlay.onConfigurationChanged();
+      }
+      return true;
+    }
+
+    // Gemini request
+    @Nullable GeminiRequest geminiRequest = part.geminiRequest();
+    if (geminiRequest != null) {
+      switch (geminiRequest.action()) {
+        case REQUEST ->
+            geminiActor.requestOnlineGeminiCommand(
+                geminiRequest.requestId(),
+                Action.IMAGE_DESCRIPTION,
+                geminiRequest.text(),
+                geminiRequest.image());
+        case REQUEST_ON_DEVICE_IMAGE_CAPTIONING ->
+            geminiActor.requestAiCoreImageCaptioning(
+                geminiRequest.requestId(), geminiRequest.image(), geminiRequest.manualTrigger());
+        case MUTE_GEMINI_SOUND -> geminiActor.stopProgressTones();
+        case REQUEST_SCREEN_OVERVIEW -> geminiActor.requestScreenOverview(geminiRequest);
+        case REQUEST_IMAGE_QNA ->
+            geminiActor.requestImageQna(
+                Action.IMAGE_QNA, geminiRequest.text(), geminiRequest.imageBytes());
+        case REQUEST_SCREEN_QNA ->
+            geminiActor.requestImageQna(
+                Action.SCREEN_QNA, geminiRequest.text(), geminiRequest.imageBytes());
+        case DISMISS_BOTTOM_SHEET -> geminiActor.requestDismissDialog();
+      }
+    }
+
+    // Screen Overview Result
+    @Nullable ScreenOverviewResult screenOverviewResult = part.screenOverviewResult();
+    if (screenOverviewResult != null) {
+      geminiActor.displayScreenOverviewResultDialog(screenOverviewResult);
+    }
+
+    // Dialog result UI for Gemini
+    @Nullable GeminiResultDialog geminiResultDialog = part.geminiResultDialog();
+    if (geminiResultDialog != null) {
+      switch (geminiResultDialog.action()) {
+        case IMAGE_CAPTION_RESULT ->
+            geminiActor.displayImageCaptioningResultDialog(
+                geminiResultDialog.requestId(),
+                geminiResultDialog.imageDescriptionResult(),
+                geminiResultDialog.iconLabelResult(),
+                geminiResultDialog.ocrTextResult(),
+                geminiResultDialog.isScreenDescription());
       }
     }
 
@@ -955,12 +966,10 @@ class Actors {
     @Nullable ServiceFlag serviceFlag = part.serviceFlag();
     if (serviceFlag != null) {
       switch (serviceFlag.action()) {
-        case ENABLE_FLAG:
-          serviceFlagRequester.requestFlag(serviceFlag.flag(), /* requestedState= */ true);
-          break;
-        case DISABLE_FLAG:
-          serviceFlagRequester.requestFlag(serviceFlag.flag(), /* requestedState= */ false);
-          break;
+        case ENABLE_FLAG ->
+            serviceFlagRequester.requestFlag(serviceFlag.flag(), /* requestedState= */ true);
+        case DISABLE_FLAG ->
+            serviceFlagRequester.requestFlag(serviceFlag.flag(), /* requestedState= */ false);
       }
     }
 
@@ -968,11 +977,10 @@ class Actors {
     BrailleDisplay brailleDisplay = part.brailleDisplay();
     if (brailleDisplay != null) {
       switch (brailleDisplay.action()) {
-        case TOGGLE_BRAILLE_DISPLAY_ON_OR_OFF:
-          brailleDisplayActor.switchBrailleDisplayOnOrOff();
-          break;
-        default:
-          // fall through
+        case TOGGLE_BRAILLE_DISPLAY_ON_OR_OFF -> brailleDisplayActor.switchBrailleDisplayOnOrOff();
+        case TOGGLE_BRAILLE_CONTRACTED_MODE -> brailleDisplayActor.toggleBrailleContractedMode();
+        case TOGGLE_BRAILLE_ON_SCREEN_OVERLAY -> brailleDisplayActor.toggleBrailleOnScreenOverlay();
+        default -> {}
       }
     }
 
@@ -986,15 +994,19 @@ class Actors {
     speaker.updateTtsEngine(quiet);
   }
 
-  public void onUnbind(float finalAnnouncementVolume) {
+  public void prepareForOnUnbind(float finalAnnouncementVolume) {
     // Main thread will be waiting during the TTS announcement, thus in this special case we should
     // not handle TTS callback in main thread.
-    speaker.setHandleTtsCallbackInMainThread(false);
+    speaker.setHandleTtsCallbackInHandlerThread(false);
     // TalkBack is not allowed to display overlay at this state.
     speaker.setOverlayEnabled(false);
     speaker.setSpeechVolume(finalAnnouncementVolume);
+  }
+
+  public void onUnbind() {
     speaker.setMute(true);
     soundAndVibration.shutdown();
+    geminiActor.onUnbind();
   }
 
   public void interruptAllFeedback(boolean stopTtsSpeechCompletely) {
@@ -1046,7 +1058,52 @@ class Actors {
   // Keeping preference logic outside actors, in specific accessibility-service code.
 
   public void setOverlayEnabled(boolean enabled) {
+    if (enabled) {
+      boolean showBubbleOverlay = false;
+      if (FeatureFlagReader.enableShowSpeechBubbleOverlay(context)) {
+        boolean hasKeyboard = inputDeviceMonitor.hasPhysicalKeyboard();
+        boolean hasPointer = inputDeviceMonitor.hasPointingDevice();
+
+        if (hasKeyboard || hasPointer) {
+          showBubbleOverlay = true;
+        }
+      }
+
+      if (showBubbleOverlay) {
+        speaker.setOverlay(
+            new TextToSpeechBubbleOverlay(
+                context,
+                R.string.talkback_speech_bubble_label,
+                R.string.talkback_menu_title,
+                getCloseButtonOnClickListener(),
+                getMenuButtonOnClickListener()));
+      } else {
+        speaker.setOverlay(new TextToSpeechSimpleOverlay(context));
+      }
+    }
+
     speaker.setOverlayEnabled(enabled);
+  }
+
+  public OnClickListener getCloseButtonOnClickListener() {
+    return v -> {
+      TalkBackService service = TalkBackService.getInstance();
+      if (service != null) {
+        service.showDisableTalkBackDialog();
+      }
+    };
+  }
+
+  public OnClickListener getMenuButtonOnClickListener() {
+    return v -> {
+      TalkBackService service = TalkBackService.getInstance();
+      if (service != null) {
+        ListMenuManager menuManager = service.getListMenuManager();
+        if (menuManager != null) {
+          menuManager.showMenu(CONTEXT, EVENT_ID_UNTRACKED);
+        }
+      }
+    };
   }
 
   public void setUseIntonation(boolean use) {
@@ -1055,6 +1112,22 @@ class Actors {
 
   public void setUsePunctuation(boolean use) {
     speaker.setUsePunctuation(use);
+  }
+
+  public void setPunctuationVerbosity(@PunctuationVerbosity int verbosity) {
+    speaker.setPunctuationVerbosity(verbosity);
+  }
+
+  public void setFormattingOptions(int options) {
+    speaker.setFormattingOptions(options);
+  }
+
+  public void setFormattingFeedbackMode(int mode) {
+    speaker.setFormattingFeedbackMode(mode);
+  }
+
+  public void clearInlineFormattingHistory() {
+    speaker.clearInlineFormattingHistory();
   }
 
   public void setSpeechPitch(float pitch) {

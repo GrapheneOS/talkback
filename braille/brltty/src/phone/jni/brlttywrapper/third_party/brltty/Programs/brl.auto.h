@@ -21,28 +21,31 @@
  */
 
 // ADD_DEVICE_SUPPORT
-extern const BrailleDriver brl_driver_vo;
+extern const BrailleDriver brl_driver_al;
+extern const BrailleDriver brl_driver_bm;
 // TODO: Gets back EuroBraille.
 // extern const BrailleDriver brl_driver_eu;
 extern const BrailleDriver brl_driver_fs;
-extern const BrailleDriver brl_driver_hw;
-extern const BrailleDriver brl_driver_bm;
-extern const BrailleDriver brl_driver_pm;
+extern const BrailleDriver brl_driver_hid;
 extern const BrailleDriver brl_driver_hm;
-extern const BrailleDriver brl_driver_al;
-extern const BrailleDriver brl_driver_sk;
 extern const BrailleDriver brl_driver_ht;
+extern const BrailleDriver brl_driver_hw;
+extern const BrailleDriver brl_driver_mm;
+extern const BrailleDriver brl_driver_pm;
+extern const BrailleDriver brl_driver_sk;
+extern const BrailleDriver brl_driver_vo;
 static const DriverEntry driverTable[] = {
-  {&brl_driver_vo, &brl_driver_vo.definition},
-// TODO: Gets back EuroBraille.
-// {&brl_driver_eu, &brl_driver_eu.definition},
-  {&brl_driver_fs, &brl_driver_fs.definition},
-  {&brl_driver_hw, &brl_driver_hw.definition},
-  {&brl_driver_bm, &brl_driver_bm.definition},
-  {&brl_driver_pm, &brl_driver_pm.definition},
-  {&brl_driver_hm, &brl_driver_hm.definition},
-  {&brl_driver_al, &brl_driver_al.definition},
-  {&brl_driver_sk, &brl_driver_sk.definition},
-  {&brl_driver_ht, &brl_driver_ht.definition},
-  {NULL, NULL}
-};
+    {&brl_driver_al, &brl_driver_al.definition},
+    {&brl_driver_bm, &brl_driver_bm.definition},
+    // TODO: Gets back EuroBraille.
+    // {&brl_driver_eu, &brl_driver_eu.definition},
+    {&brl_driver_fs, &brl_driver_fs.definition},
+    {&brl_driver_hid, &brl_driver_hid.definition},
+    {&brl_driver_hm, &brl_driver_hm.definition},
+    {&brl_driver_ht, &brl_driver_ht.definition},
+    {&brl_driver_hw, &brl_driver_hw.definition},
+    {&brl_driver_mm, &brl_driver_mm.definition},
+    {&brl_driver_pm, &brl_driver_pm.definition},
+    {&brl_driver_sk, &brl_driver_sk.definition},
+    {&brl_driver_vo, &brl_driver_vo.definition},
+    {NULL, NULL}};

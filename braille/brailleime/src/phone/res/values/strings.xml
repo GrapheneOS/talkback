@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- User-facing name of the Soft Braille IME. [CHAR_LIMIT=50] -->
   <string name="braille_ime_service_name">TalkBack braille keyboard</string>
   <!-- User-facing name of the Soft Braille IME when connecting to a braille display. [CHAR_LIMIT=60] -->
   <string name="braille_ime_bd_mode_name">Braille display input</string>
-  <!-- Audial announcement that plays when switching to screen-away mode. [CHAR_LIMIT=140] -->
-  <string name="switch_to_screen_away_announcement">Screen-away mode</string>
   <!-- Audial announcement that plays when switching to tabletop mode. [CHAR_LIMIT=200] -->
   <string name="switch_to_tabletop_announcement">Tabletop mode. Place your device with the charging port to the left.</string>
+  <!-- Audial announcement that plays when calibrating. [CHAR_LIMIT=200] -->
   <string name="calibration_tip_announcement">To update dot position, hold down %d fingers.</string>
   <!-- No other keyboard enabled and bring keyboard settings page to user. [CHAR_LIMIT=150] -->
   <string name="bring_ime_settings_page">There is no other keyboard enabled, go to keyboard settings</string>
@@ -59,21 +58,19 @@
   <!-- How to use braille keyboard preference and dialog title. [CHAR LIMIT=60] -->
   <string name="how_to_use_braille_keyboard">How to use braille keyboard</string>
   <!-- Turn on braille keyboard dialog (case braille keyboard is presently enabled): message. %1$s is the resource 'braille_ime_service_name'. [CHAR_LIMIT=300]-->
-  <string name="use_brailleime_pref_dialog_case_ime_enabled">To use the braille keyboard, open your regular keyboard, then tap the choose keyboard icon %1$s (usually in the bottom right corner). Select \"%2$s.\"
-  &lt;br>&lt;br>If you don’t see an option to switch keyboards, try installing %3$s, the Google keyboard.</string>
+  <string name="use_brailleime_pref_dialog_case_ime_enabled">To use the braille keyboard, open your regular keyboard, then tap the choose keyboard icon %1$s (usually in the bottom right corner). Select \"%2$s.\"</string>
   <!-- Turn on braille keyboard dialog (case braille keyboard is not presently enabled): message. %1$s is the resource 'braille_ime_service_name', %2$s is an image of a keyboard (which does not get translated), %3$s is the brand name for Gboard (which does not get translated). [CHAR_LIMIT=500] -->
   <string name="use_brailleime_pref_dialog_case_ime_disabled_settings">
-    1. Tap \"Settings\" below. On the next screen, turn on \"%1$s\"&lt;br>&lt;br>
-    2. Open your regular keyboard, then tap switch input method %2$s (usually in the bottom right corner).&lt;br>&lt;br>
-    3. Select \"%1$s.\"
-    &lt;br>&lt;br>If you don’t see an option to switch keyboards, try installing %3$s, the Google keyboard.
+    1. Tap \"Settings\" below. On the next screen, turn on \"%1$s\"\n\n2. Open your regular keyboard, then tap switch input method %2$s (usually in the bottom right corner).\n\n3. Select \"%1$s.\"
   </string>
+  <!-- Install Gboard if no switch keyboard option. [CHAR LIMIT=200] -->
+  <string name="use_brailleime_pref_dialog_case_ime_enabled_gboard">If you don\’t see an option to switch keyboards, try installing %s, the Google keyboard.</string>
+  <!-- How to use braille keyboard preference and dialog title. [CHAR LIMIT=200] -->
   <string name="use_brailleime_pref_dialog_case_ime_disabled_turn_on">
-    1. Turn on braille keyboard below.&lt;br>&lt;br>
-    2. Open your regular keyboard, then tap switch input method %2$s (usually in the bottom right corner).&lt;br>&lt;br>
-    3. Select \"%1$s\".
-    &lt;br>&lt;br>If you can\'t switch keyboards, try installing %3$s, the Google keyboard.
+    1. Turn on braille keyboard below.\n\n2. Open your regular keyboard, then tap switch input method %2$s (usually in the bottom right corner).\n\n3. Select \"%1$s\".
   </string>
+  <!-- Install Gboard if can't switch keyboard. [CHAR LIMIT=200] -->
+  <string name="use_brailleime_pref_dialog_case_ime_disabled_turn_on_gboard">If you can\'t switch keyboards, try installing %s, the Google keyboard.</string>
   <!-- Keyboard icon. [CHAR_LIMIT=40]-->
   <string name="gboard_name" translatable="false">Gboard</string>
   <!-- Turn on braille keyboard dialog: positive button. [CHAR_LIMIT=40]-->
@@ -84,6 +81,9 @@
 
   <!-- Title of review all gestures. [CHAR_LIMIT=50] -->
   <string name="review_all_gestures_title">Review all gestures</string>
+
+  <!-- Title of review and customize gestures. [CHAR_LIMIT=100] -->
+  <string name="review_and_customize_gestures_title">Gestures</string>
 
   <!-- Typing languages list preference title. [CHAR_LIMIT=50] -->
   <string name="preferred_languages_title">Languages</string>
@@ -136,76 +136,74 @@
   <string name="context_menu_layout_selection">Layout</string>
   <!-- Context menu selection: calibration. [CHAR_LIMIT=40] -->
   <string name="context_menu_layout_calibration">Update dot positions</string>
+  <!-- Context menu close button. [CHAR_LIMIT=100] -->
+  <string name="context_menu_close_button">Close</string>
+
+  <!-- Gestures -->
+  <!-- Unassigned gesture. [CHAR_LIMIT=NONE] -->
+  <string name="bk_gesture_unassigned">Unassigned</string>
+  <!-- Direction: left. [CHAR_LIMIT=10] -->
+  <string name="gesture_direction_left">left</string>
+  <!-- Direction: right. [CHAR_LIMIT=10] -->
+  <string name="gesture_direction_right">right</string>
+  <!-- Direction: up. [CHAR_LIMIT=10] -->
+  <string name="gesture_direction_up">up</string>
+  <!-- Direction: down. [CHAR_LIMIT=10] -->
+  <string name="gesture_direction_down">down</string>
+  <!-- Basic gestures: swipe left/right/up/down. [CHAR_LIMIT=100] -->
+  <string name="gesture_swipe_one_finger">Swipe <xliff:g id="direction">%1$s</xliff:g></string>
+  <!-- Basic gestures: swipe left/right/up/down with 2/3/4 fingers. [CHAR_LIMIT=100] -->
+  <string name="gesture_swipe_multiple_fingers">Swipe <xliff:g id="direction">%1$s</xliff:g> with <xliff:g id="number">%2$s</xliff:g> fingers</string>
+  <!-- Hold and swipe gestures: hold dot combination and swipe left/right/up/down with one finger. [CHAR_LIMIT=100] -->
+  <string name="gesture_hold_and_swipe_one_finger">Hold <xliff:g id="dot_combo">%1$s</xliff:g>, then swipe <xliff:g id="direction">%2$s</xliff:g> anywhere with another finger</string>
+  <!-- Hold and swipe gestures: hold dot combination and swipe left/right/up/down with 2/3/4 fingers. [CHAR_LIMIT=100] -->
+  <string name="gesture_hold_and_swipe_multiple_finger">Hold <xliff:g id="dot_combo">%1$s</xliff:g>, then swipe <xliff:g id="direction">%2$s</xliff:g> anywhere with <xliff:g id="number">%3$s</xliff:g> fingers</string>
+  <!-- Gesture conjunction. [CHAR_LIMIT=10] -->
+  <string name="gesture1_or_gesture2"><xliff:g id="dot_combo1">%1$s</xliff:g> or <xliff:g id="dot_combo2">%2$s</xliff:g></string>
 
   <!-- Review gestures dialog. -->
-  <!-- Title of the dialog of see all gestures. [CHAR_LIMIT=100] -->
+  <!-- Format of review all gestures. [CHAR_LIMIT=100] -->
+  <string name="review_gesture_format"><xliff:g id="action">%1$s</xliff:g>: <xliff:g id="gesture">%2$s</xliff:g></string>
+  <!-- Basic gestures dialog: review all button [CHAR_LIMIT=100] -->
+  <string name="review_gestures_review_all_button">All gestures</string>
+  <!-- Basic gestures dialog: close button [CHAR_LIMIT=100] -->
+  <string name="review_gestures_close_button" translatable="false">@string/context_menu_close_button</string>
+
+  <!-- Braille keyboard gestures. -->
+  <!-- The title of all gestures. [CHAR_LIMIT=100] -->
   <string name="braille_keyboard_gestures">Braille keyboard gestures</string>
-  <!-- Title of the dialog of basic actions. [CHAR_LIMIT=100] -->
-  <string name="basic_gestures">Basic gestures</string>
-  <!-- Basic gestures dialog: swipe right to add a space in editor. [CHAR_LIMIT=100] -->
-  <string name="gesture_add_space">To add a <b>space</b>, swipe right</string>
-  <!-- Basic gestures dialog: swipe left to delete a braille character. [CHAR_LIMIT=100] -->
-  <string name="gesture_delete">To <b>delete</b>, swipe left</string>
-  <!-- Basic gestures dialog: swipe right with 2 fingers to add a new line in editor. [CHAR_LIMIT=100] -->
-  <string name="gesture_new_line">For a <b>new line</b>, swipe right with 2 fingers</string>
-  <!-- Basic gestures dialog: swipe left with 2 fingers to delete a word. [CHAR_LIMIT=100] -->
-  <string name="gesture_delete_word">To <b>delete a word</b>, swipe left with 2 fingers</string>
-  <!-- Basic gestures dialog: swipe up with 1 finger to move text cursor backward in editor. [CHAR_LIMIT=100] -->
-  <string name="gesture_move_cursor_backward">To <b>move the cursor backward</b>, swipe up</string>
-  <!-- Basic gestures dialog: swipe down with 1 finger to move text cursor forward in editor. [CHAR_LIMIT=100] -->
-  <string name="gesture_move_cursor_forward">To <b>move the cursor forward</b>, swipe down</string>
-  <!-- Basic gestures dialog: swipe down with 2 fingers to hide keyboard. [CHAR_LIMIT=100] -->
-  <string name="gesture_hide_keyboard">To <b>hide the keyboard</b>, swipe down with 2 fingers</string>
-  <!-- Basic gestures dialog: swipe down with 3 fingers to switch to next keyboard. [CHAR_LIMIT=100] -->
-  <string name="gesture_next_keyboard">To switch to the <b>next keyboard</b>, swipe down with 3 fingers</string>
-  <!-- Basic gestures dialog: swipe up with 2 fingers to submit text. [CHAR_LIMIT=100] -->
-  <string name="gesture_submit_text">To <b>submit text</b>, swipe up with 2 fingers</string>
-  <!-- Basic gestures dialog: swipe up with 3 fingers to open context menu. [CHAR_LIMIT=100] -->
-  <string name="gesture_open_context_menu">For <b>help and other options</b>, swipe up with 3 fingers</string>
-  <!-- Basic gestures dialog: positive button text [CHAR_LIMIT=100] -->
-  <string name="all_gestures">All gestures</string>
-
-  <!-- Braille keyboard gestures, title of basic controls. [CHAR_LIMIT=50] -->
+  <!-- The category name of basic controls. [CHAR_LIMIT=50] -->
   <string name="braille_keyboard_basic_controls">Basic controls</string>
-  <!-- Braille keyboard gestures, summary of basic controls. [CHAR_LIMIT=100] -->
+  <!-- The summary of basic controls. [CHAR_LIMIT=100] -->
   <string name="braille_keyboard_basic_controls_summary">Add spaces, delete, hide the keyboard, and more</string>
-  <!-- Braille keyboard gestures, title of cursor movement. [CHAR_LIMIT=50] -->
+  <!-- The category name of cursor movement. [CHAR_LIMIT=50] -->
   <string name="braille_keyboard_cursor_movement">Cursor movement</string>
-  <!-- Braille keyboard gestures, title of cursor movement description. [CHAR_LIMIT=300] -->
+  <!-- The description of cursor movement. [CHAR_LIMIT=300] -->
   <string name="braille_keyboard_cursor_movement_description">You can switch granularity to have your cursor move by character, word, or line. Or control how your cursor moves with a series of gestures that include braille dots.</string>
-  <!-- Braille keyboard gestures, summary of cursor movement. [CHAR_LIMIT=100] -->
+  <!-- The summary of cursor movement. [CHAR_LIMIT=100] -->
   <string name="braille_keyboard_cursor_movement_summary">Move by character, word, or line</string>
-  <!-- Braille keyboard gestures, title of text selection and editing. [CHAR_LIMIT=50] -->
+  <!-- The category name of text selection and editing. [CHAR_LIMIT=50] -->
   <string name="braille_keyboard_text_selection_and_editing">Text selection and editing</string>
-  <!-- Braille keyboard gestures, summary of text selection and editing. [CHAR_LIMIT=100] -->
+  <!-- The summary of text selection and editing. [CHAR_LIMIT=100] -->
   <string name="braille_keyboard_text_selection_and_editing_summary">Select, copy, cut, paste</string>
-  <!-- Braille keyboard gestures, title of spell check. [CHAR_LIMIT=50] -->
-  <string name="braille_keyboard_spell_check">Spell check</string>
-  <!-- Braille keyboard gestures, summary of spell check. [CHAR_LIMIT=100] -->
-  <string name="braille_keyboard_spell_check_summary">Find misspelled words, check suggestions, and confirm changes</string>
-  <!-- Braille keyboard gestures, title of spell check description. [CHAR_LIMIT=200] -->
-  <string name="braille_keyboard_spell_check_description">When you’re typing or editing text, use 3 fingers to swipe left or right until you hear \"spell check\"</string>
-
-  <!-- Basic controls, gesture of adding space. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_add_space">To add a space, swipe right</string>
-  <!-- Basic controls, gesture of deleting. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_delete">To delete, swipe left</string>
-  <!-- Basic controls, gesture adding a new line. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_new_line">For a new line, swipe right with 2 fingers</string>
-  <!-- Basic controls, gesture of deleting word. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_delete_word">To delete a word, swipe left with 2 fingers</string>
-  <!-- Basic controls, gesture of moving cursor backward. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_cursor_backward">To move the cursor backward, swipe up</string>
-  <!-- Basic controls, gesture of moving cursor forward. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_cursor_forward">To move the cursor forward, swipe down</string>
-  <!-- Basic controls, gesture of hiding the keyboard. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_hide_the_keyboard">To hide the keyboard, swipe down with 2 fingers</string>
-  <!-- Basic controls, gesture of switching to next keyboard. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_switch_to_next_keyboard">To switch to the next keyboard, swipe down with 3 fingers</string>
-  <!-- Basic controls, gesture of submitting text. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_submit_text">To submit text, swipe up with 2 fingers</string>
-  <!-- Basic controls, gesture of help and other options. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_help_and_other_options">For help and other options, swipe up with 3 fingers</string>
+  <!-- The category name of spell check. [CHAR_LIMIT=50] -->
+  <string name="braille_keyboard_spell_check">Proofreading</string>
+  <!-- The summary of spell check. [CHAR_LIMIT=100] -->
+  <string name="braille_keyboard_spell_check_summary">Check the spelling and grammar within a text box</string>
+  <!-- The description of spell check description. [CHAR_LIMIT=400] -->
+  <string name="braille_keyboard_spell_check_description">You can use proofreading to check for spelling and grammar suggestions. When you’re typing or editing text, use 3 fingers to swipe left or right until you hear \"Proofread\".</string>
+  <!-- The button to reset all gestures. [CHAR_LIMIT=50] -->
+  <string name="braille_keyboard_reset_all">Reset all gestures</string>
+  <!-- Snackbar of reset all gestures. [CHAR_LIMIT=50] -->
+  <string name="braille_keyboard_snackbar_reset_all">All gestures have been reset</string>
+  <!-- Snackbar of cancel change gesture. [CHAR_LIMIT=50] -->
+  <string name="braille_keyboard_snackbar_cancel">Change gesture cancelled</string>
+  <!-- Snackbar of remove a gesture. [CHAR_LIMIT=50] -->
+  <string name="braille_keyboard_snackbar_remove">Gesture removed</string>
+  <!-- Snackbar of change a gesture. [CHAR_LIMIT=50] -->
+  <string name="braille_keyboard_snackbar_change">Gesture changed</string>
+  <!-- Snackbar of change a mirrored gesture. [CHAR_LIMIT=50] -->
+  <string name="braille_keyboard_snackbar_change_mirrored_gesture">Mirrored gesture changed</string>
 
   <!-- Title of preference category character . [CHAR_LIMIT=50] -->
   <string name="bk_pref_category_title_character">Character</string>
@@ -219,83 +217,95 @@
   <string name="bk_pref_category_title_granularity">Granularity</string>
   <!-- Title of preference category editing. [CHAR_LIMIT=50] -->
   <string name="bk_pref_category_title_editing">Editing</string>
-
-  <!-- Cursor movement, gesture of moving to the previous character. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_previous_character">Move to previous character: Hold dot 6, then swipe up anywhere with another finger</string>
-  <!-- Cursor movement, gesture of moving to the next character. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_next_character">Move to next character: Hold dot 6, then swipe down anywhere with another finger</string>
-  <!-- Cursor movement, gesture of moving to the previous word. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_previous_word">Move to previous word: Hold dot 5, then swipe up anywhere with another finger</string>
-  <!-- Cursor movement, gesture of moving to the next word. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_next_word">Move to next word: Hold dot 5, then swipe down anywhere with another finger</string>
-  <!-- Cursor movement, gesture of moving to the previous line. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_previous_line">Move to previous line: Hold dot 4, then swipe up anywhere with another finger</string>
-  <!-- Cursor movement, gesture of moving to the next line. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_next_line">Move to next line: Hold dot 4, then swipe down anywhere with another finger</string>
-  <!-- Cursor movement, gesture of moving to the beginning. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_beginning">Move to beginning: Hold dots 4 and 5, then swipe up anywhere with another finger</string>
-  <!-- Cursor movement, gesture of moving to the end. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_end">Move to end: Hold dots 4 and 5, then swipe down anywhere with another finger</string>
-  <!-- Cursor movement, gesture of switching to the previous granularity. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_switch_to_previous_granularity">Switch to previous granularity: Swipe left with 3 fingers</string>
-  <!-- Cursor movement, gesture of switching to the next granularity. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_switch_to_next_granularity">Switch to next granularity: Swipe right with 3 fingers</string>
-  <!-- Cursor movement, gesture of moving to previous item. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_moveh_to_previous_item">Move to previous item: Swipe up</string>
-  <!-- Cursor movement, gesture of moving to next item. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_move_to_next_item">Move to next item: Swipe down</string>
-
-  <!-- Text selection and editing, gesture of selecting the previous character. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_select_previous_character">Select previous character: Hold dot 6, then swipe up anywhere with 2 fingers</string>
-  <!-- Text selection and editing, gesture of selecting the next character. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_select_next_character">Select next character: Hold dot 6, then swipe down anywhere with 2 fingers</string>
-  <!-- Text selection and editing, gesture of selecting the previous word. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_select_previous_word">Select previous word: Hold dot 5, then swipe up anywhere with 2 fingers</string>
-  <!-- Text selection and editing, gesture of selecting the next word. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_select_next_word">Select next word: Hold dot 5, then swipe down anywhere with 2 fingers</string>
-  <!-- Text selection and editing, gesture of selecting the previous line. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_select_previous_line">Select previous line: Hold dot 4, then swipe up anywhere with 2 fingers</string>
-  <!-- Text selection and editing, gesture of selecting the next line. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_select_next_line">Select next line: Hold dot 4, then swipe down anywhere with 2 fingers</string>
-  <!-- Text selection and editing, gesture of selecting all. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_select_all">Select all: Hold dot 4, then swipe left anywhere with 3 fingers</string>
-  <!-- Text selection and editing, gesture of copy. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_copy">Copy text: Hold dot 4, then swipe down anywhere with 3 fingers</string>
-  <!-- Text selection and editing, gesture of cut. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_cut">Cut text: Hold dot 4, then swipe up anywhere with 3 fingers</string>
-  <!-- Text selection and editing, gesture of paste. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_paste">Paste: Hold dot 4, then swipe right anywhere with 3 fingers</string>
-  <!-- Spell check gesture of previous misspelled word. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_previous_misspelled_word">Move to previous misspelled word: Swipe up</string>
-  <!-- Spell check gesture of next misspelled word. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_next_misspelled_word">Move to next misspelled word: Swipe down</string>
-  <!-- Spell check gesture of hear previous spelling suggestion. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_previous_suggestion">Hear previous spelling suggestion: Swipe left</string>
-  <!-- Spell check gesture of hear next spelling suggestion. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_next_suggestion">Hear next spelling suggestion: Swipe right</string>
-  <!-- Spell check gesture of confirm spelling suggestion. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_confirm_spelling_suggestion">Confirm spelling suggestion: Swipe right with 2 fingers</string>
-  <!-- Spell check gesture of undo spelling suggestion. [CHAR_LIMIT=NONE] -->
-  <string name="bk_gesture_undo_spelling_suggestion">Undo spelling suggestion: Swipe left with 2 fingers</string>
+  <!-- Title of preference category typing. [CHAR_LIMIT=50] -->
+  <string name="bk_pref_category_title_typing">Typing</string>
+  <!-- Title of preference category keyboard. [CHAR_LIMIT=50] -->
+  <string name="bk_pref_category_title_keyboard">Keyboard</string>
 
   <!-- Not enough touch points dialog -->
   <!-- Not enough touch points dialog: title. [CHAR_LIMIT=100] -->
   <string name="not_enough_touch_points_dialog_title">Your device doesn’t support braille keyboard</string>
   <!-- Not enough touch points dialog: message. [CHAR_LIMIT=200] -->
   <string name="not_enough_touch_points_dialog_message">Your device doesn’t support enough touch points. For more information, contact your device manufacturer.</string>
+  <!-- Not enough touch points dialog (from custom gestures): button. [CHAR_LIMIT=50] -->
+  <string name="not_enough_touch_points_dialog_button" translatable="false">@string/context_menu_close_button</string>
 
-  <!-- TalkBack off dialog. -->
-  <!-- Title of TalkBack off Dialog. [CHAR_LIMIT=100] -->
+  <!-- Use braille keyboard when TalkBack is off dialog. -->
+  <!-- Title of use braille keyboard when TalkBack is off dialog. [CHAR_LIMIT=100] -->
   <string name="talkback_off_dialog_title">Turn on TalkBack to use braille keyboard</string>
-  <!-- Positive button of TalkBack off dialog. [CHAR_LIMIT=100] -->
+  <!-- Positive button of use braille keyboard when TalkBack is off dialog. [CHAR_LIMIT=100] -->
   <string name="talkback_off_dialog_positive_button">Turn on in accessibility settings</string>
 
-  <!-- TalkBack suspend dialog. -->
-  <!-- Title of TalkBack suspend Dialog. [CHAR_LIMIT=100] -->
+  <!-- Use braille keyboard when TalkBack is suspended dialog. -->
+  <!-- Title of use braille keyboard when TalkBack is suspended dialog. [CHAR_LIMIT=100] -->
   <string name="talkback_suspend_dialog_title">Resume TalkBack to use braille keyboard</string>
-
-  <!-- Message of TalkBack off/suspend dialog. [CHAR_LIMIT=200] -->
+  <!-- Message of use braille keyboard when TalkBack is off/suspended dialog. [CHAR_LIMIT=200] -->
   <string name="talkback_off_or_suspend_dialog_message">When TalkBack is on, you can tap your screen to enter braille symbols.</string>
+
+  <!-- Custom braille keyboard when TalkBack is off dialog. -->
+  <!-- Title of custom braille keyboard when TalkBack is off dialog. [CHAR_LIMIT=100] -->
+  <string name="talkback_off_custom_gestures_dialog_title">Turn on TalkBack to change gesture</string>
+  <!-- Message of custom braille keyboard when TalkBack is off dialog. [CHAR_LIMIT=200] -->
+  <string name="talkback_off_custom_gestures_dialog_message">TalkBack is off. Turn it on to change braille keyboard gestures.</string>
+  <!-- Positive button of custom braille keyboard when TalkBack is off dialog. [CHAR_LIMIT=100] -->
+  <string name="talkback_off_custom_gestures_dialog_positive_button">Go to Settings</string>
+
+  <!-- Reset all gestures dialog. -->
+  <!-- Title of reset all gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="reset_gestures_dialog_title">Reset all gestures?</string>
+  <!-- Message of reset all gestures dialog. [CHAR_LIMIT=200] -->
+  <string name="reset_gestures_dialog_message">All braille keyboard gestures will be reset to default</string>
+  <!-- Positive button of reset all gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="reset_gestures_dialog_positive_button">Reset</string>
+
+  <!-- Reset to default dialog. -->
+  <!-- Title of reset to default dialog. [CHAR_LIMIT=100] -->
+  <string name="reset_to_default_dialog_title">Reset to default?</string>
+  <!-- Message of reset to default dialog. [CHAR_LIMIT=200] -->
+  <string name="reset_to_default_dialog_message">The gesture will be reset to \"%s\".\n\nIf any other action is using this gesture, it will be replaced.</string>
+  <!-- Positive button of reset to default dialog. [CHAR_LIMIT=100] -->
+  <string name="reset_to_default_dialog_positive_button">Reset</string>
+  <!-- Snackbar text of reset to default dialog. [CHAR_LIMIT=100] -->
+  <string name="reset_to_default_dialog_snackbar">Gesture has been reset</string>
+
+  <!-- Custom gestures dialog. -->
+  <!-- Label of current gesture in custom gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="custom_gestures_dialog_description">current gesture</string>
+  <!-- Description of custom gestures dialog if multiple actions share the same gesture. [CHAR_LIMIT=200] -->
+  <string name="custom_gestures_dialog_share_description">This action uses the same gesture as \"<xliff:g id="action">%s</xliff:g>\". Changing this gesture will change it for both actions.</string>
+  <!-- First button of custom gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="custom_gestures_dialog_change_gesture_button">Change gesture</string>
+  <!-- Second button of custom gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="custom_gestures_dialog_reset_to_default_button">Reset to default</string>
+  <!-- Third button of custom gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="custom_gestures_dialog_remove_button">Remove gesture</string>
+
+  <!-- Change gestures dialog. -->
+  <!-- Title of change gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="change_gestures_dialog_message_title">How to change a gesture</string>
+  <!-- Message of change gestures dialog. [CHAR_LIMIT=500] -->
+  <string name="change_gestures_dialog_message">On the next screen, braille keyboard will open, and you won\'t be able to use TalkBack gestures.\n\nWhen the braille keyboard opens, perform the gesture you want to use, or, to close braille keyboard and cancel the gesture change, swipe down with 2 fingers.\n\nSee available gestures\n</string>
+  <!-- Message of change gestures dialog with link. [CHAR_LIMIT=100] -->
+  <string name="change_gestures_dialog_message_link">See available gestures</string>
+  <!-- Checkbox of change gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="change_gestures_dialog_dont_show_checkbox">Don\'t show this message again</string>
+  <!-- Positive button of change gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="change_gestures_dialog_positive_button">Continue</string>
+
+  <!-- Mirrored gesture dialog. -->
+  <!-- Title of mirrored gesture dialog. [CHAR_LIMIT=100] -->
+  <string name="mirrored_gesture_dialog_title">Gesture is changed</string>
+  <!-- Message of mirrored gestures dialog. [CHAR_LIMIT=NONE] -->
+  <string name="mirrored_gesture_dialog_message">Do you also want to use the \"%1$s\" action with the mirrored gesture (%2$s)?</string>
+  <!-- Message of mirrored gestures dialog with conflicts. [CHAR_LIMIT=NONE] -->
+  <string name="mirrored_gesture_dialog_conflict_message">Do you also want to use the mirrored gesture (%1$s) for the \"%2$s\" action?\n\nThis will replace\"%3$s\" for the mirrored gesture.</string>
+  <!-- Positive button of mirrored gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="mirrored_gesture_dialog_positive_button">Use mirrored gesture</string>
+  <!-- Negative button of mirrored gestures dialog. [CHAR_LIMIT=100] -->
+  <string name="mirrored_gesture_dialog_negative_button">Skip</string>
+  <!-- Negative button of mirrored gestures dialog with conflicts. [CHAR_LIMIT=100] -->
+  <string name="mirrored_gesture_dialog_conflict_negative_button">Don\'t use</string>
+
   <!-- Switch to next keyboard. [CHAR_LIMIT=100] -->
   <string name="next_keyboard">Next keyboard</string>
 
@@ -407,8 +417,50 @@
 
   <!-- Braille display strip summary. [CHAR_LIMIT=200] -->
   <string name="braille_keyboard_strip_summary">An external braille display is connected, which you can use to type text into your phone.\n\nYou can also switch to the touchscreen braille keyboard or the next input method.</string>
+  <!-- Braille display strip summary when multitouch (Braille Keyboard) is not supported. [CHAR_LIMIT=200] -->
+  <string name="braille_keyboard_strip_summary_no_multitouch">You can use the connected external braille display to enter text on this device.\n\nYou can also switch to the next input method.</string>
   <!-- Braille display strip button: switch to touch-screen mode keyboard. [CHAR_LIMIT=100] -->
   <string name="braille_keyboard_strip_touch_screen_button">Switch to braille touchscreen</string>
   <!-- Braille display strip button: switch to next keyboard. [CHAR_LIMIT=100] -->
   <string name="braille_keyboard_strip_next_keyboard_button">Switch to next input method</string>
+
+  <!-- Spell check -->
+  <!-- Announced when no spell suggestion available. [CHAR_LIMIT=100] -->
+  <string name="no_spelling_suggestion_available_announcement">No spelling suggestion available</string>
+  <!-- Announced when no grammar suggestion available. [CHAR_LIMIT=100] -->
+  <string name="no_grammar_suggestion_available_announcement">No grammar suggestion available</string>
+  <!-- Index of spelling suggestion. [CHAR_LIMIT=50] -->
+  <string name="index_of_spelling_suggestion"><xliff:g id="suggestionIndex">%1$d</xliff:g> of <xliff:g id="suggestionListSize">%2$d</xliff:g></string>
+  <!-- Announced when current suggestion is a grammar suggestion. [CHAR_LIMIT=100] -->
+  <string name="grammar_suggestion">Grammar suggestion</string>
+  <!-- Announced when current suggestion is a spelling suggestion. [CHAR_LIMIT=100] -->
+  <string name="spelling_suggestion">Spelling suggestion</string>
+
+  <!-- Custom gesture announcements. -->
+  <!-- Announced when entering custom gesture keyboard. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_hint_announcement">Showing braille keyboard. <xliff:g id="layout">%1$s</xliff:g>. <xliff:g id="custom_gesture_hint_announcement_repeat">%2$s</xliff:g></string>
+  <!-- Announced repeatedly after entering custom gesture keyboard. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_hint_announcement_repeat"><xliff:g id="custom_gesture_hint1">%1$s</xliff:g>. <xliff:g id="custom_gesture_hint2">%2$s</xliff:g>.</string>
+  <!-- Announced to perform a custom gesture. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_perform">Perform the gesture you want to use for %s</string>
+  <!-- The action of the hint. [CHAR_LIMIT=10] -->
+  <string name="custom_gesture_action">\"<xliff:g id="action">%s</xliff:g>\"</string>
+  <!-- Announced to cancel a custom gesture. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_cancel">To cancel, swipe down with 2 fingers</string>
+  <!-- Announced to confirm a custom gesture. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_confirm">To confirm, perform this gesture again.</string>
+  <!-- Announced when there is a conflict with a custom gesture. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_conflict">This gesture is being used for \"<xliff:g id="action">%1$s</xliff:g>\". To replace it, perform this gesture again. <xliff:g id="cancel">%2$s</xliff:g></string>
+  <!-- Announced when there is a conflict with a custom gesture and cannot be changed. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_conflict_try_another">This gesture is used for \"<xliff:g id="action">%1$s</xliff:g>\" and can\'t be changed. Try another gesture. <xliff:g id="cancel">%2$s</xliff:g></string>
+  <!-- Announced when the gesture cannot be used. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_cannot_used">This gesture can\'t be used</string>
+  <!-- Announced when no gesture is performed. [CHAR_LIMIT=100] -->
+  <string name="custom_gesture_no_gesture">No gesture performed</string>
+  <!-- Announced to try another gesture. [CHAR_LIMIT=200] -->
+  <string name="custom_gesture_try_another">Try another gesture. To see list of all available gestures, go to the TalkBack braille keyboard help center. <xliff:g id="cancel">%s</xliff:g></string>
+  <!-- Announced when gestures didn't match. [CHAR_LIMIT=100] -->
+  <string name="custom_gesture_no_match">Gestures didn\'t match</string>
+  <!-- Announced to perform the gesture again. [CHAR_LIMIT=100] -->
+  <string name="custom_gesture_perform_again">Perform the gesture you want to use again. <xliff:g id="cancel">%s</xliff:g></string>
 </resources>

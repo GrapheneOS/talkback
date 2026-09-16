@@ -4,8 +4,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.text.style.URLSpan;
 import android.view.View;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Strings;
+
 
 /**
  * Represents a URL from a {@link android.text.SpannableString} with a URL path and its associated
@@ -13,6 +14,8 @@ import com.google.common.base.Strings;
  */
 @AutoValue
 public abstract class SpannableUrl {
+
+  private static final String TAG = "SpannableUrl";
 
   public static SpannableUrl create(String string, URLSpan urlSpan) {
     return new AutoValue_SpannableUrl(urlSpan, string);
@@ -45,18 +48,20 @@ public abstract class SpannableUrl {
   // URLSpan.onClick is fine with a null parameter when called from an AccessibilityService.
   @SuppressWarnings("nullness:argument")
   public void onClick(Context context) {
-    if (Strings.isNullOrEmpty(path())) {
-      // If the path is null or empty, use the onClick listener.
+    try {
+      // Calling urlSpan() may return either a UrlSpan or an AccessibilityUrlSpan (or some other
+      // subclass of UrlSpan). UrlSpan#onClick(null) throws, but AccessibilityUrlSpan#onClick(null)
+      // does not; and we handle both scenarios in the code below.
       urlSpan().onClick(null);
-    } else {
+    } catch (RuntimeException e) {
+      LogUtils.i(TAG, "Clicking urlSpan failed: %s\n%s", urlSpan(), e);
       try {
+        LogUtils.i(TAG, "Attempting to open %s using Intent",  path());
         UrlUtils.openUrlWithIntent(context, path());
-      } catch (ActivityNotFoundException e) {
+      } catch (ActivityNotFoundException anfe) {
         // Sometimes a malformed link can cause an ActivityNotFound exception when a link is
-        // clicked. In this case, it is better to fallback to using the onClick listener. The
-        // onClick listener may result in nothing happening, but this is preferable to crashing
-        // and turning off the service.
-        urlSpan().onClick(null);
+        // clicked.
+        LogUtils.i(TAG, "Activity not found when opening url: %s/n%s", path(), anfe);
       }
     }
   }

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -70,11 +70,12 @@ extern void *translateInputCells (unsigned char *target, const unsigned char *so
 extern unsigned char translateInputCell (unsigned char cell);
 
 #define MAKE_OUTPUT_TABLE(dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8) \
-  do {                                                                    \
-    static const DotsTable dots = {(dot1), (dot2), (dot3), (dot4),        \
-                                   (dot5), (dot6), (dot7), (dot8)};       \
-    makeOutputTable(dots);                                                \
-  } while (0)
+do { \
+  static const DotsTable dots = { \
+    (dot1), (dot2), (dot3), (dot4), (dot5), (dot6), (dot7), (dot8) \
+  }; \
+  makeOutputTable(dots); \
+} while (0)
 
 extern int awaitBrailleInput (BrailleDisplay *brl, int timeout);
 
@@ -119,12 +120,14 @@ extern int writeBraillePacket (
   const void *packet, size_t size
 );
 
-extern int writeBrailleMessage(BrailleDisplay *brl, GioEndpoint *endpoint,
-                               unsigned int type, const void *packet,
-                               size_t size);
+extern int writeBrailleMessage (
+  BrailleDisplay *brl, GioEndpoint *endpoint,
+  unsigned int type,
+  const void *packet, size_t size
+);
 
 extern int acknowledgeBrailleMessage (BrailleDisplay *brl);
-extern void endBrailleMessages(BrailleDisplay *brl);
+extern void endBrailleMessages (BrailleDisplay *brl);
 
 typedef struct {
   size_t *input;

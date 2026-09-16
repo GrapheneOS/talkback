@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.interfaces;
 
 /**
@@ -10,8 +26,6 @@ public interface ScreenReaderActionPerformer {
   enum ScreenReaderAction {
     NEXT_ITEM,
     PREVIOUS_ITEM,
-    NEXT_LINE,
-    PREVIOUS_LINE,
     NEXT_WINDOW,
     PREVIOUS_WINDOW,
     SCROLL_FORWARD,
@@ -35,12 +49,43 @@ public interface ScreenReaderActionPerformer {
     GLOBAL_NOTIFICATIONS,
     GLOBAL_QUICK_SETTINGS,
     GLOBAL_ALL_APPS,
-    WEB_NEXT_HEADING,
-    WEB_PREVIOUS_HEADING,
-    WEB_NEXT_CONTROL,
-    WEB_PREVIOUS_CONTROL,
-    WEB_NEXT_LINK,
-    WEB_PREVIOUS_LINK,
+    WEB_BROWSE_MODE,
+    WEB_NEXT_HEADING_1,
+    WEB_PREVIOUS_HEADING_1,
+    WEB_NEXT_HEADING_2,
+    WEB_PREVIOUS_HEADING_2,
+    WEB_NEXT_HEADING_3,
+    WEB_PREVIOUS_HEADING_3,
+    WEB_NEXT_HEADING_4,
+    WEB_PREVIOUS_HEADING_4,
+    WEB_NEXT_HEADING_5,
+    WEB_PREVIOUS_HEADING_5,
+    WEB_NEXT_HEADING_6,
+    WEB_PREVIOUS_HEADING_6,
+    WEB_NEXT_VISITED_LINK,
+    WEB_PREVIOUS_VISITED_LINK,
+    WEB_NEXT_UNVISITED_LINK,
+    WEB_PREVIOUS_UNVISITED_LINK,
+    WEB_NEXT_LANDMARK,
+    WEB_PREVIOUS_LANDMARK,
+    WEB_NEXT_BUTTON,
+    WEB_PREVIOUS_BUTTON,
+    WEB_NEXT_CHECKBOX,
+    WEB_PREVIOUS_CHECKBOX,
+    WEB_NEXT_COMBOBOX,
+    WEB_PREVIOUS_COMBOBOX,
+    WEB_NEXT_EDITFIELD,
+    WEB_PREVIOUS_EDITFIELD,
+    WEB_NEXT_GRAPHIC,
+    WEB_PREVIOUS_GRAPHIC,
+    WEB_NEXT_LIST,
+    WEB_PREVIOUS_LIST,
+    WEB_NEXT_LIST_ITEM,
+    WEB_PREVIOUS_LIST_ITEM,
+    WEB_NEXT_RADIO_BUTTON,
+    WEB_PREVIOUS_RADIO_BUTTON,
+    WEB_NEXT_TABLE,
+    WEB_PREVIOUS_TABLE,
     NEXT_HEADING,
     PREVIOUS_HEADING,
     NEXT_CONTROL,
@@ -64,8 +109,17 @@ public interface ScreenReaderActionPerformer {
     SELECT_NEXT_WORD,
     SELECT_PREVIOUS_LINE,
     SELECT_NEXT_LINE,
+    SELECT_CURRENT_TO_START,
+    SELECT_CURRENT_TO_END,
+    SELECT_ALL,
     TYPO_CORRECT,
-    PLAY_PAUSE_MEDIA
+    PLAY_PAUSE_MEDIA,
+    CURSOR_TO_BEGINNING,
+    CURSOR_TO_END,
+    TABLE_PREVIOUS_ROW,
+    TABLE_NEXT_ROW,
+    TABLE_PREVIOUS_COL,
+    TABLE_NEXT_COL
   }
 
   /** Performs the action associated with Talkback. */

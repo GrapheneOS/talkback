@@ -21,6 +21,7 @@ import static android.view.accessibility.AccessibilityWindowInfo.TYPE_MAGNIFICAT
 import static com.google.android.accessibility.talkback.compositor.MagnificationState.STATE_OFF;
 import static com.google.android.accessibility.talkback.compositor.MagnificationState.STATE_ON;
 import static com.google.android.accessibility.talkback.compositor.MagnificationState.STATE_SCALE_CHANGED;
+import static com.google.android.accessibility.utils.Performance.HINT_SUB_TYPE_MAGNIFICATION;
 
 import android.accessibilityservice.AccessibilityService.MagnificationController;
 import android.accessibilityservice.AccessibilityService.MagnificationController.OnMagnificationChangedListener;
@@ -63,6 +64,7 @@ public class ProcessorMagnification implements AccessibilityEventListener {
   private static final float WINDOW_MAGNIFICATION_CENTER_OFFSET_FRACTION = 0.2f;
 
   private final boolean supportWindowMagnification;
+  private final boolean supportMagnificationConfigActivateState;
 
   private final @Nullable MagnificationController magnificationController;
   private final GlobalVariables globalVariables;
@@ -72,10 +74,11 @@ public class ProcessorMagnification implements AccessibilityEventListener {
   /** Magnification bounds for testing. */
   private Rect testMagBounds = null;
 
-  @Nullable @VisibleForTesting
-  public final OnMagnificationChangedListener onMagnificationChangedListener;
+  @VisibleForTesting
+  public final @Nullable OnMagnificationChangedListener onMagnificationChangedListener;
 
   private float lastScale = 1.0f;
+  private boolean lastActivated = false;
   private int lastMode = MagnificationConfig.MAGNIFICATION_MODE_DEFAULT;
 
   public ProcessorMagnification(
@@ -90,6 +93,8 @@ public class ProcessorMagnification implements AccessibilityEventListener {
     this.analytics = analytics;
     this.supportWindowMagnification = supportWindowMagnification;
 
+    supportMagnificationConfigActivateState =
+        FeatureSupport.supportMagnificationConfigActivateState();
     onMagnificationChangedListener = createMagnificationChangeListener();
   }
 
@@ -112,17 +117,19 @@ public class ProcessorMagnification implements AccessibilityEventListener {
 
           final int mode = config.getMode();
           final float scale = config.getScale();
-          final boolean modeIsChanged = mode != lastMode;
+          final boolean isActivated = magnificationActivateState(config, scale);
+          final boolean modeIsChanged = isActivated && mode != lastMode;
           try {
-            // Do nothing if scale and mode haven't changed.
-            if (!modeIsChanged && (scale == lastScale)) {
+            // Do nothing if scale, mode and activated state haven't changed.
+            if (!modeIsChanged && scale == lastScale && isActivated == lastActivated) {
               return;
             }
 
-            handleMagnificationChanged(mode, scale, lastScale, modeIsChanged);
+            handleMagnificationChanged(config, isActivated, modeIsChanged);
           } finally {
             lastMode = mode;
             lastScale = scale;
+            lastActivated = magnificationActivateState(config, scale);
           }
         }
 
@@ -155,6 +162,45 @@ public class ProcessorMagnification implements AccessibilityEventListener {
     }
   }
 
+  /** Implementation for SDK-33+. */
+  private void handleMagnificationChanged(
+      MagnificationConfig magnificationConfig, boolean isActivated, boolean modeIsChanged) {
+
+    @State int state;
+    final float scale = magnificationConfig.getScale();
+    if (!isActivated && lastActivated) {
+      state = STATE_OFF;
+    } else if (isActivated && (!lastActivated || modeIsChanged)) {
+      state = STATE_ON;
+      // Log magnification mode.
+      analytics.onMagnificationUsed(magnificationConfig.getMode());
+    } else if (scale >= 1) {
+      state = STATE_SCALE_CHANGED;
+    } else {
+      return;
+    }
+
+    globalVariables.setMagnificationState(
+        MagnificationState.builder()
+            .setMode(magnificationConfig.getMode())
+            .setCurrentScale(scale)
+            .setState(state)
+            .build());
+
+    if (FeatureSupport.supportAnnounceMagnificationChanged()) {
+      // TODO use pipeline to handle compositor for magnification
+      compositor.handleEvent(
+          Compositor.EVENT_MAGNIFICATION_CHANGED,
+          Performance.getInstance().hintSubTypeToEventId(HINT_SUB_TYPE_MAGNIFICATION));
+    }
+  }
+
+  /** Return magnification activate state. */
+  private boolean magnificationActivateState(MagnificationConfig config, float scale) {
+    return supportMagnificationConfigActivateState ? config.isActivated() : scale > 1;
+  }
+
+  /** Legacy implementation for old platform. */
   private void handleMagnificationChanged(
       Integer mode, float scale, float lastScale, boolean modeIsChanged) {
     @State int state;
@@ -177,7 +223,8 @@ public class ProcessorMagnification implements AccessibilityEventListener {
     if (FeatureSupport.supportAnnounceMagnificationChanged()) {
       // TODO use pipeline to handle compositor for magnification
       compositor.handleEvent(
-          Compositor.EVENT_MAGNIFICATION_CHANGED, Performance.EVENT_ID_UNTRACKED);
+          Compositor.EVENT_MAGNIFICATION_CHANGED,
+          Performance.getInstance().hintSubTypeToEventId(HINT_SUB_TYPE_MAGNIFICATION));
     }
   }
 

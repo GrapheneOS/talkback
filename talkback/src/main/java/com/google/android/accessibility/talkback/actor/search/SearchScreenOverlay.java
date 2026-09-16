@@ -18,13 +18,14 @@ package com.google.android.accessibility.talkback.actor.search;
 
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.CACHE;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.RESTORE_ON_NEXT_WINDOW;
-import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.GESTURE_ACTION_OVERLAY;
+import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.GESTURE_OR_KEYBOARD_ACTION_OVERLAY;
 import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.SELECTOR_ITEM_ACTION_OVERLAY;
 import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.SELECTOR_MENU_ITEM_OVERLAY_MULTI_FINGER;
 import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.SELECTOR_MENU_ITEM_OVERLAY_SINGLE_FINGER;
 import static com.google.android.accessibility.utils.AccessibilityWindowInfoUtils.WINDOW_ID_NONE;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
@@ -49,6 +50,7 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import androidx.annotation.Nullable;
@@ -60,25 +62,32 @@ import com.google.android.accessibility.talkback.Feedback.TalkBackUI;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
 import com.google.android.accessibility.talkback.actor.search.SearchState.MatchedNodeInfo;
 import com.google.android.accessibility.talkback.actor.search.StringMatcher.MatchResult;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.labeling.TalkBackLabelManager;
+import com.google.android.accessibility.talkback.selector.SelectorController;
+import com.google.android.accessibility.utils.AccessibilityMessageFormat;
 import com.google.android.accessibility.utils.AccessibilityNode;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
 import com.google.android.accessibility.utils.AccessibilityWindow;
 import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import com.google.android.accessibility.utils.monitor.InputDeviceMonitor;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.ScrollActionRecord;
 import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
+import com.google.android.material.chip.ChipGroup;
 import java.lang.Character.UnicodeBlock;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -102,11 +111,22 @@ public class SearchScreenOverlay implements SearchObserver {
   /** The delay in milliseconds for speaking hint. */
   private static final int DELAY_SPEAK_HINT = 1000;
 
+  /** Dimensions for the search box view on a large screen. */
+  private static final int VIEW_WIDTH_LARGE_SCREEN = 1500;
+
+  private static final int VIEW_HEIGHT_LARGE_SCREEN = 1000;
+
   /**
    * The delay time for accessibility service to generate the accessibility node info after
    * softInput hidden window change.
    */
   private static final int IME_DELAY_MILLISEC = 500;
+
+  /**
+   * The breakpoint in dp (device-independent pixels) for "medium" screens per Material Design
+   * guidelines. Screens larger than this breakpoint will be treated as "expanded" screens.
+   */
+  private static final int SCREEN_SEARCH_BREAKPOINT_DP = 840;
 
   /* Filter for skipping SeekView. */
   private static final Filter<AccessibilityNodeInfoCompat> FILTER_NO_SEEK_BAR =
@@ -127,6 +147,13 @@ public class SearchScreenOverlay implements SearchObserver {
   private ImageButton cancelButton;
   private ImageButton prevScreenButton;
   private ImageButton nextScreenButton;
+  private CheckBox allElementsListChip;
+  private CheckBox headingListChip;
+  private CheckBox landmarkListChip;
+  private CheckBox linkListChip;
+  private CheckBox controlListChip;
+  private CheckBox tableListChip;
+  private ChipGroup searchListChipGroup;
   private RecyclerView searchResultList;
   private Handler hintHandler;
 
@@ -138,6 +165,12 @@ public class SearchScreenOverlay implements SearchObserver {
 
   /** Search state obtained from SearchStrategy. */
   SearchState searchState;
+
+  /**
+   * Currently selected list type. Null if no list type is selected, i.e. the "all elements" filter
+   * chip is selected.
+   */
+  @Nullable private SearchScreenNodeStrategy.ListType selectedListType = null;
 
   /** Instance for finding accessibility/input focus. */
   private final FocusFinder focusFinder;
@@ -151,8 +184,20 @@ public class SearchScreenOverlay implements SearchObserver {
   /** The scroll actors used for previous/next screen. */
   private Pipeline.FeedbackReturner pipeline;
 
+  private SelectorController selectorController;
+
   /** Caches the ttsOverlay config before showing screen search overlay. */
   private boolean ttsOverlayWasOn = false;
+
+  private boolean useLargeScreenLayout = FormFactorUtils.isAndroidXr();
+
+  private InputDeviceMonitor inputDeviceMonitor;
+
+  /**
+   * Whether a physical keyboard is connected. This value is cached from InputDeviceMonitor whenever
+   * the overlay is initialized.
+   */
+  private boolean hasPhysicalKeyboard = false;
 
   /** Callback to run when scroll succeeds or fails. */
   private interface AutoScrollCallback {
@@ -176,19 +221,42 @@ public class SearchScreenOverlay implements SearchObserver {
    * @param labelManager the custom label manager
    */
   public SearchScreenOverlay(
-      TalkBackService service, FocusFinder focusFinder, TalkBackLabelManager labelManager) {
+      TalkBackService service,
+      FocusFinder focusFinder,
+      TalkBackLabelManager labelManager,
+      InputDeviceMonitor inputDeviceMonitor) {
     this.service = service;
     this.focusFinder = focusFinder;
     this.hintHandler = new Handler();
+    this.inputDeviceMonitor = inputDeviceMonitor;
 
     // Create search strategy object.
-    searchStrategy = new SearchScreenNodeStrategy(this, labelManager);
+    searchStrategy =
+        new SearchScreenNodeStrategy(
+            /* observer= */ this, /* labelManager= */ labelManager, /* context= */ service);
   }
+
   /** pipeline the actors which need to perform scroll event */
   public void setPipeline(Pipeline.FeedbackReturner pipeline) {
     this.pipeline = pipeline;
   }
+
+  public void initOverlay() {
+    // TODO: called by Pipeline in DimScreenActor.
+    // Add screen-search overlay early when initialize the structure that would make z-order in
+    // window layer beneath DimmingOverlayView.
+    if (overlayPanel == null) {
+      createUIElements();
+      overlayPanel.setVisibility(View.GONE);
+    }
+  }
+
+  public void setSelectorController(SelectorController controller) {
+    selectorController = controller;
+  }
+
   /** Creates search overlay window and necessary widgets. */
+  @SuppressLint("InflateParams")
   private void createUIElements() {
     WindowManager wm = (WindowManager) service.getSystemService(Context.WINDOW_SERVICE);
 
@@ -201,20 +269,32 @@ public class SearchScreenOverlay implements SearchObserver {
     parameters.type = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
     parameters.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
     parameters.format = PixelFormat.TRANSLUCENT;
-    parameters.width = LayoutParams.MATCH_PARENT;
-    parameters.height = LayoutParams.MATCH_PARENT;
+    parameters.width = useLargeScreenLayout ? VIEW_WIDTH_LARGE_SCREEN : LayoutParams.MATCH_PARENT;
+    parameters.height = useLargeScreenLayout ? VIEW_HEIGHT_LARGE_SCREEN : LayoutParams.MATCH_PARENT;
     parameters.softInputMode =
         WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
             | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
 
     // Find widgets.
     overlayPanel =
-        (SearchScreenOverlayLayout) layoutInflater.inflate(R.layout.screen_search_dialog, null);
+        (SearchScreenOverlayLayout)
+            layoutInflater.inflate(
+                shouldShowVariousListOnScreenSearch()
+                    ? R.layout.screen_search_dialog_with_various_list
+                    : R.layout.screen_search_dialog,
+                null);
     keywordEditText = overlayPanel.findViewById(R.id.keyword_edit);
     clearInputButton = overlayPanel.findViewById(R.id.clear_keyword);
     cancelButton = overlayPanel.findViewById(R.id.cancel_search);
     prevScreenButton = overlayPanel.findViewById(R.id.previous_screen);
     nextScreenButton = overlayPanel.findViewById(R.id.next_screen);
+    allElementsListChip = overlayPanel.findViewById(R.id.all_elements_list_button);
+    headingListChip = overlayPanel.findViewById(R.id.heading_list_button);
+    landmarkListChip = overlayPanel.findViewById(R.id.landmark_list_button);
+    linkListChip = overlayPanel.findViewById(R.id.link_list_button);
+    controlListChip = overlayPanel.findViewById(R.id.control_list_button);
+    tableListChip = overlayPanel.findViewById(R.id.table_list_button);
+    searchListChipGroup = overlayPanel.findViewById(R.id.search_list_chip_group);
     searchResultList = overlayPanel.findViewById(R.id.search_result);
 
     searchResultList.setLayoutManager(new LinearLayoutManager(service));
@@ -239,8 +319,11 @@ public class SearchScreenOverlay implements SearchObserver {
             }
 
             if (!keyword.isEmpty()) {
-              // Do keyword search.
-              searchStrategy.searchKeyword(keyword);
+              performSearch(SearchState.SearchType.SEARCH_TYPE_KEYWORD);
+            } else if (shouldShowVariousListOnScreenSearch() && selectedListType != null) {
+              // When the user clears the search query, if a list chip is selected, perform a search
+              // for the list type.
+              performSearch(SearchState.SearchType.SEARCH_TYPE_LIST);
             } else {
               clearSearchResult();
             }
@@ -276,13 +359,18 @@ public class SearchScreenOverlay implements SearchObserver {
     keywordEditText.setOnEditorActionListener(
         (view, actionId, keyEvent) -> {
           if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            performSearch();
+            hideImeAndPerformSearch();
             return true;
           }
           return false;
         });
 
-    clearInputButton.setOnClickListener((view) -> keywordEditText.getText().clear());
+    clearInputButton.setOnClickListener(
+        (view) -> {
+          searchStrategy.resetLastKeyword();
+          keywordEditText.getText().clear();
+          resetSearchListButtons();
+        });
 
     cancelButton.setOnClickListener((view) -> hide());
 
@@ -298,6 +386,30 @@ public class SearchScreenOverlay implements SearchObserver {
             hideImeAndPerformAction(
                 () -> scrollScreen(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)));
 
+    if (allElementsListChip != null) {
+      allElementsListChip.setOnClickListener((view) -> handleAllElementsChipClicked());
+    }
+    if (headingListChip != null) {
+      headingListChip.setOnClickListener(
+          (view) -> handleListChipClicked(SearchScreenNodeStrategy.ListType.HEADING));
+    }
+    if (linkListChip != null) {
+      linkListChip.setOnClickListener(
+          (view) -> handleListChipClicked(SearchScreenNodeStrategy.ListType.LINK));
+    }
+    if (tableListChip != null) {
+      tableListChip.setOnClickListener(
+          (view) -> handleListChipClicked(SearchScreenNodeStrategy.ListType.TABLE));
+    }
+    if (landmarkListChip != null) {
+      landmarkListChip.setOnClickListener(
+          (view) -> handleListChipClicked(SearchScreenNodeStrategy.ListType.LANDMARK));
+    }
+    if (controlListChip != null) {
+      controlListChip.setOnClickListener(
+          (view) -> handleListChipClicked(SearchScreenNodeStrategy.ListType.CONTROL));
+    }
+
     // Add to window manager.
     wm.addView(overlayPanel, parameters);
   }
@@ -305,6 +417,27 @@ public class SearchScreenOverlay implements SearchObserver {
   /** Returns the window id contains initial focus before searching. */
   public int getInitialFocusedWindowId() {
     return initialFocusedWindow == null ? WINDOW_ID_NONE : initialFocusedWindow.getId();
+  }
+
+  /** Returns last-searched keyword or null if no keyword was searched. */
+  public @Nullable CharSequence getLastKeyword() {
+    return searchStrategy.getLastKeyword();
+  }
+
+  /**
+   * Moves focus to next node after current focused-node, which matches target-keyword. Returns
+   * success flag. And set search granularity in selector settings automatically for user.
+   */
+  public boolean searchAndFocus(
+      boolean startAtRoot,
+      @Nullable final CharSequence target,
+      DirectionNavigationActor directionNavigator) {
+    boolean result = searchStrategy.searchAndFocus(startAtRoot, target, directionNavigator);
+    if (result && selectorController != null) {
+      // Set search granularity in selector settings automatically if action performed.
+      selectorController.searchActionPerformed();
+    }
+    return result;
   }
 
   private void hideImeAndPerformAction(Action action) {
@@ -330,7 +463,7 @@ public class SearchScreenOverlay implements SearchObserver {
    * Performs search action which will hide the IME to refresh the node cache and then searches for
    * current keyword again.
    */
-  private void performSearch() {
+  private void hideImeAndPerformSearch() {
     hideImeAndPerformAction(
         () ->
             // Delay the cache action for a period of time to ensure that the nodes info is ready to
@@ -339,7 +472,7 @@ public class SearchScreenOverlay implements SearchObserver {
                 .postDelayed(
                     () -> {
                       searchStrategy.cacheNodeTree(initialFocusedWindow);
-                      searchStrategy.searchKeyword(keywordEditText.getText());
+                      performSearch(SearchState.SearchType.SEARCH_TYPE_KEYWORD);
                     },
                     IME_DELAY_MILLISEC));
   }
@@ -351,6 +484,9 @@ public class SearchScreenOverlay implements SearchObserver {
    *
    * <p>REFERTO: [Screen Search] The nodes, which are covered by software IME, are
    * invisible at the moment of closing IME.
+   *
+   * <p>it sets search granularity in selector settings automatically for user after search UI
+   * hidden.
    *
    * @param position the index value in the matched list.
    */
@@ -374,6 +510,7 @@ public class SearchScreenOverlay implements SearchObserver {
         new Runnable() {
           int counter = 0;
           int counterLimit = 20;
+
           // The clickedNode is one of the nodes in the node cache.
           @Override
           public void run() {
@@ -400,6 +537,11 @@ public class SearchScreenOverlay implements SearchObserver {
                 pipeline.returnFeedback(
                     EVENT_ID_UNTRACKED, Feedback.focus(CACHE).setTarget(clickedNode.getCompat()));
               }
+            }
+
+            // Set search granularity in selector settings automatically.
+            if (selectorController != null) {
+              selectorController.searchActionPerformed();
             }
           }
         },
@@ -448,7 +590,7 @@ public class SearchScreenOverlay implements SearchObserver {
           public void onAutoScrollFailed(AccessibilityNode nodeToScroll) {
             searchStrategy.cacheNodeTree(initialFocusedWindow);
             // Search again since the result was already cleared before scrolling start.
-            searchStrategy.searchKeyword(keywordEditText.getText().toString());
+            performSearch(SearchState.SearchType.SEARCH_TYPE_KEYWORD);
             // Updates the scroll button state.
             refreshUiState();
           }
@@ -532,21 +674,24 @@ public class SearchScreenOverlay implements SearchObserver {
 
   private boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
     switch (keyCode) {
-      case KeyEvent.KEYCODE_BACK:
+      case KeyEvent.KEYCODE_BACK -> {
         hide();
         return true;
-      case KeyEvent.KEYCODE_ENTER:
+      }
+      case KeyEvent.KEYCODE_ENTER -> {
         // TODO: Add test cases for this.
         if (!keywordEditText.isFocused()) {
           return false;
         }
 
         if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-          performSearch();
+          hideImeAndPerformSearch();
         }
         return true;
-      default:
+      }
+      default -> {
         return false;
+      }
     }
   }
 
@@ -557,7 +702,7 @@ public class SearchScreenOverlay implements SearchObserver {
         .postDelayed(
             () -> {
               searchStrategy.cacheNodeTree(initialFocusedWindow);
-              searchStrategy.searchKeyword(keywordEditText.getText().toString());
+              performSearch(SearchState.SearchType.SEARCH_TYPE_KEYWORD);
               refreshUiState();
             },
             DELAY_SCROLL_MILLISEC);
@@ -570,7 +715,7 @@ public class SearchScreenOverlay implements SearchObserver {
         .postDelayed(
             () -> {
               searchStrategy.cacheNodeTree(initialFocusedWindow);
-              searchStrategy.searchKeyword(keywordEditText.getText().toString());
+              performSearch(SearchState.SearchType.SEARCH_TYPE_KEYWORD);
               updateFocusedNodeAfterScrolled(scrolledNode, scrollAction);
               refreshUiState();
             },
@@ -650,13 +795,15 @@ public class SearchScreenOverlay implements SearchObserver {
     // Announce 'X' matches.
     int matches = searchState.getResults().size();
     String text =
-        (matches > 0)
-            ? service
-                .getResources()
-                .getQuantityString(R.plurals.msg_matches_found, matches, matches)
-            : service.getResources().getString(R.string.msg_no_matches);
+        AccessibilityMessageFormat.formatNamedArgs(
+            service, service.getString(R.string.msg_matches_found), "matches", matches);
 
-    speakHint(text);
+    if (shouldShowVariousListOnScreenSearch()
+        && searchState.getSearchType() == SearchState.SearchType.SEARCH_TYPE_LIST) {
+      speakText(text);
+    } else {
+      speakHint(text);
+    }
 
     // The searchResultList will be set as unClickable when clicked, so we need to set it as
     // clickable when UI shows and the search result is not empty.
@@ -671,7 +818,8 @@ public class SearchScreenOverlay implements SearchObserver {
     this.searchState = searchState;
   }
 
-  public void show() {
+  /** Helper method to show the overlay. */
+  private void showInternal() {
     // REFERTO. Because accessibility framework sent window changed events from
     // TextToSpeechOverlay and cause Screen search close, this is a work around not to show
     // TextToSpeechOverlay to lower the chance.
@@ -706,12 +854,15 @@ public class SearchScreenOverlay implements SearchObserver {
             Feedback.talkBackUI(TalkBackUI.Action.NOT_SUPPORT, SELECTOR_ITEM_ACTION_OVERLAY));
         pipeline.returnFeedback(
             EVENT_ID_UNTRACKED,
-            Feedback.talkBackUI(TalkBackUI.Action.NOT_SUPPORT, GESTURE_ACTION_OVERLAY));
+            Feedback.talkBackUI(TalkBackUI.Action.NOT_SUPPORT, GESTURE_OR_KEYBOARD_ACTION_OVERLAY));
       }
     }
 
     // Updates initial focused window before overlay UI show up, for caching nodes info to search.
     findTargetWindow();
+
+    // Cache the current input device status.
+    hasPhysicalKeyboard = inputDeviceMonitor.hasPhysicalKeyboard();
 
     if (overlayPanel == null) {
       createUIElements();
@@ -724,19 +875,47 @@ public class SearchScreenOverlay implements SearchObserver {
 
     // Cache the nodes on current window when user is about to search.
     searchStrategy.cacheNodeTree(initialFocusedWindow);
+  }
+
+  /** Shows the screen search overlay. */
+  public void show() {
+    showInternal();
+
+    if (overlayPanel != null && !TextUtils.isEmpty(getLastKeyword())) {
+      // Restore keyword in edit text if overlayPanel UI is not reset.
+      keywordEditText.setText(getLastKeyword());
+    }
 
     // Searches using existing keyword if there is any in the EditText.
     String searchKeyword = keywordEditText.getText().toString();
     if (!TextUtils.isEmpty(searchKeyword)) {
       // Make text(s) as all selected.
       keywordEditText.selectAll();
-      searchStrategy.searchKeyword(searchKeyword);
+      performSearch(SearchState.SearchType.SEARCH_TYPE_KEYWORD);
+    }
+
+    // Search using the existing list type, if present.
+    if (shouldShowVariousListOnScreenSearch() && selectedListType != null) {
+      performSearch(SearchState.SearchType.SEARCH_TYPE_LIST);
     }
 
     // Move focus to keyword edit field.
     keywordEditText.requestFocus();
 
     refreshUiState();
+  }
+
+  /** Shows various list on screen search according to the list type. */
+  public void showVariousList(EventId eventId, SearchScreenNodeStrategy.ListType listType) {
+    showInternal();
+
+    setSelectedListType(listType);
+    performSearch(SearchState.SearchType.SEARCH_TYPE_LIST);
+
+    CheckBox listChip = getListSearchButtonForListType(listType);
+    if (listChip != null) {
+      listChip.setChecked(true);
+    }
   }
 
   /**
@@ -768,7 +947,7 @@ public class SearchScreenOverlay implements SearchObserver {
           Feedback.talkBackUI(TalkBackUI.Action.SUPPORT, SELECTOR_ITEM_ACTION_OVERLAY));
       pipeline.returnFeedback(
           EVENT_ID_UNTRACKED,
-          Feedback.talkBackUI(TalkBackUI.Action.SUPPORT, GESTURE_ACTION_OVERLAY));
+          Feedback.talkBackUI(TalkBackUI.Action.SUPPORT, GESTURE_OR_KEYBOARD_ACTION_OVERLAY));
     }
     if (overlayPanel == null) {
       return;
@@ -778,6 +957,10 @@ public class SearchScreenOverlay implements SearchObserver {
 
     // Clear the cached nodes since user is done with current search.
     searchStrategy.clearCachedNodes();
+    // Reset the keyword if needed when the overlay is hidden.
+    if (TextUtils.isEmpty(keywordEditText.getText())) {
+      searchStrategy.resetLastKeyword();
+    }
 
     if (searchState != null) {
       searchState.clear();
@@ -936,7 +1119,7 @@ public class SearchScreenOverlay implements SearchObserver {
 
   /** Checks if the hint announcement will be silenced or not. */
   private boolean shouldDelayHint() {
-    return service.isSsbActiveAndHeadphoneOff();
+    return service.isSsbActive();
   }
 
   private void speakHint(String text) {
@@ -959,6 +1142,15 @@ public class SearchScreenOverlay implements SearchObserver {
       } else {
         pipeline.returnFeedback(Feedback.create(EVENT_ID_UNTRACKED, builder.build()));
       }
+    }
+  }
+
+  private void speakText(String text) {
+    if (pipeline != null) {
+      Feedback.Part.Builder builder =
+          Feedback.Part.builder()
+              .setSpeech(Speech.builder().setAction(Speech.Action.SPEAK).setText(text).build());
+      pipeline.returnFeedback(Feedback.create(EVENT_ID_UNTRACKED, builder.build()));
     }
   }
 
@@ -1100,5 +1292,117 @@ public class SearchScreenOverlay implements SearchObserver {
     }
 
     return styledNodeText.subSequence(startPos, endPos);
+  }
+
+  private boolean shouldShowVariousListOnScreenSearch() {
+    // This feature should only be enabled when there is a physical keyboard.
+    return FeatureFlagReader.enableShowVariousListOnScreenSearch(service) && hasPhysicalKeyboard;
+  }
+
+  private void setSelectedListType(@Nullable SearchScreenNodeStrategy.ListType listType) {
+    selectedListType = listType;
+
+    if (selectedListType == null) {
+      keywordEditText.setHint(R.string.screen_search_hint_type_search_screen);
+    } else {
+      keywordEditText.setHint(getSearchEditTextHintForListType(selectedListType));
+    }
+  }
+
+  private void resetSearchListButtons() {
+    if (!shouldShowVariousListOnScreenSearch()) {
+      return;
+    }
+
+    searchListChipGroup.clearCheck();
+
+    // The "all elements" chip is the default state, so it should be checked when the others are
+    // unchecked.
+    allElementsListChip.setChecked(true);
+    setSelectedListType(null);
+  }
+
+  /* Handles the click event on the all elements chip. */
+  private void handleAllElementsChipClicked() {
+    if (allElementsListChip == null) {
+      return;
+    }
+
+    resetSearchListButtons();
+
+    String keyword = keywordEditText.getText().toString().trim();
+    if (keyword.isEmpty()) {
+      clearSearchResult();
+    } else {
+      performSearch(SearchState.SearchType.SEARCH_TYPE_LIST);
+    }
+  }
+
+  /* Handles the click event on a list button. */
+  private void handleListChipClicked(SearchScreenNodeStrategy.ListType listType) {
+    setSelectedListType(listType);
+
+    // Search for the given list type.
+    performSearch(SearchState.SearchType.SEARCH_TYPE_LIST);
+
+    // Update the checked list button.
+    CheckBox checkbox = getListSearchButtonForListType(listType);
+    if (checkbox.isChecked()) {
+      // Selecting the already-selected item should do nothing.
+      return;
+    }
+    checkbox.setChecked(true);
+  }
+
+  /**
+   * Performs search action by keyword and/or list type, depending on the current state of the
+   * search overlay.
+   *
+   * @param searchTrigger the action that triggered the search. For searches triggered by a user
+   *     entering text into the search box, this should be {@link
+   *     SearchState.SearchType.SEARCH_TYPE_KEYWORD}. For searches triggered by a user selecting a
+   *     list type from the search overlay, this should be {@link
+   *     SearchState.SearchType.SEARCH_TYPE_LIST}.
+   */
+  private void performSearch(SearchState.SearchType searchTrigger) {
+    String searchQuery = keywordEditText.getText().toString().trim();
+    boolean shouldSearchAllElements = selectedListType == null;
+    if (shouldSearchAllElements) {
+      if (searchQuery.isEmpty()) {
+        // The "all elements" chip is selected, but there's no keyword, so don't search.
+        return;
+      } else {
+        searchStrategy.searchByKeyword(searchQuery);
+      }
+    } else {
+      if (searchQuery.isEmpty()) {
+        searchStrategy.searchByListType(selectedListType);
+      } else {
+        searchStrategy.searchByListTypeAndKeyword(selectedListType, searchQuery, searchTrigger);
+      }
+    }
+  }
+
+  /* Given a {@code listType}, returns the corresponding list search button. */
+  private CheckBox getListSearchButtonForListType(SearchScreenNodeStrategy.ListType listType) {
+    return switch (listType) {
+      case HEADING -> headingListChip;
+      case LANDMARK -> landmarkListChip;
+      case LINK -> linkListChip;
+      case CONTROL -> controlListChip;
+      case TABLE -> tableListChip;
+    };
+  }
+
+  /* Given a {@code listType}, returns the corresponding resource ID for the hint text of the search
+   * field. */
+  private int getSearchEditTextHintForListType(SearchScreenNodeStrategy.ListType listType) {
+    return switch (listType) {
+      case HEADING -> R.string.screen_search_hint_type_search_headings;
+      case LANDMARK -> R.string.screen_search_hint_type_search_landmarks;
+      case LINK -> R.string.screen_search_hint_type_search_links;
+      case CONTROL -> R.string.screen_search_hint_type_search_controls;
+      case TABLE -> R.string.screen_search_hint_type_search_tables;
+    };
   }
 }

@@ -1,1 +1,3 @@
-static const DriverEntry driverTable[] = {{NULL, NULL}};
+static const DriverEntry driverTable[] = {
+  {NULL, NULL}
+};

@@ -15,6 +15,7 @@
  */
 package com.google.android.accessibility.talkback.compositor.rule;
 
+import static com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils.updateAndGetErrorStateText;
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_TYPE_INPUT_TEXT_PASSWORD_ADD;
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_TYPE_INPUT_TEXT_PASSWORD_REMOVE;
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_TYPE_INPUT_TEXT_PASSWORD_REPLACE;
@@ -23,16 +24,16 @@ import static com.google.android.accessibility.talkback.compositor.Compositor.QU
 import android.content.Context;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
+import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils.ErrorInfo;
 import com.google.android.accessibility.talkback.compositor.Compositor.HandleEventOptions;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.EventFeedback;
-import com.google.android.accessibility.talkback.compositor.TalkBackFeedbackProvider;
 import com.google.android.accessibility.utils.StringBuilderUtils;
-import com.google.android.accessibility.utils.input.TextEventInterpretation;
 import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 /**
@@ -51,6 +52,9 @@ import java.util.function.Function;
 public final class InputTextPasswordFeedbackRules {
 
   private static final String TAG = "InputTextPasswordFeedbackRules";
+
+  private static final AtomicReference<ErrorInfo> lastAnnouncedErrorInfo =
+      new AtomicReference<>(null);
 
   /**
    * Adds the feedback rules to the provided event feedback rules map. So {@link
@@ -80,7 +84,7 @@ public final class InputTextPasswordFeedbackRules {
         AccessibilityNodeFeedbackUtils.notifyMaxLengthReachedStateText(
             eventOptions.sourceNode, context);
     CharSequence notifyErrorState =
-        AccessibilityNodeFeedbackUtils.notifyErrorStateText(eventOptions.sourceNode, context);
+        updateAndGetErrorStateText(eventOptions, context, lastAnnouncedErrorInfo);
 
     CharSequence ttsOutput =
         CompositorUtils.joinCharSequences(
@@ -113,7 +117,7 @@ public final class InputTextPasswordFeedbackRules {
         context.getString(
             R.string.template_text_removed, context.getString(R.string.symbol_bullet));
     CharSequence notifyErrorState =
-        AccessibilityNodeFeedbackUtils.notifyErrorStateText(eventOptions.sourceNode, context);
+        updateAndGetErrorStateText(eventOptions, context, lastAnnouncedErrorInfo);
     CharSequence ttsOutput = CompositorUtils.joinCharSequences(textRemovedState, notifyErrorState);
 
     LogUtils.v(
@@ -141,12 +145,12 @@ public final class InputTextPasswordFeedbackRules {
     String addedCount = String.valueOf(eventOptions.eventObject.getAddedCount());
     String removedCount = String.valueOf(eventOptions.eventObject.getRemovedCount());
     String textReplacedState =
-        context.getString(R.string.template_replaced_characters, addedCount, removedCount);
+        context.getString(R.string.template_replaced_characters, removedCount, addedCount);
     CharSequence notifyMaxLengthReachedState =
         AccessibilityNodeFeedbackUtils.notifyMaxLengthReachedStateText(
             eventOptions.sourceNode, context);
     CharSequence notifyErrorState =
-        AccessibilityNodeFeedbackUtils.notifyErrorStateText(eventOptions.sourceNode, context);
+        updateAndGetErrorStateText(eventOptions, context, lastAnnouncedErrorInfo);
 
     CharSequence ttsOutput =
         CompositorUtils.joinCharSequences(

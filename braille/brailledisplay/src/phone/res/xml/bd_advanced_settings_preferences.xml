@@ -20,4 +20,16 @@
         android:key="@string/pref_bd_blinking_interval_key"
         android:summary="%s"
         android:title="@string/bd_preference_blinking_interval_title" />
+
+    <SwitchPreference
+        android:key="@string/pref_bd_popup_announcement_key"
+        android:title="@string/bd_preference_popup_announcement_title"
+        android:summary="@string/bd_preference_popup_announcement_summary"
+        app:isPreferenceVisible="false"/>
+
+    <SwitchPreference
+        android:key="@string/pref_bd_popup_announcement_history_key"
+        android:title="@string/bd_preference_popup_announcement_history_title"
+        android:summary="@string/bd_preference_popup_announcement_history_summary"
+        app:isPreferenceVisible="false"/>
 </PreferenceScreen>

@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.focusmanagement.record;
 
 import android.content.Context;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.VisibleForTesting;
 import androidx.collection.LruCache;
@@ -26,8 +27,10 @@ import com.google.android.accessibility.talkback.focusmanagement.interpreter.Scr
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FormFactorUtils;
+import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.auto.value.AutoValue;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -35,6 +38,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -55,6 +59,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * #getLastEditableFocusActionRecord()}.
  */
 public final class AccessibilityFocusActionHistory {
+  private static final String TAG = "AccessibilityFocusActionHistory";
 
   //////////////////////////////////////////////////////////////////////////////////////////
   // Restricted read-only interface, for use in actor-state pass-back to interpreters
@@ -96,6 +101,10 @@ public final class AccessibilityFocusActionHistory {
     public boolean lastAccessibilityFocusedNodeEquals(AccessibilityNodeInfoCompat targetNode) {
       return AccessibilityFocusActionHistory.this.lastAccessibilityFocusedNodeEquals(targetNode);
     }
+
+    public boolean focusOnTalkBackUiBeforeWindowTransition() {
+      return AccessibilityFocusActionHistory.this.focusOnTalkBackUiBeforeWindowTransition();
+    }
   }
 
   /** Restricted-access interface for reading focus state. */
@@ -118,6 +127,14 @@ public final class AccessibilityFocusActionHistory {
    */
   @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
   static final int TIMEOUT_TOLERANCE_MS = 300;
+
+  /**
+   * Maximum difference between action time and event time within which we think the event might
+   * result from the action.
+   *
+   * <p>It needs more time for webview to focus on the new element.
+   */
+  static final int WEB_TIMEOUT_TOLERANCE_MS = 500;
 
   /**
    * Maximum difference between action time and event time on TV, within which we think the event
@@ -153,8 +170,9 @@ public final class AccessibilityFocusActionHistory {
 
   private @Nullable FocusActionInfo pendingWebFocusActionInfo = null;
   private @Nullable ScreenState pendingScreenState = null;
+
+  private boolean focusOnTalkBackUiBeforeWindowTransition = false;
   private long pendingWebFocusActionTime = -1;
-  private int timeoutToleranceMs;
 
   //////////////////////////////////////////////////////////////////////////////////////////
   // Construction
@@ -162,10 +180,6 @@ public final class AccessibilityFocusActionHistory {
   public AccessibilityFocusActionHistory(Context context) {
     focusActionRecordList = new ArrayDeque<>();
     windowIdentifierToFocusActionRecordMap = new LruCache<>(MAXIMUM_WINDOW_MAP_SIZE);
-    timeoutToleranceMs = TIMEOUT_TOLERANCE_MS;
-    if (FormFactorUtils.getInstance().isAndroidTv()) {
-      timeoutToleranceMs = TV_TIMEOUT_TOLERANCE_MS;
-    }
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -187,6 +201,14 @@ public final class AccessibilityFocusActionHistory {
       @Nullable ScreenState currentScreenState) {
     // FocusActionRecord handles making a copy of 'node'. We don't nee to call obtain() here.
     FocusActionRecord record = new FocusActionRecord(node, extraData, actionTime);
+
+    FocusActionRecord lastFocus = getLastFocusActionRecord();
+    if (lastFocus != null) {
+      AccessibilityNodeInfoCompat lastFocusedNode = lastFocus.getFocusedNode();
+      focusOnTalkBackUiBeforeWindowTransition =
+          node.getWindowId() != lastFocusedNode.getWindowId()
+              && PackageManagerUtils.isTalkBackPackage(lastFocusedNode.getPackageName());
+    }
 
     // Add to the record queue.
     focusActionRecordList.offer(record);
@@ -222,6 +244,10 @@ public final class AccessibilityFocusActionHistory {
   public @Nullable FocusActionRecord getLastFocusActionRecordInWindow(
       WindowIdentifier windowIdentifier) {
     return windowIdentifierToFocusActionRecordMap.get(windowIdentifier);
+  }
+
+  public boolean focusOnTalkBackUiBeforeWindowTransition() {
+    return focusOnTalkBackUiBeforeWindowTransition;
   }
 
   public @Nullable FocusActionRecord getLastFocusActionRecordInWindow(int windowId) {
@@ -274,13 +300,17 @@ public final class AccessibilityFocusActionHistory {
     if (eventNode == null) {
       return null;
     }
-    long eventTime = event.getEventTime();
+    // We don't use the AccessibilityEvent.getEventTime() here because the potential race condition
+    // that the event could be earlier than the actionTime of
+    // onPendingAccessibilityFocusActionOnWebElement.
+    long eventTime = SystemClock.uptimeMillis();
 
     tryMatchingPendingFocusAction(eventNode, eventTime);
 
     FocusActionRecord result = null;
     // Iterate from the newest(last) record to the eldest(first) record.
     Iterator<FocusActionRecord> iterator = focusActionRecordList.descendingIterator();
+    int timeoutToleranceMs = getTimeoutToleranceMs(eventNode);
     while (iterator.hasNext()) {
       FocusActionRecord record = iterator.next();
       long timeDiff = eventTime - record.getActionTime();
@@ -288,9 +318,13 @@ public final class AccessibilityFocusActionHistory {
 
       boolean timeMatches = timeDiff >= 0 && timeDiff < timeoutToleranceMs;
       boolean nodeMatches = eventNode.equals(recordNode);
-      if (timeMatches && nodeMatches) {
-        result = FocusActionRecord.copy(record);
-        break;
+      if (nodeMatches) {
+        if (timeMatches) {
+          result = FocusActionRecord.copy(record);
+          break;
+        } else {
+          LogUtils.w(TAG, "node matches but timeDiff=%d not matches", timeDiff);
+        }
       }
     }
     return result;
@@ -299,9 +333,9 @@ public final class AccessibilityFocusActionHistory {
   private void tryMatchingPendingFocusAction(
       @NonNull AccessibilityNodeInfoCompat focusedNode, long focusEventTime) {
     if ((pendingWebFocusActionInfo != null)
-        && (focusEventTime - pendingWebFocusActionTime < timeoutToleranceMs)
         && (focusEventTime - pendingWebFocusActionTime > 0)
-        && WebInterfaceUtils.supportsWebActions(focusedNode)) {
+        && WebInterfaceUtils.supportsWebActions(focusedNode)
+        && (focusEventTime - pendingWebFocusActionTime < getTimeoutToleranceMs(focusedNode))) {
       onAccessibilityFocusAction(
           focusedNode, pendingWebFocusActionInfo, pendingWebFocusActionTime, pendingScreenState);
       clearPendingFocusAction();
@@ -343,6 +377,16 @@ public final class AccessibilityFocusActionHistory {
     pendingWebFocusActionTime = -1;
   }
 
+  private int getTimeoutToleranceMs(AccessibilityNodeInfoCompat node) {
+    if (WebInterfaceUtils.supportsWebActions(node)) {
+      return WEB_TIMEOUT_TOLERANCE_MS;
+    }
+    if (FormFactorUtils.isAndroidTv()) {
+      return TV_TIMEOUT_TOLERANCE_MS;
+    }
+    return TIMEOUT_TOLERANCE_MS;
+  }
+
   // For verification at
   // navigateToHtmlElement_hasNoNewFocusNode_updatePendingWebAccessibilityFocusActionInfo() of
   // FocusActorTest if pendingWebFocusActionInfo is updated by
@@ -365,12 +409,37 @@ public final class AccessibilityFocusActionHistory {
       CharSequence windowTitle = "";
       CharSequence accessibilityPaneTitle = "";
       if (screenState != null) {
-        windowTitle = screenState.getWindowTitle(windowId);
+        CharSequence winTitleCandidate = screenState.getWindowTitle(windowId);
+        if (winTitleCandidate != null) {
+          windowTitle = winTitleCandidate;
+        }
         accessibilityPaneTitle = screenState.getAccessibilityPaneTitle(windowId);
       }
 
       return new AutoValue_AccessibilityFocusActionHistory_WindowIdentifier(
           windowId, windowTitle, accessibilityPaneTitle);
+    }
+
+    @Override
+    public final boolean equals(Object object) {
+      if (this == object) {
+        return true;
+      }
+      if (!(object instanceof WindowIdentifier windowIdentifier)) {
+        return false;
+      }
+      boolean result =
+          windowIdentifier.windowId() == windowId()
+              && TextUtils.equals(windowIdentifier.windowTitle(), windowTitle())
+              && TextUtils.equals(
+                  windowIdentifier.accessibilityPaneTitle(), accessibilityPaneTitle());
+      return result;
+    }
+
+    @Override
+    public final int hashCode() {
+      return Objects.hash(
+          windowId(), windowTitle().toString(), accessibilityPaneTitle().toString());
     }
   }
 }

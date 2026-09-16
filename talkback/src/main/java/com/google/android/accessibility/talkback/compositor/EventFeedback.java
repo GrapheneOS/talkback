@@ -30,41 +30,43 @@ public abstract class EventFeedback {
 
   public abstract Optional<CharSequence> ttsOutput();
 
-  public abstract Integer queueMode();
+  public abstract int queueMode();
 
-  public abstract Boolean forceFeedbackEvenIfAudioPlaybackActive();
+  public abstract boolean forceFeedbackEvenIfAudioPlaybackActive();
 
-  public abstract Boolean forceFeedbackEvenIfMicrophoneActive();
+  public abstract boolean forceFeedbackEvenIfMicrophoneActive();
 
-  public abstract Boolean forceFeedbackEvenIfSsbActive();
+  public abstract boolean forceFeedbackEvenIfSsbActive();
 
-  public abstract Boolean forceFeedbackEvenIfPhoneCallActive();
+  public abstract boolean forceFeedbackEvenIfPhoneCallActive();
 
-  public abstract Integer ttsClearQueueGroup();
+  public abstract int ttsClearQueueGroup();
 
-  public abstract Boolean ttsInterruptSameGroup();
+  public abstract boolean ttsInterruptSameGroup();
 
-  public abstract Boolean ttsSkipDuplicate();
+  public abstract boolean ttsSkipDuplicate();
 
-  public abstract Boolean ttsAddToHistory();
+  public abstract boolean ttsAddToHistory();
 
-  public abstract Boolean ttsForceFeedback();
+  public abstract boolean ttsForceFeedback();
 
-  public abstract Double ttsPitch();
+  public abstract double ttsPitch();
 
-  public abstract Boolean preventDeviceSleep();
+  public abstract boolean preventDeviceSleep();
 
-  public abstract Boolean refreshSourceNode();
+  public abstract boolean refreshSourceNode();
 
-  public abstract Boolean advanceContinuousReading();
+  public abstract boolean advanceContinuousReading();
 
-  public abstract Integer haptic();
+  public abstract int haptic();
 
-  public abstract Integer earcon();
+  public abstract int earcon();
 
-  public abstract Double earconRate();
+  public abstract double earconRate();
 
-  public abstract Double earconVolume();
+  public abstract double earconVolume();
+
+  public abstract boolean inlineFormatting();
 
   /**
    * Gets speech flag mask for the event. <strong>Note:</strong> This method doesn't handle {@link
@@ -103,11 +105,15 @@ public abstract class EventFeedback {
     if (preventDeviceSleep()) {
       flags |= FeedbackItem.FLAG_NO_DEVICE_SLEEP;
     }
+    if (inlineFormatting()) {
+      flags |= FeedbackItem.FLAG_INLINE_FORMATTING;
+    }
 
     return flags;
   }
 
-  public String toString() {
+  @Override
+  public final String toString() {
     return StringBuilderUtils.joinFields(
         String.format("ttsOutput= %s  ", ttsOutput().orElseGet(() -> "")),
         StringBuilderUtils.optionalInt(
@@ -133,7 +139,8 @@ public abstract class EventFeedback {
         StringBuilderUtils.optionalInt("haptic", haptic(), -1),
         StringBuilderUtils.optionalInt("earcon", earcon(), -1),
         StringBuilderUtils.optionalDouble("earconRate", earconRate(), 1.0d),
-        StringBuilderUtils.optionalDouble("earconVolume", earconVolume(), 1.0d));
+        StringBuilderUtils.optionalDouble("earconVolume", earconVolume(), 1.0d),
+        StringBuilderUtils.optionalTag("inlineFormatting", inlineFormatting()));
   }
 
   public static EventFeedback.Builder builder() {
@@ -156,7 +163,8 @@ public abstract class EventFeedback {
         .setHaptic(-1)
         .setEarcon(-1)
         .setEarconRate(1.0d)
-        .setEarconVolume(1.0d);
+        .setEarconVolume(1.0d)
+        .setInlineFormatting(false);
   }
 
   /** Builder for compositor event feedback data. */
@@ -165,41 +173,43 @@ public abstract class EventFeedback {
 
     public abstract Builder setTtsOutput(Optional<CharSequence> value);
 
-    public abstract Builder setQueueMode(Integer value);
+    public abstract Builder setQueueMode(int value);
 
-    public abstract Builder setForceFeedbackEvenIfAudioPlaybackActive(Boolean value);
+    public abstract Builder setForceFeedbackEvenIfAudioPlaybackActive(boolean value);
 
-    public abstract Builder setForceFeedbackEvenIfMicrophoneActive(Boolean value);
+    public abstract Builder setForceFeedbackEvenIfMicrophoneActive(boolean value);
 
-    public abstract Builder setForceFeedbackEvenIfSsbActive(Boolean value);
+    public abstract Builder setForceFeedbackEvenIfSsbActive(boolean value);
 
-    public abstract Builder setForceFeedbackEvenIfPhoneCallActive(Boolean value);
+    public abstract Builder setForceFeedbackEvenIfPhoneCallActive(boolean value);
 
-    public abstract Builder setTtsClearQueueGroup(Integer value);
+    public abstract Builder setTtsClearQueueGroup(int value);
 
-    public abstract Builder setTtsInterruptSameGroup(Boolean value);
+    public abstract Builder setTtsInterruptSameGroup(boolean value);
 
-    public abstract Builder setTtsSkipDuplicate(Boolean value);
+    public abstract Builder setTtsSkipDuplicate(boolean value);
 
-    public abstract Builder setTtsAddToHistory(Boolean value);
+    public abstract Builder setTtsAddToHistory(boolean value);
 
-    public abstract Builder setTtsForceFeedback(Boolean value);
+    public abstract Builder setTtsForceFeedback(boolean value);
 
     public abstract Builder setTtsPitch(double value);
 
-    public abstract Builder setPreventDeviceSleep(Boolean value);
+    public abstract Builder setPreventDeviceSleep(boolean value);
 
-    public abstract Builder setRefreshSourceNode(Boolean value);
+    public abstract Builder setRefreshSourceNode(boolean value);
 
-    public abstract Builder setAdvanceContinuousReading(Boolean value);
+    public abstract Builder setAdvanceContinuousReading(boolean value);
 
-    public abstract Builder setHaptic(Integer value);
+    public abstract Builder setHaptic(int value);
 
-    public abstract Builder setEarcon(Integer value);
+    public abstract Builder setEarcon(int value);
 
-    public abstract Builder setEarconRate(Double value);
+    public abstract Builder setEarconRate(double value);
 
-    public abstract Builder setEarconVolume(Double value);
+    public abstract Builder setEarconVolume(double value);
+
+    public abstract Builder setInlineFormatting(boolean value);
 
     public abstract EventFeedback build();
   }

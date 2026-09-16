@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -146,8 +146,8 @@ createWindowsPipe (NamedPipeObject *obj) {
                                                  PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED,
                                                  PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE,
                                                  1, 0, 0, 0, NULL)) != INVALID_HANDLE_VALUE) {
-      logMessage(LOG_DEBUG, "named pipe created: %s: handle=%u",
-                 obj->host.path, (unsigned int)obj->input.descriptor);
+      logMessage(LOG_DEBUG, "named pipe created: %s: handle=%"PRIfd,
+                 obj->host.path, obj->input.descriptor);
 
       return 1;
     } else {

@@ -20,7 +20,7 @@ import static android.view.accessibility.AccessibilityNodeInfo.FOCUS_ACCESSIBILI
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.INITIAL_FOCUS_FIRST_CONTENT;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.INITIAL_FOCUS_FOLLOW_INPUT;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.INITIAL_FOCUS_RESTORE;
-import static com.google.android.accessibility.utils.traversal.TraversalStrategy.SEARCH_FOCUS_FORWARD;
+import static com.google.android.accessibility.utils.input.WindowEventInterpreter.WINDOW_CHANGE_DELAY_MS;
 
 import android.accessibilityservice.AccessibilityService;
 import android.os.SystemClock;
@@ -32,10 +32,12 @@ import com.google.android.accessibility.talkback.CursorGranularityManager;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Feedback.Focus;
 import com.google.android.accessibility.talkback.Pipeline;
+import com.google.android.accessibility.talkback.actor.helper.FocusActorHelper;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenState;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.record.AccessibilityFocusActionHistory;
+import com.google.android.accessibility.talkback.focusmanagement.record.AccessibilityFocusActionHistory.WindowIdentifier;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionRecord;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
@@ -43,17 +45,20 @@ import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.accessibility.utils.input.CursorGranularity;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy;
+import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Helps FocusActor execute focus actions. */
 // TODO: Merge FocusActor with FocusManagerInternal.
-class FocusManagerInternal {
+public class FocusManagerInternal {
 
   private static final String TAG = "FocusManagerInternal";
 
@@ -63,9 +68,6 @@ class FocusManagerInternal {
   private final AccessibilityService service;
   private final FocusFinder focusFinder;
   private final ScreenStateMonitor.State screenState;
-
-  /** Whether we should drive input focus instead of accessibility focus where possible. */
-  private final boolean controlInputFocus;
 
   @VisibleForTesting protected boolean muteNextFocus = false;
 
@@ -86,8 +88,6 @@ class FocusManagerInternal {
   // the ensure focus would need perform again.
   private boolean skipRefocus = false;
 
-  private final FormFactorUtils formFactorUtils = FormFactorUtils.getInstance();
-
   ////////////////////////////////////////////////////////////////////////////////////////////////
   // Construction methods
 
@@ -102,8 +102,6 @@ class FocusManagerInternal {
     this.screenState = screenState;
     this.history = history;
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
-
-    controlInputFocus = formFactorUtils.isAndroidTv();
   }
 
   public void setActorState(ActorStateWritable actorState) {
@@ -145,7 +143,10 @@ class FocusManagerInternal {
       @NonNull FocusActionInfo focusActionInfo,
       @Nullable EventId eventId) {
     if (isAccessibilityFocused(node)) {
-      if (forceRefocusIfAlreadyFocused) {
+      // The isAccessibilityFocused() method for a node inside a WebView sometimes does not work
+      // correctly, so always clearing a11y focus then performing an a11y focused action on the node
+      // to ensure the Talkback focus indicator can move to the expected node.
+      if (forceRefocusIfAlreadyFocused || WebInterfaceUtils.isWebContainer(node)) {
         pipeline.returnFeedback(
             eventId,
             Feedback.nodeAction(
@@ -155,30 +156,21 @@ class FocusManagerInternal {
       }
     }
 
-    // Accessibility focus follows input focus on TVs, we want to set both simultaneously,
-    // so we change the input focus if possible.
-    // Instead of syncing a11y focus when TYPE_VIEW_FOCUSED event is received, we immediately
-    // perform a11y focus action after input focus action, in case that we don't receive the result
-    // TYPE_VIEW_FOCUSED in some weird cases.
-    // TODO: Input focus should follow accessibility focus when the device is
-    // connecting
-    // to an external keyboard without the soft keyboard being on screen.
-    if (controlInputFocus && node.isFocusable() && !node.isFocused()) {
-      long currentTime = SystemClock.uptimeMillis();
-      boolean result =
-          pipeline.returnFeedback(
-              eventId, Feedback.nodeAction(node, AccessibilityNodeInfo.ACTION_FOCUS));
-      LogUtils.d(
-          TAG,
-          "Perform input focus action:result=%s\n" + " eventId=%s," + " Node=%s",
-          result,
-          eventId,
-          node);
-      if (result) {
-        actorState.setInputFocus(node, currentTime);
-      }
+    // Setting input focus first to decrease lag between a11y focus moving and input focus moving.
+    boolean shouldSyncInputFocus =
+        FocusActorHelper.shouldSyncInputFocusToAccessibilityFocus(service, node, focusActionInfo);
+    if (shouldSyncInputFocus) {
+      setFocus(eventId, node);
     }
-    return performAccessibilityFocusActionInternal(node, focusActionInfo, eventId);
+
+    boolean isAccessibilityFocusActionPerformedSuccessfully =
+        performAccessibilityFocusActionInternal(node, focusActionInfo, eventId);
+    if (isAccessibilityFocusActionPerformedSuccessfully
+        && !shouldSyncInputFocus
+        && FocusActorHelper.shouldClearFocusAfterSetAccessibilityFocus(service, focusActionInfo)) {
+      clearFocus(eventId, /* includeEditable= */ false);
+    }
+    return isAccessibilityFocusActionPerformedSuccessfully;
   }
 
   void updateFocusHistory(
@@ -229,6 +221,14 @@ class FocusManagerInternal {
       return false;
     }
 
+    ScreenState state = screenState.getStableScreenState();
+    long windowEventInterpreterDelayTimeMs =
+        SystemClock.uptimeMillis() - state.getScreenTransitionStartTime();
+    if (windowEventInterpreterDelayTimeMs <= WINDOW_CHANGE_DELAY_MS) {
+      LogUtils.d(TAG, String.format("%s: Return, the initial focus is not stable yet.", subTag));
+      return false;
+    }
+
     if (focusFinder.findFocusCompat(FOCUS_ACCESSIBILITY) != null) {
       // Has focus on screen.
       LogUtils.d(TAG, String.format("%s: Return, accessibility focus is already there.", subTag));
@@ -236,11 +236,9 @@ class FocusManagerInternal {
     }
 
     // On TV, we only try to follow input focus.
-    if (FormFactorUtils.getInstance().isAndroidTv()) {
+    if (FormFactorUtils.isAndroidTv()) {
       return pipeline.returnFeedback(
-          Feedback.create(
-              eventId,
-              toFeedbackPart(INITIAL_FOCUS_FOLLOW_INPUT, screenState.getStableScreenState())));
+          Feedback.create(eventId, toFeedbackPart(INITIAL_FOCUS_FOLLOW_INPUT, state)));
     }
 
     // TODO: Consider to use the information of subtree change event to find the
@@ -274,7 +272,6 @@ class FocusManagerInternal {
    *
    * @return true if accessibility focus is successfully found and assigned
    */
-  @Nullable
   private boolean requestA11yFocusFromLastFocusRecord(EventId eventId) {
     @Nullable FocusActionRecord record = history.getLastFocusActionRecord();
     if (record == null) {
@@ -287,7 +284,7 @@ class FocusManagerInternal {
     }
 
     final String subTag = "EnsureOnScreen";
-    if (record != null && skipRefocus && record.getExtraInfo().isSourceEnsureOnScreen()) {
+    if (skipRefocus && record.getExtraInfo().isSourceEnsureOnScreen()) {
       // If the last focus record is also from the source ENSURE_ON_SCREEN, doesn't request to
       // ensure the focus repeatedly.
       LogUtils.w(
@@ -305,52 +302,26 @@ class FocusManagerInternal {
     }
 
     // Try to restore focus by the focus record.
-    int initialFocusType = FocusActionInfo.RESTORED_LAST_FOCUS;
+    ScreenState stableScreenState = screenState.getStableScreenState();
+    AtomicInteger type = new AtomicInteger(FocusActionInfo.UNDEFINED);
     AccessibilityNodeInfoCompat nodeToFocus =
-        FocusActionRecord.getFocusableNodeFromFocusRecord(root, focusFinder, record);
-
-    // If couldn't restore the focus from the record directly, then try to find focus node
-    // on the same root. The priority: input focus > requested initial focus > the first non-title
-    // node.
-    if (nodeToFocus == null) {
-      Filter<AccessibilityNodeInfoCompat> nodeFilter =
-          Filter.node((node) -> AccessibilityNodeInfoUtils.shouldFocusNode(node));
-      if (FormFactorUtils.getInstance().isAndroidWear()) {
-        nodeFilter =
-            AccessibilityNodeInfoUtils.getFilterExcludingSmallTopAndBottomBorderNode(service)
-                .and(nodeFilter);
-      }
-
-      AccessibilityNodeInfoCompat inputFocusNode =
-          focusFinder.findFocusCompat(AccessibilityNodeInfo.FOCUS_INPUT);
-      if (AccessibilityNodeInfoUtils.hasAncestor(inputFocusNode, root)
-          && nodeFilter.accept(inputFocusNode)) {
-        nodeToFocus = inputFocusNode;
-        initialFocusType = FocusActionInfo.SYNCED_INPUT_FOCUS;
-      } else {
-        OrderedTraversalStrategy strategy = new OrderedTraversalStrategy(root);
-        nodeToFocus = strategy.focusInitial(root);
-        initialFocusType = FocusActionInfo.REQUESTED_INITIAL_NODE;
-
-        if (nodeToFocus == null || !nodeFilter.accept(nodeToFocus)) {
-          nodeToFocus =
-              TraversalStrategyUtils.findFirstFocusInNodeTree(
-                  strategy, root, SEARCH_FOCUS_FORWARD, nodeFilter);
-          initialFocusType = FocusActionInfo.FIRST_FOCUSABLE_NODE;
-        }
-      }
-    }
-
+        findInitialFocusFromTargetWindowRoot(
+            service, root, stableScreenState, actorState.focusHistory, focusFinder, type);
     if (nodeToFocus == null) {
       return false;
     }
-    boolean firstTime = screenState.getStableScreenState().isInterpretFirstTimeWhenWakeUp();
-    boolean forceMuteFeedback = formFactorUtils.isAndroidWear() && firstTime;
+
+    boolean firstTime =
+        stableScreenState != null && stableScreenState.isInterpretFirstTimeWhenWakeUp();
+    // Cell broadcast is an emergent announcement, so we don't mute it.
+    boolean forceMuteFeedback =
+        FocusActorHelper.shouldMuteFeedbackForFocusedNode(nodeToFocus, stableScreenState);
+
     FocusActionInfo focusActionInfo =
         FocusActionInfo.builder()
             .setForceMuteFeedback(forceMuteFeedback)
             .setSourceAction(FocusActionInfo.ENSURE_ON_SCREEN)
-            .setInitialFocusType(initialFocusType)
+            .setInitialFocusType(type.get())
             .build();
 
     boolean success =
@@ -362,9 +333,78 @@ class FocusManagerInternal {
                 .setTarget(nodeToFocus));
 
     if (firstTime && success) {
-      screenState.getStableScreenState().consumeInterpretFirstTimeWhenWakeUp();
+      stableScreenState.consumeInterpretFirstTimeWhenWakeUp();
     }
     return success;
+  }
+
+  /**
+   * Finds the initial focus from the specified window root for accessibility focus. At first it
+   * will try to restore the accessibility focus from the record. If restoring fail, then try to
+   * report the input focus node. Finally, reports the node with {@link
+   * AccessibilityNodeInfoCompat#hasRequestInitialAccessibilityFocus()} or the first focusable node
+   * under the same root. It also updates {@code initialFocusType} with the type.
+   *
+   * @return the node to focus
+   */
+  public static @Nullable AccessibilityNodeInfoCompat findInitialFocusFromTargetWindowRoot(
+      AccessibilityService service,
+      AccessibilityNodeInfoCompat windowRoot,
+      ScreenState screenState,
+      AccessibilityFocusActionHistory.Reader history,
+      FocusFinder focusFinder,
+      AtomicInteger initialFocusType) {
+    AccessibilityNodeInfoCompat nodeToFocus = null;
+    if (service == null || windowRoot == null || focusFinder == null || initialFocusType == null) {
+      return null;
+    }
+    if (history != null) {
+      final WindowIdentifier windowIdentifier =
+          WindowIdentifier.create(windowRoot.getWindowId(), screenState);
+      // The previous focus record may come from a different pane in the same window, it needs to
+      // get the right record from the WindowIdentifier to restore.
+      FocusActionRecord windowIdentifierRecord =
+          history.getLastFocusActionRecordInWindow(windowIdentifier);
+      if (windowIdentifierRecord != null) {
+        initialFocusType.set(FocusActionInfo.RESTORED_LAST_FOCUS);
+        nodeToFocus =
+            FocusActionRecord.getFocusableNodeFromFocusRecord(
+                windowRoot, focusFinder, windowIdentifierRecord);
+      }
+    }
+
+    // If couldn't restore the focus from the record directly, then try to find focus node
+    // on the same root. The priority: input focus > requested initial focus > the first non-title
+    // node.
+    if (nodeToFocus == null) {
+      Filter<AccessibilityNodeInfoCompat> nodeFilter =
+          Filter.node((node) -> AccessibilityNodeInfoUtils.shouldFocusNode(node));
+      if (FormFactorUtils.isAndroidWear()) {
+        nodeFilter =
+            AccessibilityNodeInfoUtils.getFilterExcludingSmallTopAndBottomBorderNode(service)
+                .and(nodeFilter);
+      }
+
+      AccessibilityNodeInfoCompat inputFocusNode =
+          focusFinder.findFocusCompat(AccessibilityNodeInfo.FOCUS_INPUT);
+      if (AccessibilityNodeInfoUtils.hasAncestor(inputFocusNode, windowRoot)
+          && nodeFilter.accept(inputFocusNode)) {
+        nodeToFocus = inputFocusNode;
+        initialFocusType.set(FocusActionInfo.SYNCED_INPUT_FOCUS);
+      } else {
+        OrderedTraversalStrategy strategy = new OrderedTraversalStrategy(windowRoot);
+        nodeToFocus = strategy.focusInitial(windowRoot);
+        initialFocusType.set(FocusActionInfo.REQUESTED_INITIAL_NODE);
+
+        if (nodeToFocus == null || !nodeFilter.accept(nodeToFocus)) {
+          nodeToFocus =
+              TraversalStrategyUtils.findFirstFocusInNodeTree(
+                  strategy, windowRoot, TraversalStrategy.SEARCH_FOCUS_FORWARD, nodeFilter);
+          initialFocusType.set(FocusActionInfo.FIRST_FOCUSABLE_NODE);
+        }
+      }
+    }
+    return nodeToFocus;
   }
 
   /**
@@ -394,6 +434,8 @@ class FocusManagerInternal {
   /**
    * Performs {@link AccessibilityNodeInfoCompat#ACTION_ACCESSIBILITY_FOCUS} on the node. Saves the
    * record if the action is successfully performed.
+   *
+   * @return {@code true} if the action is successfully performed.
    */
   @VisibleForTesting
   protected boolean performAccessibilityFocusActionInternal(
@@ -483,5 +525,29 @@ class FocusManagerInternal {
     if (currentFocus != null) {
       clearAccessibilityFocus(currentFocus, eventId);
     }
+  }
+
+  void clearFocus(EventId eventId, boolean includeEditable) {
+    AccessibilityNodeInfoCompat currentFocus = accessibilityFocusMonitor.getInputFocus();
+    if (currentFocus != null && (includeEditable || !currentFocus.isEditable())) {
+      pipeline.returnFeedback(
+          eventId, Feedback.nodeAction(currentFocus, AccessibilityNodeInfo.ACTION_CLEAR_FOCUS));
+    }
+  }
+
+  void setFocus(@NonNull EventId eventId, @NonNull AccessibilityNodeInfoCompat node) {
+    long currentTime = SystemClock.uptimeMillis();
+    boolean result =
+        pipeline.returnFeedback(
+            eventId, Feedback.nodeAction(node, AccessibilityNodeInfo.ACTION_FOCUS));
+    if (result) {
+      actorState.setInputFocus(node, currentTime);
+    }
+    LogUtils.d(
+        TAG,
+        "Perform input focus action:result=%s\n" + " eventId=%s," + " Node=%s",
+        result,
+        eventId,
+        node);
   }
 }

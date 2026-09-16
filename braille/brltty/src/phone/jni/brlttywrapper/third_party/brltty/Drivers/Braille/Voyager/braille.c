@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,7 +18,7 @@
 
 /* Voyager/braille.c - Braille display driver for Tieman Voyager displays.
  *
- * Written by Stéphane Doyon  <s.doyon@videotron.ca>
+ * Written by StÃ©phane Doyon  <s.doyon@videotron.ca>
  *
  * It is being tested on Voyager 44, should also support Voyager 70.
  * It is designed to be compiled in BRLTTY version 4.1.

@@ -20,8 +20,6 @@ import static androidx.core.view.accessibility.AccessibilityWindowInfoCompat.TYP
 import static com.google.android.accessibility.talkback.Feedback.HINT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -35,7 +33,6 @@ import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
-import com.google.android.accessibility.talkback.utils.VerbosityPreferences;
 import com.google.android.accessibility.utils.AccessibilityEventListener;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
@@ -44,7 +41,6 @@ import com.google.android.accessibility.utils.LocaleUtils;
 import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
-import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
@@ -52,10 +48,13 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.json.JSONException;
@@ -88,10 +87,7 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
           | AccessibilityEvent.TYPE_TOUCH_INTERACTION_END
           |
           // Do not cancel phonetic letter feedback for TYPE_WINDOWS_CHANGED event.
-          // ProcessorCursorState introduces an overlay on EditText. When we open a
-          // keyboard and long press a key, the overlay is hidden and trigger a
-          // TYPE_WINDOWS_CHANGED event, which might interrupt the phonetic letter
-          // feedback. In other use cases, windows change are fired with other types of
+          // In other use cases, windows change are fired with other types of
           // events (e.g. TYPE_WINDOW_STATE_CHANGED, touch interaction on screen, etc.).
           // We could add TYPE_WINDOWS_CHANGED here as an exemption.
           AccessibilityEvent.TYPE_WINDOWS_CHANGED);
@@ -101,7 +97,9 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
       MASK_EVENT_CANCEL_PHONETIC_LETTERS
           | AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY;
 
-  private final SharedPreferences prefs;
+  private static final int MASK_POTENTIAL_KEYBOARD_EVENTS =
+      AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED | AccessibilityEvent.TYPE_VIEW_HOVER_ENTER;
+
   private final TalkBackService service;
 
   /** Callback to return generated feedback to pipeline. */
@@ -113,7 +111,6 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
   private final GlobalVariables globalVariables;
 
   public ProcessorPhoneticLetters(TalkBackService service, GlobalVariables globalVariables) {
-    prefs = SharedPreferencesUtils.getSharedPreferences(service);
     this.service = service;
     this.globalVariables = globalVariables;
   }
@@ -136,7 +133,7 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
       cancelPhoneticLetter(eventId);
     }
 
-    if (!arePhoneticLettersEnabled()) {
+    if (!globalVariables.getSpeakPhoneticLettersEnabled()) {
       return;
     }
 
@@ -153,14 +150,9 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
    * return nothing.
    */
   public Optional<CharSequence> getPhoneticLetterForKeyboardFocusEvent(AccessibilityEvent event) {
-    if (!arePhoneticLettersEnabled() || !isKeyboardEvent(event)) {
-      return Optional.empty();
-    }
-
-    if (globalVariables != null
-        && globalVariables.getLastTextEditIsPassword()
-        && !globalVariables.shouldSpeakPasswords()) {
-      // Skip phonetic letters when editing passwords.
+    if (globalVariables == null
+        || !globalVariables.getSpeakPhoneticLettersEnabled()
+        || !isKeyboardEvent(event)) {
       return Optional.empty();
     }
 
@@ -189,17 +181,8 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
     return Optional.ofNullable(getPhoneticLetter(localeString, text.toString()));
   }
 
-  private boolean arePhoneticLettersEnabled() {
-    final Resources res = service.getResources();
-    return VerbosityPreferences.getPreferenceValueBool(
-        prefs,
-        res,
-        res.getString(R.string.pref_phonetic_letters_key),
-        res.getBoolean(R.bool.pref_phonetic_letters_default));
-  }
-
   private boolean isKeyboardEvent(AccessibilityEvent event) {
-    if (event.getEventType() != AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+    if ((event.getEventType() & MASK_POTENTIAL_KEYBOARD_EVENTS) == 0) {
       return false;
     }
 
@@ -212,14 +195,19 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
 
   /** Handle an event that indicates a text is being traversed at character granularity. */
   private void processTraversalEvent(AccessibilityEvent event, EventId eventId) {
-    final CharSequence text;
+    CharSequence text = null;
     if (Role.getSourceRole(event) == Role.ROLE_EDIT_TEXT) {
       text = AccessibilityEventUtils.getEventAggregateText(event);
-    } else {
-      text = AccessibilityEventUtils.getEventTextOrDescription(event);
     }
     if (TextUtils.isEmpty(text)) {
-      return;
+      // The logic of getting text from source node needs to be synced with that defined in {@link
+      // TextEventInterpreter#interpretSelectionChange} for character-granularity tranversal.
+      @Nullable AccessibilityNodeInfoCompat sourceNode =
+          AccessibilityEventUtils.sourceCompat(event);
+      text = AccessibilityNodeInfoUtils.getNodeText(sourceNode);
+      if (TextUtils.isEmpty(text)) {
+        return;
+      }
     }
 
     String letter;
@@ -255,6 +243,35 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
     }
   }
 
+  public String getPhoneticText(CharSequence text) {
+    if (TextUtils.isEmpty(text)) {
+      return "";
+    }
+
+    List<String> resultList = new ArrayList<>();
+    String localeString = Locale.getDefault().toLanguageTag();
+    final String colon = ": ";
+
+    for (int i = 0; i < text.length(); i++) {
+      String letterString = String.valueOf(text.charAt(i));
+      if (letterString.isEmpty()) {
+        continue;
+      }
+
+      CharSequence phoneticLetter = getPhoneticLetter(localeString, letterString);
+
+      if (phoneticLetter != null) {
+        // A colon symbol to separate the letter and its corresponding phonetic word if the word
+        // exists.
+        letterString = letterString.concat(colon);
+        letterString = letterString.concat(phoneticLetter.toString());
+      }
+      resultList.add(letterString);
+    }
+
+    return resultList.isEmpty() ? "" : String.join(", ", resultList);
+  }
+
   // Map a character to a phonetic letter. If the locale cannot be parsed, falls back to english.
   private @Nullable CharSequence getPhoneticLetter(String locale, String letter) {
     Locale parsedLocale = LocaleUtils.parseLocaleString(locale);
@@ -269,9 +286,10 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
         value = getPhoneticLetterMap(FALLBACK_LOCALE).get(normalizedLetter);
       } else {
         // Get the letter for the base language, if possible.
-        CharSequence valueInBaseLanguage =
-            getPhoneticLetter(parsedLocale.getLanguage(), normalizedLetter);
-        return valueInBaseLanguage;
+        String baseLanguage = parsedLocale.getLanguage();
+        normalizedLetter =
+            letter.toLowerCase(Objects.requireNonNull(LocaleUtils.parseLocaleString(baseLanguage)));
+        value = getPhoneticLetterMap(parsedLocale.getLanguage()).get(normalizedLetter);
       }
     }
     // Attaching the locale to the phonetic letter

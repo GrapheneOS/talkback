@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Thema dieses Tutorials ist die erweiterte Tastaturbelegung, die viele neue Befehle umfasst. Wenn du die Tastaturbelegung auswählen möchtest, gehe zu den TalkBack-Einstellungen &gt; „Erweiterte Einstellungen“ &gt; „Tastenkombinationen“.\n\nDrücke die Aktionstaste + den Rechtspfeil, um ein Thema auszuwählen. Für eine optimale Nutzung empfiehlt es sich, vorher TalkBack zu aktivieren.</string>
+  <string name="basic_interaction_link_text">Einfache Interaktion</string>
+  <string name="basic_interaction_link_subtext">Zwischen Elementen wechseln, zeilenweise vorlesen lassen, Menüs verwenden und mehr</string>
+  <string name="browse_mode_link_text">Suchmodus</string>
+  <string name="browse_mode_link_subtext">Mit Sprungbefehlen schneller mit Webinhalten interagieren</string>
+  <string name="reading_controls_link_text">Vorleseoptionen</string>
+  <string name="reading_controls_link_subtext">Mit Vorleseoptionen zwischen Elementen wechseln, Spracheinstellungen anpassen und mehr</string>
+  <string name="image_descriptions_link_text">Bildbeschreibungen</string>
+  <string name="image_descriptions_link_subtext">Bildbeschreibungen ausprobieren</string>
+  <string name="keyboard_shortcuts_link_text">Tastenkombinationen üben</string>
+  <string name="keyboard_shortcuts_link_subtext">Tasten drücken und Tastenkombinationen verwenden, um ihre Funktion kennenzulernen</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack gibt dir gesprochenes Feedback, damit du dein Gerät nutzen kannst, ohne auf den Bildschirm sehen zu müssen. Das kann Nutzern helfen, die den Bildschirm nur schlecht oder gar nicht sehen können. Wenn TalkBack aktiviert ist, wird das Bildschirmelement im Fokus vorgelesen.\n\nZum Einstieg solltest du dich mit der Tastatur vertraut machen: Oberhalb der linken Umschalttaste findest du die Aktionstaste. Jetzt brauchen wir noch die Pfeiltasten: Diese befinden sich auf der Tastatur unten rechts. Wenn du gleichzeitig die Aktionstaste und den Rechtspfeil drückst, gelangst du zum nächsten Element.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Dies ist das nächste Element. Wenn du zum vorherigen Element wechseln möchtest, drücke die Aktionstaste + den Linkspfeil.\n\nWenn du zu einem interaktiven Element wie einem Button wechselst, drücke die Aktionstaste + die Leertaste, um das Element zu aktivieren. Suche den nächsten Button und fahre mit dem Tutorial fort.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Zeichen für Zeichen, Wort für Wort oder Absatz für Absatz vorlesen lassen</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Es kann vorkommen, dass du dir einen Text Zeichen für Zeichen vorlesen lassen möchtest.\n\nDazu kannst du die Navigation über die Vorleseoptionen verwenden. Drücke die Aktionstaste + die Umschalttaste + den Rechtspfeil oder den Linkspfeil, bis du „Zeichen“ hörst.\n\nWenn du den Navigationsfokus Zeichen für Zeichen rückwärts verschieben möchtest, drücke die Aktionstaste + den Aufwärtspfeil. Möchtest du ihn Zeichen für Zeichen vorwärts verschieben, drücke die Aktionstaste + den Abwärtspfeil.\n\nProbiere es jetzt aus. Du kannst auch festlegen, dass der Text Wort für Wort, Zeile für Zeile oder Absatz für Absatz vorgelesen wird. Verwende dazu die Aktionstaste + die Umschalttaste + den Rechtspfeil oder den Linkspfeil.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigation im System</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Wenn du diese Tastenkombinationen jetzt ausprobierst, wird das Tutorial sofort beendet. Daher solltest du mit dem Ausprobieren warten, bis das Tutorial abgeschlossen ist.\n\nWenn du zwischen geöffneten App-Fenstern und Systemelementen wie Benachrichtigungen und der Taskleiste wechseln möchtest, drücke die Aktionstaste + Alt + Strg + den Aufwärtspfeil oder den Abwärtspfeil.\n\nWenn du die Liste der Apps öffnen möchtest, drücke die Aktionstaste.\n\nWenn du zum Startbildschirm wechseln und alle geöffneten Fenster minimieren möchtest, drücke die Aktionstaste + H oder die Startbildschirmtaste in der obersten Reihe.\n\nWenn du zu deinen zuletzt verwendeten Apps wechseln möchtest, drücke die Aktionstaste + die Tabulatortaste oder die Übersichtstaste in der obersten Reihe.\n\nWenn du schnell zwischen Fenstern wechseln möchtest, halte die Alt-Taste gedrückt und drücke die Tabulatortaste.\n\nWenn du zurückgehen möchtest, drücke die Aktionstaste + Esc oder die Zurücktaste in der obersten Reihe.\n\nWenn du Benachrichtigungen öffnen möchtest, drücke die Aktionstaste + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Sprachausgabe-Einstellungen anpassen</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Die Lautstärke der TalkBack-Sprachausgabe wird über die Einstellung „Lautstärke der Bedienungshilfen“ gesteuert Sie wird separat von der Medienlautstärke angepasst.\n\nWenn du die Lautstärke der Bedienungshilfen ändern möchtest, drücke die Aktionstaste + die Lautertaste oder die Leisertaste.\n\nWenn du die Sprechgeschwindigkeit ändern möchtest, drücke die Aktionstaste + Strg + die Lautertaste (schneller) oder die Leisertaste (langsamer).\n\nWenn du die Sprachausgabe beenden möchtest, drücke die Strg-Taste.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack-Menü und weitere Tastenkombinationen</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Im TalkBack-Menü sind Einstellungen und Steuerelemente zu finden, die du möglicherweise häufiger brauchst.\n\nUm das Menü zu öffnen, drücke die Aktionstaste + Strg + M. Du kannst das TalkBack-Menü und die Vorleseoptionen später in den TalkBack-Einstellungen anpassen.\n\nDas Menü mit den TalkBack-Tastenkombinationen enthält alle Tastenkombinationen, die du verwenden kannst.\n\nUm das Menü mit den Tastenkombinationen zu öffnen, drücke die Aktionstaste + die Umschalttaste + /.\n\nWenn du mehr über die Tastatur erfahren und Tastenkombinationen üben möchtest, drücke die Aktionstaste + 0, um den Übungsbildschirm zu öffnen.</string>
+  <string name="keyboard_tutorial_finished_page_title">Fertig!</string>
+  <string name="keyboard_tutorial_finished_page_text">Du kannst jetzt TalkBack verwenden.\n\nWenn du dich weiter informieren möchtest, wähle unten eines der Themen aus oder rufe die Themen später über die TalkBack-Einstellungen auf.\n\nDu kannst TalkBack jederzeit aktivieren oder deaktivieren, indem du die Aktionstaste + Alt + T drückst.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Mit dem Suchmodus schneller mit Webinhalten interagieren</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Wenn du den Browser und Webanwendungen verwendest, kannst du den Suchmodus aktivieren und mit einem einzigen Tastendruck zwischen verschiedenen Arten von Leseeinheiten und Steuerelementen wechseln. Dadurch ähnelt die Navigation auf einer Seite der Navigation in einem Textbearbeitungsfeld. Du kannst dich z. B. mit dem Links- und Rechtspfeil Zeichen für Zeichen sowie mit dem Auf- und Abwärtspfeil Zeile für Zeile bewegen.\n\nUm den Suchmodus zu aktivieren oder zu deaktivieren, drücke zweimal die Aktionstaste.\n\nWenn der Suchmodus aktiviert ist, kannst du mit der Taste „D“ zur nächsten Markierung, mit „F“ zum nächsten Steuerelement oder Formularfeld, mit „B“ zum nächsten Button, mit „K“ zum nächsten Link und mit „H“ zur nächsten Überschrift springen. Um zurückzugehen, drücke diese Tasten und halte dabei die Umschalttaste gedrückt.\n\nWenn du Zeile für Zeile springen möchtest, verwende den Auf- und Abwärtspfeil. Möchtest du Buchstabe für Buchstabe springen, verwende den Links- oder den Rechtspfeil. Und wenn du Wort für Wort springen möchtest, verwende Strg + den Linkspfeil oder den Rechtspfeil.\n\nDrücke jetzt die Aktionstaste + den Rechtspfeil, um einen Übungsbereich aufzurufen. Im Übungsbereich lösen Links, Formularfelder und Buttons keine Aktionen aus.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Überschriftenebenen</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Auf Websites und in Webanwendungen werden häufig Überschriften mit mehreren Ebenen verwendet, um den Inhalt besser zu strukturieren. Wenn der Suchmodus aktiviert ist, kannst du mit den Tasten 1 bis 6 zu den Überschriftenebenen springen. Um zu einer anderen Ebene zurückzugehen, halte die Umschalttaste gedrückt und drücke die entsprechende Zahlentaste.\n\nDrücke jetzt die Aktionstaste + den Rechtspfeil, um einen Übungsbereich aufzurufen.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabellen</string>
+  <string name="keyboard_tutorial_tables_page_text">Der Suchmodus erleichtert auch das Bewegen in Tabellen. Wenn der Suchmodus aktiviert ist, kannst du mit Alt + Strg + dem Aufwärtspfeil oder dem Abwärtspfeil zwischen Zeilen und mit Alt + Strg + dem Linkspfeil oder dem Rechtspfeil zwischen Spalten wechseln.\n\nDrücke jetzt die Aktionstaste + den Rechtspfeil, um einen Übungsbereich aufzurufen.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Text bearbeiten</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Wenn du ein Textfeld aufrufst, wird der Suchmodus vorübergehend deaktiviert, damit du alle Tasten zum Tippen verwenden kannst. Nach dem Deaktivieren des Modus hörst du eine Ansage und einen Ton. Sobald du das Textfeld verlässt, wird der Suchmodus wieder aktiviert und du hörst eine weitere Ansage und einen weiteren Ton.\n\nDrücke jetzt die Aktionstaste + den Rechtspfeil, um einen Übungsbereich aufzurufen.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Weitere Informationen zum Suchmodus</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Wenn du die vollständige Liste der Elemente sehen möchtest, zwischen denen du im Suchmodus wechseln kannst, drücke die Aktionstaste + die Umschalttaste + / und suche im Menü „Tastenkombinationen“ nach „Suchmodus“.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Zeichen für Zeichen, Wort für Wort oder Absatz für Absatz vorlesen lassen</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Es kann vorkommen, dass du dir einen Text Zeichen für Zeichen vorlesen lassen möchtest.\n\nDazu kannst du die Navigation über die Vorleseoptionen verwenden. Drücke die Aktionstaste + die Umschalttaste + den Rechtspfeil oder den Linkspfeil, bis du „Zeichen“ hörst. Wenn du den Navigationsfokus Zeichen für Zeichen rückwärts verschieben möchtest, drücke die Aktionstaste + den Aufwärtspfeil. Möchtest du ihn Zeichen für Zeichen vorwärts verschieben, drücke die Aktionstaste + den Abwärtspfeil.\n\nProbiere es jetzt aus. Du kannst auch festlegen, dass der Text Wort für Wort, Zeile für Zeile oder Absatz für Absatz vorgelesen wird. Verwende dazu die Aktionstaste + die Umschalttaste + den Rechtspfeil oder den Linkspfeil.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Zwischen Steuerelementen wechseln</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Steuerelemente sind interaktive Elemente wie Buttons, Kästchen und Textfelder.\n\nAuf Seiten mit solchen Steuerelementen kannst du zwischen diesen wechseln, um schnell eine bestimmte Aktion zu finden, beispielsweise den nächsten Button.\n\nDrücke dazu die Aktionstaste + die Umschalttaste + den Rechtspfeil, bis du „Steuerelemente“ hörst. Durch Drücken von Aktionstaste + Aufwärtspfeil gelangst du dann zum vorherigen Button, und durch Drücken von Aktionstaste + Abwärtspfeil wird der Fokus zum nächsten Button verschoben.\n\nProbiere es jetzt aus und suche den nächsten Button.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Zwischen Links wechseln</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Du kannst auch zwischen Links auf einer Seite wechseln.\n\nDrücke dazu die Aktionstaste + die Umschalttaste + den Rechtspfeil, bis du „Links“ hörst. Drücke dann die Aktionstaste + den Abwärtspfeil, um den Link mit der Bezeichnung „Link 5“ zu finden. Im Tutorial löst das Doppeltippen auf diesen Link keine Aktion aus.\n\nDrücke die Aktionstaste + den Rechtspfeil, um den nächsten Button zu finden und zur nächsten Seite zu gelangen.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Zwischen Überschrif­ten wechseln</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Du kannst auch zwischen Überschriften auf einer Seite wechseln.\n\nProbiere es jetzt aus. Drücke dazu die Aktionstaste + die Umschalttaste + den Rechtspfeil, bis du „Überschriften“ hörst. Drücke dann die Aktionstaste + den Abwärtspfeil, um die Überschrift „Navigation“ zu finden.</string>
+  <string name="keyboard_tutorial_find_next_button">Drücke die Aktionstaste + den Rechtspfeil, um den nächsten Button zu finden.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Zwischen Containern wechseln</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Wenn du einen Container wie eine Liste oder ein Raster verlassen möchtest, drücke die Aktionstaste + Alt + Strg + den Rechtspfeil oder den Linkspfeil. Das ist vor allem bei langen Listen hilfreich.\n\nProbiere es jetzt aus. Drücke dazu die Aktionstaste + den Rechtspfeil, um in die Liste zu gelangen. Drücke dann die Aktionstaste + Alt + Strg + den Rechtspfeil, um zum nächsten Container zu gelangen.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Wenn du zum nächsten Container wechseln möchtest, drücke die Aktionstaste + Alt + Strg + den Rechtspfeil</string>
+  <string name="keyboard_tutorial_exit_container">Wenn du diesen Container verlassen möchtest, drücke die Aktionstaste + Alt + Strg + den Rechtspfeil</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Du hast den Container verlassen. Du kannst auch Container zu deinen Vorleseoptionen hinzufügen und dann die Aktionstaste + die Umschalttaste + den Rechtspfeil oder den Linkspfeil drücken, um Container auszuwählen, und die Aktionstaste + den Abwärtspfeil oder den Aufwärtspfeil, um zwischen Containern zu wechseln. Wenn du die Vorleseoptionen aktualisieren möchtest, rufe „TalkBack“ &gt; „Einstellungen“ &gt; „Menüs anpassen“ &gt; „Vorleseoptionen anpassen“ auf.\n\nDrücke die Aktionstaste + den Rechtspfeil, um den nächsten Button zu finden.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Vorleseoptionen anpassen</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Du kannst die Sprachausgabe-Einstellungen auch über die Vorleseoptionen anpassen und festlegen, wofür du die Vorleseoptionen verwendest. Rufe dazu „TalkBack“ &gt; „Einstellungen“ &gt; „Menüs anpassen“ &gt; „Vorleseoptionen anpassen“ auf.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Bildbeschreibungen ausprobieren</string>
+  <string name="keyboard_tutorial_image_description_page_text">Verschiebe den Fokus auf ein Bild und drücke die Aktionstaste + R und dann I. Unten findest du ein Foto. Lass dir eine Beschreibung dafür geben.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Du kannst die Einstellungen für Bildbeschreibungen jederzeit in den TalkBack-Einstellungen &gt; „Bild- und Symbolbeschreibungen“ ändern.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Du kannst die Einstellungen für Bildbeschreibungen jederzeit in den TalkBack-Einstellungen unter „Bild- und Symbolbeschreibungen“ ändern.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Beispielbild. Drücke die Aktionstaste + R und dann I, um eine Beschreibung zu hören.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Sprachbefehle</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Du kannst mit Sprachbefehlen TalkBack schnell steuern.\n\nBeispielsweise kannst du so die Navigationsmethode ändern, zur nächsten Überschrift wechseln oder Text kopieren.\n\nDrücke zum Ausprobieren die Aktionstaste + „\\“.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Bildschirmsuche verwenden</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Mit der Bildschirmsuche kannst du gezielt nach Inhalten auf dem Bildschirm suchen.\n\nDrücke einfach die Aktionstaste + „Strg“ + „/“ und gib einen Suchbegriff ein. Mit dem Begriff „weiter“ z. B. kannst du nach Elementen mit diesem Text auf dem Bildschirm suchen.\n\nProbiere es gleich aus und gib „weiter“ ein, um den Button „Weiter“ zu finden.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Mit der Bildschirmsuche auf dem Bildschirm bewegen</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Nachdem du ein Ergebnis der Bildschirmsuche ausgewählt hast, kannst du schnell zwischen allen Ergebnissen wechseln.\n\nDazu kannst du die Vorleseoptionen verwenden. Drücke die Aktionstaste + die Umschalttaste + den Rechtspfeil oder den Linkspfeil, bis du „Bildschirmsuche“ hörst. Drücke dann die Aktionstaste + den Abwärts- oder Aufwärtspfeil, um zwischen den Ergebnissen der Bildschirmsuche zu wechseln.\n\nProbiere es gleich aus: Unten siehst du drei Buttons, die alle den Text „Aktion“ enthalten. Suche mit der Bildschirmsuche nach „Aktion“ und wechsle dann wie beschrieben zwischen den Buttons.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Tastenkombinationen üben</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Drücke auf einer physischen Tastatur eine Taste oder Tastenkombination, um zu hören, wozu sie dient. Drücke zum Beenden „Strg“ + „W“ oder die Esc-Taste.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Die majestätischen Mammutbäume Kaliforniens entdecken&lt;/h1&gt;
+      &lt;p&gt;Die Mammutbäume Kaliforniens (Redwoods), vor allem die Küstenmammutbäume (Sequoia sempervirens), sind die höchsten Bäume der Welt. Einige erreichen über 115 Meter. Sie können Tausende von Jahren alt werden. Die Bäume gedeihen im feuchten Küstenklima Nordkaliforniens, das von Regen und Nebel geprägt ist.&lt;/p&gt;
+
+      &lt;h2&gt;Wo kann man sie sehen?&lt;/h2&gt;
+      &lt;p&gt;Diese Giganten sind auf einem schmalen Streifen entlang der Pazifikküste zu finden. Zu den wichtigsten Parks gehören:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Hier kannst du deinen Besuch planen: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – Redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Naturschutz unterstützen&lt;/h2&gt;
+      &lt;p&gt;Der Schutz dieser uralten Wälder ist von entscheidender Bedeutung. Du kannst mithelfen, indem du die Parkregeln befolgst und Naturschutzbemühungen unterstützt.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Teile deine Erfahrungen&lt;/h2&gt;
+        &lt;p&gt;Warst du schon einmal in den Redwood-Wäldern?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Ja&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nein&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Erzähl uns von deinem Erlebnis&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Senden&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Was möchtest du noch über Mammutbäume erfahren?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Senden&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Mammutbäume: Wichtig für unsere Umwelt&lt;/h1&gt;
+    &lt;p&gt;Mammutbäume sind wichtig für unseren Planeten, da sie eine große Rolle für die Gesundheit unserer Umwelt spielen.&lt;/p&gt;
+
+    &lt;h1&gt;Riesige Luftreiniger&lt;/h1&gt;
+    &lt;p&gt;Diese Bäume können bemerkenswert viel Kohlendioxid aus der Luft aufnehmen. So tragen sie dazu bei, unsere Luft sauber zu halten.&lt;/p&gt;
+
+    &lt;h2&gt;Ein Zuhause für Tiere&lt;/h2&gt;
+    &lt;p&gt;Mammutbäume bieten vielen Tieren Lebensraum und Schutz – von Vögeln in ihren Ästen bis hin zu kleinen Lebewesen im Boden.&lt;/p&gt;
+
+    &lt;h3&gt;Wasserspender für andere&lt;/h3&gt;
+    &lt;p&gt;Mammutbäume sind Nebelfänger. Die gesammelte Flüssigkeit tropft dann auf den Waldboden. Das hält den Boden feucht und versorgt andere Pflanzen und Tiere mit Wasser, besonders in Trockenperioden.&lt;/p&gt;
+
+    &lt;h4&gt;Bodenschützer&lt;/h4&gt;
+    &lt;p&gt;Ihre starken Wurzeln halten den Boden fest und verhindern, dass er bei starkem Regen weggespült wird und es zu Bodenerosion kommt.&lt;/p&gt;
+
+    &lt;h5&gt;Grundlage für neues Leben&lt;/h5&gt;
+    &lt;p&gt;Wenn alte Mammutbäume umfallen, wird ihr Holz zu Nahrung und Unterschlupf für Tiere und neue Pflanzen. Es entsteht nährstoffreicher Boden, der neues Wachstum ermöglicht.&lt;/p&gt;
+
+    &lt;h6&gt;Einzigartige Ökosysteme&lt;/h6&gt;
+    &lt;p&gt;Weil Mammutbäume so groß werden und so lange leben, schaffen sie besondere Waldlebensräume mit Arten, die es nirgendwo sonst gibt.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Tiere der Redwood-Wälder&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Tiere der Redwood-Wälder\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Tier&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Beschreibung&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Lebensraum&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Wissenswertes&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bananenschnecke&lt;/th&gt;
+            &lt;td&gt;Große, gelbe, schleimige Schnecke&lt;/td&gt;
+            &lt;td&gt;Auf dem Waldboden&lt;/td&gt;
+            &lt;td&gt;Zweitgrößte Schnecke der Welt&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Pazifischer Riesensalamander&lt;/th&gt;
+            &lt;td&gt;Großer, dunkel gefärbter Salamander&lt;/td&gt;
+            &lt;td&gt;In der Nähe von Bächen und feuchten Gebieten&lt;/td&gt;
+            &lt;td&gt;Kann bis zu 30 cm lang werden&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt-Wapiti&lt;/th&gt;
+            &lt;td&gt;Großer Hirsch mit beeindruckendem Geweih&lt;/td&gt;
+            &lt;td&gt;Weidet auf Lichtungen im Wald&lt;/td&gt;
+            &lt;td&gt;Männchen können über 450 kg wiegen&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Nördlicher Fleckenkauz&lt;/th&gt;
+            &lt;td&gt;Mittelgroße Eule, die nachts jagt&lt;/td&gt;
+            &lt;td&gt;In dichten, alten Redwood-Wäldern&lt;/td&gt;
+            &lt;td&gt;Eine „Indikatorart“ – ihr Gesundheitszustand gibt Aufschluss über den Zustand des Waldes&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Schwarzbär&lt;/th&gt;
+            &lt;td&gt;Großes Säugetier, meist schwarz oder braun&lt;/td&gt;
+            &lt;td&gt;Sucht im ganzen Wald nach Nahrung&lt;/td&gt;
+            &lt;td&gt;Ausgezeichnete Kletterer, oft in Bäumen zu sehen&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Deine Gedanken zu Mammutbäumen und zur Natur&lt;/h1&gt;
+
+      &lt;p&gt;Was möchtest du noch über Mammutbäume erfahren?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Wo in der Natur hältst du dich am liebsten auf?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Welches Konzept in der Natur möchtest du besser verstehen?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

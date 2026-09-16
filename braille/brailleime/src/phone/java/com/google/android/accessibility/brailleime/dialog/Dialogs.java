@@ -21,11 +21,14 @@ import android.content.Context;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.WindowManager.BadTokenException;
 import android.view.WindowManager.LayoutParams;
+import com.google.android.accessibility.brailleime.BrailleImeLog;
 import com.google.android.accessibility.brailleime.R;
 
 /** Helps configure dialogs. */
 public class Dialogs {
+  private static final String TAG = "Dialogs";
 
   private Dialogs() {}
 
@@ -40,6 +43,10 @@ public class Dialogs {
     layoutParams.type = LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
     layoutParams.token = windowTokenProvidingView.getWindowToken();
     dialog.getWindow().setAttributes(layoutParams);
-    dialog.show();
+    try {
+      dialog.show();
+    } catch (BadTokenException e) {
+      BrailleImeLog.e(TAG, "Dialog not shown. Ignoring thrown BadTokenException.", e);
+    }
   }
 }

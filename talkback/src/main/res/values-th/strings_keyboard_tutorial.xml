@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">บทแนะนำนี้มีไว้สำหรับคีย์แมปที่ปรับปรุงแล้ว ซึ่งมีคำสั่งใหม่ๆ มากมาย หากต้องการเลือกคีย์แมป ให้ไปที่การตั้งค่า TalkBack &gt; การตั้งค่าขั้นสูง &gt; แป้นพิมพ์ลัด\n\nกด Action + ลูกศรขวาเพื่อเลือกหัวข้อ โปรดเปิด TalkBack ก่อนเริ่มต้นใช้งานเพื่อให้ได้รับประสบการณ์การใช้งานที่ดีที่สุด</string>
+  <string name="basic_interaction_link_text">การโต้ตอบพื้นฐาน</string>
+  <string name="basic_interaction_link_subtext">ย้ายไปมาระหว่างรายการ อ่านทีละบรรทัด ใช้เมนู และอื่นๆ</string>
+  <string name="browse_mode_link_text">โหมดอ่าน</string>
+  <string name="browse_mode_link_subtext">ไปยังเนื้อหาเว็บได้เร็วขึ้นด้วยคำสั่งข้าม</string>
+  <string name="reading_controls_link_text">การควบคุมการอ่าน</string>
+  <string name="reading_controls_link_subtext">ใช้การควบคุมการอ่านเพื่อข้ามไปมาระหว่างรายการ ปรับการตั้งค่าการพูด และอื่นๆ</string>
+  <string name="image_descriptions_link_text">คำอธิบายรูปภาพ</string>
+  <string name="image_descriptions_link_subtext">ลองฟังคำอธิบายรูปภาพ</string>
+  <string name="keyboard_shortcuts_link_text">ฝึกใช้แป้นพิมพ์ลัด</string>
+  <string name="keyboard_shortcuts_link_subtext">กดแป้นและชุดแป้นเพื่อดูว่าแป้นเหล่านั้นทำอะไรได้บ้าง</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack จะอธิบายและอ่านออกเสียงเพื่อให้คุณใช้อุปกรณ์ได้โดยไม่ต้องมองหน้าจอ TalkBack จะเป็นประโยชน์สำหรับบุคคลที่ประสบปัญหาในการมองเห็นหน้าจอ เมื่อ TalkBack เปิดอยู่ ระบบจะอ่านออกเสียงรายการที่โฟกัสอยู่ในหน้าจอ\n\nเรามาเริ่มด้วยการทำความคุ้นเคยกับแป้นพิมพ์กัน หาปุ่ม Action ซึ่งอยู่เหนือปุ่ม Shift ด้านซ้าย จากนั้นให้หาปุ่มลูกศรที่อยู่ใกล้กับบริเวณขวาล่างของแป้นพิมพ์ กด Action + ลูกศรขวาเพื่อไปยังรายการถัดไป</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">นี่คือรายการถัดไป หากต้องการย้ายไปยังรายการก่อนหน้า ให้กด Action + ลูกศรซ้าย\n\nเมื่อย้ายไปยังรายการแบบอินเทอร์แอกทีฟ เช่น ปุ่ม ให้กด Action + Space เพื่อให้ปุ่มนั้นทำงาน หาปุ่มถัดไปและดูบทแนะนำต่อ</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">อ่านทีละอักขระ คำ หรือย่อหน้า</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">บางครั้งคุณอาจต้องการฟังการอ่านออกเสียงข้อความทีละอักขระ\n\nโดยคุณสามารถใช้การไปยังส่วนต่างๆ ของการควบคุมการอ่าน กด Action + Shift + ลูกศรขวาหรือซ้ายจนกว่าจะได้ยินว่า \"อักขระ\"\n\nจากนั้นกด Action + ลูกศรขึ้นเพื่อย้ายโฟกัสการไปยังส่วนต่างๆ ไปข้างหลังทีละอักขระ กด Action + ลูกศรลงเพื่อย้ายโฟกัสการไปยังส่วนต่างๆ ไปข้างหน้าทีละอักขระ\n\nลองดูเลย นอกจากนี้ คุณยังเลือกให้อ่านทีละคำ บรรทัด หรือย่อหน้าได้ด้วย โดยการกด Action + Shift + ลูกศรขวาหรือซ้าย</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">การไปยังส่วนต่างๆ ของระบบ</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">การลองใช้แป้นพิมพ์ลัดเหล่านี้ในตอนนี้เลยจะเป็นการปิดบทแนะนำ คุณอาจต้องรอจนกว่าจะดูบทแนะนำจบ\n\nหากต้องการสลับไปมาระหว่างหน้าต่างแอปที่เปิดอยู่กับองค์ประกอบของระบบ เช่น การแจ้งเตือนและแถบงาน ให้กด Action + Alt + Ctrl + ลูกศรขึ้นหรือลง\n\nหากต้องการเปิดรายการแอป ให้กด Action\n\nหากต้องการไปที่หน้าจอหลักและย่อหน้าต่างที่เปิดอยู่ทั้งหมด ให้กด Action + H หรือ Home ในแถวบน\n\nหากต้องการไปที่แอปที่ใช้ล่าสุด ให้กด Action + Tab หรือปุ่มภาพรวมในแถวบน\n\nหากต้องการสลับไปมาระหว่างหน้าต่างอย่างรวดเร็ว ให้กด Alt ค้างไว้แล้วกด Tab\n\nหากต้องการย้อนกลับ ให้กด Action + Esc หรือ Back ในแถวบน\n\nหากต้องการเปิดการแจ้งเตือน ให้กด Action + N</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">ปรับการตั้งค่าเสียงพูด</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">ระดับเสียงสำหรับเสียงพูดของ TalkBack เรียกว่าระดับเสียงการช่วยเหลือพิเศษ โดยจะปรับระดับเสียงแยกจากระดับเสียงของสื่อ\n\nหากต้องการปรับระดับเสียงการช่วยเหลือพิเศษ ให้กด Action + เพิ่มหรือลดระดับเสียง\n\nหากต้องการปรับความเร็วในการพูด ให้กด Action + Ctrl + เพิ่มระดับเสียงเพื่อเพิ่มความเร็ว และ Action + Ctrl + ลดระดับเสียงเพื่อลดความเร็ว\n\nหากต้องการหยุดเสียงพูด คุณสามารถกด Ctrl ได้ทุกเมื่อ</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">เมนู TalkBack และแป้นพิมพ์ลัดเพิ่มเติม</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">เมนู TalkBack มีการตั้งค่าและการควบคุมที่คุณอาจต้องการใช้บ่อยๆ\n\nหากต้องการเปิดเมนู TalkBack ให้กด Action + Ctrl + M คุณสามารถปรับแต่งเมนู TalkBack และการควบคุมการอ่านได้ภายหลังในการตั้งค่า TalkBack\n\nเมนูแป้นพิมพ์ลัดของ TalkBack มีแป้นพิมพ์ลัดทั้งหมดที่คุณใช้ได้\n\nหากต้องการเปิดเมนูแป้นพิมพ์ลัด ให้กด Action + Shift + /\n\nหากต้องการดูข้อมูลเพิ่มเติมเกี่ยวกับแป้นพิมพ์และฝึกใช้แป้นพิมพ์ลัด ให้กด Action + 0 เพื่อเปิดหน้าจอการฝึก</string>
+  <string name="keyboard_tutorial_finished_page_title">เรียบร้อยแล้ว</string>
+  <string name="keyboard_tutorial_finished_page_text">คุณพร้อมที่จะใช้ TalkBack แล้ว\n\nเรียนรู้หัวข้ออื่นๆ ต่อเลย หรือดูข้อมูลนี้ได้ทุกเมื่อในการตั้งค่า TalkBack\n\nหากต้องการเปิดหรือปิด TalkBack ได้ทุกเมื่อ ให้กด Action + Alt + T</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">ไปยังเนื้อหาเว็บได้เร็วขึ้นด้วยโหมดอ่าน</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">เมื่ออยู่ในเบราว์เซอร์และเว็บแอป คุณสามารถเปิดโหมดอ่านและสลับไปมาระหว่างการควบคุมการอ่านกับรายละเอียดการอ่านประเภทต่างๆ ได้ด้วยการกดปุ่มเพียงครั้งเดียว ซึ่งจะทำให้การไปยังส่วนต่างๆ ของหน้าคล้ายกับการไปยังส่วนต่างๆ ในช่องแก้ไขข้อความ เช่น ใช้ลูกศรซ้ายและขวาเพื่อเลื่อนตามอักขระ และใช้ลูกศรขึ้นและลงเพื่อเลื่อนตามบรรทัด\n\nหากต้องการเปิดหรือปิดโหมดอ่าน ให้กดปุ่ม Action สองครั้ง\n\nเมื่อโหมดอ่านเปิดอยู่ ให้กด D เพื่อไปยังจุดสังเกตถัดไป กด F เพื่อไปยังตัวควบคุมหรือช่องแบบฟอร์มถัดไป กด B เพื่อไปยังปุ่มถัดไป กด K เพื่อไปยังลิงก์ถัดไป และกด H เพื่อไปยังส่วนหัวถัดไป กด Shift ค้างไว้แล้วกดปุ่มเหล่านี้เพื่อย้อนกลับ\n\nนอกจากนี้ คุณยังสามารถใช้ลูกศรขึ้นและลงเพื่อเลื่อนไปทีละบรรทัด ใช้ลูกศรซ้ายและขวาเพื่อเลื่อนไปทีละตัวอักษร และกด Ctrl + ลูกศรซ้ายและขวาเพื่อเลื่อนไปทีละคำได้\n\nกด Action + ลูกศรขวาเพื่อเข้าสู่พื้นที่การฝึก ขณะอยู่ในพื้นที่การฝึก โปรดทราบว่าลิงก์ ช่องแบบฟอร์ม และปุ่มจะไม่ดำเนินการใดๆ</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">ระดับส่วนหัว</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">เว็บไซต์และเว็บแอปมักใช้ส่วนหัวที่มีระดับต่างๆ เพื่อจัดโครงสร้างเนื้อหา เมื่อโหมดอ่านเปิดอยู่ ให้กด 1 ถึง 6 เพื่อข้ามไปยังระดับส่วนหัวต่างๆ กด Shift ค้างไว้แล้วกดปุ่มเหล่านี้เพื่อย้อนกลับ\n\nกด Action + ลูกศรขวาเพื่อเข้าสู่พื้นที่การฝึก</string>
+  <string name="keyboard_tutorial_tables_page_title">ตาราง</string>
+  <string name="keyboard_tutorial_tables_page_text">โหมดอ่านยังช่วยให้ไปยังส่วนต่างๆ ของตารางได้ง่ายขึ้นด้วย เมื่อโหมดอ่านเปิดอยู่ ให้กด Alt + Ctrl + ลูกศรขึ้นและลงเพื่อเลื่อนไปมาระหว่างแถว และกด Alt + Ctrl + ลูกศรซ้ายและขวาเพื่อเลื่อนไปมาระหว่างคอลัมน์\n\nกด Action + ลูกศรขวาเพื่อเข้าสู่พื้นที่การฝึก</string>
+  <string name="keyboard_tutorial_editing_text_page_title">การแก้ไขข้อความ</string>
+  <string name="keyboard_tutorial_editing_text_page_text">เมื่อเข้าสู่ช่องข้อความ ระบบจะปิดโหมดอ่านชั่วคราวเพื่อให้คุณใช้ปุ่มทั้งหมดในการพิมพ์ได้ คุณจะได้ยินประกาศและเสียงเมื่อโหมดนี้ปิด เมื่อออกจากช่องข้อความ โหมดอ่านจะกลับมาเปิดใช้งานอีกครั้ง และคุณจะได้ยินประกาศและเสียงอีกครั้งเช่นกัน\n\nกด Action + ลูกศรขวาเพื่อเข้าสู่พื้นที่การฝึก</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">ข้อมูลเพิ่มเติมเกี่ยวกับโหมดอ่าน</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">หากต้องการดูรายการทั้งหมดที่คุณสามารถเลื่อนไปมาได้เมื่อใช้โหมดอ่าน ให้กด Action + Shift + / แล้วค้นหา \"โหมดอ่าน\" ในเมนูแป้นพิมพ์ลัด</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">อ่านทีละอักขระ คำ หรือย่อหน้า</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">บางครั้งคุณอาจต้องการฟังการอ่านออกเสียงข้อความทีละอักขระ\n\nโดยคุณสามารถใช้การไปยังส่วนต่างๆ ของการควบคุมการอ่าน กด Action + Shift + ลูกศรขวาหรือซ้ายจนกว่าจะได้ยินว่า \"อักขระ\" จากนั้นกด Action + ลูกศรขึ้นเพื่อย้ายโฟกัสการไปยังส่วนต่างๆ ไปข้างหลังทีละอักขระ กด Action + ลูกศรลงเพื่อย้ายโฟกัสการไปยังส่วนต่างๆ ไปข้างหน้าทีละอักขระ\n\nลองดูเลย นอกจากนี้ คุณยังเลือกให้อ่านทีละคำ ทีละบรรทัด หรือทีละย่อหน้าได้ด้วย โดยการกด Action + Shift + ลูกศรขวาหรือซ้าย</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">สลับไปมาระหว่างตัวควบคุม</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">ตัวควบคุมคือรายการต่างๆ ที่คุณโต้ตอบด้วยได้ เช่น ปุ่ม ช่องทำเครื่องหมาย และกล่องข้อความ\n\nในบางหน้า คุณอาจต้องการสลับไปมาระหว่างตัวควบคุมเพื่อดูการทำงานได้อย่างรวดเร็ว เช่น ปุ่มถัดไป\n\nโดยให้กด Action + Shift + ลูกศรขวาจนกว่าจะได้ยินว่า \"ตัวควบคุม\" จากนั้นกด Action + ลูกศรขึ้นเพื่อไปยังปุ่มก่อนหน้า และกด Action + ลูกศรลงเพื่อไปยังปุ่มถัดไป\n\nลองหาปุ่มถัดไปดูเลย</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">สลับไปมาระหว่างลิงก์</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">คุณสลับไปมาระหว่างลิงก์ในหน้าได้ด้วย\n\nโดยให้กด Action + Shift + ลูกศรขวาจนกว่าจะได้ยินว่า \"ลิงก์\" จากนั้นกด Action + ลูกศรลงเพื่อหาลิงก์ที่ชื่อว่า \"ลิงก์ 5\" การแตะสองครั้งที่ลิงก์นี้เมื่ออยู่ในบทแนะนำจะไม่มีการดำเนินการใดๆ\n\nกด Action + ลูกศรขวาเพื่อหาปุ่มถัดไปและไปยังหน้าต่อจากนี้</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">สลับไปมาระหว่างส่วนหัว</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">คุณสลับไปมาระหว่างส่วนหัวในหน้าได้ด้วย\n\nลองเลยโดยกด Action + Shift + ลูกศรขวาจนกว่าจะได้ยินว่า \"ส่วนหัว\" จากนั้นกด Action + ลูกศรลงเพื่อค้นหาส่วนหัว \"การไปยังส่วนต่างๆ\"</string>
+  <string name="keyboard_tutorial_find_next_button">กด Action + ลูกศรขวาเพื่อหาปุ่มถัดไป</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">สลับไปมาระหว่างคอนเทนเนอร์</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">หากต้องการออกจากส่วนคอนเทนเนอร์ เช่น รายการหรือตารางกริด ให้กด Action + Alt + Ctrl + ลูกศรขวาหรือซ้าย สิ่งนี้มีประโยชน์เมื่อคุณต้องการออกจากส่วนที่มีรายการจำนวนมาก\n\nลองเลยโดยกด Action + ลูกศรขวาเพื่อเข้าสู่รายการ จากนั้นกด Action + Alt + Ctrl + ลูกศรขวาเพื่อไปยังคอนเทนเนอร์ถัดไป</string>
+  <string name="keyboard_tutorial_go_to_next_container">หากต้องการไปยังคอนเทนเนอร์ถัดไป ให้กด Action + Alt + Ctrl + ลูกศรขวา</string>
+  <string name="keyboard_tutorial_exit_container">หากต้องการออกจากคอนเทนเนอร์นี้ ให้กด Action + Alt + Ctrl + ลูกศรขวา</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">คุณออกจากคอนเทนเนอร์แล้ว คุณยังเพิ่มคอนเทนเนอร์ลงในการควบคุมการอ่านได้ด้วย จากนั้นกด Action + Shift + ลูกศรขวาหรือซ้ายเพื่อเลือกคอนเทนเนอร์ และกด Action + ลูกศรขึ้นหรือลงเพื่อสลับไปมาระหว่างคอนเทนเนอร์ หากต้องการอัปเดตการควบคุมการอ่าน ให้ไปที่ TalkBack &gt; การตั้งค่า &gt; ปรับแต่งเมนู &gt; ปรับแต่งการควบคุมการอ่าน\n\nกด Action + ลูกศรขวาเพื่อค้นหาปุ่มถัดไป</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">ปรับแต่งการควบคุมการอ่าน</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">คุณยังปรับการตั้งค่าเสียงพูดได้โดยใช้การควบคุมการอ่าน และปรับแต่งสิ่งที่คุณสามารถทำกับการควบคุมการอ่านโดยไปที่ TalkBack &gt; การตั้งค่า &gt; ปรับแต่งเมนู &gt; ปรับแต่งการควบคุมการอ่าน</string>
+  <string name="keyboard_tutorial_image_description_page_title">ลองฟังคำอธิบายรูปภาพ</string>
+  <string name="keyboard_tutorial_image_description_page_text">เมื่อโฟกัสที่รูปภาพ ให้กด Action + R แล้วกด I มีรูปภาพ 1 รูปด้านล่าง ลองฟังคำอธิบายรูปภาพดูสิ</string>
+  <string name="keyboard_tutorial_image_description_settings_description">คุณเปลี่ยนการตั้งค่าคำอธิบายรูปภาพได้ทุกเมื่อในการตั้งค่า TalkBack &gt; คำอธิบายรูปภาพและไอคอน</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">คุณเปลี่ยนการตั้งค่าคำอธิบายรูปภาพได้ทุกเมื่อในการตั้งค่า TalkBack จากนั้นไปที่คำอธิบายรูปภาพและไอคอน</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">รูปภาพตัวอย่าง กด Action + R แล้วกด I เพื่อฟังคำอธิบาย</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">คำสั่งเสียง</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">คุณใช้เสียงเพื่อควบคุม TalkBack อย่างรวดเร็วได้\n\nตัวอย่างเช่น พูดคำสั่งเพื่อเปลี่ยนการไปยังส่วนต่างๆ ข้ามไปยังส่วนหัวถัดไป คัดลอกข้อความ และอื่นๆ\n\nลองเลยโดยกด Action + \\</string>
+  <string name="keyboard_tutorial_screen_search_page_title">การใช้การค้นหาในหน้าจอ</string>
+  <string name="keyboard_tutorial_screen_search_page_text">ฟีเจอร์การค้นหาในหน้าจอช่วยให้คุณค้นหาเนื้อหาที่เฉพาะเจาะจงบนหน้าจอได้\n\nหากต้องการลองใช้ ให้กด Action + CTRL + / จากนั้นพิมพ์คีย์เวิร์ด เช่น \"ถัดไป\" เพื่อค้นหารายการที่มีข้อความนั้นในหน้าจอ\n\nลองค้นหาคำว่า \"ถัดไป\" เพื่อหาปุ่มถัดไปได้เลย</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">ไปยังส่วนต่างๆ โดยการค้นหาในหน้าจอ</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">คุณสามารถย้ายไปมาระหว่างผลการค้นหาต่างๆ จากการค้นหาในหน้าจอได้อย่างรวดเร็วหลังจากเลือกผลการค้นหาแล้ว\n\nโดยใช้การไปยังส่วนต่างๆ ของการควบคุมการอ่าน กด Action + Shift + ลูกศรขวาหรือซ้ายจนกว่าจะได้ยินว่า \"การค้นหาในหน้าจอ\" จากนั้นกด Action + ลูกศรลงหรือขึ้นเพื่อไปยังส่วนต่างๆ ตามผลการค้นหาในหน้าจอ\n\nลองดูเลย ด้านล่างคือรายการของปุ่ม 3 ปุ่ม ซึ่งทั้งหมดมีข้อความว่า \"การดำเนินการ\" ค้นหา \"การดำเนินการ\" โดยใช้การค้นหาในหน้าจอ จากนั้นไปยังส่วนต่างๆ โดยใช้ฟีเจอร์ดังกล่าวเพื่อย้ายไปมาระหว่างปุ่มต่างๆ</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">ฝึกใช้แป้นพิมพ์ลัด</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">กดปุ่มแป้นพิมพ์หรือชุดแป้นเพื่อฟังว่าปุ่มนั้นทำงานอย่างไร กด Ctrl + W หรือ Escape เพื่อออก</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;ค้นพบความยิ่งใหญ่ของต้นสนเรดวูดในแคลิฟอร์เนีย&lt;/h1&gt;
+      &lt;p&gt;ต้นสนเรดวูดของแคลิฟอร์เนีย โดยเฉพาะสายพันธุ์โคสต์เรดวูด (Sequoia Sempervirens) เป็นต้นไม้ที่สูงที่สุดในโลก บางต้นสูงกว่า 380 ฟุต (115 เมตร) และมีอายุยืนยาวนับพันปี ต้นไม้เหล่านี้เติบโตได้ดีในสภาพภูมิอากาศชื้นบริเวณชายฝั่งทางตอนเหนือของรัฐแคลิฟอร์เนีย ซึ่งมีความชื้นสูงจากฝนและหมอก&lt;/p&gt;
+
+      &lt;h2&gt;สถานที่ชมต้นสนเรดวูด&lt;/h2&gt;
+      &lt;p&gt;คุณจะพบต้นสนยักษ์เหล่านี้ได้ในพื้นที่แคบๆ ตามแนวชายฝั่งมหาสมุทรแปซิฟิก อุทยานที่มีชื่อเสียง ได้แก่&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;อุทยานแห่งชาติและอุทยานแห่งรัฐเรดวูด (Redwood National and State Parks)&lt;/li&gt;
+        &lt;li&gt;อุทยานแห่งรัฐฮัมโบลด์เรดวูด (Humboldt Redwoods State Park)&lt;/li&gt;
+        &lt;li&gt;อุทยานแห่งรัฐบิ๊กเบซินเรดวูด (Big Basin Redwoods State Park)&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;วางแผนการเดินทางของคุณได้ที่&lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;อุทยานเรดวูดแห่งรัฐแคลิฟอร์เนีย&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;สนับสนุนการอนุรักษ์&lt;/h2&gt;
+      &lt;p&gt;การปกป้องป่าธรรมชาติดั้งเดิมเหล่านี้เป็นสิ่งสำคัญ คุณสามารถมีส่วนช่วยได้โดยปฏิบัติตามหลักเกณฑ์ของอุทยานและสนับสนุนความพยายามในการอนุรักษ์&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;แชร์ประสบการณ์ของคุณ&lt;/h2&gt;
+        &lt;p&gt;คุณเคยไปอุทยานแห่งชาติเรดวูดไหม&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;เคย&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;ไม่เคย&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;เล่าประสบการณ์ของคุณให้เราฟัง&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;ส่ง&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;คุณอยากเรียนรู้เรื่องอะไรเกี่ยวกับต้นสนเรดวูดอีกบ้าง&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;ส่ง&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;ต้นสนเรดวูดช่วยให้สภาพแวดล้อมของเราดีขึ้น&lt;/h1&gt;
+    &lt;p&gt;ต้นสนเรดวูดมีความสำคัญต่อโลกของเรา โดยมีบทบาทสำคัญในการช่วยให้สภาพแวดล้อมของเราดีขึ้น&lt;/p&gt;
+
+    &lt;h1&gt;เครื่องฟอกอากาศขนาดยักษ์&lt;/h1&gt;
+    &lt;p&gt;ต้นสนเรดวูดเหล่านี้มีคุณสมบัติพิเศษในการดูดซับคาร์บอนไดออกไซด์จากอากาศได้ในปริมาณมาก ช่วยให้อากาศสะอาดมากขึ้น&lt;/p&gt;
+
+    &lt;h2&gt;บ้านของสัตว์&lt;/h2&gt;
+    &lt;p&gt;ต้นสนเรดวูดเป็นที่อยู่อาศัยและที่หลบภัยของสัตว์นานาชนิด ตั้งแต่นกที่อาศัยอยู่บนกิ่งไม้ไปจนถึงสิ่งมีชีวิตขนาดเล็กที่อาศัยอยู่ในดิน&lt;/p&gt;
+
+    &lt;h3&gt;ผู้เชี่ยวชาญเรื่องน้ำ&lt;/h3&gt;
+    &lt;p&gt;ต้นสนเรดวูดสามารถดักจับละอองหมอกได้เป็นอย่างดี โดยละอองหมอกจะกลั่นตัวเป็นหยดน้ำและตกลงสู่พื้นป่าต่อไป ซึ่งจะช่วยให้พื้นดินชุ่มชื้นและเป็นแหล่งน้ำให้พืชและสัตว์อื่นๆ โดยเฉพาะในช่วงฤดูแล้ง&lt;/p&gt;
+
+    &lt;h4&gt;ผู้พิทักษ์ผืนดิน&lt;/h4&gt;
+    &lt;p&gt;รากที่แข็งแรงของต้นสนเรดวูดจะยึดดินไว้ไม่ให้ถูกชะล้างไปในช่วงที่ฝนตกหนักและป้องกันการกัดเซาะของดิน&lt;/p&gt;
+
+    &lt;h5&gt;ผู้สร้างป่า&lt;/h5&gt;
+    &lt;p&gt;เมื่อต้นสนเรดวูดแก่โค่นล้มลง เนื้อไม้จะกลายเป็นแหล่งอาหารและที่อยู่อาศัยให้กับพืชและสิ่งมีชีวิตอื่นๆ ทำให้เกิดดินที่อุดมสมบูรณ์สำหรับต้นกล้าใหม่&lt;/p&gt;
+
+    &lt;h6&gt;ระบบนิเวศที่เป็นเอกลักษณ์&lt;/h6&gt;
+    &lt;p&gt;เนื่องจากต้นสนเรดวูดมีขนาดใหญ่และมีอายุยืนยาว จึงสร้างระบบนิเวศป่าอันโดดเด่นที่เป็นแหล่งอาศัยของสิ่งมีชีวิตซึ่งไม่พบในที่อื่นของโลก&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;สัตว์ในป่าเรดวูด&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"สัตว์ในป่าเรดวูด\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;สัตว์&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ลักษณะ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ที่อยู่อาศัย&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;สาระน่ารู้&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ทากกล้วย&lt;/th&gt;
+            &lt;td&gt;ทากตัวใหญ่ สีเหลือง มีเมือกลื่นๆ&lt;/td&gt;
+            &lt;td&gt;บนพื้นป่า&lt;/td&gt;
+            &lt;td&gt;ทากที่ใหญ่เป็นอันดับ 2 ของโลก&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ซาลาแมนเดอร์ยักษ์แปซิฟิก&lt;/th&gt;
+            &lt;td&gt;ซาลาแมนเดอร์ตัวใหญ่สีเข้ม&lt;/td&gt;
+            &lt;td&gt;ใกล้ลำธารและพื้นที่ชื้น&lt;/td&gt;
+            &lt;td&gt;สามารถเติบโตจนขนาดตัวยาวได้ถึง 1 ฟุต&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;กวางเอลก์รูสเวลต์&lt;/th&gt;
+            &lt;td&gt;กวางตัวใหญ่ที่มีเขาสวยงาม&lt;/td&gt;
+            &lt;td&gt;หากินในพื้นที่โล่งภายในป่า&lt;/td&gt;
+            &lt;td&gt;ตัวผู้มีน้ำหนักได้มากกว่า 1,000 ปอนด์&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;นกฮูกนอร์เทิร์นสปอตเต็ด&lt;/th&gt;
+            &lt;td&gt;นกฮูกขนาดกลาง ออกล่าเหยื่อในตอนกลางคืน&lt;/td&gt;
+            &lt;td&gt;ในป่าเรดวูดที่หนาทึบและมีอายุมาก&lt;/td&gt;
+            &lt;td&gt;เป็น \"สิ่งมีชีวิตบ่งชี้\" ซึ่งสุขภาพของนกฮูกสายพันธุ์นี้บ่งบอกถึงสุขภาพของป่า&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;หมีดำ&lt;/th&gt;
+            &lt;td&gt;สัตว์เลี้ยงลูกด้วยนมขนาดใหญ่ โดยทั่วไปจะมีสีดำหรือสีน้ำตาล&lt;/td&gt;
+            &lt;td&gt;หาอาหารทั่วบริเวณป่า&lt;/td&gt;
+            &lt;td&gt;ปีนต้นไม้เก่ง มักพบเห็นอยู่บนต้นไม้&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;ความคิดเห็นของคุณเกี่ยวกับต้นสนเรดวูดและธรรมชาติ&lt;/h1&gt;
+
+      &lt;p&gt;คุณอยากเรียนรู้เรื่องอะไรเกี่ยวกับต้นสนเรดวูดอีกบ้าง&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;สถานที่ธรรมชาติที่คุณชอบไปมากที่สุดคือที่ไหน&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;หากเลือกได้ 1 เรื่อง คุณอยากเรียนรู้เรื่องไหนเพิ่มเติมเกี่ยวกับธรรมชาติ&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

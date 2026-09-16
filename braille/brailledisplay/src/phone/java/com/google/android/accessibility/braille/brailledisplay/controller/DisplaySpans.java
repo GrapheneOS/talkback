@@ -16,17 +16,24 @@
 
 package com.google.android.accessibility.braille.brailledisplay.controller;
 
+import static com.google.android.accessibility.braille.common.translate.EditBufferUtils.NO_CURSOR;
+
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.util.Range;
 import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.braille.brailledisplay.BrailleDisplayLog;
 
 /** Static utilities for text spans that control how text is displayed on the braille display. */
 public class DisplaySpans {
   private static final String TAG = "DisplaySpans";
+
   /** Marks a text selection or cursor on the display. */
-  public static class SelectionSpan {}
+  private static class SelectionSpan extends DisplaySpans {}
+
+  /** Marks a progress bar on the display. */
+  private static class ProgressBarSpan extends DisplaySpans {}
 
   /**
    * Marks a portion of {@code spannable} as containing text selection. If {@code start} and {@code
@@ -46,6 +53,28 @@ public class DisplaySpans {
       end = oldStart;
     }
     spannable.setSpan(new SelectionSpan(), start, end, flags);
+  }
+
+  /** Marks a portion of {@code spannable} as containing progress bar. */
+  public static void addProgressBar(Spannable spannable, int start, int end) {
+    int flags = start == end ? Spanned.SPAN_EXCLUSIVE_INCLUSIVE : Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+    // If start and end are out of order... swap start and end. Required by setSpan().
+    if (end < start) {
+      int oldStart = start;
+      start = end;
+      end = oldStart;
+    }
+    spannable.setSpan(new ProgressBarSpan(), start, end, flags);
+  }
+
+  /** Finds the range of selection in the given text. */
+  public static Range<Integer> findSelectionRange(CharSequence text) {
+    return findRange(text, SelectionSpan.class);
+  }
+
+  /** Finds the range of progress bar in the given text. */
+  public static Range<Integer> findProgressBarRange(CharSequence text) {
+    return findRange(text, ProgressBarSpan.class);
   }
 
   /**
@@ -85,52 +114,16 @@ public class DisplaySpans {
     return found;
   }
 
-  /**
-   * Utility function to log what accessibiility nodes are attached to what parts of the character
-   * sequence.
-   */
-  public static void logNodes(CharSequence chars) {
-    if (!(chars instanceof Spanned)) {
-      BrailleDisplayLog.v(TAG, "Not a Spanned");
-      return;
-    }
-    Spanned spanned = (Spanned) chars;
-    AccessibilityNodeInfoCompat[] spans =
-        spanned.getSpans(0, spanned.length(), AccessibilityNodeInfoCompat.class);
-    for (AccessibilityNodeInfoCompat node : spans) {
-      BrailleDisplayLog.v(
-          TAG, chars.subSequence(spanned.getSpanStart(node), spanned.getSpanEnd(node)).toString());
-      if (BrailleDisplayLog.DEBUG) {
-        BrailleDisplayLog.v(TAG, node.unwrap().toString());
+  /** Finds the range of specified display spans class in the given text. */
+  private static Range<Integer> findRange(CharSequence text, Class<? extends DisplaySpans> spans) {
+    Spanned spanned = SpannableString.valueOf(text);
+    if (spanned != null) {
+      DisplaySpans[] displaySpans = spanned.getSpans(0, spanned.length(), spans);
+      if (displaySpans.length > 0) {
+        return new Range<>(
+            spanned.getSpanStart(displaySpans[0]), spanned.getSpanEnd(displaySpans[0]));
       }
     }
-  }
-
-  /**
-   * Removes objects owned by the spannable. In particular, any accessibility nodes that have been
-   * associated with {@code spannable} are removed.
-   */
-  public static void removeSpans(CharSequence chars) {
-    if (!(chars instanceof Spannable)) {
-      return;
-    }
-    Spannable spannable = (Spannable) chars;
-    AccessibilityNodeInfoCompat[] nodes =
-        spannable.getSpans(0, spannable.length(), AccessibilityNodeInfoCompat.class);
-    for (AccessibilityNodeInfoCompat node : nodes) {
-      spannable.removeSpan(node);
-    }
-  }
-
-  /** Returns a span in {@code spanned} that is {@link Object#equals} to {@code obj}. */
-  @Nullable
-  public static Object getEqualSpan(Spanned spanned, Object obj) {
-    Object[] spans = spanned.getSpans(0, spanned.length(), obj.getClass());
-    for (Object span : spans) {
-      if (obj.equals(span)) {
-        return span;
-      }
-    }
-    return null;
+    return new Range<>(NO_CURSOR, NO_CURSOR);
   }
 }

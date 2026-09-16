@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.brailledisplay.settings;
 
 import static com.google.android.accessibility.braille.common.BrailleUserPreferences.BRAILLE_SHARED_PREFS_FILENAME;
@@ -35,7 +51,7 @@ public class BrailleElementsActivity extends PreferencesActivity {
   }
 
   /** Fragment that holds the braille elements preference. */
-  public static class BrailleElementsFragment extends PreferenceFragmentCompat {
+    public static class BrailleElementsFragment extends PreferenceFragmentCompat {
 
     private PreferenceScreen preferenceScreen;
 
@@ -66,13 +82,15 @@ public class BrailleElementsActivity extends PreferencesActivity {
       // won't take effect.
       Preference checkedPreference =
           preferenceScreen.findPreference(getString(R.string.pref_key_bd_braille_elements_checked));
-      Preference expandedPreference =
-          preferenceScreen.findPreference(
-              getString(R.string.pref_key_bd_braille_elements_expanded));
       checkedPreference.setTitle(
           getTextWithTtsSpan(
               getString(R.string.bd_braille_elements_checked),
               getString(R.string.bd_braille_elements_checked_content_description)));
+
+      Preference expandedPreference =
+          preferenceScreen.findPreference(
+              getString(R.string.pref_key_bd_braille_elements_expanded));
+
       expandedPreference.setTitle(
           getTextWithTtsSpan(
               getString(R.string.bd_braille_elements_expanded),

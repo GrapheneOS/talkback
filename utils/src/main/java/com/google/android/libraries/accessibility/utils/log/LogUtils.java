@@ -301,6 +301,19 @@ public class LogUtils {
     return minLogLevel;
   }
 
+  /** Returns the name of the current min log level. */
+  public static String getLogLevelName() {
+    return switch (minLogLevel) {
+      case Log.VERBOSE -> "VERBOSE";
+      case Log.DEBUG -> "DEBUG";
+      case Log.INFO -> "INFO";
+      case Log.WARN -> "WARN";
+      case Log.ERROR -> "ERROR";
+      case Log.ASSERT -> "ASSERT";
+      default -> "UNKNOWN";
+    };
+  }
+
   /**
    * Tells if the current settings are at or above the specified level of verboseness. This
    * indicates whether or not a log statement at the provided level will actually result in logging.

@@ -23,9 +23,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 import androidx.preference.PreferenceGroup;
-import androidx.preference.SwitchPreference;
+import androidx.preference.TwoStatePreference;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.talkback.utils.VerbosityPreferences;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
@@ -43,6 +46,18 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
   private String verbosityValue; // String identifier for selected verbosity.
   private ImmutableMap<String, Boolean> switchPreferenceKeyValueMap;
   private ImmutableMap<String, Integer> listPreferenceKeyValueMap;
+
+  /**
+   * Contains preferences that can be modified through means outside of the VerbosityPrefFragment
+   * UI. In practice, the most common such method is a keyboard shortcut. If a preference's keyboard
+   * shortcut is pressed while the VerbosityPrefFragment is visible, the fragment's UI must be
+   * updated to reflect the new value, or else the UI and the actual preference value will fall out
+   * of sync. Hence, these preferences are observed for changes. Maps a preference's key to its
+   * default value.
+   */
+  private ImmutableMap<String, String> externallyModifiedListPreferences;
+
+  @Nullable private TwoStatePreference tellTimePreference;
 
   public VerbosityPrefFragment() {
     super(R.xml.verbosity_preferences);
@@ -62,7 +77,40 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
     buildMap();
+    setupTellTimePreference();
     updatePreferences();
+  }
+
+  private void setupTellTimePreference() {
+    tellTimePreference = (TwoStatePreference) findPreference(R.string.pref_speak_time_key);
+    if (tellTimePreference != null) {
+      tellTimePreference.setOnPreferenceClickListener(
+          preference -> {
+            TalkBackService service = TalkBackService.getInstance();
+            if (service != null) {
+              service
+                  .getAnalytics()
+                  .onManuallyChangeSetting(
+                      getString(R.string.pref_speak_time_key),
+                      TalkBackAnalytics.TYPE_PREFERENCE_SETTING);
+            }
+            return false;
+          });
+    }
+  }
+
+  @Override
+  public void onDisplayPreferenceDialog(Preference preference) {
+    // Only PunctuationListPreference customizes the preference dialog.
+    if (preference instanceof PunctuationListPreference) {
+      PreferenceDialogFragmentCompat dialogFragment =
+          PunctuationListPreference.CustomListPreferenceDialogFragment.newInstance(
+              preference.getKey());
+      dialogFragment.setTargetFragment(this, 0);
+      dialogFragment.show(getParentFragmentManager(), "dialog_preference");
+    } else {
+      super.onDisplayPreferenceDialog(preference);
+    }
   }
 
   private void buildMap() {
@@ -99,9 +147,19 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
             .put(
                 getString(R.string.pref_speak_element_ids_key),
                 getResources().getBoolean(R.bool.pref_speak_element_ids_default))
+            // TODO Speak punctuation and symbols Change to ListPreference
+            // Consider reorder the Verbosity settings discuss the design with Aki
+            // Verbosity preset levels for Speak punctuation and symbols and Speak element type
+            // b/297956957  b/328144817
             .put(
                 getString(R.string.pref_punctuation_key),
                 getResources().getBoolean(R.bool.pref_punctuation_default))
+            .put(
+                getString(R.string.pref_speak_time_key),
+                getResources().getBoolean(R.bool.pref_tell_time_default))
+            .put(
+                getString(R.string.pref_formatting_inline_key),
+                getResources().getBoolean(R.bool.pref_formatting_inline_default))
             .buildOrThrow();
 
     listPreferenceKeyValueMap =
@@ -114,7 +172,17 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
                 R.string.pref_keyboard_echo_default)
             .put(
                 getString(R.string.pref_capital_letters_key), R.string.pref_capital_letters_default)
+            .put(
+                getString(R.string.pref_punctuation_verbosity),
+                R.string.pref_punctuation_verbosity_default)
             .buildOrThrow();
+
+    externallyModifiedListPreferences =
+        ImmutableMap.of(
+            getString(R.string.pref_punctuation_verbosity),
+            getString(R.string.pref_punctuation_verbosity_default),
+            getString(R.string.pref_keyboard_echo_physical_key),
+            getString(R.string.pref_keyboard_echo_default));
   }
 
   /**
@@ -162,8 +230,7 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
       preference.setKey(verbosityPrefKey);
 
       // Retrieve verbosity preference value and update UI element.
-      if (preference instanceof SwitchPreference) {
-        SwitchPreference prefSwitch = (SwitchPreference) preference;
+      if (preference instanceof TwoStatePreference prefSwitch) {
         boolean value =
             VerbosityPreferences.getPreferenceVerbosityBool(
                 preferences,
@@ -188,11 +255,6 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
         LogUtils.e(TAG, "Unhandled preference type %s", preference.getClass().getSimpleName());
       }
     }
-  }
-
-  private boolean isVerbosityValueHighOrLow() {
-    return TextUtils.equals(verbosityValue, getString(R.string.pref_verbosity_preset_value_high))
-        || TextUtils.equals(verbosityValue, getString(R.string.pref_verbosity_preset_value_low));
   }
 
   private void setPreferenceDetailsEnable(ArrayList<Preference> detailedPrefs, boolean enable) {
@@ -254,6 +316,7 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
                 TAG, "Fragment is not attached to activity, do not update verbosity setting page.");
             return;
           }
+
           // Handles ListPreference changed case and case where the verbosity is changed
           // using the selector and the fragment is visible.
           if (TextUtils.equals(key, getString(R.string.pref_verbosity_preset_key))) {
@@ -275,8 +338,9 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
             // will then deduplicate the announcement event so only one is spoken.
             announceVerbosityChange(newValueString);
           } else if (TextUtils.equals(key, getString(R.string.pref_punctuation_key))) {
-            SwitchPreference preference =
-                (SwitchPreference) findPreference(R.string.pref_punctuation_key);
+            // TODO: remove legacy code.
+            TwoStatePreference preference =
+                (TwoStatePreference) findPreference(R.string.pref_punctuation_key);
             boolean punctuationOn =
                 prefs.getBoolean(
                     getString(R.string.pref_punctuation_key),
@@ -284,6 +348,26 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
 
             if (preference != null) {
               preference.setChecked(punctuationOn);
+            }
+          } else if (externallyModifiedListPreferences.containsKey(
+              // The incoming key might be prefixed with the current preset verbosity level (ex:
+              // "pref_verbosity_preset_value_custom_pref_keyboard_echo_physical_key"). This
+              // prefix must be stripped since externallyModifiedListPreferences expects
+              // the bare preference key ("pref_keyboard_echo_physical_key" in this example).
+              VerbosityPreferences.restoreToCustomVerbosityPrefKey(getResources(), key))) {
+            ListPreference preference = (ListPreference) findPreference(key);
+            String newValueString =
+                preferences.getString(key, externallyModifiedListPreferences.get(key));
+            if (preference != null) {
+              preference.setValue(newValueString);
+            }
+          } else if (TextUtils.equals(key, getString(R.string.pref_speak_time_key))) {
+            if (tellTimePreference != null) {
+              boolean tellTimeOn =
+                  prefs.getBoolean(
+                      getString(R.string.pref_speak_time_key),
+                      getResources().getBoolean(R.bool.pref_tell_time_default));
+              tellTimePreference.setChecked(tellTimeOn);
             }
           }
         }
@@ -299,7 +383,12 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
   }
 
   private void updatePreferences() {
-    preferences = SharedPreferencesUtils.getSharedPreferences(getContext());
+    Context context = getContext();
+    if (context == null) {
+      return;
+    }
+
+    preferences = SharedPreferencesUtils.getSharedPreferences(context);
     verbosityValue =
         SharedPreferencesUtils.getStringPref(
             preferences,
@@ -310,12 +399,9 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
     ArrayList<Preference> detailedPrefs = collectDetailedPreferences();
     copyVerbosityToUi(detailedPrefs); // Cheap, just reading preferences.
 
-    // Disable default verbosity preference details.
-    if (isVerbosityValueHighOrLow()) {
-      setPreferenceDetailsEnable(detailedPrefs, false);
-    } else {
-      setPreferenceDetailsEnable(detailedPrefs, true);
-    }
+    // Disable default verbosity preference details if it is high or low.
+    setPreferenceDetailsEnable(
+        detailedPrefs, !VerbosityPreferences.isVerbosityValueHighOrLow(verbosityValue, context));
   }
 
   private Preference findPreference(int keyId) {
@@ -324,36 +410,11 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
 
   private void announceVerbosityChange(String newValueString) {
     Context context = getContext();
-    String announcement = getVerbosityChangeAnnouncement(newValueString, context);
+    String announcement =
+        VerbosityPreferences.getVerbosityChangeAnnouncement(newValueString, context);
     if (announcement == null) {
       return;
     }
     PreferencesActivityUtils.announceText(announcement, context);
-  }
-
-  /** Map verbosity value key to verbosity name. */
-  public static String verbosityValueToName(String verbosityValueKey, Context context) {
-    if (verbosityValueKey.equals(context.getString(R.string.pref_verbosity_preset_value_high))) {
-      return context.getString(R.string.pref_verbosity_preset_entry_high);
-    } else if (verbosityValueKey.equals(
-        context.getString(R.string.pref_verbosity_preset_value_custom))) {
-      return context.getString(R.string.pref_verbosity_preset_entry_custom);
-    } else if (verbosityValueKey.equals(
-        context.getString(R.string.pref_verbosity_preset_value_low))) {
-      return context.getString(R.string.pref_verbosity_preset_entry_low);
-    } else {
-      return null;
-    }
-  }
-
-  /** Returns announcement for the change of verbosity. */
-  public static @Nullable String getVerbosityChangeAnnouncement(
-      String verbosityValueKey, Context context) {
-    String name = verbosityValueToName(verbosityValueKey, context);
-    return TextUtils.isEmpty(name)
-        ? null
-        : String.format(
-            context.getString(R.string.pref_verbosity_preset_change),
-            verbosityValueToName(verbosityValueKey, context));
   }
 }

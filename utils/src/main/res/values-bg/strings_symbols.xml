@@ -35,6 +35,7 @@
   <string name="symbol_period">Точка</string>
   <string name="symbol_pi">Пи</string>
   <string name="symbol_pound">Диез</string>
+  <string name="symbol_hash">хеш</string>
   <string name="symbol_pound_sterling">Знак за британска лира</string>
   <string name="symbol_currency_peso">Знак за песо</string>
   <string name="symbol_currency_dong">Знак за донг</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">Дясна квадратна скоба</string>
   <string name="symbol_square_root">Корен квадратен</string>
   <string name="symbol_trademark">Запазена марка</string>
+  <string name="symbol_check_mark">Отметка</string>
   <string name="symbol_underscore">Долно тире</string>
   <string name="symbol_vertical_bar">Вертикална черта</string>
   <string name="symbol_yen">Йена</string>

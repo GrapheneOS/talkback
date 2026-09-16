@@ -91,33 +91,26 @@ class ParseTreeVariableNode extends ParseTreeNode {
   public boolean resolveToBoolean(ParseTree.VariableDelegate delegate, String logIndent) {
     boolean value = false;
     switch (mType) {
-      case ParseTree.VARIABLE_BOOL:
-        value = delegate.getBoolean(mId);
-        break;
-      case ParseTree.VARIABLE_INTEGER:
-        value = delegate.getInteger(mId) != 0;
-        break;
-      case ParseTree.VARIABLE_NUMBER:
-        value = delegate.getNumber(mId) != 0;
-        break;
-      case ParseTree.VARIABLE_STRING:
-        value = !TextUtils.isEmpty(delegate.getString(mId));
-        break;
-      case ParseTree.VARIABLE_ENUM:
-      case ParseTree.VARIABLE_REFERENCE:
-      case ParseTree.VARIABLE_ARRAY:
-      case ParseTree.VARIABLE_CHILD_ARRAY:
+      case ParseTree.VARIABLE_BOOL -> value = delegate.getBoolean(mId);
+      case ParseTree.VARIABLE_INTEGER -> value = delegate.getInteger(mId) != 0;
+      case ParseTree.VARIABLE_NUMBER -> value = delegate.getNumber(mId) != 0;
+      case ParseTree.VARIABLE_STRING -> value = !TextUtils.isEmpty(delegate.getString(mId));
+      case ParseTree.VARIABLE_ENUM,
+          ParseTree.VARIABLE_REFERENCE,
+          ParseTree.VARIABLE_ARRAY,
+          ParseTree.VARIABLE_CHILD_ARRAY -> {
         LogUtils.e(
             TAG,
             "Cannot coerce variable to boolean: %s %s",
             ParseTree.variableTypeToString(mType),
             mName);
         value = false;
-        break;
-      default:
+      }
+      default -> {
         // This should never happen.
         LogUtils.e(TAG, "Unknown variable type: %d", mType);
         return false;
+      }
     }
 
     LogUtils.v(
@@ -132,41 +125,40 @@ class ParseTreeVariableNode extends ParseTreeNode {
   @Override
   public int resolveToInteger(ParseTree.VariableDelegate delegate, String logIndent) {
     switch (mType) {
-      case ParseTree.VARIABLE_INTEGER:
-        {
-          int value = delegate.getInteger(mId);
-          LogUtils.v(
-              TAG,
-              "%sParseTreeVariableNode.resolveToInteger() name=%s value=%s",
-              logIndent,
-              mName,
-              value);
-          return value;
-        }
-      case ParseTree.VARIABLE_ENUM:
-        {
-          int value = delegate.getEnum(mId);
-          LogUtils.v(
-              TAG,
-              "%sParseTreeVariableNode.resolveToInteger() name=%s value=%s",
-              logIndent,
-              mName,
-              value);
-          return value;
-        }
-      case ParseTree.VARIABLE_NUMBER:
-      case ParseTree.VARIABLE_BOOL:
-      case ParseTree.VARIABLE_STRING:
-      case ParseTree.VARIABLE_REFERENCE:
-      case ParseTree.VARIABLE_ARRAY:
-      case ParseTree.VARIABLE_CHILD_ARRAY:
+      case ParseTree.VARIABLE_INTEGER -> {
+        int value = delegate.getInteger(mId);
+        LogUtils.v(
+            TAG,
+            "%sParseTreeVariableNode.resolveToInteger() name=%s value=%s",
+            logIndent,
+            mName,
+            value);
+        return value;
+      }
+      case ParseTree.VARIABLE_ENUM -> {
+        int value = delegate.getEnum(mId);
+        LogUtils.v(
+            TAG,
+            "%sParseTreeVariableNode.resolveToInteger() name=%s value=%s",
+            logIndent,
+            mName,
+            value);
+        return value;
+      }
+      case ParseTree.VARIABLE_NUMBER,
+          ParseTree.VARIABLE_BOOL,
+          ParseTree.VARIABLE_STRING,
+          ParseTree.VARIABLE_REFERENCE,
+          ParseTree.VARIABLE_ARRAY,
+          ParseTree.VARIABLE_CHILD_ARRAY -> {
         LogUtils.e(
             TAG,
             "Cannot coerce variable to integer: %s %s",
             ParseTree.variableTypeToString(mType),
             mName);
         return 0;
-      default: // fall out
+      }
+      default -> {}
     }
 
     // This should never happen.
@@ -177,41 +169,40 @@ class ParseTreeVariableNode extends ParseTreeNode {
   @Override
   public double resolveToNumber(ParseTree.VariableDelegate delegate, String logIndent) {
     switch (mType) {
-      case ParseTree.VARIABLE_INTEGER:
-        {
-          int value = delegate.getInteger(mId);
-          LogUtils.v(
-              TAG,
-              "%sParseTreeVariableNode.resolveToNumber() name=%s value=%s",
-              logIndent,
-              mName,
-              value);
-          return value;
-        }
-      case ParseTree.VARIABLE_NUMBER:
-        {
-          double value = delegate.getNumber(mId);
-          LogUtils.v(
-              TAG,
-              "%sParseTreeVariableNode.resolveToNumber() name=%s value=%s",
-              logIndent,
-              mName,
-              value);
-          return value;
-        }
-      case ParseTree.VARIABLE_BOOL:
-      case ParseTree.VARIABLE_STRING:
-      case ParseTree.VARIABLE_ENUM:
-      case ParseTree.VARIABLE_REFERENCE:
-      case ParseTree.VARIABLE_ARRAY:
-      case ParseTree.VARIABLE_CHILD_ARRAY:
+      case ParseTree.VARIABLE_INTEGER -> {
+        int value = delegate.getInteger(mId);
+        LogUtils.v(
+            TAG,
+            "%sParseTreeVariableNode.resolveToNumber() name=%s value=%s",
+            logIndent,
+            mName,
+            value);
+        return value;
+      }
+      case ParseTree.VARIABLE_NUMBER -> {
+        double value = delegate.getNumber(mId);
+        LogUtils.v(
+            TAG,
+            "%sParseTreeVariableNode.resolveToNumber() name=%s value=%s",
+            logIndent,
+            mName,
+            value);
+        return value;
+      }
+      case ParseTree.VARIABLE_BOOL,
+          ParseTree.VARIABLE_STRING,
+          ParseTree.VARIABLE_ENUM,
+          ParseTree.VARIABLE_REFERENCE,
+          ParseTree.VARIABLE_ARRAY,
+          ParseTree.VARIABLE_CHILD_ARRAY -> {
         LogUtils.e(
             TAG,
             "Cannot coerce variable to number: %s %s",
             ParseTree.variableTypeToString(mType),
             mName);
         return 0;
-      default: // fall out
+      }
+      default -> {}
     }
 
     // This should never happen.
@@ -222,34 +213,34 @@ class ParseTreeVariableNode extends ParseTreeNode {
   @Override
   public CharSequence resolveToString(ParseTree.VariableDelegate delegate, String logIndent) {
     switch (mType) {
-      case ParseTree.VARIABLE_STRING:
-        {
-          CharSequence value = delegate.getString(mId);
-          if (value == null) {
-            value = "";
-          }
-          LogUtils.v(
-              TAG,
-              "%sParseTreeVariableNode.resolveToString() name=%s value=%s",
-              logIndent,
-              mName,
-              value);
-          return value;
+      case ParseTree.VARIABLE_STRING -> {
+        CharSequence value = delegate.getString(mId);
+        if (value == null) {
+          value = "";
         }
-      case ParseTree.VARIABLE_BOOL:
-      case ParseTree.VARIABLE_INTEGER:
-      case ParseTree.VARIABLE_NUMBER:
-      case ParseTree.VARIABLE_ENUM:
-      case ParseTree.VARIABLE_REFERENCE:
-      case ParseTree.VARIABLE_ARRAY:
-      case ParseTree.VARIABLE_CHILD_ARRAY:
+        LogUtils.v(
+            TAG,
+            "%sParseTreeVariableNode.resolveToString() name=%s value=%s",
+            logIndent,
+            mName,
+            value);
+        return value;
+      }
+      case ParseTree.VARIABLE_BOOL,
+          ParseTree.VARIABLE_INTEGER,
+          ParseTree.VARIABLE_NUMBER,
+          ParseTree.VARIABLE_ENUM,
+          ParseTree.VARIABLE_REFERENCE,
+          ParseTree.VARIABLE_ARRAY,
+          ParseTree.VARIABLE_CHILD_ARRAY -> {
         LogUtils.e(
             TAG,
             "Cannot coerce variable to string: %s %s",
             ParseTree.variableTypeToString(mType),
             mName);
         return "";
-      default: // fall out
+      }
+      default -> {}
     }
 
     // This should never happen.

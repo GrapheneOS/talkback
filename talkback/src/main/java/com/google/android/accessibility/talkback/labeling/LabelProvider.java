@@ -103,7 +103,7 @@ public class LabelProvider extends ContentProvider {
     }
 
     switch (uriMatcher.match(uri)) {
-      case LABELS:
+      case LABELS -> {
         initializeDatabaseIfNull();
 
         if (values == null) {
@@ -123,9 +123,11 @@ public class LabelProvider extends ContentProvider {
         } else {
           return ContentUris.withAppendedId(LABELS_CONTENT_URI, rowId);
         }
-      default:
+      }
+      default -> {
         LogUtils.w(TAG, UNKNOWN_URI_FORMAT_STRING, uri);
         return null;
+      }
     }
   }
 
@@ -160,12 +162,12 @@ public class LabelProvider extends ContentProvider {
     String groupBy = null;
 
     switch (uriMatcher.match(uri)) {
-      case LABELS:
+      case LABELS -> {
         if (TextUtils.isEmpty(sortOrder)) {
           sortOrder = LabelsTable.KEY_ID;
         }
-        break;
-      case LABELS_ID:
+      }
+      case LABELS_ID -> {
         final String labelIdString = uri.getLastPathSegment();
         final int labelId;
         try {
@@ -177,15 +179,16 @@ public class LabelProvider extends ContentProvider {
 
         final String where = String.format(Locale.ROOT, "%s = %d", LabelsTable.KEY_ID, labelId);
         queryBuilder.appendWhere(where);
-        break;
-      case PACKAGE_SUMMARY:
+      }
+      case PACKAGE_SUMMARY -> {
         projection = new String[] {LabelsTable.KEY_PACKAGE_NAME, "COUNT(*)"};
         groupBy = LabelsTable.KEY_PACKAGE_NAME;
         sortOrder = LabelsTable.KEY_PACKAGE_NAME;
-        break;
-      default:
+      }
+      default -> {
         LogUtils.w(TAG, UNKNOWN_URI_FORMAT_STRING, uri);
         return null;
+      }
     }
 
     initializeDatabaseIfNull();
@@ -216,42 +219,41 @@ public class LabelProvider extends ContentProvider {
     }
 
     switch (uriMatcher.match(uri)) {
-      case LABELS:
-        {
-          initializeDatabaseIfNull();
+      case LABELS -> {
+        initializeDatabaseIfNull();
 
-          int result = database.update(LabelsTable.TABLE_NAME, values, selection, selectionArgs);
-          getContext().getContentResolver().notifyChange(uri, null /* observer */);
-          return result;
+        int result = database.update(LabelsTable.TABLE_NAME, values, selection, selectionArgs);
+        getContext().getContentResolver().notifyChange(uri, null /* observer */);
+        return result;
+      }
+      case LABELS_ID -> {
+        initializeDatabaseIfNull();
+
+        final String labelIdString = uri.getLastPathSegment();
+        final int labelId;
+        try {
+          labelId = Integer.parseInt(labelIdString);
+        } catch (NumberFormatException e) {
+          LogUtils.w(TAG, UNKNOWN_URI_FORMAT_STRING, uri);
+          return 0;
         }
-      case LABELS_ID:
-        {
-          initializeDatabaseIfNull();
 
-          final String labelIdString = uri.getLastPathSegment();
-          final int labelId;
-          try {
-            labelId = Integer.parseInt(labelIdString);
-          } catch (NumberFormatException e) {
-            LogUtils.w(TAG, UNKNOWN_URI_FORMAT_STRING, uri);
-            return 0;
-          }
+        final String where = String.format(Locale.ROOT, "%s = %d", LabelsTable.KEY_ID, labelId);
+        final int result =
+            database.update(
+                LabelsTable.TABLE_NAME,
+                values,
+                combineSelectionAndWhere(selection, where),
+                selectionArgs);
 
-          final String where = String.format(Locale.ROOT, "%s = %d", LabelsTable.KEY_ID, labelId);
-          final int result =
-              database.update(
-                  LabelsTable.TABLE_NAME,
-                  values,
-                  combineSelectionAndWhere(selection, where),
-                  selectionArgs);
+        getContext().getContentResolver().notifyChange(uri, null /* observer */);
 
-          getContext().getContentResolver().notifyChange(uri, null /* observer */);
-
-          return result;
-        }
-      default:
+        return result;
+      }
+      default -> {
         LogUtils.w(TAG, UNKNOWN_URI_FORMAT_STRING, uri);
         return 0;
+      }
     }
   }
 
@@ -276,41 +278,38 @@ public class LabelProvider extends ContentProvider {
     }
 
     switch (uriMatcher.match(uri)) {
-      case LABELS:
-        {
-          initializeDatabaseIfNull();
+      case LABELS -> {
+        initializeDatabaseIfNull();
 
-          int result = database.delete(LabelsTable.TABLE_NAME, selection, selectionArgs);
-          getContext().getContentResolver().notifyChange(uri, null /* observer */);
-          return result;
+        int result = database.delete(LabelsTable.TABLE_NAME, selection, selectionArgs);
+        getContext().getContentResolver().notifyChange(uri, null /* observer */);
+        return result;
+      }
+      case LABELS_ID -> {
+        initializeDatabaseIfNull();
+
+        final String labelIdString = uri.getLastPathSegment();
+        final int labelId;
+        try {
+          labelId = Integer.parseInt(labelIdString);
+        } catch (NumberFormatException e) {
+          LogUtils.w(TAG, UNKNOWN_URI_FORMAT_STRING, uri);
+          return 0;
         }
-      case LABELS_ID:
-        {
-          initializeDatabaseIfNull();
 
-          final String labelIdString = uri.getLastPathSegment();
-          final int labelId;
-          try {
-            labelId = Integer.parseInt(labelIdString);
-          } catch (NumberFormatException e) {
-            LogUtils.w(TAG, UNKNOWN_URI_FORMAT_STRING, uri);
-            return 0;
-          }
+        final String where = String.format(Locale.ROOT, "%s = %d", LabelsTable.KEY_ID, labelId);
+        final int result =
+            database.delete(
+                LabelsTable.TABLE_NAME, combineSelectionAndWhere(selection, where), selectionArgs);
 
-          final String where = String.format(Locale.ROOT, "%s = %d", LabelsTable.KEY_ID, labelId);
-          final int result =
-              database.delete(
-                  LabelsTable.TABLE_NAME,
-                  combineSelectionAndWhere(selection, where),
-                  selectionArgs);
+        getContext().getContentResolver().notifyChange(uri, null /* observer */);
 
-          getContext().getContentResolver().notifyChange(uri, null /* observer */);
-
-          return result;
-        }
-      default:
+        return result;
+      }
+      default -> {
         LogUtils.w(TAG, UNKNOWN_URI_FORMAT_STRING, uri);
         return 0;
+      }
     }
   }
 

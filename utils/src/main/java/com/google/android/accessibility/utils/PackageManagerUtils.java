@@ -20,8 +20,10 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.text.TextUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Utilities for interacting with the {@link PackageManager}. */
@@ -65,6 +67,9 @@ public class PackageManagerUtils {
 
   /** Returns the package version name. */
   public static String getVersionName(Context context) {
+    if (Objects.equals(Build.FINGERPRINT, "robolectric")) {
+      return "robolectric_test";
+    }
     return getVersionName(context, context.getPackageName());
   }
 
@@ -83,13 +88,7 @@ public class PackageManagerUtils {
     return packageInfo.versionName;
   }
 
-  /** Returns whether the package is installed on the device. */
-  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-  public static boolean hasPackage(Context context, String packageName) {
-    return (getPackageInfo(context, packageName) != null);
-  }
-
-  /** Returns {@code true} if the platform has GMS core package */
+  /** Returns {@code true} if the platform has GMS core package (aka Google Play Service). */
   public static boolean hasGmsCorePackage(Context context) {
     return false;
   }
@@ -101,7 +100,7 @@ public class PackageManagerUtils {
 
   /** Returns {@code true} if the package supports help and feedback. */
   public static boolean supportsHelpAndFeedback(Context context) {
-    return false;
+    return hasGmsCorePackage(context);
   }
 
   private static @Nullable PackageInfo getPackageInfo(Context context, CharSequence packageName) {
@@ -117,4 +116,6 @@ public class PackageManagerUtils {
       return null;
     }
   }
+
+  private PackageManagerUtils() {}
 }

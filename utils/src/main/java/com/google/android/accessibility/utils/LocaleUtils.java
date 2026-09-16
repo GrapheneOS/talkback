@@ -36,9 +36,10 @@ public class LocaleUtils {
     String[] localeParts = localeString.split("-", 3);
 
     if (localeParts.length >= 2) {
+      // TODO: b/455704867 second parts could be script.
       return new Locale(localeParts[0], localeParts[1]);
     } else if (localeParts.length == 1) {
-      return new Locale(localeParts[0]);
+      return new Locale.Builder().setLanguage(localeParts[0]).build();
     } else {
       return null;
     }

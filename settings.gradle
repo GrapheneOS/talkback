@@ -19,3 +19,10 @@ include 'brailledisplayanalytics'
 project(':brailledisplayanalytics').projectDir = new File('braille/brailledisplayanalytics')
 include 'braillebrltty'
 project(':braillebrltty').projectDir = new File('braille/brltty')
+
+include ':materialflags'
+project(':materialflags').projectDir = new File('material/flags')
+include ':materialpreference'
+project(':materialpreference').projectDir = new File('material/preference')
+include ':materialpreferencecompose'
+project(':materialpreferencecompose').projectDir = new File('material/preference/compose')

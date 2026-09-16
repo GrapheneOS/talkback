@@ -124,20 +124,11 @@ public class SQLiteTableBuilder {
 
   private void appendType(int type) {
     switch (type) {
-      case TYPE_INTEGER:
-        mStringBuilder.append(INTEGER);
-        break;
-      case TYPE_REAL:
-        mStringBuilder.append(REAL);
-        break;
-      case TYPE_TEXT:
-        mStringBuilder.append(TEXT);
-        break;
-      case TYPE_BLOB:
-        mStringBuilder.append(BLOB);
-        break;
-      default:
-        throw new IllegalArgumentException("Unrecognized data type.");
+      case TYPE_INTEGER -> mStringBuilder.append(INTEGER);
+      case TYPE_REAL -> mStringBuilder.append(REAL);
+      case TYPE_TEXT -> mStringBuilder.append(TEXT);
+      case TYPE_BLOB -> mStringBuilder.append(BLOB);
+      default -> throw new IllegalArgumentException("Unrecognized data type.");
     }
   }
 

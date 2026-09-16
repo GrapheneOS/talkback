@@ -2,8 +2,7 @@ apply plugin: 'com.android.library'
 apply from: "../../shared.gradle"
 
 android {
-    namespace "com.google.android.accessibility.braille.brltty"
-    ndkVersion "28.2.13676358"
+    namespace = "com.google.android.accessibility.braille.brltty"
     externalNativeBuild {
         ndkBuild {
             path file('src/phone/jni/Android.mk')
@@ -25,6 +24,5 @@ task createBrlttyKeyTablesZip(type: Zip){
     from fileTree('./src/phone/tables/')
 }
 
-project.afterEvaluate {
-    preBuild.dependsOn createBrlttyKeyTablesZip
-}
+preBuild.dependsOn createBrlttyKeyTablesZip
+

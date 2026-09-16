@@ -94,22 +94,38 @@ public class FeedbackItem {
    */
   public static final int FLAG_SOURCE_IS_VOLUME_CONTROL = 0x2000;
 
+  /** Flag to indicate that the aggressive chunking is applied to the feedback item. */
+  public static final int FLAG_CHUNKING_APPLIED = 0x4000;
+
+  /** Flag to indicate that the inline formatting should be applied to the feedback item. */
+  public static final int FLAG_INLINE_FORMATTING = 0x8000;
+
+  /** Flag to indicate that the speech rate is absolute, not a multiplier of the system rate. */
+  public static final int FLAG_RATE_IS_ABSOLUTE = 0x10000;
+
   /** Unique ID defining this generated feedback */
   private String mUtteranceId = "";
 
   /** Ordered fragments of the feedback to be produced from a single {@link Utterance}. */
   private List<FeedbackFragment> mFragments = new ArrayList<>();
 
-  /** Flag indicating that this FeedbackItem should be uninterruptible. */
-  private boolean mIsUninterruptible;
+  /** Flag indicating that this FeedbackItem should be uninterruptible by new speech. */
+  private boolean isUninterruptibleByNewSpeech;
 
   /**
    * Flag indicating that this FeedbackItem will ignore interrupts when {@link
    * SpeechController#interrupt} is called with the parameter interruptItemsThatCanIgnoreInterrupts
-   * set to false. Note, the interrupt will never be ignored if the parameter
-   * interruptItemsThatCanIgnoreInterrupts is true or if the parameter is not provided.
+   * set to {@code false}. Note, the interrupt will never be ignored if the parameter
+   * interruptItemsThatCanIgnoreInterrupts is {@code true} or if the parameter is not provided.
    */
   private boolean mCanIgnoreInterrupts;
+
+  /**
+   * Flag indicating that this FeedbackItem won't be interrupted when {@link
+   * SpeechController#interrupt} is called and the parameter interruptItemsThatCanIgnoreInterrupts
+   * is {@code true}.
+   */
+  private boolean isGloballyUninterruptible;
 
   /** Flag indicating that this FeedbackItem will flush the global TTS queue. */
   private boolean flushGlobalTtsQueue = true;
@@ -210,6 +226,14 @@ public class FeedbackItem {
     return sb;
   }
 
+  /** Retrieves the first spoken text from all {@link FeedbackFragment}s. */
+  public @Nullable CharSequence getFirstSpokenText() {
+    if (mFragments.isEmpty()) {
+      return null;
+    }
+    return mFragments.get(0).getText();
+  }
+
   /**
    * Adds a fragment to the end of the list of fragments for this item.
    *
@@ -238,14 +262,14 @@ public class FeedbackItem {
     mFragments.clear();
   }
 
-  /** @return {@code true} if this item should be uninterruptible, {@code false} otherwise */
-  public boolean isInterruptible() {
-    return !mIsUninterruptible;
+  /** Returns {@code true} if this item should be interrupted by new speech. */
+  public boolean isInterruptibleByNewSpeech() {
+    return !isUninterruptibleByNewSpeech;
   }
 
   /**
    * Returns whether this item will ignore interrupts when {@link SpeechController#interrupt} is
-   * called with the parameter interruptItemsThatCanIgnoreInterrupts set to false.
+   * called with the parameter interruptItemsThatCanIgnoreInterrupts set to {@code false}.
    *
    * <p>Note: Items that can ignore interrupts will never ignore them if {@link
    * SpeechController#interrupt} is called with the parameter interruptItemsThatCanIgnoreInterrupts
@@ -261,21 +285,31 @@ public class FeedbackItem {
   }
 
   /**
-   * Sets whether this item should be uninterruptible.
+   * Returns whether this item will be interrupted by {@link SpeechController#interrupt} even if the
+   * parameter interruptItemsThatCanIgnoreInterrupts is {@code true}.
    *
-   * @param isUninterruptible {@code true} if this item should be uninterruptible, {@code false}
-   *     otherwise
+   * @return {@code true} if the feedback won't get interrupted in any case
    */
-  public void setUninterruptible(boolean isUninterruptible) {
-    mIsUninterruptible = isUninterruptible;
+  public boolean isGloballyUninterruptible() {
+    return isGloballyUninterruptible;
+  }
+
+  /**
+   * Sets whether this item should be uninterruptible by new speech.
+   *
+   * @param uninterruptibleByNewSpeech {@code true} if this item should be uninterruptible by new
+   *     speech
+   */
+  public void setUninterruptibleByNewSpeech(boolean uninterruptibleByNewSpeech) {
+    isUninterruptibleByNewSpeech = uninterruptibleByNewSpeech;
   }
 
   /**
    * Sets whether this item should ignore interrupts when when {@link SpeechController#interrupt} is
-   * called with the parameter interruptItemsThatCanIgnoreInterrupts set to false. Even if this item
-   * can ignore interrupts, it will never ignore interrupts based on this flag if {@link
+   * called with the parameter interruptItemsThatCanIgnoreInterrupts set to {@code false}. Even if
+   * this item can ignore interrupts, it will never ignore interrupts based on this flag if {@link
    * SpeechController#interrupt} is called with the parameter interruptItemsThatCanIgnoreInterrupts
-   * set to true or if the parameter is not provided.
+   * set to {@code true} or if the parameter is not provided.
    *
    * @param canIgnoreInterrupts {@code true} if this item should ignore interrupts when {@link
    *     SpeechController#interrupt} is called with interruptItemsThatCanIgnoreInterrupts set to
@@ -284,6 +318,16 @@ public class FeedbackItem {
    */
   public void setCanIgnoreInterrupts(boolean canIgnoreInterrupts) {
     mCanIgnoreInterrupts = canIgnoreInterrupts;
+  }
+
+  /**
+   * Set whether this item could be interrupt by {@link SpeechController#interrupt} even if
+   * interruptItemsThatCanIgnoreInterrupts is {@code true}.
+   *
+   * @param globallyUninterruptible {@code true} if the feedback won't get interrupted in any case
+   */
+  public void setGloballyUninterruptible(boolean globallyUninterruptible) {
+    this.isGloballyUninterruptible = globallyUninterruptible;
   }
 
   /**
@@ -385,7 +429,11 @@ public class FeedbackItem {
         + "\", fragments:"
         + mFragments
         + ", uninterruptible:"
-        + mIsUninterruptible
+        + isUninterruptibleByNewSpeech
+        + ", isGloballyUninterruptible:"
+        + isGloballyUninterruptible
+        + ", mCanIgnoreInterrupts:"
+        + mCanIgnoreInterrupts
         + ", flushGlobalTtsQueue:"
         + flushGlobalTtsQueue
         + ", flags:"
@@ -404,35 +452,29 @@ public class FeedbackItem {
   }
 
   public static @Nullable String flagToString(int flag) {
-    switch (flag) {
-      case FLAG_NO_HISTORY:
-        return "FLAG_NO_HISTORY";
-      case FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE:
-        return "FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE";
-      case FLAG_FORCE_FEEDBACK_EVEN_IF_MICROPHONE_ACTIVE:
-        return "FLAG_FORCE_FEEDBACK_EVEN_IF_MICROPHONE_ACTIVE";
-      case FLAG_FORCE_FEEDBACK_EVEN_IF_SSB_ACTIVE:
-        return "FLAG_FORCE_FEEDBACK_EVEN_IF_SSB_ACTIVE";
-      case FLAG_FORCE_FEEDBACK_EVEN_IF_PHONE_CALL_ACTIVE:
-        return "FLAG_FORCE_FEEDBACK_EVEN_IF_PHONE_CALL_ACTIVE";
-      case FLAG_ADVANCE_CONTINUOUS_READING:
-        return "FLAG_ADVANCE_CONTINUOUS_READING";
-      case FLAG_NO_SPEECH:
-        return "FLAG_NO_SPEECH";
-      case FLAG_SKIP_DUPLICATE:
-        return "FLAG_SKIP_DUPLICATE";
-      case FLAG_CLEAR_QUEUED_UTTERANCES_WITH_SAME_UTTERANCE_GROUP:
-        return "FLAG_CLEAR_QUEUED_UTTERANCES_WITH_SAME_UTTERANCE_GROUP";
-      case FLAG_INTERRUPT_CURRENT_UTTERANCE_WITH_SAME_UTTERANCE_GROUP:
-        return "FLAG_INTERRUPT_CURRENT_UTTERANCE_WITH_SAME_UTTERANCE_GROUP";
-      case FLAG_NO_DEVICE_SLEEP:
-        return "FLAG_NO_DEVICE_SLEEP";
-      case FLAG_FORCE_FEEDBACK:
-        return "FLAG_FORCE_FEEDBACK";
-      case FLAG_SOURCE_IS_VOLUME_CONTROL:
-        return "FLAG_SOURCE_IS_VOLUME_CONTROL";
-      default:
-        return null;
-    }
+    return switch (flag) {
+      case FLAG_NO_HISTORY -> "FLAG_NO_HISTORY";
+      case FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE ->
+          "FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE";
+      case FLAG_FORCE_FEEDBACK_EVEN_IF_MICROPHONE_ACTIVE ->
+          "FLAG_FORCE_FEEDBACK_EVEN_IF_MICROPHONE_ACTIVE";
+      case FLAG_FORCE_FEEDBACK_EVEN_IF_SSB_ACTIVE -> "FLAG_FORCE_FEEDBACK_EVEN_IF_SSB_ACTIVE";
+      case FLAG_FORCE_FEEDBACK_EVEN_IF_PHONE_CALL_ACTIVE ->
+          "FLAG_FORCE_FEEDBACK_EVEN_IF_PHONE_CALL_ACTIVE";
+      case FLAG_ADVANCE_CONTINUOUS_READING -> "FLAG_ADVANCE_CONTINUOUS_READING";
+      case FLAG_NO_SPEECH -> "FLAG_NO_SPEECH";
+      case FLAG_SKIP_DUPLICATE -> "FLAG_SKIP_DUPLICATE";
+      case FLAG_CLEAR_QUEUED_UTTERANCES_WITH_SAME_UTTERANCE_GROUP ->
+          "FLAG_CLEAR_QUEUED_UTTERANCES_WITH_SAME_UTTERANCE_GROUP";
+      case FLAG_INTERRUPT_CURRENT_UTTERANCE_WITH_SAME_UTTERANCE_GROUP ->
+          "FLAG_INTERRUPT_CURRENT_UTTERANCE_WITH_SAME_UTTERANCE_GROUP";
+      case FLAG_NO_DEVICE_SLEEP -> "FLAG_NO_DEVICE_SLEEP";
+      case FLAG_FORCE_FEEDBACK -> "FLAG_FORCE_FEEDBACK";
+      case FLAG_SOURCE_IS_VOLUME_CONTROL -> "FLAG_SOURCE_IS_VOLUME_CONTROL";
+      case FLAG_CHUNKING_APPLIED -> "FLAG_CHUNKING_APPLIED";
+      case FLAG_INLINE_FORMATTING -> "FLAG_INLINE_FORMATTING";
+      case FLAG_RATE_IS_ABSOLUTE -> "FLAG_RATE_IS_ABSOLUTE";
+      default -> null;
+    };
   }
 }

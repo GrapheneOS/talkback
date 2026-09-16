@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -91,6 +91,16 @@ BEGIN_KEY_NAME_TABLE(rp)
   KEY_NAME_ENTRY(HM_KEY_RightPadRight, "RightPadRight"),
 END_KEY_NAME_TABLE
 
+BEGIN_KEY_NAME_TABLE(emotion)
+  KEY_NAME_ENTRY(HM_KEY_EM_Control, "Control"),
+  KEY_NAME_ENTRY(HM_KEY_EM_Alt, "Alt"),
+
+  KEY_NAME_ENTRY(HM_KEY_EM_F1, "F1"),
+  KEY_NAME_ENTRY(HM_KEY_EM_F2, "F2"),
+  KEY_NAME_ENTRY(HM_KEY_EM_F3, "F3"),
+  KEY_NAME_ENTRY(HM_KEY_EM_F4, "F4"),
+END_KEY_NAME_TABLE
+
 BEGIN_KEY_NAME_TABLES(pan)
   KEY_NAME_TABLE(common),
   KEY_NAME_TABLE(braille),
@@ -150,12 +160,20 @@ BEGIN_KEY_NAME_TABLES(beetle)
   KEY_NAME_TABLE(beetle),
 END_KEY_NAME_TABLES
 
+BEGIN_KEY_NAME_TABLES(emotion)
+  KEY_NAME_TABLE(common),
+  KEY_NAME_TABLE(braille),
+  KEY_NAME_TABLE(BE_scroll),
+  KEY_NAME_TABLE(emotion),
+END_KEY_NAME_TABLES
+
 DEFINE_KEY_TABLE(pan)
 DEFINE_KEY_TABLE(scroll)
 DEFINE_KEY_TABLE(qwerty)
 DEFINE_KEY_TABLE(edge)
 DEFINE_KEY_TABLE(sync)
 DEFINE_KEY_TABLE(beetle)
+DEFINE_KEY_TABLE(emotion)
 
 BEGIN_KEY_TABLE_LIST
   &KEY_TABLE_DEFINITION(pan),
@@ -164,6 +182,7 @@ BEGIN_KEY_TABLE_LIST
   &KEY_TABLE_DEFINITION(edge),
   &KEY_TABLE_DEFINITION(sync),
   &KEY_TABLE_DEFINITION(beetle),
+  &KEY_TABLE_DEFINITION(emotion),
 END_KEY_TABLE_LIST
 
 typedef enum {
@@ -187,46 +206,69 @@ typedef union {
 } PACKED InputPacket;
 
 typedef struct {
+  const char *description;
   const KeyTableDefinition *keyTable;
   unsigned char id1;
   unsigned char id2;
 } IdentityEntry;
 
+static const IdentityEntry assumePanIdentity = {
+  .keyTable = &KEY_TABLE_DEFINITION(pan)
+};
+
 static const IdentityEntry panIdentity = {
+  .description = "Braille Sense PLUS (pan)",
+  .id1 = 0X42, .id2 = 0X53,
   .keyTable = &KEY_TABLE_DEFINITION(pan)
 };
 
 static const IdentityEntry scrollIdentity = {
+  .description = "Braille Sense PLUS & OnHand (scroll)",
   .id1 = 0X4C, .id2 = 0X58,
   .keyTable = &KEY_TABLE_DEFINITION(scroll)
 };
 
 static const IdentityEntry qwerty2Identity = {
+  .description = "Braille Sense PLUS (qwerty)",
   .id1 = 0X53, .id2 = 0X58,
   .keyTable = &KEY_TABLE_DEFINITION(qwerty)
 };
 
 static const IdentityEntry qwerty1Identity = {
+  .description = "Braille Sense PLUS (qwerty)",
   .id1 = 0X51, .id2 = 0X58,
   .keyTable = &KEY_TABLE_DEFINITION(qwerty)
 };
 
 static const IdentityEntry edgeIdentity = {
+  .description = "Braille EDGE",
   .id1 = 0X42, .id2 = 0X45,
   .keyTable = &KEY_TABLE_DEFINITION(edge)
 };
 
 typedef struct {
+  int (*getCellCount) (BrailleDisplay *brl, unsigned int *count);
+  int (*readCommands) (BrailleDisplay *brl);
+  int (*writeCells) (BrailleDisplay *brl, const unsigned char *cells, size_t count);
+} InputOutputOperations;
+
+typedef struct {
   const char *modelName;
   const char *resourceNamePrefix;
   const KeyTableDefinition *keyTable;
-  const KeyTableDefinition * (*testIdentities) (BrailleDisplay *brl);
+  const KeyTableDefinition * (*probeIdentity) (BrailleDisplay *brl);
   int (*getDefaultCellCount) (BrailleDisplay *brl, unsigned int *count);
+  const InputOutputOperations *io;
 } ProtocolEntry;
 
 struct BrailleDataStruct {
   const ProtocolEntry *protocol;
   unsigned char previousCells[MAXIMUM_CELL_COUNT];
+
+  struct {
+    HidReportSize reportSize;
+    unsigned char pressedKeys[0X20];
+  } hid;
 };
 
 static BraillePacketVerifierResult
@@ -305,7 +347,7 @@ writeBytes (BrailleDisplay *brl, const unsigned char *bytes, size_t count) {
 }
 
 static int
-testIdentity (BrailleDisplay *brl, unsigned char id1, unsigned char id2) {
+probeIdentity (BrailleDisplay *brl, unsigned char id1, unsigned char id2) {
   const unsigned char sequence[] = {0X1C, id1, id2, 0X1F};
   const size_t length = sizeof(sequence);
 
@@ -325,7 +367,7 @@ testIdentity (BrailleDisplay *brl, unsigned char id1, unsigned char id2) {
 }
 
 static const KeyTableDefinition *
-testIdentities (BrailleDisplay *brl, const IdentityEntry *const *identities) {
+probeIdentities (BrailleDisplay *brl, const IdentityEntry *const *identities) {
   while (*identities) {
     const IdentityEntry *identity = *identities;
     const char *name = identity->keyTable->bindings;
@@ -333,9 +375,9 @@ testIdentities (BrailleDisplay *brl, const IdentityEntry *const *identities) {
     if (!identity->id1 && !identity->id2) {
       logMessage(LOG_CATEGORY(BRAILLE_DRIVER), "assuming identity: %s", name);
     } else {
-      logMessage(LOG_CATEGORY(BRAILLE_DRIVER), "testing identity: %s", name);
+      logMessage(LOG_CATEGORY(BRAILLE_DRIVER), "probing identity: %s", name);
 
-      if (!testIdentity(brl, identity->id1, identity->id2)) {
+      if (!probeIdentity(brl, identity->id1, identity->id2)) {
         identities += 1;
         continue;
       }
@@ -348,26 +390,38 @@ testIdentities (BrailleDisplay *brl, const IdentityEntry *const *identities) {
 }
 
 static const KeyTableDefinition *
-testBrailleSenseIdentities (BrailleDisplay *brl) {
+probeIdentity_BrailleSense (BrailleDisplay *brl) {
   static const IdentityEntry *const identities[] = {
     &qwerty2Identity,
     &qwerty1Identity,
     &scrollIdentity,
     &panIdentity,
+    &assumePanIdentity,
     NULL
   };
 
-  return testIdentities(brl, identities);
+  return probeIdentities(brl, identities);
 }
 
 static const KeyTableDefinition *
-testBrailleEdgeIdentities (BrailleDisplay *brl) {
+probeIdentity_BrailleSense6 (BrailleDisplay *brl) {
+  static const IdentityEntry *const identities[] = {
+    &scrollIdentity,
+    &assumePanIdentity,
+    NULL
+  };
+
+  return probeIdentities(brl, identities);
+}
+
+static const KeyTableDefinition *
+probeIdentity_BrailleEdge (BrailleDisplay *brl) {
   static const IdentityEntry *const identities[] = {
     &edgeIdentity,
     NULL
   };
 
-  return testIdentities(brl, identities);
+  return probeIdentities(brl, identities);
 }
 
 static int
@@ -439,71 +493,7 @@ writePacket (
 
 
 static int
-getBrailleSenseDefaultCellCount (BrailleDisplay *brl, unsigned int *count) {
-  *count = 32;
-  return 1;
-}
-
-static const ProtocolEntry brailleSenseProtocol = {
-  .modelName = "Braille Sense",
-  .keyTable = &KEY_TABLE_DEFINITION(pan),
-  .testIdentities = testBrailleSenseIdentities,
-  .getDefaultCellCount = getBrailleSenseDefaultCellCount
-};
-
-
-static int
-getSyncBrailleDefaultCellCount (BrailleDisplay *brl, unsigned int *count) {
-  return 0;
-}
-
-static const ProtocolEntry syncBrailleProtocol = {
-  .modelName = "SyncBraille",
-  .keyTable = &KEY_TABLE_DEFINITION(sync),
-  .getDefaultCellCount = getSyncBrailleDefaultCellCount
-};
-
-
-static int
-getBrailleEdgeDefaultCellCount (BrailleDisplay *brl, unsigned int *count) {
-  *count = 40;
-  return 1;
-}
-
-static const ProtocolEntry brailleEdgeProtocol = {
-  .modelName = "Braille Edge",
-  .resourceNamePrefix = "BrailleEDGE",
-  .keyTable = &KEY_TABLE_DEFINITION(edge),
-  .testIdentities = testBrailleEdgeIdentities,
-  .getDefaultCellCount = getBrailleEdgeDefaultCellCount
-};
-
-
-static const ProtocolEntry *protocolTable[] = {
-  &brailleSenseProtocol,
-  &syncBrailleProtocol,
-  &brailleEdgeProtocol,
-  NULL
-};
-
-
-static int
-writeCells (BrailleDisplay *brl) {
-  const size_t count = MIN(brl->textColumns*brl->textRows, MAXIMUM_CELL_COUNT);
-  unsigned char cells[count];
-
-  translateOutputCells(cells, brl->data->previousCells, count);
-  return writePacket(brl, 0XFC, 0X01, cells, count, NULL, 0);
-}
-
-static int
-clearCells (BrailleDisplay *brl) {
-  memset(brl->data->previousCells, 0, MIN(brl->textColumns*brl->textRows, MAXIMUM_CELL_COUNT));
-  return writeCells(brl);
-}
-
-static int
-writeCellCountRequest (BrailleDisplay *brl) {
+writeCellCountRequest_serial (BrailleDisplay *brl) {
   static const unsigned char data[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -513,25 +503,376 @@ writeCellCountRequest (BrailleDisplay *brl) {
 }
 
 static BrailleResponseResult
-isCellCountResponse (BrailleDisplay *brl, const void *packet, size_t size) {
+isCellCountResponse_serial (BrailleDisplay *brl, const void *packet, size_t size) {
   const InputPacket *response = packet;
 
   return (response->data.type == IPT_CELLS)? BRL_RSP_DONE: BRL_RSP_UNEXPECTED;
 }
 
 static int
-getCellCount (BrailleDisplay *brl, unsigned int *count) {
+getCellCount_serial (BrailleDisplay *brl, unsigned int *count) {
   InputPacket response;
 
-  if (probeBrailleDisplay(brl, 2, NULL, 1000,
-                          writeCellCountRequest,
-                          readBytes, &response, sizeof(response.bytes),
-                          isCellCountResponse)) {
-    *count = response.data.data;
-    return 1;
+  int probed = probeBrailleDisplay(
+    brl, 2, NULL, 1000, writeCellCountRequest_serial,
+    readBytes, &response, sizeof(response.bytes),
+    isCellCountResponse_serial
+  );
+
+  if (!probed) return 0;
+  *count = response.data.data;
+  return 1;
+}
+
+static int
+readCommands_serial (BrailleDisplay *brl) {
+  InputPacket packet;
+  int length;
+
+  while ((length = readPacket(brl, &packet))) {
+    switch (packet.data.type) {
+      case IPT_CURSOR: {
+        unsigned char key = packet.data.data;
+
+        enqueueKey(brl, HM_GRP_RoutingKeys, key);
+        continue;
+      }
+
+      case IPT_KEYS: {
+        KeyNumberSet bits = (packet.data.reserved[0] << 0X00)
+                          | (packet.data.reserved[1] << 0X08)
+                          | (packet.data.reserved[2] << 0X10)
+                          | (packet.data.reserved[3] << 0X18);
+
+        enqueueKeys(brl, bits, HM_GRP_NavigationKeys, 0);
+        continue;
+      }
+
+      default:
+        break;
+    }
+
+    logUnexpectedPacket(&packet, length);
   }
 
-  return brl->data->protocol->getDefaultCellCount(brl, count);
+  return (errno == EAGAIN)? EOF: BRL_CMD_RESTARTBRL;
+}
+
+static int
+writeCells_serial (BrailleDisplay *brl, const unsigned char *cells, size_t count) {
+  return writePacket(brl, 0XFC, 0X01, cells, count, NULL, 0);
+}
+
+static const InputOutputOperations serialOperations = {
+  .getCellCount = getCellCount_serial,
+  .readCommands = readCommands_serial,
+  .writeCells = writeCells_serial,
+};
+
+
+static int
+getCellCount_HID (BrailleDisplay *brl, unsigned int *count) {
+  HidReportSize *reportSize = &brl->data->hid.reportSize;
+  if (!gioGetHidReportSize(brl->gioEndpoint, 0, reportSize)) return 0;
+
+  size_t cellCount = reportSize->output;
+  if (!cellCount) return 0;
+
+  *count = cellCount;
+  return 1;
+}
+
+typedef struct {
+  unsigned char mask;
+  KeyValue key;
+} HidInputBit;
+
+typedef struct {
+  unsigned char offset;
+  HidInputBit bits[8];
+} HidInputByte;
+
+static const HidInputByte hidInputBytes[11] = {
+  { .offset = 0,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_Dot1}},
+      {.mask=0X02, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_Dot2}},
+      {.mask=0X04, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_Dot3}},
+      {.mask=0X08, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_Dot4}},
+      {.mask=0X10, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_Dot5}},
+      {.mask=0X20, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_Dot6}},
+      {.mask=0X40, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_Dot7}},
+      {.mask=0X80, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_Dot8}},
+    }
+  },
+
+  { .offset = 1,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_RoutingKeys, .number= 0}},
+      {.mask=0X02, .key={.group=HM_GRP_RoutingKeys, .number= 1}},
+      {.mask=0X04, .key={.group=HM_GRP_RoutingKeys, .number= 2}},
+      {.mask=0X08, .key={.group=HM_GRP_RoutingKeys, .number= 3}},
+      {.mask=0X10, .key={.group=HM_GRP_RoutingKeys, .number= 4}},
+      {.mask=0X20, .key={.group=HM_GRP_RoutingKeys, .number= 5}},
+      {.mask=0X40, .key={.group=HM_GRP_RoutingKeys, .number= 6}},
+      {.mask=0X80, .key={.group=HM_GRP_RoutingKeys, .number= 7}},
+    }
+  },
+
+  { .offset = 2,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_RoutingKeys, .number= 8}},
+      {.mask=0X02, .key={.group=HM_GRP_RoutingKeys, .number= 9}},
+      {.mask=0X04, .key={.group=HM_GRP_RoutingKeys, .number=10}},
+      {.mask=0X08, .key={.group=HM_GRP_RoutingKeys, .number=11}},
+      {.mask=0X10, .key={.group=HM_GRP_RoutingKeys, .number=12}},
+      {.mask=0X20, .key={.group=HM_GRP_RoutingKeys, .number=13}},
+      {.mask=0X40, .key={.group=HM_GRP_RoutingKeys, .number=14}},
+      {.mask=0X80, .key={.group=HM_GRP_RoutingKeys, .number=15}},
+    }
+  },
+
+  { .offset = 3,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_RoutingKeys, .number=16}},
+      {.mask=0X02, .key={.group=HM_GRP_RoutingKeys, .number=17}},
+      {.mask=0X04, .key={.group=HM_GRP_RoutingKeys, .number=18}},
+      {.mask=0X08, .key={.group=HM_GRP_RoutingKeys, .number=19}},
+      {.mask=0X10, .key={.group=HM_GRP_RoutingKeys, .number=20}},
+      {.mask=0X20, .key={.group=HM_GRP_RoutingKeys, .number=21}},
+      {.mask=0X40, .key={.group=HM_GRP_RoutingKeys, .number=22}},
+      {.mask=0X80, .key={.group=HM_GRP_RoutingKeys, .number=23}},
+    }
+  },
+
+  { .offset = 4,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_RoutingKeys, .number=24}},
+      {.mask=0X02, .key={.group=HM_GRP_RoutingKeys, .number=25}},
+      {.mask=0X04, .key={.group=HM_GRP_RoutingKeys, .number=26}},
+      {.mask=0X08, .key={.group=HM_GRP_RoutingKeys, .number=27}},
+      {.mask=0X10, .key={.group=HM_GRP_RoutingKeys, .number=28}},
+      {.mask=0X20, .key={.group=HM_GRP_RoutingKeys, .number=29}},
+      {.mask=0X40, .key={.group=HM_GRP_RoutingKeys, .number=30}},
+      {.mask=0X80, .key={.group=HM_GRP_RoutingKeys, .number=31}},
+    }
+  },
+
+  { .offset = 5,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_RoutingKeys, .number=32}},
+      {.mask=0X02, .key={.group=HM_GRP_RoutingKeys, .number=33}},
+      {.mask=0X04, .key={.group=HM_GRP_RoutingKeys, .number=34}},
+      {.mask=0X08, .key={.group=HM_GRP_RoutingKeys, .number=35}},
+      {.mask=0X10, .key={.group=HM_GRP_RoutingKeys, .number=36}},
+      {.mask=0X20, .key={.group=HM_GRP_RoutingKeys, .number=37}},
+      {.mask=0X40, .key={.group=HM_GRP_RoutingKeys, .number=38}},
+      {.mask=0X80, .key={.group=HM_GRP_RoutingKeys, .number=39}},
+    }
+  },
+
+  { .offset = 7,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_EM_F1}},
+      {.mask=0X04, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_EM_F2}},
+      {.mask=0X08, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_BE_RightScrollUp}},
+      {.mask=0X10, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_EM_F3}},
+      {.mask=0X40, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_EM_F4}},
+      {.mask=0X80, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_BE_RightScrollDown}},
+    }
+  },
+
+  { .offset = 8,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_EM_Control}},
+      {.mask=0X02, .key={.group=HM_GRP_NavigationKeys, .number=HM_KEY_EM_Alt}},
+    }
+  },
+
+  { .offset = 10,
+    .bits = {
+      {.mask=0X01, .key={.group=HM_GRP_NavigationKeys, HM_KEY_Space}},
+    }
+  },
+};
+
+static int
+readCommands_HID (BrailleDisplay *brl) {
+  while (1) {
+    const size_t reportSize = brl->data->hid.reportSize.input;
+    unsigned char *oldReport = brl->data->hid.pressedKeys;
+    unsigned char newReport[reportSize];
+
+    const ssize_t length = gioReadData(brl->gioEndpoint, newReport, reportSize, 1);
+    if (!length) return EOF;
+    if (length == -1) return (errno == EAGAIN)? EOF: BRL_CMD_RESTARTBRL;
+    logInputPacket(newReport, length);
+
+    if (length < reportSize) {
+      memset(&newReport[length], 0, (reportSize - length));
+    }
+
+    const HidInputByte *byte = hidInputBytes;
+    const HidInputByte *byteEnd = byte + ARRAY_COUNT(hidInputBytes);
+
+    while (byte < byteEnd) {
+      unsigned char *newByte = newReport + byte->offset;
+      unsigned char *oldByte = oldReport + byte->offset;
+
+      if (*newByte != *oldByte) {
+        const HidInputBit *bit = byte->bits;
+        const HidInputBit *bitEnd = bit + ARRAY_COUNT(byte->bits);
+
+        while (bit < bitEnd) {
+          if (!bit->mask) break;
+          unsigned char newBit = *newByte & bit->mask;
+          unsigned char oldBit = *oldByte & bit->mask;
+
+          if (newBit != oldBit) {
+            KeyValue key = bit->key;
+
+            if (newBit) {
+              enqueueKeyEvent(brl, key.group, key.number, 1);
+              *oldByte |= newBit;
+            } else {
+              enqueueKeyEvent(brl, key.group, key.number, 0);
+              *oldByte &= ~oldBit;
+            }
+
+            if (*oldByte == *newByte) break;
+          }
+
+          bit += 1;
+        }
+      }
+
+      byte += 1;
+    }
+  }
+}
+
+static int
+writeCells_HID (BrailleDisplay *brl, const unsigned char *cells, size_t count) {
+  return writeBytes(brl, cells, count);
+}
+
+static const InputOutputOperations hidOperations = {
+  .getCellCount = getCellCount_HID,
+  .readCommands = readCommands_HID,
+  .writeCells = writeCells_HID,
+};
+
+
+static int
+getDefaultCellCount_BrailleSense (BrailleDisplay *brl, unsigned int *count) {
+  *count = 32;
+  return 1;
+}
+
+static const ProtocolEntry protocol_BrailleSense = {
+  .modelName = "Braille Sense",
+  .keyTable = &KEY_TABLE_DEFINITION(pan),
+  .probeIdentity = probeIdentity_BrailleSense,
+  .getDefaultCellCount = getDefaultCellCount_BrailleSense,
+  .io = &serialOperations
+};
+
+static const ProtocolEntry protocol_BrailleSense6 = {
+  .modelName = "BrailleSense 6",
+  .resourceNamePrefix = "BrailleSense6",
+  .keyTable = &KEY_TABLE_DEFINITION(scroll),
+  .probeIdentity = probeIdentity_BrailleSense6,
+  .getDefaultCellCount = getDefaultCellCount_BrailleSense,
+  .io = &serialOperations
+};
+
+
+static int
+getDefaultCellCount_SyncBraille (BrailleDisplay *brl, unsigned int *count) {
+  return 0;
+}
+
+static const ProtocolEntry protocol_SyncBraille = {
+  .modelName = "SyncBraille",
+  .keyTable = &KEY_TABLE_DEFINITION(sync),
+  .getDefaultCellCount = getDefaultCellCount_SyncBraille,
+  .io = &serialOperations
+};
+
+
+static int
+getDefaultCellCount_BrailleEdge (BrailleDisplay *brl, unsigned int *count) {
+  *count = 40;
+  return 1;
+}
+
+static const ProtocolEntry protocol_BrailleEdge = {
+  .modelName = "Braille Edge",
+  .resourceNamePrefix = "BrailleEDGE",
+  .keyTable = &KEY_TABLE_DEFINITION(edge),
+  .probeIdentity = probeIdentity_BrailleEdge,
+  .getDefaultCellCount = getDefaultCellCount_BrailleEdge,
+  .io = &serialOperations
+};
+
+
+static int
+getDefaultCellCount_eMotion (BrailleDisplay *brl, unsigned int *count) {
+  *count = 40;
+  return 1;
+}
+
+static const ProtocolEntry protocol_eMotionLegacy = {
+  .modelName = "eMotion (legacy)",
+  .keyTable = &KEY_TABLE_DEFINITION(emotion),
+  .getDefaultCellCount = getDefaultCellCount_eMotion,
+  .io = &serialOperations
+};
+
+static const ProtocolEntry protocol_eMotionHID = {
+  .modelName = "eMotion (HID)",
+  .keyTable = &KEY_TABLE_DEFINITION(emotion),
+  .getDefaultCellCount = getDefaultCellCount_eMotion,
+  .io = &hidOperations
+};
+
+
+static const ProtocolEntry *protocolTable[] = {
+  &protocol_BrailleSense,
+  &protocol_SyncBraille,
+  &protocol_BrailleEdge,
+  &protocol_BrailleSense6,
+  NULL
+};
+
+
+static int
+writeCells (BrailleDisplay *brl) {
+  const size_t count = MIN(brl->textColumns*brl->textRows, MAXIMUM_CELL_COUNT);
+  unsigned char cells[count];
+  translateOutputCells(cells, brl->data->previousCells, count);
+
+  return brl->data->protocol->io->writeCells(brl, cells, count);
+}
+
+static int
+clearCells (BrailleDisplay *brl) {
+  memset(brl->data->previousCells, 0, MIN(brl->textColumns*brl->textRows, MAXIMUM_CELL_COUNT));
+  return writeCells(brl);
+}
+
+static int
+getCellCount (BrailleDisplay *brl, unsigned int *count) {
+  if (brl->data->protocol->io->getCellCount(brl, count)) {
+    logMessage(LOG_CATEGORY(BRAILLE_DRIVER), "explicit cell count: %u", *count);
+  } else if (brl->data->protocol->getDefaultCellCount(brl, count)) {
+    logMessage(LOG_CATEGORY(BRAILLE_DRIVER), "default cell count: %u", *count);
+  } else {
+    logMessage(LOG_CATEGORY(BRAILLE_DRIVER), "unknown cell count");
+    return 0;
+  }
+
+  return 1;
 }
 
 static void
@@ -567,7 +908,7 @@ connectResource (BrailleDisplay *brl, const char *identifier) {
       .configuration=1, .interface=0, .alternative=0,
       .inputEndpoint=1, .outputEndpoint=2,
       .disableAutosuspend=1,
-      .data=&brailleSenseProtocol
+      .data=&protocol_BrailleSense
     },
 
     { /* Braille Sense (USB 2.0) */
@@ -577,7 +918,7 @@ connectResource (BrailleDisplay *brl, const char *identifier) {
       .inputEndpoint=1, .outputEndpoint=2,
       .verifyInterface=1,
       .disableAutosuspend=1,
-      .data=&brailleSenseProtocol
+      .data=&protocol_BrailleSense
     },
 
     { /* Braille Sense U2 (USB 2.0) */
@@ -587,7 +928,18 @@ connectResource (BrailleDisplay *brl, const char *identifier) {
       .inputEndpoint=1, .outputEndpoint=2,
       .verifyInterface=1,
       .disableAutosuspend=1,
-      .data=&brailleSenseProtocol
+      .data=&protocol_BrailleSense
+    },
+
+    { /* BrailleSense 6 (USB 2.1) */
+      .version = UsbSpecificationVersion_2_1,
+      .vendor=0X045E, .product=0X930A,
+      .configuration=1, .interface=0, .alternative=0,
+      .inputEndpoint=1, .outputEndpoint=1,
+      .verifyInterface=1,
+      .resetDevice=1,
+      .disableAutosuspend=1,
+      .data=&protocol_BrailleSense6
     },
 
     { /* Sync Braille */
@@ -595,7 +947,7 @@ connectResource (BrailleDisplay *brl, const char *identifier) {
       .manufacturers = usbManufacturers_0403_6001,
       .configuration=1, .interface=0, .alternative=0,
       .inputEndpoint=1, .outputEndpoint=2,
-      .data=&syncBrailleProtocol
+      .data=&protocol_SyncBraille
     },
 
     { /* Braille Edge and QBrailleXL */
@@ -603,7 +955,24 @@ connectResource (BrailleDisplay *brl, const char *identifier) {
       .configuration=1, .interface=0, .alternative=0,
       .inputEndpoint=1, .outputEndpoint=2,
       .disableAutosuspend=1,
-      .data=&brailleEdgeProtocol
+      .data=&protocol_BrailleEdge
+    },
+
+    { /* eMotion (legacy) */
+      .vendor=0X1A86, .product=0X55D3,
+      .configuration=1, .interface=1, .alternative=0,
+      .inputEndpoint=2, .outputEndpoint=2,
+      .serial = &serialParameters,
+      .disableAutosuspend=1,
+      .data=&protocol_eMotionLegacy
+    },
+
+    { /* eMotion (HID) */
+      .vendor=0X045E, .product=0X940A,
+      .configuration=1, .interface=2, .alternative=0,
+      .inputEndpoint=4, .outputEndpoint=3,
+      .disableAutosuspend=1,
+      .data=&protocol_eMotionHID
     },
   END_USB_CHANNEL_DEFINITIONS
 
@@ -611,7 +980,7 @@ connectResource (BrailleDisplay *brl, const char *identifier) {
   gioInitializeDescriptor(&descriptor);
 
   descriptor.serial.parameters = &serialParameters;
-  descriptor.serial.options.applicationData = &brailleSenseProtocol;
+  descriptor.serial.options.applicationData = &protocol_BrailleSense;
 
   descriptor.usb.channelDefinitions = usbChannelDefinitions;
 
@@ -625,6 +994,35 @@ connectResource (BrailleDisplay *brl, const char *identifier) {
   return 0;
 }
 
+static const ProtocolEntry *
+getProtocol (BrailleDisplay *brl) {
+  char *name = gioGetResourceName(brl->gioEndpoint);
+
+  if (name) {
+    logMessage(LOG_CATEGORY(BRAILLE_DRIVER), "resource name: %s", name);
+    const ProtocolEntry *const *protocolAddress = protocolTable;
+
+    while (*protocolAddress) {
+      const ProtocolEntry *protocol = *protocolAddress;
+      const char *prefix = protocol->resourceNamePrefix;
+
+      if (prefix) {
+        if (strncasecmp(name, prefix, strlen(prefix)) == 0) {
+          return protocol;
+        }
+      }
+
+      protocolAddress += 1;
+    }
+
+    free(name);
+  } else {
+    logMessage(LOG_CATEGORY(BRAILLE_DRIVER), "no resource name");
+  }
+
+  return &protocol_BrailleSense;
+}
+
 static int
 brl_construct (BrailleDisplay *brl, char **parameters, const char *device) {
   if ((brl->data = malloc(sizeof(*brl->data)))) {
@@ -632,43 +1030,23 @@ brl_construct (BrailleDisplay *brl, char **parameters, const char *device) {
 
     if (connectResource(brl, device)) {
       if (!(brl->data->protocol = gioGetApplicationData(brl->gioEndpoint))) {
-        char *name = gioGetResourceName(brl->gioEndpoint);
-        brl->data->protocol = &brailleSenseProtocol;
-
-        if (name) {
-          const ProtocolEntry *const *protocolAddress = protocolTable;
-
-          while (*protocolAddress) {
-            const ProtocolEntry *protocol = *protocolAddress;
-            const char *prefix = protocol->resourceNamePrefix;
-
-            if (prefix) {
-              if (strncasecmp(name, prefix, strlen(prefix)) == 0) {
-                brl->data->protocol = protocol;
-                break;
-              }
-            }
-
-            protocolAddress += 1;
-          }
-
-          free(name);
-        }
+        brl->data->protocol = getProtocol(brl);
       }
 
       logMessage(LOG_INFO, "detected: %s", brl->data->protocol->modelName);
 
+      // Identity probing must be the very first interaction with the device.
       const KeyTableDefinition *ktd =
-        brl->data->protocol->testIdentities?
-          brl->data->protocol->testIdentities(brl):
-          NULL;
+        brl->data->protocol->probeIdentity?
+        brl->data->protocol->probeIdentity(brl):
+        NULL;
 
       if (getCellCount(brl, &brl->textColumns)) {
         brl->textRows = 1;
 
         setKeyTable(brl, ktd);
         makeOutputTable(dotsTable_ISO11548_1);
-  
+
         if (clearCells(brl)) return 1;
       }
 
@@ -706,35 +1084,5 @@ brl_writeWindow (BrailleDisplay *brl, const wchar_t *text) {
 
 static int
 brl_readCommand (BrailleDisplay *brl, KeyTableCommandContext context) {
-  InputPacket packet;
-  int length;
-
-  while ((length = readPacket(brl, &packet))) {
-    switch (packet.data.type) {
-      case IPT_CURSOR: {
-        unsigned char key = packet.data.data;
-
-        enqueueKey(brl, HM_GRP_RoutingKeys, key);
-        continue;
-      }
-
-      case IPT_KEYS: {
-        KeyNumberSet bits = (packet.data.reserved[0] << 0X00)
-                          | (packet.data.reserved[1] << 0X08)
-                          | (packet.data.reserved[2] << 0X10)
-                          | (packet.data.reserved[3] << 0X18);
-
-        enqueueKeys(brl, bits, HM_GRP_NavigationKeys, 0);
-        continue;
-      }
-
-      default:
-        break;
-    }
-
-    logUnexpectedPacket(&packet, length);
-  }
-  if (errno != EAGAIN) return BRL_CMD_RESTARTBRL;
-
-  return EOF;
+  return brl->data->protocol->io->readCommands(brl);
 }

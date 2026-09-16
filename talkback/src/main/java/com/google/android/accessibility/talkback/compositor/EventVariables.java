@@ -113,56 +113,41 @@ class EventVariables implements VariableDelegate {
 
   @Override
   public boolean getBoolean(int variableId) {
-    switch (variableId) {
-      case EVENT_SOURCE_IS_NULL:
-        return (mSource == null);
-      case EVENT_SOURCE_IS_KEYBOARD:
-        return AccessibilityNodeInfoUtils.isKeyboard(mSource);
-      case EVENT_IS_WINDOW_CONTENT_CHANGED:
-        return mEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
-      case EVENT_SOURCE_IS_LIVE_REGION:
-        return (mSource != null)
-            && (mSource.getLiveRegion() != View.ACCESSIBILITY_LIVE_REGION_NONE);
-      default:
-        return mParent.getBoolean(variableId);
-    }
+    return switch (variableId) {
+      case EVENT_SOURCE_IS_NULL -> (mSource == null);
+      case EVENT_SOURCE_IS_KEYBOARD -> AccessibilityNodeInfoUtils.isKeyboard(mSource);
+      case EVENT_IS_WINDOW_CONTENT_CHANGED ->
+          mEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
+      case EVENT_SOURCE_IS_LIVE_REGION ->
+          (mSource != null) && (mSource.getLiveRegion() != View.ACCESSIBILITY_LIVE_REGION_NONE);
+      default -> mParent.getBoolean(variableId);
+    };
   }
 
   @Override
   public int getInteger(int variableId) {
-    switch (variableId) {
-      case EVENT_ITEM_COUNT:
-        return mEvent.getItemCount();
-      case EVENT_CURRENT_ITEM_INDEX:
-        return mEvent.getCurrentItemIndex();
-      case EVENT_REMOVED_COUNT:
-        return mEvent.getRemovedCount();
-      case EVENT_ADDED_COUNT:
-        return mEvent.getAddedCount();
-      case EVENT_FROM_INDEX:
-        return mEvent.getFromIndex();
-      case EVENT_TO_INDEX:
-        return mEvent.getToIndex();
-      case EVENT_SOURCE_MAX_TEXT_LENGTH:
-        return (mSource == null) ? 0 : mSource.getMaxTextLength();
-      default:
-        return mParent.getInteger(variableId);
-    }
+    return switch (variableId) {
+      case EVENT_ITEM_COUNT -> mEvent.getItemCount();
+      case EVENT_CURRENT_ITEM_INDEX -> mEvent.getCurrentItemIndex();
+      case EVENT_REMOVED_COUNT -> mEvent.getRemovedCount();
+      case EVENT_ADDED_COUNT -> mEvent.getAddedCount();
+      case EVENT_FROM_INDEX -> mEvent.getFromIndex();
+      case EVENT_TO_INDEX -> mEvent.getToIndex();
+      case EVENT_SOURCE_MAX_TEXT_LENGTH -> (mSource == null) ? 0 : mSource.getMaxTextLength();
+      default -> mParent.getInteger(variableId);
+    };
   }
 
   @Override
   public double getNumber(int variableId) {
-    switch (variableId) {
-      case EVENT_SCROLL_PERCENT:
-        return AccessibilityEventUtils.getScrollPercent(mEvent, 50.0f);
-      case EVENT_PROGRESS_PERCENT:
-        return AccessibilityEventUtils.getProgressPercent(mEvent);
-      case EVENT_PROGRESS_BAR_EARCON_RATE:
-        return EarconFeedbackUtils.getProgressBarChangeEarconRate(
-            mEvent, AccessibilityNodeInfoUtils.toCompat(mSource));
-      default:
-        return mParent.getNumber(variableId);
-    }
+    return switch (variableId) {
+      case EVENT_SCROLL_PERCENT -> AccessibilityEventUtils.getScrollPercent(mEvent, 50.0f);
+      case EVENT_PROGRESS_PERCENT -> AccessibilityEventUtils.getProgressPercent(mEvent);
+      case EVENT_PROGRESS_BAR_EARCON_RATE ->
+          EarconFeedbackUtils.getProgressBarChangeEarconRate(
+              mEvent, AccessibilityNodeInfoUtils.toCompat(mSource));
+      default -> mParent.getNumber(variableId);
+    };
   }
 
   @Override
@@ -175,7 +160,9 @@ class EventVariables implements VariableDelegate {
     AtomicBoolean textIsClean = new AtomicBoolean(false);
     CharSequence text = getStringInternal(variableId, textIsClean);
     if (!textIsClean.get()) {
-      text = SpeechCleanupUtils.collapseRepeatedCharactersAndCleanUp(mContext, text);
+      text =
+          SpeechCleanupUtils.collapseRepeatedCharactersAndCleanUp(
+              mContext, text, globalVariables.getCountRepeatedSymbols());
     }
     return text;
   }
@@ -183,49 +170,43 @@ class EventVariables implements VariableDelegate {
   /** Modifies parameter clean, to indicate which results need cleaning by getString(). */
   private @Nullable CharSequence getStringInternal(int variableId, AtomicBoolean clean) {
     clean.set(false);
-    switch (variableId) {
-      case EVENT_CONTENT_DESCRIPTION:
-        return AccessibilityEventFeedbackUtils.getEventContentDescription(
-            mEvent, mUserPreferredLocale);
-      case EVENT_NOTIFICATION_CATEGORY:
-        return EventTypeNotificationStateChangedFeedbackRule.getNotificationCategoryStateText(
-            mContext, AccessibilityEventUtils.extractNotification(mEvent));
-      case EVENT_NOTIFICATION_DETAILS:
-        return EventTypeNotificationStateChangedFeedbackRule.getNotificationDetailsStateText(
-            AccessibilityEventUtils.extractNotification(mEvent));
-      case EVENT_TEXT_0:
-        return AccessibilityEventFeedbackUtils.getEventTextFromArrayString(
-            mEvent, 0, mUserPreferredLocale);
-      case EVENT_BEFORE_TEXT:
-        return mEvent.getBeforeText();
-      case EVENT_SOURCE_ERROR:
-        return (mSource == null) ? "" : mSource.getError();
-      case EVENT_PAGER_INDEX_COUNT:
-        return AccessibilityEventFeedbackUtils.getPagerIndexCount(
-            mEvent, mContext, globalVariables);
-      case EVENT_SCROLL_POSITION_OUTPUT:
-        return ScrollPositionFeedbackRule.getScrollPositionText(mEvent, mContext, globalVariables);
-      case EVENT_DESCRIPTION:
-        return AccessibilityEventFeedbackUtils.getEventContentDescriptionOrEventAggregateText(
-            mEvent, mUserPreferredLocale);
-      case EVENT_AGGREGATE_TEXT:
-        return AccessibilityEventFeedbackUtils.getEventAggregateText(mEvent, mUserPreferredLocale);
-      default:
+    return switch (variableId) {
+      case EVENT_CONTENT_DESCRIPTION ->
+          AccessibilityEventFeedbackUtils.getEventContentDescription(mEvent, mUserPreferredLocale);
+      case EVENT_NOTIFICATION_CATEGORY ->
+          EventTypeNotificationStateChangedFeedbackRule.getNotificationCategoryStateText(
+              mContext, AccessibilityEventUtils.extractNotification(mEvent));
+      case EVENT_NOTIFICATION_DETAILS ->
+          EventTypeNotificationStateChangedFeedbackRule.getNotificationDetailsStateText(
+              AccessibilityEventUtils.extractNotification(mEvent));
+      case EVENT_TEXT_0 ->
+          AccessibilityEventFeedbackUtils.getEventTextFromArrayString(
+              mEvent, 0, mUserPreferredLocale);
+      case EVENT_BEFORE_TEXT -> mEvent.getBeforeText();
+      case EVENT_SOURCE_ERROR -> (mSource == null) ? "" : mSource.getError();
+      case EVENT_PAGER_INDEX_COUNT ->
+          AccessibilityEventFeedbackUtils.getPagerIndexCount(mEvent, mContext, globalVariables);
+      case EVENT_SCROLL_POSITION_OUTPUT ->
+          ScrollPositionFeedbackRule.getScrollPositionText(mEvent, mContext, globalVariables);
+      case EVENT_DESCRIPTION ->
+          AccessibilityEventFeedbackUtils.getEventContentDescriptionOrEventAggregateText(
+              mEvent, mUserPreferredLocale);
+      case EVENT_AGGREGATE_TEXT ->
+          AccessibilityEventFeedbackUtils.getEventAggregateText(mEvent, mUserPreferredLocale);
+      default -> {
         clean.set(true);
-        return mParent.getString(variableId);
-    }
+        yield mParent.getString(variableId);
+      }
+    };
   }
 
   @Override
   public int getEnum(int variableId) {
-    switch (variableId) {
-      case EVENT_CONTENT_CHANGE_TYPE:
-        return getContentChangeType(mEvent.getContentChangeTypes());
-      case EVENT_SOURCE_ROLE:
-        return Role.getSourceRole(mEvent);
-      default:
-        return mParent.getEnum(variableId);
-    }
+    return switch (variableId) {
+      case EVENT_CONTENT_CHANGE_TYPE -> getContentChangeType(mEvent.getContentChangeTypes());
+      case EVENT_SOURCE_ROLE -> Role.getSourceRole(mEvent);
+      default -> mParent.getEnum(variableId);
+    };
   }
 
   @Override
@@ -236,24 +217,22 @@ class EventVariables implements VariableDelegate {
   @Override
   public int getArrayLength(int variableId) {
     switch (variableId) {
-      case EVENT_TEXT:
+      case EVENT_TEXT -> {
         return mEvent.getText().size();
-      default: // fall out
+      }
+      default -> {}
     }
     return mParent.getArrayLength(variableId);
   }
 
   @Override
   public @Nullable CharSequence getArrayStringElement(int variableId, int index) {
-    switch (variableId) {
-      case EVENT_TEXT:
-        {
-          return AccessibilityEventFeedbackUtils.getEventTextFromArrayString(
+    return switch (variableId) {
+      case EVENT_TEXT ->
+          AccessibilityEventFeedbackUtils.getEventTextFromArrayString(
               mEvent, index, mUserPreferredLocale);
-        }
-      default:
-        return mParent.getArrayStringElement(variableId, index);
-    }
+      default -> mParent.getArrayStringElement(variableId, index);
+    };
   }
 
   /** Caller must call VariableDelegate.cleanup() on returned instance. */

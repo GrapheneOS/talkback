@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
-      android:key="@string/pref_category_audio_key"
-      android:title="@string/title_pref_category_audio" >
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteSwitchPreference
-        android:title="@string/title_pref_speak_passwords_without_headphones"
-        android:summaryOff="@string/summaryOff_pref_speak_passwords_without_headphones"
-        android:summaryOn="@string/summaryOn_pref_speak_passwords_without_headphones"
-        android:key="@string/pref_speak_passwords_without_headphones" />
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_controls_key"
       android:title="@string/title_pref_category_controls" >
-    <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_category_latency_reduction_shortcut_key"
+        android:title="@string/title_pref_latency_reduction"
+        android:summary="@string/talkback_latency_reduction_summary"
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackLatencyReductionPreferenceFragment" >
+    </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_proximity_default"
+        android:key="@string/pref_proximity_key"
+        android:title="@string/title_pref_cover_proximity_sensor" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:key="@string/pref_manage_labels_key"
         android:title="@string/title_pref_manage_labels" >
-      <intent android:action=".labeling.TalkBackSelectorPreferencesActivity" />
-    </com.google.android.accessibility.utils.preference.AccessibilitySuitePreference>
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteSwitchPreference
+      <intent
+          android:targetPackage="@string/app_id"
+          android:targetClass="com.google.android.accessibility.talkback.labeling.LabelManagerSummaryActivity" />
+    </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_single_tap_default"
         android:key="@string/pref_single_tap_key"
         android:summary="@string/summary_pref_single_tap"
         android:title="@string/title_pref_single_tap" />
     <!-- Description order -->
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteListPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
         android:defaultValue="@string/pref_node_desc_order_default"
         android:dialogTitle="@string/pref_node_desc_order_title"
         android:entries="@array/pref_node_desc_order_entries"
@@ -33,7 +35,7 @@
         android:key="@string/pref_node_desc_order_key"
         android:summary="%s"
         android:title="@string/pref_node_desc_order_title" />
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteListPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
         android:defaultValue="@string/pref_time_feedback_format_default"
         android:dialogTitle="@string/pref_time_feedback_format_title"
         android:entries="@array/pref_time_feedback_format_entries"
@@ -41,49 +43,38 @@
         android:key="@string/pref_time_feedback_format_key"
         android:summary="%s"
         android:title="@string/pref_time_feedback_format_title"/>
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteSwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_reduce_window_delay_default"
         android:key="@string/pref_reduce_window_delay_key"
         android:title="@string/pref_reduce_window_delay_title"/>
-    <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
-        android:key="@string/pref_category_typing_key"
-        android:title="@string/title_pref_category_typing"
-        app:allowDividerAbove="true" >
-      <com.google.android.accessibility.utils.preference.AccessibilitySuiteListPreference
-          android:defaultValue="@string/pref_typing_confirmation_default"
-          android:dialogTitle="@string/title_pref_typing_confirmation"
-          android:entries="@array/pref_typing_types_talkback_entries"
-          android:entryValues="@array/pref_typing_types_talkback_values"
-          android:key="@string/pref_typing_confirmation_key"
-          android:summary="%s"
-          android:title="@string/title_pref_typing_confirmation" />
-      <com.google.android.accessibility.utils.preference.AccessibilitySuiteListPreference
-          android:defaultValue="@string/pref_typing_long_press_duration_default"
-          android:dialogTitle="@string/title_pref_typing_long_tap_duration"
-          android:entries="@array/pref_typing_long_press_entries"
-          android:entryValues="@array/pref_typing_long_press_values"
-          android:key="@string/pref_typing_long_press_duration_key"
-          android:summary="%s"
-          android:title="@string/title_pref_typing_long_tap_duration" />
-      <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
-          android:key="@string/pref_category_manage_keyboard_shortcut_key"
-          android:title="@string/title_pref_manage_keyboard_shortcuts"
-          android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackKeyboardShortcutPreferenceFragment" >
-      </com.google.android.accessibility.utils.preference.AccessibilitySuitePreference>
-    </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
-      android:key="@string/pref_category_developer_key"
-      android:title="@string/title_pref_category_developer_settings"
-      app:allowDividerAbove="true"
-      android:fragment="com.google.android.accessibility.talkback.preference.base.DeveloperPrefFragment" >
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreference>
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
-      android:key="@string/pref_policy_key"
-      android:title="@string/title_pref_show_privacy_policy">
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreference>
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
-      android:key="@string/pref_show_tos_key"
-      android:title="@string/title_pref_show_tos">
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreference>
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_auto_enter_table_navigation_default"
+        android:key="@string/pref_auto_enter_table_navigation_key"
+        android:title="@string/pref_auto_enter_table_navigation_title"/>
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_smart_browse_mode_default"
+        android:key="@string/pref_smart_browse_mode_key"
+        android:title="@string/title_smart_browse_mode"
+        android:summary="@string/summary_smart_browse_mode"/>
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_show_exit_watermark_default"
+        android:key="@string/pref_show_exit_watermark_key"
+        android:summary="@string/summary_pref_show_exit_watermark"
+        android:title="@string/title_pref_show_exit_watermark"/>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_category_others_key"
+      android:title="@string/title_pref_category_others">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.DeveloperPrefFragment"
+        android:key="@string/pref_category_developer_key"
+        android:title="@string/title_pref_category_developer_settings"
+        app:allowDividerAbove="true"/>
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_policy_key"
+        android:title="@string/title_pref_show_privacy_policy"/>
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_show_tos_key"
+        android:title="@string/title_pref_show_tos"/>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

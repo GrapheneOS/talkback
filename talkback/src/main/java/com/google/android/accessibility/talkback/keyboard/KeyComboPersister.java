@@ -18,41 +18,72 @@ package com.google.android.accessibility.talkback.keyboard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
+import com.google.android.accessibility.talkback.utils.TalkBackSharedPreferencesUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
 /** Key value store to make key combo code persistent. */
 public class KeyComboPersister {
-  private static final String PREFIX_CONCATENATOR = "|";
-
+  private final Context context;
   private final SharedPreferences prefs;
   private final String keyPrefix;
 
   public KeyComboPersister(Context context, String keyPrefix) {
+    this.context = context;
     prefs = SharedPreferencesUtils.getSharedPreferences(context);
     this.keyPrefix = keyPrefix;
   }
 
-  public void saveKeyCombo(String key, long keyComboCode) {
-    prefs.edit().putLong(getPrefixedKey(key), keyComboCode).apply();
+  public void saveKeyCombo(String key, KeyCombo keyCombo) {
+    prefs
+        .edit()
+        .putLong(
+            TalkBackSharedPreferencesUtils.getKeyForKeyComboCode(this.keyPrefix, key),
+            keyCombo.getKeyComboCode())
+        .apply();
+    prefs
+        .edit()
+        .putBoolean(
+            TalkBackSharedPreferencesUtils.getKeyForTriggerModifierUsed(
+                this.keyPrefix, key, FeatureFlagReader.enableBrowseMode(context)),
+            keyCombo.isTriggerModifierUsed())
+        .apply();
   }
 
   public void remove(String key) {
-    prefs.edit().remove(getPrefixedKey(key)).apply();
+    prefs
+        .edit()
+        .remove(TalkBackSharedPreferencesUtils.getKeyForKeyComboCode(this.keyPrefix, key))
+        .apply();
+    prefs
+        .edit()
+        .remove(
+            TalkBackSharedPreferencesUtils.getKeyForTriggerModifierUsed(
+                this.keyPrefix, key, FeatureFlagReader.enableBrowseMode(context)))
+        .apply();
   }
 
   public boolean contains(String key) {
-    return prefs.contains(getPrefixedKey(key));
+    return prefs.contains(
+        TalkBackSharedPreferencesUtils.getKeyForKeyComboCode(this.keyPrefix, key));
+  }
+
+  public KeyCombo getKeyCombo(String key) {
+    long keyComboCode = getKeyComboCode(key);
+    boolean triggerModifierUsed = getTriggerModifierUsed(key);
+    return new KeyCombo(keyComboCode, triggerModifierUsed);
   }
 
   public Long getKeyComboCode(String key) {
-    return prefs.getLong(getPrefixedKey(key), KeyComboModel.KEY_COMBO_CODE_UNASSIGNED);
+    return prefs.getLong(
+        TalkBackSharedPreferencesUtils.getKeyForKeyComboCode(this.keyPrefix, key),
+        KeyComboModel.KEY_COMBO_CODE_UNASSIGNED);
   }
 
-  private String getPrefixedKey(String key) {
-    if (keyPrefix == null) {
-      return key;
-    } else {
-      return keyPrefix + PREFIX_CONCATENATOR + key;
-    }
+  private boolean getTriggerModifierUsed(String key) {
+    return prefs.getBoolean(
+        TalkBackSharedPreferencesUtils.getKeyForTriggerModifierUsed(
+            this.keyPrefix, key, FeatureFlagReader.enableBrowseMode(context)),
+        true);
   }
 }

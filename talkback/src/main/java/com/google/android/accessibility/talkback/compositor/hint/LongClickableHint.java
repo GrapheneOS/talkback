@@ -15,6 +15,7 @@
  */
 package com.google.android.accessibility.talkback.compositor.hint;
 
+import static com.google.android.accessibility.utils.Role.ROLE_TEXT_ENTRY_KEY;
 import static com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_KEYBOARD;
 import static com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_NON_ALPHABETIC_KEYBOARD;
 
@@ -25,6 +26,7 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.keyboard.KeyComboModel;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
+import com.google.android.accessibility.utils.Role;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 
 /** Provides usage hints for long-clickable nodes. */
@@ -88,10 +90,10 @@ public class LongClickableHint {
           context.getString(R.string.value_press_select),
           actionLabel);
     }
-    if (!AccessibilityNodeInfoUtils.isKeyboard(node)) {
+    if (!AccessibilityNodeInfoUtils.isKeyboard(node) || Role.getRole(node) != ROLE_TEXT_ENTRY_KEY) {
       return context.getString(
           R.string.template_custom_hint_for_long_clickable_actions,
-          context.getString(R.string.value_double_tap),
+          getLongClickGestureHint(),
           actionLabel);
     }
     return "";
@@ -116,10 +118,13 @@ public class LongClickableHint {
       return context.getString(
           R.string.template_hint_long_clickable, context.getString(R.string.value_press_select));
     }
-    if (!AccessibilityNodeInfoUtils.isKeyboard(node)) {
-      return context.getString(
-          R.string.template_hint_long_clickable, context.getString(R.string.value_double_tap));
+    if (!AccessibilityNodeInfoUtils.isKeyboard(node) || Role.getRole(node) != ROLE_TEXT_ENTRY_KEY) {
+      return context.getString(R.string.template_hint_long_clickable, getLongClickGestureHint());
     }
     return "";
+  }
+
+  protected CharSequence getLongClickGestureHint() {
+    return context.getString(R.string.value_double_tap);
   }
 }

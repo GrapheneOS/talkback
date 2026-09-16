@@ -16,6 +16,8 @@
 
 package com.google.android.accessibility.brailleime.tutorial;
 
+import static com.google.android.accessibility.utils.BuildVersionUtils.isRobolectric;
+
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -25,7 +27,6 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import com.google.android.accessibility.brailleime.R;
-import com.google.android.accessibility.brailleime.Utils;
 
 /** Drawable that draws a flashing dot. */
 class TapMeAnimationDrawable extends Drawable {
@@ -55,7 +56,7 @@ class TapMeAnimationDrawable extends Drawable {
             // This might not be a good solution but it works, do not start animator because
             // Robolectric tests run on main thread also, otherwise animator will repeat in endless
             // loop and cause the test timeout.
-            if (!Utils.isRobolectric()) {
+            if (!isRobolectric()) {
               animator.start();
             }
           }

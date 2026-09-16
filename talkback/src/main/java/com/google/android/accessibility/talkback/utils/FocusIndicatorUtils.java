@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import androidx.annotation.ColorInt;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.actor.DimScreenActor;
 import com.google.android.accessibility.utils.FeatureSupport;
 
 /** Utils function for updating focus indicator stroke width and color. */
@@ -37,11 +38,14 @@ public class FocusIndicatorUtils {
    */
   public static void applyFocusAppearancePreference(
       AccessibilityService service, SharedPreferences prefs, Resources res) {
-    if (FeatureSupport.supportCustomizingFocusIndicator()) {
+    if (DimScreenActor.isDimScreenEnabled(service, prefs)) {
+      // No need to modify the focus indicator when the screen is dimming.
+      return;
+    }
+
       int borderWidth = getTalkBackFocusStrokeWidth(prefs, res);
       int borderColor = getTalkBackFocusColor(service, prefs, res);
       setAccessibilityFocusAppearance(service, borderWidth, borderColor);
-    }
   }
 
   /**
@@ -53,7 +57,9 @@ public class FocusIndicatorUtils {
    */
   public static void setAccessibilityFocusAppearance(
       AccessibilityService service, int borderWidth, int borderColor) {
-    service.setAccessibilityFocusAppearance(borderWidth, borderColor);
+    if (FeatureSupport.supportCustomizingFocusIndicator()) {
+      service.setAccessibilityFocusAppearance(borderWidth, borderColor);
+    }
   }
 
   /**

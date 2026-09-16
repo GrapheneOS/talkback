@@ -27,7 +27,10 @@ import static com.google.android.accessibility.talkback.Feedback.Focus.Action.RE
 import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.Feedback;
+import com.google.android.accessibility.talkback.Feedback.Focus;
+import com.google.android.accessibility.talkback.Feedback.Focus.Action;
 import com.google.android.accessibility.talkback.Feedback.NodeAction;
+import com.google.android.accessibility.talkback.Feedback.Part;
 import com.google.android.accessibility.talkback.Mappers;
 import com.google.android.accessibility.talkback.Mappers.Variables;
 import com.google.android.accessibility.talkback.R;
@@ -40,6 +43,7 @@ import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.LogDepth;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirectionOrUnknown;
 import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
@@ -55,18 +59,18 @@ public class FocusFeedbackMapper {
 
   /** Maps window-events to focus actions. */
   public static Feedback mapWindowChangeToFocusAction(
-      EventId eventId, Mappers.Variables variables, int depth) {
+      EventId eventId, Variables variables, int depth) {
 
     LogDepth.logFunc(Mappers.LOG_TAG, ++depth, "mapWindowChangeToFocusAction");
 
     @Nullable ScreenState screenState = variables.screenState(depth);
 
     // On TV, we only try to follow input focus.
-    if (FormFactorUtils.getInstance().isAndroidTv()) {
+    if (FormFactorUtils.isAndroidTv()) {
       return Feedback.create(eventId, toFeedbackPart(INITIAL_FOCUS_FOLLOW_INPUT, screenState));
     }
 
-    ArrayList<Feedback.Part> feedbackFailovers = new ArrayList<>();
+    ArrayList<Part> feedbackFailovers = new ArrayList<>();
     // Force restore accessibility-focus.
     if (variables.forceRestoreFocus(depth)) {
       feedbackFailovers.add(toFeedbackPart(RESTORE_TO_CACHE, screenState));
@@ -81,8 +85,7 @@ public class FocusFeedbackMapper {
     return Feedback.create(eventId, feedbackFailovers);
   }
 
-  private static Feedback.Part toFeedbackPart(
-      Feedback.Focus.Action action, @Nullable ScreenState screenState) {
+  private static Part toFeedbackPart(Action action, @Nullable ScreenState screenState) {
     return Feedback.part()
         .setFocus(Feedback.focus(action).setScreenState(screenState).build())
         .build();
@@ -90,53 +93,52 @@ public class FocusFeedbackMapper {
 
   /** Maps touch-events to focus actions. */
   public static @Nullable Feedback mapTouchToFocusAction(
-      EventId eventId, Mappers.Variables variables, int depth) {
+      EventId eventId, Variables variables, int depth) {
 
     LogDepth.logFunc(Mappers.LOG_TAG, ++depth, "mapTouchToFocusAction");
 
     @Nullable AccessibilityNodeInfoCompat touchTarget = variables.touchTarget(depth); // Not owner
 
     switch (variables.touchAction(depth)) {
-      case TOUCH_NOTHING:
+      case TOUCH_NOTHING -> {
         return Feedback.create(
             eventId,
             Feedback.sound(R.raw.view_entered).vibration(R.array.view_hovered_pattern).build());
-
-      case TOUCH_START:
-      case TOUCH_ENTERED_UNFOCUSED_NODE:
+      }
+      case TOUCH_START, TOUCH_ENTERED_UNFOCUSED_NODE -> {
         return Feedback.create(eventId, Feedback.part().setInterruptGentle(true).build());
-
-      case TOUCH_FOCUSED_NODE:
+      }
+      case TOUCH_FOCUSED_NODE -> {
         return toFeedback(
             eventId, Feedback.focus(FOCUS_FOR_TOUCH).setTarget(touchTarget).setForceRefocus(true));
-
-      case TOUCH_UNFOCUSED_NODE:
+      }
+      case TOUCH_UNFOCUSED_NODE -> {
         return toFeedback(eventId, Feedback.focus(FOCUS_FOR_TOUCH).setTarget(touchTarget));
-
-      case LIFT:
+      }
+      case LIFT -> {
         return toFeedback(eventId, Feedback.focus(CLICK_NODE).setTarget(touchTarget));
-
-      case TAP:
+      }
+      case TAP -> {
         if (variables.singleTap(depth)) {
           return toFeedback(eventId, Feedback.focus(CLICK_NODE).setTarget(touchTarget));
         }
-        break;
-
-      case LONG_PRESS:
+      }
+      case LONG_PRESS -> {
         return toFeedback(eventId, Feedback.focus(LONG_CLICK_NODE).setTarget(touchTarget));
-
-      default:
+      }
+      default -> {
         return null;
+      }
     }
     return null;
   }
 
-  private static Feedback toFeedback(@Nullable EventId eventId, Feedback.Focus.Builder focus) {
+  private static Feedback toFeedback(@Nullable EventId eventId, Focus.Builder focus) {
     return Feedback.create(eventId, Feedback.part().setFocus(focus.build()).build());
   }
 
   /** Feedback-mapping function. */
-  public static Feedback.Part.@Nullable Builder onNodeManuallyScrolled(
+  public static Part.@Nullable Builder onNodeManuallyScrolled(
       Variables variables, int depth, FocusFinder focusFinder) {
 
     LogDepth.logFunc(Mappers.LOG_TAG, ++depth, "onNodeManuallyScrolled");
@@ -155,20 +157,34 @@ public class FocusFeedbackMapper {
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
         Filter.node((node) -> AccessibilityNodeInfoUtils.shouldFocusNode(node, speakingNodesCache));
 
-    @Nullable AccessibilityNodeInfoCompat currentNode = variables.currentNode(depth);
-    @Nullable AccessibilityNodeInfoCompat nodeToFocus;
-    if (currentNode == null) {
-      nodeToFocus =
-          TraversalStrategyUtils.findFirstFocusInNodeTree(
-              traversalStrategy, scrolledNode, direction, nodeFilter);
-    } else {
-      nodeToFocus =
-          TraversalStrategyUtils.searchFocus(traversalStrategy, currentNode, direction, nodeFilter);
-      // If searchFocus can not find a node, we fallback to find initial focus in node tree.
-      if (nodeToFocus == null) {
+    @Nullable AccessibilityNodeInfoCompat nodeToFocus = null;
+
+    // If the app developer requests the initial focus position on the ViewPager, use it as the
+    // initial focus instead of focusing on the first or last item on the page.
+    if (Role.getRole(scrolledNode) == Role.ROLE_PAGER) {
+      LogDepth.logFunc(Mappers.LOG_TAG, ++depth, "ViewPager switches pages.");
+      nodeToFocus = traversalStrategy.focusInitial(scrolledNode);
+      if (!nodeFilter.accept(nodeToFocus)) {
+        nodeToFocus = null;
+      }
+    }
+
+    if (nodeToFocus == null) {
+      @Nullable AccessibilityNodeInfoCompat currentNode = variables.currentNode(depth);
+      if (currentNode == null) {
         nodeToFocus =
             TraversalStrategyUtils.findFirstFocusInNodeTree(
                 traversalStrategy, scrolledNode, direction, nodeFilter);
+      } else {
+        nodeToFocus =
+            TraversalStrategyUtils.searchFocus(
+                traversalStrategy, currentNode, direction, nodeFilter);
+        // If searchFocus can not find a node, we fallback to find initial focus in node tree.
+        if (nodeToFocus == null) {
+          nodeToFocus =
+              TraversalStrategyUtils.findFirstFocusInNodeTree(
+                  traversalStrategy, scrolledNode, direction, nodeFilter);
+        }
       }
     }
 

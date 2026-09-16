@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -44,7 +44,7 @@ extern "C" {
 #define HRS_PER_WK   (HRS_PER_DAY * DAYS_PER_WK)
 
 typedef struct {
-  int32_t seconds;
+  int64_t seconds;
   int32_t nanoseconds;
 } TimeValue;
 

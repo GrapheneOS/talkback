@@ -16,30 +16,38 @@
 
 package com.google.android.accessibility.talkback.preference.base;
 
+import static com.google.android.accessibility.utils.preference.PreferencesActivity.FRAGMENT_ARGS;
+import static com.google.android.accessibility.utils.preference.PreferencesActivity.FRAGMENT_NAME;
+
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
-import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
+import com.android.talkback.TalkBackPreferencesActivity.TalkBackSubSettings;
+import com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
+import com.google.android.accessibility.utils.Consumer;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
+import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
-import com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /** Panel holding a set of shortcut preferences. Recreated when preset value changes. */
 public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragment {
@@ -48,7 +56,9 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
   /** Preferences managed by this activity. */
   private SharedPreferences prefs;
 
-  private FormFactorUtils formFactorUtils;
+  private boolean isVibrationWatchEnabled = false;
+
+  private boolean shouldUpdatePreferenceOnResume = false;
 
   public TalkBackGestureShortcutPreferenceFragment() {
     super(R.xml.gesture_preferences);
@@ -73,26 +83,20 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
                 R.bool.pref_multiple_gesture_set_default);
 
         // Show confirm dialog.
-        A11yAlertDialogWrapper alertDialog =
-            A11yAlertDialogWrapper.alertDialogBuilder(
-                    getContext(), getActivity().getSupportFragmentManager())
-                .setTitle(
-                    getString(
-                        gestureSetEnabled
-                            ? R.string.Reset_gesture_settings_set_dialog_title
-                            : R.string.Reset_gesture_settings_dialog_title))
-                .setMessage(getString(R.string.message_reset_gesture_settings_confirm_dialog))
-                .setPositiveButton(
-                    R.string.reset_button_in_reset_gesture_settings_confirm_dialog,
-                    resetGestureConfirmDialogPositive)
-                .setNegativeButton(android.R.string.cancel, (dialog, i) -> dialog.cancel())
-                .create();
-        alertDialog.show();
-        if (!formFactorUtils.isAndroidWear()) {
-          // Does not need give default input focus on cancel button, because Wear won't connect to
-          // external keyboard.
-          A11yAlertDialogWrapper.focusCancelButton(alertDialog);
-        }
+        A11yAlertDialogWrapper.materialDialogBuilder(
+                getContext(), getActivity().getSupportFragmentManager())
+            .setTitle(
+                getString(
+                    gestureSetEnabled
+                        ? R.string.Reset_gesture_settings_set_dialog_title
+                        : R.string.Reset_gesture_settings_dialog_title))
+            .setMessage(getString(R.string.message_reset_gesture_settings_confirm_dialog))
+            .setPositiveButton(
+                R.string.reset_button_in_reset_gesture_settings_confirm_dialog,
+                resetGestureConfirmDialogPositive)
+            .setNegativeButton(android.R.string.cancel, (dialog, i) -> dialog.cancel())
+            .create()
+            .show();
 
         return true;
       };
@@ -101,26 +105,23 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
   public void onDisplayPreferenceDialog(Preference preference) {
     if (preference instanceof GestureListPreference) {
       // In createDialogFragment, we create PreferenceDialogFragmentCompat for Handset & Auto and
-      // PreferenceFragmentCompat for Wear.
+      // null for Wear.
       Fragment fragment = ((GestureListPreference) preference).createDialogFragment();
       if (fragment instanceof PreferenceDialogFragmentCompat) {
         PreferenceDialogFragmentCompat dialogFragment = (PreferenceDialogFragmentCompat) fragment;
         dialogFragment.setTargetFragment(this, 0);
         dialogFragment.show(getParentFragmentManager(), preference.getKey());
-      } else if (fragment instanceof PreferenceFragmentCompat) {
-        // For wear devices, instead of dialog, we use a new fragment to show the available action
-        // items.
-        // TODO: Figure out why we cannot use the default implementation of "replace
-        //  op" to restore the last position after we leave the new fragment.
-        PreferenceFragmentCompat preferenceFragment = (PreferenceFragmentCompat) fragment;
-        preferenceFragment.setTargetFragment(this, 0);
-        getParentFragmentManager()
-            .beginTransaction()
-            .setReorderingAllowed(true)
-            .add(
-                ((View) requireView().getParent()).getId(), preferenceFragment, preference.getKey())
-            .addToBackStack(null)
-            .commit();
+      } else {
+        shouldUpdatePreferenceOnResume = true;
+        // For wear and phone devices, instead of dialog, we use a new fragment to show the
+        // available action items.
+        Intent intent = new Intent(getContext(), TalkBackSubSettings.class);
+        intent.putExtra(FRAGMENT_NAME, GesturePreferenceFragmentCompat.class.getCanonicalName());
+        Bundle bundle =
+            GesturePreferenceFragmentCompat.createBundleForFragmentArguments(
+                (GestureListPreference) preference);
+        intent.putExtra(FRAGMENT_ARGS, bundle);
+        startActivity(intent);
       }
     } else {
       super.onDisplayPreferenceDialog(preference);
@@ -137,7 +138,6 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     super.onCreatePreferences(savedInstanceState, rootKey);
     Context context = getContext();
 
-    formFactorUtils = FormFactorUtils.getInstance();
     prefs = SharedPreferencesUtils.getSharedPreferences(context);
 
     // Launches Practice gestures page.
@@ -186,17 +186,39 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
           GestureListPreference twoFingerGesturePreference =
               findPreference(twoFingerPassThroughGestureSet[i]);
           if (twoFingerGesturePreference != null) {
-            if (formFactorUtils.isAndroidWear()) {
-              twoFingerGesturePreference.setVisible(false);
-            } else {
-              twoFingerGesturePreference.setEnabled(false);
-              twoFingerGesturePreference.setSummaryWhenDisabled(
-                  context
-                      .getResources()
-                      .getString(R.string.shortcut_not_customizable, summaries[i]));
-            }
+            twoFingerGesturePreference.setEnabled(false);
+            twoFingerGesturePreference.setSummaryWhenDisabled(
+                context.getResources().getString(R.string.shortcut_not_customizable, summaries[i]));
           }
         }
+      }
+    }
+    getCustomizationMap().forEach(this::runPreferencesCustomization);
+  }
+
+  private HashMap<List<Integer>, Consumer<Preference>> getCustomizationMap() {
+    HashMap<List<Integer>, Consumer<Preference>> customizations = new HashMap<>();
+    if (FormFactorUtils.isAndroidWear()) {
+      List<Integer> keys = new ArrayList<>();
+      keys.add(R.string.pref_shortcut_2finger_1tap_key);
+      keys.add(R.string.pref_shortcut_2finger_2tap_key);
+      customizations.put(
+          keys,
+          preference -> {
+            GestureListPreference gestureListPreference = (GestureListPreference) preference;
+            gestureListPreference.setSummaryWhenDisabled(
+                requireContext().getString(R.string.shortcut_disabled_due_to_vibration_watch));
+          });
+    }
+    return customizations;
+  }
+
+  private void runPreferencesCustomization(
+      List<Integer> keys, Consumer<Preference> preferenceModifier) {
+    for (int keyId : keys) {
+      Preference preference = findPreferenceByResId(keyId);
+      if (preference != null) {
+        preferenceModifier.accept(preference);
       }
     }
   }
@@ -205,6 +227,39 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
   public void onResume() {
     super.onResume();
     prefs.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+    updatePreferencesOnResume();
+    updatePreferencesForVibrationWatchIfNeeded();
+  }
+
+  private void updatePreferencesOnResume() {
+    if (!shouldUpdatePreferenceOnResume) {
+      return;
+    }
+    int gestureSet =
+        SharedPreferencesUtils.getIntFromStringPref(
+            prefs,
+            getResources(),
+            R.string.pref_gesture_set_key,
+            R.string.pref_gesture_set_value_default);
+    updatePreferenceKey(gestureSet);
+    shouldUpdatePreferenceOnResume = false;
+  }
+
+  private void updatePreferencesForVibrationWatchIfNeeded() {
+
+    if (!FormFactorUtils.isAndroidWear()) {
+      return;
+    }
+
+    boolean isVibrationWatchEnabled = SettingsUtils.isVibrationWatchEnabled(requireContext());
+    if (isVibrationWatchEnabled != this.isVibrationWatchEnabled) {
+      this.isVibrationWatchEnabled = isVibrationWatchEnabled;
+      List<Integer> keys = new ArrayList<>();
+      keys.add(R.string.pref_shortcut_2finger_1tap_key);
+      keys.add(R.string.pref_shortcut_2finger_2tap_key);
+      runPreferencesCustomization(
+          keys, preference -> preference.setEnabled(!isVibrationWatchEnabled));
+    }
   }
 
   @Override
@@ -215,28 +270,25 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
 
   /** Listener for preference changes. */
   private final OnSharedPreferenceChangeListener onSharedPreferenceChangeListener =
-      new OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-          if (getActivity() == null) {
-            LogUtils.w(
-                TAG, "Fragment is not attached to activity, do not update verbosity setting page.");
-            return;
-          }
-          if (TextUtils.equals(key, getString(R.string.pref_gesture_set_key))) {
-            ListPreference preference =
-                (ListPreference) findPreference(getString(R.string.pref_gesture_set_key));
+      (prefs, key) -> {
+        if (getActivity() == null) {
+          LogUtils.w(
+              TAG, "Fragment is not attached to activity, do not update verbosity setting page.");
+          return;
+        }
+        if (TextUtils.equals(key, getString(R.string.pref_gesture_set_key))) {
+          ListPreference preference =
+              (ListPreference) findPreference(getString(R.string.pref_gesture_set_key));
 
-            String newValueString =
-                prefs.getString(
-                    getString(R.string.pref_gesture_set_key),
-                    getString(R.string.pref_gesture_set_value_default));
-            if (preference != null) {
-              preference.setValue(newValueString);
-            }
-
-            updatePreferenceKey(Integer.parseInt(newValueString));
+          String newValueString =
+              prefs.getString(
+                  getString(R.string.pref_gesture_set_key),
+                  getString(R.string.pref_gesture_set_value_default));
+          if (preference != null) {
+            preference.setValue(newValueString);
           }
+
+          updatePreferenceKey(Integer.parseInt(newValueString));
         }
       };
 

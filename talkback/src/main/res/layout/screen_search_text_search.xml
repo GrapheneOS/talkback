@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+  <ImageButton
+      android:id="@+id/cancel_search"
+      android:layout_width="@android:dimen/app_icon_size"
+      android:layout_height="@android:dimen/app_icon_size"
+      android:background="@android:color/transparent"
+      android:contentDescription="@string/title_cancel_screen_search"
+      android:src="@drawable/quantum_ic_close_white_24" />
+  <View
+      android:id="@+id/cancel_divider"
+      android:layout_width="1dp"
+      android:layout_height="match_parent"
+      android:background="@color/divider_color"
+      android:focusable="false" />
+  <ImageButton
+      android:id="@+id/next_screen"
+      android:layout_width="@android:dimen/app_icon_size"
+      android:layout_height="@android:dimen/app_icon_size"
+      android:background="@android:color/transparent"
+      android:contentDescription="@string/title_next_screen"
+      android:src="@drawable/quantum_ic_arrow_downward_white_24" />
+  <ImageButton
+      android:id="@+id/previous_screen"
+      android:layout_width="@android:dimen/app_icon_size"
+      android:layout_height="@android:dimen/app_icon_size"
+      android:background="@android:color/transparent"
+      android:contentDescription="@string/title_previous_screen"
+      android:src="@drawable/quantum_ic_arrow_upward_white_24" />
+  <View
+      android:id="@+id/button_divider"
+      android:layout_width="1dp"
+      android:layout_height="match_parent"
+      android:background="@color/divider_color"
+      android:focusable="false" />
+  <EditText
+      android:id="@+id/keyword_edit"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:background="@android:color/transparent"
+      android:ellipsize="end"
+      android:hint="@string/screen_search_hint_type_search_screen"
+      android:imeOptions="actionSearch|flagNoExtractUi"
+      android:inputType="text"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:textAppearance="?android:attr/textAppearanceSmall"
+      android:textColor="@color/abc_primary_text_material_dark"
+      android:textColorHint="@color/abc_hint_foreground_material_dark"
+      app:fontFamily="@string/accessibility_font" />
+  <ImageButton
+      android:id="@id/clear_keyword"
+      android:layout_width="@android:dimen/app_icon_size"
+      android:layout_height="@android:dimen/app_icon_size"
+      android:background="@android:color/transparent"
+      android:contentDescription="@string/title_clear_keyword"
+      android:src="@drawable/quantum_ic_cancel_white_24" />
+</LinearLayout>

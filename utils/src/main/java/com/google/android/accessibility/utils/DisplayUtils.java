@@ -20,8 +20,11 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.hardware.display.DisplayManager;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityWindowInfo;
 
 /** View display related utility methods. */
 public final class DisplayUtils {
@@ -80,5 +83,25 @@ public final class DisplayUtils {
     configuration.setTo(configuration);
 
     return context.createConfigurationContext(configuration);
+  }
+
+  /**
+   * Returns display context of the target window. If platform doesn't support multi-display, it
+   * returns current context that is for default display.
+   *
+   * @param context the current context
+   * @param window the target window
+   */
+  public static Context getDisplayContextByWindow(Context context, AccessibilityWindowInfo window) {
+    if (window == null || !FeatureSupport.supportMultiDisplay()) {
+      return context;
+    }
+    int displayId = AccessibilityWindowInfoUtils.getDisplayId(window);
+    if (displayId == Display.DEFAULT_DISPLAY) {
+      return context;
+    } else {
+      Display display = context.getSystemService(DisplayManager.class).getDisplay(displayId);
+      return display.isValid() ? context.createDisplayContext(display) : context;
+    }
   }
 }

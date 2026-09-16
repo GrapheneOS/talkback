@@ -20,7 +20,6 @@ import static com.google.android.accessibility.talkback.preference.PreferencesAc
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.HelpAndFeedbackUtils;
 import com.google.android.accessibility.talkback.R;
@@ -40,13 +39,13 @@ public class TutorialAndHelpFragment extends TalkbackBaseFragment {
 
   @Override
   public CharSequence getTitle() {
-    if (FormFactorUtils.getInstance().isAndroidTv()) {
+    if (FormFactorUtils.isAndroidTv()) {
       return getString(
           TvTutorialInitiator.shouldShowTraining(VendorConfigReader.retrieveConfig(getActivity()))
-              ? R.string.title_pref_category_tutorial_and_help
+              ? R.string.title_pref_category_tutorial
               : R.string.title_pref_category_help_no_tutorial);
     }
-    return getText(R.string.title_pref_category_tutorial_and_help);
+    return getText(R.string.title_pref_category_tutorial);
   }
 
   @Override
@@ -90,7 +89,7 @@ public class TutorialAndHelpFragment extends TalkbackBaseFragment {
     // Only wear doesn't support help and feedback
     if (HelpAndFeedbackUtils.supportsHelpAndFeedback(getContext())) {
       pref.setTitle(R.string.title_pref_help_and_feedback);
-      if (FormFactorUtils.getInstance().isAndroidAuto()) {
+      if (FormFactorUtils.isAndroidAuto()) {
         RemoteIntentUtils.assignWebIntentToPreference(this, pref, null);
 
         return;
@@ -102,9 +101,11 @@ public class TutorialAndHelpFragment extends TalkbackBaseFragment {
           });
     } else {
       pref.setTitle(R.string.title_pref_help);
-      CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-      CustomTabsIntent customTabsIntent = builder.build();
-      pref.setIntent(customTabsIntent.intent.setData(Uri.parse(HELP_URL)));
+      if (FormFactorUtils.isAndroidTv()) {
+        pref.setIntent(new Intent(getContext(), WebActivity.class).setData(Uri.parse(HELP_URL)));
+      } else {
+        RemoteIntentUtils.assignWebIntentToPreference(this, pref, HELP_URL);
+      }
     }
   }
 }

@@ -18,69 +18,118 @@ package com.google.android.accessibility.utils.traversal;
 
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.CharacterStyle;
+import android.text.style.ClickableSpan;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.SpannableUtils;
+import com.google.android.accessibility.utils.SpannableUtils.SpannableWithOffset;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Utility methods for traversing a tree with spannable objects. */
-public class SpannableTraversalUtils {
+public final class SpannableTraversalUtils {
 
-  /** Return whether the tree description of node contains target spans. */
-  public static boolean hasTargetSpanInNodeTreeDescription(
-      AccessibilityNodeInfoCompat node, Class<?> targetSpanClass) {
+  private static final String TAG = "SpannableTraversalUtils";
+
+  /**
+   * Returns whether the node hierarchy contains target {@link ClickableSpan}.
+   *
+   * <p><b>Note: {@code targetClickableSpanClass} should be able to be parcelable and transmitted by
+   * IPC which depends on the implementation of {@link AccessibilityNodeInfo#setText(CharSequence)}
+   * in the framework side.</b>
+   */
+  public static boolean hasTargetClickableSpanInNodeTree(
+      AccessibilityNodeInfoCompat node, Class<? extends ClickableSpan> targetClickableSpanClass) {
     if (node == null) {
       return false;
     }
     Set<AccessibilityNodeInfoCompat> visitedNode = new HashSet<>();
-    try {
-      return searchSpannableStringsInNodeTree(
-          node, // Root node.
-          visitedNode, // Visited nodes.
-          null, // Result list. No need to collect result here.
-          targetSpanClass // Target span class
-          );
-    } finally {
-    }
+    return searchSpannableStringsForCharacterStyleInNodeTree(
+        node,
+        visitedNode,
+        /* currentOffset= */ null,
+        /* result= */ null,
+        Arrays.asList(targetClickableSpanClass));
   }
 
-  /** Collects SpannableStrings with target span within the node tree description. */
-  public static void collectSpannableStringsWithTargetSpanInNodeDescriptionTree(
+  /** Returns whether the node hierarchy contains target {@link CharacterStyle} subclasses. */
+  public static boolean hasTargetCharcterStyleInNodeTree(
+      AccessibilityNodeInfoCompat node, List<Class<? extends CharacterStyle>> spanClasses) {
+    if (node == null) {
+      return false;
+    }
+    Set<AccessibilityNodeInfoCompat> visitedNode = new HashSet<>();
+    return searchSpannableStringsForCharacterStyleInNodeTree(
+        node, visitedNode, /* currentOffset= */ null, /* result= */ null, spanClasses);
+  }
+
+  /**
+   * Gets {@link SpannableWithOffset} with target {@link ClickableSpan} within the node tree.
+   *
+   * <p><b>Note: {@code targetClickableSpanClass} should be able to be parcelable and transmitted by
+   * IPC which depends on the implementation of {@link AccessibilityNodeInfo#setText(CharSequence)}
+   * in the framework side.</b>
+   */
+  public static void getSpannableStringsWithTargetClickableSpanInNodeTree(
       AccessibilityNodeInfoCompat node,
-      Class<?> targetSpanClass,
-      @NonNull List<SpannableString> result) {
+      Class<? extends ClickableSpan> targetClickableSpanClass,
+      @NonNull List<SpannableWithOffset> result) {
     if (node == null) {
       return;
     }
     Set<AccessibilityNodeInfoCompat> visitedNodes = new HashSet<>();
-    searchSpannableStringsInNodeTree(
-        node, // Root node.
-        visitedNodes, // Visited nodes.
-        result, // List of SpannableStrings collected.
-        targetSpanClass // Target span class
-        );
+    searchSpannableStringsForCharacterStyleInNodeTree(
+        node, visitedNodes, new AtomicInteger(0), result, Arrays.asList(targetClickableSpanClass));
   }
 
   /**
-   * Search for SpannableStrings under <strong>node description tree</strong> of {@code root}.
-   * <strong>Note:</strong> {@code root} will be added to {@code visitedNodes} if it's not null.
-   *
-   * @param root Root of node tree.
-   * @param visitedNodes Set of {@link AccessibilityNodeInfoCompat} to record visited nodes, used to
-   *     avoid loops.
-   * @param result List of SpannableStrings collected.
-   * @param targetSpanClass Class of target span.
-   * @return true if any SpannableString is found in the description tree.
+   * Gets {@link SpannableWithOffset} with target {@link CharacterStyle} subclasses within the node
+   * tree.
    */
-  private static boolean searchSpannableStringsInNodeTree(
+  public static void getSpannableStringsWithTargetCharacterStyleInNodeTree(
+      AccessibilityNodeInfoCompat node,
+      List<Class<? extends CharacterStyle>> spanClasses,
+      @NonNull List<SpannableWithOffset> result) {
+    if (node == null) {
+      return;
+    }
+    Set<AccessibilityNodeInfoCompat> visitedNodes = new HashSet<>();
+    searchSpannableStringsForCharacterStyleInNodeTree(
+        node, visitedNodes, new AtomicInteger(0), result, spanClasses);
+  }
+
+  /**
+   * Search for {@link SpannableWithOffset} under <strong>node tree</strong> from {@code root}.
+   *
+   * <p><b>Note: {@code root} will be added to {@code visitedNodes} if it's not null.</b>
+   *
+   * <p><b>Note: {@code spanClasses} should be able to be parcelable and transmitted by IPC which
+   * depends on the implementation of {@link AccessibilityNodeInfo#setText(CharSequence)} in the
+   * framework side.</b>
+   *
+   * @param root root of node tree
+   * @param visitedNodes a set of {@link AccessibilityNodeInfoCompat} to record visited nodes, used
+   *     to avoid loops.
+   * @param currentOffset the offset of the spannable string in the node tree.
+   * @param result a list of {@link SpannableWithOffset} collected from node tree
+   * @param spanClasses the class of target CharacterStyle subclasses.
+   * @return {@code true} if any SpannableString is found in the node tree
+   */
+  @CanIgnoreReturnValue
+  private static boolean searchSpannableStringsForCharacterStyleInNodeTree(
       AccessibilityNodeInfoCompat root,
       @NonNull Set<AccessibilityNodeInfoCompat> visitedNodes,
-      @Nullable List<SpannableString> result,
-      Class<?> targetSpanClass) {
+      @Nullable AtomicInteger currentOffset,
+      @Nullable List<SpannableWithOffset> result,
+      List<Class<? extends CharacterStyle>> spanClasses) {
     if (root == null) {
       return false;
     }
@@ -88,35 +137,43 @@ public class SpannableTraversalUtils {
       // Root already visited. Stop searching.
       return false;
     }
-    SpannableString string = SpannableUtils.getStringWithTargetSpan(root, targetSpanClass);
+    SpannableString string = SpannableUtils.getSpannableStringWithCharacterStyle(root, spanClasses);
     boolean hasSpannableString = !TextUtils.isEmpty(string);
     if (hasSpannableString) {
       if (result == null) {
         // If we don't need to collect result and we found a Spannable String, return true.
         return true;
       } else {
-        result.add(string);
+        result.add(
+            new SpannableWithOffset(string, currentOffset == null ? 0 : currentOffset.get()));
       }
     }
 
-    // TODO: Check if we should search descendents of web content node.
+    if (currentOffset != null && root.getText() != null) {
+      currentOffset.addAndGet(root.getText().length());
+    }
+
+    // TODO: Check if we should search descendants of web content node.
     if (!TextUtils.isEmpty(root.getContentDescription())) {
       // If root has content description, do not search the children nodes.
+      LogUtils.v(TAG, "Root has content description, skipping searching the children nodes.");
       return hasSpannableString;
     }
     ReorderedChildrenIterator iterator = ReorderedChildrenIterator.createAscendingIterator(root);
-    boolean containsSpannableDescendents = false;
+    boolean containsSpannableDescendants = false;
     while (iterator.hasNext()) {
       AccessibilityNodeInfoCompat child = iterator.next();
       if (AccessibilityNodeInfoUtils.FILTER_NON_FOCUSABLE_VISIBLE_NODE.accept(child)) {
-        containsSpannableDescendents |=
-            searchSpannableStringsInNodeTree(child, visitedNodes, result, targetSpanClass);
-      } else {
+        containsSpannableDescendants |=
+            searchSpannableStringsForCharacterStyleInNodeTree(
+                child, visitedNodes, currentOffset, result, spanClasses);
       }
-      if (containsSpannableDescendents && result == null) {
+      if (containsSpannableDescendants && result == null) {
         return true;
       }
     }
-    return hasSpannableString || containsSpannableDescendents;
+    return hasSpannableString || containsSpannableDescendants;
   }
+
+  private SpannableTraversalUtils() {}
 }

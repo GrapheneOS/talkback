@@ -20,8 +20,6 @@
   <dimen name="input_view_caption_bottom_margin">15dp</dimen>
 
   <!-- Braille keyboard actions -->
-  <dimen name="actions_drawable_size">36dp</dimen>
-  <dimen name="padding_between_drawable_and_text">16dp</dimen>
   <dimen name="actions_item_text_size">18sp</dimen>
 
   <!-- Context menu. -->
@@ -83,4 +81,12 @@
   <dimen name="braille_display_keyboard_horizontal_margin">20dp</dimen>
   <dimen name="braille_display_keyboard_description_min_height">40dp</dimen>
   <item name="braille_display_keyboard_height_fraction" format="float" type="dimen">0.6</item>
+
+  <!-- Review all gestures dialog.  -->
+  <dimen name="bullet_radius">5</dimen>
+  <dimen name="gap_width">25</dimen>
+
+  <!-- Custom gesture. -->
+  <dimen name="custom_gesture_hint_margin">50</dimen>
+
 </resources>

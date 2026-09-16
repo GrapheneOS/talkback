@@ -25,17 +25,14 @@ import com.google.android.accessibility.braille.brltty.BrailleInputEvent;
  */
 public interface Controller {
 
-  /** Informs that starting a connection to a braille display. */
-  void onConnectStarted();
-
-  /** Informs that a connection to the display was just established. */
-  void onConnected();
-
   /** Informs that the displayer is ready to be used. */
-  void onDisplayerReady(Displayer displayer);
+  void onStart(Displayer displayer);
 
-  /** Informs that the connection has been dropped. */
-  void onDisconnected();
+  /** Informs that the displayer is no longer ready to be used. */
+  void onStop();
+
+  /** Don't allow it to be reused. */
+  void onDestroy();
 
   /** Passes an accessibility event for consumption. */
   void onAccessibilityEvent(AccessibilityEvent accessibilityEvent);
@@ -43,9 +40,9 @@ public interface Controller {
   /** Informs that a read command has arrived. */
   void onBrailleInputEvent(BrailleInputEvent brailleInputEvent);
 
-  /** Destroys this object. */
-  void onDestroy();
+  /** Informs that reading control settings is changed. */
+  void onReadingControlSettingsChanged(CharSequence readingControlDescription);
 
-  /** Informs that reading control changed. */
-  void onReadingControlChanged(CharSequence readingControlDescription);
+  /** Informs that reading control value is changed. */
+  void onReadingControlValueChanged();
 }

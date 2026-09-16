@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,14 +18,13 @@
 
 #include "prologue.h"
 
-#include <stdio.h>
 #include <string.h>
-#include <strings.h>
 #include <ctype.h>
 #include <errno.h>
 
 #include "program.h"
 #include "cmdline.h"
+#include "cmdput.h"
 #include "params.h"
 #include "log.h"
 #include "strfmt.h"
@@ -47,226 +46,217 @@ typedef struct {
   const CommandLineOptions *const options;
   uint8_t *const ensuredSettings;
 
-  uint8_t exitImmediately:1;
+  uint8_t showHelp:1;
   uint8_t warning:1;
   uint8_t syntaxError:1;
-} OptionProcessingInformation;
+} OptionProcessingData;
 
-static int
-hasExtendableArgument (const CommandLineOption *option) {
-  return option->argument && (option->flags & OPT_Extend);
-}
-
-static uint8_t *
-getEnsuredSetting (
-  const OptionProcessingInformation *info,
-  const CommandLineOption *option
-) {
-  return &info->ensuredSettings[option - info->options->table];
+static void
+putHeader (const char *header) {
+  putString(header);
+  putByte(':');
 }
 
 static void
-setEnsuredSetting (
-  const OptionProcessingInformation *info,
-  const CommandLineOption *option,
-  uint8_t yes
-) {
-  *getEnsuredSetting(info, option) = yes;
+putTitle (const char *title) {
+  putNewline();
+  putHeader(title);
+  putNewline();
 }
 
-static int
-ensureSetting (
-  OptionProcessingInformation *info,
-  const CommandLineOption *option,
-  const char *value
-) {
-  uint8_t *ensured = getEnsuredSetting(info, option);
+typedef struct {
+  const char *text;
+  size_t length;
+} HelpTextDescriptor;
 
-  if (!*ensured || hasExtendableArgument(option)) {
-    *ensured = 1;
+static const char *defaultParameterName = "?";
+static const char *repeatableArgumentIndicator = " ...";
+static const char optionalArgumentPrefix = '[';
+static const char optionalArgumentSuffix = ']';
 
-    if (option->argument) {
-      if (option->setting.string) {
-        if (option->flags & OPT_Extend) {
-          if (!extendStringSetting(option->setting.string, value, 1)) return 0;
-        } else if (!changeStringSetting(option->setting.string, value)) {
-          return 0;
-        }
-      }
-    } else {
-      if (option->setting.flag) {
-        if (option->flags & OPT_Extend) {
-          int count;
+static void
+showParameterSyntax (const CommandLineDescriptor *descriptor) {
+  const CommandLineParameters *parameters = descriptor->parameters;
 
-          if (isInteger(&count, value) && (count >= 0)) {
-            *option->setting.flag = count;
-          } else {
-            logMessage(LOG_ERR, "%s: %s", gettext("invalid counter setting"), value);
-            info->warning = 1;
-          }
-        } else {
-          unsigned int on;
+  const char *extra = descriptor->extraParameters.name;
+  unsigned int depth = 0;
 
-          if (validateFlagKeyword(&on, value)) {
-            *option->setting.flag = on;
-          } else {
-            logMessage(LOG_ERR, "%s: %s", gettext("invalid flag setting"), value);
-            info->warning = 1;
-          }
-        }
-      }
+  const CommandLineParameter *parameter = parameters->table;
+  const CommandLineParameter *end = parameter + parameters->count;
+
+  while (parameter < end) {
+    putByte(' ');
+
+    if (parameter->optional) {
+      putByte(optionalArgumentPrefix);
+      depth += 1;
     }
+
+    {
+      const char *name = parameter->name;
+      if (!name) name = defaultParameterName;
+      putString(getTranslatedText(name));
+    }
+
+    parameter += 1;
   }
 
-  return 1;
-}
+  if (extra) {
+    putByte(' ');
+    putByte(optionalArgumentPrefix);
+    putString(getTranslatedText(extra));
+    putString(repeatableArgumentIndicator);
+    depth += 1;
+  }
 
-static void
-showWrappedText (
-  FILE *stream, const char *text, char *line,
-  unsigned int offset, unsigned int width
-) {
-  unsigned int limit = width - offset;
-  unsigned int charsLeft = strlen(text);
-
-  while (1) {
-    unsigned int charCount = charsLeft;
-
-    if (charCount > limit) {
-      charCount = limit;
-
-      while (charCount > 0) {
-        if (isspace(text[charCount])) break;
-        charCount -= 1;
-      }
-
-      while (charCount > 0) {
-        if (!isspace(text[--charCount])) {
-          charCount += 1;
-          break;
-        }
-      }
-    }
-
-    if (charCount > 0) {
-      memcpy(line+offset, text, charCount);
-      unsigned int length = offset + charCount;
-
-      writeWithConsoleEncoding(stream, line, length);
-      fputc('\n', stream);
-    }
-
-    while (charCount < charsLeft) {
-      if (!isspace(text[charCount])) break;
-      charCount += 1;
-    }
-
-    if (!(charsLeft -= charCount)) break;
-    text += charCount;
-    memset(line, ' ', offset);
+  while (depth > 0) {
+    putByte(optionalArgumentSuffix);
+    depth -= 1;
   }
 }
 
 static void
-showFormattedLines (
-  FILE *stream, const char *const *const *blocks,
-  char *line, int width
+showSyntax (const CommandLineDescriptor *descriptor) {
+  putHeader(gettext("Syntax"));
+  putByte(' ');
+  putString(programName);
+
+  if (descriptor->options) {
+    if (descriptor->options->count > 0) {
+      putByte(' ');
+      putByte(optionalArgumentPrefix);
+      putByte('-');
+      putString(gettext("option"));
+      putString(repeatableArgumentIndicator);
+      putByte(optionalArgumentSuffix);
+    }
+  }
+
+  showParameterSyntax(descriptor);
+  putNewline();
+}
+
+static void
+showParameter (
+  char *line, unsigned int lineWidth,
+  const char *name, int isRepeatable, unsigned int nameWidth,
+  const char *description
 ) {
-  const char *const *const *block = blocks;
+  unsigned int lineLength = 0;
+  while (lineLength < 2) line[lineLength++] = ' ';
 
-  char *paragraphText = NULL;
-  size_t paragraphSize = 0;
-  size_t paragraphLength = 0;
+  {
+    unsigned int end = lineLength + nameWidth;
 
-  while (*block) {
-    const char *const *chunk = *block++;
-    if (!*chunk) continue;
+    if (name) {
+      size_t nameLength = strlen(name);
+      memcpy(line+lineLength, name, nameLength);
+      lineLength += nameLength;
 
-    while (1) {
-      const char *text = *chunk;
-      if (!text) break;
-      text = gettext(text);
+      if (isRepeatable) {
+        const char *indicator = repeatableArgumentIndicator;
+        size_t indicatorLength = strlen(indicator);
+        memcpy(line+lineLength, indicator, indicatorLength);
+        lineLength += indicatorLength;
+      }
+    }
 
-      if (*text && !iswspace(*text)) {
-        size_t textLength = strlen(text);
+    while (lineLength < end) line[lineLength++] = ' ';
+  }
+  line[lineLength++] = ' ';
 
-        size_t newLength = paragraphLength + textLength + 1;
-        int extending = !!paragraphLength;
-        if (extending) newLength += 1;
+  line[lineLength++] = ' ';
+  {
+    if (!description) description = "";
+    putWrappedText(description, line, lineLength, lineWidth);
+  }
+}
 
-        if (newLength > paragraphSize) {
-          size_t newSize = (newLength | 0XFF) + 1;
-          char *newText = realloc(paragraphText, newSize);
+static void
+showParameters (
+  char *line, unsigned int lineWidth,
+  const CommandLineDescriptor *descriptor
+) {
+  const CommandLineParameters *parameters = descriptor->parameters;
 
-          if (!newText) {
-            logMallocError();
-            goto done;
-          }
+  if (parameters) {
+    size_t parameterCount = parameters->count;
+    HelpTextDescriptor names[parameterCount + 1];
+    unsigned int nameWidth = 0;
 
-          paragraphText = newText;
-          paragraphSize = newSize;
-        }
+    for (unsigned int parameterIndex=0; parameterIndex<parameters->count; parameterIndex+=1) {
+      const CommandLineParameter *parameter = &parameters->table[parameterIndex];
 
-        if (extending) paragraphText[paragraphLength++] = ' ';
-        memcpy(&paragraphText[paragraphLength], text, textLength);
-        paragraphText[paragraphLength += textLength] = 0;
+      {
+        HelpTextDescriptor *name = &names[parameterIndex];
+        if (!(name->text = parameter->name)) name->text = defaultParameterName;
+
+        name->text = getTranslatedText(name->text);
+        name->length = strlen(name->text);
+        nameWidth = MAX(nameWidth, name->length);
+      }
+    }
+
+    {
+      HelpTextDescriptor *name = &names[parameterCount];
+      const char *extra = descriptor->extraParameters.name;
+
+      if (extra) {
+        name->text = getTranslatedText(extra);
+        name->length = strlen(name->text);
+        size_t width = name->length + strlen(repeatableArgumentIndicator);
+        nameWidth = MAX(nameWidth, width);
       } else {
-        if (paragraphLength) {
-          showWrappedText(stream, paragraphText, line, 0, width);
-          paragraphLength = 0;
-        }
+        name->text = NULL;
+        name->length = 0;
+      }
+    }
 
-        fprintf(stream, "%s\n", text);
+    if (nameWidth > 0) {
+      putTitle(gettext("Parameters"));
+
+      for (unsigned int parameterIndex=0; parameterIndex<parameters->count; parameterIndex+=1) {
+        const CommandLineParameter *parameter = &parameters->table[parameterIndex];
+
+        showParameter(
+          line, lineWidth,
+          names[parameterIndex].text, 0, nameWidth,
+          getTranslatedText(parameter->description)
+        );
       }
 
-      chunk += 1;
+      {
+        const HelpTextDescriptor *name = &names[parameterCount];
+        const char *extra = name->text;
+
+        if (extra) {
+          showParameter(
+            line, lineWidth,
+            extra, 1, nameWidth,
+            getTranslatedText(descriptor->extraParameters.description)
+          );
+        }
+      }
     }
-
-    if (paragraphLength) {
-      showWrappedText(stream, paragraphText, line, 0, width);
-      paragraphLength = 0;
-    }
-
-    if (*block) fputc('\n', stream);
   }
-
-done:
-  if (paragraphText) free(paragraphText);
-}
-
-static void
-showSyntax (
-  FILE *stream,
-  int haveOptions,
-  const char *parameters
-) {
-  fprintf(stream, "%s: %s", gettext("Syntax"), programName);
-
-  if (haveOptions) {
-    fprintf(stream, " [-%s ...]", gettext("option"));
-  }
-
-  if (parameters && *parameters) {
-    fprintf(stream, " %s", parameters);
-  }
-
-  fprintf(stream, "\n");
 }
 
 static void
 showOptions (
-  FILE *stream, char *line, unsigned int lineWidth,
-  OptionProcessingInformation *info
+  char *line, unsigned int lineWidth,
+  const OptionProcessingData *opd
 ) {
-  size_t optionCount = info->options->count;
+  size_t optionCount = opd->options->count;
 
-  if (info->options->count > 0) {
+  if (optionCount > 0) {
+    HelpTextDescriptor arguments[optionCount];
+
     unsigned int letterWidth = 0;
     unsigned int wordWidth = 0;
     unsigned int argumentWidth = 0;
 
     for (unsigned int optionIndex=0; optionIndex<optionCount; optionIndex+=1) {
-      const CommandLineOption *option = &info->options->table[optionIndex];
+      const CommandLineOption *option = &opd->options->table[optionIndex];
 
       if (option->word) {
         unsigned int length = strlen(option->word);
@@ -274,14 +264,26 @@ showOptions (
         wordWidth = MAX(wordWidth, length);
       }
 
+      {
+        HelpTextDescriptor *argument = &arguments[optionIndex];
+
+        if (option->argument) {
+          argument->text = getTranslatedText(option->argument);
+          argument->length = strlen(argument->text);
+          argumentWidth = MAX(argumentWidth, argument->length);
+        } else {
+          argument->text = NULL;
+          argument->length = 0;
+        }
+      }
+
       if (option->letter) letterWidth = 2;
-      if (option->argument) argumentWidth = MAX(argumentWidth, strlen(gettext(option->argument)));
     }
 
-    fprintf(stream, "\n%s:\n", gettext("Options"));
+    putTitle(gettext("Options"));
 
     for (unsigned int optionIndex=0; optionIndex<optionCount; optionIndex+=1) {
-      const CommandLineOption *option = &info->options->table[optionIndex];
+      const CommandLineOption *option = &opd->options->table[optionIndex];
 
       unsigned int lineLength = 0;
       while (lineLength < 2) line[lineLength++] = ' ';
@@ -292,10 +294,6 @@ showOptions (
         if (option->letter) {
           line[lineLength++] = '-';
           line[lineLength++] = option->letter;
-        }
-
-        while (lineLength < letterWidth) {
-          line[lineLength++] = ' ';
         }
 
         while (lineLength < end) line[lineLength++] = ' ';
@@ -323,11 +321,10 @@ showOptions (
         unsigned int end = lineLength + argumentWidth;
 
         if (option->argument) {
-          const char *argument = gettext(option->argument);
-          size_t argumentLength = strlen(argument);
+          const HelpTextDescriptor *argument = &arguments[optionIndex];
 
-          memcpy(line+lineLength, argument, argumentLength);
-          lineLength += argumentLength;
+          memcpy(line+lineLength, argument->text, argument->length);
+          lineLength += argument->length;
         }
 
         while (lineLength < end) line[lineLength++] = ' ';
@@ -336,9 +333,9 @@ showOptions (
 
       line[lineLength++] = ' ';
       {
-        const int formatStrings = !!(option->flags & OPT_Format);
-        const char *description = option->description? gettext(option->description): "";
+        const char *description = getTranslatedText(option->description);
 
+        const int formatStrings = !!(option->flags & OPT_Format);
         char buffer[0X400];
         char *from = buffer;
         const char *const to = from + sizeof(buffer);
@@ -369,24 +366,125 @@ showOptions (
           }
 
           while (index < limit) strings[index++] = "";
+
           snprintf(from, (to - from),
             description, strings[0], strings[1], strings[2], strings[3]
           );
+
           description = from;
         }
 
-        showWrappedText(stream, description, line, lineLength, lineWidth);
+        putWrappedText(description, line, lineLength, lineWidth);
       }
     }
   }
 }
 
 static void
-processCommandLine (
-  OptionProcessingInformation *info,
+showHelp (
+  const CommandLineDescriptor *descriptor,
+  const OptionProcessingData *opd
+) {
+  size_t width = getConsoleWidth();
+  char line[width+1];
+
+  {
+    const char *purpose = getTranslatedText(descriptor->purpose);
+
+    if (purpose && *purpose) {
+      putWrappedText(purpose, line, 0, width);
+      putNewline();
+    }
+  }
+
+  showSyntax(descriptor);
+  showParameters(line, width, descriptor);
+  showOptions(line, width, opd);
+
+  {
+    const char *const *const *notes = descriptor->notes;
+
+    if (notes && *notes && **notes) {
+      putNewline();
+      putFormattedLines(notes, line, width);
+    }
+  }
+}
+
+static int
+hasExtendableArgument (const CommandLineOption *option) {
+  return option->argument && (option->flags & OPT_Extend);
+}
+
+static uint8_t *
+getEnsuredSetting (
+  const OptionProcessingData *opd,
+  const CommandLineOption *option
+) {
+  return &opd->ensuredSettings[option - opd->options->table];
+}
+
+static void
+setEnsuredSetting (
+  const OptionProcessingData *opd,
+  const CommandLineOption *option,
+  uint8_t yes
+) {
+  *getEnsuredSetting(opd, option) = yes;
+}
+
+static int
+ensureSetting (
+  OptionProcessingData *opd,
+  const CommandLineOption *option,
+  const char *value
+) {
+  uint8_t *ensured = getEnsuredSetting(opd, option);
+
+  if (!*ensured || hasExtendableArgument(option)) {
+    *ensured = 1;
+
+    if (option->argument) {
+      if (option->setting.string) {
+        if (option->flags & OPT_Extend) {
+          if (!extendStringSetting(option->setting.string, value, 1)) return 0;
+        } else if (!changeStringSetting(option->setting.string, value)) {
+          return 0;
+        }
+      }
+    } else {
+      if (option->setting.flag) {
+        if (option->flags & OPT_Extend) {
+          int count;
+
+          if (isInteger(&count, value) && (count >= 0)) {
+            *option->setting.flag = count;
+          } else {
+            logMessage(LOG_ERR, "%s: %s", gettext("invalid counter setting"), value);
+            opd->warning = 1;
+          }
+        } else {
+          unsigned int on;
+
+          if (validateFlagKeyword(&on, value)) {
+            *option->setting.flag = on;
+          } else {
+            logMessage(LOG_ERR, "%s: %s", gettext("invalid flag setting"), value);
+            opd->warning = 1;
+          }
+        }
+      }
+    }
+  }
+
+  return 1;
+}
+
+static void
+processOptions (
+  OptionProcessingData *opd,
   int *argumentCount,
-  char ***argumentVector,
-  const CommandLineUsage *usage
+  char ***argumentVector
 ) {
   const char *reset = NULL;
   const char resetPrefix = '+';
@@ -394,14 +492,14 @@ processCommandLine (
 
   int dosSyntax = 0;
   const int firstNonLetter = 0X80;
-  const CommandLineOption *letterToOption[firstNonLetter + info->options->count];
+  const CommandLineOption *letterToOption[firstNonLetter + opd->options->count];
 
   for (unsigned int index=0; index<ARRAY_COUNT(letterToOption); index+=1) {
     letterToOption[index] = NULL;
   }
 
-  int indexToLetter[info->options->count];
-  char shortOptions[2 + (info->options->count * 2) + 1];
+  int indexToLetter[opd->options->count];
+  char shortOptions[2 + (opd->options->count * 2) + 1];
 
   {
     int nextNonLetter = firstNonLetter;
@@ -410,8 +508,8 @@ processCommandLine (
     *opt++ = '+'; // stop parsing options as soon as a non-option argument is encountered
     *opt++ = ':'; // Don't write any error messages
 
-    for (unsigned int index=0; index<info->options->count; index+=1) {
-      const CommandLineOption *option = &info->options->table[index];
+    for (unsigned int index=0; index<opd->options->count; index+=1) {
+      const CommandLineOption *option = &opd->options->table[index];
       int letter = option->letter;
 
       if (letter) {
@@ -439,13 +537,13 @@ processCommandLine (
   }
 
 #ifdef HAVE_GETOPT_LONG
-  struct option longOptions[(info->options->count * 2) + 1];
+  struct option longOptions[(opd->options->count * 2) + 1];
 
   {
     struct option *opt = longOptions;
 
-    for (unsigned int index=0; index<info->options->count; index+=1) {
-      const CommandLineOption *option = &info->options->table[index];
+    for (unsigned int index=0; index<opd->options->count; index+=1) {
+      const CommandLineOption *option = &opd->options->table[index];
       const char *word = option->word;
       if (!word) continue;
       int letter = indexToLetter[index];
@@ -501,7 +599,6 @@ processCommandLine (
   opterr = 0;
   optind = 1;
   int lastOptInd = -1;
-  int optHelp = 0;
 
   while (1) {
     int letter;
@@ -531,8 +628,8 @@ processCommandLine (
           } else {
             letter = -1;
 
-            for (unsigned int index=0; index<info->options->count; index+=1) {
-              option = &info->options->table[index];
+            for (unsigned int index=0; index<opd->options->count; index+=1) {
+              option = &opd->options->table[index];
               const char *word = option->word;
 
               if (word) {
@@ -616,7 +713,7 @@ processCommandLine (
 
         if (option->argument) {
           if (!*optarg) {
-            setEnsuredSetting(info, option, 0);
+            setEnsuredSetting(opd, option, 0);
             break;
           }
 
@@ -637,33 +734,33 @@ processCommandLine (
           }
         }
 
-        setEnsuredSetting(info, option, 1);
+        setEnsuredSetting(opd, option, 1);
         break;
       }
 
       case 0: { // reset a flag
         const CommandLineOption *option = letterToOption[resetLetter];
         *option->setting.flag = 0;
-        setEnsuredSetting(info, option, 1);
+        setEnsuredSetting(opd, option, 1);
         break;
       }
 
-    {
-      const char *problem;
-      char message[0X100];
+      {
+        const char *problem;
+        char message[0X100];
 
       case '?': // an unknown option has been specified
-        info->syntaxError = 1;
+        opd->syntaxError = 1;
         problem = gettext("unknown option");
         goto logOptionProblem;
 
       case ':': // the operand for a string option hasn't been specified
-        info->syntaxError = 1;
+        opd->syntaxError = 1;
         problem = gettext("missing operand");
         goto logOptionProblem;
 
       case '-': // the operand for an option is invalid
-        info->warning = 1;
+        opd->warning = 1;
         problem = gettext("invalid operand");
         goto logOptionProblem;
 
@@ -703,47 +800,16 @@ processCommandLine (
         STR_END;
         logMessage(LOG_WARNING, "%s", message);
         break;
-    }
+      }
 
       case 'h': // help - show usage summary and then exit
-        optHelp = 1;
+        opd->showHelp = 1;
         break;
     }
   }
 
   *argumentVector += optind;
   *argumentCount -= optind;
-
-  if (optHelp) {
-    FILE *usageStream = stdout;
-
-    size_t width = UINT16_MAX;
-    getConsoleSize(&width, NULL);
-    char line[width+1];
-
-    {
-      const char *purpose = gettext(usage->purpose);
-
-      if (purpose && *purpose) {
-        showWrappedText(usageStream, purpose, line, 0, width);
-        fputc('\n', usageStream);
-      }
-    }
-
-    showSyntax(usageStream, !!info->options->count, usage->parameters);
-    showOptions(usageStream, line, width, info);
-
-    {
-      const char *const *const *notes = usage->notes;
-
-      if (notes && *notes) {
-        fputc('\n', usageStream);
-        showFormattedLines(usageStream, notes, line, width);
-      }
-    }
-
-    info->exitImmediately = 1;
-  }
 
 #ifdef HAVE_GETOPT_LONG
   {
@@ -757,9 +823,60 @@ processCommandLine (
 #endif /* HAVE_GETOPT_LONG */
 }
 
+static int
+processParameters (
+  const CommandLineDescriptor *descriptor,
+  int *argumentCount,
+  char ***argumentVector
+) {
+  const CommandLineParameters *parameters = descriptor->parameters;
+
+  if (parameters) {
+    const CommandLineParameter *parameter = parameters->table;
+    const CommandLineParameter *end = parameter + parameters->count;
+
+    while (parameter < end) {
+      if (!*argumentCount) {
+        if (parameter->optional) break;
+
+        logMessage(LOG_ERR, 
+          "%s: %s",
+          gettext("missing parameter"),
+          parameter->name
+        );
+
+        return 0;
+      }
+
+      if (parameter->setting) {
+        *parameter->setting = **argumentVector;
+      }
+
+      *argumentVector += 1;
+      *argumentCount -= 1;
+
+      parameter += 1;
+    }
+
+    while (parameter < end) {
+      if (parameter->setting) *parameter->setting = NULL;
+      parameter += 1;
+    }
+
+    if (*argumentCount > 0) {
+      if (!descriptor->extraParameters.name) {
+        logMessage(LOG_ERR, "%s", gettext("too many parameters"));
+        return 0;
+      }
+    }
+  }
+
+  return 1;
+}
+
 static void
 processBootParameters (
-  OptionProcessingInformation *info,
+  OptionProcessingData *opd,
   const char *parameter
 ) {
   const char *value;
@@ -775,8 +892,8 @@ processBootParameters (
     int parameterCount = 0;
     char **parameters = splitString(value, ',', &parameterCount);
 
-    for (unsigned int optionIndex=0; optionIndex<info->options->count; optionIndex+=1) {
-      const CommandLineOption *option = &info->options->table[optionIndex];
+    for (unsigned int optionIndex=0; optionIndex<opd->options->count; optionIndex+=1) {
+      const CommandLineOption *option = &opd->options->table[optionIndex];
 
       if ((option->bootParameter) && (option->bootParameter <= parameterCount)) {
         char *parameter = parameters[option->bootParameter-1];
@@ -790,7 +907,7 @@ processBootParameters (
             } while (*++byte);
           }
 
-          ensureSetting(info, option, parameter);
+          ensureSetting(opd, option, parameter);
         }
       }
     }
@@ -803,7 +920,7 @@ processBootParameters (
 
 static int
 processEnvironmentVariable (
-  OptionProcessingInformation *info,
+  OptionProcessingData *opd,
   const CommandLineOption *option,
   const char *prefix
 ) {
@@ -833,7 +950,7 @@ processEnvironmentVariable (
       const char *setting = getenv(name);
 
       if (setting && *setting) {
-        if (!ensureSetting(info, option, setting)) {
+        if (!ensureSetting(opd, option, setting)) {
           return 0;
         }
       }
@@ -845,13 +962,13 @@ processEnvironmentVariable (
 
 static int
 processEnvironmentVariables (
-  OptionProcessingInformation *info,
+  OptionProcessingData *opd,
   const char *prefix
 ) {
-  for (unsigned int optionIndex=0; optionIndex<info->options->count; optionIndex+=1) {
-    const CommandLineOption *option = &info->options->table[optionIndex];
+  for (unsigned int optionIndex=0; optionIndex<opd->options->count; optionIndex+=1) {
+    const CommandLineOption *option = &opd->options->table[optionIndex];
 
-    if (!processEnvironmentVariable(info, option, prefix)) return 0;
+    if (!processEnvironmentVariable(opd, option, prefix)) return 0;
   }
 
   return 1;
@@ -859,17 +976,21 @@ processEnvironmentVariables (
 
 static void
 processInternalSettings (
-  OptionProcessingInformation *info,
+  OptionProcessingData *opd,
   int config
 ) {
-  for (unsigned int optionIndex=0; optionIndex<info->options->count; optionIndex+=1) {
-    const CommandLineOption *option = &info->options->table[optionIndex];
+  for (unsigned int optionIndex=0; optionIndex<opd->options->count; optionIndex+=1) {
+    const CommandLineOption *option = &opd->options->table[optionIndex];
 
     if (!(option->flags & OPT_Config) == !config) {
       const char *setting = option->internal.setting;
       char *newSetting = NULL;
 
-      if (!setting) setting = option->argument? "": OPT_WORD_FALSE;
+      if (!setting) {
+        setting = option->argument? "":
+                  (option->flags & OPT_Extend)? "0":
+                  OPT_WORD_FALSE;
+      }
 
       if (option->internal.adjust) {
         if (*setting) {
@@ -883,7 +1004,7 @@ processInternalSettings (
         }
       }
 
-      ensureSetting(info, option, setting);
+      ensureSetting(opd, option, setting);
       if (newSetting) free(newSetting);
     }
   }
@@ -911,7 +1032,7 @@ searchConfigurationDirective (const void *target, const void *element) {
 }
 
 typedef struct {
-  OptionProcessingInformation *info;
+  OptionProcessingData *opd;
   char **settings;
 
   struct {
@@ -937,12 +1058,12 @@ processConfigurationDirective (
   const ConfigurationDirective *directive = findConfigurationDirective(keyword, conf);
 
   if (directive) {
-    const CommandLineOption *option = &conf->info->options->table[directive->option];
+    const CommandLineOption *option = &conf->opd->options->table[directive->option];
     char **setting = &conf->settings[directive->option];
 
     if (*setting && !hasExtendableArgument(option)) {
       logMessage(LOG_ERR, "%s: %" PRIws, gettext("configuration directive specified more than once"), keyword);
-      conf->info->warning = 1;
+      conf->opd->warning = 1;
 
       free(*setting);
       *setting = NULL;
@@ -958,7 +1079,7 @@ processConfigurationDirective (
     }
   } else {
     logMessage(LOG_ERR, "%s: %" PRIws, gettext("unknown configuration directive"), keyword);
-    conf->info->warning = 1;
+    conf->opd->warning = 1;
   }
 
   return 1;
@@ -983,10 +1104,10 @@ static DATA_OPERANDS_PROCESSOR(processConfigurationOperands) {
         ok = 0;
       }
     } else {
-      conf->info->warning = 1;
+      conf->opd->warning = 1;
     }
   } else {
-    conf->info->warning = 1;
+    conf->opd->warning = 1;
   }
 
   return ok;
@@ -1045,8 +1166,8 @@ freeConfigurationDirectives (ConfigurationFileProcessingData *conf) {
 
 static int
 addConfigurationDirectives (ConfigurationFileProcessingData *conf) {
-  for (unsigned int optionIndex=0; optionIndex<conf->info->options->count; optionIndex+=1) {
-    const CommandLineOption *option = &conf->info->options->table[optionIndex];
+  for (unsigned int optionIndex=0; optionIndex<conf->opd->options->count; optionIndex+=1) {
+    const CommandLineOption *option = &conf->opd->options->table[optionIndex];
 
     if ((option->flags & OPT_Config) && option->word) {
       ConfigurationDirective *directive;
@@ -1080,7 +1201,7 @@ addConfigurationDirectives (ConfigurationFileProcessingData *conf) {
 
 static void
 processConfigurationFile (
-  OptionProcessingInformation *info,
+  OptionProcessingData *opd,
   const char *path,
   int optional
 ) {
@@ -1088,11 +1209,11 @@ processConfigurationFile (
     FILE *file = openDataFile(path, "r", optional);
 
     if (file) {
-      char *settings[info->options->count];
-      ConfigurationDirective *directives[info->options->count];
+      char *settings[opd->options->count];
+      ConfigurationDirective *directives[opd->options->count];
 
       ConfigurationFileProcessingData conf = {
-        .info = info,
+        .opd = opd,
         .settings = settings,
 
         .directive = {
@@ -1104,7 +1225,7 @@ processConfigurationFile (
       if (addConfigurationDirectives(&conf)) {
         int processed;
 
-        for (unsigned int index=0; index<info->options->count; index+=1) {
+        for (unsigned int index=0; index<opd->options->count; index+=1) {
           conf.settings[index] = NULL;
         }
 
@@ -1117,18 +1238,18 @@ processConfigurationFile (
           processed = processDataStream(NULL, file, path, &dataFileParameters);
         }
 
-        for (unsigned int index=0; index<info->options->count; index+=1) {
+        for (unsigned int index=0; index<opd->options->count; index+=1) {
           char *setting = conf.settings[index];
 
           if (setting) {
-            ensureSetting(info, &info->options->table[index], setting);
+            ensureSetting(opd, &opd->options->table[index], setting);
             free(setting);
           }
         }
 
         if (!processed) {
           logMessage(LOG_ERR, gettext("file '%s' processing error."), path);
-          info->warning = 1;
+          opd->warning = 1;
         }
 
         freeConfigurationDirectives(&conf);
@@ -1136,8 +1257,27 @@ processConfigurationFile (
 
       fclose(file);
     } else if (!optional || (errno != ENOENT)) {
-      info->warning = 1;
+      opd->warning = 1;
     }
+  }
+}
+
+static void
+toAbsolutePaths (OptionProcessingData *opd) {
+  char *parent = getWorkingDirectory();
+
+  if (parent) {
+    for (unsigned int optionIndex=0; optionIndex<opd->options->count; optionIndex+=1) {
+      const CommandLineOption *option = &opd->options->table[optionIndex];
+
+      if (option->internal.adjust == toAbsoluteInstallPath) {
+        if (**option->setting.string) {
+          anchorRelativePath(option->setting.string, parent);
+        }
+      }
+    }
+
+    free(parent);
   }
 }
 
@@ -1162,44 +1302,66 @@ exitOptions (void *data) {
   resetOptions(options);
 }
 
+BEGIN_COMMAND_LINE_OPTIONS(defaultOptions)
+END_COMMAND_LINE_OPTIONS(defaultOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(defaultParameters)
+END_COMMAND_LINE_PARAMETERS(defaultParameters)
+
 ProgramExitStatus
-processOptions (const CommandLineDescriptor *descriptor, int *argumentCount, char ***argumentVector) {
-  uint8_t ensuredSettings[descriptor->options->count];
+processCommandLine (const CommandLineDescriptor *descriptor, int *argumentCount, char ***argumentVector) {
+  CommandLineDescriptor cld = *descriptor;
+  if (!cld.options) cld.options = &defaultOptions;
+  if (!cld.parameters) cld.parameters = &defaultParameters;
+
+  uint8_t ensuredSettings[cld.options->count];
   memset(ensuredSettings, 0, sizeof(ensuredSettings));
 
-  OptionProcessingInformation info = {
-    .options = descriptor->options,
+  OptionProcessingData opd = {
+    .options = cld.options,
     .ensuredSettings = ensuredSettings,
 
-    .exitImmediately = 0,
+    .showHelp = 0,
     .warning = 0,
     .syntaxError = 0
   };
 
-  onProgramExit("options", exitOptions, (void *)descriptor->options);
+  onProgramExit("options", exitOptions, (void *)cld.options);
   beginProgram(*argumentCount, *argumentVector);
-  processCommandLine(&info, argumentCount, argumentVector, &descriptor->usage);
+  processOptions(&opd, argumentCount, argumentVector);
 
-  if (descriptor->doBootParameters && *descriptor->doBootParameters) {
-    processBootParameters(&info, descriptor->applicationName);
+  if (opd.showHelp) {
+    showHelp(&cld, &opd);
+    return PROG_EXIT_FORCE;
   }
 
-  if (descriptor->doEnvironmentVariables && *descriptor->doEnvironmentVariables) {
-    processEnvironmentVariables(&info, descriptor->applicationName);
+  if (cld.doBootParameters && *cld.doBootParameters) {
+    processBootParameters(&opd, cld.name);
   }
 
-  processInternalSettings(&info, 0);
+  if (cld.doEnvironmentVariables && *cld.doEnvironmentVariables) {
+    processEnvironmentVariables(&opd, cld.name);
+  }
+
+  processInternalSettings(&opd, 0);
   {
-    int configurationFileSpecified = descriptor->configurationFile && *descriptor->configurationFile;
+    int configurationFileSpecified = cld.configurationFile && *cld.configurationFile;
 
     if (configurationFileSpecified) {
-      processConfigurationFile(&info, *descriptor->configurationFile, !configurationFileSpecified);
+      processConfigurationFile(&opd, *cld.configurationFile, !configurationFileSpecified);
     }
   }
-  processInternalSettings(&info, 1);
+  processInternalSettings(&opd, 1);
 
-  if (info.exitImmediately) return PROG_EXIT_FORCE;
-  if (info.syntaxError) return PROG_EXIT_SYNTAX;
+  if (opd.syntaxError) {
+    return PROG_EXIT_SYNTAX;
+  }
+
+  if (!processParameters(&cld, argumentCount, argumentVector)) {
+    return PROG_EXIT_SYNTAX;
+  }
+
+  toAbsolutePaths(&opd);
   return PROG_EXIT_SUCCESS;
 }
 

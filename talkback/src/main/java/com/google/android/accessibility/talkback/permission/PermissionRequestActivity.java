@@ -65,6 +65,7 @@ public class PermissionRequestActivity extends FragmentActivity {
                   R.string.continue_button,
                   (dialog, buttonClicked) -> requestPermission(permission.READ_PHONE_STATE))
               .setNegativeButton(android.R.string.cancel, (dialog, buttonClicked) -> finish())
+              .setOnDismissListener(dialog -> finish())
               .create();
       alertDialog.setCanceledOnTouchOutside(true);
       alertDialog.show();

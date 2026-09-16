@@ -170,6 +170,7 @@ public class FeedbackController {
       int resId,
       final float rate,
       float volume,
+      boolean ignoreVolumeAdjustment,
       @Nullable EventId eventId,
       long separationMillisec) {
     if (separationMillisec != NO_SEPARATION) {
@@ -184,7 +185,7 @@ public class FeedbackController {
       }
     }
 
-    playAuditory(resId, rate, volume, eventId);
+    playAuditory(resId, rate, volume, ignoreVolumeAdjustment, eventId);
   }
 
   /**
@@ -196,12 +197,31 @@ public class FeedbackController {
    * @param volume The volume adjustment, from 0.0 (mute) to 1.0 (original volume).
    */
   public void playAuditory(int resId, final float rate, float volume, @Nullable EventId eventId) {
+    playAuditory(resId, rate, volume, /* ignoreVolumeAdjustment= */ false, eventId);
+  }
+
+  /**
+   * Plays the auditory feedback associated with the given resource ID using the specified rate,
+   * volume, and panning.
+   *
+   * @param resId The auditory feedback's resource identifier.
+   * @param rate The playback rate adjustment, from 0.5 (half speed) to 2.0 (double speed).
+   * @param volume The volume adjustment, from 0.0 (mute) to 1.0 (original volume).
+   * @param ignoreVolumeAdjustment Ignore the volume adjustment from {@link
+   *     #setVolumeAdjustment(float)} or not.
+   */
+  public void playAuditory(
+      int resId,
+      final float rate,
+      float volume,
+      boolean ignoreVolumeAdjustment,
+      @Nullable EventId eventId) {
     if (!mAuditoryEnabled || resId == 0) {
       return;
     }
     LogUtils.v(TAG, "playAuditory() resId=%d eventId=%s", resId, eventId);
 
-    final float adjustedVolume = volume * mVolumeAdjustment;
+    final float adjustedVolume = ignoreVolumeAdjustment ? volume : volume * mVolumeAdjustment;
     int soundId = mSoundIds.get(resId);
 
     if (soundId != 0) {

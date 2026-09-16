@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -48,7 +49,7 @@ public class SharedPreferencesStringList {
     TreeMap<Integer, String> oldMap = readTreeMap(sharedPrefs, prefKey);
     TreeMap<Integer, String> newMap = new TreeMap<>();
     newMap.put(-1, value);
-    for (int i = 0; i < oldMap.keySet().size(); i++) {
+    for (int i = 0; i < oldMap.size(); i++) {
       String oldValue = oldMap.get(i);
       if (!value.equals(oldValue)) {
         newMap.put(i, oldValue);
@@ -57,11 +58,28 @@ public class SharedPreferencesStringList {
     writeTreeMap(sharedPrefs, prefKey, newMap);
   }
 
+  /** Replaces a value in the list to a new value associated with the given key. */
+  public static void replace(
+      SharedPreferences sharedPrefs, String prefKey, String oldValue, String newValue) {
+    TreeMap<Integer, String> oldMap = readTreeMap(sharedPrefs, prefKey);
+    TreeMap<Integer, String> newMap = new TreeMap<>();
+    for (int i = 0; i < oldMap.size(); i++) {
+      String value = oldMap.get(i);
+      if (Objects.equals(value, oldValue)) {
+        newMap.put(i, newValue);
+      } else {
+        newMap.put(i, value);
+      }
+    }
+    writeTreeMap(sharedPrefs, prefKey, newMap);
+  }
+
   /** Removes the value associated with the given key, if present; otherwise does nothing. */
-  public static void remove(SharedPreferences sharedPrefs, String prefKey, String deviceName) {
+  public static void remove(
+      SharedPreferences sharedPrefs, String prefKey, String deviceInfoString) {
     TreeMap<Integer, String> treeMap = readTreeMap(sharedPrefs, prefKey);
     for (Iterator<Integer> iter = treeMap.navigableKeySet().iterator(); iter.hasNext(); ) {
-      if (deviceName.equals(treeMap.get(iter.next()))) {
+      if (deviceInfoString.equals(treeMap.get(iter.next()))) {
         iter.remove();
       }
     }

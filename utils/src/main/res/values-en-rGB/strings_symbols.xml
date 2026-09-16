@@ -36,6 +36,7 @@
   <string name="symbol_pi">Pi</string>
   <string name="symbol_pound">Hash
 </string>
+  <string name="symbol_hash">Hash</string>
   <string name="symbol_pound_sterling">Pound currency sign</string>
   <string name="symbol_currency_peso">Peso sign</string>
   <string name="symbol_currency_dong">Dong sign</string>
@@ -49,6 +50,7 @@
   <string name="symbol_square_bracket_right">Right square bracket</string>
   <string name="symbol_square_root">Square root</string>
   <string name="symbol_trademark">Trademark</string>
+  <string name="symbol_check_mark">Tick</string>
   <string name="symbol_underscore">Underscore</string>
   <string name="symbol_vertical_bar">Vertical line</string>
   <string name="symbol_yen">Yen</string>

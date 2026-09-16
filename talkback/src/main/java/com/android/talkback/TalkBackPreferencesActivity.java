@@ -26,10 +26,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import com.google.android.accessibility.talkback.HatsSurveyRequester;
 import com.google.android.accessibility.talkback.preference.base.TalkBackPreferenceFragment;
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment;
+import com.google.android.accessibility.talkback.preference.search.TalkBackSearchIndexablesProvider;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.preference.PreferencesActivity;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
@@ -45,15 +48,24 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * REFERTO
  */
 public class TalkBackPreferencesActivity extends PreferencesActivity
-    implements FragmentOnAttachListener {
+    implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback,
+        FragmentOnAttachListener {
 
   private static final String TAG = "PreferencesActivity";
 
   private HatsSurveyRequester hatsSurveyRequester;
 
+  private void assignSearchFragment(Intent intent) {
+    if (TalkBackSearchIndexablesProvider.isFromSearchIndexablesContract(intent)) {
+      TalkBackSearchIndexablesProvider.assignToFragmentFromSearch(intent);
+    }
+  }
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     // Must be called before super.onCreate
+    assignSearchFragment(getIntent());
+    fillDefaultFragmentNameIfNecessary();
     getSupportFragmentManager().addFragmentOnAttachListener(this);
     super.onCreate(savedInstanceState);
 
@@ -85,6 +97,33 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
   }
 
   @Override
+  public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+    // Fall back to the default implementation in PreferenceFragmentCompat for other form factors.
+    if (!FormFactorUtils.isAndroidWear()) {
+      return false;
+    }
+
+    if (pref.getFragment() == null) {
+      return false;
+    }
+    final Fragment fragment =
+        getSupportFragmentManager()
+            .getFragmentFactory()
+            .instantiate(getClassLoader(), pref.getFragment());
+
+    // WearPreferenceFragment couldn't be restored correctly, so we start a new Activity to
+    // prevent the failure of UI restoration.
+    if (fragment instanceof TalkbackBaseFragment) {
+      Intent intent = new Intent(this, TalkBackSubSettings.class);
+      intent.putExtra(FRAGMENT_NAME, pref.getFragment());
+      intent.putExtra(FRAGMENT_ARGS, pref.getExtras());
+      startActivity(intent);
+      return true;
+    }
+    return false;
+  }
+
+  @Override
   public boolean dispatchKeyEvent(KeyEvent keyEvent) {
     if ((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)
         && (keyEvent.getAction() == KeyEvent.ACTION_UP)
@@ -98,13 +137,12 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
   @Override
   protected void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
+    assignSearchFragment(getIntent());
 
     String fragmentName = intent.getStringExtra(FRAGMENT_NAME);
     PreferenceFragmentCompat fragment = getFragmentByName(fragmentName);
-    LogUtils.e(
-        "Eric TAG",
-        "Eric Mark: TalkBackPreferencesActivity: getContainerId()= %s",
-        getContainerId());
+    fragment.setArguments(intent.getBundleExtra(FRAGMENT_ARGS));
+    LogUtils.e(TAG, "onNewIntent/getContainerId()= %s", getContainerId());
     getSupportFragmentManager()
         .beginTransaction()
         .replace(getContainerId(), fragment, getFragmentTag())
@@ -117,10 +155,14 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
   protected PreferenceFragmentCompat createPreferenceFragment() {
     Intent intent = getIntent();
     String fragmentName = null;
+    Bundle bundle = null;
     if (intent != null) {
       fragmentName = intent.getStringExtra(FRAGMENT_NAME);
+      bundle = intent.getBundleExtra(FRAGMENT_ARGS);
     }
-    return getFragmentByName(fragmentName);
+    PreferenceFragmentCompat fragment = getFragmentByName(fragmentName);
+    fragment.setArguments(bundle);
+    return fragment;
   }
 
   @Override
@@ -141,6 +183,21 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
       LogUtils.d(TAG, "Failed to load class: %s", fragmentName);
       return null;
+    }
+  }
+
+  // We try to fill the default fragment name for WearPreferenceActivity to initiate it for Wear.
+  private void fillDefaultFragmentNameIfNecessary() {
+    if (!FormFactorUtils.isAndroidWear()) {
+      return;
+    }
+    Intent intent = getIntent();
+    if (intent == null) {
+      return;
+    }
+    String fragmentName = intent.getStringExtra(FRAGMENT_NAME);
+    if (TextUtils.isEmpty(fragmentName)) {
+      intent.putExtra(FRAGMENT_NAME, TalkBackPreferenceFragment.class.getCanonicalName());
     }
   }
 
@@ -173,4 +230,7 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
       this.hatsSurveyRequester = hatsSurveyRequester;
     }
   }
+
+  /** Activity to launch TalkBack settings fragment. It is used only for wear. */
+  public static class TalkBackSubSettings extends TalkBackPreferencesActivity {}
 }

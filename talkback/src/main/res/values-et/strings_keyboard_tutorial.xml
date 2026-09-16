@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">See õpetus on mõeldud täiustatud klahvitabeli jaoks, mis hõlmab palju uusi käske. Klahvitabeli valimiseks avage TalkBacki seaded &gt; Täpsemad seaded &gt; Klaviatuuri otseteed.\n\nTeema valimiseks vajutage toiminguklahvi ja paremnoolt. Parima kasutuskogemuse saamiseks lülitage enne alustamist sisse TalkBack.</string>
+  <string name="basic_interaction_link_text">Lihtne interaktsioon</string>
+  <string name="basic_interaction_link_subtext">Üksuste vahel liikumine, ridade kaupa lugemine, menüüde kasutamine jm.</string>
+  <string name="browse_mode_link_text">Sirvimisrežiim</string>
+  <string name="browse_mode_link_subtext">Veebisisus kiirkäskluste abil kiiremini navigeerimine.</string>
+  <string name="reading_controls_link_text">Lugemise juhtelemendid</string>
+  <string name="reading_controls_link_subtext">Lugemise juhtelementide kasutamine üksuste vahel liikumiseks, kõneseadete kohandamiseks jm.</string>
+  <string name="image_descriptions_link_text">Pildikirjeldused</string>
+  <string name="image_descriptions_link_subtext">Proovige hankida piltide kirjeldused</string>
+  <string name="keyboard_shortcuts_link_text">Klaviatuuri otseteede harjutamine</string>
+  <string name="keyboard_shortcuts_link_subtext">Klahvide ja klahvikombinatsioonide vajutamine ja nende toimingute õppimine</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack annab suulist tagasisidet, et saaksite seadet kasutada ilma ekraanikuva vaatamata. TalkBack on abiks kehva nägemisvõimega inimestele. Kui TalkBack on sisse lülitatud, öeldakse ekraanil esile tõstetud üksus kuuldavalt.\n\nEsmalt tutvume teie klaviatuuriga. Leidke toiminguklahv, mis asub vasakpoolse tõstuklahvi kohal. Nüüd otsime üles nooleklahvid, mis asuvad klaviatuuri paremas allosas. Järgmisele üksusele liikumiseks vajutage toiminguklahvi + paremnoolt.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">See on järgmine üksus. Eelmise üksuse juurde liikumiseks vajutage toiminguklahvi + vasaknoolt.\n\nKui liigute interaktiivse üksuse (nt nupu) juurde, vajutage selle aktiveerimiseks toiminguklahvi + tühikut. Leidke nupp Järgmine ja jätkake õpetusega.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Tähemärgi, sõna või lõigu haaval lugemine</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Võib-olla soovite mõnikord lasta teksti ette lugeda ühe tähemärgi haaval.\n\nSelleks saate kasutada lugemise juhtelemente. Vajutage toiminguklahvi + tõstuklahvi + parem- või vasaknoolt, kuni kuulete teadet „tähemärgid”.\n\nSeejärel vajutage toiminguklahvi + ülesnoolt, et liigutada navigeerimisfookust ühe tähemärgi võrra tagasi. Vajutage toiminguklahvi + allanoolt, et liigutada navigeerimisfookust ühe tähemärgi võrra edasi.\n\nProovige seda kohe. Samuti saate lugeda sõnade, ridade või lõikude kaupa, kasutades toiminguklahvi + tõstuklahvi + parem- või vasaknoolt.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Süsteemis navigeerimine</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Nende klaviatuuri otseteede proovimine sulgeb õpetuse. Soovitame teil enne õpetused läbida.\n\nAvatud rakenduste akende ja süsteemielementide (nt märguanded ja tegumiriba) vahel liikumiseks vajutage toiminguklahvi + Alt + Ctrl + üles- või allanoolt.\n\nRakenduste loendi avamiseks vajutage toiminguklahvi.\n\nAvakuvale liikumiseks ja kõigi avatud akende minimeerimiseks vajutage toiminguklahvi + H või ülemises reas klahvi Home.\n\nHiljutiste rakenduste avamiseks vajutage toiminguklahvi + tabulaatorit või ülemises reas klahvi Ülevaade.\n\nAkende vahel kiiresti liikumiseks hoidke all klahvi Alt ja vajutage tabulaatorit.\n\nTagasi liikumiseks vajutage toiminguklahvi + paoklahvi või ülemises reas klahvi Tagasi.\n\nMärguannete avamiseks vajutage toiminguklahvi + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Kõneseadete kohandamine</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBacki kõne helitugevust nimetatakse juurdepääsetavuse helitugevuseks. Seda reguleeritakse meedia helitugevusest eraldi.\n\nJuurdepääsetavuse helitugevuse reguleerimiseks vajutage toiminguklahvi ja helitugevuse suurendamise või vähendamise klahvi.\n\nRääkimiskiiruse reguleerimiseks vajutage suurendamiseks toiminguklahvi + Ctrl + helitugevuse suurendamise klahvi ja vähendamiseks toiminguklahvi + Ctrl + helitugevuse vähendamise klahvi.\n\nRääkimise mis tahes ajal peatamiseks vajutage klahvi Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBacki menüü ja muud klaviatuuri otseteed</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBacki menüüst leiate seaded ja juhtelemendid, mida teil võib sageli vaja minna.\n\nTalkBacki menüü avamiseks vajutage toiminguklahvi + Ctrl + M. Saate TalkBacki menüüd ja lugemise juhtelemente hiljem kohandada TalkBacki seadetes.\n\nTalkBacki klaviatuuri otseteede menüü sisaldab kõiki klaviatuuri otseteid, mida saate kasutada.\n\nKlaviatuuri otseteede menüü avamiseks vajutage toiminguklahvi + Shift + /.\n\nKlaviatuuri kohta lisateabe saamiseks ja klaviatuuri otseteede harjutamiseks vajutage toiminguklahvi + 0, et avada harjutuskuva.</string>
+  <string name="keyboard_tutorial_finished_page_title">Valmis!</string>
+  <string name="keyboard_tutorial_finished_page_text">Olete valmis TalkBacki kasutama.\n\nVõite praegu muude teemadega tutvumist jätkata, samuti saate TalkBacki seadete kaudu selle teabe igal ajal uuesti üle vaadata.\n\nTalkBacki mis tahes ajal sisse- või väljalülitamiseks vajutage toiminguklahvi + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Veebisisus sirvimisrežiimi abil kiiremini navigeerimine</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Kui olete brauseris ja veebirakendustes, saate sisse lülitada sirvimisrežiimi ning liikuda ühe klahvivajutusega eri tüüpi lugemise detailsuse ja juhtelementide vahel. See muudab lehel navigeerimise sarnaseks tekstimuutmiskastis navigeerimisega, näiteks vasak- ja paremnooleklahvid tähemärkide kaupa liikumiseks ning üles- ja allanooleklahvid ridade kaupa liikumiseks.\n\nSirvimisrežiimi sisselülitamiseks või väljalülitamiseks vajutage kaks korda toiminguklahvi.\n\nKui sirvimisrežiim on sisse lülitatud, vajutage klahvi D, et liikuda järgmise orientiiri juurde, klahvi F, et liikuda järgmise juhtelemendi või vormivälja juurde, klahvi B, et liikuda järgmise nupu juurde, klahvi K, et liikuda järgmise lingi juurde, ja klahvi H, et liikuda järgmise pealkirja juurde. Tagasiliikumiseks hoidke all tõstuklahvi ja vajutage neid klahve.\n\nSamuti saate kasutada üles- ja allanooleklahve, et liikuda ridade kaupa, vasak- ja paremnooleklahve, et liikuda tähtede kaupa, ning klahvi Ctrl + vasak- ja paremnooleklahve, et liikuda sõnade kaupa.\n\nVajutage harjutusalasse sisenemiseks toiminguklahvi + paremnooleklahvi. Harjutusalas ei tee lingid, vormiväljad ja nupud midagi.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Pealkirjade tasemed</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Veebisaidid ja veebirakendused kasutavad sisu struktureerimiseks sageli eri taseme pealkirju. Kui sirvimisrežiim on sisse lülitatud, vajutage pealkirjatasemetele liikumiseks klahve 1–6. Tagasiliikumiseks hoidke all tõstuklahvi ja vajutage neid klahve.\n\nVajutage harjutusalasse sisenemiseks toiminguklahvi + paremnooleklahvi.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabelid</string>
+  <string name="keyboard_tutorial_tables_page_text">Sirvimisrežiim muudab ka tabelis navigeerimise lihtsamaks. Kui sirvimisrežiim on sisse lülitatud, vajutage ridade vahel liikumiseks klahve Alt + Ctrl + üles- ja allanool ning veergude vahel liikumiseks klahve Alt + Ctrl + vasak- ja paremnool.\n\nVajutage harjutusalasse sisenemiseks toiminguklahvi + paremnooleklahvi.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Teksti muutmine</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Kui sisenete tekstiväljale, lülitatakse sirvimisrežiim ajutiselt välja, et saaksite tippimiseks kasutada kõiki klahve. Kui see on välja lülitatud, kuulete teadaannet ja heli. Kui väljute tekstiväljalt, lülitub sirvimisrežiim uuesti sisse ning kuulete teist teadaannet ja heli.\n\nVajutage toiminguklahvi + paremnooleklahvi, et siseneda harjutusalasse.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Lisateave sirvimisrežiimi kohta</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Sirvimisrežiimis navigeeritavate üksuste täieliku loendi vaatamiseks vajutage toiminguklahvi + tõstuklahvi + / ja otsige klaviatuuri otseteede menüüst valikut „sirvimisrežiim”.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Tähemärgi, sõna või lõigu haaval lugemine</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Võib-olla soovite mõnikord lasta teksti ette lugeda ühe tähemärgi haaval.\n\nSelleks saate kasutada lugemise juhtelemente. Vajutage toiminguklahvi + tõstuklahvi + parem- või vasaknoolt, kuni kuulete teadet „tähemärgid“. Seejärel vajutage toiminguklahvi ja ülesnoolt, et liigutada navigeerimisfookust ühe tähemärgi võrra tagasi. Vajutage toiminguklahvi + allanoolt, et liigutada navigeerimisfookust ühe tähemärgi võrra edasi.\n\nProovige seda kohe. Samuti saate lugeda sõnade, ridade või lõikude kaupa, kasutades toiminguklahvi + tõstuklahvi + parem- või vasaknoolt.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Juhtelementide vahel liikumine</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Juhtelemendid on interaktiivsed üksused, nagu nupud, märkeruudud ja tekstikastid.\n\nMõnel lehel saate juhtelementide vahel liikuda, et kiirelt toiming leida (nt nupp „Järgmine”).\n\nSelleks vajutage toiminguklahvi + tõstuklahvi + paremnoolt, kuni kuulete teadet „juhtelemendid”. Järgmisena vajutage toiminguklahvi + ülesnoolt, et liikuda eelmisele nupule, ja toiminguklahvi + allanoolt, et liikuda järgmisele nupule.\n\nProovige seda kohe ja leidke järgmine nupp.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Liikumine linkide vahel</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Samuti saate liikuda lehel olevate linkide vahel.\n\nSelleks vajutage toiminguklahvi + tõstuklahvi + paremnoolt, kuni kuulete teadet „lingid“. Järgmisena vajutage toiminguklahvi ja allanoolt, et leida link nimega „Link 5”. Õpetuse ajal ei juhtu lingi topeltpuudutamisel midagi.\n\nVajutage toiminguklahvi + paremnoolt, et leida nupp „Järgmine” ja liikuda järgmisele lehele.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Liikumine pealkirjade vahel</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Saate liikuda lehel olevate pealkirjade vahel.\n\nSelle proovimiseks vajutage toiminguklahvi + tõstuklahvi + paremnoolt, kuni kuulete teadet „pealkirjad”. Seejärel vajutage toiminguklahvi + allanoolt, et leida pealkiri „Navigeerimine”.</string>
+  <string name="keyboard_tutorial_find_next_button">Vajutage toiminguklahvi + paremnoolt, et leida järgmine nupp.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Konteinerite vahel liikumine</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Konteinerist (nt loendist või ruudustikust väljumiseks) vajutage toiminguklahvi + Alt + Ctrl + parem- või vasaknoolt. See on kasulik siis, kui soovite väljuda pikast üksuste loendist.\n\nKohe proovimiseks vajutage loendisse sisenemiseks toiminguklahvi ja paremnoolt. Seejärel vajutage järgmisse konteinerisse liikumiseks toiminguklahvi + Alt + Ctrl + paremnoolt.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Järgmisse konteinerisse liikumiseks vajutage toiminguklahvi + Alt + Ctrl + paremnoolt</string>
+  <string name="keyboard_tutorial_exit_container">Sellest konteinerist väljumiseks vajutage toiminguklahvi + Alt + Ctrl + paremnoolt</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Olete konteinerist väljunud. Samuti saate lisada oma lugemise juhtelementidele konteinereid ja seejärel vajutada konteinerite valimiseks toiminguklahvi + tõstuklahvi + parem- või vasaknooleklahve ja konteinerite vahel liikumiseks toiminguklahvi + üles- või allanooleklahvi. Lugemise juhtelementide värskendamiseks avage TalkBack &gt; Seaded &gt; Menüüde kohandamine &gt; Lugemise juhtelementide kohandamine.\n\nJärgmise nupu leidmiseks vajutage toiminguklahvi ja paremnoolt.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Lugemise juhtelementide kohandamine</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Samuti saate kõneseadeid reguleerida lugemise juhtelementide abil ja kohandada seda, mida saate lugemise juhtelementidega teha, tehes valikud TalkBack &gt; Seaded &gt; Menüüde kohandamine &gt; Lugemise juhtelementide kohandamine.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Proovige hankida pildikirjeldused</string>
+  <string name="keyboard_tutorial_image_description_page_text">Kui pilt on esile tõstetud, vajutage toiminguklahvi + klahvi R, seejärel klahvi I. Allpool on üks foto. Proovige hankida selle kirjeldus.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Pildikirjelduse seadeid saate igal ajal muuta menüüs TalkBacki seaded &gt; Piltide ja ikoonide kirjeldused.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Pildikirjelduse seadeid saate igal ajal muuta, valides „TalkBacki seaded” ning seejärel „Piltide ja ikoonide kirjeldused”.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Näidispilt. Kirjelduse kuulamiseks vajutage toiminguklahvi + R, seejärel klahvi I.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Häälkäsklused</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBacki saab hääle abil kiiresti juhtida.\n\nNäiteks võite häälkäsklusega navigeerimist juhtida, järgmise pealkirja juurde liikuda, teksti kopeerida ja palju muud teha.\n\nProovige, vajutades toiminguklahvi + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Ekraaniotsingu kasutamine</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Ekraaniotsingu funktsioon võimaldab ekraanil konkreetset sisu otsida.\n\nProovimiseks vajutage toiminguklahvi + CTRL + /. Sisestage märksõna, nt „järgmine“, et leida ekraanil sellenimelisi üksusi.\n\nProovige otsida sõna „järgmine”, et leida nupp Järgmine.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Ekraaniotsingu abil navigeerimine</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Pärast otsingutulemuse valimist saate ekraaniotsingu kaudu kiiresti otsingutulemuste vahel liikuda.\n\nSelleks saate kasutage lugemise juhtelemente. Vajutage toiminguklahvi + tõstuklahvi + parem- või vasaknoolt, kuni kuulete teadet „ekraaniotsing“. Järgmiseks vajutage toiminguklahvi + alla- või ülesnoolt, et ekraaniotsingu tulemustes navigeerida.\n\nProovime seda kohe. All on loend kolme nupuga, mis kõik sisaldavad sõna „toiming”. Otsige ekraaniotsingu abil sõna „toiming” ja seejärel navigeerige ekraaniotsingu tulemustes.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Klaviatuuri otseteede harjutamine</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Vajutage füüsilise klaviatuuri klahvi või klahvikombinatsiooni, et kuulda, mida see teeb. Väljumiseks vajutage klahve Ctrl + W või paoklahvi.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Avastage suursuguseid California sekvoiametsi&lt;/h1&gt;
+      &lt;p&gt;California sekvoiad, peamiselt ranniksekvoiad (Sequoia sempervrens), on maailma kõrgeimad puud. Mõned on üle 115 meetri kõrged ja võivad elada tuhandeid aastaid. Nad kasvavad hästi Põhja-California niiskes vihmases ja uduses rannikukliimas.&lt;/p&gt;
+
+      &lt;h2&gt;Kus neid näha võib?&lt;/h2&gt;
+      &lt;p&gt;Neid hiiglasi leidub kitsal ribal Vaikse ookeani rannikul. Peamised kaitsealad on järgmised.&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwoodi rahvus- ja osariigipargid&lt;/li&gt;
+        &lt;li&gt;Humboldti sekvoiametsade osariigipark&lt;/li&gt;
+        &lt;li&gt;Big Basini sekvoiametsade osariigipark&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Kavandage külastus siin: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California osariigipargid – sekvoiametsad&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Toetage looduskaitset&lt;/h2&gt;
+      &lt;p&gt;Nende iidsete metsade kaitsmine on ülioluline. Saate aidata, järgides pargi juhiseid ja toetades looduskaitset.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Jagage oma kogemust&lt;/h2&gt;
+        &lt;p&gt;Kas olete käinud sekvoiametsas?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Jah&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Ei&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Rääkige meile oma kogemusest&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Esita&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Mida muud sooviksite sekvoiametsade kohta teada saada?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Esita&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekvoiad: looduskeskkonna valvurid&lt;/h1&gt;
+    &lt;p&gt;Sekvoiad on meie planeedi jaoks olulised, mängides suurt rolli looduskeskkonna hoidmises.&lt;/p&gt;
+
+    &lt;h1&gt;Hiiglaslikud õhupuhastid&lt;/h1&gt;
+    &lt;p&gt;Need puud seovad õhust suures koguses süsihappegaasi. Süsihappegaasi sidudes aitavad sekvoiad kliimamuutust pidurdada.&lt;/p&gt;
+
+    &lt;h2&gt;Kodu loomadele&lt;/h2&gt;
+    &lt;p&gt;Sekvoiad on koduks ja pelgupaigaks paljudele loomadele, alates nende okstel pesitsevatest lindudest kuni mullas elavate väikeolenditeni.&lt;/p&gt;
+
+    &lt;h3&gt;Veepüüdjad&lt;/h3&gt;
+    &lt;p&gt;Nende lehestikus kondenseeruv udu tilgub tasapisi alusmetsa. See hoiab pinnase niiskena ning pakub vett teistele taimedele ja loomadele, eriti kuival ajal.&lt;/p&gt;
+
+    &lt;h4&gt;Mulla kaitsjad&lt;/h4&gt;
+    &lt;p&gt;Nende tugevad juured hoiavad pinnast paigal, takistades selle ärauhtmist tugevate vihmasadude ajal ja sellega kaasnevat erosiooni.&lt;/p&gt;
+
+    &lt;h5&gt;Metsade tugisambad&lt;/h5&gt;
+    &lt;p&gt;Kui vanad sekvoiad langevad, saab nende puit toiduks ja varjupaigaks uutele taimedele ja teistele elusolenditele, kes lagundavad seda viljakaks mullaks.&lt;/p&gt;
+
+    &lt;h6&gt;Ainulaadsed ökosüsteemid&lt;/h6&gt;
+    &lt;p&gt;Kuna sekvoiad on nii suured ja elavad nii kaua, loovad nad erilisi metsaökosüsteeme, mis toetavad liike, keda mujal ei leidu.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Sekvoiametsade loomad&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Sekvoiametsade loomad\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Loom&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Kirjeldus&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Elukoht&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Huvitav fakt&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banaaninälkjas&lt;/th&gt;
+            &lt;td&gt;Suur kollane limane nälkjas&lt;/td&gt;
+            &lt;td&gt;Alusmets&lt;/td&gt;
+            &lt;td&gt;Suuruselt teine nälkjas maailmas&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Rannikuhiidsalamander&lt;/th&gt;
+            &lt;td&gt;Suur tumedavärviline salamander&lt;/td&gt;
+            &lt;td&gt;Ojade läheduses ja märgaladel&lt;/td&gt;
+            &lt;td&gt;Võib kasvada kuni 30 cm pikkuseks&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelti hirv&lt;/th&gt;
+            &lt;td&gt;Suur muljetavaldavate sarvedega hirv&lt;/td&gt;
+            &lt;td&gt;Toitub lagendikel&lt;/td&gt;
+            &lt;td&gt;Isased võivad kaaluda üle 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Põhja-täpiktõmmukakk&lt;/th&gt;
+            &lt;td&gt;Keskmise suurusega kakk, kes jahib öösel&lt;/td&gt;
+            &lt;td&gt;Tihedates küpsetes sekvoiametsades&lt;/td&gt;
+            &lt;td&gt;Selle liigi populatsioonide tervis iseloomustab metsa enda tervist&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Mustkaru&lt;/th&gt;
+            &lt;td&gt;Suur imetaja, tavaliselt must või pruun&lt;/td&gt;
+            &lt;td&gt;Otsib toitu kogu metsast&lt;/td&gt;
+            &lt;td&gt;Suurepärane ronija, sageli näha puudel&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Teie mõtted sekvoiade ja looduse kohta&lt;/h1&gt;
+
+      &lt;p&gt;Mida sooviksite sekvoiade kohta veel teada saada?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Mis on teie lemmikkoht looduses, mida külastada?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Nimetage üks loodusega seotud teema, mille kohta rohkem teada sooviksite.&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

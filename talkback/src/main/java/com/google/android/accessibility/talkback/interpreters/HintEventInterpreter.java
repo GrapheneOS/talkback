@@ -17,9 +17,11 @@
 package com.google.android.accessibility.talkback.interpreters;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_FOCUSED;
+import static com.google.android.accessibility.utils.input.TextCursorTracker.NO_POSITION;
 import static com.google.android.accessibility.utils.input.TextEventInterpretation.SELECTION_MOVE_CURSOR_NO_SELECTION;
 import static com.google.android.accessibility.utils.input.TextEventInterpretation.TEXT_ADD;
 
+import android.content.Context;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.core.view.accessibility.AccessibilityEventCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -54,13 +56,16 @@ public class HintEventInterpreter implements AccessibilityEventListener, Interpr
   ///////////////////////////////////////////////////////////////////////////////////////
   // Member data
 
+  private final Context context;
   private ActorState actorState;
   private Pipeline.InterpretationReceiver pipelineInterpretationReceiver;
 
   ///////////////////////////////////////////////////////////////////////////////////////
   // Construction
 
-  public HintEventInterpreter() {}
+  public HintEventInterpreter(Context context) {
+    this.context = context;
+  }
 
   public void setActorState(ActorState actorState) {
     this.actorState = actorState;
@@ -87,7 +92,7 @@ public class HintEventInterpreter implements AccessibilityEventListener, Interpr
 
     final int eventType = event.getEventType();
     if (eventType == TYPE_VIEW_FOCUSED) {
-      if (FormFactorUtils.getInstance().isAndroidTv()) {
+      if (FormFactorUtils.isAndroidTv()) {
         // On TV, we will always sync accessibility-focus to input-focus, so it is sufficient to
         // speak on TYPE_VIEW_ACCESSIBILITY_FOCUSED.
         return;
@@ -151,11 +156,22 @@ public class HintEventInterpreter implements AccessibilityEventListener, Interpr
     @TextEvent int event = textEventInterpretation.getEvent();
     if (event == SELECTION_MOVE_CURSOR_NO_SELECTION
         || (event == TEXT_ADD && node.getTextSelectionStart() == node.getTextSelectionEnd())) {
+      // Don't actively perform spell check to avoid the increase of latency for typing.
+      boolean performSpellCheck = event != TEXT_ADD;
       // Suggestion span may not be ready when receiving a TYPE_VIEW_TEXT_CHANGED event,
       // so spelling suggestion can’t extract in TextEventInterpreter.
-      if (AccessibilityNodeInfoUtils.getSpellingSuggestions(node).isEmpty()) {
+      int currentCursorPosition = actorState.getEditState().getCurrentCursorPosition();
+      boolean noSpellingSuggestion =
+          currentCursorPosition == NO_POSITION
+              ? AccessibilityNodeInfoUtils.getSpellingSuggestions(context, node, performSpellCheck)
+                  .isEmpty()
+              : AccessibilityNodeInfoUtils.getSpellingSuggestions(
+                      context, node, currentCursorPosition, performSpellCheck)
+                  .isEmpty();
+      if (noSpellingSuggestion) {
         return;
       }
+
       // Sends a hint for spelling suggestion.
       pipelineInterpretationReceiver.input(
           interpretation.eventId, new Interpretation.ID(Value.SPELLING_SUGGESTION_HINT));

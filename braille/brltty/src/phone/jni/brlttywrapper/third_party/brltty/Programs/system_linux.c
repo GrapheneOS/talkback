@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -26,6 +26,7 @@
 #include <sys/stat.h>
 #include <sys/statvfs.h>
 #include <dirent.h>
+#include <sys/utsname.h>
 #include <sys/sysmacros.h>
 #include <linux/major.h>
 
@@ -40,6 +41,26 @@
 #include "bitmask.h"
 #include "system.h"
 #include "system_linux.h"
+
+int
+getKernelRelease (int *major, int *minor, int *patch) {
+  static struct utsname info = {.release[0] = 0};
+  static int majorVersion=0, minorVersion=0, patchLevel=0;
+
+  if (!info.release[0]) {
+    if (uname(&info) == -1) {
+      logSystemError("uname");
+      return 0;
+    }
+
+    sscanf(info.release, "%d.%d.%d", &majorVersion, &minorVersion, &patchLevel);
+  }
+
+  if (major) *major = majorVersion;
+  if (minor) *minor = minorVersion;
+  if (patch) *patch = patchLevel;
+  return 1;
+}
 
 typedef struct {
   PathProcessor *processor;
@@ -1060,7 +1081,7 @@ openCharacterDevice (const char *name, int flags, int major, int minor) {
     if ((errno == ENOENT) || (errno == EACCES)) {
       free(path);
 
-      if ((path = makeWritablePath(locatePathName(name)))) {
+      if ((path = makeDevicesPath(locatePathName(name)))) {
         descriptor = createCharacterDevice(path, flags, major, minor);
       }
     }

@@ -261,9 +261,8 @@ public class LabelDialogManager {
     }
 
     @Override
-    public View getCustomizedView() {
-      final LayoutInflater li = LayoutInflater.from(context);
-      final View dialogView = li.inflate(R.layout.label_addedit_dialog, null);
+    public View getCustomizedView(LayoutInflater inflater) {
+      final View dialogView = inflater.inflate(R.layout.label_addedit_dialog, null);
 
       String customizedMessage = getCustomizedMessage();
       if (!TextUtils.isEmpty(customizedMessage)) {
@@ -287,6 +286,13 @@ public class LabelDialogManager {
       setupCustomizedView();
       return dialogView;
     }
+
+    protected String getUserLabelString() {
+      if (editField == null || editField.getText() == null) {
+        return null;
+      }
+      return editField.getText().toString();
+    }
   }
 
   /** Dialog class to add label. */
@@ -304,8 +310,12 @@ public class LabelDialogManager {
 
     @Override
     public void onPositiveAction() {
-      if (editField != null) {
-        labelManager.addLabel(resourceName, editField.getText().toString());
+      // We cannot guarantee that the userLabel in edit field is not null from
+      // WearableLegacyAlertDialogBuilder. Once we migrate it to WearableAlertDialog or Wear
+      // compose dialog, we could remove this check.
+      String userLabel = getUserLabelString();
+      if (!TextUtils.isEmpty(userLabel)) {
+        labelManager.addLabel(resourceName, userLabel);
       }
     }
 
@@ -339,8 +349,9 @@ public class LabelDialogManager {
 
     @Override
     public void onPositiveAction() {
-      if (editField != null) {
-        existing.setText(editField.getText().toString());
+      String userLabel = getUserLabelString();
+      if (!TextUtils.isEmpty(userLabel)) {
+        existing.setText(userLabel);
         existing.setTimestamp(System.currentTimeMillis());
         labelManager.updateLabel(existing);
       }

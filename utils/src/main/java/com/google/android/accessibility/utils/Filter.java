@@ -17,9 +17,9 @@
 package com.google.android.accessibility.utils;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.LinkedList;
+import java.util.function.Predicate;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -71,8 +71,7 @@ public abstract class Filter<T> {
 
   /** Concise filter from a lambda. Example: Filter.node((n) -> n.attribute() == X) */
   private static class NodeCompat extends Filter<AccessibilityNodeInfoCompat> {
-    // TODO: Replace com.google.common.base.Predicate with import
-    // java.util.function.Predicate when --config=android_java8_libs is no longer needed.
+
     private final Predicate<AccessibilityNodeInfoCompat> predicate;
 
     public NodeCompat(Predicate<AccessibilityNodeInfoCompat> predicate) {
@@ -81,7 +80,7 @@ public abstract class Filter<T> {
 
     @Override
     public boolean accept(AccessibilityNodeInfoCompat node) {
-      return predicate.apply(node);
+      return predicate.test(node);
     }
   }
 

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">이 튜토리얼에서는 향상된 키맵에 관해 다루며, 여기에는 여러 가지 새로운 명령어가 포함되어 있습니다. 키맵을 선택하려면 TalkBack 설정 &gt; 고급 설정 &gt; 단축키로 이동하세요.\n\n주제를 선택하려면 작업 + 오른쪽 화살표를 누르세요. 최적의 환경을 구현하려면 시작하기 전에 TalkBack을 사용 설정하세요.</string>
+  <string name="basic_interaction_link_text">기본 상호작용</string>
+  <string name="basic_interaction_link_subtext">항목 간 이동, 줄 단위로 읽기, 메뉴 사용 등</string>
+  <string name="browse_mode_link_text">탐색 모드</string>
+  <string name="browse_mode_link_subtext">점프 명령어로 웹 콘텐츠를 더 빠르게 탐색하기</string>
+  <string name="reading_controls_link_text">읽기 제어 설정</string>
+  <string name="reading_controls_link_subtext">항목 간 이동, 음성 설정 조정 등에 읽기 제어 설정 사용하기</string>
+  <string name="image_descriptions_link_text">이미지 설명</string>
+  <string name="image_descriptions_link_subtext">이미지 설명 사용해 보기</string>
+  <string name="keyboard_shortcuts_link_text">단축키 연습</string>
+  <string name="keyboard_shortcuts_link_subtext">키와 키 조합을 누르고 기능 알아보기</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack에서 음성 피드백을 제공하므로 화면을 보지 않고 기기를 사용할 수 있습니다. TalkBack은 화면을 보기 어려운 사용자에게 도움을 줄 수 있습니다. TalkBack이 켜져 있으면 화면에서 포커스가 설정된 항목을 음성으로 들을 수 있습니다.\n\n먼저 키보드에 익숙해져 보세요. 작업 키를 찾아보세요. 왼쪽 Shift 키 위에 있습니다. 이제 키보드 오른쪽 하단 근처에서 화살표 키를 찾아보세요. 다음 항목으로 이동하려면 작업 + 오른쪽 화살표를 누르세요.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">다음 항목으로 이동했습니다. 이전 항목으로 이동하려면 작업 + 왼쪽 화살표를 누르세요.\n\n버튼과 같은 대화형 항목으로 이동한 후 활성화하려면 작업 + 스페이스바를 누르세요. 이제 \'다음\' 버튼을 찾아 튜토리얼을 계속 진행하세요.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">글자, 단어, 단락 단위로 읽기</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">한 번에 한 글자만 듣고 싶을 때도 있습니다.\n\n이렇게 하려면 읽기 제어 설정 탐색을 사용하면 됩니다. \'글자\'라는 소리가 들릴 때까지 작업 + Shift + 오른쪽 또는 왼쪽 화살표를 누릅니다.\n\n그런 다음 작업 + 위쪽 화살표를 눌러 탐색 포커스를 한 글자씩 뒤로 옮깁니다. 작업 + 아래쪽 화살표를 눌러 탐색 포커스를 한 글자씩 앞으로 옮길 수도 있습니다.\n\n지금 해 보세요. 작업 + Shift + 오른쪽 또는 왼쪽 화살표를 사용하여 단어, 줄 또는 단락 단위로 읽도록 선택할 수도 있습니다.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">시스템 탐색</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">지금 단축키를 사용해 보면 튜토리얼이 종료됩니다. 튜토리얼을 완료할 때까지 기다리는 것이 좋습니다.\n\n열려 있는 앱 창 및 알림, 작업 표시줄과 같은 시스템 요소 간에 이동하려면 작업 + Alt + Ctrl + 위쪽 또는 아래쪽 화살표를 누르세요.\n\n앱 목록을 열려면 작업을 누르세요.\n\n홈 화면으로 이동하고 열려 있는 모든 창을 최소화하려면 작업 + H 또는 상단 행의 Home을 누르세요.\n\n최근 앱으로 이동하려면 작업 + Tab 또는 상단 행의 개요를 누르세요.\n\n창 간에 빠르게 이동하려면 Alt 키를 누른 상태에서 Tab 키를 누르세요.\n\n뒤로 이동하려면 작업 + Esc 또는 상단 행의 뒤로를 누르세요.\n\n알림을 열려면 작업 + N을 누르세요.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">음성 설정 조정</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack 음성 볼륨은 접근성 볼륨이라고 하며, 미디어 볼륨과는 별도로 조절됩니다.\n\n접근성 볼륨을 조절하려면 작업 + 볼륨 업 버튼 또는 볼륨 다운 버튼을 누르세요.\n\n말하기 속도를 조절하려면 작업 + Ctrl + 볼륨 업 버튼을 눌러 속도를 높이고 작업 + Ctrl + 볼륨 다운 버튼을 눌러 속도를 낮추세요.\n\n언제든지 음성 안내를 중지하려면 Ctrl 키를 누르세요.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack 메뉴 및 추가 키보드 단축키</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack 메뉴에는 자주 필요할 수 있는 설정 및 컨트롤이 포함되어 있습니다.\n\nTalkBack 메뉴를 열려면 작업 + Ctrl + M을 누르세요. TalkBack 설정에서 나중에 TalkBack 메뉴와 읽기 제어 설정을 맞춤설정할 수 있습니다.\n\nTalkBack 단축키 메뉴에는 사용할 수 있는 모든 단축키가 포함되어 있습니다.\n\n단축키 메뉴를 열려면 작업 + Shift + / 키를 누르세요.\n\n키보드에 관해 자세히 알아보고 단축키를 연습하려면 작업 + 0 키를 눌러 연습 화면을 여세요.</string>
+  <string name="keyboard_tutorial_finished_page_title">설정 완료</string>
+  <string name="keyboard_tutorial_finished_page_text">이제 TalkBack을 사용할 준비가 되었습니다.\n\n지금 계속해서 다른 주제에 관해 살펴보거나 TalkBack 설정에서 언제든지 이 정보를 다시 확인하세요.\n\n언제든지 TalkBack을 사용 설정하거나 사용 중지하려면 작업 + Alt + T 키를 누르세요.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">탐색 모드로 웹 콘텐츠 더 빠르게 탐색하기</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">브라우저 및 웹 앱에서 키를 한 번 누르기만 하면 탐색 모드를 사용 설정하고 다양한 유형의 읽기 단위와 제어 설정 사이를 이동할 수 있습니다. 페이지 탐색이 텍스트 편집 상자에서 탐색하는 것과 비슷해집니다. 예를 들어 왼쪽 및 오른쪽 화살표를 사용하면 글자 단위로 이동하고 위쪽 및 아래쪽 화살표를 사용하면 줄 단위로 이동할 수 있습니다.\n\n탐색 모드를 사용 설정하거나 중지하려면 작업 키를 두 번 누르세요.\n\n탐색 모드가 사용 설정된 경우 D 키를 눌러 다음 랜드마크로, F 키를 눌러 다음 컨트롤 또는 양식 필드로, B 키를 눌러 다음 버튼으로, K 키를 눌러 다음 링크로 이동하고, H 키를 눌러 다음 제목으로 이동하세요. Shift 키를 누른 상태에서 이러한 키를 누르면 뒤로 이동합니다.\n\n위쪽 및 아래쪽 화살표를 사용하여 줄 단위로 이동하고, 왼쪽 및 오른쪽 화살표를 사용하여 글자 단위로 이동하고, Ctrl + 왼쪽 및 오른쪽 화살표를 사용하여 단어 단위로 이동할 수도 있습니다.\n\n연습 영역으로 이동하려면 작업 + 오른쪽 화살표를 누르세요. 연습 영역에서는 링크, 양식 필드, 버튼이 작동하지 않습니다.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">제목 수준</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">웹사이트와 웹 앱에서는 다양한 수준의 제목을 사용하여 콘텐츠를 구성하는 경우가 많습니다. 탐색 모드가 사용 설정된 경우 1~6을 눌러 제목 수준으로 이동하세요. Shift 키를 누른 상태에서 이러한 키를 누르면 뒤로 이동합니다.\n\n연습 영역으로 이동하려면 작업 + 오른쪽 화살표를 누르세요.</string>
+  <string name="keyboard_tutorial_tables_page_title">표</string>
+  <string name="keyboard_tutorial_tables_page_text">탐색 모드를 사용하면 표 탐색도 더 쉬워집니다. 탐색 모드가 사용 설정된 경우 Alt + Ctrl + 위쪽 및 아래쪽 화살표를 눌러 행 사이를 이동하고 Alt + Ctrl + 왼쪽 및 오른쪽 화살표를 눌러 열 사이를 이동합니다.\n\n연습 영역으로 이동하려면 작업 + 오른쪽 화살표를 누르세요.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">텍스트 수정</string>
+  <string name="keyboard_tutorial_editing_text_page_text">텍스트 입력란에 들어가면 모든 키를 사용하여 입력할 수 있도록 탐색 모드가 일시적으로 사용 중지됩니다. 사용 중지되면 알림과 소리가 들립니다. 텍스트 입력란을 벗어나면 탐색 모드가 다시 사용 설정되고 다른 알림과 소리가 들립니다.\n\n연습 영역으로 이동하려면 작업 + 오른쪽 화살표를 누르세요.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">탐색 모드 자세히 알아보기</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">탐색 모드에서 이동할 수 있는 항목의 전체 목록을 확인하려면 작업 + Shift + / 키를 누르고 단축키 메뉴에서 \'탐색 모드\'를 검색하세요.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">글자, 단어, 단락 단위로 읽기</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">한 번에 한 글자만 듣고 싶을 때도 있습니다.\n\n이렇게 하려면 읽기 제어 설정 탐색을 사용하면 됩니다. \'글자\'라는 소리가 들릴 때까지 작업 + Shift + 오른쪽 또는 왼쪽 화살표를 누릅니다. 그런 다음 작업 + 위쪽 화살표를 눌러 탐색 포커스를 한 글자씩 뒤로 옮깁니다. 작업 + 아래쪽 화살표를 눌러 탐색 포커스를 한 글자씩 앞으로 옮길 수도 있습니다.\n\n지금 해 보세요. 작업 + Shift + 오른쪽 또는 왼쪽 화살표를 사용하여 단어, 줄 또는 단락 단위로 읽을 수도 있습니다.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">컨트롤 간 이동</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">컨트롤은 버튼, 체크박스, 텍스트 상자와 같이 상호작용할 수 있는 항목입니다.\n\n일부 페이지에서 여러 컨트롤 사이를 이동하면서 다음 버튼과 같은 작업을 빠르게 찾고 싶을 수 있습니다.\n\n이렇게 하려면 \'컨트롤\'이라는 소리가 들릴 때까지 작업 + Shift + 오른쪽 화살표를 누르세요. 다음으로, 작업 + 위쪽 화살표를 눌러 이전 버튼으로 이동하고 작업 + 아래쪽 화살표를 눌러 다음 버튼으로 이동합니다.\n\n지금 시도해 보고 다음 버튼을 찾아보세요.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">링크 간 이동</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">페이지의 링크 사이를 이동할 수도 있습니다.\n\n이렇게 하려면 \'링크\'라는 소리가 들릴 때까지 작업 + Shift + 오른쪽 화살표를 누르세요. 다음으로 작업 + 아래쪽 화살표를 눌러 \'링크 5\'라는 링크를 찾습니다. 튜토리얼에서는 이 링크를 두 번 탭해도 작동되지 않습니다.\n\n작업 + 오른쪽 화살표를 눌러 다음 버튼을 찾고 다음 페이지로 이동하세요.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">제목 간 이동</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">페이지의 제목 사이를 이동할 수도 있습니다.\n\n지금 제목 사이를 이동해 보려면 \'제목\'이라는 소리가 들릴 때까지 작업 + Shift + 오른쪽 화살표를 누르세요. 다음으로, 작업 + 아래쪽 화살표를 눌러 \'탐색\' 제목을 찾습니다.</string>
+  <string name="keyboard_tutorial_find_next_button">작업 + 오른쪽 화살표를 눌러 다음 버튼을 찾으세요.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">컨테이너 간 이동</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">목록이나 그리드와 같은 컨테이너에서 나가려면 작업 + Alt + Ctrl + 오른쪽 또는 왼쪽 화살표를 누르세요. 긴 항목 목록에서 나가고자 할 때 유용합니다.\n\n지금 시도해 보려면 작업 + 오른쪽 화살표를 눌러 목록으로 이동하세요. 그런 다음 작업 + Alt + Ctrl + 오른쪽 화살표를 눌러 다음 컨테이너로 이동하세요.</string>
+  <string name="keyboard_tutorial_go_to_next_container">다음 컨테이너로 이동하려면 작업 + Alt + Ctrl + 오른쪽 화살표를 누르세요.</string>
+  <string name="keyboard_tutorial_exit_container">이 컨테이너에서 나가려면 작업 + Alt + Ctrl + 오른쪽 화살표를 누르세요.</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">컨테이너를 종료했습니다. 읽기 제어 설정에 컨테이너를 추가한 다음 작업 + Shift + 오른쪽 또는 왼쪽 화살표를 눌러 컨테이너를 선택하고 작업 + 아래쪽 또는 위쪽 화살표를 눌러 컨테이너 간에 이동할 수도 있습니다. 읽기 제어 설정을 업데이트하려면 TalkBack &gt; 설정 &gt; 메뉴 맞춤설정 &gt; 읽기 제어 설정 맞춤설정으로 이동하세요.\n\n다음 버튼을 찾으려면 작업 + 오른쪽 화살표를 누르세요.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">읽기 제어 설정 맞춤설정</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">또한 읽기 제어 설정을 사용하여 음성 설정을 조정하고 TalkBack &gt; 설정 &gt; 메뉴 맞춤설정 &gt; 읽기 제어 설정 맞춤설정에서 읽기 제어 기능으로 수행할 수 있는 작업을 맞춤설정할 수도 있습니다.</string>
+  <string name="keyboard_tutorial_image_description_page_title">이미지 설명 듣기</string>
+  <string name="keyboard_tutorial_image_description_page_text">이미지에 초점을 맞춘 상태에서 작업 + R, I 키를 차례로 누르세요. 아래에 사진이 1장 있습니다. 이미지의 설명을 확인해 보세요.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">언제든지 TalkBack 설정 &gt; 이미지 및 아이콘 설명에서 이미지 설명 설정을 변경할 수 있습니다.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">언제든지 TalkBack 설정, 이미지 및 아이콘 설명에서 이미지 설명 설정을 변경할 수 있습니다.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">샘플 이미지입니다. 작업 + R, I 키를 차례로 눌러 설명을 들어 보세요.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">음성 명령</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">음성을 사용해 TalkBack을 빠르게 제어할 수 있습니다.\n\n예를 들어 명령어를 말하여 탐색을 변경하고, 다음 제목으로 이동하고, 텍스트를 복사할 수 있습니다.\n\n지금 사용해 보려면 작업 + \\ 키를 누르세요.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">화면검색 사용</string>
+  <string name="keyboard_tutorial_screen_search_page_text">화면검색 기능을 사용하면 화면에서 특정 콘텐츠를 검색할 수 있습니다.\n\n이 기능을 사용해 보려면 작업 + CTRL + / 키를 누르세요. 화면에서 \'다음\'과 같은 키워드가 포함된 항목을 찾으려면 해당 텍스트를 입력합니다.\n\n지금 \'다음\'을 검색하여 다음 버튼을 찾아보세요.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">화면검색으로 이동</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">결과를 선택한 후 화면검색에서 다양한 검색 결과 간에 빠르게 이동할 수 있습니다.\n\n이렇게 하려면 읽기 제어 설정 탐색을 사용하면 됩니다. \'화면검색\'이라는 소리가 들릴 때까지 작업 + Shift + 오른쪽 또는 왼쪽 화살표를 누릅니다. 다음으로, 작업 + 아래쪽 또는 위쪽 화살표를 눌러 화면검색 결과로 이동합니다.\n\n지금 바로 사용해 보세요. 아래는 모두 \'작업\'이라는 텍스트가 포함된 버튼 3개의 목록입니다. 화면검색을 사용해 \'작업\'을 검색한 다음 화면검색으로 탐색하여 버튼 간에 이동해 보세요.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">단축키 연습</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">실제 키보드 키 또는 키 조합을 눌러 기능을 들어보세요. 종료하려면 Ctrl + W 또는 Esc를 누르세요.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;캘리포니아 레드우드의 위엄을 느껴 보세요&lt;/h1&gt;
+      &lt;p&gt;캘리포니아의 레드우드는 주로 코스트 레드우드(Sequoia sempervirens)로, 세계에서 가장 키가 큰 나무입니다. 일부 나무는 높이가 115미터(380피트)를 넘으며 수천 년 동안 살 수 있습니다. 레드우드는 비와 안개 덕분에 캘리포니아 북부의 습한 해안 기후에서 잘 자랍니다.&lt;/p&gt;
+
+      &lt;h2&gt;레드우드를 볼 수 있는 곳&lt;/h2&gt;
+      &lt;p&gt;태평양 연안을 따라 좁게 뻗어 있는 지역에서 이 거대한 나무를 볼 수 있습니다. 주요 공원은 다음과 같습니다.&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;레드우드 국립공원 및 주립공원&lt;/li&gt;
+        &lt;li&gt;훔볼트 레드우즈 주립공원&lt;/li&gt;
+        &lt;li&gt;빅베이슨 레드우즈 주립공원&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;방문 계획을 세우려면 &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;캘리포니아 주립공원 - 레드우드&lt;/a&gt;를 참고하세요.&lt;/p&gt;
+
+      &lt;h2&gt;보호 활동 지원&lt;/h2&gt;
+      &lt;p&gt;이 원시림을 보호하는 것은 매우 중요합니다. 공원 규정을 준수하고 보존 활동을 지원하여 보호에 동참해 주세요.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;경험 공유&lt;/h2&gt;
+        &lt;p&gt;레드우드를 보러 간 적이 있나요?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;예&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;아니요&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;경험을 공유해 주세요&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;제출&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;레드우드에 대해 더 알고 싶은 점이 있나요?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;제출&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;레드우드: 건강한 환경 유지&lt;/h1&gt;
+    &lt;p&gt;레드우드는 지구에 중요한 존재이며 환경을 건강하게 유지하는 데 큰 역할을 합니다.&lt;/p&gt;
+
+    &lt;h1&gt;거대한 공기 청정기&lt;/h1&gt;
+    &lt;p&gt;레드우드는 공기 중의 이산화탄소를 흡수하는 데 탁월한 능력을 발휘합니다. 레드우드는 많은 양의 이산화탄소를 흡수하여 공기를 깨끗하게 유지하는 데 도움을 줍니다.&lt;/p&gt;
+
+    &lt;h2&gt;동물의 집&lt;/h2&gt;
+    &lt;p&gt;레드우드는 가지에 사는 새부터 흙 속의 작은 생물까지 많은 동물에게 집과 안식처를 제공합니다.&lt;/p&gt;
+
+    &lt;h3&gt;물의 마법사&lt;/h3&gt;
+    &lt;p&gt;레드우드는 안개를 포집하여 숲 바닥으로 물이 떨어지게 합니다. 이렇게 하면 건조할 때도 땅이 마르지 않고 다른 식물과 동물의 물 공급원이 됩니다.&lt;/p&gt;
+
+    &lt;h4&gt;토양 보호자&lt;/h4&gt;
+    &lt;p&gt;튼튼한 뿌리가 토양을 제자리에 고정하여 폭우가 내릴 때 토양의 유실을 막아주고 침식을 방지합니다.&lt;/p&gt;
+
+    &lt;h5&gt;숲의 건설자&lt;/h5&gt;
+    &lt;p&gt;오래된 레드우드가 쓰러지면 그 목재가 새로운 식물과 생물의 먹이와 안식처가 되며, 새로운 성장을 위한 비옥한 토양을 만듭니다.&lt;/p&gt;
+
+    &lt;h6&gt;독특한 생태계&lt;/h6&gt;
+    &lt;p&gt;레드우드는 크고 오래 살기 때문에 다른 곳에서는 볼 수 없는 생명을 지탱해 주는 특별한 숲 환경을 조성합니다.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;레드우드 숲의 동물&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"레드우드 숲의 동물\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;동물&lt;/th&gt;
+            &lt;th role=\"columnㄱheader\" scope=\"col\"&gt;설명&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;서식지&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;재미있는 사실&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;바나나 민달팽이&lt;/th&gt;
+            &lt;td&gt;크고 미끈미끈한 노란색 민달팽이&lt;/td&gt;
+            &lt;td&gt;숲 바닥&lt;/td&gt;
+            &lt;td&gt;세계에서 두 번째로 큰 민달팽이&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;태평양 자이언트 도롱뇽&lt;/th&gt;
+            &lt;td&gt;크고 어두운색의 도롱뇽&lt;/td&gt;
+            &lt;td&gt;시냇물과 습한 지역 근처&lt;/td&gt;
+            &lt;td&gt;최대 30cm까지 자람&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;루스벨트 엘크&lt;/th&gt;
+            &lt;td&gt;멋진 뿔이 달린 큰 사슴&lt;/td&gt;
+            &lt;td&gt;숲속의 빈터에서 풀을 뜯음&lt;/td&gt;
+            &lt;td&gt;수컷은 450kg이 넘을 수 있음&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;북부 점박이 올빼미&lt;/th&gt;
+            &lt;td&gt;중간 크기의 올빼미로, 밤에 사냥함&lt;/td&gt;
+            &lt;td&gt;울창하고 오래된 레드우드 숲&lt;/td&gt;
+            &lt;td&gt;\'지표종\'으로, 이 종의 건강 상태가 숲의 건강 상태를 나타냄&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;아메리카 흑곰&lt;/th&gt;
+            &lt;td&gt;크고 일반적으로 검은색 또는 갈색인 대형 포유류&lt;/td&gt;
+            &lt;td&gt;숲 전역에서 먹이를 찾아다님&lt;/td&gt;
+            &lt;td&gt;나무를 잘 타며 주로 나무 위에서 발견됨&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;레드우드와 자연에 대한 의견&lt;/h1&gt;
+
+      &lt;p&gt;레드우드에 대해 더 알고 싶은 점이 있나요?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;자연 중에서 방문하기 가장 좋아하는 장소는 어디인가요?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;자연 속에서 더 자세히 알아보고 싶은 한 가지 개념이 있나요?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

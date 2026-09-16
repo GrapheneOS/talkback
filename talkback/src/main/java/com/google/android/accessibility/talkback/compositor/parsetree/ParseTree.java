@@ -1191,11 +1191,11 @@ public class ParseTree {
           offset = paramEnd;
         } else {
           switch (current) {
-            case '$':
+            case '$' -> {
               parts.add(createVariableNode(treeInfo, value.substring(offset + 1, tokenEnd)));
               offset = tokenEnd;
-              break;
-            case '@':
+            }
+            case '@' -> {
               ParseTreeResourceNode node =
                   new ParseTreeResourceNode(
                       treeInfo.resources, value.substring(offset, tokenEnd), treeInfo.packageName);
@@ -1206,8 +1206,8 @@ public class ParseTree {
                 offset = paramEnd;
               }
               parts.add(node);
-              break;
-            case '%':
+            }
+            case '%' -> {
               {
                 String variableText = value.substring(offset + 1, tokenEnd);
                 parts.add(
@@ -1215,8 +1215,8 @@ public class ParseTree {
                         treeInfo, variableText, new VariableInfo(variableText, VARIABLE_STRING)));
                 offset = tokenEnd;
               }
-              break;
-            default: // fall out
+            }
+            default -> {}
           }
         }
       }
@@ -1728,35 +1728,28 @@ public class ParseTree {
 
     char current = value.charAt(offset);
     switch (current) {
-      case '@':
-        {
-          Matcher matcher = RESOURCE_PATTERN.matcher(value);
-          if (!matcher.find(offset)) {
-            throw new IllegalStateException("Invalid resource string: " + value);
-          }
-          return matcher.end();
+      case '@' -> {
+        Matcher matcher = RESOURCE_PATTERN.matcher(value);
+        if (!matcher.find(offset)) {
+          throw new IllegalStateException("Invalid resource string: " + value);
         }
-
-      case '$':
-        {
-          Matcher matcher = VARIABLE_PATTERN.matcher(value);
-          if (!matcher.find(offset)) {
-            throw new IllegalStateException("Invalid variable string: " + value);
-          }
-          return matcher.end();
+        return matcher.end();
+      }
+      case '$' -> {
+        Matcher matcher = VARIABLE_PATTERN.matcher(value);
+        if (!matcher.find(offset)) {
+          throw new IllegalStateException("Invalid variable string: " + value);
         }
-
-      case '%':
-        {
-          Matcher matcher = NODE_PATTERN.matcher(value);
-          if (!matcher.find(offset)) {
-            throw new IllegalStateException("Invalid node string: " + value);
-          }
-          return matcher.end();
+        return matcher.end();
+      }
+      case '%' -> {
+        Matcher matcher = NODE_PATTERN.matcher(value);
+        if (!matcher.find(offset)) {
+          throw new IllegalStateException("Invalid node string: " + value);
         }
-
-      default:
-        break;
+        return matcher.end();
+      }
+      default -> {}
     }
 
     if (isFunctionStart(current)) {
@@ -1846,24 +1839,24 @@ public class ParseTree {
   @ParseTree.OperatorClass
   private static int getOperatorClass(@ParseTree.Operator int operator) {
     switch (operator) {
-      case OPERATOR_MULTIPLY:
-      case OPERATOR_DIVIDE:
-      case OPERATOR_POW:
+      case OPERATOR_MULTIPLY, OPERATOR_DIVIDE, OPERATOR_POW -> {
         return OPERATOR_CLASS_MULTIPLY;
-      case OPERATOR_PLUS:
-      case OPERATOR_MINUS:
+      }
+      case OPERATOR_PLUS, OPERATOR_MINUS -> {
         return OPERATOR_CLASS_PLUS;
-      case OPERATOR_EQUALS:
-      case OPERATOR_NEQUALS:
-      case OPERATOR_GT:
-      case OPERATOR_LT:
-      case OPERATOR_GE:
-      case OPERATOR_LE:
+      }
+      case OPERATOR_EQUALS,
+          OPERATOR_NEQUALS,
+          OPERATOR_GT,
+          OPERATOR_LT,
+          OPERATOR_GE,
+          OPERATOR_LE -> {
         return OPERATOR_CLASS_EQUALS;
-      case OPERATOR_AND:
-      case OPERATOR_OR:
+      }
+      case OPERATOR_AND, OPERATOR_OR -> {
         return OPERATOR_CLASS_AND;
-      default: // fall out
+      }
+      default -> {}
     }
     throw new IllegalStateException("Unknown operator: " + operator);
   }
@@ -1872,21 +1865,28 @@ public class ParseTree {
   private static int getOperator(String value) {
     if (value.length() == 1) {
       switch (value.charAt(0)) {
-        case '+':
+        case '+' -> {
           return OPERATOR_PLUS;
-        case '-':
+        }
+        case '-' -> {
           return OPERATOR_MINUS;
-        case '*':
+        }
+        case '*' -> {
           return OPERATOR_MULTIPLY;
-        case '/':
+        }
+        case '/' -> {
           return OPERATOR_DIVIDE;
-        case '<':
+        }
+        case '<' -> {
           return OPERATOR_LT;
-        case '>':
+        }
+        case '>' -> {
           return OPERATOR_GT;
-        case '^':
+        }
+        case '^' -> {
           return OPERATOR_POW;
-        default: // fall out
+        }
+        default -> {}
       }
     } else if (value.length() == 2) {
       if (value.equals("&&")) {
@@ -1895,15 +1895,19 @@ public class ParseTree {
         return OPERATOR_OR;
       } else if (value.charAt(1) == '=') {
         switch (value.charAt(0)) {
-          case '=':
+          case '=' -> {
             return OPERATOR_EQUALS;
-          case '!':
+          }
+          case '!' -> {
             return OPERATOR_NEQUALS;
-          case '<':
+          }
+          case '<' -> {
             return OPERATOR_LE;
-          case '>':
+          }
+          case '>' -> {
             return OPERATOR_GE;
-          default: // fall out
+          }
+          default -> {}
         }
       }
     }
@@ -1930,24 +1934,14 @@ public class ParseTree {
         }
         current = value.charAt(offset);
         switch (current) {
-          case 'n':
-            current = '\n';
-            break;
-          case 't':
-            current = '\t';
-            break;
-          case '\\':
-            current = '\\';
-            break;
-          case '\'':
-            current = '\'';
-            break;
-          case '"':
-            current = '"';
-            break;
-          default:
+          case 'n' -> current = '\n';
+          case 't' -> current = '\t';
+          case '\\' -> current = '\\';
+          case '\'' -> current = '\'';
+          case '"' -> current = '"';
+          default -> {
             /* Do nothing */
-            break;
+          }
         }
       }
 
@@ -1978,25 +1972,16 @@ public class ParseTree {
   }
 
   public static String variableTypeToString(@VariableType int varType) {
-    switch (varType) {
-      case VARIABLE_BOOL:
-        return "VARIABLE_BOOL";
-      case VARIABLE_INTEGER:
-        return "VARIABLE_INTEGER";
-      case VARIABLE_NUMBER:
-        return "VARIABLE_NUMBER";
-      case VARIABLE_STRING:
-        return "VARIABLE_STRING";
-      case VARIABLE_ENUM:
-        return "VARIABLE_ENUM";
-      case VARIABLE_REFERENCE:
-        return "VARIABLE_REFERENCE";
-      case VARIABLE_ARRAY:
-        return "VARIABLE_ARRAY";
-      case VARIABLE_CHILD_ARRAY:
-        return "VARIABLE_CHILD_ARRAY";
-      default:
-        return "(unhandled)";
-    }
+    return switch (varType) {
+      case VARIABLE_BOOL -> "VARIABLE_BOOL";
+      case VARIABLE_INTEGER -> "VARIABLE_INTEGER";
+      case VARIABLE_NUMBER -> "VARIABLE_NUMBER";
+      case VARIABLE_STRING -> "VARIABLE_STRING";
+      case VARIABLE_ENUM -> "VARIABLE_ENUM";
+      case VARIABLE_REFERENCE -> "VARIABLE_REFERENCE";
+      case VARIABLE_ARRAY -> "VARIABLE_ARRAY";
+      case VARIABLE_CHILD_ARRAY -> "VARIABLE_CHILD_ARRAY";
+      default -> "(unhandled)";
+    };
   }
 }

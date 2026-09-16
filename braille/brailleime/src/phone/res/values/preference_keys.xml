@@ -10,5 +10,10 @@
   <string name="pref_key_brailleime_cursor_movement" translatable="false">pref_key_brailleime_cursor_movement</string>
   <string name="pref_key_brailleime_text_selection_and_editing" translatable="false">pref_key_brailleime_text_selection_and_editing</string>
   <string name="pref_key_brailleime_spell_check" translatable="false">pref_key_brailleime_spell_check</string>
+  <string name="pref_key_brailleime_reset_all_gestures" translatable="false">pref_key_brailleime_reset_all_gestures</string>
   <!-- END: These keys should be renamed to be pref_brailleime_xxx -->
+
+  <!-- Category key -->
+  <string name="pref_brailleime_preferences_category" translatable="false">pref_brailleime_preferences_category</string>
+  <string name="pref_brailleime_gesture_category" translatable="false">pref_brailleime_gesture_category</string>
 </resources>

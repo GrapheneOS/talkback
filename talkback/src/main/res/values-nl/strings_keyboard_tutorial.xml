@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Deze tutorial is voor de verbeterde keymap, die veel nieuwe opdrachten bevat. Als je de keymap wilt selecteren, ga je naar Instellingen voor TalkBack &gt; Geavanceerde instellingen &gt; Sneltoetsen.\n\nDruk op Actie + pijl-rechts om een onderwerp te selecteren. Voor de beste gebruikerservaring zet je TalkBack aan voordat je aan de slag gaat.</string>
+  <string name="basic_interaction_link_text">Basisinteractie</string>
+  <string name="basic_interaction_link_subtext">Navigeer onder andere door items, lees per regel en gebruik menu\'s</string>
+  <string name="browse_mode_link_text">Browsemodus</string>
+  <string name="browse_mode_link_subtext">Navigeer sneller door webcontent met Ga naar-opdrachten</string>
+  <string name="reading_controls_link_text">Leesinstellingen</string>
+  <string name="reading_controls_link_subtext">Gebruik leesinstellingen om onder andere naar items te gaan en spraakinstellingen aan te passen</string>
+  <string name="image_descriptions_link_text">Afbeeldingsbeschrijvingen</string>
+  <string name="image_descriptions_link_subtext">Probeer beschrijvingen van afbeeldingen uit</string>
+  <string name="keyboard_shortcuts_link_text">Sneltoetsen oefenen</string>
+  <string name="keyboard_shortcuts_link_subtext">Druk op toetsen en toetsencombinaties en ontdek wat ze doen</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack biedt gesproken feedback zodat je je apparaat kunt gebruiken zonder naar het scherm te kijken. TalkBack kan nuttig zijn voor mensen die het scherm moeilijk kunnen zien. Als TalkBack aanstaat, wordt het gefocuste item op het scherm voorgelezen.\n\nLaten we eerst vertrouwd raken met je toetsenbord. Zoek de Actie-toets. Deze zit boven de linker Shift-toets. Zoek nu de pijltoetsen rechtsonder op het toetsenbord. Druk op Actie + pijl-rechts om naar het volgende item te gaan.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Dit is het volgende item. Druk op Actie + pijl-links om terug te gaan naar het vorige item.\n\nAls je naar een interactief item (zoals een knop) navigeert, druk je op Actie + de spatiebalk om het te activeren. Zoek de knop Volgende en ga verder met de tutorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Lezen per teken, woord of alinea</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Soms wil je tekst misschien laten voorlezen per teken.\n\nJe kunt hiervoor de navigatie voor leesinstellingen gebruiken. Druk op Actie + Shift + pijl-rechts of pijl-links totdat je \'tekens\' hoort.\n\nDruk daarna op Actie + pijl-omhoog om de navigatiefocus een teken terug te zetten. Druk op Actie + pijl-omlaag om de navigatiefocus een teken verder te verplaatsen.\n\nProbeer het eens. Je kunt er ook voor kiezen om te lezen per woord, regel of alinea met Actie + Shift + pijl-rechts of pijl-links.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Systeemnavigatie</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Als je deze sneltoetsen nu probeert, wordt de tutorial gesloten. Je kunt beter wachten tot je de tutorial hebt afgerond.\n\nAls je wilt wisselen tussen geopende app-vensters en systeemonderdelen zoals meldingen en de taakbalk, druk je op Actie + Alt + Ctrl + pijl-omhoog of pijl-omlaag.\n\nAls je de app-lijst wilt openen, druk je op Actie.\n\nAls je naar het startscherm wilt gaan en alle geopende vensters wilt minimaliseren, druk je op Actie + H of Home in de bovenste rij.\n\nAls je naar je recente apps wilt gaan, druk je op Actie + Tab of Overzicht in de bovenste rij.\n\nAls je snel tussen vensters wilt wisselen, houd je Alt ingedrukt en druk je op Tab.\n\nAls je terug wilt gaan, druk je op Actie + Esc of Terug in de bovenste rij.\n\nAls je meldingen wilt openen, druk je op Actie + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Spraakinstellingen aanpassen</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Het volume voor TalkBack-spraak wordt het toegankelijkheidsvolume genoemd. Dit is iets anders dan het mediavolume en wordt afzonderlijk ingesteld.\n\nAls je het toegankelijkheidsvolume wilt aanpassen, druk je op Actie + Volume omhoog of Volume omlaag.\n\nAls je de spreeksnelheid wilt aanpassen, druk je op Actie + Ctrl + Volume omhoog om de spreeksnelheid te verhogen en op Actie + Ctrl + Volume omlaag om de spreeksnelheid te verlagen.\n\nAls je de spraak wilt stoppen, kun je op elk moment op Ctrl drukken.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack-menu en meer sneltoetsen</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Het TalkBack-menu bevat vaak gebruikte instellingen en bedieningselementen.\n\nDruk op Actie + Ctrl + M om het TalkBack-menu te openen. Je kunt het TalkBack-menu en je leesinstellingen later aanpassen in de TalkBack-instellingen.\n\nHet menu met TalkBack-sneltoetsen bevat alle sneltoetsen die je kunt gebruiken.\n\nAls je het menu met sneltoetsen wilt openen, druk je op Actie + Shift + /.\n\nAls je meer wilt weten over het toetsenbord en wilt oefenen met sneltoetsen, druk je op Actie + 0 om het oefenscherm te openen.</string>
+  <string name="keyboard_tutorial_finished_page_title">Je bent klaar.</string>
+  <string name="keyboard_tutorial_finished_page_text">Je bent klaar om TalkBack te gebruiken.\n\nJe kunt nu meer te weten komen over andere onderwerpen of deze informatie later nog eens teruglezen via de TalkBack-instellingen.\n\nAls je TalkBack wilt aan- of uitzetten, kun je op elk moment op Actie + Alt + T drukken.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Sneller door webcontent navigeren met de browsemodus</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Als je in de browser en web-apps zit, kun je de browsemodus aanzetten en met één druk op een toets wisselen tussen verschillende typen detailniveaus en bedieningselementen voor het lezen. Hiermee navigeer je op een pagina op dezelfde manier als in een tekstvak, bijvoorbeeld met de pijl-links en pijl-rechts om per teken te bewegen en met de pijl-omhoog en pijl-omlaag om per regel te bewegen.\n\nAls je de browsemodus wilt aan- of uitzetten, druk je op de Actie-toets.\n\nAls de browsemodus aanstaat, druk je op D om naar het volgende oriëntatiepunt te gaan, op F voor het volgende bedieningselement of formulierveld, op B voor de volgende knop, op K voor de volgende link en op H voor de volgende kop. Houd Shift ingedrukt en druk op deze toetsen om terug te gaan.\n\nJe kunt ook de pijl-omhoog en pijl-omlaag gebruiken om per regel te springen, de pijl-links en pijl-rechts om per letter te springen en Ctrl + pijl-links en Ctrl + pijl-rechts om per woord te springen.\n\nDruk op Actie + pijl-rechts om een oefenruimte te openen. In de oefenruimte doen links, formuliervelden en knoppen niets.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Kopniveaus</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Websites en web-apps gebruiken vaak koppen met verschillende niveaus om de content te structureren. Als de browsemodus aanstaat, kun je op 1 tot en met 6 drukken om naar de kopniveaus te gaan. Houd Shift ingedrukt en druk op deze toetsen om terug te gaan.\n\nDruk op Actie + pijl-rechts om een oefenruimte te openen.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabellen</string>
+  <string name="keyboard_tutorial_tables_page_text">De browsemodus maakt navigeren in tabellen ook makkelijker. Als de browsemodus aanstaat, druk je op Alt + Ctrl + pijl-omhoog en pijl-omlaag om tussen rijen te wisselen en op Alt + Ctrl + pijl-links en pijl-rechts om tussen kolommen te wisselen.\n\nDruk op Actie + pijl-rechts om een oefenruimte te openen.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Tekst bewerken</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Als je een tekstveld opent, wordt de browsemodus tijdelijk uitgezet zodat je alle toetsen kunt gebruiken om te typen. Je hoort een aankondiging en een geluid als de functie uitstaat. Zodra je het tekstveld verlaat, wordt de browsemodus weer aangezet en hoor je nog een aankondiging en geluid.\n\nDruk op Actie + pijl-rechts om een oefenruimte te openen.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Meer informatie over de browsemodus</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Als je de hele lijst met items waartussen je kunt navigeren in de browsemodus wilt checken, druk je op Actie + Shift + / en zoek je naar \'browsemodus\' in het menu met sneltoetsen.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Lezen per teken, woord of alinea</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Soms wil je tekst misschien laten voorlezen per teken.\n\nJe kunt hiervoor de navigatie voor leesinstellingen gebruiken. Druk op Actie + Shift + pijl-rechts of pijl-links totdat je \'tekens\' hoort. Druk daarna op Actie + pijl-omhoog om de navigatiefocus een teken terug te zetten. Druk op Actie + pijl-omlaag om de navigatiefocus een teken verder te verplaatsen.\n\nProbeer het eens. Je kunt er ook voor kiezen om te lezen per woord, regel of alinea met Actie + Shift + pijl-rechts of pijl-links.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Naar bedieningselementen springen</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Bedieningselementen zijn interactieve items, zoals knoppen, selectievakjes en tekstvakken.\n\nOp sommige pagina\'s is het handig om naar bedieningselementen te kunnen springen om snel een bepaalde actie te vinden, zoals de volgende knop.\n\nJe doet dit door op Actie + Shift + pijl-rechts te drukken totdat je \'bedieningselementen\' hoort. Druk daarna op Actie + pijl-omhoog om naar de vorige knop te gaan en op Actie + pijl-omlaag om naar de volgende knop te gaan.\n\nProbeer het eens en zoek de volgende knop.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Springen tussen links</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Je kunt ook van de ene naar de andere link op een pagina springen.\n\nDruk hiervoor op Actie + Shift + pijl-rechts totdat je \'links\' hoort. Druk daarna op Actie + pijl-omlaag om de link Link 5 te vinden. Als je op deze link dubbeltikt terwijl de tutorial actief is, gebeurt er niets.\n\nDruk op Actie + pijl-rechts om de volgende knop te vinden en naar de volgende pagina te gaan.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Springen tussen koppen</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Je kunt ook van de ene naar de andere kop op de pagina gaan.\n\nJe kunt dit nu proberen door op Actie + Shift + pijl-rechts te drukken tot je \'koppen\' hoort. Druk daarna op Actie + pijl-omlaag om de kop Navigatie te vinden.</string>
+  <string name="keyboard_tutorial_find_next_button">Druk op Actie + pijl-rechts om de volgende knop te vinden.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Van container naar container gaan</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Als je een container wilt sluiten, zoals een lijst of een raster, druk je op Actie + Alt + Ctrl + pijl-rechts of pijl-links. Dit is handig als je een lange lijst met items wilt verlaten.\n\nJe kunt dit nu proberen door op Actie + pijl-rechts te drukken om de lijst te openen. Druk daarna op Actie + Alt + Ctrl + pijl-rechts om naar de volgende container te gaan.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Als je naar de volgende container wilt gaan, druk je op Actie + Alt + Ctrl + pijl-rechts</string>
+  <string name="keyboard_tutorial_exit_container">Als je deze container wilt verlaten, druk je op Actie + Alt + Ctrl + pijl-rechts</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Je hebt de container gesloten. Je kunt ook containers toevoegen aan je leesinstellingen en dan op Actie + Shift + pijl-rechts of pijl-links drukken om containers te selecteren en op Actie + pijl-omlaag of pijl-omhoog om tussen containers te wisselen. Als je de leesinstellingen wilt updaten, ga je naar TalkBack &gt; Instellingen &gt; Menu\'s aanpassen &gt; Leesinstellingen aanpassen.\n\nDruk op Actie + pijl-rechts om de volgende knop te vinden.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Leesinstellingen aanpassen</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Je kunt ook spraakinstellingen aanpassen via de leesinstellingen en bepalen wat je ermee kunt doen. Ga hiervoor naar TalkBack &gt; Instellingen &gt; Menu\'s aanpassen &gt; Leesinstellingen aanpassen.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Beschrijvingen van afbeeldingen uitproberen</string>
+  <string name="keyboard_tutorial_image_description_page_text">Als je de focus op een afbeelding hebt geplaatst, druk je op Actie + R en daarna op I. Hieronder staat één foto. Vraag om een beschrijving.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Je kunt de instellingen voor afbeeldingsbeschrijvingen op elk moment wijzigen via de Talkback-instellingen &gt; Beschrijvingen van afbeeldingen en iconen.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Je kunt de instellingen voor afbeeldingsbeschrijvingen op elk moment wijzigen via de TalkBack-instellingen en dan Beschrijvingen van afbeeldingen en iconen.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Voorbeeldafbeelding. Druk op Actie + R en daarna op I om een beschrijving te horen.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Spraakopdrachten</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Je kunt TalkBack nu snel bedienen met je stem.\n\nGeef bijvoorbeeld opdracht om de navigatie te wijzigen, naar het volgende kopje te gaan en tekst te kopiëren.\n\nDruk op Actie + \\ om het te proberen.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Schermzoeken gebruiken</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Met de functie voor schermzoeken kun je op het scherm naar specifieke content zoeken.\n\nDruk op Actie + CTRL + / om het te proberen. Typ een zoekwoord, zoals \'volgende\', om items met die tekst op het scherm te vinden.\n\nZoek eens op \'volgende\' om de knop Volgende te vinden.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navigeren met schermzoeken</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Nadat je een resultaat hebt geselecteerd, kun je snel tussen verschillende zoekresultaten van schermzoeken springen.\n\nGebruik hiervoor de navigatie van de leesinstellingen. Druk op Actie + Shift + pijl-rechts of pijl-links totdat je \'schermzoeken\' hoort. Druk daarna op Actie + pijl-omlaag of pijl-omhoog om te navigeren op basis van zoekresultaten van schermzoeken.\n\nLaten we het meteen proberen. Hieronder staat een lijst met 3 knoppen, die allemaal het woord \'actie\' bevatten. Zoek via schermzoeken naar \'actie\' en navigeer daarna via schermzoeken tussen de knoppen.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Sneltoetsen oefenen</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Druk op een toets of toetsencombinatie op het fysieke toetsenbord om te horen wat deze doet. Druk op Ctrl + W of op Escape om af te sluiten.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Ontdek de majestueuze mammoetbomen van Californië&lt;/h1&gt;
+      &lt;p&gt;De mammoetbomen van Californië, voornamelijk de kustmammoetboom (Sequoia sempervirens), zijn de hoogste bomen ter wereld. Sommige zijn meer dan 115 meter hoog en ze kunnen duizenden jaren oud worden. Ze gedijen goed in het vochtige kustklimaat van Noord-Californië dankzij de regen en mist.&lt;/p&gt;
+
+      &lt;h2&gt;Waar je ze kunt zien&lt;/h2&gt;
+      &lt;p&gt;Je vindt deze reuzen in een smalle strook langs de kust van de Stille Oceaan. Enkele belangrijke parken:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+&lt;/ul&gt;
+
+      &lt;p&gt;Plan hier je bezoek: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Steun natuurbehoud&lt;/h2&gt;
+      &lt;p&gt;Het is essentieel om deze oeroude bossen te beschermen. Je kunt helpen door de parkrichtlijnen te volgen en natuurbeschermingsinitiatieven te steunen.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Deel je ervaring&lt;/h2&gt;
+        &lt;p&gt;Ben je al eens in mammoetbossen geweest?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Ja&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nee&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Hoe vond je dat?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Sturen&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Wat wil je nog meer weten over mammoetbomen?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Sturen&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Mammoetbomen: houden ons milieu gezond&lt;/h1&gt;
+    &lt;p&gt;Mammoetbomen zijn belangrijk voor onze planeet. Ze spelen een grote rol in het gezond houden van ons milieu.&lt;/p&gt;
+
+    &lt;h1&gt;Gigantische luchtverfrissers&lt;/h1&gt;
+    &lt;p&gt;Deze bomen zijn geweldig in het opnemen van koolstofdioxide uit de lucht. Zo helpen ze onze lucht schoon te houden.&lt;/p&gt;
+
+    &lt;h2&gt;Een thuis voor dieren&lt;/h2&gt;
+    &lt;p&gt;Mammoetbomen bieden vele dieren een thuis en beschutting, van vogels in hun takken tot kleine beestjes onder de grond.&lt;/p&gt;
+
+    &lt;h3&gt;Watermeesters&lt;/h3&gt;
+    &lt;p&gt;Ze zijn heel goed in het opvangen van mist, die dan naar de bosbodem druppelt. Zo blijft de grond vochtig en krijgen andere planten en dieren water, vooral als het droog is.&lt;/p&gt;
+
+    &lt;h4&gt;Grondbeschermers&lt;/h4&gt;
+    &lt;p&gt;Hun sterke wortels houden de grond op hun plaats, zodat die niet wegspoelt bij zware regenval en erosie wordt tegengegaan.&lt;/p&gt;
+
+    &lt;h5&gt;Bosbouwers&lt;/h5&gt;
+    &lt;p&gt;Als oude mammoetbomen omvallen, wordt hun hout voedsel en onderdak voor nieuwe planten en dieren. Zo ontstaat er een rijke bodem voor nieuwe groei.&lt;/p&gt;
+
+    &lt;h6&gt;Unieke ecosystemen&lt;/h6&gt;
+    &lt;p&gt;Omdat mammoetbomen zo groot zijn en zo lang leven, creëren ze speciale bosmilieus die leven ondersteunen dat je nergens anders tegenkomt.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Dieren in de mammoetbossen&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Dieren in de mammoetbossen\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dier&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Beschrijving&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Leefgebied&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Leuk weetje&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bananenslak&lt;/th&gt;
+            &lt;td&gt;Grote, gele, slijmerige slak&lt;/td&gt;
+            &lt;td&gt;Op de bosbodem&lt;/td&gt;
+            &lt;td&gt;Op één na grootste slak ter wereld&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Pacifische reuzensalamander&lt;/th&gt;
+            &lt;td&gt;Grote, donkere salamander&lt;/td&gt;
+            &lt;td&gt;In de buurt van beken en vochtige gebieden&lt;/td&gt;
+            &lt;td&gt;Kan tot 30 centimeter lang worden&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt-wapiti&lt;/th&gt;
+            &lt;td&gt;Groot hert met indrukwekkend gewei&lt;/td&gt;
+            &lt;td&gt;Graast op open plekken in het bos&lt;/td&gt;
+            &lt;td&gt;Mannelijke dieren kunnen meer dan 450 kilo wegen&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Gevlekte bosuil&lt;/th&gt;
+            &lt;td&gt;Middelgrote uil die \'s nachts jaagt&lt;/td&gt;
+            &lt;td&gt;In dichte, volgroeide mammoetbossen&lt;/td&gt;
+            &lt;td&gt;Een \'indicatorsoort\': de gezondheid van deze uil geeft een indicatie van de gezondheid van het hele bos&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Zwarte beer&lt;/th&gt;
+            &lt;td&gt;Groot zoogdier, meestal zwart of bruin&lt;/td&gt;
+            &lt;td&gt;Zoekt in het hele bos naar voedsel&lt;/td&gt;
+            &lt;td&gt;Uitstekende klimmers, vaak in bomen te vinden&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Wat vind jij van mammoetbomen en de natuur?&lt;/h1&gt;
+
+      &lt;p&gt;Wat wil je nog meer leren over mammoetbomen?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Wat is je favoriete plek in de natuur om te bezoeken?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Over welk concept in de natuur wil je meer leren?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

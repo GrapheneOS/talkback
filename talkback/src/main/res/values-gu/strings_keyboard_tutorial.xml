@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">આ ટ્યૂટૉરિઅલ બહેતર બનાવેલા કીમૅપ માટે છે, જેમાં ઘણા નવા આદેશો શામેલ છે. કીમૅપ પસંદ કરવા માટે, TalkBackના સેટિંગ &gt; વિગતવાર સેટિંગ &gt; કીબોર્ડ શૉર્ટકટ પર જાઓ.\n\nકોઈ વિષય પસંદ કરવા માટે ઍક્શન + જમણી ઍરો કી દબાવો. શ્રેષ્ઠ અનુભવ માટે, શરૂઆત કરતા પહેલાં TalkBack સુવિધા ચાલુ કરો.</string>
+  <string name="basic_interaction_link_text">મૂળભૂત ક્રિયાપ્રતિક્રિયા</string>
+  <string name="basic_interaction_link_subtext">એક આઇટમ પરથી બીજી આઇટમ પર જાઓ, લાઇન પ્રમાણે વાંચો, મેનૂનો ઉપયોગ કરો અને બીજું ઘણું કરો</string>
+  <string name="browse_mode_link_text">બ્રાઉઝ મોડ</string>
+  <string name="browse_mode_link_subtext">એક આઇટમ પરથી સીધા બીજી પર જવા માટેના આદેશ વડે વધુ ઝડપથી વેબ કન્ટેન્ટ નૅવિગેટ કરો</string>
+  <string name="reading_controls_link_text">વાંચનના નિયંત્રણો</string>
+  <string name="reading_controls_link_subtext">એક આઇટમ પરથી સીધા બીજી પર જવા માટે વાંચનના નિયંત્રણોનો ઉપયોગ કરો, સ્પીચ સેટિંગ ગોઠવો અને બીજું ઘણું કરો</string>
+  <string name="image_descriptions_link_text">છબીના વર્ણનો</string>
+  <string name="image_descriptions_link_subtext">છબીઓના વર્ણનો મેળવવાનો પ્રયાસ કરો</string>
+  <string name="keyboard_shortcuts_link_text">કીબોર્ડ શૉર્ટકટનો અભ્યાસ કરો</string>
+  <string name="keyboard_shortcuts_link_subtext">કી અને કીના સંયોજનો દબાવો અને તેમના કાર્ય વિશે જાણો</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack બોલાયેલો પ્રતિસાદ આપે છે, જેથી તમે તમારી સ્ક્રીન પર નજર કર્યા વિના તમારા ડિવાઇસનો ઉપયોગ કરી શકો. જે લોકોને સ્ક્રીન જોવામાં મુશ્કેલી આવતી હોય, તેવા લોકો માટે TalkBack મદદરૂપ થઈ શકે છે. જ્યારે TalkBack ચાલુ હોય, ત્યારે સ્ક્રીન પરની ફોક્સ કરેલી આઇટમ મોટેથી બોલવામાં આવે છે.\n\nસૌથી પહેલા ચાલો તમારા કીબોર્ડથી પરિચિત થઈએ. ઍક્શન કી શોધો, જે ડાબી Shift કીની ઉપર છે. ચાલો, હવે કીબોર્ડના સૌથી નીચેના જમણા ભાગમાં નજીકની ઍરો કી શોધીએ. આગલી આઇટમ પર જવા માટે ઍક્શન + જમણી ઍરો કી દબાવો.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">આ આગલી આઇટમ છે. પાછલી આઇટમ પર જવા માટે, ઍક્શન + ડાબી ઍરો કી દબાવો.\n\nજ્યારે તમે બટન જેવી ક્રિયાપ્રતિક્રિયાત્મક આઇટમ પર જાઓ, ત્યારે તેને સક્રિય કરવા માટે ઍક્શન + Space કી દબાવો. આગલું બટન શોધો અને ટ્યૂટૉરિઅલ ચાલુ રાખો.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">અક્ષર, શબ્દ અથવા ફકરા પ્રમાણે વાંચો</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">કેટલીક વખત, બની શકે કે તમે ટેક્સ્ટ એક સમયે એક અક્ષર મોટેથી વાંચે તેમ ઇચ્છો.\n\nઆમ કરવા માટે, તમે વાંચનના નિયંત્રણોના નૅવિગેશનનો ઉપયોગ કરી શકો છો. તમને \"અક્ષરો\" સંભળાય નહીં ત્યાં સુધી ઍક્શન + Shift + જમણી કે ડાબી ઍરો કી દબાવો.\n\nપછી, નૅવિગેશન ફોકસને અક્ષર પ્રમાણે પાછળ ખસેડવા માટે ઍક્શન + ઉપરની ઍરો કી દબાવો. નૅવિગેશન ફોકસને અક્ષર પ્રમાણે આગળ ખસેડવા માટે ઍક્શન + નીચેની ઍરો કી દબાવો.\n\nઆ હમણાં જ અજમાવી જુઓ. તમે ઍક્શન + Shift + જમણી અથવા ડાબી ઍરો કીનો ઉપયોગ કરીને શબ્દો, લાઇન અથવા ફકરા પ્રમાણે વાંચવાનું પણ પસંદ કરી શકો છો.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">સિસ્ટમ નૅવિગેશન</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">હમણાં આ કીબોર્ડ શૉર્ટકટ અજમાવવાથી ટ્યૂટૉરિઅલ બંધ થઈ જશે. તમે ટ્યૂટૉરિઅલ પૂર્ણ ન કરો ત્યાં સુધી તમે રાહ જોઈ શકો છો.\n\nખુલ્લી ઍપ વિન્ડો અને નોટિફિકેશન અને ટાસ્કબાર જેવા સિસ્ટમ એલિમેન્ટ વચ્ચે જવા માટે, ઍક્શન + Alt + Ctrl + ઉપર અથવા નીચેની ઍરો કી દબાવો.\n\nઍપની સૂચિ ખોલવા માટે, ઍક્શન કી દબાવો.\n\nહોમ સ્ક્રીન પર જવા અને ખુલ્લી બધી વિન્ડોને નાની કરવા માટે, ઍક્શન + H અથવા ઉપરની પંક્તિમાં હોમ કી દબાવો.\n\nતમારી તાજેતરની ઍપ પર જવા માટે, ઍક્શન + ટૅબ અથવા ઉપરની પંક્તિમાં ઓવરવ્યૂ કી દબાવો.\n\nએક વિન્ડો પરથી બીજી વિન્ડો પર ઝડપથી જવા માટે, Alt કી દબાવી રાખો અને ટૅબ કી દબાવો.\n\nપાછા જવા માટે, ઍક્શન + Esc અથવા ઉપરની પંક્તિમાં Back કી દબાવો.\n\nનોટિફિકેશન ખોલવા માટે, ઍક્શન + N કી દબાવો.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">સ્પીચના સેટિંગ ગોઠવવા</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack સ્પીચના વૉલ્યૂમને ઍક્સેસિબિલિટી વૉલ્યૂમ કહેવામાં આવે છે. તેને મીડિયા વૉલ્યૂમથી અલગ રીતે તેની ગોઠવવામાં આવે છે.\n\nઍક્સેસિબિલિટી વૉલ્યૂમ ગોઠવવા માટે, ઍક્શન + વૉલ્યૂમ વધારો અથવા ઘટાડો કી દબાવો.\n\nસ્પીચ રેટને ગોઠવવા માટે, વધારવા માટે ઍક્શન + Ctrl + વૉલ્યૂમ વધારો કી અને ઘટાડવા માટે ઍક્શન + Ctrl + વૉલ્યૂમ ઘટાડો કી દબાવો.\n\nકોઈપણ સમયે સ્પીચ રોકવા માટે, Ctrl દબાવો.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack મેનૂ અને કીબોર્ડના વધુ શૉર્ટકટ</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack મેનૂમાં તમને વારંવાર જરૂર પડી શકે તેવા સેટિંગ અને નિયંત્રણો શામેલ છે.\n\nTalkBack મેનૂ ખોલવા માટે, ઍક્શન + Ctrl + M દબાવો. તમે પછીથી TalkBackના સેટિંગમાં જઈને TalkBack મેનૂ અને તમારા વાંચનના નિયંત્રણોને કસ્ટમાઇઝ કરી શકો છો.\n\nTalkBack કીબોર્ડ શૉર્ટકટ મેનૂમાં તમે ઉપયોગ કરી શકો તેવા બધા કીબોર્ડ શૉર્ટકટ શામેલ છે.\n\nકીબોર્ડ શૉર્ટકટ મેનૂ ખોલવા માટે, ઍક્શન + Shift + / દબાવો.\n\nકીબોર્ડ વિશે વધુ જાણવા અને કીબોર્ડ શૉર્ટકટનો અભ્યાસ કરવા માટે, અભ્યાસની સ્ક્રીન ખોલવા માટે ઍક્શન + 0 દબાવો.</string>
+  <string name="keyboard_tutorial_finished_page_title">બધું સેટ થઈ ગયું!</string>
+  <string name="keyboard_tutorial_finished_page_text">તમે TalkBackનો ઉપયોગ કરવા માટે તૈયાર છો.\n\nહવે અન્ય વિષયો વિશે જાણકારી મેળવતા રહો અથવા કોઈપણ સમયે TalkBack સેટિંગમાં જઈને આ માહિતીનો રિવ્યૂ કરો.\n\nકોઈપણ સમયે TalkBack ચાલુ કે બંધ કરવા માટે, ઍક્શન + Alt + T દબાવો.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">બ્રાઉઝ મોડ વડે વધુ ઝડપથી વેબ કન્ટેન્ટ નૅવિગેટ કરો</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">જ્યારે તમે બ્રાઉઝર અને વેબ ઍપમાં હો, ત્યારે તમે બ્રાઉઝ મોડ ચાલુ કરી શકો છો અને કીને એકવાર દબાવીને વાંચનની વિવિધ પ્રકારની ગ્રેન્યુલારિટી અને નિયંત્રણો પર જઈ શકો છો. તે પેજ પર નૅવિગેટ કરવાનું ટેક્સ્ટ એડિટિંગ બૉક્સમાં નૅવિગેટ કરવા જેવું બનાવે છે, જેમ કે અક્ષર પ્રમાણે ખસેડવા માટે ડાબી અને જમણી ઍરો કી અને લાઇન પ્રમાણે ખસેડવા માટે ઉપર અને નીચેની ઍરો કી.\n\nબ્રાઉઝ મોડ ચાલુ કે બંધ કરવા માટે, ઍક્શન કી પર બે વાર દબાવો.\n\nજ્યારે બ્રાઉઝ મોડ ચાલુ હોય, ત્યારે આગલા લૅન્ડમાર્ક પર જવા માટે D, આગલા નિયંત્રણ કે ફોર્મ ફીલ્ડ માટે F, આગલા બટન માટે B, આગલી લિંક માટે K અને આગલા શીર્ષક માટે H દબાવો. પાછળ જવા માટે Shift કી દબાવી રાખીને આ કી દબાવો.\n\nતમે લાઇન પ્રમાણે જવા માટે ઉપર અને નીચેની ઍરો કી, અક્ષર પ્રમાણે જવા માટે ડાબી અને જમણી ઍરો કી અને શબ્દ પ્રમાણે જવા માટે Ctrl + ડાબી અને જમણી ઍરો કીનો પણ ઉપયોગ કરી શકો છો.\n\nઅભ્યાસના વિસ્તારમાં દાખલ થવા માટે ઍક્શન + જમણી ઍરો કી દબાવો. અભ્યાસના વિસ્તારમાં હો ત્યારે લિંક, ફોર્મ ફીલ્ડ અને બટન કંઈપણ કામ કરશે નહીં.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">શીર્ષકના લેવલ</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">વેબસાઇટ અને વેબ ઍપ ઘણીવાર કન્ટેન્ટની સંરચના કરવા માટે વિવિધ લેવલવાળા શીર્ષકનો ઉપયોગ કરે છે. જ્યારે બ્રાઉઝ મોડ ચાલુ હોય, ત્યારે શીર્ષકના લેવલ પર જવા માટે 1થી 6 દબાવો. પાછળ જવા માટે Shift કી દબાવી રાખીને આ કી દબાવો.\n\nઅભ્યાસના વિસ્તારમાં દાખલ થવા માટે ઍક્શન + જમણી ઍરો કી દબાવો.</string>
+  <string name="keyboard_tutorial_tables_page_title">ટેબલ</string>
+  <string name="keyboard_tutorial_tables_page_text">બ્રાઉઝ મોડ ટેબલ નૅવિગેશનને પણ ઘણું સરળ બનાવે છે. જ્યારે બ્રાઉઝ મોડ ચાલુ હોય, ત્યારે એક પંક્તિમાંથી બીજી પંક્તિમાં જવા માટે Alt + Ctrl + ઉપર અને નીચેની ઍરો કી દબાવો અને એક કૉલમમાંથી બીજી કૉલમમાં જવા માટે Alt + Ctrl + ડાબી અને જમણી ઍરો કી દબાવો.\n\nઅભ્યાસ ક્ષેત્રમાં દાખલ થવા માટે ઍક્શન + જમણી ઍરો કી દબાવો.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">ટેક્સ્ટમાં ફેરફાર કરી રહ્યા છીએ</string>
+  <string name="keyboard_tutorial_editing_text_page_text">જ્યારે તમે ટેક્સ્ટ ફીલ્ડમાં દાખલ થાઓ, ત્યારે બ્રાઉઝ મોડ હંગામી રીતે બંધ કરવામાં આવશે, જેથી તમે ટાઇપ કરવા માટે બધી કીનો ઉપયોગ કરી શકો. જ્યારે તે બંધ કરવામાં આવશે, ત્યારે તમને કોઈ ઘોષણા અને સાઉન્ડ સંભળાશે. એકવાર તમે ટેક્સ્ટ ફીલ્ડ છોડી દો, પછી બ્રાઉઝ મોડ ફરી ચાલુ થશે અને તમને બીજી ઘોષણા અને સાઉન્ડ સંભળાશે.\n\nઅભ્યાસના વિસ્તારમાં દાખલ થવા માટે ઍક્શન + જમણી ઍરો કી દબાવો.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">બ્રાઉઝ મોડ વિશે વધુ જાણકારી</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">તમે બ્રાઉઝ મોડમાં એક આઇટમથી બીજી આઇટમ પર જઈ શકો છો, તેની સંપૂર્ણ સૂચિ ચેક કરવા માટે, ઍક્શન + Shift + / દબાવો અને કીબોર્ડ શૉર્ટકટ મેનૂમાં \'બ્રાઉઝ મોડ\' શોધો.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">અક્ષર, શબ્દ અથવા ફકરા પ્રમાણે વાંચો</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">કેટલીક વખત, બની શકે કે તમે ટેક્સ્ટ એક સમયે એક અક્ષર મોટેથી વાંચે તેમ ઇચ્છો.\n\nઆમ કરવા માટે, તમે વાંચનના નિયંત્રણોના નૅવિગેશનનો ઉપયોગ કરી શકો છો. જ્યાં સુધી તમને \"અક્ષરો\" સંભળાય નહીં, ત્યાં સુધી ઍક્શન + Shift + જમણી કે ડાબી ઍરો કી દબાવો. પછી, નૅવિગેશન ફોકસને અક્ષર પ્રમાણે પાછળ ખસેડવા માટે ઍક્શન + ઉપરની ઍરો કી દબાવો. નૅવિગેશન ફોકસને અક્ષર પ્રમાણે આગળ ખસેડવા માટે ઍક્શન + નીચેની ઍરો કી દબાવો.\n\nઆ હમણાં જ અજમાવી જુઓ. તમે ઍક્શન + Shift + જમણી અથવા ડાબી ઍરો કીનો ઉપયોગ કરીને શબ્દો, લાઇન અથવા ફકરા પ્રમાણે વાંચવાનું પણ પસંદ કરી શકો છો.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">એક નિયંત્રણથી બીજા નિયંત્રણ પર જવા વિશે</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">નિયંત્રણો એવી આઇટમ છે જેની સાથે તમે ક્રિયાપ્રતિક્રિયા કરી શકો છો, જેમ કે બટન, ચેકબૉક્સ અને ટેક્સ્ટ બૉક્સ.\n\nકેટલાક પેજ પર, તમે કદાચ આગલા બટન જેવી ઝડપી ઍક્શન શોધવા માટે એક નિયંત્રણથી બીજા નિયંત્રણ પર જવા માગશો.\n\nઆમ કરવા માટે, જ્યાં સુધી તમને \"નિયંત્રણો\" ન સંભળાય ત્યાં સુધી ઍક્શન + Shift + જમણી ઍરો કી દબાવો. પછી, પાછલા બટન પર જવા માટે ઍક્શન + ઉપરની ઍરો કી દબાવો અને આગલા બટન પર જવા માટે ઍક્શન + નીચેની ઍરો કી દબાવો.\n\nહમણાં જ તેને અજમાવી જુઓ અને આગલું બટન શોધો.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">એક લિંક પરથી બીજી લિંક પર જવા વિશે</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">તમે પેજ પર એક લિંક પરથી બીજી લિંક પર પણ જઈ શકો છો.\n\nઆમ કરવા માટે, જ્યાં સુધી તમને \"લિંક\" ન સંભળાય ત્યાં સુધી ઍક્શન + Shift + જમણી ઍરો કી દબાવો. પછી, \"લિંક 5\" નામવાળી લિંક શોધવા માટે ઍક્શન + નીચેની ઍરો કી દબાવો. ટ્યૂટૉરિઅલમાં હો તે દરમિયાન, આ લિંક પર બે વાર ટૅપ કરવાથી કંઈ પણ થશે નહીં.\n\nઆગલું બટન શોધવા માટે ઍક્શન + જમણી ઍરો કી દબાવો અને આગલા પેજ પર જાઓ.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">એક શીર્ષક પરથી બીજા શીર્ષક પર જવું</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">તમે પેજ પર એક શીર્ષક પરથી બીજા શીર્ષક પર પણ જઈ શકો છો.\n\nતેને હમણાં અજમાવવા માટે, જ્યાં સુધી તમને \"શીર્ષક\" ન સંભળાય ત્યાં સુધી ઍક્શન + Shift + જમણી ઍરો કી દબાવો. પછી, \"નૅવિગેશન\" શીર્ષક શોધવા માટે ઍક્શન + નીચેની ઍરો કી દબાવો.</string>
+  <string name="keyboard_tutorial_find_next_button">આગલું બટન શોધવા માટે, ઍક્શન + જમણી ઍરો કી દબાવો.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">એક કન્ટેનર પરથી બીજા પર જવું</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">સૂચિ અથવા ગ્રિડ જેવા કન્ટેનરમાંથી બહાર નીકળવા માટે, ઍક્શન + Alt + Ctrl + જમણી કે ડાબી ઍરો કી દબાવો. જ્યારે તમે આઇટમની લાંબી સૂચિમાંથી બહાર જવા માગતા હો ત્યારે આ ઉપયોગી છે.\n\nતેને હમણાં અજમાવવા માટે, સૂચિ દાખલ કરવા માટે ઍક્શન + જમણી ઍરો કી દબાવો. પછી આગલા કન્ટેનર પર જવા માટે ઍક્શન + Alt + Ctrl + જમણી ઍરો કી દબાવો.</string>
+  <string name="keyboard_tutorial_go_to_next_container">આગલા કન્ટેનર પર જવા માટે, ઍક્શન + Alt + Ctrl + જમણી ઍરો કી દબાવો</string>
+  <string name="keyboard_tutorial_exit_container">આ કન્ટેનરમાંથી બહાર નીકળવા માટે, ઍક્શન + Alt + Ctrl + જમણી ઍરો કી દબાવો</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">તમે કન્ટેનરમાંથી બહાર નીકળી ગયા છો. તમે તમારા વાંચનના નિયંત્રણોમાં પણ કન્ટેનર ઉમેરી શકો છો અને પછી કન્ટેનર પસંદ કરવા માટે ઍક્શન + Shift + જમણી અથવા ડાબી ઍરો કી દબાવો અને કન્ટેનર વચ્ચે જવા માટે ઍક્શન + નીચે અથવા ઉપરની ઍરો કી દબાવો. વાંચનના નિયંત્રણો અપડેટ કરવા માટે, TalkBack &gt; સેટિંગ &gt; મેનૂને કસ્ટમાઇઝ કરો &gt; વાંચનના નિયંત્રણોને કસ્ટમાઇઝ કરો પર જાઓ.\n\nઆગલું બટન શોધવા માટે ઍક્શન + જમણી ઍરો કી દબાવો.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">વાંચનના નિયંત્રણો કસ્ટમાઇઝ કરવા</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">તમે વાંચનના નિયંત્રણોનો ઉપયોગ કરીને સ્પીચ સેટિંગને પણ ગોઠવી શકો છો અને TalkBack &gt; સેટિંગ &gt; મેનૂને કસ્ટમાઇઝ કરો &gt; વાંચનના નિયંત્રણોને કસ્ટમાઇઝ કરોમાં જઈને વાંચનના નિયંત્રણો વડે તમે શું કરી શકો છો તે કસ્ટમાઇઝ કરી શકો છો.</string>
+  <string name="keyboard_tutorial_image_description_page_title">છબીના વર્ણનો મેળવવાનો પ્રયાસ કરવો</string>
+  <string name="keyboard_tutorial_image_description_page_text">જ્યારે તમે કોઈ છબી પર ફોકસ કર્યું હોય, ત્યારે ઍક્શન + R, પછી I દબાવો. નીચે એક ફોટો છે. તેનું વર્ણન મેળવી જુઓ.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">તમે TalkBack સેટિંગ &gt; છબી અને આઇકનના વર્ણનોમાં જઈને કોઈપણ સમયે છબીના વર્ણનના સેટિંગ બદલી શકો છો.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">તમે TalkBack સેટિંગમાં, પછી છબી અને આઇકનના વર્ણનોમાં જઈને કોઈપણ સમયે છબીના વર્ણનના સેટિંગ બદલી શકો છો.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">છબીનું સેમ્પલ. વર્ણન સાંભળવા માટે ઍક્શન + R, પછી I દબાવો.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">વૉઇસ આદેશો</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBackને ઝડપથી નિયંત્રિત કરવા માટે, તમે તમારા વૉઇસનો ઉપયોગ કરી શકો છો.\n\nઉદાહરણ તરીકે, નૅવિગેશન બદલવા, આગળના મથાળા પર જવા, ટેક્સ્ટ કૉપિ કરવા અને અન્ય કાર્યો કરવા માટે કોઈ આદેશ આપો.\n\nઆને હમણાં જ અજમાવવા માટે, ઍક્શન + \\ દબાવો.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">\'સ્ક્રીન પર શોધો\' સુવિધાનો ઉપયોગ કરીને શોધવું</string>
+  <string name="keyboard_tutorial_screen_search_page_text">\'સ્ક્રીન પર શોધો\' સુવિધા તમને સ્ક્રીન પર ચોક્કસ કન્ટેન્ટ શોધવાની સુવિધા આપે છે.\n\nઆને અજમાવવા માટે, ઍક્શન + CTRL + / દબાવો. સ્ક્રીન પર ટેક્સ્ટ ધરાવતી આઇટમ શોધવા માટે, \"આગળ\" જેવો કીવર્ડ ટાઇપ કરો.\n\nઆગળનું બટન શોધવા માટે હવે \"આગળ\" અજમાવી જુઓ.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">\'સ્ક્રીન પર શોધો\' સુવિધા દ્વારા નૅવિગેટ કરવું</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">તમે પરિણામ પસંદ કરી લો પછી \'સ્ક્રીન પર શોધો\' સુવિધાથી વિવિધ શોધ પરિણામો વચ્ચે એક પરિણામથી બીજા પરિણામ પર ઝડપથી જઈ શકો છો.\n\nઆમ કરવા માટે, તમે વાંચનના નિયંત્રણોના નૅવિગેશનનો ઉપયોગ કરી શકો છો. જ્યાં સુધી તમને \'સ્ક્રીન પર શોધો\' સંભળાય નહીં ત્યાં સુધી ઍક્શન + Shift + જમણી કે ડાબી ઍરો કી દબાવો. આગળ, \'સ્ક્રીન પર શોધો\' સુવિધાના પરિણામો વડે નૅવિગેટ કરવા માટે, ઍક્શન + નીચેની અથવા ઉપરની ઍરો કી દબાવો.\n\nચાલો, આને હમણાં જ અજમાવી જુઓ. નીચે 3 બટનની સૂચિ છે, જે બધામાં \"ઍક્શન\"ટેક્સ્ટ શામેલ છે. \'સ્ક્રીન પર શોધો\' સુવિધાનો ઉપયોગ કરીને \"ઍક્શન\" માટે શોધો, તેમની વચ્ચે એકથી બીજા પર જવા માટે \'સ્ક્રીન પર શોધો\' સુવિધા દ્વારા નૅવિગેટ કરો.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">કીબોર્ડ શૉર્ટકટનો અભ્યાસ કરવો</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">વાસ્તવિક કીબોર્ડની કી અથવા કી કૉમ્બિનેશનને દબાવો અને જુઓ કે તે શું કાર્ય કરે છે. બહાર નીકળવા માટે Ctrl + W અથવા Escape દબાવો.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;કેલિફોર્નિયાના રેડવુડ વૃક્ષોની ભવ્યતા શોધો&lt;/h1&gt;
+      &lt;p&gt;કેલિફોર્નિયાના રેડવુડ વૃક્ષો, મુખ્યત્વે દરિયાકિનારાના રેડવુડ વૃક્ષો (Sequoia sempervrens), વિશ્વના સૌથી ઊંચા વૃક્ષો છે. કેટલાક 380 ફૂટ (115 મીટર)થી વધુ ઊંચા હોય છે અને હજારો વર્ષ સુધી જીવી શકે છે. તેઓ ઉત્તરીય કેલિફોર્નિયાના દરિયાકિનારાની ભેજવાળી આબોહવામાં વિકાસ પામે છે, જેમને વરસાદ અને ધુમ્મસનો લાભ મળે છે.&lt;/p&gt;
+
+      &lt;h2&gt;તે ક્યાં જોવા મળે&lt;/h2&gt;
+      &lt;p&gt;તમને આ વિશાળ વૃક્ષો પ્રશાંત મહાસાગરના કિનારે સાંકડી પટ્ટીમાં જોવા મળશે. મુખ્ય ઉદ્યાનોમાં આ શામેલ છે:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;રેડવુડ નેશનલ એન્ડ સ્ટેટ પાર્ક&lt;/li&gt;
+        &lt;li&gt;હમ્બોલ્ટ રેડવુડ સ્ટેટ પાર્ક&lt;/li&gt;
+        &lt;li&gt;બિગ બેસિન રેડવુડ સ્ટેટ પાર્ક&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;તમારી મુલાકાતનું આયોજન અહીં કરો: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;કેલિફોર્નિયા સ્ટેટ પાર્ક - રેડવુડ&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;સંરક્ષણને સપોર્ટ કરો&lt;/h2&gt;
+      &lt;p&gt;આ પ્રાચીન જંગલોનું સંરક્ષણ કરવું અતિ આવશ્યક છે. તમે પાર્કના દિશાનિર્દેશોનું પાલન કરીને અને સંરક્ષણના પ્રયાસોને સપોર્ટ કરીને મદદ કરી શકો છો.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;તમારો અનુભવ શેર કરો&lt;/h2&gt;
+        &lt;p&gt;શું તમે રેડવુડ વૃક્ષોની મુલાકાત લીધી છે?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;હા&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;ના&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;અમને તમારા અનુભવ વિશે જણાવો&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;સબમિટ કરો&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;રેડવુડ વૃક્ષો વિશે તમે બીજું શું જાણવા માગો છો?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;સબમિટ કરો&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;રેડવુડ વૃક્ષો: આપણા પર્યાવરણને સ્વસ્થ રાખે છે&lt;/h1&gt;
+    &lt;p&gt;રેડવુડ વૃક્ષો આપણા ગ્રહ માટે મહત્ત્વપૂર્ણ છે, તે આપણા પર્યાવરણને સ્વસ્થ રાખવામાં મોટી ભૂમિકા ભજવે છે.&lt;/p&gt;
+
+    &lt;h1&gt;વિશાળ એર ક્લિનર&lt;/h1&gt;
+    &lt;p&gt;આ વૃક્ષો હવામાંથી કાર્બન ડાયોક્સાઇડ શોષવામાં અદ્ભુત છે. રેડવુડ વૃક્ષો ઘણો બધો કાર્બન ડાયોક્સાઇડ શોષી લઈને, આપણી હવાને સ્વચ્છ રાખવામાં મદદ કરે છે.&lt;/p&gt;
+
+    &lt;h2&gt;પ્રાણીઓનું ઘર&lt;/h2&gt;
+    &lt;p&gt;રેડવુડ વૃક્ષો ઘણા બધા પ્રાણીઓને ઘર અને આશ્રય આપે છે, જેમાં તેના વૃક્ષોની શાખામાં નિવાસ કરતા પક્ષીઓથી લઈને ત્યાંની જમીનની અંદર રહેલા નાના જીવોનો સમાવેશ થાય છે.&lt;/p&gt;
+
+    &lt;h3&gt;પાણીના સંગ્રાહક&lt;/h3&gt;
+    &lt;p&gt;તેઓ ઝાકળને ઝીલવામાં કુશળ છે, પછી આ ઝાકળ જંગલની જમીન પર ટપકે છે. આનાથી જમીન ભીની રહે છે તેમજ અન્ય વનસ્પતિ અને પ્રાણીઓને પાણી મળે છે, ખાસ કરીને ત્યારે, જ્યારે સૂકું હોય.&lt;/p&gt;
+
+    &lt;h4&gt;જમીનના રક્ષકો&lt;/h4&gt;
+    &lt;p&gt;તેના મજબૂત મૂળ માટીને જકડી રાખે છે, જેથી ભારે વરસાદમાં તે ધોવાઈ ન જાય અને જમીનનું ધોવાણ અટકે છે.&lt;/p&gt;
+
+    &lt;h5&gt;જંગલના નિર્માતા&lt;/h5&gt;
+    &lt;p&gt;જ્યારે જૂના રેડવુડ વૃક્ષો પડી જાય છે, ત્યારે તેનું લાકડું નવા છોડ અને જીવો માટે ખોરાક અને આશ્રય બને છે, જેનાથી નવા વિકાસ માટે સમૃદ્ધ જમીન બને છે.&lt;/p&gt;
+
+    &lt;h6&gt;અજોડ ઇકોસિસ્ટમ&lt;/h6&gt;
+    &lt;p&gt;રેડવુડ વૃક્ષો ખૂબ જ વિશાળ હોવાથી અને લાંબા સમય સુધી જીવતા હોવાથી, તે જંગલનું એવું વિશિષ્ટ વાતાવરણ બનાવે છે જે અન્યત્ર ક્યાંય ન જોવા મળતા જીવનને સપોર્ટ કરે છે.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;રેડવુડ વૃક્ષોના જંગલોમાં જોવા મળતા પ્રાણીઓ&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"રેડવુડ વૃક્ષોના જંગલોમાં જોવા મળતા પ્રાણીઓ\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;પ્રાણી&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;વર્ણન&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;તે ક્યાં રહે છે&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;રસપ્રદ તથ્ય&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;કેળાની છાલના રંગની ગોકળગાય&lt;/th&gt;
+            &lt;td&gt;મોટી, પીળી, ચીકણી ગોકળગાય&lt;/td&gt;
+            &lt;td&gt;જંગલની જમીન પર&lt;/td&gt;
+            &lt;td&gt;વિશ્વની બીજી સૌથી મોટી ગોકળગાય&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;પેસિફિક જાયન્ટ સૅલૅમૅન્ડર&lt;/th&gt;
+            &lt;td&gt;મોટું, ઘેરા રંગનું સૅલૅમૅન્ડર&lt;/td&gt;
+            &lt;td&gt;ઝરણાં અને ભેજવાળા વિસ્તારોની નજીક&lt;/td&gt;
+            &lt;td&gt;એક ફૂટ જેટલું લાંબું થઈ શકે છે&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;રૂઝવેલ્ટ એલ્ક&lt;/th&gt;
+            &lt;td&gt;પ્રભાવશાળી શીંગડાંવાળું મોટું હરણ&lt;/td&gt;
+            &lt;td&gt;જંગલમાં ઘાસના મેદાનોમાં ચરે છે&lt;/td&gt;
+            &lt;td&gt;નરનું વજન 1,000 પાઉન્ડથી વધુ હોઈ શકે છે&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ઉત્તરીય સ્પૉટેડ ઘુવડ&lt;/th&gt;
+            &lt;td&gt;મધ્યમ કદનું ઘુવડ, રાત્રે શિકાર કરે છે&lt;/td&gt;
+            &lt;td&gt;ઘાઢ, પરિપક્વ રેડવુડ વૃક્ષોના જંગલોમાં&lt;/td&gt;
+            &lt;td&gt;\"સૂચક પ્રજાતિ\" – તેનું સ્વાસ્થ્ય જંગલનું સ્વાસ્થ્ય બતાવે છે&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;કાળું રીંછ&lt;/th&gt;
+            &lt;td&gt;મોટું સસ્તન પ્રાણી, સામાન્ય રીતે કાળા કે ભૂરા રંગનું&lt;/td&gt;
+            &lt;td&gt;ખોરાકની શોધમાં આખા જંગલમાં ફરે છે&lt;/td&gt;
+            &lt;td&gt;ઉત્તમ પર્વતારોહક, ઘણીવાર વૃક્ષો પર જોવા મળે છે&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;રેડવુડ વૃક્ષો અને પ્રકૃતિ વિશેના તમારા વિચારો&lt;/h1&gt;
+
+      &lt;p&gt;રેડવુડ વિશે તમે બીજું શું જાણવા માગો છો?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;પ્રકૃતિમાં મુલાકાત લેવા માટેનું તમારી મનપસંદ જગ્યા કઈ છે?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;પ્રકૃતિની એક એવી કલ્પના કઈ છે, જેના વિશે તમે વધુ જાણવા માગો છો?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

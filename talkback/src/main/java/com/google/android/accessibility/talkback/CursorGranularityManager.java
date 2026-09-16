@@ -36,6 +36,7 @@ import com.google.android.accessibility.utils.input.CursorGranularity;
 import com.google.android.accessibility.utils.traversal.ReorderedChildrenIterator;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirection;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -84,12 +85,19 @@ public class CursorGranularityManager {
   /** The index of the current node within {@link #navigableNodes}. */
   private int currentNodeIndex;
 
-  /** The granularity that was chosen by user. */
+  /** The granularity that was chosen by user (e.g. in Reading Controls). */
   private CursorGranularity savedGranularity = CursorGranularity.DEFAULT;
-  // it usually equals savedGranularity. But sometimes when we move focus between nodes some
-  // nodes does not contain previously chosen granularity. In that case default granularity
-  // is used for that node. but when we move to next node that support previously chosen
-  // granularity (stored in savedGranularity) it switch back to that.
+
+  /**
+   * The granularity that is currently used for granularity-based navigation. In most cases, it
+   * equals to {@link #savedGranularity}, but it can be different when users move focus between
+   * nodes, and some nodes do not contain a previously chosen granularity (i.e. stored in {@link
+   * #savedGranularity}). In that case, the default granularity is used for that node, and when
+   * users move to next node that support the previously chosen granularity, it switches back to
+   * that. Moreover, it can be different from {@link #savedGranularity} when users perform specified
+   * granularity navigation (e.g. {@code NAVIGATE_NEXT_LINE}) that is different from what they set
+   * in Reading Controls (e.g. if they set "Characters" set in Reading Controls).
+   */
   private CursorGranularity currentGranularity = CursorGranularity.DEFAULT;
 
   /** Used on API 18+ to track when text selection mode is active. */
@@ -142,14 +150,23 @@ public class CursorGranularityManager {
    * @return Whether navigation is locked to {@code node}.
    */
   public boolean isLockedToNodeOrEditingNode(AccessibilityNodeInfoCompat node) {
+    if (lockedNode == null) {
+      LogUtils.e(TAG, "isLockedToNodeOrEditingNode- lockedNode is null ");
+      return false;
+    }
     AccessibilityNodeInfoCompat editingNode =
         accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(node);
     if (editingNode != null) {
       node = editingNode;
     }
+    if (node == null) {
+      LogUtils.d(TAG, "isLockedToNodeOrEditingNode- node to check  is null ");
+      return false;
+    }
+
     // If the requested granularity is default or native macro, don't report as locked.
     return currentGranularity != CursorGranularity.DEFAULT
-        && ((lockedNode != null) && lockedNode.equals(node))
+        && lockedNode.equals(node)
         && !currentGranularity.isNativeMacroGranularity();
   }
 
@@ -179,20 +196,39 @@ public class CursorGranularityManager {
       return getSupportedGranularities(node).contains(granularity);
     }
 
-    return (granularity == CursorGranularity.WEB_LANDMARK
-            && WebInterfaceUtils.hasNavigableWebContent(node))
-        || supportedGranularities.contains(granularity);
+    return supportedGranularities.contains(granularity);
   }
 
   /**
-   * Locks navigation within the specified node, if not already locked, and sets the current
-   * granularity.
+   * Locks navigation within the specified node, if not already locked, and sets the requested
+   * granularity to both {@link #savedGranularity} and {@link #currentGranularity}. This method
+   * should be used when users explicitly choose a granularity (e.g. in Reading Controls). See the
+   * comments of {@link #savedGranularity} and {@link #currentGranularity} for more details.
    *
    * @param granularity The requested granularity.
    * @return {@code true} if successful, {@code false} otherwise.
    */
   public boolean setGranularityAt(
       AccessibilityNodeInfoCompat node, CursorGranularity granularity, EventId eventId) {
+    boolean result = setCurrentGranularityAt(node, granularity, eventId);
+    if (result) {
+      savedGranularity = granularity;
+    }
+    return result;
+  }
+
+  /**
+   * Locks navigation within the specified node, if not already locked, and sets the requested
+   * granularity to only {@link #currentGranularity}. This method should not be used when users
+   * explicitly choose a granularity (e.g. in Reading Controls), which is the case that requires
+   * updating {@link #savedGranularity}. See their comments for more details.
+   *
+   * @param granularity The requested granularity.
+   * @return {@code true} if successful, {@code false} otherwise.
+   */
+  @CanIgnoreReturnValue
+  public boolean setCurrentGranularityAt(
+      @Nullable AccessibilityNodeInfoCompat node, CursorGranularity granularity, EventId eventId) {
     setLockedNode(node, granularity.isMicroGranularity(), eventId);
 
     // If node is null, setLocked node does not populate supportedGranularities,
@@ -201,18 +237,11 @@ public class CursorGranularityManager {
       populateMacroGranularities();
     }
 
-    // Talkback does not support landmark granularity anymore except via talkback context menu while
-    // navigating webviews and hence that won't appear in supported granularities. However users
-    // should be allowed to set granularity as landmark via talkback context menu.
-    boolean supportsWebLandmark =
-        WebInterfaceUtils.hasNavigableWebContent(node)
-            && (granularity == CursorGranularity.WEB_LANDMARK);
-    if (!supportedGranularities.contains(granularity) && !supportsWebLandmark) {
+    if (!supportedGranularities.contains(granularity)) {
       currentGranularity = CursorGranularity.DEFAULT;
       return false;
     }
 
-    savedGranularity = granularity;
     currentGranularity = granularity;
     return true;
   }
@@ -306,13 +335,17 @@ public class CursorGranularityManager {
 
   /** Restarts intra-node-navigation on a new node. */
   public void followTo(
-      @Nullable AccessibilityNodeInfoCompat node, @SearchDirection int direction, EventId eventId) {
+      @Nullable AccessibilityNodeInfoCompat node,
+      @Nullable CursorGranularity granularity,
+      @SearchDirection int direction,
+      EventId eventId) {
     // If focused-node is different from locked-node, lock the newly focused-node (updating the
     // available granularities and resetting the granular position to the start of the node).
     if ((node != null) && (lockedNode != null) && !lockedNode.equals(node)) {
-      CursorGranularity currentGranularity = savedGranularity;
+      // If the given granularity is null, use the saved granularity, which is set by users.
+      CursorGranularity requestedGranularity = granularity == null ? savedGranularity : granularity;
       clear();
-      setGranularityAt(node, currentGranularity, eventId);
+      setCurrentGranularityAt(node, requestedGranularity, eventId);
     }
 
     int unusedResult;
@@ -338,9 +371,14 @@ public class CursorGranularityManager {
   }
 
   /**
-   * Attempt to navigate within the currently locked node at the current granularity. You should
-   * call either {@link #setGranularityAt} or {@link #adjustGranularityAt} before calling this
-   * method.
+   * Attempt to navigate within the currently locked node at the current granularity. One of the
+   * following methods should be called to set the current granularity before this method:
+   *
+   * <ul>
+   *   <li>{@link #setGranularityAt}
+   *   <li>{@link #setCurrentGranularityAt}
+   *   <li>{@link #adjustGranularityAt}
+   * </ul>
    *
    * @return The result of navigation, which is always {@link #NOT_SUPPORTED} if there is no locked
    *     node or if the requested granularity is {@link CursorGranularity#DEFAULT}.
@@ -365,7 +403,7 @@ public class CursorGranularityManager {
     }
 
     // Handle web granularity separately.
-    if (requestedGranularity.isWebGranularity()) {
+    if (requestedGranularity.supportsWebGranularity()) {
       LogUtils.d(TAG, "Granularity navigation handled by web view");
       return navigateWeb(action, requestedGranularity, eventId);
     }
@@ -376,21 +414,22 @@ public class CursorGranularityManager {
     boolean forward = false;
 
     switch (action) {
-      case AccessibilityNodeInfoCompat.ACTION_NEXT_AT_MOVEMENT_GRANULARITY:
+      case AccessibilityNodeInfoCompat.ACTION_NEXT_AT_MOVEMENT_GRANULARITY -> {
         increment = 1;
         forward = true;
         if (currentNodeIndex < 0) {
           currentNodeIndex++;
         }
-        break;
-      case AccessibilityNodeInfoCompat.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY:
+      }
+      case AccessibilityNodeInfoCompat.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY -> {
         increment = -1;
         if (currentNodeIndex >= count) {
           currentNodeIndex--;
         }
-        break;
-      default:
+      }
+      default -> {
         return NOT_SUPPORTED;
+      }
     }
 
     // increase coverage to check edge and play earcon.
@@ -470,23 +509,35 @@ public class CursorGranularityManager {
     }
 
     switch (granularity) {
-      case WEB_HEADING:
-        htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_HEADING;
-        break;
-      case WEB_LINK:
-        htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_LINK;
-        break;
-      case WEB_LIST:
-        htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_LIST;
-        break;
-      case WEB_CONTROL:
-        htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_CONTROL;
-        break;
-      case WEB_LANDMARK:
-        htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_LANDMARK;
-        break;
-      default:
+      case HEADING -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_HEADING;
+      case LINK -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_LINK;
+      case WEB_LIST -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_LIST;
+      case CONTROL -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_CONTROL;
+      case WEB_LANDMARK -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_LANDMARK;
+      case WEB_BUTTON -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_BUTTON;
+      case WEB_CHECKBOX -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_CHECKBOX;
+      case WEB_EDITFIELD -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_EDIT_FIELD;
+      case WEB_FOCUSABLE -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_FOCUSABLE_ITEM;
+      case WEB_H1 -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_HEADING_1;
+      case WEB_H2 -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_HEADING_2;
+      case WEB_H3 -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_HEADING_3;
+      case WEB_H4 -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_HEADING_4;
+      case WEB_H5 -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_HEADING_5;
+      case WEB_H6 -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_HEADING_6;
+      case WEB_GRAPHIC -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_GRAPHIC;
+      case WEB_LISTITEM -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_LIST_ITEM;
+      case WEB_TABLE -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_TABLE;
+      case WEB_COMBOBOX -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_COMBOBOX;
+      case WEB_VISITED_LINK ->
+          htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_VISITED_LINK;
+      case WEB_UNVISITED_LINK ->
+          htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_UNVISITED_LINK;
+      case ROW_COLUMN, ROW -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_ROW;
+      case COLUMN -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_COLUMN;
+      case WEB_RADIO -> htmlElementType = WebInterfaceUtils.HTML_ELEMENT_MOVE_BY_RADIO;
+      default -> {
         return NOT_SUPPORTED;
+      }
     }
 
     if (pipeline.returnFeedback(
@@ -542,6 +593,14 @@ public class CursorGranularityManager {
 
       CursorGranularity.extractFromMask(
           supportedMask, hasWebContent, supportedHtmlElements, supportedGranularities);
+      LogUtils.d(
+          TAG,
+          "setLockedNode: lockedNode=%s, supportedGranularities=%s",
+          lockedNode,
+          supportedGranularities);
+    } else {
+      LogUtils.d(
+          TAG, "setLockedNode - reuse lock node or the lock node is null, lockNode=%s", lockedNode);
     }
   }
 
@@ -575,7 +634,7 @@ public class CursorGranularityManager {
    * @param root The root node from which to extract granularities.
    * @return A list of supported granularities.
    */
-  public @NonNull static List<CursorGranularity> getSupportedGranularities(
+  public static @NonNull List<CursorGranularity> getSupportedGranularities(
       @Nullable AccessibilityNodeInfoCompat root) {
     final List<CursorGranularity> supported = new ArrayList<>();
     final int supportedMask = extractNavigableNodes(root, null, new HashSet<>());

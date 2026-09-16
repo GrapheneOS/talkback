@@ -29,6 +29,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.google.android.accessibility.talkback.Feedback.TalkBackUI;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.widget.SimpleOverlay;
@@ -44,30 +45,32 @@ public class QuickMenuOverlay extends SimpleOverlay {
   private static final int SHOWING_TIME_MS = 2750;
   private final Context context;
   private final Handler handler = new Handler();
-  private final int layoutResId;
-  private LinearLayout overlay;
+  private final LinearLayout overlay;
   private TextView settingText;
   private ImageView leftIcon;
   private ImageView rightIcon;
   private final Runnable hideOverlay = this::hide;
-  private @Nullable CharSequence message;
+  protected @Nullable TalkBackUI talkBackUi;
   private boolean supported = true;
 
   public QuickMenuOverlay(Context context, int layoutResId) {
     super(context);
     this.context = context;
-    this.layoutResId = layoutResId;
+
+    LayoutInflater layoutInflater =
+        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    overlay = (LinearLayout) layoutInflater.inflate(layoutResId, null);
+    initializeOverlay();
   }
 
   public void show(boolean showIcon) {
-    if (!supported || TextUtils.isEmpty(message)) {
+    TalkBackUI talkBackUi = this.talkBackUi;
+    if (!supported || talkBackUi == null || TextUtils.isEmpty(talkBackUi.message())) {
       return;
     }
 
-    if (overlay == null) {
-      createOverlay();
-    }
-    settingText.setText(message);
+    setContentView(overlay);
+    settingText.setText(talkBackUi.message());
     if (showIcon) {
       leftIcon.setVisibility(View.VISIBLE);
       rightIcon.setVisibility(View.VISIBLE);
@@ -103,19 +106,16 @@ public class QuickMenuOverlay extends SimpleOverlay {
 
   @Override
   public void hide() {
-    if (overlay == null) {
-      return;
-    }
     handler.removeCallbacks(hideOverlay);
     super.hide();
   }
 
   public boolean isShowing() {
-    return (overlay != null) && isVisible();
+    return isVisible();
   }
 
-  public void setMessage(@Nullable CharSequence message) {
-    this.message = message;
+  public void setUI(TalkBackUI talkBackUI) {
+    this.talkBackUi = talkBackUI;
   }
 
   /**
@@ -129,7 +129,7 @@ public class QuickMenuOverlay extends SimpleOverlay {
     this.supported = supported;
   }
 
-  private void createOverlay() {
+  private void initializeOverlay() {
     WindowManager.LayoutParams parameters = new WindowManager.LayoutParams();
     parameters.type = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
     parameters.flags =
@@ -141,12 +141,8 @@ public class QuickMenuOverlay extends SimpleOverlay {
     parameters.gravity = Gravity.CENTER;
     setParams(parameters);
 
-    LayoutInflater layoutInflater =
-        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    overlay = (LinearLayout) layoutInflater.inflate(layoutResId, null);
     settingText = overlay.findViewById(R.id.quick_menu_text);
     leftIcon = overlay.findViewById(R.id.quick_menu_left_icon);
     rightIcon = overlay.findViewById(R.id.quick_menu_right_icon);
-    setContentView(overlay);
   }
 }

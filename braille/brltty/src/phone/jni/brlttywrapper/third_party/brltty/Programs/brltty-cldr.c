@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,22 +18,20 @@
 
 #include "prologue.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <errno.h>
 
-#include "program.h"
 #include "cmdline.h"
+#include "cmdput.h"
 #include "log.h"
 #include "cldr.h"
-#include "datafile.h"
 #include "utf8.h"
 
 #define DEFAULT_OUTPUT_FORMAT "%s\\t%n\\n"
 
 static char *opt_outputFormat;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "output-format",
     .letter = 'f',
     .argument = strtext("string"),
@@ -41,10 +39,18 @@ BEGIN_OPTION_TABLE(programOptions)
     .internal.setting = DEFAULT_OUTPUT_FORMAT,
     .description = strtext("The format of each output line.")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
 
-static
-BEGIN_USAGE_NOTES(usageNotes)
+static const char *inputFile;
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+  { .name = "file",
+    .description = "the CLDR annotations file to process",
+    .setting = &inputFile,
+  },
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
   "The output format is printf-like -",
   "arbitrary text which may contain",
   "field specifiers (introduced via a percent sign [%])",
@@ -67,7 +73,16 @@ BEGIN_USAGE_NOTES(usageNotes)
   "  \\t  horizontal tab",
   "  \\v  vertical tab",
   "  \\\\  literal backslasha  ",
-END_USAGE_NOTES
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-cldr",
+  .purpose = strtext("List the characters defined within a CLDR (Common Locale Data Repository Project) annotations file."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+END_COMMAND_LINE_DESCRIPTOR
 
 static void
 onFormatError (void) {
@@ -87,22 +102,6 @@ onUnrecognizedCharacter (const char *type, int byte) {
 }
 
 static void
-onOutputError (void) {
-  logMessage(LOG_ERR, "output error %d: %s", errno, strerror(errno));
-  exit(PROG_EXIT_FATAL);
-}
-
-static void
-putByte (int byte) {
-  if (fputc(byte, stdout) == EOF) onOutputError();
-}
-
-static void
-putString (const char *string) {
-  if (fputs(string, stdout) == EOF) onOutputError();
-}
-
-static void
 putHexadecimal (const char *string) {
   size_t size = strlen(string) + 1;
   wchar_t characters[size];
@@ -110,12 +109,9 @@ putHexadecimal (const char *string) {
   const char *byte = string;
   wchar_t *character = characters;
   wchar_t *end = character;
-  convertUtf8ToWchars(&byte, &end, size);
 
-  while (character < end) {
-    if (writeHexadecimalCharacter(stdout, *character) == EOF) onOutputError();
-    character += 1;
-  }
+  convertUtf8ToWchars(&byte, &end, size);
+  putHexadecimalCharacters(character, (end - character));
 }
 
 static
@@ -228,33 +224,7 @@ CLDR_ANNOTATION_HANDLER(handleAnnotation) {
 
 int
 main (int argc, char *argv[]) {
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-cldr",
-
-      .usage = {
-        .purpose = strtext("List the characters defined within a CLDR (Common Locale Data Repository Project) annotations file."),
-        .parameters = "input-file",
-        .notes = USAGE_NOTES(usageNotes),
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
-
-  if (argc < 1) {
-    logMessage(LOG_ERR, "missing annotations file name");
-    return PROG_EXIT_SYNTAX;
-  }
-
-  const char *inputFile = *argv++;
-  argc -= 1;
-
-  if (argc > 0) {
-    logMessage(LOG_ERR, "too many parameters");
-    return PROG_EXIT_SYNTAX;
-  }
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
   return cldrParseFile(inputFile, handleAnnotation, NULL)?
          PROG_EXIT_SUCCESS:

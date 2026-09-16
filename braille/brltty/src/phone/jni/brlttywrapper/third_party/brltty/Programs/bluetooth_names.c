@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -31,6 +31,12 @@ const BluetoothNameEntry bluetoothNameTable[] = {
 
   // HandyTech: Activator
   BLUETOOTH_NAME_ENTRY("Activator AC4", "ht"),
+
+  // HandyTech: Activator Pro 64
+  BLUETOOTH_NAME_ENTRY("Activator Pro AP6", "ht"),
+
+  // HandyTech: Activator Pro 80
+  BLUETOOTH_NAME_ENTRY("Activator Pro AP8", "ht"),
 
   // HandyTech: Active Braille
   BLUETOOTH_NAME_ENTRY("Active Braille AB", "ht"),
@@ -82,6 +88,9 @@ const BluetoothNameEntry bluetoothNameTable[] = {
 
   // KGS: Braille Memo 32
   BLUETOOTH_NAME_ENTRY("BM32", "mm"),
+
+  // KGS: Next Touch
+  BLUETOOTH_NAME_ENTRY("BM-NextTouch", "mm"),
 
   // HumanWare: Braille Note Touch
   BLUETOOTH_NAME_ENTRY("BrailleNote Touch", "hw"),

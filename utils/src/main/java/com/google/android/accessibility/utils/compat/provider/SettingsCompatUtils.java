@@ -16,9 +16,6 @@
 
 package com.google.android.accessibility.utils.compat.provider;
 
-import android.content.Context;
-import android.provider.Settings;
-
 /** TODO: Figure out why this is separate from SecureSettingsUtils, or merge them. */
 public class SettingsCompatUtils {
   private SettingsCompatUtils() {
@@ -31,9 +28,6 @@ public class SettingsCompatUtils {
       // This class is non-instantiable.
     }
 
-    /** Whether to speak passwords while in accessibility mode. */
-    public static final String ACCESSIBILITY_SPEAK_PASSWORD = "speak_password";
-
     /**
      * Stores the default TTS locales on a per engine basis. Stored as a comma separated list of
      * values, each value being of the form {@code engine_name:locale} for example, {@code
@@ -42,16 +36,5 @@ public class SettingsCompatUtils {
      * use.
      */
     public static final String TTS_DEFAULT_LOCALE = "tts_default_locale";
-
-    /**
-     * Returns whether to speak passwords while in accessibility mode.
-     *
-     * @param context The parent context.
-     * @return {@code true} if passwords should always be spoken aloud.
-     */
-    public static boolean shouldSpeakPasswords(Context context) {
-      return (Settings.Secure.getInt(context.getContentResolver(), ACCESSIBILITY_SPEAK_PASSWORD, 0)
-          == 1);
-    }
   }
 }

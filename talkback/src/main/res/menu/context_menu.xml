@@ -46,12 +46,16 @@
       android:orderInCategory="21"
       android:title="@string/title_show_voice_commands" />
   <item
-      android:id="@+id/talkback_settings"
+      android:id="@+id/show_keyboard_shortcuts"
       android:orderInCategory="22"
+      android:title="@string/title_show_keyboard_shortcuts" />
+  <item
+      android:id="@+id/talkback_settings"
+      android:orderInCategory="23"
       android:title="@string/talkback_show_talkback_settings" />
   <item
       android:id="@+id/tts_settings"
-      android:orderInCategory="23"
+      android:orderInCategory="24"
       android:title="@string/tts_preferences_title" />
   <item
       android:id="@+id/braille_display_settings"

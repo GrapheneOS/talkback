@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback;
 
+import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.IGNORE;
 import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.INTERRUPT;
 import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.READ_FOCUSED_CONTENT;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.ENSURE_ACCESSIBILITY_FOCUS_ON_SCREEN;
@@ -35,6 +36,7 @@ import static com.google.android.accessibility.utils.traversal.TraversalStrategy
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -60,9 +62,12 @@ import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.LogDepth;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import com.google.android.accessibility.utils.input.CursorGranularity;
 import com.google.android.accessibility.utils.output.FeedbackItem;
+import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
 import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
+import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirection;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirectionOrUnknown;
 import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
@@ -130,13 +135,19 @@ public final class Mappers {
       Interpretation.ID.Value id = variables.interpretationID(depth);
       if (id != null) {
         switch (id) {
-          case CONTINUOUS_READ_CONTENT_FOCUSED:
+          case CONTINUOUS_READ_CONTENT_FOCUSED -> {
             return Feedback.create(eventId, Feedback.continuousRead(READ_FOCUSED_CONTENT).build());
-          case CONTINUOUS_READ_INTERRUPT:
+          }
+          case CONTINUOUS_READ_INTERRUPT -> {
             return Feedback.create(eventId, Feedback.continuousRead(INTERRUPT).build());
-          case SCROLL_CANCEL_TIMEOUT:
+          }
+          case CONTINUOUS_READ_IGNORE -> {
+            return Feedback.create(eventId, Feedback.continuousRead(IGNORE).build());
+          }
+          case SCROLL_CANCEL_TIMEOUT -> {
             return Feedback.create(eventId, Feedback.scrollCancelTimeout().build());
-          case STATE_CHANGE:
+          }
+          case STATE_CHANGE -> {
             return Feedback.create(
                 eventId,
                 Feedback.speech(
@@ -148,27 +159,31 @@ public final class Mappers {
                                     | FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE
                                     | FLAG_FORCE_FEEDBACK_EVEN_IF_MICROPHONE_ACTIVE))
                     .build());
-          case PASS_THROUGH_INTERACTION_START:
+          }
+          case PASS_THROUGH_INTERACTION_START -> {
             return Feedback.create(eventId, Feedback.passThroughMode(STOP_TIMER).build());
-          case PASS_THROUGH_INTERACTION_END:
+          }
+          case PASS_THROUGH_INTERACTION_END -> {
             return Feedback.create(eventId, Feedback.passThroughMode(DISABLE_PASSTHROUGH).build());
-          case ACCESSIBILITY_FOCUSED:
+          }
+          case ACCESSIBILITY_FOCUSED -> {
             // do nothing
-            break;
-          case SUBTREE_CHANGED:
-          case ACCESSIBILITY_EVENT_IDLE:
+          }
+          case SUBTREE_CHANGED, ACCESSIBILITY_EVENT_IDLE -> {
             return Feedback.create(
                 eventId,
                 Feedback.part()
                     .setFocus(
                         Focus.builder().setAction(ENSURE_ACCESSIBILITY_FOCUS_ON_SCREEN).build())
                     .build());
-          case SPELLING_SUGGESTION_HINT:
+          }
+          case SPELLING_SUGGESTION_HINT -> {
             return Feedback.create(
                 eventId,
                 ProcessorAccessibilityHints.suggestionSpanToHint(
                         context, compositor.getTextComposer())
                     .build());
+          }
         }
       }
     } else if (interpretation instanceof Interpretation.CompositorID) {
@@ -184,7 +199,8 @@ public final class Mappers {
         if (event != null) {
           compositor.handleEvent(event, eventId, compositorEventInterp);
         } else if (eventSourceNode != null) {
-          compositor.handleEvent(eventSourceNode, eventId, compositorEventInterp);
+          LoadSpeechResultNotifier notifier = ((CompositorID) interpretation).getResultNotifier();
+          compositor.handleEvent(eventSourceNode, eventId, compositorEventInterp, notifier);
         } else {
           compositor.handleEvent(eventId, compositorEventInterp);
         }
@@ -252,7 +268,9 @@ public final class Mappers {
           Feedback.part()
               .setFocusDirection(
                   Feedback.directionNavigationFollowTo(
-                          variables.directionDestination(depth), variables.direction(depth))
+                          variables.directionDestination(depth),
+                          variables.directionGranularity(depth),
+                          variables.direction(depth))
                       .build())
               .build());
     } else if (interpretation instanceof Interpretation.InputFocus) {
@@ -309,9 +327,29 @@ public final class Mappers {
               eventId,
               Feedback.part()
                   .setSound(
-                      Feedback.Sound.create(R.raw.scroll_tone, rate, volume, minSeparationMillisec))
+                      Feedback.Sound.create(
+                          R.raw.scroll_tone,
+                          rate,
+                          volume,
+                          /* ignoreVolumeAdjustment= */ false,
+                          minSeparationMillisec))
                   .build());
       return feedback;
+    } else if (interpretation instanceof Interpretation.NonmodalAlertChange) {
+      Interpretation.NonmodalAlertChange nonmodalAlertInterpretation =
+          (Interpretation.NonmodalAlertChange) interpretation;
+      boolean isNonmodalAlertAppearance = nonmodalAlertInterpretation.isAlertAppearance();
+      return Feedback.create(
+          eventId,
+          Feedback.part()
+              .setFocus(
+                  Feedback.stealNextWindowNavigation(
+                          isNonmodalAlertAppearance ? nonmodalAlertInterpretation.getAlert() : null,
+                          isNonmodalAlertAppearance
+                              ? TraversalStrategy.SEARCH_FOCUS_FORWARD
+                              : TraversalStrategy.SEARCH_FOCUS_UNKNOWN)
+                      .build())
+              .build());
     }
 
     return null;
@@ -331,7 +369,6 @@ public final class Mappers {
     private final @Nullable Interpretation interpretation;
     private @Nullable AccessibilityNodeInfoCompat source;
     private final Monitors.State monitors;
-    private final FormFactorUtils formFactorUtils = FormFactorUtils.getInstance();
 
     public Variables(
         Context context,
@@ -410,8 +447,7 @@ public final class Mappers {
     public boolean powerConnected(int depth) {
       boolean connected =
           (interpretation instanceof Interpretation.Power)
-              ? ((Interpretation.Power) interpretation).connected
-              : false;
+              && ((Interpretation.Power) interpretation).connected;
       LogDepth.logVar(LOG_TAG, ++depth, "powerConnected", connected);
       return connected;
     }
@@ -448,6 +484,12 @@ public final class Mappers {
       return id;
     }
 
+    public @Nullable CursorGranularity directionGranularity(int depth) {
+      return (interpretation instanceof Interpretation.DirectionNavigation)
+          ? ((Interpretation.DirectionNavigation) interpretation).granularity()
+          : null;
+    }
+
     public @Nullable AccessibilityNodeInfoCompat directionDestination(int depth) {
       return (interpretation instanceof Interpretation.DirectionNavigation)
           ? ((Interpretation.DirectionNavigation) interpretation).destination()
@@ -461,7 +503,15 @@ public final class Mappers {
     }
 
     public @Nullable CharSequence stateDescription(int depth) {
-      @Nullable CharSequence state = AccessibilityNodeInfoUtils.getState(source(depth));
+      AccessibilityNodeInfoCompat node = source(depth);
+      @Nullable CharSequence state = AccessibilityNodeInfoUtils.getState(node);
+      if (node != null && node.isFieldRequired()) {
+        state =
+            TextUtils.isEmpty(state)
+                ? context.getString(R.string.required_state)
+                : context.getString(R.string.required_state_appended, state);
+      }
+
       LogDepth.logVar(LOG_TAG, ++depth, "stateDescription", state);
       return state;
     }
@@ -469,14 +519,13 @@ public final class Mappers {
     public boolean forceRestoreFocus(int depth) {
       boolean force =
           (interpretation instanceof Interpretation.WindowChange)
-              ? ((Interpretation.WindowChange) interpretation).forceRestoreFocus()
-              : false;
+              && ((Interpretation.WindowChange) interpretation).forceRestoreFocus();
       LogDepth.logVar(LOG_TAG, ++depth, "forceRestoreFocus", force);
       return force;
     }
 
     public boolean isTv(int depth) {
-      boolean tv = formFactorUtils.isAndroidTv();
+      boolean tv = FormFactorUtils.isAndroidTv();
       LogDepth.logVar(LOG_TAG, ++depth, "isTv", tv);
       return tv;
     }

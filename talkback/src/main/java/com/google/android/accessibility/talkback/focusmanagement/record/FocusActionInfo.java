@@ -35,7 +35,8 @@ public class FocusActionInfo {
     FOCUS_SYNCHRONIZATION,
     LOGICAL_NAVIGATION,
     SCREEN_STATE_CHANGE,
-    ENSURE_ON_SCREEN
+    ENSURE_ON_SCREEN,
+    KEYBOARD_SHORTCUT_REFOCUS,
   })
   @Retention(RetentionPolicy.SOURCE)
   public @interface SourceAction {}
@@ -57,6 +58,9 @@ public class FocusActionInfo {
    * while. It supports the initial focus strategy.
    */
   public static final int ENSURE_ON_SCREEN = 6;
+
+  /** Triggered by keyboard shortcut to refocus the currently focused node. */
+  public static final int KEYBOARD_SHORTCUT_REFOCUS = 7;
 
   /**
    * Type of initial focus for source {@code SCREEN_STATE_CHANGE} and {@code ENSURE_ON_SCREEN}. It
@@ -89,11 +93,17 @@ public class FocusActionInfo {
    */
   public static final int REQUESTED_INITIAL_NODE = 4;
 
+  /** The default value of {@code focusedLinkIndex} without initialized. */
+  public static final int LINK_INDEX_NOT_SET = -1;
+
   @SourceAction public final int sourceAction;
   public final boolean isFromRefocusAction;
   public final NavigationAction navigationAction;
   @InitialFocusType public final int initialFocusType;
   public final boolean forceMuteFeedback;
+
+  /** The index of the focused link in the focused node in LINK granularity. */
+  public int focusedLinkIndex = LINK_INDEX_NOT_SET;
 
   public boolean forceFeedbackEvenIfAudioPlaybackActive() {
     return sourceAction != UNKNOWN;
@@ -112,6 +122,10 @@ public class FocusActionInfo {
     return sourceAction == ENSURE_ON_SCREEN;
   }
 
+  public int getFocusedLinkIndex() {
+    return focusedLinkIndex;
+  }
+
   public static String sourceActionToString(@SourceAction int sourceAction) {
     switch (sourceAction) {
       case MANUAL_SCROLL:
@@ -126,6 +140,8 @@ public class FocusActionInfo {
         return "SCREEN_STATE_CHANGE";
       case ENSURE_ON_SCREEN:
         return "ENSURE_ON_SCREEN";
+      case KEYBOARD_SHORTCUT_REFOCUS:
+        return "KEYBOARD_SHORTCUT_REFOCUS";
       case UNKNOWN:
         // Fall down
       default:
@@ -161,6 +177,7 @@ public class FocusActionInfo {
     private @Nullable NavigationAction navigationAction = null;
     @InitialFocusType private int initialFocusType = UNDEFINED;
     private boolean forceMuteFeedback = false;
+    private int focusedLinkIndex = -1;
 
     public Builder() {}
 
@@ -170,6 +187,7 @@ public class FocusActionInfo {
       navigationAction = focusActionInfo.navigationAction;
       initialFocusType = focusActionInfo.initialFocusType;
       forceMuteFeedback = focusActionInfo.forceMuteFeedback;
+      focusedLinkIndex = focusActionInfo.focusedLinkIndex;
     }
 
     public FocusActionInfo build() {
@@ -205,6 +223,12 @@ public class FocusActionInfo {
       this.forceMuteFeedback = forceMuteFeedback;
       return this;
     }
+
+    @CanIgnoreReturnValue
+    public Builder setFocusedLinkIndex(int focusedLinkIndex) {
+      this.focusedLinkIndex = focusedLinkIndex;
+      return this;
+    }
   }
 
   @Override
@@ -223,6 +247,7 @@ public class FocusActionInfo {
             "forceFeedbackEvenIfMicrophoneActive", forceFeedbackEvenIfMicrophoneActive()),
         StringBuilderUtils.optionalTag(
             "forceFeedbackEvenIfSsbActive", forceFeedbackEvenIfSsbActive()),
+        StringBuilderUtils.optionalField("focusedLinkIndex", focusedLinkIndex),
         "}");
   }
 
@@ -251,6 +276,7 @@ public class FocusActionInfo {
     navigationAction = builder.navigationAction;
     initialFocusType = builder.initialFocusType;
     forceMuteFeedback = builder.forceMuteFeedback;
+    focusedLinkIndex = builder.focusedLinkIndex;
   }
 
   /** Modifies accepted {@link FocusActionInfo}. */

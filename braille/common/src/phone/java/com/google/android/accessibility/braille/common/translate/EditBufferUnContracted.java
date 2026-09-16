@@ -119,7 +119,7 @@ public class EditBufferUnContracted implements EditBuffer {
   }
 
   /** Provides (optionally) an audial announcement for a just-appended {@code brailleCharacter}. */
-  private Optional<String> getAppendBrailleTextToSpeak(
+  protected Optional<String> getAppendBrailleTextToSpeak(
       Resources resources, BrailleCharacter brailleCharacter) {
     if (brailleCharacter.equals(getNumeric())) {
       return Optional.of(resources.getString(R.string.number_announcement));
@@ -177,19 +177,6 @@ public class EditBufferUnContracted implements EditBuffer {
     }
   }
 
-  @Override
-  public boolean moveCursorToBeginning(ImeConnection imeConnection) {
-    commit(imeConnection);
-    return imeConnection.inputConnection.setSelection(0, 0);
-  }
-
-  @Override
-  public boolean moveCursorToEnd(ImeConnection imeConnection) {
-    commit(imeConnection);
-    int end = EditBufferUtils.getTextFieldText(imeConnection.inputConnection).length();
-    return imeConnection.inputConnection.setSelection(end, end);
-  }
-
   @CanIgnoreReturnValue
   @Override
   public boolean moveCursorForward(ImeConnection imeConnection) {
@@ -232,18 +219,6 @@ public class EditBufferUnContracted implements EditBuffer {
   @Override
   public void commit(ImeConnection imeConnection) {
     clearHoldingsAndFinishComposing(imeConnection.inputConnection);
-  }
-
-  @Override
-  public boolean selectAllText(ImeConnection imeConnection) {
-    commit(imeConnection);
-    String textFieldText = EditBufferUtils.getTextFieldText(imeConnection.inputConnection);
-    boolean result = imeConnection.inputConnection.setSelection(0, textFieldText.length());
-    if (result) {
-      EditBufferUtils.speakSelectAll(context, talkBack, textFieldText);
-      return true;
-    }
-    return false;
   }
 
   @Override

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Teklen mapa hobetua erabiltzen erakusten da tutorial honetan; izan ere, agindu berri asko ditu. Teklen mapa hautatzeko, joan TalkBack-en ezarpenak &gt; Ezarpen aurreratuak &gt; Lasterbideak atalera.\n\nSakatu Ekintza + eskuinera egiteko gezi-tekla gai bat hautatzeko. Zerbitzurik onena jasotzeko, aktibatu TalkBack hasi aurretik.</string>
+  <string name="basic_interaction_link_text">Oinarrizko interakzioak</string>
+  <string name="basic_interaction_link_subtext">Mugitu elementu batetik bestera, irakurri lerroka, erabili menuak eta abar</string>
+  <string name="browse_mode_link_text">Arakatze modua</string>
+  <string name="browse_mode_link_subtext">Nabigatu sareko edukian bizkorrago salto egiteko aginduekin</string>
+  <string name="reading_controls_link_text">Irakurketa kontrolatzeko aukerak</string>
+  <string name="reading_controls_link_subtext">Erabili irakurketa kontrolatzeko aukerak elementu batetik bestera salto egiteko, hizketaren ezarpenak doitzeko eta abar</string>
+  <string name="image_descriptions_link_text">Irudi-azalpenak</string>
+  <string name="image_descriptions_link_subtext">Saiatu irudien azalpenak eskuratzen</string>
+  <string name="keyboard_shortcuts_link_text">Praktikatu lasterbideak</string>
+  <string name="keyboard_shortcuts_link_subtext">Sakatu teklak eta tekla-konbinazioak eta ikasi zer egiten duten</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack-ek ahozko argibideak ematen ditu, gailua pantailari begiratu gabe erabili ahal izan dezazun. Pantaila ikusteko zailtasuna duten pertsonentzat da lagungarria TalkBack. TalkBack aktibatuta dagoenean, pantailan fokuratutako elementua ozen irakurtzen da.\n\nLehenik, ezagut dezagun teklatua. Bilatu ekintza-tekla (ezkerreko Maius teklaren gainean dagoena). Jarraian, bilatu teklatuaren beheko eskuineko eremuan dauden gezi-teklak. Hurrengo elementura joateko, sakatu Ekintza + eskuinera egiteko gezi-tekla.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Hau hurrengo elementua da. Aurreko elementura joateko, sakatu Ekintza + ezkerrera egiteko gezi-tekla.\n\nBotoi batera edo antzeko elementu interaktibo batera joaten zarenean, sakatu Ekintza + Zuriunea hura aktibatzeko. Bilatu Hurrengoa botoia eta jarraitu tutorialarekin.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Irakurri karakterez karaktere, hitzez hitz edo paragrafoz paragrafo</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Batzuetan, testua ozen entzun nahiko duzu karakterez karaktere.\n\nHorretarako, irakurketa kontrolatzeko aukeren bidezko nabigazioa erabil dezakezu. Sakatu Ekintza + Maius + eskuinera edo ezkerrera egiteko gezi-tekla \"karaktereak\" entzun arte.\n\nOndoren, sakatu Ekintza + gora egiteko gezi-tekla nabigazio-fokua aurreko karakterean egon dadin. Sakatu Ekintza + behera egiteko gezi-tekla nabigazio-fokua hurrengo karakterean egon dadin.\n\nProba ezazu. Halaber, hitzen, lerroen edo paragrafoen arabera irakurtzea aukera dezakezu, Ekintza + Maius + eskuinera edo ezkerrera egiteko gezia-tekla erabilita.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Sisteman nabigatzeko modua</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Lasterbide hauek orain probatzen badituzu, tutoriala itxi egingo da. Hobe duzu tutoriala amaitu arte itxarotea.\n\nIrekitako aplikazioen leihoen eta sistemaren elementuen (adibidez, jakinarazpenak eta zeregin-barra) artean saltatzeko, sakatu Ekintza + Alt + Ktrl + gora edo behera egiteko gezi-tekla.\n\nAplikazioen zerrenda irekitzeko, sakatu Ekintza.\n\nOrri nagusira joateko eta irekitako leiho guztiak minimizatzeko, sakatu Ekintza + H edo Orri nagusia goiko errenkadan.\n\nAzkenaldiko aplikazioetara joateko, sakatu Ekintza + tabuladorea edo Ikuspegi orokorra goiko errenkadan.\n\nLeiho batetik bestera bizkor saltatzeko, mantendu Alt sakatuta eta sakatu tabuladorea.\n\nAtzera egiteko, sakatu Ekintza + Ihes edo Atzera goiko errenkadan.\n\nJakinarazpenak irekitzeko, sakatu Ekintza + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Doitu hizketaren ezarpenak</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack-en hizketaren bolumenari erabilerraztasun-eginbideen bolumena deritzo. Multimedia-elementuen bolumenetik bereiz doitzen da.\n\nErabilerraztasun-eginbideen bolumena doitzeko, sakatu Ekintza + bolumena igotzeko edo jaisteko botoia.\n\nHizketaren abiadura doitzeko, sakatu Ekintza + Ktrl + bolumena igotzeko botoia abiadura handitzeko, eta Ekintza + Ktrl + bolumena jaisteko botoia abiadura txikitzeko.\n\nHizketa edonoiz geldiarazteko, sakatu Ktrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack-en menua eta lasterbide gehiago</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Agian baliagarriak izango zaizkizun ezarpenak eta kontrolatzeko aukerak daude TalkBack-en menuan.\n\nTalkBack-en menua irekitzeko, sakatu Ekintza + Ktrl + M. TalkBack-en ezarpenetan pertsonaliza ditzakezu TalkBack-en menua eta irakurketa kontrolatzeko aukerak.\n\nTalkBack-en lasterbideen menuan erabil ditzakezun lasterbide guztiak daude.\n\nLasterbideen menua irekitzeko, sakatu Ekintza + Maius + /.\n\nTeklatuari buruzko informazio gehiago lortzeko eta lasterbideak praktikatzeko, sakatu Ekintza + 0 praktikatzeko pantaila ireki dadin.</string>
+  <string name="keyboard_tutorial_finished_page_title">Dena prest!</string>
+  <string name="keyboard_tutorial_finished_page_text">TalkBack erabiltzeko prest zaude.\n\nJarraitu beste gai batzuei buruz ikasten edo, informazio hau berrikusi nahi baduzu, joan TalkBack-en ezarpenetara.\n\nTalkBack edonoiz aktibatu edo desaktibatzeko, sakatu Ekintza + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Nabigatu sareko edukian bizkorrago arakatze moduan</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Arakatzailean eta sareko aplikazioetan zaudenean, arakatze modua aktiba dezakezu. Horrela, irakurtzeko xehetasun-maila eta kontrolatzeko aukera batetik bestera salto egin ahalko duzu tekla bat sakatze hutsarekin. Modu hori aktibatuta badago, orrietan nabigatzea testua editatzeko koadro batean nabigatzearen antzekoa da; adibidez, eskuinera eta ezkerrera egiteko gezi-teklak erabil ditzakezu karaktere batetik bestera joateko, eta gora eta behera egiteko gezi-teklak, berriz, lerro batetik bestera joateko.\n\nArakatze modua aktibatzeko edo desaktibatzeko, sakatu birritan ekintza-tekla.\n\nArakatze modua aktibatuta dagoenean, sakatu D hurrengo mugarrira joateko, F kontrolatzeko hurrengo aukerara edo inprimakiaren hurrengo eremura joateko, B hurrengo botoira joateko, K hurrengo estekara joateko eta H hurrengo goiburura joateko. Atzera egiteko, eduki Maius sakatuta eta sakatu tekla hauek.\n\nHalaber, gora eta behera egiteko gezi-teklak erabil ditzakezu lerro batetik bestera joateko, ezkerrera eta eskuinera egiteko gezi-teklak, berriz, letra batetik bestera joateko eta, azkenik, Ktrl + ezkerrera eta eskuinera egiteko gezi-teklak hitz batetik bestera joateko.\n\nSakatu Ekintza + eskuinera egiteko gezi-tekla praktikatzeko eremu batean sartzeko. Praktikatzeko eremuan, estekek, inprimakiaren eremuek eta botoiek ez dute ezer egingo.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Goiburuen mailak</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Webguneek eta sareko aplikazioek maila desberdinetako goiburuak erabili ohi dituzte edukia egituratzeko. Arakatze modua aktibatuta dagoenean, sakatu 1etik 6ra bitarteko zenbakiak goiburuen maila aldatzeko. Atzera egiteko, eduki Maius sakatuta eta sakatu tekla hauek.\n\nSakatu Ekintza + eskuinera egiteko gezi-tekla praktikatzeko eremu batean sartzeko.</string>
+  <string name="keyboard_tutorial_tables_page_title">Taulak</string>
+  <string name="keyboard_tutorial_tables_page_text">Arakatze moduak taulan nabigatzea errazten du. Arakatze modua aktibatuta dagoenean, sakatu Alt + Ktrl + gora eta behera egiteko gezi-teklak errenkada batetik bestera joateko, eta Alt + Ktrl + ezkerrera eta eskuinera egiteko gezi-teklak zutabe batetik bestera joateko.\n\nSakatu Ekintza + eskuinera egiteko gezi-tekla praktikatzeko eremu batean sartzeko.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Editatu testua</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Testu-eremu batean sartzen zarenean, arakatze modua aldi baterako desaktibatuko da, tekla guztiak erabili ahal izan ditzazun idazteko. Iragarpen bat eta soinu bat entzungo dituzu desaktibatzen denean. Testu-eremutik irteten zarenean, berriro aktibatuko da arakatze modua, eta beste iragarpen eta soinu bat entzungo dituzu.\n\nSakatu Ekintza + eskuinera egiteko gezi-tekla praktikatzeko eremu batean sartzeko.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Arakatze moduari buruzko informazio gehiago</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Arakatze moduan zer elementuren artean mugi zaitezkeen ikusteko, sakatu Ekintza + Maius + / eta bilatu \"arakatze modua\" lasterbideen menuan.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Irakurri karakterez karaktere, hitzez hitz edo paragrafoz paragrafo</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Batzuetan, testua ozen entzun nahiko duzu karakterez karaktere.\n\nHorretarako, irakurketa kontrolatzeko aukeren bidezko nabigazioa erabil dezakezu. Sakatu Ekintza + Maius + eskuinera edo ezkerrera egiteko gezi-tekla \"karaktereak\" entzun arte. Ondoren, sakatu Ekintza + gora egiteko gezi-tekla nabigazio-fokua aurreko karakterean egon dadin. Sakatu Ekintza + behera egiteko gezi-tekla nabigazio-fokua hurrengo karakterean egon dadin.\n\nProba ezazu. Halaber, hitzen, lerroen edo paragrafoen arabera irakurtzea aukera dezakezu, Ekintza + Maius + eskuinera edo ezkerrera egiteko gezia-tekla erabilita.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Joan kontrolatzeko aukera batetik bestera</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Kontrolatzeko aukerak elementu interaktiboak dira, hala nola botoiak, koadroak eta testu-koadroak.\n\nZenbait orritan, baliteke kontrolatzeko aukera batetik bestera joan nahi izatea ekintza bat bizkor aurkitzeko (adibidez, Hurrengoa botoia).\n\nHorretarako, sakatu Ekintza + Maius + eskuinera egiteko gezi-tekla \"kontrolatzeko aukerak\" entzun arte. Ondoren, sakatu Ekintza + gora egiteko gezi-tekla aurreko botoira joateko, eta Ekintza + behera egiteko gezi-tekla hurrengo botoira joateko.\n\nProbatu orain eta aurkitu hurrengo botoia.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Joan esteka batetik bestera</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Orri bateko esteka batetik bestera ere joan zaitezke.\n\nHorretarako, sakatu Ekintza + Maius + eskuinera egiteko gezi-tekla \"estekak\" entzun arte. Ondoren, sakatu Ekintza + behera egiteko gezi-tekla \"5. esteka\" izeneko esteka aurkitzeko. Tutorialean, esteka hori birritan sakatzeak ez du eraginik izango.\n\nSakatu Ekintza + eskuinera egiteko gezi-tekla hurrengo botoia aurkitzeko eta hurrengo orrira joateko.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Joan goiburu batetik bestera</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Orri bateko goiburu batetik bestera ere joan zaitezke.\n\nProbatzeko, sakatu Ekintza + Maius + eskuinera egiteko gezi-tekla \"goiburuak\" entzun arte. Ondoren, sakatu Ekintza + behera egiteko gezi-tekla \"Nabigazioa\" goiburua aurkitzeko.</string>
+  <string name="keyboard_tutorial_find_next_button">Sakatu Ekintza + eskuinera egiteko gezi-tekla hurrengo botoia aurkitzeko.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Joan edukiontzi batetik bestera</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Edukiontzi batetik ateratzeko (adibidez, zerrenda edo sareta batetik), sakatu Ekintza + Alt + Ktrl + eskuinera edo ezkerrera egiteko gezi-tekla. Hori oso erabilgarria da elementuen zerrenda luze batetik irten nahi duzunean.\n\nProbatzeko, sakatu Ekintza + eskuinera egiteko gezi-tekla zerrendan sartzeko. Ondoren, sakatu Ekintza + Alt + Ktrl + eskuinera egiteko gezi-tekla hurrengo edukiontzira joateko.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Hurrengo edukiontzira joateko, sakatu Ekintza + Alt + Ktrl + eskuinera egiteko gezi-tekla</string>
+  <string name="keyboard_tutorial_exit_container">Edukiontzi honetatik irteteko, sakatu Ekintza + Alt + Ktrl + eskuinera egiteko gezi-tekla</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Edukiontzitik irten zara. Halaber, irakurketa kontrolatzeko aukeretan edukiontziak gehi ditzakezu, eta, ondoren, Ekintza + Maius + eskuinera edo ezkerrera egiteko gezi-tekla sakatu edukiontziak hautatzeko, edo Ekintza + behera edo gora egiteko gezi-tekla edukiontzi batetik bestera joateko. Irakurketa kontrolatzeko aukerak eguneratzeko, joan TalkBack &gt; Ezarpenak &gt; Pertsonalizatu menuak &gt; Pertsonalizatu irakurketa kontrolatzeko aukerak atalera.\n\nSakatu Ekintza + eskuinera egiteko gezi-tekla hurrengo botoia aurkitzeko.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Pertsonalizatu irakurketa kontrolatzeko aukerak</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Halaber, irakurketa kontrolatzeko aukeren bidez hizketaren ezarpenak doi ditzakezu, eta irakurketa kontrolatzeko aukerekin egin dezakezuna pertsonalizatu. Horretarako, joan TalkBack &gt; Ezarpenak &gt; Pertsonalizatu menuak &gt; Pertsonalizatu irakurketa kontrolatzeko aukerak atalera.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Lortu irudien azalpenak</string>
+  <string name="keyboard_tutorial_image_description_page_text">Irudi bat fokuratzean, sakatu Ekintza + R eta, ondoren, I. Argazki bat dago behean. Lortu haren azalpena.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Irudien azalpenen ezarpenak aldatzeko, joan TalkBack-en ezarpenak &gt; Irudien eta ikonoen azalpenak atalera.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Irudien azalpenen ezarpenak aldatzeko, joan TalkBack-en ezarpenetako Irudien eta ikonoen azalpenak atalera.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Adibide gisako irudia. Sakatu Ekintza + R eta, gero, I azalpena entzuteko.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Ahozko aginduak</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBack bizkor kontrolatzeko erabil dezakezu ahotsa.\n\nAdibidez, esan agindu bat nabigazioa aldatzeko, hurrengo goiburura joateko, testua kopiatzeko eta beste.\n\nProbatzeko, sakatu Ekintza + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Bilaketa zuzena erabiltzea</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Bilaketa zuzena eginbideari esker, pantailan elementu jakinak bila ditzakezu.\n\nProbatzeko, sakatu Ekintza + Ktrl + /. Idatzi gako-hitz bat, hala nola \"hurrengoa\", testu hori daukaten pantailako elementuak bilatzeko.\n\nBilatu \"hurrengoa\" orain, botoi hori aurkitzeko.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Nabigatu bilaketa zuzenaren bidez</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Bilaketa zuzenaren bilaketa-emaitza batetik bestera bizkor mugi zaitezke emaitza bat hautatu ondoren.\n\nHorretarako, erabili irakurketa kontrolatzeko aukeren bidezko nabigazioa. Sakatu Ekintza + Maius + eskuinera edo ezkerrera egiteko gezi-tekla \"bilaketa zuzena\" entzun arte. Ondoren, sakatu Ekintza + behera edo gora egiteko gezi-tekla bilaketa zuzenaren emaitzetan nabigatzeko.\n\nProba dezagun. Behean 3 botoiko zerrenda bat dago, eta guztietan \"ekintza\" hitza agertzen da. Bilatu \"ekintza\" bilaketa zuzena erabilita eta, ondoren, nabigatu emaitzen artean.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Praktikatu lasterbideak</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Sakatu teklatu fisikoko tekla bat edo tekla-konbinazio bat zer egiten duen entzuteko. Irteteko, sakatu Ktrl + W edo Ihes.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Ezagutu Kaliforniako sekuoien handitasuna&lt;/h1&gt;
+      &lt;p&gt;Kaliforniako sekuoiak, batez ere sekuoia gorriak (Sequoia sempervirens), munduko zuhaitzik altuenak dira. Batzuek 115 metro (380 oin) baino gehiago neurtzen dituzte eta milaka urtez bizi daitezke. Kalifornia iparraldeko klima hezean hazten dira ondoen, euriari eta lainoari esker.&lt;/p&gt;
+
+      &lt;h2&gt;Non ikus daitezke?&lt;/h2&gt;
+      &lt;p&gt;Pazifikoko kostaldeko eremu luze eta estu batean aurkituko dituzu erraldoi horiek. Parke garrantzitsuenen artean hauek daude:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Sekuoien parke nazionalak eta estatu-parkeak&lt;/li&gt;
+        &lt;li&gt;Humboldteko sekuoien estatu-parkea&lt;/li&gt;
+        &lt;li&gt;Arro Handiko sekuoien estatu-parkea&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Antolatu bisita hemen: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Kaliforniako estatu-parkeak - sekuoiak&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Egin ekarpenak kontserbazio-lanetarako&lt;/h2&gt;
+      &lt;p&gt;Ezinbestekoa da baso zahar horiek babestea. Parkearen gidalerroak gordeta eta kontserbazio-ahaleginak babestuta lagun diezagukezu.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Partekatu zure bizipenak&lt;/h2&gt;
+        &lt;p&gt;Sekuoia-basoan egon al zara?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Bai&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Ez&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Kontatu zure bizipenak&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Bidali&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Zer gehiago jakin nahi duzu sekuoiei buruz?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Bidali&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekuoiak: gure ingurumena osasuntsu mantentzen&lt;/h1&gt;
+    &lt;p&gt;Sekuoiak garrantzitsuak dira gure planetarako, eta funtsezko eginkizuna dute ingurumena osasuntsu mantentzeko.&lt;/p&gt;
+
+    &lt;h1&gt;Aire-garbigailu erraldoiak&lt;/h1&gt;
+    &lt;p&gt;Arbola horiek bikainak dira aireko karbono dioxidoa xurgatzeko. Karbono dioxido asko xurgatzen dutenez, airea garbi mantentzen laguntzen dute sekuoiek.&lt;/p&gt;
+
+    &lt;h2&gt;Animalien etxea&lt;/h2&gt;
+    &lt;p&gt;Animalia askoren etxe eta babesleku dira sekuoia-basoak, adarretako txorietatik hasi eta lurzoruko izaki txikietaraino.&lt;/p&gt;
+
+    &lt;h3&gt;Uraren aztiak&lt;/h3&gt;
+    &lt;p&gt;Lainoa bikain harrapatzen dute, eta, ondoren, basoko lurzorura erortzen da ura. Horrela, lurra heze mantentzen da, eta beste landare eta animalia batzuek ura lortzen dute, batez ere sasoi lehorrean.&lt;/p&gt;
+
+    &lt;h4&gt;Lurraren babesleak&lt;/h4&gt;
+    &lt;p&gt;Haien sustrai sendoek lurra bere tokian mantentzen dute, euri-jasak direla-eta lurra eramatea ekiditeko eta higadura prebenitzeko.&lt;/p&gt;
+
+    &lt;h5&gt;Basoen sortzaileak&lt;/h5&gt;
+    &lt;p&gt;Sekuoia zaharrak erortzen direnean, haien egurra landare eta izaki berrientzako janari eta babesleku bihurtzen da, eta lur emankorra sortzen du hazkuntza sustatzeko.&lt;/p&gt;
+
+    &lt;h6&gt;Ekosistema paregabeak&lt;/h6&gt;
+    &lt;p&gt;Sekuoiak oso handiak eta oso zaharrak direnez, beste inon aurkitzen ez diren izaki bizidunak babesten dituzten baso-ingurune bereziak sortzen dituzte.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Sekuoia-basoetako animaliak&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Sekuoia-basoetako animaliak\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animalia&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Deskribapena&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Non bizi dira?&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Datu bitxia&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Ariolimax&lt;/th&gt;
+            &lt;td&gt;Bare handi, hori eta irristakorra&lt;/td&gt;
+            &lt;td&gt;Baso-zoruan&lt;/td&gt;
+            &lt;td&gt;Munduko bigarren barerik handiena&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Dicamptodon&lt;/th&gt;
+            &lt;td&gt;Arrabio handi eta iluna&lt;/td&gt;
+            &lt;td&gt;Erreken eta eremu hezeen inguruan&lt;/td&gt;
+            &lt;td&gt;30 zentimetroraino haz daiteke&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Cervus canadensis roosevelti&lt;/th&gt;
+            &lt;td&gt;Adar ikusgarriak dituen orein handia&lt;/td&gt;
+            &lt;td&gt;Basoko argiguneetan bazkatzen du&lt;/td&gt;
+            &lt;td&gt;Arrek 450 kilo (1.000 libra) baino gehiago pisatzen dituzte&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Strix occidentalis caurina&lt;/th&gt;
+            &lt;td&gt;Tamaina ertaineko hontza, gauez ehizatzen duena&lt;/td&gt;
+            &lt;td&gt;Sekuoia-baso heldu eta trinkoetan&lt;/td&gt;
+            &lt;td&gt;Espezie adierazle bat da; alegia, haren osasunak basoaren osasuna erakusten du&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Hartz beltza&lt;/th&gt;
+            &lt;td&gt;Ugaztun handia, normalean beltza edo marroia&lt;/td&gt;
+            &lt;td&gt;Baso osoan zehar janari bila ibiltzen da&lt;/td&gt;
+            &lt;td&gt;Oso eskalatzaile onak dira; zuhaitzetan ikusten dira maiz&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Sekuoia-basoei eta naturari buruz duzun iritzia&lt;/h1&gt;
+
+      &lt;p&gt;Zer gehiago jakin nahi duzu sekuoia-basoei buruz?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Naturako zein toki gustatzen zaizu gehien bisitatzea?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Naturako zein kontzepturi buruz jakin nahi duzu gehiago?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

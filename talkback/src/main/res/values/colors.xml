@@ -65,6 +65,7 @@
     <color name="training_banner_background_color">#30312B</color>
     <color name="training_banner_button_text_color">@color/google_grey900</color>
     <color name="training_banner_color">@color/google_red400</color>
+    <color name="training_tab_background_color">@color/google_white</color>
 
     <color name="tv_training_title_color">#E4F3FF</color>
     <color name="tv_training_button_color">#0FDFF3FF</color>
@@ -87,10 +88,12 @@
     <color name="label_text_color">@color/google_black</color>
     <color name="label_list_item_text_color">@color/google_black</color>
 
+    <!-- Image caption result bottom sheet -->
+    <color name="image_qna_message_background_color">#F0EEE1</color>
+
     <!--
     <color name="color_primary">#15B9ED</color>
     <color name="color_secondary">#1B222D</color>
     <color name="color_error">#171D26</color>
     -->
-
 </resources>

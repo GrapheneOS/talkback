@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+  <Transition
+      motion:constraintSetEnd="@+id/end"
+      motion:constraintSetStart="@id/start"
+      motion:duration="1500"
+      motion:autoTransition="animateToEnd">
+
+    <KeyFrameSet>
+      <KeyAttribute
+          motion:motionTarget="@+id/bar1"
+          motion:framePosition="70"
+          android:alpha="0.5" />
+      <KeyAttribute
+          motion:motionTarget="@+id/bar2"
+          motion:framePosition="50"
+          android:alpha="0.5" />
+      <KeyAttribute
+          motion:motionTarget="@+id/bar3"
+          motion:framePosition="30"
+          android:alpha="0.5" />
+    </KeyFrameSet>
+
+  </Transition>
+
+  <ConstraintSet android:id="@+id/start">
+    <Constraint android:id="@+id/bar1">
+        <Layout
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bar2"
+            android:layout_marginBottom="6dp"
+            android:alpha="1" />
+    </Constraint>
+
+    <Constraint android:id="@+id/bar2">
+        <Layout
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintTop_toBottomOf="@id/bar1"
+            app:layout_constraintBottom_toTopOf="@+id/bar3"
+            android:layout_marginBottom="6dp"
+            android:alpha="1" />
+    </Constraint>
+
+    <Constraint android:id="@+id/bar3">
+        <Layout
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintTop_toBottomOf="@id/bar2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="6dp"
+            android:alpha="0" />
+    </Constraint>
+  </ConstraintSet>
+
+  <ConstraintSet android:id="@+id/end">
+    <Constraint android:id="@+id/bar1">
+      <Layout
+          android:layout_width="0dp"
+          android:layout_height="20dp"
+          app:layout_constraintWidth_percent="0.9"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toTopOf="@+id/bar2"
+          android:layout_marginBottom="6dp"
+          android:alpha="0" />
+    </Constraint>
+
+    <Constraint android:id="@+id/bar2">
+      <Layout
+          android:layout_width="0dp"
+          android:layout_height="20dp"
+          app:layout_constraintWidth_percent="0.9"
+          app:layout_constraintTop_toBottomOf="@id/bar1"
+          app:layout_constraintBottom_toTopOf="@+id/bar3"
+          android:layout_marginBottom="6dp"
+          android:alpha="0" />
+    </Constraint>
+
+    <Constraint android:id="@+id/bar3">
+      <Layout
+          android:layout_width="0dp"
+          android:layout_height="20dp"
+          app:layout_constraintWidth_percent="0.6"
+          app:layout_constraintTop_toBottomOf="@id/bar2"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:layout_marginBottom="6dp"
+          android:alpha="1" />
+    </Constraint>
+  </ConstraintSet>
+
+</MotionScene>

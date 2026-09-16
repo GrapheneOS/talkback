@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -551,14 +551,14 @@ parseTuneText (TuneBuilder *tb, const wchar_t *text) {
   wchar_t *string = buffer;
   wchar_t *operand;
 
-#if !defined(__MINGW32__) && !defined(__MSDOS__)
+  #ifdef WCSTOK_HAS_END_ARGUMENT
   wchar_t *next;
-#endif /* __MINGW32__ */
+  #endif /* WCSTOK_HAS_END_ARGUMENT */
 
   while ((operand = wcstok(string, delimiters
-#ifndef __MINGW32__
+                           #ifdef WCSTOK_HAS_END_ARGUMENT
                            , &next
-#endif /* __MINGW32__ */
+                           #endif /* WCSTOK_HAS_END_ARGUMENT */
                           ))) {
     if (*operand == '#') break;
     if (!parseCommand(tb, operand)) return 0;
@@ -681,7 +681,7 @@ destroyTuneBuilder (TuneBuilder *tb) {
   free(tb);
 }
 
-BEGIN_USAGE_NOTES(tuneBuilderUsageNotes)
+START_COMMAND_LINE_NOTES(tuneBuilderNotes)
   "A command group is zero or more commands separated from one another by whitespace.",
   "A number sign [#] at the beginning or after whitespace begins a comment.",
   "",
@@ -785,4 +785,4 @@ BEGIN_USAGE_NOTES(tuneBuilderUsageNotes)
   "The t<number> command changes the tempo (speed).",
   "It's the number of beats per minute, and must be within the range 40 through 255.",
   "The initial tempo is 120 beats per minute.",
-END_USAGE_NOTES
+END_COMMAND_LINE_NOTES

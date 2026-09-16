@@ -108,13 +108,13 @@ public class LabelManagerPackageActivity extends BasePreferencesActivity {
   /** Finishes the activity when the up button is pressed on the action bar. */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case android.R.id.home:
+    return switch (item.getItemId()) {
+      case android.R.id.home -> {
         finish();
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
-    }
+        yield true;
+      }
+      default -> super.onOptionsItemSelected(item);
+    };
   }
 
   /** An adapter that processes information about labels for a given package. */

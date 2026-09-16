@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.brailleime.input;
 
 import static java.lang.Math.min;
@@ -13,10 +29,14 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import com.google.android.accessibility.brailleime.BrailleIme.OrientationSensitive;
+import com.google.android.accessibility.brailleime.FeatureFlagReader;
 import com.google.android.accessibility.brailleime.R;
+import com.google.android.accessibility.brailleime.Utils;
 import com.google.common.collect.ImmutableMap;
 import java.util.List;
 import java.util.Locale;
@@ -35,11 +55,13 @@ public class BrailleDisplayImeStripView extends RelativeLayout implements Orient
           .put(7, R.drawable.dots_tapped_7)
           .put(8, R.drawable.dots_tapped_8)
           .buildOrThrow();
+  private final boolean multiTouchSupported;
   private CallBack callBack;
   private ImageView dotsBackground;
   private View switchToTouchScreenKeyboard;
   private View switchToNextKeyboard;
   private Locale locale;
+  private TextView brailleKeyboardStripSummary;
 
   /** Callback when BrailleDisplayImeStripView is clicked. */
   public interface CallBack {
@@ -58,6 +80,7 @@ public class BrailleDisplayImeStripView extends RelativeLayout implements Orient
 
   public BrailleDisplayImeStripView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
+    multiTouchSupported = Utils.isMultiTouchSupported(context);
     locale = Locale.getDefault();
     addView();
   }
@@ -69,9 +92,8 @@ public class BrailleDisplayImeStripView extends RelativeLayout implements Orient
     int maxHeight =
         (int)
             (getContext().getDisplay().getHeight()
-                * getContext()
-                    .getResources()
-                    .getFloat(R.dimen.braille_display_keyboard_height_fraction));
+                * ResourcesCompat.getFloat(
+                    getContext().getResources(), R.dimen.braille_display_keyboard_height_fraction));
     heightMeasureSpec =
         heightMode == MeasureSpec.UNSPECIFIED
             ? MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST)
@@ -88,7 +110,22 @@ public class BrailleDisplayImeStripView extends RelativeLayout implements Orient
     switchToTouchScreenKeyboard = container.findViewById(R.id.switch_to_touch_screen_keyboard);
     switchToNextKeyboard = container.findViewById(R.id.switch_to_next_keyboard);
     dotsBackground = container.findViewById(R.id.dots_background);
+    brailleKeyboardStripSummary = container.findViewById(R.id.braille_keyboard_strip_summary_text);
+    updateMultiTouchSupportedContent();
     setCallBack(callBack);
+  }
+
+  /** Updates the view content based on device support for multi-touch. */
+  private void updateMultiTouchSupportedContent() {
+    if (!FeatureFlagReader.enableBrailleImeOnDeviceWithoutFivePointers(getContext())) {
+      return;
+    }
+    int stripSummaryText =
+        multiTouchSupported
+            ? R.string.braille_keyboard_strip_summary
+            : R.string.braille_keyboard_strip_summary_no_multitouch;
+    brailleKeyboardStripSummary.setText(stripSummaryText);
+    switchToTouchScreenKeyboard.setVisibility(multiTouchSupported ? View.VISIBLE : View.GONE);
   }
 
   @Override

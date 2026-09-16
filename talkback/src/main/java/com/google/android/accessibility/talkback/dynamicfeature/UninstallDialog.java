@@ -29,8 +29,11 @@ import com.google.android.accessibility.talkback.dialog.BaseDialog;
 /** A dialog to uninstall a module. */
 public abstract class UninstallDialog extends BaseDialog {
 
-  public UninstallDialog(Context context, @StringRes int title) {
+  @StringRes private final int dialogMessage;
+
+  public UninstallDialog(Context context, @StringRes int title, @StringRes int dialogMessage) {
     super(context, title, /* pipeline= */ null);
+    this.dialogMessage = dialogMessage;
     setPositiveButtonStringRes(R.string.delete_dialog_positive_button_text);
     setNegativeButtonStringRes(R.string.delete_dialog_negative_button_text);
   }
@@ -42,15 +45,14 @@ public abstract class UninstallDialog extends BaseDialog {
 
   @SuppressLint("InflateParams")
   @Override
-  public View getCustomizedView() {
-    LayoutInflater inflater = LayoutInflater.from(context);
+  public View getCustomizedView(LayoutInflater inflater) {
     final ScrollView root =
         (ScrollView) inflater.inflate(R.layout.confirm_download_dialog, /* root= */ null);
 
     TextView subtitle = root.findViewById(R.id.confirm_download_dialog_subtitle);
     subtitle.setVisibility(View.GONE);
     TextView message = root.findViewById(R.id.confirm_download_dialog_message);
-    message.setText(R.string.delete_dialog_message);
+    message.setText(dialogMessage);
 
     return root;
   }

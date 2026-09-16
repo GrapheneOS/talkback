@@ -19,12 +19,19 @@ import static com.google.android.accessibility.talkback.analytics.TalkBackAnalyt
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.talkback.TalkBackMetricStore;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingIpcClient.ServiceData;
+import com.google.android.accessibility.talkback.trainingcommon.TrainingMetricStore;
+import com.google.android.accessibility.utils.monitor.InputDeviceMonitor;
 
 /**
  * A {@link PageContentConfig}. It has a TalkBack exit banner UI that and a TalkBack-exit button for
@@ -39,11 +46,44 @@ public class ExitBanner extends PageContentConfig {
 
   private RequestDisableTalkBack requestDisableTalkBack;
 
-  private TalkBackMetricStore metricStore;
+  private TrainingMetricStore metricStore;
 
   private boolean firstTapPerformed;
+  private final InputDeviceMonitor inputDeviceMonitor;
 
-  public ExitBanner() {}
+  protected OnClickListener clickListener =
+      (View exitButton) -> {
+        // The first click changes the button label to remind the user to click again to turn off
+        // TalkBack.
+        if (firstTapPerformed) {
+          performExit();
+          firstTapPerformed = false;
+        } else {
+          firstTapPerformed = true;
+          if (exitButton instanceof TextView textView) {
+            textView.setText(R.string.tap_again_to_turn_off);
+          }
+        }
+      };
+
+  protected OnTouchListener mouseTouchListener =
+      (View v, MotionEvent event) -> {
+        if (event.getToolType(0) == MotionEvent.TOOL_TYPE_MOUSE
+            && event.getAction() == MotionEvent.ACTION_UP) {
+          performExit();
+          return true;
+        }
+        return false;
+      };
+
+  public ExitBanner() {
+    this.inputDeviceMonitor = null;
+  }
+
+  @VisibleForTesting
+  ExitBanner(InputDeviceMonitor inputDeviceMonitor) {
+    this.inputDeviceMonitor = inputDeviceMonitor;
+  }
 
   @Override
   public View createView(
@@ -51,23 +91,25 @@ public class ExitBanner extends PageContentConfig {
     firstTapPerformed = false;
     View view = inflater.inflate(R.layout.training_exit_banner, container, false);
     Button exitButton = view.findViewById(R.id.training_exit_talkback_button);
+    TextView descriptionText = view.findViewById(R.id.talkback_description_text);
+
+    InputDeviceMonitor monitor =
+        (this.inputDeviceMonitor != null)
+            ? this.inputDeviceMonitor
+            : new InputDeviceMonitor(context);
+
+    if (FeatureFlagReader.enableShowTalkbackKeyboardTutorial(context)
+        && monitor.hasPointingDevice()
+        && monitor.hasTouchScreen()) {
+      descriptionText.setText(R.string.talkback_turn_off_description_pointer_and_touch);
+      exitButton.setOnTouchListener(mouseTouchListener);
+      // TODO: b/442630049 Consider new string for non-touch devices.
+    } else {
+      descriptionText.setText(R.string.talkback_turn_off_description);
+    }
+
     exitButton.setLongClickable(false);
-    exitButton.setOnClickListener(
-        (View v) -> {
-          // Statistic turn-off button event.
-          if (metricStore != null) {
-            metricStore.onTutorialEvent(TRAINING_BUTTON_TURN_OFF_TALKBACK);
-          }
-          // The first click change the button label to remind the user to click again to turn off
-          // TalkBack.
-          if (firstTapPerformed && requestDisableTalkBack != null) {
-            firstTapPerformed = false;
-            requestDisableTalkBack.onRequestDisableTalkBack();
-          } else {
-            firstTapPerformed = true;
-            exitButton.setText(R.string.tap_again_to_turn_off);
-          }
-        });
+    exitButton.setOnClickListener(clickListener);
     return view;
   }
 
@@ -75,7 +117,16 @@ public class ExitBanner extends PageContentConfig {
     requestDisableTalkBack = callback;
   }
 
-  public void setMetricStore(TalkBackMetricStore metricStore) {
+  public void setMetricStore(TrainingMetricStore metricStore) {
     this.metricStore = metricStore;
+  }
+
+  private void performExit() {
+    if (metricStore != null) {
+      metricStore.onTutorialEvent(TRAINING_BUTTON_TURN_OFF_TALKBACK);
+    }
+    if (requestDisableTalkBack != null) {
+      requestDisableTalkBack.onRequestDisableTalkBack();
+    }
   }
 }

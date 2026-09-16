@@ -275,7 +275,7 @@ public class BrailleView extends View {
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     switch (event.getActionMasked()) {
-      case MotionEvent.ACTION_DOWN:
+      case MotionEvent.ACTION_DOWN -> {
         int cellIndex = (int) (event.getX() / outerWidth);
         if (0 <= cellIndex && cellIndex < numTextCells) {
           pressedCell = cellIndex;
@@ -283,24 +283,19 @@ public class BrailleView extends View {
         } else {
           cancelPendingTouches();
         }
-        break;
-
-      case MotionEvent.ACTION_UP:
+      }
+      case MotionEvent.ACTION_UP -> {
         if (withinTouchSlopOfCell(event, pressedCell)) {
           reportBrailleCellClick(pressedCell);
         }
         cancelPendingTouches();
-        break;
-
-      case MotionEvent.ACTION_CANCEL:
-        cancelPendingTouches();
-        break;
-
-      case MotionEvent.ACTION_MOVE:
+      }
+      case MotionEvent.ACTION_CANCEL -> cancelPendingTouches();
+      case MotionEvent.ACTION_MOVE -> {
         if (!withinTouchSlopOfCell(event, pressedCell)) {
           cancelPendingTouches();
         }
-        break;
+      }
     }
     return false;
   }

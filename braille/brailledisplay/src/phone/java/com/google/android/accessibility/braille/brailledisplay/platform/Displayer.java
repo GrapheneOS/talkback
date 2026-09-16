@@ -16,7 +16,7 @@
 
 package com.google.android.accessibility.braille.brailledisplay.platform;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -53,44 +53,41 @@ public class Displayer {
 
   /** Callback for {@link Displayer}. */
   public interface Callback {
-    void onStartFailed();
+    void onStartFailed(boolean manualConnect, ConnectableDevice device);
 
-    void onSendPacketToDisplay(byte[] packet);
+    void onDisplayReady(
+        boolean manualConnect, ConnectableDevice device, BrailleDisplayProperties bdr);
 
-    void onDisplayReady(BrailleDisplayProperties bdr);
+    void onDisplayStop();
 
     void onBrailleInputEvent(BrailleInputEvent brailleInputEvent);
+
+    Optional<BrailleDisplayProperties> start(
+        String deviceName, int vendorId, int prodId, boolean useHid, String parameters);
+
+    void consumePacketFromDevice(byte[] packet);
+
+    void stop();
+
+    int readCommand();
+
+    void writeBrailleDots(byte[] brailleDotBytes);
   }
 
   private final Callback callback;
-  private final Encoder encoder;
-  private HandlerThread bgThread;
-  private Handler mainHandler;
-  private Handler bgHandler;
-  private final AtomicBoolean isDisplayReady = new AtomicBoolean();
+  private final Handler mainHandler;
   private final BrlttyParameterProviderFactory parameterProviderFactory;
+  private final AtomicBoolean displayReady = new AtomicBoolean();
+  private final Runnable runnable = () -> readCommand();
+  private HandlerThread bgThread;
+  private Handler bgHandler;
   private BrailleDisplayProperties displayProperties;
   private ConnectableDevice device;
 
-  public Displayer(Context context, Callback callback, Encoder.Factory encoderFactory) {
+  public Displayer(Callback callback) {
     this.callback = callback;
     parameterProviderFactory = new BrlttyParameterProviderFactory();
-    this.encoder = encoderFactory.createEncoder(context, new EncoderCallback());
     mainHandler = new Handler(Looper.getMainLooper(), new MainHandlerCallback());
-  }
-
-  /** Returns a device provider. */
-  public DeviceProvider<?> getDeviceProvider() {
-    if (device instanceof ConnectableBluetoothDevice) {
-      return new DeviceProvider<>(((ConnectableBluetoothDevice) device).bluetoothDevice());
-    } else if (device instanceof ConnectableUsbDevice) {
-      return new DeviceProvider<>(((ConnectableUsbDevice) device).usbDevice());
-    }
-    throw new IllegalArgumentException();
-  }
-
-  public String getDeviceAddress() {
-    return device.address();
   }
 
   public BrailleDisplayProperties getDeviceProperties() {
@@ -102,7 +99,7 @@ public class Displayer {
    * receive render packets.
    */
   public boolean isDisplayReady() {
-    return isDisplayReady.get();
+    return displayReady.get();
   }
 
   /**
@@ -110,7 +107,7 @@ public class Displayer {
    *
    * <p>This will get processed on a background thread.
    */
-  public void start(ConnectableDevice device) {
+  public void start(boolean manualConnect, ConnectableDevice device) {
     this.device = device;
     if (!isReady()) {
       BrailleDisplayLog.v(TAG, "start a new thread");
@@ -123,8 +120,13 @@ public class Displayer {
     // It is permitted to send a message to the bg queue even if onLooperPrepared has not been
     // run.
     ParameterProvider brlttyDevice =
-        parameterProviderFactory.getParameterProvider(getDeviceProvider());
-    bgHandler.obtainMessage(MessageBg.START.what(), brlttyDevice.getParameters()).sendToTarget();
+        parameterProviderFactory.getParameterProvider(device.useHid(), getDeviceProvider());
+    Message message = bgHandler.obtainMessage(MessageBg.START.what());
+    Bundle bundle = new Bundle();
+    bundle.putString(MessageBg.KEY_PARAMETER, brlttyDevice.getParameters());
+    bundle.putBoolean(MessageBg.KEY_MANUAL, manualConnect);
+    message.setData(bundle);
+    message.sendToTarget();
   }
 
   /**
@@ -134,7 +136,7 @@ public class Displayer {
    */
   public void consumePacketFromDevice(byte[] packet) {
     Utils.assertNotMainThread();
-    encoder.consumePacketFromDevice(packet);
+    callback.consumePacketFromDevice(packet);
   }
 
   /**
@@ -180,12 +182,30 @@ public class Displayer {
     }
   }
 
+  public void readCommandDelay(int delayMs) {
+    if (isReady()) {
+      // Don't send READ_COMMAND with delay because in readCommand() hasMessage will be true and
+      // filter out real-time reads.
+      bgHandler.removeCallbacks(runnable);
+      bgHandler.postDelayed(runnable, delayMs);
+    }
+  }
+
   private boolean isReady() {
     if (bgHandler != null && bgThread.isAlive()) {
       return true;
     }
     BrailleDisplayLog.v(TAG, "thread has not started or has died.");
     return false;
+  }
+
+  private DeviceProvider<?> getDeviceProvider() {
+    if (device instanceof ConnectableBluetoothDevice connectableBluetoothDevice) {
+      return new DeviceProvider<>(connectableBluetoothDevice.bluetoothDevice());
+    } else if (device instanceof ConnectableUsbDevice connectableUsbDevice) {
+      return new DeviceProvider<>(connectableUsbDevice.usbDevice());
+    }
+    throw new IllegalArgumentException();
   }
 
   private class MainHandlerCallback implements Handler.Callback {
@@ -202,14 +222,23 @@ public class Displayer {
     START_FAILED {
       @Override
       void handle(Displayer displayer, Message message) {
-        displayer.callback.onStartFailed();
+        boolean manualConnect = message.getData().getBoolean(MessageBg.KEY_MANUAL);
+        displayer.callback.onStartFailed(manualConnect, displayer.device);
       }
     },
     DISPLAY_READY {
       @Override
       void handle(Displayer displayer, Message message) {
-        displayer.displayProperties = (BrailleDisplayProperties) message.obj;
-        displayer.callback.onDisplayReady(displayer.displayProperties);
+        boolean manual = message.getData().getBoolean(MessageBg.KEY_MANUAL);
+        displayer.displayProperties =
+            (BrailleDisplayProperties) message.getData().get(MessageBg.KEY_PROPERTIES);
+        displayer.callback.onDisplayReady(manual, displayer.device, displayer.displayProperties);
+      }
+    },
+    DISPLAY_STOP {
+      @Override
+      void handle(Displayer displayer, Message message) {
+        displayer.callback.onDisplayStop();
       }
     },
     READ_COMMAND_ARRIVED {
@@ -240,32 +269,47 @@ public class Displayer {
     START {
       @Override
       public void handle(Displayer displayer, Message message) {
-        if (displayer.isDisplayReady.get()) {
+        if (displayer.displayReady.get()) {
           BrailleDisplayLog.d(TAG, "Braille display has started.");
           return;
         }
+        String parameter = message.getData().getString(KEY_PARAMETER);
+        boolean manual = message.getData().getBoolean(KEY_MANUAL);
         Optional<BrailleDisplayProperties> brailleDisplayProperties =
-            displayer.encoder.start(displayer.device.name(), (String) message.obj);
+            displayer.callback.start(
+                displayer.device.name(),
+                displayer.device.vendorId(),
+                displayer.device.productId(),
+                displayer.device.useHid(),
+                parameter);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_MANUAL, manual);
         if (brailleDisplayProperties.isPresent()) {
-          displayer.isDisplayReady.getAndSet(true);
-          displayer
-              .mainHandler
-              .obtainMessage(MessageMain.DISPLAY_READY.what(), brailleDisplayProperties.get())
-              .sendToTarget();
+          displayer.displayReady.getAndSet(true);
+          Message mainMessage =
+              displayer.mainHandler.obtainMessage(MessageMain.DISPLAY_READY.what());
+          bundle.putParcelable(KEY_PROPERTIES, brailleDisplayProperties.get());
+          mainMessage.setData(bundle);
+          mainMessage.sendToTarget();
         } else {
-          displayer.mainHandler.obtainMessage(MessageMain.START_FAILED.what()).sendToTarget();
+          Message mainMessage =
+              displayer.mainHandler.obtainMessage(MessageMain.START_FAILED.what());
+          mainMessage.setData(bundle);
+          mainMessage.sendToTarget();
         }
       }
     },
     STOP {
       @Override
       public void handle(Displayer displayer, Message message) {
-        if (!displayer.isDisplayReady.getAndSet(false)) {
+        if (!displayer.displayReady.getAndSet(false)) {
           BrailleDisplayLog.d(TAG, "Braille display has stopped");
           return;
         }
         displayer.displayProperties = null;
-        displayer.encoder.stop();
+        displayer.callback.stop();
+        Message mainMessage = displayer.mainHandler.obtainMessage(MessageMain.DISPLAY_STOP.what());
+        mainMessage.sendToTarget();
         if (!displayer.bgHandler.hasMessages(START.what())) {
           BrailleDisplayLog.v(TAG, "stop a thread");
           displayer.bgThread.quitSafely();
@@ -276,13 +320,13 @@ public class Displayer {
       @Override
       public void handle(Displayer displayer, Message message) {
         byte[] brailleDotBytes = (byte[]) message.obj;
-        displayer.encoder.writeBrailleDots(brailleDotBytes);
+        displayer.callback.writeBrailleDots(brailleDotBytes);
       }
     },
     READ_COMMAND {
       @Override
       public void handle(Displayer displayer, Message message) {
-        int commandComplex = displayer.encoder.readCommand();
+        int commandComplex = displayer.callback.readCommand();
         if (commandComplex < 0) {
           return;
         }
@@ -297,33 +341,15 @@ public class Displayer {
       }
     };
 
+    private static final String KEY_PARAMETER = "parameter";
+    private static final String KEY_MANUAL = "manual";
+    private static final String KEY_PROPERTIES = "properties";
+
     public int what() {
       return ordinal();
     }
 
     abstract void handle(Displayer displayer, Message message);
-  }
-
-  private class EncoderCallback implements Encoder.Callback {
-    @Override
-    public void sendPacketToDevice(byte[] packet) {
-      if (Utils.isMainThread()) {
-        BrailleDisplayLog.v(TAG, "sendPacketToDevice invoked on main thread; ignoring");
-      }
-      callback.onSendPacketToDisplay(packet);
-    }
-
-    @Override
-    public void readAfterDelay(int delayMs) {
-      if (isReady()) {
-        // Don't send READ_COMMAND with delay because in readCommand() hasMessage will be true and
-        // filter out real-time reads.
-        bgHandler.removeCallbacks(runnable);
-        bgHandler.postDelayed(runnable, delayMs);
-      }
-    }
-
-    private final Runnable runnable = () -> readCommand();
   }
 
   @VisibleForTesting

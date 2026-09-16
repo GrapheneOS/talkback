@@ -240,8 +240,7 @@ public final class NodePathDescription {
      */
     abstract double distance();
 
-    @Nullable
-    abstract AccessibilityNode node();
+    abstract @Nullable AccessibilityNode node();
 
     static Builder builder() {
       return new AutoValue_NodePathDescription_Match.Builder()
@@ -322,9 +321,15 @@ public final class NodePathDescription {
     if ((bestMatch == null) || !bestMatch.hasNode() || bestMatch.node().equalTo(root)) {
       return null;
     }
-    return (bestMatch.isPathEnd())
-        ? bestMatch.node()
-        : nextInTraversalOrder(root, focusFinder, bestMatch.node());
+    if (!bestMatch.isPathEnd()) {
+      // Allow to restore focus on ViewGroup only when the node is perfectly matched.
+      if (bestMatch.score() >= 3.3) { // adjacent(1.0) + identity(1.1) + content-match(1.2)
+        return nextInTraversalOrder(root, focusFinder, bestMatch.node());
+      } else {
+        return null;
+      }
+    }
+    return bestMatch.node();
   }
 
   /**

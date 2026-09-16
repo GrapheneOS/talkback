@@ -101,11 +101,11 @@ class LongPressHandler extends Handler implements View.OnTouchListener {
   @Override
   public void handleMessage(Message msg) {
     switch (msg.what) {
-      case MSG_LONG_PRESS:
+      case MSG_LONG_PRESS -> {
         if (listener != null) {
           listener.onLongPress();
         }
-        break;
+      }
     }
   }
 

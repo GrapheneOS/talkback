@@ -18,6 +18,7 @@ package com.google.android.accessibility.braille.brailledisplay.controller.utils
 
 import android.text.Editable;
 import android.text.TextUtils;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /** Utilities for {@link String}s and other {@link CharSequence}s. */
 public class StringUtils {
@@ -42,9 +43,10 @@ public class StringUtils {
     return editable;
   }
 
-  public static StringBuilder appendWithSpaces(StringBuilder builder, Object... args) {
+  @CanIgnoreReturnValue
+  public static StringBuilder appendWithSpaces(StringBuilder builder, CharSequence... args) {
     for (Object arg : args) {
-      if (arg == null) {
+      if (arg == null || TextUtils.isEmpty(arg.toString())) {
         continue;
       }
       if (builder.length() > 0 && !endsWithSpace(builder)) {

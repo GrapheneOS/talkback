@@ -23,8 +23,8 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
 import com.google.android.accessibility.utils.Role;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -104,25 +104,24 @@ public class RoleDescriptionExtractor {
     if (roleDescription.shouldIgnoreDescription(node)) {
       return "";
     }
-    switch (descriptionOrder) {
-      case DESC_ORDER_NAME_ROLE_STATE_POSITION:
-        return CompositorUtils.dedupJoin(
-            roleDescription.nodeName(node, context, globalVariables),
-            roleDescription.nodeRole(node, context, globalVariables),
-            roleDescription.nodeState(event, node, context, globalVariables));
-      case DESC_ORDER_ROLE_NAME_STATE_POSITION:
-        return CompositorUtils.dedupJoin(
-            roleDescription.nodeRole(node, context, globalVariables),
-            roleDescription.nodeName(node, context, globalVariables),
-            roleDescription.nodeState(event, node, context, globalVariables));
-      case DESC_ORDER_STATE_NAME_ROLE_POSITION:
-        return CompositorUtils.dedupJoin(
-            roleDescription.nodeState(event, node, context, globalVariables),
-            roleDescription.nodeName(node, context, globalVariables),
-            roleDescription.nodeRole(node, context, globalVariables));
-      default:
-        return "";
-    }
+    return switch (descriptionOrder) {
+      case DESC_ORDER_NAME_ROLE_STATE_POSITION ->
+          CompositorUtils.dedupJoin(
+              roleDescription.nodeName(node, context, globalVariables),
+              roleDescription.nodeRole(node, context, globalVariables),
+              roleDescription.nodeState(event, node, context, globalVariables));
+      case DESC_ORDER_ROLE_NAME_STATE_POSITION ->
+          CompositorUtils.dedupJoin(
+              roleDescription.nodeRole(node, context, globalVariables),
+              roleDescription.nodeName(node, context, globalVariables),
+              roleDescription.nodeState(event, node, context, globalVariables));
+      case DESC_ORDER_STATE_NAME_ROLE_POSITION ->
+          CompositorUtils.dedupJoin(
+              roleDescription.nodeState(event, node, context, globalVariables),
+              roleDescription.nodeName(node, context, globalVariables),
+              roleDescription.nodeRole(node, context, globalVariables));
+      default -> "";
+    };
   }
 
   /** Returns seek bar state description text. */
@@ -135,22 +134,25 @@ public class RoleDescriptionExtractor {
   RoleDescription getRoleDescription(AccessibilityNodeInfoCompat node) {
     int role = Role.getRole(node);
     switch (role) {
-      case Role.ROLE_SWITCH:
-      case Role.ROLE_TOGGLE_BUTTON:
+      case Role.ROLE_SWITCH, Role.ROLE_TOGGLE_BUTTON -> {
         return switchDescription;
-      case Role.ROLE_EDIT_TEXT:
+      }
+      case Role.ROLE_EDIT_TEXT -> {
         return editTextDescription;
-      case Role.ROLE_IMAGE:
-      case Role.ROLE_IMAGE_BUTTON:
+      }
+      case Role.ROLE_IMAGE, Role.ROLE_IMAGE_BUTTON -> {
         return nonTextViewsDescription;
-      case Role.ROLE_SEEK_CONTROL:
-      case Role.ROLE_PROGRESS_BAR:
+      }
+      case Role.ROLE_SEEK_CONTROL, Role.ROLE_PROGRESS_BAR -> {
         return seekBarDescription;
-      case Role.ROLE_PAGER:
+      }
+      case Role.ROLE_PAGER -> {
         return pagerPageDescription;
-      case Role.ROLE_DROP_DOWN_LIST:
+      }
+      case Role.ROLE_DROP_DOWN_LIST -> {
         return defaultDescription;
-      default:
+      }
+      default -> {
         // If the parent node is pager, use the pager node description.
         AccessibilityNodeInfoCompat parentNode = node.getParent();
         if (parentNode != null
@@ -159,6 +161,7 @@ public class RoleDescriptionExtractor {
           return pagerPageDescription;
         }
         return defaultDescription;
+      }
     }
   }
 }

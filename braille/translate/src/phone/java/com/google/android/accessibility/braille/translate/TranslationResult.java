@@ -75,7 +75,7 @@ public abstract class TranslationResult {
   public abstract ImmutableList<Integer> brailleToTextPositions();
 
   /** The text cursor position in braille. */
-  public abstract Integer cursorBytePosition();
+  public abstract int cursorBytePosition();
 
   public static Builder builder() {
     return new AutoValue_TranslationResult.Builder();

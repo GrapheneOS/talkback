@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TODO: b/395896931 - Refine the UI of the new keyboard assignment dialog. -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/dialog_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:focusable="true" android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:theme="@style/KeyboardAssignmentDialogStyle"
+        android:background="@drawable/assignment_dialog_background" >
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/assigned_combination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="10dp"
+        android:accessibilityLiveRegion="assertive"
+        android:textColor="@color/a11y_alert_dialog_content_message_text_color"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:textColor="?android:attr/colorError"
+        android:visibility="gone"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="12dp"/>
+    </LinearLayout>

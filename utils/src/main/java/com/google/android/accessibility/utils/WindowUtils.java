@@ -104,9 +104,8 @@ public class WindowUtils {
     Rect rect = new Rect();
     window.getBoundsInScreen(rect);
     switch (display.getRotation()) {
+      case (Surface.ROTATION_90), (Surface.ROTATION_270) -> {
         // NavigationBar may located in the left side or right side in the landscape mode.
-      case (Surface.ROTATION_90):
-      case (Surface.ROTATION_270):
         if (isRoughEqual(rect.top, 0)
             && rect.left > ((metrics.heightPixels / 4) * 3)
             && isRoughEqual(rect.right, metrics.widthPixels)
@@ -118,15 +117,15 @@ public class WindowUtils {
             && isRoughEqual(rect.bottom, metrics.heightPixels)) {
           return true;
         }
-        break;
-      default:
+      }
+      default -> {
         if (rect.top > ((metrics.heightPixels / 4) * 3)
             && isRoughEqual(rect.left, 0)
             && isRoughEqual(rect.right, metrics.widthPixels)
             && isRoughEqual(rect.bottom, metrics.heightPixels)) {
           return true;
         }
-        break;
+      }
     }
     return false;
   }
@@ -148,16 +147,9 @@ public class WindowUtils {
       return isNavigationBar(context, window) || isStatusBar(context, window);
     }
 
-    final WindowManager windowManager;
-    int displayId = AccessibilityWindowInfoUtils.getDisplayId(window);
-    if (displayId == Display.DEFAULT_DISPLAY) {
-      windowManager = context.getSystemService(WindowManager.class);
-    } else {
-      DisplayManager displayManager = context.getSystemService(DisplayManager.class);
-      Display display = displayManager.getDisplay(displayId);
-      final Context displayContext = context.createDisplayContext(display);
-      windowManager = displayContext.getSystemService(WindowManager.class);
-    }
+    Context displayContext = DisplayUtils.getDisplayContextByWindow(context, window);
+    WindowManager windowManager = displayContext.getSystemService(WindowManager.class);
+
     WindowMetrics windowMetrics = windowManager.getCurrentWindowMetrics();
     Rect windowBoundsExcludedSystemBars = new Rect(windowMetrics.getBounds());
     Insets windowInsets =
@@ -165,13 +157,13 @@ public class WindowUtils {
     windowBoundsExcludedSystemBars.inset(windowInsets);
 
     // The systemBar window should not intersect or overlap the non-systemBar window.
-    // While on the foldable phone, the navigation bar window would have 1dp overlaps with
-    // non-systemBar window due to the rounded corner.
     Rect windowBounds = new Rect();
     window.getBoundsInScreen(windowBounds);
     if (windowBounds.intersect(windowMetrics.getBounds())
         && Rect.intersects(windowBoundsExcludedSystemBars, windowBounds)) {
-      return !windowBoundsExcludedSystemBars.contains(windowBounds);
+      // Checks the center to allow the system bars having a bit overlap.
+      return !windowBoundsExcludedSystemBars.contains(
+          windowBounds.centerX(), windowBounds.centerY());
     } else {
       return true;
     }
@@ -201,6 +193,15 @@ public class WindowUtils {
     AccessibilityNodeInfo root = service.getRootInActiveWindow();
     return (root != null)
         && WindowUtils.isChildNodeResId(service, AccessibilityNodeInfoUtils.getWindow(root), resId);
+  }
+
+  /**
+   * Returns true if {@code resId} is the resource ID of the node on the currently active window.
+   */
+  public static boolean rootChildMatchesResId(
+      Context context, AccessibilityNodeInfo root, int resId) {
+    return root != null
+        && WindowUtils.isChildNodeResId(context, AccessibilityNodeInfoUtils.getWindow(root), resId);
   }
 
   /** Gets the list of all displays. */

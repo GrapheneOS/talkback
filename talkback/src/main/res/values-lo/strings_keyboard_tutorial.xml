@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">ບົດສອນການນຳໃຊ້ນີ້ແມ່ນສຳລັບແຜນທີ່ປຸ່ມທີ່ປັບປຸງໃຫ້ດີຂຶ້ນແລ້ວ, ເຊິ່ງຮວມມີຄຳສັ່ງໃໝ່ໆຫຼາຍຢ່າງ. ເພື່ອເລືອກແຜນທີ່ປຸ່ມ, ໃຫ້ເຂົ້າໄປການຕັ້ງຄ່າ TalkBack &gt; ການຕັ້ງຄ່າຂັ້ນສູງ &gt; ຄີລັດ.\n\nກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອເລືອກຫົວຂໍ້. ເພື່ອປະສົບການທີ່ດີທີ່ສຸດ, ໃຫ້ເປີດ TalkBack ກ່ອນເລີ່ມຕົ້ນ.</string>
+  <string name="basic_interaction_link_text">ການໂຕ້ຕອບພື້ນຖານ</string>
+  <string name="basic_interaction_link_subtext">ຍ້າຍໄປມາລະຫວ່າງລາຍການ, ອ່ານຕາມແຖວ, ໃຊ້ເມນູ ແລະ ອື່ນໆ</string>
+  <string name="browse_mode_link_text">ໂໝດທ່ອງເວັບ</string>
+  <string name="browse_mode_link_subtext">ນຳທາງໄປຫາສ່ວນຕ່າງໆຂອງເນື້ອຫາເວັບໄດ້ຢ່າງວ່ອງໄວດ້ວຍຄຳສັ່ງຂ້າມ</string>
+  <string name="reading_controls_link_text">ຕົວຄວບຄຸມການອ່ານ</string>
+  <string name="reading_controls_link_subtext">ໃຊ້ຕົວຄວບຄຸມການອ່ານເພື່ອຂ້າມໄປມາລະຫວ່າງລາຍການ, ປັບການຕັ້ງຄ່າສຽງເວົ້າ ແລະ ອື່ນໆ</string>
+  <string name="image_descriptions_link_text">ຄຳອະທິບາຍຮູບ</string>
+  <string name="image_descriptions_link_subtext">ລອງຮັບຄຳອະທິບາຍຮູບ</string>
+  <string name="keyboard_shortcuts_link_text">ເຝິກຄີລັດ</string>
+  <string name="keyboard_shortcuts_link_subtext">ກົດປຸ່ມ ແລະ ຊຸດປຸ່ມ ພ້ອມທັງສຶກສາການດຳເນີນການຂອງປຸ່ມເຫຼົ່ານັ້ນ</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack ສະໜອງການຕອບສະໜອງແບບສຽງເວົ້າເພື່ອໃຫ້ທ່ານສາມາດໃຊ້ອຸປະກອນຂອງທ່ານໄດ້ໂດຍບໍ່ຕ້ອງເບິ່ງໜ້າຈໍ. TalkBack ແມ່ນມີປະໂຫຍດສຳລັບຜູ້ທີ່ມີບັນຫາໃນການເບິ່ງເຫັນໜ້າຈໍ. ເມື່ອ TalkBack ເປີດຢູ່, ລະບົບຈະອ່ານອອກສຽງລາຍການທີ່ໂຟກັສຢູ່ໜ້າຈໍ.\n\nທຳອິດ, ມາສ້າງຄວາມລຶ້ງເຄີຍກັບແປ້ນພິມຂອງທ່ານກ່ອນ. ຊອກປຸ່ມຄຳສັ່ງ, ເຊິ່ງຢູ່ທາງເທິງຂອງປຸ່ມ Shift ເບື້ອງຊ້າຍ. ຕອນນີ້ມາຊອກປຸ່ມລູກສອນທີ່ຢູ່ໃກ້ກັບພື້ນທີ່ຂວາລຸ່ມສຸດຂອງແປ້ນພິມ. ກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອຍ້າຍໄປຫາລາຍການຕໍ່ໄປ.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">ນີ້ແມ່ນລາຍການຕໍ່ໄປ. ເພື່ອຍ້າຍໄປຫາລາຍການກ່ອນໜ້າ, ໃຫ້ກົດຄຳສັ່ງ + ລູກສອນຊ້າຍ.\n\nເມື່ອທ່ານຍ້າຍໄປຫາລາຍການແບບໂຕ້ຕອບ ເຊັ່ນ: ປຸ່ມ, ໃຫ້ກົດຄຳສັ່ງ + ຍະຫວ່າງເພື່ອເປີດນຳໃຊ້ມັນ. ຊອກຫາປຸ່ມຕໍ່ໄປ ແລະ ສືບຕໍ່ການສອນການນຳໃຊ້.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">ອ່ານຕາມຕົວອັກສອນ, ຄຳ ຫຼື ຫຍໍ້ໜ້າ</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">ໃນບາງເທື່ອ, ທ່ານອາດຕ້ອງການຟັງການອ່ານຂໍ້ຄວາມອອກສຽງເທື່ອລະຕົວອັກສອນ.\n\nເພື່ອຟັງແບບດັ່ງກ່າວ, ທ່ານສາມາດໃຊ້ການນຳທາງຕົວຄວບຄຸມການອ່ານໄດ້. ກົດຄຳສັ່ງ + Shift + ລູກສອນຂວາ ຫຼື ຊ້າຍຈົນກວ່າທ່ານຈະໄດ້ຍິນ \"ຕົວອັກສອນ\".\n\nຕໍ່ໄປ, ໃຫ້ກົດຄຳສັ່ງ + ລູກສອນຂຶ້ນເພື່ອຍ້າຍໂຟກັສການນຳທາງກັບຫຼັງເທື່ອລະຕົວອັກສອນ. ກົດຄຳສັ່ງ + ລູກສອນລົງເພື່ອຍ້າຍໂຟກັສການນຳທາງໄປໜ້າເທື່ອລະຕົວອັກສອນ.\n\nລອງເຮັດຕອນນີ້ເລີຍ. ນອກຈາກນີ້, ທ່ານຍັງສາມາດເລືອກອ່ານຕາມຄຳ, ແຖວ ຫຼື ຫຍໍ້ໜ້າໄດ້ໂດຍໃຊ້ຄຳສັ່ງ + Shift + ລູກສອນຂວາ ຫຼື ຊ້າຍ.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">ການນຳທາງລະບົບ</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">ການລອງໃຊ້ຄີລັດເຫຼົ່ານີ້ຕອນນີ້ຈະປິດການສອນການນຳໃຊ້. ທ່ານອາດຕ້ອງການລໍຖ້າຈົນກວ່າທ່ານຈະເບິ່ງການສອນການນຳໃຊ້ຈົບ.\n\nເພື່ອສະຫຼັບໄປມາລະຫວ່າງໜ້າຈໍແອັບທີ່ເປີດຢູ່ ແລະ ອົງປະກອບຂອງລະບົບ ເຊັ່ນ: ການແຈ້ງເຕືອນ ແລະ ແຖບໜ້າວຽກ, ໃຫ້ກົດຄຳສັ່ງ + Alt + Ctrl + ລູກສອນຂຶ້ນ ຫຼື ລູກສອນລົງ.\n\nເພື່ອເປີດລາຍຊື່ແອັບ, ໃຫ້ກົດຄຳສັ່ງ.\n\nເພື່ອໄປຫາໜ້າຈໍຫຼັກ ແລະ ຫຍໍ້ໜ້າຈໍທີ່ເປີດຢູ່ທັງໝົດ, ໃຫ້ກົດຄຳສັ່ງ + H ຫຼື ຫຼັກ ໃນແຖວເທິງສຸດ.\n\nເພື່ອໄປຫາແອັບຫຼ້າສຸດຂອງທ່ານ, ໃຫ້ກົດຄຳສັ່ງ + Tab ຫຼື ພາບຮວມໃນແຖວເທິງສຸດ.\n\nເພື່ອສະຫຼັບໄປມາລະຫວ່າງໜ້າຈໍຢ່າງວ່ອງໄວ, ໃຫ້ກົດ Alt ຄ້າງໄວ້ແລ້ວກົດ Tab.\n\nເພື່ອກັບຄືນ, ໃຫ້ກົດຄຳສັ່ງ + Esc ຫຼື Back ໃນແຖວເທິງສຸດ.\n\nເພື່ອເປີດການແຈ້ງເຕືອນ, ໃຫ້ກົດຄຳສັ່ງ + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">ປັບແກ້ການຕັ້ງຄ່າການເວົ້າ</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">ລະດັບສຽງສຳລັບສຽງເວົ້າຂອງ TalkBack ແມ່ນເອີ້ນວ່າລະດັບສຽງການຊ່ວຍເຂົ້າເຖິງ. ມັນຈະປັບແກ້ແຍກຕ່າງຫາກຈາກລະດັບສຽງມີເດຍ.\n\nເພື່ອປັບລະດັບສຽງການຊ່ວຍເຂົ້າເຖິງ, ໃຫ້ກົດຄຳສັ່ງ + ເພີ່ມສຽງຂຶ້ນ ຫຼື ຫຼຸດສຽງລົງ.\n\nເພື່ອປັບຄວາມໄວໃນການເວົ້າ, ໃຫ້ກົດຄຳສັ່ງ + Ctrl + ເພີ່ມສຽງຂຶ້ນເພື່ອເພີ່ມ ແລະ ຄຳສັ່ງ + Ctrl + ຫຼຸດສຽງລົງເພື່ອຫຼຸດ.\n\nເພື່ອຢຸດການເວົ້າຕອນໃດກໍໄດ້, ໃຫ້ກົດ Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">ເມນູ TalkBack ແລະ ຄີລັດອື່ນໆ</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">ເມນູ TalkBack ຮວມມີການຕັ້ງຄ່າ ແລະ ການຄວບຄຸມທີ່ທ່ານອາດຕ້ອງໃຊ້ເລື້ອຍໆ.\n\nເພື່ອເປີດເມນູ TalkBack, ໃຫ້ກົດ Action + Ctrl + M. ທ່ານສາມາດປັບແຕ່ງເມນູ TalkBack ແລະ ຕົວຄວບຄຸມການອ່ານຂອງທ່ານໄດ້ພາຍຫຼັງໃນການຕັ້ງຄ່າ TalkBack.\n\nເມນູຄີລັດ TalkBack ຮວມມີຄີລັດທັງໝົດທີ່ທ່ານສາມາດໃຊ້ໄດ້.\n\nເພື່ອເປີດເມນູຄີລັດ, ໃຫ້ກົດຄຳສັ່ງ + Shift + /.\n\nເພື່ອສຶກສາເພີ່ມເຕີມກ່ຽວກັບແປ້ນພິມ ແລະ ເຝິກຄີລັດ, ໃຫ້ກົດຄຳສັ່ງ + 0 ເພື່ອເປີດໜ້າຈໍການເຝິກ.</string>
+  <string name="keyboard_tutorial_finished_page_title">ຮຽບຮ້ອຍໝົດແລ້ວ!</string>
+  <string name="keyboard_tutorial_finished_page_text">ທ່ານພ້ອມໃຊ້ TalkBack ແລ້ວ.\n\nສືບຕໍ່ສຶກສາກ່ຽວກັບຫົວຂໍ້ອື່ນໆຕອນນີ້ ຫຼື ກວດສອບຂໍ້ມູນນີ້ຕອນໃດກໍໄດ້ໃນການຕັ້ງຄ່າ TalkBack.\n\nເພື່ອເປີດ ຫຼື ປິດ TalkBack ຕອນໃດກໍໄດ້, ໃຫ້ກົດ Action + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">ນຳທາງໄປຫາສ່ວນຕ່າງໆຂອງເນື້ອຫາເວັບໄດ້ຢ່າງວ່ອງໄວດ້ວຍໂໝດເລືອກເບິ່ງ</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">ເມື່ອທ່ານຢູ່ໃນໂປຣແກຣມທ່ອງເວັບ ແລະ ເວັບແອັບ, ທ່ານສາມາດເປີດໂໝດເລືອກເບິ່ງ ແລະ ໂດດໄປມາລະຫວ່າງປະເພດຕ່າງໆຂອງຄວາມລະອຽດໃນການອ່ານ ແລະ ຕົວຄວບຄຸມດ້ວຍການກົດປຸ່ມພຽງເທື່ອດຽວໄດ້. ເຊິ່ງເຮັດໃຫ້ການນຳທາງໃນໜ້າຄ້າຍກັບການນຳທາງໃນກ່ອງແກ້ໄຂຂໍ້ຄວາມ, ເຊັ່ນ: ລູກສອນຊ້າຍ ແລະ ຂວາເພື່ອເລື່ອນເທື່ອລະຕົວອັກສອນ ແລະ ລູກສອນຂຶ້ນ ແລະ ລົງເພື່ອເລື່ອນເທື່ອລະແຖວ.\n\nເພື່ອເປີດ ຫຼື ປິດໂໝດເລືອກເບິ່ງ, ໃຫ້ກົດປຸ່ມຄຳສັ່ງສອງເທື່ອ.\n\nເມື່ອໂໝດເລືອກເບິ່ງເປີດຢູ່, ໃຫ້ກົດ D ເພື່ອໂດດໄປຫາຈຸດສັງເກດຖັດໄປ, ກົດ F ສຳລັບການຄວບຄຸມ ຫຼື ຊ່ອງຂໍ້ມູນແບບຟອມຖັດໄປ, ກົດ B ສຳລັບປຸ່ມຖັດໄປ, ກົດ K ສຳລັບລິ້ງຖັດໄປ ແລະ ກົດ H ສຳລັບຫົວຂໍ້ຖັດໄປ. ກົດ Shift ຄ້າງໄວ້ແລ້ວກົດປຸ່ມເຫຼົ່ານີ້ເພື່ອຖອຍຫຼັງ.\n\nນອກຈາກນີ້, ທ່ານຍັງສາມາດໃຊ້ລູກສອນຂຶ້ນ ແລະ ລົງເພື່ອຂ້າມໄປເທື່ອລະແຖວ, ລູກສອນຊ້າຍ ແລະ ຂວາເພື່ອຂ້າມໄປເທື່ອລະຕົວອັກສອນ ແລະ Ctrl + ລູກສອນຊ້າຍ ແລະ ຂວາເພື່ອຂ້າມໄປເທື່ອລະຄຳໄດ້ນຳ.\n\nກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອເຂົ້າສູ່ພື້ນທີ່ເຝິກ. ໃນລະຫວ່າງທີ່ຢູ່ໃນລິ້ງພື້ນທີ່ເຝິກ, ຊ່ອງຂໍ້ມູນແບບຟອມ ແລະ ປຸ່ມຕ່າງໆຈະບໍ່ເຮັດວຽກ.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">ລະດັບສ່ວນຫົວ</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">ເວັບໄຊ ແລະ ແອັບເວັບມັກໃຊ້ຫົວຂໍ້ທີ່ມີລະດັບຕ່າງກັນເພື່ອຈັດໂຄງສ້າງເນື້ອຫາ. ເມື່ອໂໝດເລືອກເບິ່ງເປີດຢູ່, ໃຫ້ກົດ 1 ຫາ 6 ເພື່ອຂ້າມໄປຫາລະດັບຫົວເລື່ອງ. ກົດ Shift ຄ້າງໄວ້ແລ້ວກົດປຸ່ມເຫຼົ່ານີ້ເພື່ອຖອຍຫຼັງ.\n\nກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອເຂົ້າສູ່ພື້ນທີ່ເຝິກ.</string>
+  <string name="keyboard_tutorial_tables_page_title">ຕາຕະລາງ</string>
+  <string name="keyboard_tutorial_tables_page_text">ນອກຈາກນີ້, ໂໝດເລືອກເບິ່ງຍັງຊ່ວຍໃຫ້ການນຳທາງໄປຫາພາກສ່ວນຕ່າງໆໃນຕາຕະລາງງ່າຍຂຶ້ນນຳ. ເມື່ອໂໝດເລືອກເບິ່ງເປີດຢູ່, ໃຫ້ກົດ Alt + Ctrl + ລູກສອນຂຶ້ນ ແລະ ລູກສອນລົງເພື່ອຂ້າມໄປມາລະຫວ່າງແຖວ ແລະ ກົດ Alt + Ctrl + ລູກສອນຊ້າຍ ແລະ ລູກສອນຂວາ ເພື່ອຂ້າມໄປມາລະຫວ່າງຖັນ.\n\nກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອເຂົ້າສູ່ພື້ນທີ່ເຝິກ.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">ການແກ້ໄຂຂໍ້ຄວາມ</string>
+  <string name="keyboard_tutorial_editing_text_page_text">ເມື່ອທ່ານເຂົ້າສູ່ຊ່ອງຂໍ້ມູນຂໍ້ຄວາມ, ໂໝດເລືອກເບິ່ງຈະປິດຊົ່ວຄາວເພື່ອໃຫ້ທ່ານສາມາດໃຊ້ປຸ່ມທັງໝົດໃນການພິມໄດ້. ທ່ານຈະໄດ້ຍິນປະກາດ ແລະ ສຽງເມື່ອປິດຢູ່. ເມື່ອທ່ານອອກຈາກຊ່ອງຂໍ້ຄວາມ, ໂໝດເລືອກເບິ່ງຈະເປີດຄືນໃໝ່ ແລະ ທ່ານຈະໄດ້ຍິນປະກາດ ແລະ ສຽງອື່ນ.\n\nກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອເຂົ້າສູ່ພື້ນທີ່ເຝິກ.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">ເພີ່ມເຕີມກ່ຽວກັບໂໝດເລືອກເບິ່ງ</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">ເພື່ອເບິ່ງລາຍຊື່ລາຍການທັງໝົດທີ່ທ່ານສາມາດຂ້າມໄປມາໄດ້ໃນໂໝດເລືອກເບິ່ງ, ໃຫ້ກົດຄຳສັ່ງ + Shift + / ແລ້ວຊອກຫາ \"ໂໝດເລືອກເບິ່ງ\" ໃນເມນູຄີລັດ.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">ອ່ານຕາມຕົວອັກສອນ, ຄຳ ຫຼື ຫຍໍ້ໜ້າ</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">ໃນບາງເທື່ອ, ທ່ານອາດຕ້ອງການຟັງການອ່ານຂໍ້ຄວາມອອກສຽງເທື່ອລະຕົວອັກສອນ.\n\nເພື່ອຟັງແບບດັ່ງກ່າວ, ທ່ານສາມາດໃຊ້ການນຳທາງຕົວຄວບຄຸມການອ່ານໄດ້. ກົດຄຳສັ່ງ + Shift + ລູກສອນຂວາ ຫຼື ຊ້າຍຈົນກວ່າທ່ານຈະໄດ້ຍິນ \"ຕົວອັກສອນ\". ຕໍ່ໄປ, ໃຫ້ກົດຄຳສັ່ງ + ລູກສອນຂຶ້ນເພື່ອຍ້າຍໂຟກັສການນຳທາງກັບຫຼັງເທື່ອລະຕົວອັກສອນ. ກົດຄຳສັ່ງ + ລູກສອນລົງເພື່ອຍ້າຍໂຟກັສການນຳທາງໄປໜ້າເທື່ອລະຕົວອັກສອນ.\n\nລອງເຮັດຕອນນີ້ເລີຍ. ນອກຈາກນີ້, ທ່ານຍັງສາມາດເລືອກອ່ານຕາມຄຳສັບ, ແຖວ ຫຼື ຫຍໍ້ໜ້າໄດ້ໂດຍໃຊ້ຄຳສັ່ງ + Shift + ລູກສອນຂວາ ຫຼື ຊ້າຍ.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">ໂດດໄປມາລະຫວ່າງການຄວບຄຸມ</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">ການຄວບຄຸມແມ່ນລາຍການທີ່ທ່ານສາມາດໂຕ້ຕອບໄດ້, ເຊັ່ນ: ປຸ່ມ, ກ່ອງໝາຍ ແລະ ກ່ອງຂໍ້ຄວາມ.\n\nຢູ່ບາງໜ້າ, ທ່ານອາດຕ້ອງການໂດດໄປມາລະຫວ່າງການຄວບຄຸມເພື່ອຊອກຫາຄຳສັ່ງໃດໜຶ່ງໄດ້ຢ່າງວ່ອງໄວ, ເຊັ່ນ: ປຸ່ມຕໍ່ໄປ.\n\nເພື່ອເຮັດແບບນີ້, ໃຫ້ກົດຄຳສັ່ງ + Shift + ລູກສອນຂວາຈົນກວ່າທ່ານຈະໄດ້ຍິນຄຳວ່າ \"ການຄວບຄຸມ\". ຕໍ່ໄປ, ໃຫ້ກົດຄຳສັ່ງ + ລູກສອນຂຶ້ນເພື່ອໄປຫາປຸ່ມກ່ອນໜ້າ ແລະ ຄຳສັ່ງ + ລູກສອນລົງເພື່ອໄປຫາປຸ່ມຕໍ່ໄປ.\n\nລອງໃຊ້ຕອນນີ້ ແລະ ຊອກຫາປຸ່ມຕໍ່ໄປ.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">ໂດດໄປມາລະຫວ່າງລິ້ງ</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">ນອກຈາກນີ້, ທ່ານຍັງສາມາດໂດດໄປມາລະຫວ່າງລິ້ງຕ່າງໆຢູ່ໜ້າໃດໜຶ່ງໄດ້ນຳ.\n\nເພື່ອເຮັດສິ່ງນີ້, ໃຫ້ກົດຄຳສັ່ງ + Shift + ລູກສອນຂວາຈົນກວ່າທ່ານຈະໄດ້ຍິນ \"ລິ້ງ\". ຕໍ່ໄປ, ໃຫ້ກົດຄຳສັ່ງ + ລູກສອນລົງເພື່ອຊອກຫາລິ້ງທີ່ມີຊື່ວ່າ \"ລິ້ງ 5\". ໃນລະຫວ່າງທີ່ຢູ່ໃນຂັ້ນຕອນສອນການນຳໃຊ້, ການແຕະລິ້ງນີ້ສອງເທື່ອຈະບໍ່ດຳເນີນການໃດໆ.\n\nກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອຊອກຫາປຸ່ມຖັດໄປ ແລະ ເຂົ້າໄປໜ້າຕໍ່ໄປ.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">ໂດດໄປມາລະຫວ່າງຫົວຂໍ້</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">ນອກຈາກນີ້, ທ່ານຍັງສາມາດຂ້າມໄປມາລະຫວ່າງສ່ວນຫົວໃນໜ້າໄດ້ນຳ.\n\nເພື່ອລອງໃຊ້ຕອນນີ້, ໃຫ້ກົດຄຳສັ່ງ + Shift + ລູກສອນຂວາຈົນກວ່າທ່ານຈະໄດ້ຍິນ \"ຫົວຂໍ້\". ຕໍ່ໄປ, ໃຫ້ກົດຄຳສັ່ງ + ລູກສອນລົງເພື່ອຊອກຫາຫົວຂໍ້ \"ການນຳທາງ\".</string>
+  <string name="keyboard_tutorial_find_next_button">ກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອຊອກຫາປຸ່ມຕໍ່ໄປ.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">ຂ້າມໄປມາລະຫວ່າງກ່ອງບັນຈຸ</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">ເພື່ອອອກຈາກກ່ອງບັນຈຸ, ເຊັ່ນ: ລາຍຊື່ ຫຼື ຕາຕະລາງແບບຊ່ອງ, ໃຫ້ກົດຄຳສັ່ງ + Alt + Ctrl + ລູກສອນຂວາ ຫຼື ຊ້າຍ. ການດຳເນີນການແບບນີ້ມີປະໂຫຍດເມື່ອທ່ານຕ້ອງການຍ້າຍອອກຈາກລາຍຊື່ຂອງລາຍການແບບຍາວໆ.\n\nເພື່ອລອງໃຊ້ຕອນນີ້, ໃຫ້ກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອເຂົ້າສູ່ລາຍຊື່. ຈາກນັ້ນກົດຄຳສັ່ງ + Alt + Ctrl + ລູກສອນຂວາເພື່ອໄປຫາກ່ອງບັນຈຸຕໍ່ໄປ.</string>
+  <string name="keyboard_tutorial_go_to_next_container">ເພື່ອເຂົ້າໄປກ່ອງບັນຈຸຕໍ່ໄປ, ໃຫ້ກົດຄຳສັ່ງ + Alt + Ctrl + ລູກສອນຂວາ</string>
+  <string name="keyboard_tutorial_exit_container">ເພື່ອອອກຈາກກ່ອງບັນຈຸນີ້, ໃຫ້ກົດຄຳສັ່ງ + Alt + Ctrl + ລູກສອນຂວາ</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">ທ່ານອອກຈາກກ່ອງບັນຈຸແລ້ວ. ນອກຈາກນີ້, ທ່ານຍັງສາມາດເພີ່ມກ່ອງໄປໃສ່ຕົວຄວບຄຸມການອ່ານຂອງທ່ານແລ້ວຈາກນັ້ນກົດຄຳສັ່ງ + Shift + ລູກສອນຂວາ ຫຼື ຊ້າຍເພື່ອເລືອກກ່ອງ ແລະ ຄຳສັ່ງ + ລູກສອນລົງ ຫຼື ຂຶ້ນເພື່ອຂ້າມໄປຫາກ່ອງອື່ນໄດ້ນຳ. ເພື່ອອັບເດດຕົວຄວບຄຸມການອ່ານ, ໃຫ້ເຂົ້າໄປ TalkBack &gt; ການຕັ້ງຄ່າ &gt; ປັບແຕ່ງເມນູ &gt; ປັບແຕ່ງຕົວຄວບຄຸມການອ່ານ.\n\nກົດຄຳສັ່ງ + ລູກສອນຂວາເພື່ອຊອກຫາປຸ່ມຖັດໄປ.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">ປັບແຕ່ງຕົວຄວບຄຸມການອ່ານ</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">ນອກຈາກນັ້ນ, ທ່ານຍັງສາມາດປັບແກ້ການຕັ້ງຄ່າການເວົ້າໂດຍໃຊ້ຕົວຄວບຄຸມການອ່ານ ແລະ ປັບແຕ່ງສິ່ງທີ່ທ່ານສາມາດເຮັດໄດ້ດ້ວຍຕົວຄວບຄຸມການອ່ານໃນ TalkBack &gt; ການຕັ້ງຄ່າ &gt; ປັບແຕ່ງເມນູ &gt; ປັບແຕ່ງຕົວຄວບຄຸມການອ່ານໄດ້ນຳ.</string>
+  <string name="keyboard_tutorial_image_description_page_title">ລອງຂໍຄຳອະທິບາຍຮູບ</string>
+  <string name="keyboard_tutorial_image_description_page_text">ເມື່ອທ່ານໂຟກັສໃສ່ຮູບ, ໃຫ້ກົດຄຳສັ່ງ + R, ຈາກນັ້ນກົດ I. ມີຮູບພາບ 1 ລາຍການຢູ່ລຸ່ມນີ້. ລອງໃສ່ຄຳອະທິບາຍໃຫ້ມັນ.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">ທ່ານສາມາດປ່ຽນການຕັ້ງຄ່າຄຳອະທິບາຍຮູບຕອນໃດກໍໄດ້ໃນການຕັ້ງຄ່າ TalkBack &gt; ຄຳອະທິບາຍຮູບ ແລະ ໄອຄອນ.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">ທ່ານສາມາດປ່ຽນການຕັ້ງຄ່າຄຳອະທິບາຍຮູບຕອນໃດກໍໄດ້ໃນການຕັ້ງຄ່າ TalkBack ຈາກນັ້ນໄປທີ່ຄຳອະທິບາຍຮູບ ແລະ ໄອຄອນ.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">ຮູບຕົວຢ່າງ. ກົດຄຳສັ່ງ + R, ຈາກນັ້ນກົດ I ເພື່ອຟັງຄຳອະທິບາຍ.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">ຄຳສັ່ງສຽງ</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">ທ່ານສາມາດໃຊ້ສຽງຂອງທ່ານເພື່ອຄວບຄຸມ TalkBack ຢ່າງວ່ອງໄວໄດ້.\n\nຕົວຢ່າງ: ເວົ້າຄຳສັ່ງເພື່ອປ່ຽນການນຳທາງໄປຫາສ່ວນຕ່າງໆ, ໂດດໄປຫາຫົວຂໍ້ຕໍ່ໄປ, ສຳເນົາຂໍ້ຄວາມ ແລະ ອື່ນໆ.\n\nເພື່ອລອງໃຊ້ເລີຍ, ໃຫ້ກົດ Action + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">ການໃຊ້ການຊອກຫາໃນໜ້າຈໍ</string>
+  <string name="keyboard_tutorial_screen_search_page_text">ຄຸນສົມບັດການຊອກຫາໃນໜ້າຈໍຊ່ວຍໃຫ້ທ່ານຊອກຫາເນື້ອຫາທີ່ສະເພາະເຈາະຈົງຢູ່ໜ້າຈໍໄດ້.\n\nເພື່ອລອງໃຊ້, ໃຫ້ກົດ Action + CTRL + /. ຈາກນັ້ນພິມຄີເວີດ ເຊັ່ນ: \"ຖັດໄປ\" ເພື່ອຊອກຫາລາຍການທີ່ມີຂໍ້ຄວາມນັ້ນໃນໜ້າຈໍ.\n\nລອງຊອກຫາຄຳວ່າ \"ຖັດໄປ\" ເພື່ອຊອກຫາປຸ່ມຖັດໄປໄດ້ເລີຍ.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">ນຳທາງໄປຫາສ່ວນຕ່າງໆໂດຍໃຊ້ການຊອກຫາໃນໜ້າຈໍ</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">ທ່ານສາມາດຍ້າຍໄປມາລະຫວ່າງຜົນການຊອກຫາຕ່າງໆຈາກການຊອກຫາໃນໜ້າຈໍໄດ້ຢ່າງວ່ອງໄວຫຼັງຈາກທີ່ທ່ານເລືອກຜົນການຊອກຫາແລ້ວ.\n\nເພື່ອດຳເນີນການນີ້, ທ່ານສາມາດໃຊ້ການນຳທາງຕົວຄວບຄຸມການອ່ານໄດ້. ກົດ Action + Shift + ລູກສອນຂວາ ຫຼື ຊ້າຍຈົນກວ່າທ່ານຈະໄດ້ຍິນວ່າ \"ການຊອກຫາໃນໜ້າຈໍ\". ຈາກນັ້ນ, ກົດ Action + ລູກສອນລົງ ຫຼື ຂຶ້ນເພື່ອເລື່ອນໄປຫາສ່ວນຕ່າງໆຕາມຜົນການຊອກຫາໃນໜ້າຈໍ.\n\nລອງໃຊ້ເລີຍ. ທາງລຸ່ມແມ່ນລາຍການຂອງປຸ່ມ 3 ປຸ່ມ, ເຊິ່ງທັງໝົດມີຂໍ້ຄວາມວ່າ \"ຄຳສັ່ງ\". ຊອກຫາ \"ຄຳສັ່ງ\" ໂດຍໃຊ້ການຊອກຫາໃນໜ້າຈໍ, ຈາກນັ້ນນຳທາງໄປຫາສ່ວນຕ່າງໆໂດຍໃຊ້ການຊອກຫາໃນໜ້າຈໍເພື່ອຍ້າຍໄປມາລະຫວ່າງປຸ່ມຕ່າງໆ.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">ຝຶກໃຊ້ຄີລັດ</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">ກົດປຸ່ມແປ້ນພິມ ຫຼື ຊຸດແປ້ນພິມເພື່ອຟັງວ່າປຸ່ມນັ້ນເຮັດວຽກແນວໃດ. ກົດ Ctrl + W ຫຼື Escape ເພື່ອອອກ.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;ຄົ້ນພົບຄວາມຍິ່ງໃຫຍ່ຂອງຕົ້ນສົນເຣດວູດໃນແຄລິຟໍເນຍ&lt;/h1&gt;
+      &lt;p&gt;ຕົ້ນສົນເຣດວູດຂອງແຄລິຟໍເນຍ, ໂດຍສະເພາະສາຍພັນໂຄສທ໌ເຣດວູດ (Sequoia sempervrens), ເປັນຕົ້ນໄມ້ທີ່ສູງທີ່ສຸດໃນໂລກ. ບາງຕົ້ນສູງກວ່າ 380 ຟຸດ (115 ແມັດ) ແລະ ມີອາຍຸຍືນຍາວນັບພັນປີ. ຕົ້ນໄມ້ເຫຼົ່ານີ້ເຕີບໃຫຍ່ໄດ້ດີໃນສະພາບອາກາດຊຸ່ມບໍລິເວນແຄມຝັ່ງທາງເໜືອຂອງລັດແຄລິຟໍເນຍ, ເຊິ່ງມີຄວາມຊຸ່ມສູງຈາກຝົນ ແລະ ໝອກ.&lt;/p&gt;
+
+      &lt;h2&gt;ສະຖານທີ່ເບິ່ງຕົ້ນສົນເຣດວູດນີ້&lt;/h2&gt;
+      &lt;p&gt;ທ່ານຈະພົບຕົ້ນສົນຍັກເຫຼົ່ານີ້ໄດ້ໃນພື້ນທີ່ແຄບໆຕາມແຄມຝັ່ງມະຫາສະໝຸດແປຊິຟິກ. ອຸທິຍານທີ່ມີຊື່ສຽງປະກອບດ້ວຍ:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;ອຸທິຍານແຫ່ງຊາດ ແລະ ອຸທິຍານແຫ່ງລັດເຣດວູດ&lt;/li&gt;
+        &lt;li&gt;ອຸທິຍານແຫ່ງລັດຮຳໂບລດ໌ເຣດວູດ&lt;/li&gt;
+        &lt;li&gt;ອຸທິຍານແຫ່ງລັດບິກເບຊິນເຣດວູດ&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;ວາງແຜນການເດີນທາງຂອງທ່ານໄດ້ບ່ອນນີ້: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;ສະໜັບສະໜູນການອະນຸລັກ&lt;/h2&gt;
+      &lt;p&gt;ການປົກປ້ອງປ່າທຳມະຊາດດັ້ງເດີມເຫຼົ່ານີ້ເປັນສິ່ງສຳຄັນ. ທ່ານສາມາດຊ່ວຍໄດ້ໂດຍປະຕິບັດຕາມຂໍ້ແນະນຳຂອງອຸທິຍານ ແລະ ສະໜັບສະໜູນຄວາມພະຍາຍາມໃນການອະນຸລັກ.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;ແບ່ງປັນປະສົບການຂອງທ່ານ&lt;/h2&gt;
+        &lt;p&gt;ທ່ານເຄີຍໄປອຸທິຍານແຫ່ງຊາດເຣດວູດບໍ?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;ເຄີຍ&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;ບໍ່ເຄີຍ&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;ເລົ່າປະສົບການຂອງທ່ານໃຫ້ພວກເຮົາຟັງ&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;ສົ່ງ&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;ທ່ານຢາກສຶກສາເລື່ອງຫຍັງກ່ຽວກັບຕົ້ນສົນເຣດວູດອີກແດ່?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;ສົ່ງ&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;ຕົ້ນສົນເຣດວູດ: ຊ່ວຍໃຫ້ສະພາບແວດລ້ອມຂອງພວກເຮົາດີຂຶ້ນ&lt;/h1&gt;
+    &lt;p&gt;ຕົ້ນສົນເຣດວູດມີຄວາມສຳຄັນຕໍ່ໂລກຂອງພວກເຮົາ, ໂດຍມີບົດບາດສຳຄັນໃນການຊ່ວຍໃຫ້ສະພາບແວດລ້ອມຂອງພວກເຮົາດີຂຶ້ນ.&lt;/p&gt;
+
+    &lt;h1&gt;ເຄື່ອງຟອກອາກາດຂະໜາດຍັກ&lt;/h1&gt;
+    &lt;p&gt;ຕົ້ນສົນເຣດວູດເຫຼົ່ານີ້ມີຄຸນສົມບັດພິເສດໃນການດູດຊັບຄາບອນໄດອອກໄຊຈາກອາກາດໄດ້ໃນປະລິມານຫຼາຍ. ໂດຍການດູດຊັບຄາບອນໄດອອກໄຊໄດ້ຫຼາຍຂະໜາດນີ້, ຕົ້ນສົນເຣດວູດຈຶ່ງຊ່ວຍໃຫ້ອາກາດຂອງພວກເຮົາສະອາດຂຶ້ນ.&lt;/p&gt;
+
+    &lt;h2&gt;ເຮືອນຂອງສັດ&lt;/h2&gt;
+    &lt;p&gt;ຕົ້ນສົນເຣດວູດເປັນທີ່ຢູ່ອາໄສ ແລະ ບ່ອນຫຼົບໄພຂອງສັດນາໆຊະນິດ, ຕັ້ງແຕ່ນົກທີ່ອາໄສຢູ່ກິ່ງໄມ້ໄປຈົນຮອດສັດສິ່ງມີຊີວິດຂະໜາດນ້ອຍທີ່ອາໄສຢູ່ໃນດິນ.&lt;/p&gt;
+
+    &lt;h3&gt;ຜູ້ຊ່ຽວຊານເລື່ອງນ້ຳ&lt;/h3&gt;
+    &lt;p&gt;ຕົ້ນສົນເຣດວູດສາມາດດັກຈັບລະອອງໝອກໄດ້ເປັນຢ່າງດີ, ໂດຍລະອອງໝອກຈະກັ່ນຕົວເປັນຢອດນ້ຳ ແລະ ຕົກລົງສູ່ພື້ນປ່າຕໍ່ໄປ. ເຊິ່ງນີ້ຈະຊ່ວຍໃຫ້ພື້ນດິນມີຄວາມຊຸ່ມ ແລະ ເປັນແຫຼ່ງນ້ຳໃຫ້ພືດ ແລະ ສັດອື່ນໆ, ໂດຍສະເພາະໃນຊ່ວງລະດູແລ້ງ.&lt;/p&gt;
+
+    &lt;h4&gt;ຜູ້ປົກປ້ອງຜືນດິນ&lt;/h4&gt;
+    &lt;p&gt;ຮາກທີ່ແຂງແຮງຂອງຕົ້ນສົນເຣດວູດຈະຍຶດດິນໄວ້, ບໍ່ໃຫ້ດິນເຊາະເຈື່ອນໃນຊ່ວງທີ່ຝົນຕົກໜັກ ແລະ ປ້ອງກັນການເຊາະເຈື່ອນຂອງດິນ.&lt;/p&gt;
+
+    &lt;h5&gt;ຜູ້ສ້າງປ່າ&lt;/h5&gt;
+    &lt;p&gt;ເມື່ອຕົ້ນສົນເຣດວູດເກົ່າໂຄ່ນລົ້ມລົງ, ເນື້ອໄມ້ຈະກາຍເປັນແຫຼ່ງອາຫານ ແລະ ທີ່ຢູ່ອາໄສໃຫ້ກັບພືດ ແລະ ສິ່ງມີຊີວິດອື່ນໆໝ, ເຮັດໃຫ້ເກີດດິນທີ່ອຸດົມສົມບູນສຳລັບເບ້ຍໄມ້ໃໝ່.&lt;/p&gt;
+
+    &lt;h6&gt;ລະບົບນິເວດທີ່ເປັນເອກະລັກ&lt;/h6&gt;
+    &lt;p&gt;ເນື່ອງຈາກຕົ້ນສົນເຣດວູດມີຂະໜາດໃຫຍ່ ແລະ ມີອາຍຸຍືນຍາວ, ຕົ້ນສົນຈຶ່ງສ້າງລະບົບນິເວປ່າອັນໂດດເດັ່ນທີ່ເປັນແຫຼ່ງອາໄສຂອງສິ່ງມີຊີວິດເຊິ່ງບໍ່ພົບໃນບ່ອນອື່ນຂອງໂລກ.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;ສັດໃນປ່າເຣດວູດ&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"ສັດໃນປ່າເຣດວູດ\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ສັດ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ຄຳອະທິບາຍ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ທີ່ຢູ່ອາໄສ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ສາລະໜ້າຮູ້&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ທາກກ້ວຍ&lt;/th&gt;
+            &lt;td&gt;ທາກຂະໜາດໃຫຍ່, ສີເຫຼືອງ, ມີເມືອກມື່ນໆ&lt;/td&gt;
+            &lt;td&gt;ຢູ່ພື້ນປ່າ&lt;/td&gt;
+            &lt;td&gt;ທາກທີ່ໃຫຍ່ເປັນອັນດັບ 2 ຂອງໂລກ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ຊາລາແມນເດີຍັກແປຊິຟິກ&lt;/th&gt;
+            &lt;td&gt;ຊາລາແມນເດີຂະໜາດໃຫຍ່ສີເຂັ້ມ&lt;/td&gt;
+            &lt;td&gt;ໃກ້ລຳທານ ແລະ ພື້ນທີ່ຊຸ່ມ&lt;/td&gt;
+            &lt;td&gt;ສາມາດເຕີບໃຫຍ່ຈົນຂະໜາດໂຕຍາວໄດ້ເຖິງ 1 ຟຸດ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ກວາງເອລກ໌ຣູສເວວທ໌&lt;/th&gt;
+            &lt;td&gt;ກວາງຂະໜາດໃຫຍ່ທີ່ມີເຂົາສວຍງາມ&lt;/td&gt;
+            &lt;td&gt;ຫາກິນໃນພື້ນທີ່ໂລ່ງພາຍໃນປ່າ&lt;/td&gt;
+            &lt;td&gt;ໂຕຜູ້ມີນ້ຳໜັກໄດ້ຫຼາຍກວ່າ 1,000 ປອນ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ນົກຮູກນໍເທີນສະປອດເຕັດ&lt;/th&gt;
+            &lt;td&gt;ນົກຮູກຂະໜາດກາງ, ອອກລ່າເຫຍື່ອໃນຕອນກາງຄືນ&lt;/td&gt;
+            &lt;td&gt;ໃນປ່າເຣດວູດທີ່ຕຶບໜາ ແລະ ມີອາຍຸຫຼາຍ&lt;/td&gt;
+            &lt;td&gt;ເປັນ \"ສິ່ງມີຊີວິດຊີ້ວັດ\" – ເຊິ່ງສຸຂະພາບຂອງນົກຮູກສາຍພັນນີ້ບົ່ງບອກເຖິງສຸຂະພາບຂອງປ່າ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ໝີດຳ&lt;/th&gt;
+            &lt;td&gt;ສັດລ້ຽງລູກດ້ວຍນົມຂະໜາດໃຫຍ່, ໂດຍທົ່ວໄປຈະມີສີດຳ ຫຼື ນ້ຳຕານ&lt;/td&gt;
+            &lt;td&gt;ຫາອາຫານທົ່ວບໍລິເວນປ່າ&lt;/td&gt;
+            &lt;td&gt;ປີນຕົ້ນໄມ້ເກັ່ງ, ມັກພົບເຫັນຢູ່ເທິງຕົ້ນໄມ້&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;ຄວາມຄິດເຫັນຂອງທ່ານກ່ຽວກັບຕົ້ນສົນເຣດວູດ ແລະ ທຳມະຊາດ&lt;/h1&gt;
+
+      &lt;p&gt;ທ່ານຢາກສຶກສາເລື່ອງຫຍັງກ່ຽວກັບຕົ້ນສົນເຣດວູດອີກແດ່?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;ສະຖານທີ່ທຳມະຊາດທີ່ທ່ານມັກໄປຫຼາຍທີ່ສຸດແມ່ນບ່ອນໃດ?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;ຫາກເລືອກໄດ້ 1 ເລື່ອງ, ທ່ານຢາກສຶກສາເລື່ອງໃດເພີ່ມເຕີມກ່ຽວກັບທຳມະຊາດ?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

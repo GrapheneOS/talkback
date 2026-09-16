@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.brailledisplay.platform.connect;
 
 import android.content.Context;
@@ -23,6 +39,7 @@ public class ConnectManagerProxy extends ConnectManager {
   }
 
   /** Set accessibility service context provider. */
+  @Override
   public void setAccessibilityServiceContextProvider(
       AccessibilityServiceContextProvider accessibilityServiceContextProvider) {
     btConnectManager.setAccessibilityServiceContextProvider(accessibilityServiceContextProvider);
@@ -32,11 +49,15 @@ public class ConnectManagerProxy extends ConnectManager {
   /** Switch connect manager based one connect type. */
   public void switchTo(ConnectType type) {
     if (type == ConnectType.USB) {
-      btConnectManager.onStop();
-      connectManager = usbConnectManager;
+      if (!(connectManager instanceof UsbConnectManager)) {
+        btConnectManager.onStop();
+        connectManager = usbConnectManager;
+      }
     } else {
-      usbConnectManager.onStop();
-      connectManager = btConnectManager;
+      if (!(connectManager instanceof BtConnectManager)) {
+        usbConnectManager.onStop();
+        connectManager = btConnectManager;
+      }
     }
   }
 
@@ -76,6 +97,11 @@ public class ConnectManagerProxy extends ConnectManager {
   }
 
   @Override
+  public void forget(ConnectableDevice device) {
+    connectManager.forget(device);
+  }
+
+  @Override
   public void sendOutgoingPacket(byte[] packet) {
     connectManager.sendOutgoingPacket(packet);
   }
@@ -88,6 +114,11 @@ public class ConnectManagerProxy extends ConnectManager {
   @Override
   public boolean isConnected() {
     return connectManager.isConnected();
+  }
+
+  @Override
+  public boolean isConnectingOrConnected(String deviceAddress) {
+    return connectManager.isConnectingOrConnected(deviceAddress);
   }
 
   @Override
@@ -106,13 +137,13 @@ public class ConnectManagerProxy extends ConnectManager {
   }
 
   @Override
-  public Optional<ConnectableDevice> getCurrentlyConnectingDevice() {
-    return connectManager.getCurrentlyConnectingDevice();
+  public Optional<ConnectableDevice> getConnectingOrConnectedDevice() {
+    return connectManager.getConnectingOrConnectedDevice();
   }
 
   @Override
-  public Optional<ConnectableDevice> getCurrentlyConnectedDevice() {
-    return connectManager.getCurrentlyConnectedDevice();
+  public boolean isHidDevice(ConnectableDevice device) {
+    return connectManager.isHidDevice(device);
   }
 
   @VisibleForTesting

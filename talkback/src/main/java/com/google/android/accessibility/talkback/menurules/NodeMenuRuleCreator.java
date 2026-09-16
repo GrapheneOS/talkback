@@ -40,8 +40,9 @@ public class NodeMenuRuleCreator {
     RULE_CUSTOM_ACTION(R.id.custom_action_menu),
     RULE_VIEWPAGER(R.id.viewpager_menu),
     RULE_GRANULARITY(R.id.granularity_menu),
-    RULE_SPANNABLES(R.id.links_menu),
-    RULE_IMAGE_CAPTION(R.id.image_caption_menu);
+    RULE_IMAGE_CAPTION(R.id.image_caption_menu),
+    RULE_TEXT_FORMATTING(R.id.text_formatting),
+    RULE_SUMMARIZE_VIEW(R.id.summarize_view_menu);
 
     @IdRes final int ruleId;
 
@@ -61,8 +62,9 @@ public class NodeMenuRuleCreator {
   private final NodeMenuRule ruleAction;
   private final NodeMenuRule ruleViewPager;
   private final NodeMenuRule ruleGranularity;
-  private final NodeMenuRule ruleSpannables;
   private final NodeMenuRule ruleImageCaption;
+  private final NodeMenuRule ruleTextFormatting;
+  private final NodeMenuRule ruleScreenOverview;
 
   public NodeMenuRuleCreator(
       Pipeline.FeedbackReturner pipeline,
@@ -73,8 +75,9 @@ public class NodeMenuRuleCreator {
     ruleAction = new RuleAction(pipeline, actorState, accessibilityFocusMonitor, analytics);
     ruleViewPager = new RuleViewPager(pipeline, analytics);
     ruleGranularity = new RuleGranularity(pipeline, actorState, analytics);
-    ruleSpannables = new RuleSpannables(analytics);
-    ruleImageCaption = new RuleImageCaption(pipeline, analytics);
+    ruleImageCaption = new RuleImageCaption(pipeline, actorState, analytics);
+    ruleTextFormatting = new RuleTextFormatting(pipeline, analytics);
+    ruleScreenOverview = new RuleScreenOverview(pipeline, analytics);
   }
 
   /**
@@ -103,21 +106,15 @@ public class NodeMenuRuleCreator {
       return null;
     }
 
-    switch (rule) {
-      case RULE_UNLABELLED:
-        return ruleUnlabeledNode;
-      case RULE_CUSTOM_ACTION:
-        return ruleAction;
-      case RULE_VIEWPAGER:
-        return ruleViewPager;
-      case RULE_GRANULARITY:
-        return ruleGranularity;
-      case RULE_SPANNABLES:
-        return ruleSpannables;
-      case RULE_IMAGE_CAPTION:
-        return ruleImageCaption;
-      default:
-        throw new AssertionError("Unsupported Menu Rule.");
-    }
+    return switch (rule) {
+      case RULE_UNLABELLED -> ruleUnlabeledNode;
+      case RULE_CUSTOM_ACTION -> ruleAction;
+      case RULE_VIEWPAGER -> ruleViewPager;
+      case RULE_GRANULARITY -> ruleGranularity;
+      case RULE_IMAGE_CAPTION -> ruleImageCaption;
+      case RULE_TEXT_FORMATTING -> ruleTextFormatting;
+      case RULE_SUMMARIZE_VIEW -> ruleScreenOverview;
+      default -> throw new AssertionError("Unsupported Menu Rule.");
+    };
   }
 }

@@ -27,9 +27,12 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.keyboard.KeyComboModel;
+import com.google.android.accessibility.talkback.utils.LinkUtils;
+import com.google.android.accessibility.talkback.utils.LinkUtils.LinkSpan;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.List;
 
 /** Provides usage hints for clickable nodes. */
 public class ClickableHint {
@@ -53,6 +56,7 @@ public class ClickableHint {
    *   <li>singleSelectionClickHint,
    *   <li>checkableHint,
    *   <li>clickableHint,
+   *   <li>clickableLinkHint,
    * </ul>
    */
   public CharSequence getHint(AccessibilityNodeInfoCompat node) {
@@ -74,6 +78,11 @@ public class ClickableHint {
     hint = clickableHint(node);
     if (!TextUtils.isEmpty(hint)) {
       LogUtils.v(TAG, " clickableHint={%s}", hint);
+      return hint;
+    }
+    hint = clickableLinkHint(node);
+    if (!TextUtils.isEmpty(hint)) {
+      LogUtils.v(TAG, " clickableLinkHint={%s}", hint);
       return hint;
     }
     return "";
@@ -104,11 +113,8 @@ public class ClickableHint {
     } else if (Role.getRole(node) != ROLE_TEXT_ENTRY_KEY
         && (!globalVariables.isInterpretAsEntryKey()
             || !AccessibilityNodeInfoUtils.isKeyboard(node))) {
-      CharSequence tapGesture =
-          globalVariables.useSingleTap()
-              ? context.getString(R.string.value_single_tap)
-              : context.getString(R.string.value_double_tap);
-      return context.getString(R.string.template_custom_hint_for_actions, tapGesture, actionLabel);
+      return context.getString(
+          R.string.template_custom_hint_for_actions, getTapGestureHint(), actionLabel);
     }
     return "";
   }
@@ -145,6 +151,37 @@ public class ClickableHint {
         node, R.string.template_hint_clickable_keyboard, R.string.template_hint_clickable);
   }
 
+  /** Returns clickable hint if the node contains the link. */
+  private CharSequence clickableLinkHint(AccessibilityNodeInfoCompat node) {
+    if (!globalVariables.supportClickableLinks()) {
+      return "";
+    }
+    final List<LinkSpan> linkSpans = LinkUtils.getLinkSpansInNodeGroup(node);
+    if (linkSpans.isEmpty()) {
+      return "";
+    }
+
+    return getOpenLinkHint(context, globalVariables);
+  }
+
+  /** Returns clickable hint for open link. */
+  public CharSequence getOpenLinkHint(Context context, GlobalVariables globalVariables) {
+    int inputMode = globalVariables.getGlobalInputMode();
+    if (inputMode == INPUT_MODE_KEYBOARD
+        && globalVariables.getKeyComboCodeForKey(R.string.keycombo_shortcut_perform_click)
+            != KeyComboModel.KEY_COMBO_CODE_UNASSIGNED) {
+      return context.getString(
+          R.string.template_hint_clickable_link_keyboard,
+          globalVariables.getKeyComboStringRepresentation(
+              R.string.keycombo_shortcut_perform_click));
+    } else if (inputMode == INPUT_MODE_NON_ALPHABETIC_KEYBOARD) {
+      return context.getString(
+          R.string.template_hint_clickable_link, context.getString(R.string.value_press_select));
+    } else {
+      return context.getString(R.string.template_hint_clickable_link, getTapGestureHint());
+    }
+  }
+
   /** Returns clickable hint for edit text. */
   public CharSequence getEditTextClickableHint(AccessibilityNodeInfoCompat node) {
     return getClickHint(
@@ -175,12 +212,14 @@ public class ClickableHint {
         && Role.getRole(node) != ROLE_TEXT_ENTRY_KEY
         && (!globalVariables.isInterpretAsEntryKey()
             || !AccessibilityNodeInfoUtils.isKeyboard(node))) {
-      CharSequence tapGesture =
-          globalVariables.useSingleTap()
-              ? context.getString(R.string.value_single_tap)
-              : context.getString(R.string.value_double_tap);
-      return context.getString(hintString, tapGesture);
+      return context.getString(hintString, getTapGestureHint());
     }
     return "";
+  }
+
+  protected CharSequence getTapGestureHint() {
+    return globalVariables.useSingleTap()
+        ? context.getString(R.string.value_single_tap)
+        : context.getString(R.string.value_double_tap);
   }
 }

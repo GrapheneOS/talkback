@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Tento návod sa týka zlepšenej mapy klávesov, ktorá zahŕňa množstvo nových príkazov. Ak chcete vybrať mapu klávesov, prejdite do sekcie Nastavenia aplikácie TalkBack &gt; Rozšírené nastavenia &gt; Klávesové skratky.\n\nPre výber témy stlačte akčný kláves + šípku doprava. Na získanie najlepšieho prostredia zapnite pred začatím aplikáciu TalkBack.</string>
+  <string name="basic_interaction_link_text">Základná interakcia</string>
+  <string name="basic_interaction_link_subtext">Prechádzajte medzi položkami, čítajte po riadkoch, používajte ponuky a vykonávajte ďalšie akcie</string>
+  <string name="browse_mode_link_text">Režim prehliadania</string>
+  <string name="browse_mode_link_subtext">Prechádzajte webovým obsahom rýchlejšie pomocou príkazov na preskočenie</string>
+  <string name="reading_controls_link_text">Ovládanie čítania</string>
+  <string name="reading_controls_link_subtext">Pomocou ovládania čítania môžete preskakovať medzi položkami, upravovať nastavenia reči a vykonávať ďalšie akcie</string>
+  <string name="image_descriptions_link_text">Opisy obrázkov</string>
+  <string name="image_descriptions_link_subtext">Skúste získať opisy obrázkov</string>
+  <string name="keyboard_shortcuts_link_text">Precvičte si klávesové skratky</string>
+  <string name="keyboard_shortcuts_link_subtext">Stláčajte klávesy a ich kombinácie a zistite, na čo slúžia</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack poskytuje hovorenú spätnú väzbu, pomocou ktorej možno zariadenie ovládať aj bez pozerania sa na obrazovku. Aplikácia môže byť užitočná pre ľudí, ktorí obrazovku dobre nevidia. Keď je aplikácia TalkBack zapnutá, označená položka na obrazovke sa nahlas vysloví.\n\nNajprv sa oboznámte s klávesnicou. Nájdite akčný kláves, ktorý je nad ľavým klávesom Shift. Teraz nájdime klávesy so šípkami v pravej dolnej časti klávesnice. Na ďalšiu položku prejdete stlačením akčného klávesa + šípky doprava.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Toto je ďalšia položka. Ak chcete prejsť na predchádzajúcu, stlačte akčný kláves + šípku doľava.\n\nKeď prejdete na interaktívnu položku, napríklad tlačidlo, aktivujte ju stlačením akčného klávesa + medzerníka. Nájdite tlačidlo Ďalej a pokračujte v návode.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Čítanie po znakoch, slovách či odsekoch</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Niekedy možno budete chcieť počuť text čítaný nahlas po jednotlivých znakoch.\n\nUrobíte to pomocou navigácie v ovládaní čítania. Stláčajte akčný kláves + Shift + šípku doprava alebo doľava, kým nezačujete výraz „znaky“.\n\nPotom presuňte zameranie navigácie späť o jeden znak stlačením akčného klávesa + šípky nahor. Stlačením akčného klávesa a šípky nadol presuňte zameranie navigácie vpred o jeden znak.\n\nVyskúšajte to. Môžete vybrať aj čítanie po slovách, riadkoch alebo odsekoch tak, že stlačíte akčný kláves + Shift + šípku doprava alebo doľava.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigácia v systéme</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Ak teraz vyskúšate tieto klávesové skratky, návod sa zavrie. Odporúčame vám počkať, kým prejdete celý návod.\n\nAk chcete prechádzať medzi otvorenými oknami aplikácií a prvkami systému, ako sú upozornenia a panel aplikácií, stlačte akčný kláves + Alt + Ctrl + šípku nahor alebo nadol.\n\nAk chcete otvoriť zoznam aplikácií, stlačte akčný kláves.\n\nAk chcete prejsť na plochu a minimalizovať všetky otvorené okná, stlačte akčný kláves + H alebo Domov v hornom riadku.\n\nAk chcete prejsť na nedávne aplikácie, stlačte akčný kláves + Tab alebo Prehľad v hornom riadku.\n\nAk chcete rýchlo prechádzať medzi oknami, podržte Alt a stlačte Tab.\n\nAk chcete prejsť späť, stlačte akčný kláves + Esc alebo Späť v hornom riadku.\n\nAk chcete otvoriť upozornenia, stlačte akčný kláves + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Úprava nastavení reči</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Hlasitosť reči aplikácie TalkBack sa nazýva hlasitosť dostupnosti. Upravuje sa oddelene od hlasitosti médií.\n\nAk chcete upraviť hlasitosť dostupnosti, stlačte akčný kláves + tlačidlo zvýšenia alebo zníženia hlasitosti.\n\nAk chcete upraviť rýchlosť reči, stlačte akčný kláves + Ctrl + tlačidlo zvýšenia hlasitosti, keď ju chcete zvýšiť, alebo akčný kláves + Ctrl + tlačidlo zníženia hlasitosti, keď ju chcete znížiť.\n\nReč kedykoľvek zastavíte stlačením klávesa Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Ponuka aplikácie TalkBack a ďalšie klávesové skratky</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Ponuka aplikácie TalkBack zahŕňa nastavenia a ovládanie, ktoré zrejme budete potrebovať často.\n\nAk chcete otvoriť ponuku aplikácie TalkBack, stlačte akčný kláves + Ctrl + M. Ponuku aplikácie TalkBack a ovládanie čítania môžete prispôsobiť neskôr v nastaveniach aplikácie TalkBack.\n\nPonuka klávesových skratiek aplikácie TalkBack zahŕňa všetky klávesové skratky, ktoré môžete používať.\n\nAk chcete otvoriť ponuku klávesových skratiek, stlačte akčný kláves + Shift + /.\n\nAk sa chcete dozvedieť viac o klávesnici a precvičiť si klávesové skratky, stlačte akčný kláves + 0, čím otvoríte cvičnú obrazovku.</string>
+  <string name="keyboard_tutorial_finished_page_title">Hotovo!</string>
+  <string name="keyboard_tutorial_finished_page_text">TalkBack môžete začať používať.\n\nPrečítajte si viac o ďalších témach alebo tieto informácie kedykoľvek skontrolujte v nastaveniach aplikácie TalkBack.\n\nTalkBack kedykoľvek zapnete alebo vypnete stlačením akčného klávesa + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Rýchlejšie prechádzanie webovým obsahom pomocou režimu prehliadania</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Keď ste v prehliadači a webových aplikáciách, môžete zapnúť režim prehliadania a jedným stlačením klávesa prechádzať medzi rôznymi typmi úrovne granularity čítania a ovládacími prvkami. Navigácia na stránke je v ňom podobná navigácii v textovom editore, napríklad pomocou šípok doľava a doprava sa môžete presúvať po znakoch a pomocou šípok nahor a nadol po riadkoch.\n\nRežim prehliadania zapnete alebo vypnete dvojitým stlačením akčného klávesa.\n\nKeď je režim prehliadania zapnutý, stlačením klávesa D prejdete na ďalší orientačný bod, pomocou klávesa F na ďalší ovládací prvok alebo pole formulára, pomocou klávesa B na ďalšie tlačidlo, pomocou klávesa K na ďalší odkaz a pomocou klávesa H na ďalší nadpis. Ak sa chcete presunúť dozadu, podržte Shift a stlačte tieto klávesy.\n\nAk chcete prechádzať po riadkoch, môžete použiť aj šípky nahor a nadol. Ak chcete prechádzať po písmenách, použite šípky doľava a doprava. Ak chcete prechádzať po slovách, použite Ctrl + šípky doľava a doprava.\n\nAk chcete prejsť do cvičnej oblasti, stlačte akčný kláves + šípku doprava. Keď ste v cvičnej oblasti, odkazy, polia formulárov a tlačidlá nebudú fungovať.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Úrovne nadpisov</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Weby a webové aplikácie často štruktúrujú obsah nadpismi s rôznymi úrovňami. Keď je zapnutý režim prehliadania, stlačením klávesov 1 až 6 prejdete na úrovne nadpisov. Ak sa chcete presunúť dozadu, podržte Shift a stlačte tieto klávesy.\n\nAk chcete prejsť do cvičnej oblasti, stlačte akčný kláves + šípku doprava.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabuľky</string>
+  <string name="keyboard_tutorial_tables_page_text">Režim prehliadania uľahčuje aj navigáciu v tabuľkách. Keď je zapnutý, medzi riadkami môžete prepínať stlačením klávesov Alt + Ctrl + šípka nahor alebo nadol a medzi stĺpcami stlačením klávesov Alt + Ctrl + šípka doľava alebo doprava.\n\nAk chcete prejsť do cvičnej oblasti, stlačte akčný kláves + šípku doprava.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Úprava textu</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Keď prejdete do textového poľa, režim prehliadania sa dočasne vypne, aby ste mohli písať pomocou všetkých klávesov. Po vypnutí budete počuť oznámenie a zvuk. Keď opustíte textové pole, režim prehliadania sa znova zapne a budete počuť ďalšie oznámenie a zvuk.\n\nStlačením akčného klávesa + šípky doprava prejdite do cvičnej oblasti.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Ďalšie informácie o režime prehliadania</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Ak chcete skontrolovať úplný zoznam položiek, medzi ktorými môžete v režime prehliadania prechádzať, stlačte akčný kláves + Shift + / a v ponuke klávesových skratiek vyhľadajte režim prehliadania.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Čítanie po znakoch, slovách či odsekoch</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Niekedy možno budete chcieť počuť text čítaný nahlas po jednotlivých znakoch.\n\nUrobíte to pomocou navigácie v ovládaní čítania. Stláčajte akčný kláves + Shift + šípku doprava alebo doľava, kým nezačujete výraz „znaky“. Potom presuňte zameranie navigácie späť o jeden znak stlačením akčného klávesa + šípky nahor. Stlačením akčného klávesa a šípky nadol presuňte zameranie navigácie vpred o jeden znak.\n\nVyskúšajte to. Môžete vybrať aj čítanie po slovách, riadkoch alebo odsekoch tak, že stlačíte akčný kláves + Shift + šípku doprava alebo doľava.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Prechádzanie medzi ovládacími prvkami</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Ovládacie prvky sú interaktívne položky, napríklad tlačidlá, začiarkavacie políčka a textové polia.\n\nNa niektorých stránkach môžete chcieť prechádzať medzi ovládacími prvkami, aby ste rýchlo našli nejakú akciu, napríklad ďalšie tlačidlo.\n\nUrobíte to stláčaním akčného klávesa + Shift + šípky doprava, dokým nezačujete „ovládanie“. Potom prejdete na predchádzajúce tlačidlo stlačením akčného klávesa + šípka nahor a na ďalšie tlačidlo stačením akčného klávesa + šípka nadol.\n\nVyskúšajte to a nájdite ďalšie tlačidlo.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Prechádzanie medzi odkazmi</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Môžete aj prechádzať medzi odkazmi na stránke.\n\nUrobíte to tak, že budete stláčať akčný kláves + Shift + šípku doprava, kým nezačujete „odkazy“. Potom stláčaním akčného klávesa a šípky nadol nájdite odkaz s názvom „5. odkaz“. Keď v tomto návode na tento odkaz dvakrát klepnete, nič sa nestane.\n\nNájdite ďalšie tlačidlo stlačením akčného klávesa + šípky doprava a prejdite na ďalšiu stránku.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Prechádzanie medzi nadpismi</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Môžete prechádzať aj medzi nadpismi na stránke.\n\nVyskúšajte to tak, že budete stláčať akčný kláves + Shift + šípku doprava, kým nezačujete „nadpisy“. Potom stláčaním akčného klávesa a šípky nadol nájdite nadpis „Navigácia“.</string>
+  <string name="keyboard_tutorial_find_next_button">Nájdite ďalšie tlačidlo stlačením akčného klávesa + šípky doprava.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Prechádzanie medzi kontajnermi</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Ak chcete opustiť kontajner, napríklad zoznam alebo mriežku, stlačte akčný kláves + Alt + Ctrl + šípku doprava alebo doľava. Je to užitočné, keď chcete opustiť dlhý zoznam položiek.\n\nAk to chcete vyskúšať, prejdite do zoznamu stlačením akčného klávesa + šípky doprava. Potom stlačením akčného klávesa + Alt + Ctrl + šípky doprava prejdite na ďalší kontajner.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Ak chcete prejsť na ďalší kontajner, stlačte akčný kláves + Alt + Ctrl + šípku doprava</string>
+  <string name="keyboard_tutorial_exit_container">Ak chcete opustiť tento kontajner, stlačte akčný kláves + Alt + Ctrl + šípku doprava</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Kontajner ste opustili. Do ovládania čítania môžete pridať aj kontajnery a potom stlačením akčného klávesa + Shift + šípky doprava alebo doľava vybrať kontajnery a stlačením akčného klávesa + šípky nadol alebo nahor medzi nimi prepínať. Ak chcete aktualizovať ovládanie čítania, prejdite do aplikácie TalkBack &gt; Nastavenia &gt; Prispôsobiť ponuky &gt; Prispôsobiť ovládanie čítania.\n\nĎalšie tlačidlo nájdete stlačením akčného klávesa + šípky doprava.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Prispôsobenie ovládania čítania</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Nastavenia reči môžete upraviť aj pomocou ovládania čítania v aplikácii TalkBack &gt; Nastavenia &gt; Prispôsobiť ponuky &gt; Prispôsobiť ovládanie čítania, kde môžete aj prispôsobiť, čo môžete robiť pomocou ovládania čítania.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Skúste získať opisy obrázkov</string>
+  <string name="keyboard_tutorial_image_description_page_text">Keď máte označený obrázok, stlačte akčný kláves + R a potom I. Nižšie je jedna fotka. Skúste získať jej opis.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Nastavenia opisu obrázkov môžete kedykoľvek zmeniť v nastaveniach aplikácie TalkBack &gt; Opisy obrázkov a ikon.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Nastavenia opisu obrázkov môžete kedykoľvek zmeniť v nastaveniach aplikácie TalkBack v sekcii Opisy obrázkov a ikon.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Ukážka obrázka. Ak si chcete vypočuť opis, stlačte akčný kláves + R a potom I.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Hlasové príkazy</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBack môžete pohotovo ovládať hlasom.\n\nHlasovým príkazom môžete napríklad zmeniť smer prechádzania, prejsť na ďalší nadpis, skopírovať text a podobne.\n\nVyskúšajte to. Stlačte akčný kláves + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Používanie priameho vyhľadávania</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Pomocou funkcie priameho vyhľadávania môžete vyhľadať konkrétny obsah na obrazovke.\n\nAk ju chcete vyskúšať, stlačte akčný kláves + CTRL + /. Napíšte kľúčové slovo, napríklad „ďalšie“, ak chcete na obrazovke vyhľadať položky s týmto textom.\n\nSkúste napísať slovo „ďalšie“ a nájsť ďalšie tlačidlo.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Prechádzanie pomocou priameho vyhľadávania</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Po výbere výsledku sa môžete pomocou priameho vyhľadávania rýchlo pohybovať medzi rôznymi výsledkami vyhľadávania.\n\nAk to chcete vyskúšať, môžete použiť navigáciu ovládania čítania. Stláčajte akčný kláves + Shift + šípku doprava alebo doľava, kým nezačujete výraz „priame vyhľadávanie“. Potom stláčaním akčneho klávesa a šípky nadol alebo nahor prechádzajte výsledkami priameho vyhľadávania.\n\nVyskúšajte to. Nižšie je zoznam troch tlačidiel, na ktorých je slovo „akcia“. Vyhľadajte výraz „akcia“ pomocou priameho vyhľadávania a potom sa pomocou priameho vyhľadávania presúvajte medzi tlačidlami.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Precvičte si klávesové skratky</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Keď na fyzickej klávesnici stlačíte kláves alebo kombináciu klávesov, zaznie zvukový opis toho, čo robí. Ak chcete precvičovanie ukončiť, stlačte Ctrl + W alebo Escape.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Objavte majestátnosť kalifornských sekvojí&lt;/h1&gt;
+      &lt;p&gt;Kalifornské sekvoje, najmä sekvoja vždyzelená (Sequoia sempervrens), sú najvyššie stromy na svete. Niektoré majú viac ako 115 metrov a žijú tisíce rokov. Darí sa im vo vlhkom pobrežnom podnebí severnej Kalifornie, kde im prospieva dostatok dažďa a hmly.&lt;/p&gt;
+
+      &lt;h2&gt;Kde ich môžete vidieť&lt;/h2&gt;
+      &lt;p&gt;Tieto obry nájdete na úzkom páse pozdĺž tichomorského pobrežia. Medzi kľúčové parky patria:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Národný park Redwood,&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park,&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park.&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Návštevu si môžete naplánovať tu: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – sekvoje&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Podporte ochranu životného prostredie&lt;/h2&gt;
+      &lt;p&gt;Ochrana týchto starých lesov je veľmi dôležitá. Môžete pomôcť tým, že budete dodrživať pravidlá parku a podporíte úsilie o ochranu životného prostredia.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Podeľte sa o svoje dojmy&lt;/h2&gt;
+        &lt;p&gt;Boli ste už medzi sekvojami?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Áno&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nie&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Povedzte nám o svojich dojmoch&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Odoslať&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Čo ďalšie by ste sa chceli dozvedieť o sekvojach?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Odoslať&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekvoje: udržiavajú zdravé životné prostredie&lt;/h1&gt;
+    &lt;p&gt;Sekvoje sú pre našu planétu dôležité a zohrávajú obrovskú úlohu pri udržiavaní zdravého životného prostredia.&lt;/p&gt;
+
+    &lt;h1&gt;Obrovské čističky vzduchu&lt;/h1&gt;
+    &lt;p&gt;Tieto stromy sú prospešné tým, že dokážu z ovzdušia absorbovať oxid uhličitý. Tým, že ho absorbujú, pomáhajú udržiavať ovzdušie čisté.&lt;/p&gt;
+
+    &lt;h2&gt;Domov pre zvieratá&lt;/h2&gt;
+    &lt;p&gt;Sekvoje poskytujú domov a úkryt mnohým zvieratám, od vtákov v konároch až po malé tvory žijúce v zemi.&lt;/p&gt;
+
+    &lt;h3&gt;Majstrovskí vodní hospodári&lt;/h3&gt;
+    &lt;p&gt;Sú skvelé v zachytávaní hmly, ktorá z nich potom v podobe vody steká na lesnú pôdu. Pôda je vďaka tomu vlhká a poskytuje vodu iným rastlinám a zvieratám, najmä keď je sucho.&lt;/p&gt;
+
+    &lt;h4&gt;Ochrancovia pôdy&lt;/h4&gt;
+    &lt;p&gt;Ich silné korene držia pôdu na mieste, čím zabraňujú jej odplavovaniu počas silných dažďov. Navyše zamedzujú erózii.&lt;/p&gt;
+
+    &lt;h5&gt;Tvorcovia lesov&lt;/h5&gt;
+    &lt;p&gt;Keď staré sekvoje spadnú, ich drevo sa stane potravou a úkrytom nových rastlín a živočíchov, čím vznikne úrodná pôda pre nový porast.&lt;/p&gt;
+
+    &lt;h6&gt;Jedinečné ekosystémy&lt;/h6&gt;
+    &lt;p&gt;Sekvoje sú také veľké a žijú tak dlho, že vytvárajú špeciálne lesné prostredia, ktoré podporujú život, aký sa nenachádza nikde inde.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Zvieratá v sekvojových lesoch&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=Zvieratá v sekvojových lesoch&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Zviera&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Opis&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Kde žije&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Zaujímavý fakt&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Slimák banánový&lt;/th&gt;
+            &lt;td&gt;Veľký, žltý a slizký slimák&lt;/td&gt;
+            &lt;td&gt;Na lesnej pôde&lt;/td&gt;
+            &lt;td&gt;Druhý najväčší slimák na svete&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Tichomorská salamandra obrovská&lt;/th&gt;
+            &lt;td&gt;Veľká, tmavá salamandra&lt;/td&gt;
+            &lt;td&gt;V blízkosti potokov a vlhkých oblastí&lt;/td&gt;
+            &lt;td&gt;Dorastá až do dĺžky 30 cm&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Wapiti západný&lt;/th&gt;
+            &lt;td&gt;Veľký jeleň s pôsobivým parožím&lt;/td&gt;
+            &lt;td&gt;Pasie sa na lesných čistinách&lt;/td&gt;
+            &lt;td&gt;Samce môžu vážiť viac ako 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Severná sova škvrnitá&lt;/th&gt;
+            &lt;td&gt;Stredne veľká sova, loví v noci&lt;/td&gt;
+            &lt;td&gt;V hustých, starých sekvojových lesoch&lt;/td&gt;
+            &lt;td&gt;Indikátorový druh – jej zdravie naznačuje, aký zdravý je les&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Medveď baribal&lt;/th&gt;
+            &lt;td&gt;Veľký cicavec, zvyčajne čierny alebo hnedý&lt;/td&gt;
+            &lt;td&gt;Hľadá potravu v celom lese&lt;/td&gt;
+            &lt;td&gt;Výborne sa šplhá, často ho vidno na stromoch&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Vaše postrehy o sekvojach a prírode&lt;/h1&gt;
+
+      &lt;p&gt;Čo ďalšie by ste sa chceli dozvedieť o sekvojach?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Na aké svoje obľúbené miesto v prírode radi chodíte?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;O akom aspekte prírody sa chcete dozvedieť viac?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

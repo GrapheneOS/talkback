@@ -282,10 +282,8 @@ public class AccessibilityButtonMonitor {
         return;
       }
       switch (msg.what) {
-        case MSG_BUTTON_CLICKED:
-          parent.mCallback.onAccessibilityButtonClicked();
-          break;
-        case MSG_CONFIRM_BUTTON_NOT_SUPPORTED:
+        case MSG_BUTTON_CLICKED -> parent.mCallback.onAccessibilityButtonClicked();
+        case MSG_CONFIRM_BUTTON_NOT_SUPPORTED -> {
           parent.mButtonState = NOT_SUPPORTED;
           // Make sure that we only notify once.
           if (!mHasNotifiedSupportability) {
@@ -293,8 +291,8 @@ public class AccessibilityButtonMonitor {
             mHasNotifiedSupportability = true;
             parent.mCallback.onConfirmSupportability(false);
           }
-          break;
-        case MSG_CONFIRM_BUTTON_SUPPORTED:
+        }
+        case MSG_CONFIRM_BUTTON_SUPPORTED -> {
           parent.mButtonState = SUPPORTED;
           // Make sure that we only notify once.
           if (!mHasNotifiedSupportability) {
@@ -302,8 +300,8 @@ public class AccessibilityButtonMonitor {
             parent.mCallback.onConfirmSupportability(true);
             mHasNotifiedSupportability = true;
           }
-          break;
-        case MSG_CONFIRM_BUTTON_SUPPORTABILITY_DELAYED:
+        }
+        case MSG_CONFIRM_BUTTON_SUPPORTABILITY_DELAYED -> {
           boolean isAvailable;
           if (BuildVersionUtils.isAtLeastOMR1()) {
             isAvailable = AccessibilityManager.isAccessibilityButtonSupported();
@@ -321,9 +319,8 @@ public class AccessibilityButtonMonitor {
             parent.mCallback.onConfirmSupportability(isAvailable);
             mHasNotifiedSupportability = true;
           }
-          break;
-        default:
-          break;
+        }
+        default -> {}
       }
     }
 

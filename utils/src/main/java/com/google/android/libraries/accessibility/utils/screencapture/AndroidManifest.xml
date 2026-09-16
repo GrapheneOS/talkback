@@ -3,9 +3,10 @@
     android:versionCode="1"
     android:versionName="1.0.0" >
 
+    <!-- The min SDK version 23 is for Select to Speak. -->
     <uses-sdk
-        android:minSdkVersion="22"
-        android:targetSdkVersion="22" />
+        android:minSdkVersion="23"
+        android:targetSdkVersion="36" />
 
     <application>
 

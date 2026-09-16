@@ -16,7 +16,9 @@
 
 package com.google.android.accessibility.utils.output;
 
-import static com.google.android.accessibility.utils.AccessibilityNodeInfoUtils.TARGET_SPAN_CLASS;
+import static com.google.android.accessibility.utils.AccessibilityNodeInfoUtils.BASE_CLICKABLE_SPAN;
+import static com.google.android.accessibility.utils.output.TextFormattingUtils.FEEDBACK_MODE_SOUND;
+import static com.google.android.accessibility.utils.output.TextFormattingUtils.FEEDBACK_MODE_SPEECH;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -33,16 +35,21 @@ import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
 import android.text.style.LocaleSpan;
 import android.text.style.TtsSpan;
-import android.text.style.URLSpan;
 import androidx.annotation.VisibleForTesting;
+import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.R;
 import com.google.android.accessibility.utils.SpannableUtils;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.SpeechParam;
+import com.google.android.accessibility.utils.output.SpeechControllerImpl.InlineFormattingHistory;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,6 +90,11 @@ public class FeedbackProcessingUtils {
    *
    * @param text The text to include
    * @param usePunctuation whether the feature speak-punctuation-symbol is activated
+   * @param inlineFormattingHistory The history of inline formatting feedback
+   * @param formattingOptions The formatting options to be applied to the generated formatting
+   *     feedback
+   * @param formattingFeedbackMode The feedback mode to be applied to the generated formatting
+   *     feedback
    * @param removeUnnecessarySpans whether remove unnecessary spans or not
    * @param earcons The earcons to be played when this item is processed
    * @param haptics The haptic patterns to be produced when this item is processed
@@ -97,6 +109,9 @@ public class FeedbackProcessingUtils {
       Context context,
       CharSequence text,
       boolean usePunctuation,
+      InlineFormattingHistory inlineFormattingHistory,
+      int formattingOptions,
+      int formattingFeedbackMode,
       boolean removeUnnecessarySpans,
       @Nullable Set<Integer> earcons,
       @Nullable Set<Integer> haptics,
@@ -116,9 +131,20 @@ public class FeedbackProcessingUtils {
     if (!usePunctuation || !aggressiveChunking) {
       breakSentence(feedbackItem);
     }
-    addFormattingCharacteristics(context, feedbackItem, usePunctuation, removeUnnecessarySpans);
-    if (usePunctuation && aggressiveChunking) {
-      aggressiveChunking(feedbackItem);
+    if (!feedbackItem.hasFlag(FeedbackItem.FLAG_INLINE_FORMATTING)) {
+      formattingOptions = TextFormattingUtils.OPTION_NONE;
+      formattingFeedbackMode = TextFormattingUtils.FEEDBACK_MODE_NONE;
+    }
+    addFormattingCharacteristics(
+        context,
+        feedbackItem,
+        usePunctuation,
+        inlineFormattingHistory,
+        formattingOptions,
+        formattingFeedbackMode,
+        removeUnnecessarySpans);
+    if (usePunctuation) {
+      aggressiveChunking(feedbackItem, aggressiveChunking);
     }
     splitLongText(feedbackItem);
 
@@ -243,7 +269,11 @@ public class FeedbackProcessingUtils {
    * </ul>
    */
   @TargetApi(Build.VERSION_CODES.Q)
-  private static void aggressiveChunking(FeedbackItem item) {
+  private static void aggressiveChunking(FeedbackItem item, boolean aggressiveChunking) {
+    if (!BuildVersionUtils.isAtLeastQ()) {
+      // This method uses API beyond platform P.
+      return;
+    }
     // Position to insert the split fragment is always [i+1].
     boolean chunked = false;
     for (int i = 0; i < item.getFragments().size(); ++i, chunked = false) {
@@ -264,6 +294,10 @@ public class FeedbackProcessingUtils {
         if (!splitFeasible(spanAndRanges, end)) {
           end = boundary.next();
           continue;
+        }
+        item.addFlag(FeedbackItem.FLAG_CHUNKING_APPLIED);
+        if (!aggressiveChunking) {
+          return;
         }
         splitChunk(item, fragment, spanAndRanges, startOfUnsplitText, end, i + 1);
         startOfUnsplitText = end;
@@ -371,28 +405,53 @@ public class FeedbackProcessingUtils {
    * @param context The caller's context.
    * @param item The item to process for formatted text.
    * @param usePunctuation Speak punctuation.
+   * @param inlineFormattingHistory The inline formatting history.
+   * @param formattingOptions The formatting options.
+   * @param formattingFeedbackMode The formatting feedback mode.
+   * @param removeUnnecessarySpans Remove unnecessary spans for TTS.
    */
   @VisibleForTesting
   static void addFormattingCharacteristics(
-      Context context, FeedbackItem item, boolean usePunctuation, boolean removeUnnecessarySpans) {
+      Context context,
+      FeedbackItem item,
+      boolean usePunctuation,
+      InlineFormattingHistory inlineFormattingHistory,
+      int formattingOptions,
+      int formattingFeedbackMode,
+      boolean removeUnnecessarySpans) {
+    TextFormattingInfo previousTextFormattingInfo =
+        new TextFormattingInfo(context, inlineFormattingHistory, formattingOptions);
+    Map<Integer, TextFormattingInfo> formattingInfos = new LinkedHashMap<>();
+    Set<Class<?>> formattingClasses =
+        TextFormattingUtils.getFormattingSpanClasses(formattingOptions);
+    formattingClasses.add(LocaleSpan.class);
+    formattingClasses.add(BASE_CLICKABLE_SPAN);
     for (int i = 0; i < item.getFragments().size(); ++i) {
       final FeedbackFragment fragment = item.getFragments().get(i);
-      final CharSequence fragmentText = fragment.getText();
+      CharSequence fragmentText = fragment.getText();
       if (TextUtils.isEmpty(fragmentText) || !(fragmentText instanceof Spannable)) {
         continue;
       }
-
       Spannable spannable = (Spannable) fragmentText;
 
       int len = spannable.length();
       int next;
       boolean isFirstFragment = true;
       for (int begin = 0; begin < len; begin = next) {
-        next = nextSpanTransition(spannable, begin, len, LocaleSpan.class, TARGET_SPAN_CLASS);
+        next =
+            nextSpanTransition(
+                spannable,
+                begin,
+                len,
+                formattingOptions,
+                formattingClasses.toArray(new Class<?>[0]));
+        boolean isPrecedingCharSpace = Character.isWhitespace(fragmentText.charAt(next - 1));
         // TTS would not speak punctuation normally. However, when a punctuation appears alone, TTS
-        // has to speak it in some form(b/233322397). Here we append the trailing punctuation to the
-        // clickable span to avoid this.
+        // has to speak it in some form(b/233322397). To avoid this, here we append the trailing
+        // punctuation to the clickable span to avoid this. The exception is when the character
+        // immediately before the punctuation is a WhiteSpace.
         if (!usePunctuation
+            && !isPrecedingCharSpace
             && next < len
             && SpeechCleanupUtils.characterToName(context, fragmentText.charAt(next)) != null
             && !SpannableUtils.isWrappedWithTargetSpan(
@@ -401,22 +460,28 @@ public class FeedbackProcessingUtils {
                 false)) {
           next += 1;
         }
-        // CharacterStyle is a superclass of both ClickableSpan(including URLSpan) and LocaleSpan;
-        // we want to split by only ClickableSpan and LocaleSpan, but it is OK if we request any
-        // CharacterStyle in the list of spans since we ignore the ones that are not
-        // ClickableSpan/LocaleSpan.
+        // Use CharacterStyle to find all the text formatting in character level.
         CharacterStyle[] spans = spannable.getSpans(begin, next, CharacterStyle.class);
-        CharacterStyle chosenSpan = null;
+        boolean isClickableSpan = false;
+        Locale localeFromSpan = null;
         for (CharacterStyle span : spans) {
-          if (span instanceof LocaleSpan) {
-            // Prioritize LocaleSpan, quit the loop when a LocaleSpan is detected. Note: If multiple
-            // LocaleSpans are attached to the text, first LocaleSpan is given preference.
-            chosenSpan = span;
-            break;
-          } else if ((span instanceof ClickableSpan) || (span instanceof URLSpan)) {
-            chosenSpan = span;
+          if (span instanceof LocaleSpan localeSpan && localeFromSpan == null) {
+            localeFromSpan = localeSpan.getLocale();
+          } else if (span instanceof ClickableSpan) {
+            isClickableSpan = true;
           }
-          // Ignore other CharacterStyle.
+        }
+        TextFormattingInfo textFormattingInline =
+            new TextFormattingInfo(
+                context,
+                Arrays.asList(spans),
+                spannable,
+                begin,
+                next,
+                formattingOptions,
+                previousTextFormattingInfo.getSelfInfos());
+        if (textFormattingInline.hasSourceText()) {
+          previousTextFormattingInfo = textFormattingInline;
         }
 
         final FeedbackFragment newFragment;
@@ -426,9 +491,19 @@ public class FeedbackProcessingUtils {
         }
         boolean isIdentifier =
             SpannableUtils.isWrappedWithTargetSpan(
-                subString, SpannableUtils.IdentifierSpan.class, /* shouldTrim= */ true);
+                subString.subSequence(0, 1),
+                SpannableUtils.IdentifierSpan.class,
+                /* shouldTrim= */ false);
+
         if (isIdentifier) {
-          continue;
+          if (subString.length() == 1) {
+            continue;
+          } else {
+            // Usually the character immediately after the separator is a SPACE. We can skipped
+            // such leading space in such case.
+            subString =
+                subString.subSequence((subString.charAt(1) == ' ') ? 2 : 1, subString.length());
+          }
         }
         if (isFirstFragment) {
           // This is the first new fragment, so we should reuse the old fragment.
@@ -443,12 +518,17 @@ public class FeedbackProcessingUtils {
           newFragment.setStartIndexInFeedbackItem(begin);
           item.addFragmentAtPosition(newFragment, i);
         }
-        if (chosenSpan instanceof LocaleSpan) { // LocaleSpan
-          newFragment.setLocale(((LocaleSpan) chosenSpan).getLocale());
-        } else if (chosenSpan != null) { // ClickableSpan (including UrlSpan)
+        if (localeFromSpan != null) {
+          newFragment.setLocale(localeFromSpan);
+        }
+        if (isClickableSpan) {
           handleClickableSpan(newFragment);
         }
+        formattingInfos.put(i, textFormattingInline);
       }
+    }
+    if (!formattingInfos.isEmpty()) {
+      addTextFormattingFeedback(context, formattingFeedbackMode, formattingInfos, item);
     }
   }
 
@@ -458,8 +538,9 @@ public class FeedbackProcessingUtils {
     for (ParcelableSpan span : spans) {
       // LocaleSpan will also be removed, since it will be handled by
       // FeedbackFragment#setLocale(Locale).
-      if (span instanceof TtsSpan) {
-        // TtsSpan is necessary for TTS.
+      if (span instanceof TtsSpan || span instanceof SpannableUtils.IdentifierSpan) {
+        // TtsSpan is necessary for TTS; Identifier will keep until the performance latency is
+        // determined.
       } else {
         spannable.removeSpan(span);
       }
@@ -474,16 +555,71 @@ public class FeedbackProcessingUtils {
    * than <code>start</code> but less than <code>limit</code>.
    */
   private static int nextSpanTransition(
-      Spannable spannable, int start, int limit, Class<?>... types) {
+      Spannable spannable, int start, int limit, int formattingOptions, Class<?>... types) {
     int next = limit;
     for (Class<?> type : types) {
       int currentNext = spannable.nextSpanTransition(start, limit, type);
-      if (currentNext < next) {
+      // TODO: it might skip the following formatting in the same type. For example, if the
+      // formattingOptions disables the italic StyleSpan, it will skip the following bold StyleSpan.
+      boolean isValidSpan = isValidSpan(spannable, currentNext, type, formattingOptions);
+      if (isValidSpan && (currentNext < next)) {
         next = currentNext;
       }
     }
-
     return next;
+  }
+
+  /**
+   * Returns true for ClickableSpan and LocaleSpan, or other CharacterStyle spans meet both
+   * conditions:
+   * <li>1. The span is enabled by the options.
+   * <li>2. The span is in a full word.
+   */
+  private static boolean isValidSpan(Spannable spannable, int index, Class<?> type, int options) {
+    if (type == ClickableSpan.class || type == LocaleSpan.class) {
+      return true;
+    }
+    Object[] spans = spannable.getSpans(index, index, type);
+    for (Object span : spans) {
+      if (!TextFormattingUtils.isSpanMatchingOptions(span, options)) {
+        continue;
+      }
+      int spanStart = spannable.getSpanStart(span);
+      int spanEnd = spannable.getSpanEnd(span);
+      if (WordUtils.isSpannedFullWord(spannable, spanStart, spanEnd)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Adds sound and speech feedback for text formatting.
+  private static void addTextFormattingFeedback(
+      Context context,
+      int formattingFeedbackMode,
+      Map<Integer, TextFormattingInfo> formattingInfos,
+      FeedbackItem item) {
+    final Bundle speechParams = new Bundle(Bundle.EMPTY);
+    speechParams.putFloat(SpeechParam.PITCH, 0.8f);
+    List<Integer> keys = new ArrayList<>(formattingInfos.keySet());
+    Collections.sort(keys, Collections.reverseOrder());
+    for (int index : keys) {
+      TextFormattingInfo textFormattingInfo = formattingInfos.get(index);
+      if (!textFormattingInfo.getSelfInfos().isEmpty()
+          && (formattingFeedbackMode & FEEDBACK_MODE_SOUND) != 0) {
+        item.getFragments().get(index).addEarcon(R.raw.formatting);
+      }
+      if ((formattingFeedbackMode & FEEDBACK_MODE_SPEECH) == 0) {
+        continue;
+      }
+      CharSequence inlineFeedback = textFormattingInfo.getFormattingInlineFeedback(context);
+      if (!TextUtils.isEmpty(inlineFeedback)) {
+        FeedbackFragment formattingFragment =
+            new FeedbackFragment(
+                SpannableUtils.wrapWithNonCopyableTextSpan(inlineFeedback), speechParams);
+        item.addFragmentAtPosition(formattingFragment, index);
+      }
+    }
   }
 
   /**

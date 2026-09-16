@@ -31,10 +31,11 @@
   <string name="symbol_paragraph_mark">Lõigumärk</string>
   <string name="symbol_parenthesis_left">Vasak ümarsulg</string>
   <string name="symbol_parenthesis_right">Parem ümarsulg</string>
-  <string name="symbol_percent">Protsent</string>
+  <string name="symbol_percent">protsenti</string>
   <string name="symbol_period">Punkt</string>
   <string name="symbol_pi">Pii</string>
   <string name="symbol_pound">Nael</string>
+  <string name="symbol_hash">Trellid</string>
   <string name="symbol_pound_sterling">Naelsterlingi märk</string>
   <string name="symbol_currency_peso">Peesomärk</string>
   <string name="symbol_currency_dong">Dongimärk</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">Parem nurksulg</string>
   <string name="symbol_square_root">Ruutjuur</string>
   <string name="symbol_trademark">Kaubamärk</string>
+  <string name="symbol_check_mark">Märge</string>
   <string name="symbol_underscore">Alljoon</string>
   <string name="symbol_vertical_bar">Vertikaaljoon</string>
   <string name="symbol_yen">Jeen</string>
@@ -141,7 +143,7 @@
   <string name="symbol_left_single_quotation_mark">Vasak ülakoma</string>
   <string name="symbol_braille">Braille’ kiri %s</string>
   <plurals name="dots">
-    <item quantity="one">punkt %s</item>
-    <item quantity="other">punktid %s</item>
+    <item quantity="one">punkti %s</item>
+    <item quantity="other">punkte %s</item>
   </plurals>
 </resources>

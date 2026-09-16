@@ -21,13 +21,18 @@
     <string name="untitled_window">untitled</string>
 
     <!--
+    Source: An utterance template for announcing the shorten text feedback.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
+    -->
+    <string name="template_shorten_text"><xliff:g id="text_length">%1$d</xliff:g> characters from: <xliff:g id="text_from">%2$s</xliff:g> to <xliff:g id="text_to">%3$s</xliff:g></string>
+    <!--
           Source: An utterance template for announcing copy of text (during edit).
-          Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+          Description: This is spoken to the user. [CHAR LIMIT=NONE]
         -->
     <string name="template_text_copied">copied, <xliff:g id="text">%1$s</xliff:g></string>
     <!--
       Source: An utterance template for announcing a single upper-case (capital) letter.
-      Description: This is spoken to the user. May not be translatable for some languages. [CHAR LIMIT="NONE"]
+      Description: This is spoken to the user. May not be translatable for some languages. [CHAR LIMIT=NONE]
 
       TODO: This string was moved to compositor's resource. We can remove it later.
     -->
@@ -36,46 +41,89 @@
     <string name="character_collapse_template">\u0020<xliff:g id="number" example="7">%1$d</xliff:g> <xliff:g id="character" example="equal sign">%2$s</xliff:g>      </string>
     <!--
       Source: An utterance template for announcing the current text-to-speech engine.
-      Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+      Description: This is spoken to the user. [CHAR LIMIT=NONE]
     -->
     <string name="template_current_tts_engine">Using <xliff:g id="engine_name">%1$s</xliff:g></string>
     <!-- Announced when the user changes reading mode to read an entire object at a time. -->
     <string name="granularity_default">Default</string>
-    <!-- Announced when the user changes reading mode to read a single character at a time. -->
+    <!-- Announced when the user changes reading mode to read a single character at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_character">Characters</string>
-    <!-- Announced when the user changes reading mode to read a single word at a time. -->
+    <!-- Announced when the user changes reading mode to read a single word at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_word">Words</string>
-    <!-- Announced when the user changes reading mode to read a single line at a time. -->
+    <!-- Announced when the user changes reading mode to read a single line at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_line">Lines</string>
-    <!-- Announced when the user changes reading mode to read a single paragraph at a time. -->
+    <!-- Announced when the user changes reading mode to read a single paragraph at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_paragraph">Paragraphs</string>
     <!-- Announced when the user changes reading mode to read a single container at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_container">Containers</string>
     <!-- Announced when the user changes reading mode to read a single window at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_window">Windows</string>
-    <!-- Announced when the user changes reading mode in web content to read a single section at a time. -->
+    <!-- Announced when the user changes reading mode to read a single search result at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_search">Screen search</string>
+    <!-- Announced when the user changes reading mode in web content to read a single section at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_web_landmark">Landmarks</string>
-    <!-- Announced when the user changes reading mode in web content to read a single section header at a time. -->
+    <!-- Announced when the user changes reading mode in web content to read a single section header at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_web_heading">Headings</string>
-    <!-- Announced when the user changes reading mode in web content to read a single list at a time. -->
-    <string name="granularity_web_list">Lists</string>
-    <!-- Announced when the user changes reading mode in web content to read a single link at a time. -->
+    <!-- Announced when the user changes reading mode in web content to read a single link at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_web_link">Links</string>
     <!-- Announced when the user changes reading mode in web content to read a single control at a time.
-      A control is an element on a web page which is either a form field (buttons, text fields, combo boxes, etc) or a link.
+      A control is an element on a web page which is either a form field (buttons, text fields, combo boxes, etc) or a link. [CHAR_LIMIT=NONE]
     -->
     <string name="granularity_web_control">Controls</string>
-    <!-- Announced when the user enters into navigating specialized web content such as tables or math. -->
+    <!-- Announced when the user enters into navigating specialized web content such as tables or math. [CHAR_LIMIT=NONE] -->
     <string name="granularity_pseudo_web_special_content">Special content</string>
-    <!-- Announced when the user changes navigation mode in native views to navigating a single section header at a time -->
+    <!-- Announced when the user changes reading mode in web content to read a single visited link at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_visited_link">Visited links</string>
+    <!-- Announced when the user changes reading mode in web content to read a single unvisited link at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_unvisited_link">Unvisited links</string>
+    <!-- Announced when the user changes reading mode in web content to read a single button at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_button">Buttons</string>
+    <!-- Announced when the user changes reading mode in web content to read a single radio button at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_radio">Radio buttons</string>
+    <!-- Announced when the user changes reading mode in web content to read a single checkbox at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_checkbox">Checkboxes</string>
+    <!-- Announced when the user changes reading mode in web content to read a single edit field at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_editfield">Edit fields</string>
+    <!-- Announced when the user changes reading mode in web content to read a single focusable item at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_focusable">Focusable items</string>
+    <!-- Announced when the user changes reading mode in web content to read a single section heading 1 at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_h1">Heading 1</string>
+    <!-- Announced when the user changes reading mode in web content to read a single section heading 2 at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_h2">Heading 2</string>
+    <!-- Announced when the user changes reading mode in web content to read a single section heading 3 at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_h3">Heading 3</string>
+    <!-- Announced when the user changes reading mode in web content to read a single section heading 4 at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_h4">Heading 4</string>
+    <!-- Announced when the user changes reading mode in web content to read a single section heading 5 at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_h5">Heading 5</string>
+    <!-- Announced when the user changes reading mode in web content to read a single section heading 6 at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_h6">Heading 6</string>
+    <!-- Announced when the user changes reading mode in web content to read a single image or video at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_graphic">Images and videos</string>
+    <!-- Announced when the user changes reading mode in web content to read a single list item at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_listitem">List items</string>
+    <!-- Announced when the user changes reading mode in web content to read a single list at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_list">Lists</string>
+    <!-- Announced when the user changes reading mode in web content to read a single table at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_table">Tables</string>
+    <!-- Announced when the user changes reading mode in web content to read a single combo box at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_web_combobox">Combo boxes</string>
+
+    <!-- Announced when the user changes reading mode in web content to read a single section header at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_native_heading">Headings</string>
     <!-- Announced when the user changes navigation mode in native views to navigating a single control at a time.
       A control is an element on the screen which is a form field (buttons, text fields, combo boxes, etc).
-      Currently only buttons and edit fields are considered.
+      Currently only buttons and edit fields are considered. [CHAR_LIMIT=NONE]
     -->
     <string name="granularity_native_control">Controls</string>
-    <!-- Announced when the user changes navigation mode in native views to navigating a single link at a time. -->
+    <!-- Announced when the user changes navigation mode in native views to navigating a single link at a time. [CHAR_LIMIT=NONE] -->
     <string name="granularity_native_link">Links</string>
+    <!-- Announced when the user changes navigation mode to navigating a single row or column in a table at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_row_column">Rows and columns</string>
+    <!-- Announced when the user changes navigation mode to navigating a single row in a table at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_row">Row</string>
+    <!-- Announced when the user changes navigation mode to navigating a single column in a table at a time. [CHAR_LIMIT=NONE] -->
+    <string name="granularity_column">Column</string>
 
     <!-- Announced for overlay window, example: picture-in-picture video. -->
     <string name="template_overlay_window"><xliff:g id="application_window_title" example="Application A">%1$s</xliff:g> picture in picture</string>
@@ -88,27 +136,27 @@
 
     <!--
         Source: An utterance template for announcing the visible range of items within a list view.
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
     -->
     <!-- TODO: This template is used by both ScrollFeedbackManager and Compositor, clean up dependency if we move this string. -->
     <string name="template_scroll_from_to_count">Showing items <xliff:g id="from_index">%1$d</xliff:g> to <xliff:g id="to_index">%2$d</xliff:g> of <xliff:g id="total_count">%3$d</xliff:g>.</string>
     <!--
         Source: An utterance template for announcing the visible item within a list view.
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
     -->
     <!-- TODO: This template is used by both ScrollFeedbackManager and Compositor, clean up dependency if we move this string. -->
     <string name="template_scroll_from_count">Showing item <xliff:g id="from_index">%1$d</xliff:g> of <xliff:g id="total_count">%2$d</xliff:g>.</string>
     <!--
         Source: An utterance template for announcing the visible page inside a view pager.
         This is used if the view pager's current page does not have a content description.
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
     -->
     <!-- TODO: This template is used by both ScrollFeedbackManager and Compositor, clean up dependency if we move this string. -->
     <string name="template_viewpager_index_count">Page <xliff:g id="page_index">%1$d</xliff:g> of <xliff:g id="total_count">%2$d</xliff:g></string>
     <!--
         Source: A shorter utterance template for announcing the visible page inside a view pager.
         This is used if the view pager's current page has a content description.
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
     -->
     <!-- TODO: This template is used by both ScrollFeedbackManager and Compositor, clean up dependency if we move this string. -->
     <string name="template_viewpager_index_count_short"><xliff:g id="page_index">%1$d</xliff:g> of <xliff:g id="total_count">%2$d</xliff:g></string>
@@ -126,6 +174,13 @@
         Exit
     </string>
 
+    <!-- Label for settings button for the speech bubble overlay.[CHAR_LIMIT=NONE] -->
+    <string name="settings_button_description">Settings</string>
+    <!-- Label for close button for the speech bubble overlay.[CHAR_LIMIT=NONE] -->
+    <string name="close_button_description">Close</string>
+    <!-- Label for menu button for the speech bubble overlay.[CHAR_LIMIT=NONE] -->
+    <string name="menu_button_description" translatable="false">Menu</string>
+
     <!-- Announced when the window shows.[CHAR_LIMIT=NONE]-->
     <string name="show_keyboard_window">Showing <xliff:g id="window_title" example="Gboard">%1$s</xliff:g></string>
     <!-- Announced when the window hidden.[CHAR_LIMIT=NONE] -->
@@ -135,4 +190,68 @@
     <string name="function_on">Spoken feedback is on</string>
     <!-- Announced when toggle voice feedback is off.[CHAR_LIMIT=NONE] -->
     <string name="function_off">Spoken feedback is off</string>
+
+    <!-- Announced the name of an emoji. [CHAR_LIMIT=NONE] -->
+    <string name="emoji_name"><xliff:g id="emoji" example="smiley face">%1$s</xliff:g> emoji</string>
+
+    <!-- Label for bold text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_bold">bold</string>
+    <!-- Label for italic text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_italic">italic</string>
+    <!-- Label for bold italic text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_bold_italic">bold italic</string>
+    <!-- Label for underline text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_underline">underline</string>
+    <!-- Label for strikethrough text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_strikethrough">strikethrough</string>
+    <!-- Label for font color text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_foreground_color">color</string>
+    <!-- Label for background color text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_background_color">background color</string>
+    <!-- Label for font size bigger text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_size_bigger">bigger size</string>
+    <!-- Label for font size smaller text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_size_smaller">smaller size</string>
+    <string name="format_size_in_px"><xliff:g example="5">%1$d</xliff:g> pixels</string>
+    <!-- Label for font family text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_font_family">font family <xliff:g example="serif">%1$s</xliff:g></string>
+    <!-- Announced when starting text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_start">start <xliff:g example="bold">%1$s</xliff:g></string>
+    <!-- Announced when ending text formatting.[CHAR_LIMIT=40] -->
+    <string name="format_end">end <xliff:g example="bold">%1$s</xliff:g></string>
+    <!-- Announced the text formatting position in characters.[CHAR_LIMIT=NONE]-->
+    <string name="format_position"><xliff:g example="bold">%1$s</xliff:g> from character <xliff:g example="1">%2$d</xliff:g> to <xliff:g example="5">%3$d</xliff:g>, <xliff:g example="word">%4$s</xliff:g></string>
+    <!-- Label for color white.[CHAR_LIMIT=40] -->
+    <string name="color_white">white</string>
+    <!-- Label for color light grey.[CHAR_LIMIT=40] -->
+    <string name="color_light_grey">light grey</string>
+    <!-- Label for color grey.[CHAR_LIMIT=40] -->
+    <string name="color_grey">grey</string>
+    <!-- Label for color dark grey.[CHAR_LIMIT=40] -->
+    <string name="color_dark_grey">dark grey</string>
+    <!-- Label for color black.[CHAR_LIMIT=40] -->
+    <string name="color_black">black</string>
+    <!-- Label for color pink.[CHAR_LIMIT=40] -->
+    <string name="color_pink">pink</string>
+    <!-- Label for color red.[CHAR_LIMIT=40] -->
+    <string name="color_red">red</string>
+    <!-- Label for color orange.[CHAR_LIMIT=40] -->
+    <string name="color_orange">orange</string>
+    <!-- Label for color brown.[CHAR_LIMIT=40] -->
+    <string name="color_brown">brown</string>
+    <!-- Label for color yellow.[CHAR_LIMIT=40] -->
+    <string name="color_yellow">yellow</string>
+    <!-- Label for color olive.[CHAR_LIMIT=40] -->
+    <string name="color_olive">olive</string>
+    <!-- Label for color yellow green.[CHAR_LIMIT=40] -->
+    <string name="color_yellow_green">yellow green</string>
+    <!-- Label for color green.[CHAR_LIMIT=40] -->
+    <string name="color_green">green</string>
+    <!-- Label for color cyan.[CHAR_LIMIT=40] -->
+    <string name="color_cyan">cyan</string>
+    <!-- Label for color blue.[CHAR_LIMIT=40] -->
+    <string name="color_blue">blue</string>
+    <!-- Label for color purple.[CHAR_LIMIT=40] -->
+    <string name="color_purple">purple</string>
+
 </resources>

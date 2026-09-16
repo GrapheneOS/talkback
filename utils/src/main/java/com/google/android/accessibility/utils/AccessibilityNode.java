@@ -412,7 +412,7 @@ public class AccessibilityNode {
     return AccessibilityNode.takeOwnership(matchCompat);
   }
 
-  public final CharSequence getNodeText() {
+  public final @Nullable CharSequence getNodeText() {
     return AccessibilityNodeInfoUtils.getNodeText(getCompat());
   }
 
@@ -450,6 +450,10 @@ public class AccessibilityNode {
     AccessibilityNodeInfoCompat matchCompat =
         AccessibilityNodeInfoUtils.searchFromBfs(getCompat(), filter);
     return AccessibilityNode.takeOwnership(matchCompat);
+  }
+
+  public final boolean isTextEntryKey() {
+    return getCompat().isTextEntryKey();
   }
 
   /**

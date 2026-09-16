@@ -29,6 +29,7 @@
       android:minHeight="@dimen/braille_display_keyboard_description_min_height"
       android:gravity="top">
     <TextView
+        android:id="@+id/braille_keyboard_strip_summary_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/braille_display_keyboard_horizontal_margin"

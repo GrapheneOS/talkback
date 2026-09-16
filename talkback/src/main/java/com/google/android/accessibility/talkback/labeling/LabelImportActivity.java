@@ -18,12 +18,14 @@ package com.google.android.accessibility.talkback.labeling;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.utils.AccessibilityMessageFormat;
 import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
 
 public class LabelImportActivity extends Activity {
@@ -76,13 +78,14 @@ public class LabelImportActivity extends Activity {
                 new CustomLabelMigrationManager.SimpleLabelMigrationCallback() {
                   @Override
                   public void onLabelImported(int updateCount) {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            getResources()
-                                .getQuantityString(
-                                    R.plurals.label_import_succeeded, updateCount, updateCount),
-                            Toast.LENGTH_SHORT)
-                        .show();
+                    Context context = getApplicationContext();
+                    String message =
+                        AccessibilityMessageFormat.formatNamedArgs(
+                            context,
+                            context.getString(R.string.label_import_succeeded),
+                            "count",
+                            updateCount);
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                   }
 
                   @Override
@@ -93,7 +96,7 @@ public class LabelImportActivity extends Activity {
           }
         };
 
-    A11yAlertDialogWrapper.alertDialogBuilder(this)
+    A11yAlertDialogWrapper.materialDialogBuilder(this)
         .setMessage(R.string.label_import_dialog_message)
         .setTitle(R.string.label_import_dialog_title)
         .setPositiveButton(R.string.label_import_dialog_skip, buttonClickListener)

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -431,9 +431,7 @@ usbDeallocateConfigurationDescriptor (UsbDevice *device) {
 }
 
 const UsbConfigurationDescriptor *
-usbConfigurationDescriptor (
-  UsbDevice *device
-) {
+usbConfigurationDescriptor (UsbDevice *device) {
   if (!device->configuration) {
     unsigned char current;
 
@@ -534,6 +532,39 @@ usbNextDescriptor (
   }
 
   return 1;
+}
+
+int
+usbIsAssociatedInterface (const UsbInterfaceAssociationDescriptor *iad, unsigned char interface) {
+  return (interface >= iad->bFirstInterface)
+      && (interface < (iad->bFirstInterface + iad->bInterfaceCount))
+      ;
+}
+
+const UsbInterfaceAssociationDescriptor *
+usbInterfaceAssociationDescriptor (
+  UsbDevice *device,
+  unsigned char interface
+) {
+  const UsbDescriptor *descriptor = NULL;
+
+  while (usbNextDescriptor(device, &descriptor)) {
+    const UsbInterfaceAssociationDescriptor *iad = &descriptor->interfaceAssociation;
+
+    if (iad->bDescriptorType == UsbDescriptorType_InterfaceAssociation) {
+      if (usbIsAssociatedInterface(iad, interface)) {
+        return iad;
+      }
+    }
+  }
+
+  logMessage(LOG_CATEGORY(USB_IO),
+    "interface association descriptor not found: %d",
+    interface
+  );
+
+  errno = ENOENT;
+  return NULL;
 }
 
 const UsbInterfaceDescriptor *
@@ -717,7 +748,7 @@ usbDeallocateEndpoint (void *item, void *data) {
       }
 
       if (endpoint->direction.input.pending.requests) {
-        deallocateQueue(endpoint->direction.input.pending.requests);
+        destroyQueue(endpoint->direction.input.pending.requests);
         endpoint->direction.input.pending.requests = NULL;
       }
 
@@ -875,7 +906,7 @@ usbRemoveEndpoints (UsbDevice *device, int final) {
     deleteElements(device->endpoints);
 
     if (final) {
-      deallocateQueue(device->endpoints);
+      destroyQueue(device->endpoints);
       device->endpoints = NULL;
     }
   }
@@ -1006,7 +1037,7 @@ usbCloseDevice (UsbDevice *device) {
   usbRemoveEndpoints(device, 1);
 
   if (device->inputFilters) {
-    deallocateQueue(device->inputFilters);
+    destroyQueue(device->inputFilters);
     device->inputFilters = NULL;
   }
 
@@ -1046,7 +1077,7 @@ usbOpenDevice (UsbDeviceExtension *extension) {
           }
         }
 
-        deallocateQueue(device->inputFilters);
+        destroyQueue(device->inputFilters);
       }
 
       usbRemoveEndpoints(device, 1);
@@ -1524,7 +1555,7 @@ struct UsbChooseChannelDataStruct {
 static int
 usbChooseChannel (UsbDevice *device, UsbChooseChannelData *data) {
   const UsbDeviceDescriptor *descriptor = &device->descriptor;
-  logBytes(LOG_CATEGORY(USB_IO), "device descriptor", descriptor, sizeof(*descriptor));
+  logBytes(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "device descriptor", descriptor, sizeof(*descriptor));
 
   if (!(descriptor->iManufacturer || descriptor->iProduct || descriptor->iSerialNumber)) {
     UsbDeviceDescriptor actualDescriptor;
@@ -1533,7 +1564,7 @@ usbChooseChannel (UsbDevice *device, UsbChooseChannelData *data) {
     if (result == UsbDescriptorSize_Device) {
       device->descriptor = actualDescriptor;
 
-      logBytes(LOG_CATEGORY(USB_IO),
+      logBytes(LOG_CATEGORY(USB_IO) | LOG_DEBUG,
         "using actual device descriptor",
         descriptor, sizeof(*descriptor)
       );
@@ -1545,35 +1576,89 @@ usbChooseChannel (UsbDevice *device, UsbChooseChannelData *data) {
     uint16_t product = getLittleEndian16(descriptor->idProduct);
 
     const char *const *drivers = usbGetDriverCodes(vendor, product);
-    if (!drivers) return 0;
+    if (!drivers) {
+      logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "no drivers");
+      return 0;
+    }
   }
 
   for (const UsbChannelDefinition *definition = data->definition;
        definition->vendor; definition+=1) {
-    if (definition->version && (definition->version != getLittleEndian16(descriptor->bcdUSB))) continue;
-    if (!USB_IS_PRODUCT(descriptor, definition->vendor, definition->product)) continue;
+    intptr_t definitionIndex = definition - data->definition;
+
+    logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG,
+      "checking definition #%"PRIdPTR, definitionIndex
+    );
+
+    {
+      uint16_t usbVersion = getLittleEndian16(descriptor->bcdUSB);
+
+      if (definition->version && (definition->version != usbVersion)) {
+        logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG,
+          "wrong USB version: %04X", usbVersion
+        );
+
+        continue;
+      }
+    }
+
+    if (!USB_IS_PRODUCT(descriptor, definition->vendor, definition->product)) {
+      logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "wrong USB vendor/product");
+      continue;
+    }
 
     if (!data->genericDevices) {
       const UsbSerialAdapter *adapter = usbFindSerialAdapter(descriptor);
-      if (adapter && adapter->generic) continue;
+
+      if (adapter && adapter->generic) {
+        logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "has generic adapter");
+        continue;
+      }
     }
 
-    if (!usbVerifyVendorIdentifier(descriptor, data->vendorIdentifier)) continue;
-    if (!usbVerifyProductIdentifier(descriptor, data->productIdentifier)) continue;
-    if (!usbVerifySerialNumber(device, data->serialNumber)) continue;
+    if (!usbVerifyVendorIdentifier(descriptor, data->vendorIdentifier)) {
+      logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "wrong vendor identifier");
+      continue;
+    }
 
-    if (!usbVerifyStrings(device, definition->manufacturers, descriptor->iManufacturer)) continue;
-    if (!usbVerifyStrings(device, definition->products, descriptor->iProduct)) continue;
+    if (!usbVerifyProductIdentifier(descriptor, data->productIdentifier)) {
+      logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "wrong product identifier");
+      continue;
+    }
+
+    if (!usbVerifySerialNumber(device, data->serialNumber)) {
+      logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "wrong serial number");
+      continue;
+    }
+
+    if (!usbVerifyStrings(device, definition->manufacturers, descriptor->iManufacturer)) {
+      logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "urecognized manufacturer string");
+      continue;
+    }
+
+    if (!usbVerifyStrings(device, definition->products, descriptor->iProduct)) {
+      logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "urecognized product string");
+      continue;
+    }
 
     if (definition->verifyInterface) {
-      if (!usbConfigureDevice(device, definition->configuration)) continue;
-      if (!usbVerifyInterface(device, definition)) continue;
+      if (!usbConfigureDevice(device, definition->configuration)) {
+        logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "device configuration failure");
+        continue;
+      }
+
+      if (!usbVerifyInterface(device, definition)) {
+        logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "interface failed verification");
+        continue;
+      }
     }
 
+    logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "definition found");
     data->definition = definition;
     return 1;
   }
 
+  logMessage(LOG_CATEGORY(USB_IO) | LOG_DEBUG, "definition not found");
   return 0;
 }
 

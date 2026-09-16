@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -18,12 +18,12 @@
 
 #include "prologue.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <errno.h>
 
-#include "program.h"
 #include "cmdline.h"
+#include "cmdput.h"
+#include "options.h"
 #include "prefs.h"
 #include "log.h"
 #include "file.h"
@@ -35,16 +35,16 @@
 #include "ttb.h"
 #include "ctb.h"
 
-static char *opt_tablesDirectory;
-static char *opt_contractionTable;
-static char *opt_textTable;
+char *opt_tablesDirectory;
+char *opt_contractionTable;
+char *opt_textTable;
 static char *opt_verificationTable;
 
 static char *opt_outputWidth;
 static int opt_reformatText;
 static int opt_forceOutput;
 
-BEGIN_OPTION_TABLE(programOptions)
+BEGIN_COMMAND_LINE_OPTIONS(programOptions)
   { .word = "output-width",
     .letter = 'w',
     .argument = "columns",
@@ -92,16 +92,51 @@ BEGIN_OPTION_TABLE(programOptions)
     .argument = strtext("directory"),
     .setting.string = &opt_tablesDirectory,
     .internal.setting = TABLES_DIRECTORY,
-    .internal.adjust = fixInstallPath,
+    .internal.adjust = toAbsoluteInstallPath,
     .description = strtext("Path to directory containing tables.")
   },
-END_OPTION_TABLE(programOptions)
+END_COMMAND_LINE_OPTIONS(programOptions)
+
+BEGIN_COMMAND_LINE_PARAMETERS(programParameters)
+END_COMMAND_LINE_PARAMETERS(programParameters)
+
+BEGIN_COMMAND_LINE_NOTES(programNotes)
+  "Contracted braille is written to standard output.",
+  "If a text table has been specified then it defines the braille characters which are written.",
+  "If a text table hasn't been specified then Unicode braille patterns are written.",
+  "",
+  "If no files are specified then standard input is translated.",
+  "Translation isn't performed if a contraction table ii being verified.",
+  "",
+  "Each individual input line is translated into a separate output line.",
+  "If text reformatting has been requested then each sequence of unindented lines",
+  "is joined, separated from one another by a blank, into a single line thus",
+  "effectively treating each sequence of unindented lines as a single paragraph.",
+  "Empty lines and those which begin with whitespace aren't reformatted.",
+  "",
+  "The default is for each output line to be as long as it needs to be.",
+  "If, however, an explicit output width has been specified",
+  "then longer output lines are word-wrapped at that width.",
+END_COMMAND_LINE_NOTES
+
+BEGIN_COMMAND_LINE_DESCRIPTOR(programDescriptor)
+  .name = "brltty-ctb",
+  .purpose = strtext("Check/validate a contraction (literary braille) table, or translate text into contracted braille."),
+
+  .options = &programOptions,
+  .parameters = &programParameters,
+  .notes = COMMAND_LINE_NOTES(programNotes),
+
+  .extraParameters = {
+    .name = "file",
+    .description = "the files to translate (use - for standard input)",
+  },
+END_COMMAND_LINE_DESCRIPTOR
 
 static wchar_t *inputBuffer;
 static size_t inputSize;
 static size_t inputLength;
 
-static FILE *outputStream;
 static unsigned char *outputBuffer;
 static int outputWidth;
 static int outputExtend;
@@ -113,62 +148,33 @@ static char *verificationTablePath;
 static FILE *verificationTableStream;
 
 static int (*processInputCharacters) (const wchar_t *characters, size_t length, void *data);
-static int (*putCell) (unsigned char cell, void *data);
+static void (*putCell) (unsigned char cell);
 
 typedef struct {
   ProgramExitStatus exitStatus;
 } LineProcessingData;
 
 static void
-noMemory (void *data) {
+onNoMemory (void *data) {
   LineProcessingData *lpd = data;
 
   logMallocError();
   lpd->exitStatus = PROG_EXIT_FATAL;
 }
 
-static int
-checkOutputStream (void *data) {
-  LineProcessingData *lpd = data;
-
-  if (ferror(outputStream)) {
-    logSystemError("output");
-    lpd->exitStatus = PROG_EXIT_FATAL;
-    return 0;
-  }
-
-  return 1;
+static void
+putCellCharacter (wchar_t character) {
+  putUtf8Character(character);
 }
 
-static int
-flushOutputStream (void *data) {
-  fflush(outputStream);
-  return checkOutputStream(data);
+static void
+putTextCell (unsigned char cell) {
+  putCellCharacter(convertDotsToCharacter(textTable, cell));
 }
 
-static int
-putCharacter (unsigned char character, void *data) {
-  fputc(character, outputStream);
-  return checkOutputStream(data);
-}
-
-static int
-putCellCharacter (wchar_t character, void *data) {
-  Utf8Buffer utf8;
-  size_t utfs = convertWcharToUtf8(character, utf8);
-
-  fprintf(outputStream, "%.*s", (int)utfs, utf8);
-  return checkOutputStream(data);
-}
-
-static int
-putTextCell (unsigned char cell, void *data) {
-  return putCellCharacter(convertDotsToCharacter(textTable, cell), data);
-}
-
-static int
-putBrailleCell (unsigned char cell, void *data) {
-  return putCellCharacter((UNICODE_BRAILLE_ROW | cell), data);
+static void
+putBrailleCell (unsigned char cell) {
+  putCellCharacter((UNICODE_BRAILLE_ROW | cell));
 }
 
 static int
@@ -181,35 +187,30 @@ writeCharacters (const wchar_t *inputLine, size_t inputLength, void *data) {
 
     if (!outputBuffer) {
       if (!(outputBuffer = malloc(outputWidth))) {
-        noMemory(data);
+        onNoMemory(data);
         return 0;
       }
     }
 
-    contractText(contractionTable, NULL,
-                 inputBuffer, &inputCount,
-                 outputBuffer, &outputCount,
-                 NULL, CTB_NO_CURSOR);
+    contractText(
+      contractionTable, NULL,
+      inputBuffer, &inputCount,
+      outputBuffer, &outputCount,
+      NULL, CTB_NO_CURSOR
+    );
 
     if ((inputCount < inputLength) && outputExtend) {
       free(outputBuffer);
       outputBuffer = NULL;
       outputWidth <<= 1;
     } else {
-      {
-        int index;
-
-        for (index=0; index<outputCount; index+=1)
-          if (!putCell(outputBuffer[index], data))
-            return 0;
+      for (int index=0; index<outputCount; index+=1) {
+        putCell(outputBuffer[index]);
       }
 
       inputBuffer += inputCount;
       inputLength -= inputCount;
-
-      if (inputLength)
-        if (!putCharacter('\n', data))
-          return 0;
+      if (inputLength) putByte('\n');
     }
   }
 
@@ -221,10 +222,7 @@ flushCharacters (wchar_t end, void *data) {
   if (inputLength) {
     if (!writeCharacters(inputBuffer, inputLength, data)) return 0;
     inputLength = 0;
-
-    if (end)
-      if (!putCharacter(end, data))
-        return 0;
+    if (end) putByte(end);
   }
 
   return 1;
@@ -232,11 +230,7 @@ flushCharacters (wchar_t end, void *data) {
 
 static int
 processCharacters (const wchar_t *characters, size_t count, wchar_t end, void *data) {
-  if (opt_reformatText && count) {
-    if (iswspace(characters[0]))
-      if (!flushCharacters('\n', data))
-        return 0;
-
+  if (opt_reformatText && count && !iswspace(characters[0])) {
     {
       unsigned int spaces = !inputLength? 0: 1;
       size_t newLength = inputLength + spaces + count;
@@ -246,7 +240,7 @@ processCharacters (const wchar_t *characters, size_t count, wchar_t end, void *d
         wchar_t *newBuffer = calloc(newSize, sizeof(*newBuffer));
 
         if (!newBuffer) {
-          noMemory(data);
+          onNoMemory(data);
           return 0;
         }
 
@@ -268,12 +262,12 @@ processCharacters (const wchar_t *characters, size_t count, wchar_t end, void *d
 
     if (end != '\n') {
       if (!flushCharacters(0, data)) return 0;
-      if (!putCharacter(end, data)) return 0;
+      putByte(end);
     }
   } else {
     if (!flushCharacters('\n', data)) return 0;
     if (!writeCharacters(characters, count, data)) return 0;
-    if (!putCharacter(end, data)) return 0;
+    putByte(end);
   }
 
   return 1;
@@ -295,12 +289,9 @@ writeContractedBraille (const wchar_t *characters, size_t length, void *data) {
     character += count;
     length -= count;
   }
+
   if (!processCharacters(character, length, '\n', data)) return 0;
-
-  if (opt_forceOutput)
-    if (!flushOutputStream(data))
-      return 0;
-
+  if (opt_forceOutput) putFlush();
   return 1;
 }
 
@@ -431,8 +422,9 @@ static DATA_OPERANDS_PROCESSOR(processInputLine) {
 
 int
 main (int argc, char *argv[]) {
-  ProgramExitStatus exitStatus = PROG_EXIT_FATAL;
+  PROCESS_COMMAND_LINE(programDescriptor, argc, argv);
 
+  ProgramExitStatus exitStatus = PROG_EXIT_FATAL;
   verificationTablePath = NULL;
   verificationTableStream = NULL;
   processInputCharacters = writeContractedBraille;
@@ -440,25 +432,10 @@ main (int argc, char *argv[]) {
   resetPreferences();
   prefs.expandCurrentWord = 0;
 
-  {
-    const CommandLineDescriptor descriptor = {
-      .options = &programOptions,
-      .applicationName = "brltty-ctb",
-
-      .usage = {
-        .purpose = strtext("Check/validate a contraction (literary braille) table, or translate text into contracted braille."),
-        .parameters = "[{input-file | -} ...]",
-      }
-    };
-
-    PROCESS_OPTIONS(descriptor, argc, argv);
-  }
-
   inputBuffer = NULL;
   inputSize = 0;
   inputLength = 0;
 
-  outputStream = stdout;
   outputBuffer = NULL;
 
   if ((outputExtend = !*opt_outputWidth)) {
@@ -527,7 +504,9 @@ main (int argc, char *argv[]) {
             };
 
             if ((exitStatus = processInputFiles(argv, argc, &parameters)) == PROG_EXIT_SUCCESS) {
-              if (!(flushCharacters('\n', &lpd) && flushOutputStream(&lpd))) {
+              if (flushCharacters('\n', &lpd)) {
+                putFlush();
+              } else {
                 exitStatus = lpd.exitStatus;
               }
             }

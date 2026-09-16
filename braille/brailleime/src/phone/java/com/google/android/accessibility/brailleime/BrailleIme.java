@@ -18,9 +18,10 @@ package com.google.android.accessibility.brailleime;
 
 import static com.google.android.accessibility.braille.common.BrailleUserPreferences.BRAILLE_SHARED_PREFS_FILENAME;
 import static com.google.android.accessibility.braille.common.BrailleUserPreferences.getCurrentTypingLanguageType;
-import static com.google.android.accessibility.braille.common.ImeConnection.AnnounceType.HIDE_PASSWORD;
 import static com.google.android.accessibility.braille.common.ImeConnection.AnnounceType.NORMAL;
 import static com.google.android.accessibility.braille.common.ImeConnection.AnnounceType.SILENCE;
+import static com.google.android.accessibility.brailleime.Utils.collapseNotificationPanel;
+import static com.google.android.accessibility.brailleime.Utils.highlightTalkBackSettings;
 import static com.google.android.accessibility.brailleime.tutorial.TutorialView.TutorialState.State.INTRO;
 import static com.google.android.accessibility.brailleime.tutorial.TutorialView.TutorialState.State.NONE;
 import static com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.isAccessibilityServiceEnabled;
@@ -29,7 +30,7 @@ import static com.google.android.accessibility.utils.input.CursorGranularity.LIN
 import static com.google.android.accessibility.utils.input.CursorGranularity.PARAGRAPH;
 import static com.google.android.accessibility.utils.input.CursorGranularity.WORD;
 
-import android.app.KeyguardManager;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -37,10 +38,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
-import android.graphics.Rect;
 import android.graphics.Region;
 import android.inputmethodservice.InputMethodService;
 import android.net.Uri;
@@ -62,9 +61,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import com.google.android.accessibility.braille.common.BrailleCommonTalkBackSpeaker;
 import com.google.android.accessibility.braille.common.BrailleCommonUtils;
+import com.google.android.accessibility.braille.common.BrailleImeAction;
 import com.google.android.accessibility.braille.common.BrailleUserPreferences;
 import com.google.android.accessibility.braille.common.BrailleUtils;
+import com.google.android.accessibility.braille.common.FeedbackManager;
 import com.google.android.accessibility.braille.common.ImeConnection;
 import com.google.android.accessibility.braille.common.ImeConnection.AnnounceType;
 import com.google.android.accessibility.braille.common.TalkBackSpeaker;
@@ -79,12 +81,12 @@ import com.google.android.accessibility.braille.interfaces.BrailleDisplayForBrai
 import com.google.android.accessibility.braille.interfaces.BrailleImeForBrailleDisplay;
 import com.google.android.accessibility.braille.interfaces.BrailleImeForTalkBack;
 import com.google.android.accessibility.braille.interfaces.BrailleWord;
-import com.google.android.accessibility.braille.interfaces.ScreenReaderActionPerformer.ScreenReaderAction;
+import com.google.android.accessibility.braille.interfaces.ImeAction;
+import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleCommon;
 import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleIme;
 import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleIme.ServiceStatus;
 import com.google.android.accessibility.braille.translate.BrailleTranslator;
 import com.google.android.accessibility.braille.translate.TranslatorFactory;
-import com.google.android.accessibility.brailleime.BrailleImeVibrator.VibrationType;
 import com.google.android.accessibility.brailleime.LayoutOrientator.LayoutOrientatorCallback;
 import com.google.android.accessibility.brailleime.analytics.BrailleImeAnalytics;
 import com.google.android.accessibility.brailleime.dialog.ContextMenuDialog;
@@ -96,11 +98,13 @@ import com.google.android.accessibility.brailleime.input.BrailleDisplayImeStripV
 import com.google.android.accessibility.brailleime.input.BrailleInputView;
 import com.google.android.accessibility.brailleime.input.BrailleInputView.CalibrationTriggeredType;
 import com.google.android.accessibility.brailleime.input.BrailleInputView.FingersPattern;
+import com.google.android.accessibility.brailleime.input.DotHoldSwipe;
 import com.google.android.accessibility.brailleime.input.Swipe;
 import com.google.android.accessibility.brailleime.keyboardview.AccessibilityOverlayKeyboardView;
 import com.google.android.accessibility.brailleime.keyboardview.KeyboardView;
 import com.google.android.accessibility.brailleime.keyboardview.KeyboardView.KeyboardViewCallback;
 import com.google.android.accessibility.brailleime.keyboardview.StandardKeyboardView;
+import com.google.android.accessibility.brailleime.settings.BrailleImeGestureCommandActivity;
 import com.google.android.accessibility.brailleime.settings.BrailleImePreferencesActivity;
 import com.google.android.accessibility.brailleime.tutorial.TutorialView.TutorialCallback;
 import com.google.android.accessibility.brailleime.tutorial.TutorialView.TutorialState.State;
@@ -109,7 +113,6 @@ import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.KeyboardUtils;
 import com.google.android.accessibility.utils.input.CursorGranularity;
 import com.google.android.accessibility.utils.output.SpeechController;
-import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
 import com.google.android.accessibility.utils.output.SpeechController.UtteranceCompleteRunnable;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
@@ -153,8 +156,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class BrailleIme extends InputMethodService {
 
   private static final String TAG = "BrailleIme";
+
   // Follow the lifecycle of keyboard, onDestroy() when switching to other keyboard. onCreate() when
   // switching from other keyboard.
+  @SuppressWarnings("NonFinalStaticField")
   private static BrailleIme instance;
 
   // A note on how the desired hiding of the default IME views is achieved:
@@ -165,8 +170,18 @@ public class BrailleIme extends InputMethodService {
   // and making an ill-advised modification to the LayoutParams of the parent of the
   // BrailleInputView. This code uses the first of these two options; this allows our inputArea,
   // which we furnish in the override of onCreateInputView, to take up the entire view region.
+  @SuppressWarnings("NonFinalStaticField")
+  @Nullable
   private static TalkBackForBrailleIme talkBackForBrailleIme;
+
+  @SuppressWarnings("NonFinalStaticField")
+  @Nullable
+  private static TalkBackForBrailleCommon talkBackForBrailleCommon;
+
+  @SuppressWarnings("NonFinalStaticField")
+  @Nullable
   private static BrailleDisplayForBrailleIme brailleDisplayForBrailleIme;
+
   private static final String BARD_PACKAGE_NAME = "gov.loc.nls.dtb";
   private static final int ANNOUNCE_DELAY_MS =
       800; // Delay, so that it follows previous-IME-is-hidden announcement.
@@ -180,7 +195,6 @@ public class BrailleIme extends InputMethodService {
       ImmutableSet.of(CHARACTER, WORD, LINE, PARAGRAPH);
 
   private final AtomicInteger instructionSpeechId = new AtomicInteger();
-  private boolean deviceSupportsAtLeast5Pointers;
   private State tutorialState;
   private EditBuffer editBuffer;
   private Thread.UncaughtExceptionHandler originalDefaultUncaughtExceptionHandler;
@@ -194,12 +208,13 @@ public class BrailleIme extends InputMethodService {
   private BrailleImeAnalytics brailleImeAnalytics;
   private KeyboardView keyboardView;
   private BrailleImeGestureController brailleImeGestureController;
-  private TypoHandler typoHandler;
+  private BrailleImeActor brailleImeActor;
   private Handler mainHandler;
   private Handler calibrationAnnouncementHandler;
   private boolean brailleDisplayConnectedAndNotSuspended;
   private int orientation;
   private boolean isVisible;
+  private FeedbackManager feedbackManager;
 
   /** An interface to notify orientation change. */
   public interface OrientationSensitive {
@@ -210,14 +225,22 @@ public class BrailleIme extends InputMethodService {
   public static void initialize(
       Context context,
       TalkBackForBrailleIme talkBackForBrailleIme,
+      TalkBackForBrailleCommon talkBackForBrailleCommon,
       BrailleDisplayForBrailleIme brailleDisplayForBrailleIme) {
     BrailleIme.talkBackForBrailleIme = talkBackForBrailleIme;
+    BrailleIme.talkBackForBrailleCommon = talkBackForBrailleCommon;
     BrailleIme.brailleDisplayForBrailleIme = brailleDisplayForBrailleIme;
     if (talkBackForBrailleIme != null) {
       talkBackForBrailleIme.setBrailleImeForTalkBack(
           instance == null ? null : instance.brailleImeForTalkBack);
     }
+    if (instance != null && talkBackForBrailleCommon != null) {
+      instance.feedbackManager =
+          new FeedbackManager(talkBackForBrailleCommon.getFeedBackController());
+    }
+    BrailleCommonTalkBackSpeaker.getInstance().initialize(talkBackForBrailleCommon);
     BrailleImePreferencesActivity.initialize(talkBackForBrailleIme);
+    BrailleImeGestureCommandActivity.initialize(talkBackForBrailleIme);
     Utils.setComponentEnabled(context, Constants.BRAILLE_KEYBOARD, true);
   }
 
@@ -225,9 +248,11 @@ public class BrailleIme extends InputMethodService {
   public void onCreate() {
     super.onCreate();
     instance = this;
-    BrailleImeLog.logD(TAG, "onCreate");
+    BrailleImeLog.d(TAG, "onCreate");
+    if (talkBackForBrailleCommon != null) {
+      feedbackManager = new FeedbackManager(talkBackForBrailleCommon.getFeedBackController());
+    }
     orientation = getResources().getConfiguration().orientation;
-    readDeviceFeatures();
     mainHandler = new Handler();
     calibrationAnnouncementHandler = new Handler();
     if (brailleDisplayForBrailleIme != null) {
@@ -247,16 +272,6 @@ public class BrailleIme extends InputMethodService {
     BrailleUserPreferences.getSharedPreferences(this, BRAILLE_SHARED_PREFS_FILENAME)
         .registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
 
-    IntentFilter intentFilter = new IntentFilter();
-    intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-    intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-    ContextCompat.registerReceiver(
-        this, screenOffReceiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
-    ContextCompat.registerReceiver(
-        this,
-        closeSystemDialogsReceiver,
-        new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS),
-        ContextCompat.RECEIVER_NOT_EXPORTED);
     ContextCompat.registerReceiver(
         this,
         imeChangeListener,
@@ -277,8 +292,8 @@ public class BrailleIme extends InputMethodService {
 
   @Override
   public void onBindInput() {
-    BrailleImeLog.logD(TAG, "onBindInput");
     super.onBindInput();
+    BrailleImeLog.d(TAG, "onBindInput");
   }
 
   @Override
@@ -302,7 +317,7 @@ public class BrailleIme extends InputMethodService {
   public boolean onShowInputRequested(int flags, boolean configChange) {
     if (talkBackForBrailleIme != null) {
       if (talkBackForBrailleIme.isContextMenuExist()) {
-        BrailleImeLog.logD(TAG, "TalkBack context menu is running.");
+        BrailleImeLog.d(TAG, "TalkBack context menu is running.");
         // Reject the request since TalkBack context menu is showing.
         return false;
       }
@@ -313,40 +328,22 @@ public class BrailleIme extends InputMethodService {
 
   @Override
   public void onStartInputView(EditorInfo info, boolean restarting) {
-    BrailleImeLog.logD(TAG, "onStartInputView");
+    BrailleImeLog.d(TAG, "onStartInputView");
     getWindow().setTitle(Utils.getBrailleKeyboardDisplayName(this));
-    if (Utils.isPhonePermissionGranted(this)) {
-      TelephonyManager telephonyManager =
-          (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-      telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-    }
-
-    boolean brailleDisplayConnectedAndNotIgnored =
-        brailleDisplayForBrailleIme != null
-            && brailleDisplayForBrailleIme.isBrailleDisplayConnectedAndNotSuspended();
-    if (this.brailleDisplayConnectedAndNotSuspended != brailleDisplayConnectedAndNotIgnored) {
-      this.brailleDisplayConnectedAndNotSuspended = brailleDisplayConnectedAndNotIgnored;
-      updateInputView();
-    }
 
     // Surprisingly, framework sometimes invokes onStartInputView just after the screen turns off;
     // therefore we first confirm that the screen is indeed on before invoking activateIfNeeded.
     PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
     if (pm.isInteractive()) {
-      if (activateIfNeeded() && !restarting) {
-        talkBackForBrailleIme.resetGranularity();
+      if (showKeyboardView() && !restarting) {
+        if (isBrailleDisplayStateChanged()) {
+          updateInputView();
+        } else {
+          createViewContainerAndAddView();
+        }
       }
     } else {
       hideSelf();
-    }
-    startAnalyticsPossibly();
-
-    InputConnection inputConnection = getCurrentInputConnection();
-    if (inputConnection != null) {
-      // Invoking requestCursorUpdates causes onUpdateCursorAnchorInfo() to be invoked.
-      getCurrentInputConnection()
-          .requestCursorUpdates(
-              InputConnection.CURSOR_UPDATE_IMMEDIATE | InputConnection.CURSOR_UPDATE_MONITOR);
     }
   }
 
@@ -360,17 +357,25 @@ public class BrailleIme extends InputMethodService {
   }
 
   @Override
+  @SuppressLint("MissingSuperCall")
+  public boolean onEvaluateInputViewShown() {
+    // Always show the Braille IME. The super implementation only allows an InputMethodService
+    // when there is no hardware keyboard, or the hardware keyboard is hidden.
+    return true;
+  }
+
+  @Override
   public void onFinishInputView(boolean finishingInput) {
-    if (Utils.isPhonePermissionGranted(this)) {
-      TelephonyManager telephonyManager =
-          (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-      telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-    }
-    // Of the teardown methods, this is the most reliable, so we use it to deactivate.
-    BrailleImeLog.logD(TAG, "onFinishInputView");
     super.onFinishInputView(finishingInput);
-    deactivateIfNeeded();
-    brailleImeAnalytics.collectSessionEvents();
+    // Of the teardown methods, this is the most reliable, so we use it to deactivate.
+    BrailleImeLog.d(TAG, "onFinishInputView");
+    dismissDialogs();
+    if (!keyboardView.isViewContainerCreated()) {
+      BrailleImeLog.d(TAG, "already deactivated");
+      // Deactivation is not needed because we're already deactivated (this is not an error).
+      return;
+    }
+    keyboardView.tearDown();
   }
 
   @Override
@@ -381,19 +386,16 @@ public class BrailleIme extends InputMethodService {
 
   @Override
   public void onDestroy() {
-    BrailleImeLog.logD(TAG, "onDestroy");
+    super.onDestroy();
+    BrailleImeLog.d(TAG, "onDestroy");
     instance = null;
     if (talkBackForBrailleIme != null) {
       talkBackForBrailleIme.setBrailleImeForTalkBack(null);
     }
     BrailleUserPreferences.getSharedPreferences(this, BRAILLE_SHARED_PREFS_FILENAME)
         .unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
-    unregisterReceiver(screenOffReceiver);
-    unregisterReceiver(closeSystemDialogsReceiver);
     unregisterReceiver(imeChangeListener);
     getContentResolver().unregisterContentObserver(accessibilityServiceStatusChangeObserver);
-    super.onDestroy();
-    keyboardView.removeAllViews();
     keyboardView.tearDown();
     keyboardView = null;
     brailleImeAnalytics.sendAllLogs();
@@ -401,9 +403,49 @@ public class BrailleIme extends InputMethodService {
 
   @CanIgnoreReturnValue
   private boolean activateIfNeeded() {
-    BrailleImeLog.logD(TAG, "activateIfNeeded");
+    BrailleImeLog.d(TAG, "activateIfNeeded");
+    if (Utils.isPhonePermissionGranted(this)) {
+      TelephonyManager telephonyManager =
+          (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+      telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+    }
+    if (talkBackForBrailleIme.isVibrationFeedbackEnabled()) {
+      BrailleImeVibrator.getInstance(this).enable();
+    }
+    talkBackForBrailleIme.resetGranularity();
+    if (tutorialState == NONE) {
+      escapeReminder.startTimer();
+    }
+    activateBrailleIme();
+    createEditBuffer();
+    OrientationMonitor.getInstance().enable();
+    OrientationMonitor.getInstance().registerCallback(orientationMonitorCallback);
+    layoutOrientator.startIfNeeded();
+    updateNavigationBarColor();
+    brailleImeActor =
+        new BrailleImeActor(
+            BrailleIme.this,
+            brailleImeActorCallback,
+            talkBackForBrailleIme,
+            feedbackManager);
+    brailleImeGestureController = new BrailleImeGestureController(BrailleIme.this, brailleImeActor);
+    return true;
+  }
+
+  private boolean isBrailleDisplayStateChanged() {
+    boolean brailleDisplayConnectedAndNotIgnored =
+        brailleDisplayForBrailleIme != null
+            && brailleDisplayForBrailleIme.isBrailleDisplayConnectedAndNotSuspended();
+    if (this.brailleDisplayConnectedAndNotSuspended != brailleDisplayConnectedAndNotIgnored) {
+      this.brailleDisplayConnectedAndNotSuspended = brailleDisplayConnectedAndNotIgnored;
+      return true;
+    }
+    return false;
+  }
+
+  private boolean showKeyboardView() {
     if (keyboardView == null) {
-      BrailleImeLog.logE(TAG, "keyboardView is null. Activate should not invoke before onCreate()");
+      BrailleImeLog.e(TAG, "keyboardView is null. Activate should not invoke before onCreate()");
       return false;
     }
     if (!isInputViewShown()) {
@@ -412,52 +454,29 @@ public class BrailleIme extends InputMethodService {
     }
     if (talkBackForBrailleIme == null
         || talkBackForBrailleIme.getServiceStatus() == ServiceStatus.OFF) {
-      BrailleImeLog.logE(TAG, "talkBackForBrailleIme is null or Talkback is off.");
+      BrailleImeLog.e(TAG, "talkBackForBrailleIme is null or Talkback is off.");
       showTalkBackOffDialog();
       return false;
     } else if (talkBackForBrailleIme.getServiceStatus() == ServiceStatus.SUSPEND) {
-      BrailleImeLog.logE(TAG, "Talkback is suspend.");
+      BrailleImeLog.e(TAG, "Talkback is suspend.");
       showTalkBackSuspendDialog();
       return false;
     }
-
-    if (!deviceSupportsAtLeast5Pointers) {
+    if (FeatureFlagReader.enableBrailleImeOnDeviceWithoutFivePointers(getApplicationContext())
+        && !Utils.isMultiTouchSupported(this)) {
+      BrailleUserPreferences.setTutorialFinished(getApplicationContext());
+    }
+    if (shouldShowTooFewTouchPointsDialog()) {
       showTooFewTouchPointsDialog();
       return false;
     }
-
-    BrailleImeLog.logD(TAG, "activate");
-    if (talkBackForBrailleIme.isVibrationFeedbackEnabled()) {
-      BrailleImeVibrator.getInstance(this).enable();
-    }
-    createViewContainerAndAddView();
-    createEditBuffer();
-    OrientationMonitor.getInstance().enable();
-    OrientationMonitor.getInstance().registerCallback(orientationMonitorCallback);
-    updateNavigationBarColor();
-    if (typoHandler == null) {
-      // Do not recreate the TypoHandler is because TalkBack performs typo correction makes IME
-      // restart views but user won't aware. If we recreate, the data will all lost. So making the
-      // TypoHandler keep as-it but only renew its InputConnection.
-      typoHandler =
-          new TypoHandler(
-              talkBackForBrailleIme.createFocusFinder(),
-              talkBackForBrailleIme,
-              talkBackForBrailleImeInternal);
-    }
-    typoHandler.updateInputConnection(getCurrentInputConnection());
-    brailleImeGestureController =
-        new BrailleImeGestureController(
-            BrailleIme.this,
-            typoHandler,
-            editBuffer,
-            brailleImeGestureCallback,
-            talkBackForBrailleIme);
     return true;
   }
 
   private void createViewContainerAndAddView() {
+    BrailleImeLog.d(TAG, "createViewContainerAndAddView");
     keyboardView.setWindowManager(talkBackForBrailleIme.getWindowManager());
+    keyboardView.updateImeView();
     keyboardView.createViewContainer();
     if (brailleDisplayConnectedAndNotSuspended) {
       keyboardView.createAndAddStripView(brailleDisplayKeyboardCallback);
@@ -470,12 +489,12 @@ public class BrailleIme extends InputMethodService {
       // Restore to previous tutorial state.
       createAndAddTutorialView();
     } else if (!keyboardView.isInputViewCreated()) {
-      keyboardView.createAndAddInputView(inputPlaneCallback);
-      escapeReminder.startTimer();
+      keyboardView.createAndAddInputView(inputPlaneCallback, isCurrentTableTopMode());
     }
   }
 
   private void createAndAddTutorialView() {
+    BrailleImeLog.d(TAG, "createAndAddTutorialView");
     // Correct tutorial state according to phone size.
     if (BrailleUtils.isPhoneSizedDevice(getResources())) {
       if (tutorialState == State.HOLD_6_FINGERS) {
@@ -492,16 +511,13 @@ public class BrailleIme extends InputMethodService {
   }
 
   private void activateBrailleIme() {
+    BrailleImeLog.d(TAG, "activateBrailleIme");
     if (talkBackForBrailleIme != null && isInputViewShown()) {
-      Region region = null;
-      if (keyboardView.obtainImeViewRegion().isPresent()) {
-        region = new Region(keyboardView.obtainImeViewRegion().get());
-      }
       talkBackForBrailleIme.onBrailleImeActivated(
           !brailleDisplayConnectedAndNotSuspended,
           Utils.useImeSuppliedInputWindow(),
           // Region might be null for short time before onTalkBackResumed() is called.
-          region);
+          keyboardView.obtainImeViewRegion().orElse(null));
       if (brailleDisplayForBrailleIme != null
           && brailleDisplayConnectedAndNotSuspended
           && !isVisible) {
@@ -512,9 +528,9 @@ public class BrailleIme extends InputMethodService {
   }
 
   private void deactivateBrailleIme() {
+    BrailleImeLog.d(TAG, "deactivateBrailleIme");
     if (talkBackForBrailleIme != null) {
-      talkBackForBrailleIme.onBrailleImeInactivated(
-          Utils.useImeSuppliedInputWindow(), (tutorialState.equals(INTRO) && keyboardView != null));
+      talkBackForBrailleIme.onBrailleImeInactivated(Utils.useImeSuppliedInputWindow());
     }
     if (brailleDisplayForBrailleIme != null
         && brailleDisplayConnectedAndNotSuspended
@@ -555,13 +571,30 @@ public class BrailleIme extends InputMethodService {
     Code code = BrailleUserPreferences.readCurrentActiveInputCodeAndCorrect(this);
     boolean contractedMode =
         BrailleUserPreferences.readContractedMode(this) && code.isSupportsContracted(this);
-    BrailleImeLog.logD(
+    BrailleImeLog.d(
         TAG, "Code: " + code.getUserFacingName(BrailleIme.this) + " contracted: " + contractedMode);
 
     TranslatorFactory translatorFactory = BrailleUserPreferences.readTranslatorFactory(this);
     editBuffer =
         BrailleLanguages.createEditBuffer(
-            this, talkBackForBrailleImeInternal, code, translatorFactory, contractedMode);
+            this,
+            BrailleCommonTalkBackSpeaker.getInstance(),
+            code,
+            translatorFactory,
+            contractedMode);
+  }
+
+  /**
+   * Returns true if device can not support at least 5 pointers and not connected to braille
+   * display. Otherwise, returns false.
+   */
+  private boolean shouldShowTooFewTouchPointsDialog() {
+    if (FeatureFlagReader.enableBrailleImeOnDeviceWithoutFivePointers(getApplicationContext())
+        && brailleDisplayForBrailleIme != null
+        && brailleDisplayForBrailleIme.isBrailleDisplayConnectedAndNotSuspended()) {
+      return false;
+    }
+    return !Utils.isMultiTouchSupported(this);
   }
 
   @Override
@@ -577,10 +610,10 @@ public class BrailleIme extends InputMethodService {
       outInsets.contentTopInsets = Utils.getDisplaySizeInPixels(this).getHeight();
     }
     if (keyboardView.obtainImeViewRegion().isPresent()) {
-      Rect rect = keyboardView.obtainImeViewRegion().get();
+      Region region = keyboardView.obtainImeViewRegion().get();
       if (Build.VERSION.SDK_INT == Build.VERSION_CODES.P) {
         if (brailleDisplayConnectedAndNotSuspended) {
-          outInsets.visibleTopInsets = rect.top;
+          outInsets.visibleTopInsets = region.getBounds().top;
         } else {
           // In Android P, we need to manually set the size of the outInsets which represent the
           // area north of the IME window, otherwise any dialog attached to the unused IME window
@@ -588,7 +621,7 @@ public class BrailleIme extends InputMethodService {
           // insets area to be the entire screen, because doing that causes the inputView to be
           // ignored by an accessibility framework class responsible for sending info to Talkback,
           // and this prevents the proper announcement of the IME by TalkBack.
-          outInsets.visibleTopInsets = rect.bottom - 1;
+          outInsets.visibleTopInsets = region.getBounds().bottom - 1;
         }
         outInsets.contentTopInsets = outInsets.visibleTopInsets;
       }
@@ -597,36 +630,29 @@ public class BrailleIme extends InputMethodService {
 
   @CanIgnoreReturnValue
   private boolean deactivateIfNeeded() {
-    BrailleImeLog.logD(TAG, "deactivateIfNeeded");
-    dismissDialogs();
+    BrailleImeLog.d(TAG, "deactivateIfNeeded");
+    if (Utils.isPhonePermissionGranted(this)) {
+      TelephonyManager telephonyManager =
+          (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+      telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+    }
     escapeReminder.cancelTimer();
-    if (!keyboardView.isViewContainerCreated()) {
-      // Deactivation is not needed because we're already deactivated (this is not an error).
-      return false;
-    }
-    if (talkBackForBrailleIme == null) {
-      BrailleImeLog.logE(TAG, "talkBackForBrailleIme is null");
-      return false;
-    }
-    BrailleImeLog.logD(TAG, "deactivate");
+    layoutOrientator.stop();
     BrailleImeVibrator.getInstance(this).disable();
-    if (isConnectionValid()) {
+    if (editBuffer != null && isConnectionValid()) {
       editBuffer.commit(getImeConnection());
     }
-
     deactivateBrailleIme();
-    tutorialState = keyboardView.getTutorialStatus();
-    keyboardView.removeBrailleInputViewAndTutorialView();
-    keyboardView.tearDown();
     calibrationAnnouncementHandler.removeCallbacksAndMessages(null);
     OrientationMonitor.getInstance().unregisterCallback();
     OrientationMonitor.getInstance().disable();
     return true;
   }
 
-  private void reactivate() {
-    deactivateIfNeeded();
-    activateIfNeeded();
+  private void reactivate(State state) {
+    tutorialState = state;
+    keyboardView.tearDown();
+    createViewContainerAndAddView();
   }
 
   private void hideSelf() {
@@ -645,10 +671,10 @@ public class BrailleIme extends InputMethodService {
   private void performEditorAction(InputConnection inputConnection) {
     EditorInfo editorInfo = getCurrentInputEditorInfo();
     int editorAction = editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION;
-    BrailleImeLog.logD(TAG, "performEnterAction editorAction = " + editorAction);
+    BrailleImeLog.d(TAG, "performEnterAction editorAction = " + editorAction);
     if (editorAction != EditorInfo.IME_ACTION_UNSPECIFIED
         && editorAction != EditorInfo.IME_ACTION_NONE) {
-      if (Constants.ANDROID_MESSAGES_PACKAGE_NAME.equals(editorInfo.packageName)) {
+      if (TextUtils.equals(editorInfo.packageName, Constants.ANDROID_MESSAGES_PACKAGE_NAME)) {
         // Messages uses async thread to check conditions when performing submit. We pend the task
         // with 50 millis seconds to avoid perform action failed.
         new Handler().postDelayed(() -> inputConnection.performEditorAction(editorAction), 50);
@@ -656,24 +682,21 @@ public class BrailleIme extends InputMethodService {
         inputConnection.performEditorAction(editorAction);
       }
       if (editorAction == EditorInfo.IME_ACTION_NEXT) {
-        talkBackForBrailleImeInternal.speak(getString(R.string.perform_action_next));
+        BrailleCommonTalkBackSpeaker.getInstance().speak(getString(R.string.perform_action_next));
       } else {
-        talkBackForBrailleImeInternal.speak(getString(R.string.perform_action_submitting));
+        BrailleCommonTalkBackSpeaker.getInstance()
+            .speak(getString(R.string.perform_action_submitting));
       }
     }
   }
 
   private void updateInputView() {
-    mainHandler.post(
-        () -> {
-          if (keyboardView != null) {
-            keyboardView.removeAllViews();
-            keyboardView.tearDown();
-          }
-          keyboardView = createKeyboardView();
-          setInputView(keyboardView.createImeInputView());
-          createViewContainerAndAddView();
-        });
+    if (keyboardView != null) {
+      keyboardView.tearDown();
+    }
+    keyboardView = createKeyboardView();
+    setInputView(keyboardView.createImeInputView());
+    createViewContainerAndAddView();
   }
 
   /**
@@ -731,12 +754,6 @@ public class BrailleIme extends InputMethodService {
     return true;
   }
 
-  private void readDeviceFeatures() {
-    PackageManager pm = getPackageManager();
-    deviceSupportsAtLeast5Pointers =
-        pm.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_JAZZHAND);
-  }
-
   private void dismissDialogs() {
     talkbackOffDialog.dismiss();
     contextMenuDialog.dismiss();
@@ -769,11 +786,8 @@ public class BrailleIme extends InputMethodService {
   private String getTwoStepsCalibrationAnnounceString(FingersPattern fingersPattern) {
     boolean reverseDot = BrailleUserPreferences.readReverseDotsMode(BrailleIme.this);
     StringBuilder sb = new StringBuilder();
-    switch (fingersPattern) {
-      case NO_FINGERS:
-      case FIVE_FINGERS:
-      case SIX_FINGERS:
-      case SEVEN_FINGERS:
+    return switch (fingersPattern) {
+      case NO_FINGERS, FIVE_FINGERS, SIX_FINGERS, SEVEN_FINGERS -> {
         sb.append(
                 getString(
                     R.string.calibration_step1_hold_left_or_right_finger_announcement,
@@ -785,8 +799,9 @@ public class BrailleIme extends InputMethodService {
                         ? R.string.calibration_hold_left_or_right_four_finger_announcement
                         : R.string.calibration_hold_left_or_right_three_finger_announcement,
                     getString(reverseDot ? R.string.right_hand : R.string.left_hand)));
-        return sb.toString();
-      case FIRST_THREE_FINGERS:
+        yield sb.toString();
+      }
+      case FIRST_THREE_FINGERS -> {
         sb.append(
                 getString(
                     R.string.calibration_step2_hold_left_or_right_finger_announcement,
@@ -798,8 +813,9 @@ public class BrailleIme extends InputMethodService {
                         ? R.string.calibration_hold_left_or_right_four_finger_announcement
                         : R.string.calibration_hold_left_or_right_three_finger_announcement,
                     getString(reverseDot ? R.string.left_hand : R.string.right_hand)));
-        return sb.toString();
-      case FIRST_FOUR_FINGERS:
+        yield sb.toString();
+      }
+      case FIRST_FOUR_FINGERS -> {
         sb.append(
                 getString(
                     R.string
@@ -812,34 +828,29 @@ public class BrailleIme extends InputMethodService {
                         ? R.string.calibration_hold_left_or_right_four_finger_announcement
                         : R.string.calibration_hold_left_or_right_three_finger_announcement,
                     getString(reverseDot ? R.string.left_hand : R.string.right_hand)));
-        return sb.toString();
-      default:
-        return "";
-    }
+        yield sb.toString();
+      }
+      default -> "";
+    };
   }
 
   private String getRepeatedTwoStepCalibrationAnnounceString(FingersPattern fingersPattern) {
     boolean reverseDot = BrailleUserPreferences.readReverseDotsMode(BrailleIme.this);
-    switch (fingersPattern) {
-      case NO_FINGERS:
-      case FIVE_FINGERS:
-      case SIX_FINGERS:
-      case SEVEN_FINGERS:
-        return getString(
-            isEightDotsBraille()
-                ? R.string.calibration_hold_left_or_right_four_finger_announcement
-                : R.string.calibration_hold_left_or_right_three_finger_announcement,
-            getString(reverseDot ? R.string.right_hand : R.string.left_hand));
-      case FIRST_THREE_FINGERS:
-      case FIRST_FOUR_FINGERS:
-        return getString(
-            isEightDotsBraille()
-                ? R.string.calibration_hold_left_or_right_four_finger_announcement
-                : R.string.calibration_hold_left_or_right_three_finger_announcement,
-            getString(reverseDot ? R.string.left_hand : R.string.right_hand));
-      default:
-        return "";
-    }
+    return switch (fingersPattern) {
+      case NO_FINGERS, FIVE_FINGERS, SIX_FINGERS, SEVEN_FINGERS ->
+          getString(
+              isEightDotsBraille()
+                  ? R.string.calibration_hold_left_or_right_four_finger_announcement
+                  : R.string.calibration_hold_left_or_right_three_finger_announcement,
+              getString(reverseDot ? R.string.right_hand : R.string.left_hand));
+      case FIRST_THREE_FINGERS, FIRST_FOUR_FINGERS ->
+          getString(
+              isEightDotsBraille()
+                  ? R.string.calibration_hold_left_or_right_four_finger_announcement
+                  : R.string.calibration_hold_left_or_right_three_finger_announcement,
+              getString(reverseDot ? R.string.left_hand : R.string.right_hand));
+      default -> "";
+    };
   }
 
   private void speakAnnouncementRepeatedly(CharSequence announcement, int delay) {
@@ -847,8 +858,8 @@ public class BrailleIme extends InputMethodService {
     // Do not use the delay in Talkback because we want to be able to cancel it.
     calibrationAnnouncementHandler.postDelayed(
         () ->
-            talkBackForBrailleImeInternal.speak(
-                announcement, getRepeatAnnouncementRunnable(announcement)),
+            BrailleCommonTalkBackSpeaker.getInstance()
+                .speak(announcement, getRepeatAnnouncementRunnable(announcement)),
         delay);
   }
 
@@ -860,6 +871,11 @@ public class BrailleIme extends InputMethodService {
         speakAnnouncementRepeatedly(repeatedAnnouncement, CALIBRATION_ANNOUNCEMENT_REPEAT_MS);
       }
     };
+  }
+
+  private boolean isTalkBackEnabled() {
+    return isAccessibilityServiceEnabled(
+        BrailleIme.this, Constants.TALKBACK_SERVICE.flattenToShortString());
   }
 
   private final LayoutOrientatorCallback layoutOrientatorCallback =
@@ -875,9 +891,7 @@ public class BrailleIme extends InputMethodService {
         public void onDetectionChanged(boolean isTabletop, boolean isFirstChangedEvent) {
           String layout =
               getString(
-                  isTabletop
-                      ? R.string.switch_to_tabletop_announcement
-                      : R.string.switch_to_screen_away_announcement);
+                  isTabletop ? R.string.switch_to_tabletop_announcement : R.string.screen_away);
           String calibrationTips = "";
           if (keyboardView.inTwoStepCalibration()) {
             if (!isFirstChangedEvent) {
@@ -891,18 +905,21 @@ public class BrailleIme extends InputMethodService {
           }
           if (isFirstChangedEvent) {
             String finalCalibrationTips = calibrationTips;
-            talkBackForBrailleImeInternal.speak(layout, ANNOUNCE_DELAY_MS);
+            BrailleCommonTalkBackSpeaker.getInstance().speak(layout, ANNOUNCE_DELAY_MS);
             calibrationAnnouncementHandler.postDelayed(
-                () -> talkBackForBrailleImeInternal.speak(finalCalibrationTips), ANNOUNCE_DELAY_MS);
+                () -> BrailleCommonTalkBackSpeaker.getInstance().speak(finalCalibrationTips),
+                ANNOUNCE_DELAY_MS);
           } else {
-            talkBackForBrailleImeInternal.speak(layout, TalkBackSpeaker.AnnounceType.INTERRUPT);
+            BrailleCommonTalkBackSpeaker.getInstance()
+                .speak(layout, TalkBackSpeaker.AnnounceType.INTERRUPT);
             calibrationAnnouncementHandler.removeCallbacksAndMessages(null);
-            talkBackForBrailleImeInternal.speak(
-                calibrationTips,
-                keyboardView.inTwoStepCalibration()
-                    ? getRepeatAnnouncementRunnable(
-                        getRepeatedTwoStepCalibrationAnnounceString(FingersPattern.NO_FINGERS))
-                    : null);
+            BrailleCommonTalkBackSpeaker.getInstance()
+                .speak(
+                    calibrationTips,
+                    keyboardView.inTwoStepCalibration()
+                        ? getRepeatAnnouncementRunnable(
+                            getRepeatedTwoStepCalibrationAnnounceString(FingersPattern.NO_FINGERS))
+                        : null);
           }
           keyboardView.setTableMode(isTabletop);
         }
@@ -912,70 +929,17 @@ public class BrailleIme extends InputMethodService {
       new UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread thread, Throwable throwable) {
-          BrailleImeLog.logE(TAG, "Uncaught exception", throwable);
+          BrailleImeLog.e(TAG, "Uncaught exception", throwable);
           try {
-            deactivateIfNeeded();
+            keyboardView.tearDown();
             if (isInputViewShown()) {
               switchToNextInputMethod();
             }
-          } catch (Exception e) {
-            BrailleImeLog.logE(TAG, "Uncaught exception in handler", throwable);
+          } catch (RuntimeException e) {
+            BrailleImeLog.e(TAG, "Uncaught exception in handler", throwable);
           } finally {
             if (originalDefaultUncaughtExceptionHandler != null) {
               originalDefaultUncaughtExceptionHandler.uncaughtException(thread, throwable);
-            }
-          }
-        }
-      };
-
-  private final BroadcastReceiver screenOffReceiver =
-      new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-          if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-            BrailleImeLog.logD(TAG, "screen off");
-            deactivateIfNeeded();
-            dismissDialogs();
-            // Finish session while screen off because no called onFinishInputView() in this case.
-            brailleImeAnalytics.collectSessionEvents();
-          } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-            // Activate upon SCREEN_ON to resolve the following scenario occurs:
-            // 1. Screen turns off, and then abruptly turns on (before SCREEN_OFF receiver is
-            // triggered).
-            // 2. onStartInputView() gets invoked before SCREEN_OFF receiver gets triggered.
-            // 3. SCREEN_OFF receiver gets triggered, thus deactivating, causing bad state - IME is
-            // up but Window is absent.
-            BrailleImeLog.logD(TAG, "screen on");
-            KeyguardManager keyguardManager =
-                (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-            BrailleImeLog.logD(TAG, "screen is locked: " + keyguardManager.isKeyguardLocked());
-            // Do not activate if keyguard is showing (because our Window would show atop keyguard).
-            if (!keyguardManager.isKeyguardLocked()) {
-              activateIfNeeded();
-            }
-          }
-        }
-      };
-
-  private final BroadcastReceiver closeSystemDialogsReceiver =
-      new BroadcastReceiver() {
-        private static final String SYSTEM_DIALOG_REASON_KEY = "reason";
-        private static final String SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps";
-        private static final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
-        private static final String SYSTEM_DIALOG_REASON_VOICE_INTERACTION = "voiceinteraction";
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-          if (intent.getAction().equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
-            String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
-            if (reason != null) {
-              BrailleImeLog.logD(TAG, "action:" + intent.getAction() + ",reason:" + reason);
-              if (reason.equals(SYSTEM_DIALOG_REASON_HOME_KEY)
-                  || reason.equals(SYSTEM_DIALOG_REASON_RECENT_APPS)
-                  || reason.equals(SYSTEM_DIALOG_REASON_VOICE_INTERACTION)) {
-                // Home key, recent key or google assistant comes up.
-                dismissDialogs();
-              }
             }
           }
         }
@@ -995,7 +959,7 @@ public class BrailleIme extends InputMethodService {
       new BrailleImeForTalkBack() {
         @Override
         public void onTalkBackSuspended() {
-          BrailleImeLog.logD(TAG, "onTalkBackSuspended");
+          BrailleImeLog.d(TAG, "onTalkBackSuspended");
           // We might get service state off when TalkBack turns off, but we'll handle it in
           // accessibilityServiceStatusChangeObserver.
           if (isInputViewShown()
@@ -1006,7 +970,7 @@ public class BrailleIme extends InputMethodService {
             if (KeyboardUtils.areMultipleImesEnabled(BrailleIme.this)) {
               switchToNextInputMethod();
             } else {
-              deactivateIfNeeded();
+              keyboardView.tearDown();
               showTalkBackSuspendDialog();
             }
           }
@@ -1014,13 +978,13 @@ public class BrailleIme extends InputMethodService {
 
         @Override
         public void onTalkBackResumed() {
-          BrailleImeLog.logD(TAG, "onTalkBackResumed");
+          BrailleImeLog.d(TAG, "onTalkBackResumed");
           // This callback won't be triggered when service state changes from off to on because it's
           // set to null when off so we register it back in
           // accessibilityServiceStatusChangeObserver.
           if (isInputViewShown()) {
             dismissDialogs();
-            activateIfNeeded();
+            createViewContainerAndAddView();
           }
         }
 
@@ -1068,27 +1032,26 @@ public class BrailleIme extends InputMethodService {
           if (!isInputViewShown()) {
             return;
           }
-          if (isAccessibilityServiceEnabled(
-              BrailleIme.this, Constants.TALKBACK_SERVICE.flattenToShortString())) {
-            BrailleImeLog.logD(TAG, "TalkBack becomes active.");
+          if (isTalkBackEnabled()) {
+            BrailleImeLog.d(TAG, "TalkBack becomes active.");
             // This listener is triggered before TB service is ready. Call activateIfNeeded() will
             // get service state is off so we need to set BrailleImeForTalkBack in TB to get
             // onTalkBackResumed() to make sure the state has been set to active.
             activateBrailleIme();
           } else {
-            BrailleImeLog.logD(TAG, "TalkBack becomes inactive.");
+            BrailleImeLog.d(TAG, "TalkBack becomes inactive.");
             if (KeyboardUtils.areMultipleImesEnabled(BrailleIme.this)) {
               switchToNextInputMethod();
             } else {
-              deactivateIfNeeded();
+              keyboardView.tearDown();
               showTalkBackOffDialog();
             }
           }
         }
       };
 
-  private final BrailleImeGestureController.Callback brailleImeGestureCallback =
-      new BrailleImeGestureController.Callback() {
+  private final BrailleImeActor.Callback brailleImeActorCallback =
+      new BrailleImeActor.Callback() {
         @Override
         public void hideBrailleKeyboard() {
           hideSelf();
@@ -1105,7 +1068,6 @@ public class BrailleIme extends InputMethodService {
         public void showContextMenu() {
           keyboardView.showViewAttachedDialog(contextMenuDialog);
           brailleImeAnalytics.logGestureActionOpenOptionsMenu();
-          brailleImeAnalytics.collectSessionEvents();
           escapeReminder.increaseOptionDialogCounter();
         }
 
@@ -1123,6 +1085,11 @@ public class BrailleIme extends InputMethodService {
         public ImeConnection getImeConnection() {
           return BrailleIme.this.getImeConnection();
         }
+
+        @Override
+        public EditBuffer getEditBuffer() {
+          return editBuffer;
+        }
       };
 
   private final OrientationMonitor.Callback orientationMonitorCallback =
@@ -1131,16 +1098,6 @@ public class BrailleIme extends InputMethodService {
         public void onOrientationChanged(OrientationMonitor.Orientation orientation) {
           if (orientationCallbackDelegate != null) {
             orientationCallbackDelegate.onOrientationChanged(orientation);
-          }
-        }
-      };
-
-  private final TalkBackSpeaker talkBackForBrailleImeInternal =
-      new TalkBackSpeaker() {
-        @Override
-        public void speak(CharSequence text, int delayMs, SpeakOptions speakOptions) {
-          if (BrailleIme.talkBackForBrailleIme != null) {
-            talkBackForBrailleIme.speak(text, delayMs, speakOptions);
           }
         }
       };
@@ -1160,9 +1117,8 @@ public class BrailleIme extends InputMethodService {
         }
 
         @Override
-        public boolean onDotHoldAndDotSwipe(Swipe swipe, BrailleCharacter heldBrailleCharacter) {
-          if (brailleImeGestureController.performDotHoldAndSwipeAction(
-              swipe, heldBrailleCharacter)) {
+        public boolean onDotHoldAndDotSwipe(DotHoldSwipe dotHoldSwipe) {
+          if (brailleImeGestureController.performDotHoldAndSwipeAction(dotHoldSwipe)) {
             showOnBrailleDisplay();
             return true;
           }
@@ -1185,20 +1141,10 @@ public class BrailleIme extends InputMethodService {
         @Nullable
         @Override
         public String onBrailleProduced(BrailleCharacter brailleChar) {
-          if (!isConnectionValid()) {
-            return null;
-          }
-          talkBackForBrailleIme.interruptSpeak();
-          if (talkBackForBrailleIme.isCurrentGranularityTypoCorrection()) {
-            talkBackForBrailleIme.resetGranularity();
-          }
-          brailleImeAnalytics.logTotalBrailleCharCount(1);
-          String result = editBuffer.appendBraille(getImeConnection(), brailleChar);
+          String result = brailleImeGestureController.performTyping(brailleChar);
           if (!TextUtils.isEmpty(result)) {
             escapeReminder.restartTimer();
-            showOnBrailleDisplay();
           }
-          BrailleImeVibrator.getInstance(BrailleIme.this).vibrate(VibrationType.BRAILLE_COMMISSION);
           return result;
         }
 
@@ -1232,10 +1178,11 @@ public class BrailleIme extends InputMethodService {
             // layout mode announcement finish.
             calibrationAnnouncementHandler.postDelayed(
                 () ->
-                    talkBackForBrailleImeInternal.speak(
-                        getTwoStepsCalibrationAnnounceString(fingersPattern),
-                        getRepeatAnnouncementRunnable(
-                            getRepeatedTwoStepCalibrationAnnounceString(fingersPattern))),
+                    BrailleCommonTalkBackSpeaker.getInstance()
+                        .speak(
+                            getTwoStepsCalibrationAnnounceString(fingersPattern),
+                            getRepeatAnnouncementRunnable(
+                                getRepeatedTwoStepCalibrationAnnounceString(fingersPattern))),
                 ANNOUNCE_CALIBRATION_DELAY_MS);
           } else if (fingersPattern == FingersPattern.FIRST_THREE_FINGERS
               || fingersPattern == FingersPattern.FIRST_FOUR_FINGERS) {
@@ -1251,14 +1198,16 @@ public class BrailleIme extends InputMethodService {
           brailleImeAnalytics.logCalibrationFailed(
               mapCalibrationToType(calibration), isCurrentTableTopMode(), isEightDotsBraille());
           calibrationAnnouncementHandler.removeCallbacksAndMessages(null);
-          talkBackForBrailleImeInternal.speak(
-              getString(R.string.calibration_fail_announcement),
-              TalkBackSpeaker.AnnounceType.INTERRUPT);
+          BrailleCommonTalkBackSpeaker.getInstance()
+              .speak(
+                  getString(R.string.calibration_fail_announcement),
+                  TalkBackSpeaker.AnnounceType.INTERRUPT);
           if (calibration != CalibrationTriggeredType.MANUAL) {
-            talkBackForBrailleImeInternal.speak(
-                getString(
-                    R.string.calibration_fail_try_again_announcement,
-                    getCurrentTypingLanguageType(getApplicationContext()).getDotCount()));
+            BrailleCommonTalkBackSpeaker.getInstance()
+                .speak(
+                    getString(
+                        R.string.calibration_fail_try_again_announcement,
+                        getCurrentTypingLanguageType(getApplicationContext()).getDotCount()));
           }
         }
 
@@ -1274,10 +1223,11 @@ public class BrailleIme extends InputMethodService {
                   isFirstStep
                       ? getString(reverseDot ? R.string.right_hand : R.string.left_hand)
                       : getString(reverseDot ? R.string.left_hand : R.string.right_hand));
-          talkBackForBrailleImeInternal.speak(
-              announcement,
-              TalkBackSpeaker.AnnounceType.INTERRUPT,
-              getRepeatAnnouncementRunnable(announcement));
+          BrailleCommonTalkBackSpeaker.getInstance()
+              .speak(
+                  announcement,
+                  TalkBackSpeaker.AnnounceType.INTERRUPT,
+                  getRepeatAnnouncementRunnable(announcement));
         }
 
         private boolean isCalibrationSucceeded(FingersPattern fingersPattern) {
@@ -1292,29 +1242,26 @@ public class BrailleIme extends InputMethodService {
 
         private BrailleImeAnalytics.CalibrationTriggeredType mapCalibrationToType(
             CalibrationTriggeredType calibration) {
-          switch (calibration) {
-            case FIVE_FINGERS:
-              return BrailleImeAnalytics.CalibrationTriggeredType.FIVE_FINGER;
-            case SIX_FINGERS:
-              return BrailleImeAnalytics.CalibrationTriggeredType.SIX_FINGER;
-            case SEVEN_FINGERS:
-              return BrailleImeAnalytics.CalibrationTriggeredType.SEVEN_FINGER;
-            case EIGHT_FINGERS:
-              return BrailleImeAnalytics.CalibrationTriggeredType.EIGHT_FINGER;
-            case MANUAL:
-              return BrailleImeAnalytics.CalibrationTriggeredType.MANUAL;
-          }
-          return BrailleImeAnalytics.CalibrationTriggeredType.UNSPECIFIED_FINGER;
+          return switch (calibration) {
+            case FIVE_FINGERS -> BrailleImeAnalytics.CalibrationTriggeredType.FIVE_FINGER;
+            case SIX_FINGERS -> BrailleImeAnalytics.CalibrationTriggeredType.SIX_FINGER;
+            case SEVEN_FINGERS -> BrailleImeAnalytics.CalibrationTriggeredType.SEVEN_FINGER;
+            case EIGHT_FINGERS -> BrailleImeAnalytics.CalibrationTriggeredType.EIGHT_FINGER;
+            case MANUAL -> BrailleImeAnalytics.CalibrationTriggeredType.MANUAL;
+          };
         }
 
         private void playCalibrationDoneSoundAndAnnouncement(String announcement) {
           for (int i = 0; i < CALIBRATION_EARCON_REPEAT_COUNT; i++) {
-            talkBackForBrailleIme.playSound(
-                R.raw.calibration_done, CALIBRATION_EARCON_DELAY_MS * i);
+            feedbackManager.emitFeedback(
+                FeedbackManager.Type.CALIBRATION, CALIBRATION_EARCON_DELAY_MS * i);
           }
           // Wait a second for playing sound and then speak the post-action announcement.
-          talkBackForBrailleImeInternal.speak(
-              announcement, ANNOUNCE_CALIBRATION_DELAY_MS, TalkBackSpeaker.AnnounceType.INTERRUPT);
+          BrailleCommonTalkBackSpeaker.getInstance()
+              .speak(
+                  announcement,
+                  ANNOUNCE_CALIBRATION_DELAY_MS,
+                  TalkBackSpeaker.AnnounceType.INTERRUPT);
         }
 
         private boolean isEightDotCalibration(int pointersHeldCount) {
@@ -1335,8 +1282,9 @@ public class BrailleIme extends InputMethodService {
       new KeyboardViewCallback() {
         @Override
         public void onViewReady() {
-          activateBrailleIme();
-          layoutOrientator.startIfNeeded();
+          BrailleImeLog.d(TAG, "onViewReady");
+          activateIfNeeded();
+          startAnalyticsPossibly();
           if (!keyboardView.isTutorialShown()) {
             showOnBrailleDisplay();
           }
@@ -1344,6 +1292,7 @@ public class BrailleIme extends InputMethodService {
 
         @Override
         public void onViewUpdated() {
+          BrailleImeLog.d(TAG, "onViewUpdated");
           if (!contextMenuDialog.isShowing() && tutorialState != INTRO) {
             activateBrailleIme();
           }
@@ -1351,16 +1300,10 @@ public class BrailleIme extends InputMethodService {
 
         @Override
         public void onViewCleared() {
-          layoutOrientator.stop();
-        }
-
-        @Override
-        public void onAnnounce(String announcement, int delayMs) {
-          if (delayMs <= 0) {
-            talkBackForBrailleImeInternal.speak(announcement);
-          } else {
-            talkBackForBrailleImeInternal.speak(announcement, delayMs);
-          }
+          BrailleImeLog.d(TAG, "onViewCleared");
+          deactivateIfNeeded();
+          // Finish session while screen off because no called onFinishInputView() in this case.
+          brailleImeAnalytics.collectSessionEvents();
         }
 
         @Override
@@ -1373,15 +1316,15 @@ public class BrailleIme extends InputMethodService {
       new BrailleDisplayImeStripView.CallBack() {
         @Override
         public void onSwitchToOnscreenKeyboard() {
-          BrailleImeLog.logD(TAG, "onStripClicked");
+          BrailleImeLog.d(TAG, "onStripClicked");
           brailleDisplayConnectedAndNotSuspended = false;
           updateInputView();
-          talkBackForBrailleImeInternal.speak(
-              getString(R.string.switch_on_screen_keyboard_announcement),
-              TalkBackSpeaker.AnnounceType.INTERRUPT);
+          BrailleCommonTalkBackSpeaker.getInstance()
+              .speak(
+                  getString(R.string.switch_on_screen_keyboard_announcement),
+                  TalkBackSpeaker.AnnounceType.INTERRUPT);
           keyboardView.setTableMode(isCurrentTableTopMode());
           brailleDisplayForBrailleIme.suspendInFavorOfBrailleKeyboard();
-          updateNavigationBarColor();
         }
 
         @Override
@@ -1391,6 +1334,10 @@ public class BrailleIme extends InputMethodService {
       };
 
   private void showOnBrailleDisplay() {
+    showOnBrailleDisplay(/* retranslate= */ false);
+  }
+
+  private void showOnBrailleDisplay(boolean retranslate) {
     if (!isInputViewShown()) {
       return;
     }
@@ -1409,8 +1356,11 @@ public class BrailleIme extends InputMethodService {
                       EditBufferUtils.isMultiLineField(getCurrentInputEditorInfo().inputType))
                   .setAction(Utils.getActionLabel(this, getCurrentInputEditorInfo()).toString())
                   .setHint(Utils.getHint(getImeConnection()).toString())
-                  .setShowPassword(
-                      BrailleCommonUtils.isVisiblePasswordField(getCurrentInputEditorInfo()))
+                  .setTextMasked(
+                      BrailleCommonUtils.isPasswordField(getCurrentInputEditorInfo())
+                          && !BrailleCommonUtils.isVisiblePasswordField(
+                              getCurrentInputEditorInfo()))
+                  .setRetranslate(retranslate)
                   .build();
           brailleDisplayForBrailleIme.showOnDisplay(result);
         });
@@ -1418,11 +1368,11 @@ public class BrailleIme extends InputMethodService {
 
   private boolean isConnectionValid() {
     if (getCurrentInputConnection() == null) {
-      BrailleImeLog.logE(TAG, "lack of InputConnection");
+      BrailleImeLog.e(TAG, "lack of InputConnection");
       return false;
     }
     if (getCurrentInputEditorInfo() == null) {
-      BrailleImeLog.logE(TAG, "lack of InputEditorInfo");
+      BrailleImeLog.e(TAG, "lack of InputEditorInfo");
       return false;
     }
     return true;
@@ -1445,7 +1395,7 @@ public class BrailleIme extends InputMethodService {
             ? talkBackForBrailleIme.shouldAnnounceCharacterForPhysicalKeyboard()
             : talkBackForBrailleIme.shouldAnnounceCharacterForOnScreenKeyboard();
     if (talkBackForBrailleIme != null && shouldAnnounceCharacter) {
-      announceType = talkBackForBrailleIme.shouldSpeakPassword() ? NORMAL : HIDE_PASSWORD;
+      announceType = NORMAL;
     }
     return new ImeConnection(
         getCurrentInputConnection(), getCurrentInputEditorInfo(), announceType);
@@ -1459,11 +1409,12 @@ public class BrailleIme extends InputMethodService {
             Code newCode =
                 BrailleUserPreferences.readCurrentActiveInputCodeAndCorrect(BrailleIme.this);
             if (!brailleDisplayConnectedAndNotSuspended) {
-              talkBackForBrailleImeInternal.speak(
-                  getString(
-                      R.string.switch_to_language_announcement,
-                      newCode.getUserFacingName(BrailleIme.this)),
-                  TalkBackSpeaker.AnnounceType.INTERRUPT);
+              BrailleCommonTalkBackSpeaker.getInstance()
+                  .speak(
+                      getString(
+                          R.string.switch_to_language_announcement,
+                          newCode.getUserFacingName(BrailleIme.this)),
+                      TalkBackSpeaker.AnnounceType.INTERRUPT);
             }
             if (keyboardView.getBrailleInputViewDotCount()
                 != BrailleUserPreferences.getCurrentTypingLanguageType(BrailleIme.this)
@@ -1478,12 +1429,13 @@ public class BrailleIme extends InputMethodService {
               BrailleImeAnalytics.getInstance(BrailleIme.this).logContractedToggle(contractedMode);
             }
             if (!brailleDisplayConnectedAndNotSuspended) {
-              talkBackForBrailleImeInternal.speak(
-                  getString(
-                      contractedMode
-                          ? R.string.switched_to_contracted_announcement
-                          : R.string.switched_to_uncontracted_announcement),
-                  TalkBackSpeaker.AnnounceType.INTERRUPT);
+              BrailleCommonTalkBackSpeaker.getInstance()
+                  .speak(
+                      getString(
+                          contractedMode
+                              ? R.string.switched_to_contracted_announcement
+                              : R.string.switched_to_uncontracted_announcement),
+                      TalkBackSpeaker.AnnounceType.INTERRUPT);
             }
             refreshEditBufferAndBrailleDisplay();
           }
@@ -1494,11 +1446,8 @@ public class BrailleIme extends InputMethodService {
             editBuffer.commit(getImeConnection());
           }
           createEditBuffer();
-          if (brailleImeGestureController != null) {
-            brailleImeGestureController.updateEditBuffer(editBuffer);
-          }
           getWindow().setTitle(Utils.getBrailleKeyboardDisplayName(BrailleIme.this));
-          showOnBrailleDisplay();
+          showOnBrailleDisplay(/* retranslate= */ true);
         }
       };
 
@@ -1509,12 +1458,15 @@ public class BrailleIme extends InputMethodService {
           activateBrailleIme();
           startAnalyticsPossibly();
           layoutOrientator.startIfNeeded();
+          escapeReminder.startTimer();
           showOnBrailleDisplay();
         }
 
         @Override
         public void onDialogShown() {
           deactivateBrailleIme();
+          brailleImeAnalytics.collectSessionEvents();
+          escapeReminder.cancelTimer();
           layoutOrientator.stop();
         }
 
@@ -1530,16 +1482,11 @@ public class BrailleIme extends InputMethodService {
 
         @Override
         public void onTutorialOpen() {
-          escapeReminder.cancelTimer();
-          layoutOrientator.stop();
-          tutorialState = INTRO;
-          createAndAddTutorialView();
+          reactivate(INTRO);
         }
 
         @Override
-        public void onTutorialClosed() {
-          escapeReminder.startTimer();
-        }
+        public void onTutorialClosed() {}
 
         @Override
         public void onCalibration() {
@@ -1567,13 +1514,13 @@ public class BrailleIme extends InputMethodService {
             int delayMs,
             TalkBackSpeaker.AnnounceType announceType,
             UtteranceCompleteRunnable utteranceCompleteRunnable) {
-          talkBackForBrailleImeInternal.speak(
-              announcement, delayMs, announceType, utteranceCompleteRunnable);
+          BrailleCommonTalkBackSpeaker.getInstance()
+              .speak(announcement, delayMs, announceType, utteranceCompleteRunnable);
         }
 
         @Override
-        public void onPlaySound(int resId, int delayMs) {
-          talkBackForBrailleIme.playSound(resId, delayMs);
+        public void onPlaySound(FeedbackManager.Type type) {
+          feedbackManager.emitFeedback(type);
         }
 
         @Override
@@ -1591,20 +1538,14 @@ public class BrailleIme extends InputMethodService {
         @Override
         public void onTutorialFinished() {
           BrailleUserPreferences.setTutorialFinished(getApplicationContext());
-          tutorialState = NONE;
           talkBackForBrailleIme.restoreSilenceOnProximity();
-          activateBrailleIme();
-          keyboardView.createAndAddInputView(inputPlaneCallback);
-          // Braille keyboard sometimes will restart. startTimer() might be called twice (here and
-          // activateIfNeeded).
-          escapeReminder.startTimer();
           brailleImeAnalytics.logTutorialFinishedByTutorialCompleted();
-          layoutOrientator.startIfNeeded();
+          reactivate(NONE);
         }
 
         @Override
         public void onRestartTutorial() {
-          reactivate();
+          reactivate(keyboardView.getTutorialStatus());
         }
 
         @Override
@@ -1622,10 +1563,11 @@ public class BrailleIme extends InputMethodService {
       new EscapeReminder.Callback() {
         @Override
         public void onRemind(SpeechController.UtteranceCompleteRunnable utteranceCompleteRunnable) {
-          talkBackForBrailleImeInternal.speak(
-              getString(R.string.reminder_announcement),
-              ANNOUNCE_DELAY_MS,
-              utteranceCompleteRunnable);
+          BrailleCommonTalkBackSpeaker.getInstance()
+              .speak(
+                  getString(R.string.reminder_announcement),
+                  ANNOUNCE_DELAY_MS,
+                  utteranceCompleteRunnable);
         }
 
         @Override
@@ -1643,20 +1585,10 @@ public class BrailleIme extends InputMethodService {
 
         @Override
         public void onLaunchSettings() {
-          Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-          intent.addFlags(
-              Intent.FLAG_ACTIVITY_NEW_TASK
-                  | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                  | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
           // Highlight TalkBack item in Accessibility Settings upon arriving there (Pixel only).
-          Utils.attachSettingsHighlightBundle(intent, Constants.TALKBACK_SERVICE);
-          startActivity(intent);
-          // The ACTION_CLOSE_SYSTEM_DIALOGS intent action is deprecated from S. The platform will
-          // automatically collapse the proper system dialogs in the proper use-cases.
-          if (!BuildVersionUtils.isAtLeastS()) {
-            // Collapse notification panel (quick settings).
-            sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-          }
+          highlightTalkBackSettings(BrailleIme.this);
+          // Collapse notification panel (quick settings).
+          collapseNotificationPanel(BrailleIme.this);
         }
       };
 
@@ -1693,19 +1625,32 @@ public class BrailleIme extends InputMethodService {
       new BrailleImeForBrailleDisplay() {
         @Override
         public void onBrailleDisplayConnected() {
-          BrailleImeLog.logD(TAG, "onBrailleDisplayConnected");
+          BrailleImeLog.d(TAG, "onBrailleDisplayConnected");
           brailleDisplayConnectedAndNotSuspended = true;
           updateInputView();
-          activateBrailleIme();
-          updateNavigationBarColor();
         }
 
         @Override
         public void onBrailleDisplayDisconnected() {
-          BrailleImeLog.logD(TAG, "onBrailleDisplayDisconnected");
+          BrailleImeLog.d(TAG, "onBrailleDisplayDisconnected");
           brailleDisplayConnectedAndNotSuspended = false;
-          updateInputView();
-          activateBrailleIme();
+          if (FeatureFlagReader.enableBrailleImeOnDeviceWithoutFivePointers(getApplicationContext())
+              && !Utils.isMultiTouchSupported(getApplicationContext())) {
+            switchToNextInputMethod();
+            return;
+          }
+          if (showKeyboardView()) {
+            updateInputView();
+          }
+        }
+
+        @Override
+        public boolean performImeAction(ImeAction action) {
+          boolean result = brailleImeActor.performAction((BrailleImeAction) action);
+          if (result) {
+            showOnBrailleDisplay();
+          }
+          return result;
         }
 
         @Override
@@ -1713,91 +1658,19 @@ public class BrailleIme extends InputMethodService {
           keyboardView.getStripView().animateInput(brailleCharacter.toDotNumbers());
           boolean result;
           if (brailleCharacter.isEmpty()) {
-            editBuffer.appendSpace(getImeConnection());
-            result = true;
+            result = brailleImeActor.performAction(BrailleImeAction.ADD_SPACE_OR_NEXT_ITEM);
           } else if (brailleCharacter.equals(BrailleCharacter.DOT7)) {
-            result = deleteBackward();
+            result =
+                brailleImeActor.performAction(BrailleImeAction.DELETE_CHARACTER_OR_PREVIOUS_ITEM);
           } else if (brailleCharacter.equals(BrailleCharacter.DOT8)) {
             result = commitHoldingsAndPerformEnterKeyAction();
           } else {
-            editBuffer.appendBraille(getImeConnection(), brailleCharacter);
-            result = true;
-          }
-          showOnBrailleDisplay();
-          return result;
-        }
-
-        @Override
-        public boolean moveCursorForward() {
-          boolean result = editBuffer.moveCursorForward(getImeConnection());
-          if (!result) {
-            result = talkBackForBrailleIme.performAction(ScreenReaderAction.FOCUS_NEXT_CHARACTER);
+            result = !TextUtils.isEmpty(brailleImeActor.performTyping(brailleCharacter));
           }
           if (result) {
             showOnBrailleDisplay();
           }
           return result;
-        }
-
-        @Override
-        public boolean moveCursorBackward() {
-          boolean result = editBuffer.moveCursorBackward(getImeConnection());
-          if (!result) {
-            result =
-                talkBackForBrailleIme.performAction(ScreenReaderAction.FOCUS_PREVIOUS_CHARACTER);
-          }
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean moveCursorForwardByWord() {
-          editBuffer.commit(getImeConnection());
-          boolean result = talkBackForBrailleIme.performAction(ScreenReaderAction.FOCUS_NEXT_WORD);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean moveCursorBackwardByWord() {
-          editBuffer.commit(getImeConnection());
-          // Commit takes time to get into the editor, post the backward movement to prevent
-          // cursor movement ignoring the committed content.
-          mainHandler.post(
-              () -> talkBackForBrailleIme.performAction(ScreenReaderAction.FOCUS_PREVIOUS_WORD));
-          showOnBrailleDisplay();
-          return true;
-        }
-
-        @Override
-        public boolean moveCursorForwardByLine() {
-          if (!EditBufferUtils.isMultiLineField(getImeConnection().editorInfo.inputType)) {
-            return false;
-          }
-          editBuffer.commit(getImeConnection());
-          boolean result = talkBackForBrailleIme.performAction(ScreenReaderAction.FOCUS_NEXT_LINE);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean moveCursorBackwardByLine() {
-          if (!EditBufferUtils.isMultiLineField(getImeConnection().editorInfo.inputType)) {
-            return false;
-          }
-          editBuffer.commit(getImeConnection());
-          // Commit takes time to get into the editor, post the backward movement to prevent
-          // cursor movement ignoring the committed content.
-          mainHandler.post(
-              () -> talkBackForBrailleIme.performAction(ScreenReaderAction.FOCUS_PREVIOUS_LINE));
-          showOnBrailleDisplay();
-          return true;
         }
 
         @Override
@@ -1819,145 +1692,10 @@ public class BrailleIme extends InputMethodService {
         }
 
         @Override
-        public boolean moveCursorToBeginning() {
-          boolean result = editBuffer.moveCursorToBeginning(getImeConnection());
-          showOnBrailleDisplay();
-          return result;
-        }
-
-        @Override
-        public boolean moveCursorToEnd() {
-          boolean result = editBuffer.moveCursorToEnd(getImeConnection());
-          showOnBrailleDisplay();
-          return result;
-        }
-
-        @Override
-        public boolean deleteBackward() {
-          editBuffer.deleteCharacterBackward(getImeConnection());
-          showOnBrailleDisplay();
-          return true;
-        }
-
-        @Override
-        public boolean deleteWordBackward() {
-          editBuffer.deleteWord(getImeConnection());
-          showOnBrailleDisplay();
-          return true;
-        }
-
-        @Override
-        public boolean cutSelectedText() {
-          boolean result = talkBackForBrailleIme.performAction(ScreenReaderAction.CUT);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean copySelectedText() {
-          boolean result = talkBackForBrailleIme.performAction(ScreenReaderAction.COPY);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean pasteSelectedText() {
-          boolean result = talkBackForBrailleIme.performAction(ScreenReaderAction.PASTE);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean selectAllText() {
-          boolean result = editBuffer.selectAllText(getImeConnection());
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean selectPreviousCharacter() {
-          commitHoldings();
-          boolean result =
-              talkBackForBrailleIme.performAction(ScreenReaderAction.SELECT_PREVIOUS_CHARACTER);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean selectNextCharacter() {
-          commitHoldings();
-          boolean result =
-              talkBackForBrailleIme.performAction(ScreenReaderAction.SELECT_NEXT_CHARACTER);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean selectPreviousWord() {
-          commitHoldings();
-          boolean result =
-              talkBackForBrailleIme.performAction(ScreenReaderAction.SELECT_PREVIOUS_WORD);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean selectNextWord() {
-          commitHoldings();
-          boolean result = talkBackForBrailleIme.performAction(ScreenReaderAction.SELECT_NEXT_WORD);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean selectPreviousLine() {
-          commitHoldings();
-          boolean result =
-              talkBackForBrailleIme.performAction(ScreenReaderAction.SELECT_PREVIOUS_LINE);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
-        public boolean selectNextLine() {
-          commitHoldings();
-          boolean result = talkBackForBrailleIme.performAction(ScreenReaderAction.SELECT_NEXT_LINE);
-          if (result) {
-            showOnBrailleDisplay();
-          }
-          return result;
-        }
-
-        @Override
         public void commitHoldings() {
           if (editBuffer != null) {
             editBuffer.commit(getImeConnection());
           }
-        }
-
-        @Override
-        public boolean commitHoldingsAndPerformEditorAction() {
-          commitHoldings();
-          performEditorAction(getImeConnection().inputConnection);
-          return true;
         }
 
         @Override
@@ -1972,18 +1710,13 @@ public class BrailleIme extends InputMethodService {
         }
 
         @Override
-        public void hideKeyboard() {
-          hideSelf();
-        }
-
-        @Override
         public void updateResultForDisplay() {
           showOnBrailleDisplay();
         }
 
         @Override
         public boolean isBrailleKeyboardActivated() {
-          return isInputViewShown();
+          return isInputViewShown() && isTalkBackEnabled();
         }
 
         @Override
@@ -2020,8 +1753,8 @@ public class BrailleIme extends InputMethodService {
   }
 
   @VisibleForTesting
-  public BrailleImeGestureController.Callback testing_getGestureCallback() {
-    return brailleImeGestureCallback;
+  public BrailleImeActor.Callback testing_getActorCallback() {
+    return brailleImeActorCallback;
   }
 
   @VisibleForTesting

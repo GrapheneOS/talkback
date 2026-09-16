@@ -16,24 +16,43 @@
 
 package com.google.android.accessibility.talkback.logging;
 
+import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED;
+import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED;
+import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED;
+import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import com.google.android.accessibility.talkback.PrimesController;
 import com.google.android.accessibility.utils.LatencyTracker;
 import com.google.android.accessibility.utils.Performance.EventData;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.FailoverTtsListener;
-import java.util.Locale;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import com.google.android.accessibility.utils.output.FailoverTextToSpeech.UtteranceInfoCombo;
+import com.google.android.libraries.accessibility.utils.concurrent.HandlerExecutor;
+import java.util.concurrent.Executor;
 
 /** Logs the event-based latency via {@link PrimesController}. */
 public class EventLatencyLogger implements LatencyTracker, FailoverTtsListener {
 
+  static final boolean LATENCY_DEBUG = true;
+
+  /**
+   * Bitmask representing the set of view events for which we want to log additional
+   * accessibility-related information.
+   */
+  public static final int EVENTS_TO_LOG_ATTRIBUTES =
+      TYPE_VIEW_ACCESSIBILITY_FOCUSED
+          | TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY
+          | TYPE_VIEW_TEXT_SELECTION_CHANGED
+          | TYPE_VIEW_TEXT_CHANGED;
+
+  private final Executor executor;
+
   public EventLatencyLogger(
-      PrimesController primesController, Context context, SharedPreferences prefs) {}
-
-  public void init() {}
-
-  void setFeatureStates(int featureStates) {}
+      PrimesController primesController, Context context, SharedPreferences prefs) {
+    executor = new HandlerExecutor(new Handler(context.getMainLooper()));
+  }
 
   public void destroy() {}
 
@@ -41,11 +60,16 @@ public class EventLatencyLogger implements LatencyTracker, FailoverTtsListener {
   public void onFeedbackOutput(EventData eventData) {}
 
   @Override
+  public Executor getExecutor() {
+    return executor;
+  }
+
+  @Override
   public void onTtsInitialized(boolean wasSwitchingEngines, String enginePackageName) {}
 
   @Override
   public void onBeforeUtteranceRequested(
-      String utteranceId, CharSequence text, @Nullable Locale locale) {}
+      String utteranceId, UtteranceInfoCombo utteranceInfoCombo) {}
 
   @Override
   public void onUtteranceStarted(String utteranceId) {}

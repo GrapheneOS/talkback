@@ -163,6 +163,13 @@ public class ParseTreeCreator {
     roles.put(Role.ROLE_SCROLL_VIEW, "scroll_view");
     roles.put(Role.ROLE_HORIZONTAL_SCROLL_VIEW, "horizontal_scroll_view");
     roles.put(Role.ROLE_TEXT_ENTRY_KEY, "text_entry_key");
+    roles.put(Role.ROLE_FLOATING_ACTION_BUTTON, "floating_action_button");
+    roles.put(Role.ROLE_NON_MODAL_ALERT, "nonmodal_alert");
+    roles.put(Role.ROLE_SNACKBAR, "snackbar");
+    roles.put(Role.ROLE_AUDIO_CAPTION, "audio_caption");
+    roles.put(Role.ROLE_DIALOG, "dialog");
+    roles.put(Role.ROLE_NAVIGATION, "navigation");
+    roles.put(Role.ROLE_SEARCH, "search");
 
     parseTree.addEnum(ENUM_ROLE, roles);
 

@@ -10,124 +10,103 @@
     [CHAR_LIMIT=10000]
   -->
   <string name="talkback_disabled">TalkBack off</string>
-  <!-- SWITCH ACCESS-->
-  <!--
-    Source: A notification that the Spoken Feedback of Switch Access is turned on.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
-  -->
-  <string name="spokenfeedback_on">Spoken Feedback on</string>
-  <!--
-    Source: A notification that the Spoken Feedback of Switch Access is suspended.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
-  -->
-  <string name="spokenfeedback_suspended">Spoken Feedback suspended</string>
-  <!--
-    Source: A notification that the Spoken Feedback of Switch Access is resumed.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
-  -->
-  <string name="spokenfeedback_resumed">Spoken Feedback resumed</string>
-  <!--
-    Source: A notification that the Spoken Feedback of Switch Access is turned off.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
-  -->
-  <string name="spokenfeedback_disabled">Spoken Feedback off</string>
   <!-- NOTIFICATIONS -->
   <!--
     Source: A notification that a cursor has reached to the beginning of the field.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="notification_type_beginning_of_field">Beginning of field</string>
   <!--
     Source: A notification that a cursor has reached to the end of the field.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="notification_type_end_of_field">End of field</string>
   <!--
     Source: A notification that the selection mode is on in an edit text.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="notification_type_selection_mode_on">Selection mode on</string>
   <!--
     Source: A notification that the selection mode is off in an edit text.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="notification_type_selection_mode_off">Selection mode off</string>
   <!--
     Source: A notification that the text selection is cleared.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When the user has text selected and turns selection mode off, then he moves cursor to
     the end of field. The previous selected text is cleared.
   -->
   <string name="notification_type_selection_cleared">Selection cleared</string>
   <!--
     Source: A notification for incoming call (voice or video) or similar synchronous communication request.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When a user receives a call
   -->
   <string name="notification_category_call">Call</string>
   <!--
     Source: A notification for incoming direct message (SMS, instant message, etc.)
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When a user receives a message
   -->
   <string name="notification_category_msg">Message</string>
   <!--
     Source: A notification for asynchronous bulk message (email)
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When a user receives an email
   -->
   <string name="notification_category_email">Email</string>
   <!--
     Source: A notification for a calendar event.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When a user receives a calendar event.
   -->
   <string name="notification_category_event">Event</string>
   <!--
     Source: A notification for a promotion or advertisement.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When a user receives promotion or advertisement.
   -->
   <string name="notification_category_promo">Promo</string>
   <!--
     Source: A notification for alarm or timer.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When a user has alarm ringing
   -->
   <string name="notification_category_alarm">Alarm</string>
   <!--
     Source: A notification for progress of a long-running background operation.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. // TODO: Write an example
   -->
   <string name="notification_category_progress">Progress</string>
   <!--
     Source: A notification from a social network or sharing update.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When a user has an update from a social network
   -->
   <string name="notification_category_social">Social</string>
   <!--
     Source: A notification for an error in background operation or authentication status.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When user authentication for email fails
   -->
   <string name="notification_category_err">Error</string>
   <!--
     Source: A notification for media transport control for playback.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. // TODO: Write an example
   -->
   <string name="notification_category_transport">Media control</string>
   <!--
     Source: A notification for system or device status update.  Reserved for system use.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. When a user gets an update for the device
   -->
   <string name="notification_category_sys">System status</string>
   <!--
     Source: A notification for indication of running a background service
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     e.g. // TODO: Write an example
   -->
   <string name="notification_category_service">Service</string>
@@ -135,65 +114,65 @@
   <!-- TEMPLATES -->
   <!--
     Source: A value for announcing a drawer menu opening (DrawerLayout).
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_drawer_opened"><xliff:g id="title">%1$s</xliff:g> menu</string>
   <!--
     Source: An utterance template for announcing a text replacement (during edit). New text is spoken first.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_text_replaced"><xliff:g id="new_text">%1$s</xliff:g> replaced <xliff:g id="old_text">%2$s</xliff:g></string>
   <!--
     Source: An utterance template for announcing deletion of text (during edit).
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_text_removed"><xliff:g id="text">%1$s</xliff:g> deleted</string>
   <!--
         Source: An utterance template for announcing cut of text (during edit).
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
       -->
   <string name="template_text_cut">cut, <xliff:g id="text">%1$s</xliff:g></string>
   <!--
         Source: An utterance template for announcing paste of text (during edit).
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
       -->
   <string name="template_text_pasted">pasted, <xliff:g id="text">%1$s</xliff:g></string>
   <!--
         Source: An utterance template for announcing the selected text.
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
       -->
   <string name="template_text_selected"><xliff:g id="selected_text">%1$s</xliff:g>, selected</string>
   <!--
         Source: An utterance template for announcing the selected text when selection mode is turned off.
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
       -->
   <string name="template_announce_selected_text">Selected text: <xliff:g id="selected_text">%1$s</xliff:g></string>
   <!--
         Source: An utterance template for announcing the unselected text.
-        Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+        Description: This is spoken to the user. [CHAR LIMIT=NONE]
       -->
   <string name="template_text_unselected"><xliff:g id="unselected_text">%1$s</xliff:g>, unselected</string>
 
   <!--
-    Source: An utterance template when the there is an error msg associated with the TextEdit widget
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Source: An utterance template when there is an error message associated with a text input field.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
-  <string name="template_text_error">Invalid input <xliff:g id="error_msg" example="Enter a valid number">%1$s</xliff:g></string>
+  <string name="template_text_error">Invalid input: <xliff:g id="error_msg" example="Enter a valid number">%1$s</xliff:g></string>
   <!--
     Source: An utterance template for announcing a character sequence replacement (used for password fields).
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_replaced_characters"><xliff:g id="old_text_length">%1$s</xliff:g> characters replaced with <xliff:g id="new_text_length">%2$s</xliff:g> characters</string>
   <!-- Template used for announcing an item associated with a label. For example, "check box for Wi-Fi". -->
   <string name="template_labeled_item"><xliff:g id="item" example="check box">%1$s</xliff:g> for <xliff:g id="label" example="Wi-Fi">%2$s</xliff:g></string>
   <!--
     Source: An utterance template for announcing the progress of a seek-bar (slider) which has the percent range type.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
-  <string name="template_percent"><xliff:g id="percentage">%1$s</xliff:g> percent</string>
+  <string name="tb_template_percent"><xliff:g id="percentage">%1$s</xliff:g> percent</string>
   <!--
     Source: An utterance template for announcing the progress of a seek-bar (slider) which has the int/float range type.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_value"><xliff:g id="value">%1$s</xliff:g></string>
   <!-- Spoken description of a container, including the number of visible items. -->
@@ -201,8 +180,11 @@
       <item quantity="one"><xliff:g id="type" example="List">%1$s</xliff:g> showing <xliff:g id="count" example="1">%2$d</xliff:g> item</item>
       <item quantity="other"><xliff:g id="type" example="List">%1$s</xliff:g> showing <xliff:g id="count" example="3">%2$d</xliff:g> items</item>
   </plurals>
-  <!-- Utterance spoken when the edit field has error message on it. -->
-  <string name="template_node_error_with_error_message"><xliff:g id="error">Error: </xliff:g>%1$s</string>
+  <!--
+    Source: An utterance template when there is an error message associated with a text input field.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
+  -->
+  <string name="template_node_error_with_error_message">Error: <xliff:g id="error_msg" example="Username cannot be left blank.">%1$s</xliff:g></string>
   <!-- Spoken description of a grid-style list. -->
   <string name="value_gridview">Grid</string>
   <!-- Spoken description of a list. -->
@@ -240,17 +222,17 @@
   <!-- VALUES -->
   <!--
     Source: A value for announcing a password field.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_password">password</string>
   <!--
     Source: A value for announcing a sliding-drawer opening (widget that slides open to reveal a grid of applications).
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_sliding_drawer_opened">Sliding drawer opened</string>
   <!--
     Source: A value for announcing opening the activity options (shown on a press of the menu button).
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_options_menu_open">Options</string>
   <!-- Description spoken when all text is removed from a text box. -->
@@ -259,47 +241,72 @@
   <string name="value_text_max_length">Maximum length reached</string>
   <!--
     Source: A value for announcing the selected state of a widget.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_selected">selected</string>
   <!--
+    Source: A value for announcing the unselected state of a widget.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
+  -->
+  <string name="value_not_selected">not selected</string>
+  <!--
     Source: A value for announcing the checked state of a check-box/radio-button.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_checked">checked</string>
   <!--
     Source: A value for announcing the not checked state of a check-box/radio-button.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_not_checked">not checked</string>
   <!--
-    Source: A value for announcing the "on" state of a switch.
+    Source: A value for announcing the partially-checked / mixed state of a check-box.
     Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+  -->
+  <string name="value_partially_checked">partially checked</string>
+  <!--
+    Source: A value for announcing the "on" state of a switch.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_on">on</string>
   <!--
     Source: A value for announcing the "off" state of a switch.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_off">off</string>
   <!--
     Source: A value for announcing the disabled state of a control.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_disabled">disabled</string>
   <!--
     Source: A value for announcing the enabled state of a control.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_enabled">enabled</string>
   <!--
+    Source: A value for announcing the read only state of a control.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
+  -->
+  <string name="value_read_only">read only</string>
+  <!--
     Source: A value for announcing the expanded state of a expandable/collapsible view.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_expanded">expanded</string>
   <!--
+    Source: A value for announcing the expanded state of a expandable/collapsible view.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
+  -->
+  <string name="value_fully_expanded">fully expanded</string>
+  <!--
+    Source: A value for announcing the expanded state of a expandable/collapsible view.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
+  -->
+  <string name="value_partially_expanded">partially expanded</string>
+  <!--
     Source: A value for announcing the collapsed state of a expandable/collapsible view.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="value_collapsed">collapsed</string>
 
@@ -307,8 +314,10 @@
   <string name="value_double_tap">Double-tap</string>
   <!-- Description of the single-tap action. Used to populate "Tap to activate" hint. -->
   <string name="value_single_tap">Tap</string>
-  <!-- Description of the selection action (for Switch Access). Used to populate "Press Select Switch to activate" hint. -->
-  <string name="value_switch_press">Press Select Switch</string>
+  <!-- Description of the double-pinch action in XR. Used to populate "Double-pinch to activate" hint. -->
+  <string name="value_double_tap_xr">Double-pinch</string>
+  <!-- Description of the single-pinch action in XR. Used to populate "Pinch to activate" hint. -->
+  <string name="value_single_tap_xr">Pinch</string>
   <!--
     Description of the action to press select on a TV remote. Used to populate "Press select to
     activate" hint. The terminology for the key should match the wording used for the center
@@ -334,6 +343,8 @@
   <string name="template_hint_adjustable_2gesture">\"<xliff:g example="Swipe up" id="gesture1">%1$s</xliff:g>\" or \"<xliff:g example="Swipe down" id="gesture2">%2$s</xliff:g>\" to adjust</string>
   <!-- Hint spoken when the user pauses over an item that can be adjustable. [CHAR_LIMIT=60]-->
   <string name="template_hint_adjustable_1gesture">\"<xliff:g example="Swipe up" id="gesture1">%1$s</xliff:g>\" to adjust</string>
+  <!-- Hint spoken when the user pauses over an Wear input-focused item that can be adjustable by RSB input. -->
+  <string name="template_hint_wear_input_focused_adjustable">Use 2-finger swipe, or turn crown or bezel to change</string>
   <!-- Hint spoken when the user pauses over an editable text area. Populated with an action like "Tap" or "Double-tap". [CHAR_LIMIT=40] -->
   <string name="template_hint_edit_text"><xliff:g id="action" example="Tap">%1$s</xliff:g> to edit text</string>
   <!-- Hint spoken when the user pauses over an editable text area while they are navigating with keyboard. [CHAR_LIMIT=40] -->
@@ -352,20 +363,16 @@
   <string name="template_hint_pager_single_page">No more pages</string>
   <!-- Hint spoken when the user selects a seek control on an Android TV device. -->
   <string name="template_hint_seek_control_tv"><xliff:g id="action" example="Press select">%1$s</xliff:g> to change</string>
-  <!-- Description of custom actions hint, these are actions apps make for this specific node -->
-  <string name="template_hint_custom_actions">Actions: </string>
   <!--Hint spoken when the user pauses over an item that has actions with custom labels. -->
   <string name="template_custom_hint_for_actions"><xliff:g id="action" example="Double-tap">%1$s</xliff:g> to <xliff:g id="hint" example="Expand">%2$s</xliff:g></string>
   <!-- Hint spoken when the user pauses over an item that has actions or long-clickable actions with custom labels while they are navigating with keyboard. -->
   <string name="template_custom_hint_for_actions_keyboard">Press <xliff:g id="keyCombo" example="Alt + Enter">%1$s</xliff:g> to <xliff:g id="hint" example="Expand">%2$s</xliff:g></string>
   <!--Hint spoken when the user pauses over an item that has long-clickable actions with custom labels. -->
   <string name="template_custom_hint_for_long_clickable_actions"><xliff:g id="action" example="Double-tap">%1$s</xliff:g> and hold to <xliff:g id="hint" example="Expand">%2$s</xliff:g></string>
-  <!-- Hint spoken when the user pauses over an item that is scrollable (for Switch Access). Populated with the action "Press Select Switch". -->
-  <string name="template_sa_custom_hint_scrollable"><xliff:g id="action" example="Press select">%1$s</xliff:g> to scroll</string>
-  <!-- Hint spoken when the user pauses over an item that is associated with multiple actions (for Switch Access). Populated with the action "Press Select Switch". -->
-  <string name="template_sa_custom_hint_for_multiple_actions"><xliff:g id="action" example="Press select">%1$s</xliff:g> for available actions</string>
-  <!-- Hint spoken when the user selects a seek control with Switch Access. -->
-  <string name="template_sa_hint_seek_control">Press Select Switch to adjust</string>
+  <!-- Hint spoken when the user pauses over a clickable link. Populated with an action like "Tap" or "Double-tap". -->
+  <string name="template_hint_clickable_link"><xliff:g id="action" example="Tap">%1$s</xliff:g> to open link</string>
+  <!-- Hint spoken when the user pauses over a clickable link while they are navigating with keyboard. -->
+  <string name="template_hint_clickable_link_keyboard">Press <xliff:g id="keyCombo" example="Alt+Enter">%1$s</xliff:g> to open link</string>
   <!-- A message announcing that Caps Lock mode is on. -->
   <string name="value_caps_lock_on">Caps Lock on</string>
   <!-- A message announcing that Caps Lock mode is off. -->
@@ -581,7 +588,7 @@
   <!--
     Source: String template for indicating the list item index out of the total number of items
     in the list
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
    -->
   <plurals name="template_list_total_count">
       <item quantity="one"><xliff:g id="total_count" example="1">%1$d</xliff:g> item</item>
@@ -589,7 +596,7 @@
   </plurals>
   <!--
     Source: String template for indicating the total number of rows in the list.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
    -->
   <plurals name="template_list_row_count">
       <item quantity="one"><xliff:g id="row_count" example="1">%1$d</xliff:g> row</item>
@@ -597,15 +604,24 @@
   </plurals>
   <!--
     Source: String template for indicating the total number of columns in the list.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
    -->
   <plurals name="template_list_column_count">
       <item quantity="one"><xliff:g id="column_count" example="1">%1$d</xliff:g> column</item>
       <item quantity="other"><xliff:g id="column_count" example="3">%1$d</xliff:g> columns</item>
   </plurals>
   <!--
+  Source: String template for indicating the total number of items in the collection, minus the
+  number that will be ignored by Talkback.
+  Description: This is spoken to the user. [CHAR LIMIT=NONE]
+  -->
+  <plurals name="template_list_item_count">
+    <item quantity="one"><xliff:g id="item_count" example="1">%1$d</xliff:g> item, %2$d ignored</item>
+    <item quantity="other"><xliff:g id="item_count" example="3">%1$d</xliff:g> items, %2$d ignored</item>
+  </plurals>
+  <!--
     Source: String template for indicating the total number of characters in a password field.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
    -->
   <plurals name="template_password_character_count">
       <item quantity="one"><xliff:g id="character_count" example="1">%1$d</xliff:g> character</item>
@@ -613,66 +629,81 @@
   </plurals>
   <!--
     Source: String template for notifying the user that magnification has turned on.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_magnification_on">Magnification on <xliff:g id="scaleInPercent" example="200">%1$d</xliff:g>%%</string>
 
   <!--
     Source: String template for notifying the user that full-screen magnification has turned on.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_fullscreen_magnification_on">Full-screen magnification on <xliff:g example="200" id="scaleInPercent">%1$d</xliff:g>%%</string>
 
   <!--
     Source: String template for notifying the user that partial magnification has turned on.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_partial_magnification_on">Partial magnification on <xliff:g example="200" id="scaleInPercent">%1$d</xliff:g>%%</string>
 
   <!--
     Source: String template for notifying the user about the current scale of
     magnification.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_magnification_scale_changed">Magnification <xliff:g id="scaleInPercent" example="200">%1$d</xliff:g>%%</string>
 
   <!--
     Source: String template for notifying the user about the current scale of full-screen
     magnification.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_fullscreen_magnification_scale_changed">Full-screen magnification <xliff:g id="scaleInPercent" example="200">%1$d</xliff:g>%%</string>
 
   <!--
     Source: String template for notifying the user about the current scale of partial
     magnification.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="template_partial_magnification_scale_changed">Partial magnification <xliff:g id="scaleInPercent" example="200">%1$d</xliff:g>%%</string>
 
   <!--
     Source: Feedback for notifying the user that magnification has turned off.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
   <string name="magnification_off">Magnification off</string>
 
   <!--
     Source: String template for notifying the user the new speech rate value.
-    Description: This is spoken to the user. [CHAR LIMIT="NONE"]
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
     Deprecated TODO
   -->
   <string name="template_speech_rate_change">Speech rate <xliff:g id="scaleInPercent" example="200">%1$d</xliff:g>%%</string>
 
   <!--
-    Source: String for notifying the user the stream volume is increased.
+    Source: String for notifying the user the accessibility volume is increased.
     Description: This is spoken to the user. [CHAR_LIMIT=NONE]
   -->
-  <string name="template_volume_change_increase">Increase</string>
+  <string name="template_accessibility_volume_change_increase">Increase accessibility volume to <xliff:g id="percent">%1$d</xliff:g> percent.</string>
   <!--
-    Source: String for notifying the user the stream volume is decreased.
+    Source: String for notifying the user the accessibility volume is decreased.
     Description: This is spoken to the user. [CHAR_LIMIT=NONE]
   -->
-  <string name="template_volume_change_decrease">Decrease</string>
+  <string name="template_accessibility_volume_change_decrease">Decrease accessibility volume to <xliff:g id="percent">%1$d</xliff:g> percent.</string>
+  <!--
+    Source: String for notifying the user the accessibility volume is decreased.
+    Description: This is spoken to the user. [CHAR_LIMIT=NONE]
+  -->
+  <string name="template_touch_explore_latency_changed">Typing focus delay: <xliff:g id="milliseconds">%1$d</xliff:g> milliseconds.</string>
+  <!--
+    Source: String for notifying the user the accessibility volume is decreased.
+    Description: This is spoken to the user. [CHAR_LIMIT=NONE]
+  -->
+  <string name="template_touch_latency_reach_maximum">Maximum</string>
+  <!--
+    Source: String for notifying the user the accessibility volume is decreased.
+    Description: This is spoken to the user. [CHAR_LIMIT=NONE]
+  -->
+  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <!--
     Source: String for notifying the user the stream volume is at the highest level.
     Description: This is spoken to the user. [CHAR_LIMIT=NONE]
@@ -683,6 +714,16 @@
     Description: This is spoken to the user. [CHAR_LIMIT=NONE]
   -->
   <string name="template_volume_change_minimum">Minimum</string>
+  <!--
+    Source: String for notifying the user the stream volume is increased.
+    Description: This is the curved text in Compose material3 Confirmation Dialog. [CHAR_LIMIT=NONE]
+  -->
+  <string name="template_volume_change_volume_up_curved_text">Increase</string>
+  <!--
+    Source: String for notifying the user the stream volume is decreased.
+    Description: This is the curved text in Compose material3 Confirmation Dialog [CHAR_LIMIT=NONE]
+  -->
+  <string name="template_volume_change_volume_down_curved_text">Decrease</string>
 
   <!--
     Source: A notification for the failure of attempting to change seek bar value.
@@ -690,25 +731,21 @@
   -->
   <string name="template_seekbar_range"><xliff:g id="scaleInPercent" example="0">%1$d</xliff:g>%%</string>
 
-  <!--
-    Source: Summary subtext for the Speak passwords setting when the setting is off.
-    Description: Explains that the passwords will only be spoken when using headphones. [CHAR+LIMIT="NONE"]
-  -->
-  <string name="summaryOff_pref_speak_passwords_without_headphones">Passwords only spoken when using headphones</string>
-
-  <!-- Hint spoken when the menu actions available in high verbosity.[CHAR_LIMIT=100] -->
+  <!-- Hint spoken when the menu item available in high verbosity.[CHAR_LIMIT=100] -->
   <string name="template_hint_menu_type_high_verbosity"><xliff:g id="type" example="action">%1$s</xliff:g> available, use <xliff:g id="gesture" example="up-then-right">%2$s</xliff:g> to view</string>
+  <!-- Hint spoken when the reading control actions is available in high verbosity.[CHAR_LIMIT=NONE] -->
+  <string name="template_hint_for_reading_control_actions_in_high_verbosity"><xliff:g id="type" example="action">%1$s</xliff:g> available, <xliff:g id="gesture" example="up-then-right">%2$s</xliff:g> and double-tap to activate</string>
 
   <!-- Hint spoken when suggestions are available for a mis-spelled word or phrase. [CHAR_LIMIT=NONE] -->
-  <string name="hint_suggestion">Spelling suggestions available</string>
-  <!-- The hint to notify there are misspelled words in the edit field. This is spoken to the user. [CHAR_LIMIT=NONE]-->
-  <string name="typo_included">Spelling errors included</string>
-  <!-- The hint to notify the total number of typos are in the edit text and introduce how to use typo granularity. This is spoken to the user. [CHAR_LIMIT=NONE] -->
-  <string name="template_hint_edit_text_containing_typo"><xliff:g id="typo_count">%1$d</xliff:g> misspelled words. <xliff:g example="Swipe right" id="reading_menu_down_gesture">%2$s</xliff:g> and use spell check to view</string>
+  <string name="hint_suggestion">Proofreading is available</string>
+  <!-- The hint to notify the total number of typos are in the edit text and introduce how to use typo granularity. This is spoken to the user.[CHAR_LIMIT=NONE] -->
+  <string name="template_hint_edit_text_containing_typo">Proofreading is available. <xliff:g id="typo_count">%1$d</xliff:g> misspelled words. <xliff:g example="Swipe right" id="reading_menu_down_gesture">%2$s</xliff:g> and use \"Proofread\" to view</string>
   <!-- The hint to notify typo is added and introduce how to choose a spelling suggestion. This is spoken to the user. [CHAR_LIMIT=NONE] -->
-  <string name="template_hint_reading_menu_spelling_suggestion">Spelling suggestions available. <xliff:g example="Swipe right" id="reading_menu_down_gesture">%1$s</xliff:g> and use actions to view</string>
+  <string name="template_hint_reading_menu_spelling_suggestion">Proofreading is available. <xliff:g example="Swipe right" id="reading_menu_down_gesture">%1$s</xliff:g> and use actions to view</string>
   <!-- The hint to notify typo is added and introduce how to choose a spelling suggestion. This is spoken to the user. [CHAR_LIMIT=NONE] -->
-  <string name="template_hint_reading_menu_actions_for_spelling_suggestion">Spelling suggestions available. <xliff:g example="Swipe down" id="select_suggestions_gesture">%1$s</xliff:g> for details</string>
+  <string name="template_hint_reading_menu_actions_for_spelling_suggestion">Proofreading is available. <xliff:g example="Swipe down" id="select_suggestions_gesture">%1$s</xliff:g> for details</string>
+    <!-- Hint spoken when a call is made in high verbosity.[CHAR_LIMIT=100] -->
+  <string name="template_hint_for_call"><xliff:g example="Swipe down" id="gesture">%1$s</xliff:g> to answer</string>
 
   <!--
     Source: string indicating that the user is focused in the window that has a name,
@@ -716,17 +753,6 @@
   -->
   <string name="in_window_with_name">Window <xliff:g id="window_title">%1$s</xliff:g></string>
 
-  <!--
-  Source: The description of the icon which is recognized from an screenshot.
-  Description: This is spoken to the user. [CHAR_LIMIT=NONE]
-  -->
-  <string name="detected_icon_description"><xliff:g example="add">%1$s</xliff:g>, detected icon</string>
-
-  <!--
-  Source: The description of the text which is recognized from an image.
-  Description: This is spoken to the user. [CHAR_LIMIT=NONE]
-  -->
-  <string name="ocr_text_description"><xliff:g example="recognized_text">%1$s</xliff:g>, text</string>
   <!--
     Source: String for notifying the user a drag has started.
     Description: This is spoken to the user. [CHAR_LIMIT=NONE]

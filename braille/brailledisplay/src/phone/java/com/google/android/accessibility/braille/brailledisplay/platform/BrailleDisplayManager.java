@@ -16,19 +16,28 @@
 
 package com.google.android.accessibility.braille.brailledisplay.platform;
 
+
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.PowerManager;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
-import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.braille.brailledisplay.BrailleDisplayLog;
-import com.google.android.accessibility.braille.brailledisplay.platform.Connectioneer.CreationArguments;
+import com.google.android.accessibility.braille.brailledisplay.analytics.BrailleDisplayAnalytics;
+import com.google.android.accessibility.braille.brailledisplay.platform.connect.device.ConnectableBluetoothDevice;
 import com.google.android.accessibility.braille.brailledisplay.platform.connect.device.ConnectableDevice;
+import com.google.android.accessibility.braille.brailledisplay.platform.connect.device.ConnectableUsbDevice;
 import com.google.android.accessibility.braille.brltty.BrailleDisplayProperties;
 import com.google.android.accessibility.braille.brltty.BrailleInputEvent;
-import com.google.android.accessibility.braille.brltty.Encoder;
+import com.google.android.accessibility.braille.brltty.DeviceInfo;
+import com.google.android.accessibility.braille.brltty.SupportedDevicesHelper;
+import com.google.android.accessibility.braille.common.BrailleUserPreferences;
+import com.google.android.accessibility.braille.common.DeviceProvider;
+import com.google.android.accessibility.braille.common.translate.BrailleLanguages.Code;
+import java.util.Optional;
 
 /** Manages the interface to a braille display, on behalf of an AccessibilityService. */
 public class BrailleDisplayManager {
@@ -36,8 +45,8 @@ public class BrailleDisplayManager {
   private final Context context;
   private final Controller controller;
   private final PowerManager.WakeLock wakeLock;
-  private final Displayer displayer;
   private final Connectioneer connectioneer;
+  private Displayer displayer;
   private boolean connectedService;
   private boolean connectedToDisplay;
 
@@ -47,18 +56,14 @@ public class BrailleDisplayManager {
   }
 
   @SuppressLint("InvalidWakeLockTag")
-  public BrailleDisplayManager(
-      Context context, Controller controller, Encoder.Factory encoderFactory) {
+  public BrailleDisplayManager(Context context, Controller controller) {
     this.context = context;
     this.controller = controller;
     wakeLock =
         ((PowerManager) context.getSystemService(Context.POWER_SERVICE))
             .newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
-    displayer = new Displayer(context, displayerCallback, encoderFactory);
-    connectioneer =
-        Connectioneer.getInstance(
-            new CreationArguments(
-                context.getApplicationContext(), encoderFactory.getDeviceNameFilter()));
+    displayer = new Displayer(displayerCallback);
+    connectioneer = Connectioneer.getInstance(context);
   }
 
   /** Sets accessibility service context provider. */
@@ -70,9 +75,11 @@ public class BrailleDisplayManager {
   /** Notifies this manager the owning service has started. */
   public void onServiceStarted() {
     connectedService = true;
-    connectioneer.onServiceEnabledChanged(true);
+    // To ensure callbacks are triggered after an auto-connection, attach aspectConnection and
+    // aspectTraffic before onServiceEnabledChanged.
     connectioneer.aspectConnection.attach(connectionCallback);
     connectioneer.aspectTraffic.attach(trafficCallback);
+    connectioneer.onServiceEnabledChanged(true);
   }
 
   /** Notifies this manager the owning service has stopped. */
@@ -90,6 +97,17 @@ public class BrailleDisplayManager {
     if (canSendRenderPackets()) {
       controller.onAccessibilityEvent(accessibilityEvent);
     }
+  }
+
+  /** Sends an {@code KeyEvent} to this manager for processing. */
+  public boolean onKeyEvent(KeyEvent keyEvent) {
+    if (canSendRenderPackets()) {
+      if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_BUTTON_1) {
+        // Incorrectly sent by Humanware Brailliant BI20X on every dot-1 keystroke. Ignore for now.
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean canSendPackets() {
@@ -115,14 +133,73 @@ public class BrailleDisplayManager {
     }
   }
 
+  private void logConnectStarted(ConnectStage stage, boolean initial) {
+    switch (stage) {
+      case HID ->
+          BrailleDisplayAnalytics.getInstance(context).logStartToEstablishHidConnection(initial);
+      case RFCOMM ->
+          BrailleDisplayAnalytics.getInstance(context).logStartToEstablishRfcommConnection(initial);
+      case SERIAL ->
+          BrailleDisplayAnalytics.getInstance(context).logStartToConnectToSerialConnection(initial);
+      case BRLTTY ->
+          BrailleDisplayAnalytics.getInstance(context).logStartToConnectToBrailleDisplay();
+    }
+  }
+
+  private void logSessionMetrics(ConnectableDevice device) {
+    boolean contracted = BrailleUserPreferences.readContractedMode(context);
+    Code inputCode = BrailleUserPreferences.readCurrentActiveInputCodeAndCorrect(context);
+    boolean inputContracted = inputCode.isSupportsContracted(context) && contracted;
+    Code outputCode = BrailleUserPreferences.readCurrentActiveOutputCodeAndCorrect(context);
+    boolean outputContracted = outputCode.isSupportsContracted(context) && contracted;
+
+    BrailleDisplayAnalytics.getInstance(context)
+        .logStartedEvent(
+            displayer.getDeviceProperties().getDriverCode(),
+            device.truncatedName(), // TODO: Use truncated name in DeviceInfo.
+            inputCode,
+            outputCode,
+            inputContracted,
+            outputContracted,
+            device.useHid(),
+            device instanceof ConnectableBluetoothDevice);
+  }
+
+  private void logConnectAttempt(boolean manualConnect, ConnectableDevice device) {
+    if (TextUtils.isEmpty(device.name())) {
+      return;
+    }
+    DeviceProvider<?> deviceProvider = null;
+    if (device instanceof ConnectableBluetoothDevice connectableBluetoothDevice) {
+      deviceProvider = new DeviceProvider<>(connectableBluetoothDevice.bluetoothDevice());
+    } else if (device instanceof ConnectableUsbDevice connectableUsbDevice) {
+      deviceProvider = new DeviceProvider<>(connectableUsbDevice.usbDevice());
+    }
+    DeviceInfo info = SupportedDevicesHelper.getDeviceInfo(device.name(), device.useHid());
+    if (info != null) {
+      BrailleDisplayAnalytics.getInstance(context)
+          .logConnectAttempt(
+              info.driverCode(), info.truncatedName(), manualConnect, deviceProvider);
+    }
+  }
+
+  private void logConnectStage(ConnectStage stage, boolean success) {
+    switch (stage) {
+      case HID -> BrailleDisplayAnalytics.getInstance(context).logHidConnectRecord(success);
+      case RFCOMM -> BrailleDisplayAnalytics.getInstance(context).logRfcommConnectRecord(success);
+      case BRLTTY -> BrailleDisplayAnalytics.getInstance(context).logBrlttyConnectRecord(success);
+      default -> {}
+    }
+  }
+
   @VisibleForTesting
   Displayer.Callback testing_getDisplayerCallback() {
     return displayerCallback;
   }
 
   @VisibleForTesting
-  Displayer testing_getDisplayer() {
-    return displayer;
+  public void testing_setDisplayer(Displayer displayer) {
+    this.displayer = displayer;
   }
 
   private final Connectioneer.AspectConnection.Callback connectionCallback =
@@ -133,13 +210,14 @@ public class BrailleDisplayManager {
         }
 
         @Override
-        public void onDeviceListCleared() {
-          BrailleDisplayLog.d(TAG, "onDeviceListCleared");
+        public void onConnectStarted(boolean initial, ConnectStage stage) {
+          BrailleDisplayLog.d(TAG, "onConnectStarted: " + stage);
+          logConnectStarted(stage, initial);
         }
 
         @Override
-        public void onConnectStarted() {
-          controller.onConnectStarted();
+        public void onDeviceListCleared() {
+          BrailleDisplayLog.d(TAG, "onDeviceListCleared");
         }
 
         @Override
@@ -148,22 +226,33 @@ public class BrailleDisplayManager {
         }
 
         @Override
-        public void onConnectionStatusChanged(ConnectStatus status, ConnectableDevice device) {
-          BrailleDisplayLog.d(
-              TAG, "onConnectionStatusChanged deviceName = " + device + " connected:" + status);
-          connectedToDisplay = status == ConnectStatus.CONNECTED;
-          if (status == ConnectStatus.CONNECTED) {
-            controller.onConnected();
-            displayer.start(device);
-          } else if (status == ConnectStatus.DISCONNECTED) {
-            controller.onDisconnected();
-            displayer.stop();
-          }
+        public void onConnectableDeviceDeleted(ConnectableDevice device) {
+          BrailleDisplayLog.d(TAG, "onConnectableDeviceDeleted");
         }
 
         @Override
-        public void onConnectFailed(@Nullable String deviceName) {
-          BrailleDisplayLog.d(TAG, "onConnectFailed deviceName:" + deviceName);
+        public void onConnectionDisconnected(boolean manualConnect, ConnectableDevice device) {
+          BrailleDisplayLog.d(TAG, "onConnectionDisconnected device = " + device);
+          connectedToDisplay = false;
+          controller.onStop();
+          displayer.stop();
+        }
+
+        @Override
+        public void onConnectionConnected(
+            boolean manualConnect, ConnectStage stage, ConnectableDevice device) {
+          BrailleDisplayLog.d(TAG, "onConnectionConnected deviceName = " + device);
+          connectedToDisplay = true;
+          logConnectStage(stage, /* success= */ true);
+          displayer.start(manualConnect, device);
+        }
+
+        @Override
+        public void onConnectFailed(
+            boolean manualConnect, ConnectStage stage, ConnectableDevice device) {
+          BrailleDisplayLog.d(TAG, "onConnectFailed device:" + device);
+          logConnectStage(stage, /* success= */ false);
+          logConnectAttempt(manualConnect, device);
         }
       };
 
@@ -187,38 +276,57 @@ public class BrailleDisplayManager {
             displayer.readCommand();
           }
         }
+
+        @Override
+        public void onReadDelay(int delayMs) {
+          if (canSendPackets()) {
+            displayer.readCommandDelay(delayMs);
+          }
+        }
+
+        @Override
+        public void onSendTrafficOutgoingMessage(byte[] packet) {
+          if (canSendPackets()) {
+            connectioneer.aspectDisplayer.sendPacketToDisplay(packet);
+          }
+        }
       };
 
   private final Displayer.Callback displayerCallback =
       new Displayer.Callback() {
         @Override
-        public void onStartFailed() {
+        public void onStartFailed(boolean manualConnect, ConnectableDevice device) {
           BrailleDisplayLog.e(TAG, "onStartFailed");
-          connectioneer.aspectConnection.onDisplayerStartFailed(displayer.getDeviceAddress());
+          connectioneer.aspectConnection.onDisplayerStartFailed(device.address());
           displayer.stop();
+          logConnectStage(ConnectStage.BRLTTY, /* success= */ false);
+          logConnectAttempt(manualConnect, device);
         }
 
         @Override
-        public void onSendPacketToDisplay(byte[] packet) {
-          if (canSendPackets()) {
-            BrailleDisplayLog.v(TAG, "onSendPacketToDisplay");
-            connectioneer.aspectTraffic.onSendTrafficOutgoingMessage(packet);
-          }
-        }
-
-        @Override
-        public void onDisplayReady(BrailleDisplayProperties bdr) {
+        public void onDisplayReady(
+            boolean manualConnect, ConnectableDevice device, BrailleDisplayProperties bdr) {
+          BrailleDisplayLog.d(TAG, "onDisplayReady");
           if (canSendRenderPackets()) {
-            BrailleDisplayLog.d(TAG, "onDisplayReady");
-            connectioneer.aspectDisplayProperties.onDisplayPropertiesArrived(bdr);
-            controller.onDisplayerReady(displayer);
+            connectioneer.aspectDisplayer.onDisplayerStarted(bdr);
+            controller.onStart(displayer);
+            logConnectStage(ConnectStage.BRLTTY, /* success= */ true);
+            logSessionMetrics(device);
+            logConnectAttempt(manualConnect, device);
           }
+        }
+
+        @Override
+        public void onDisplayStop() {
+          BrailleDisplayLog.d(TAG, "onDisplayStop");
+          connectioneer.aspectDisplayer.onDisplayStopped();
+          controller.onStop();
         }
 
         @Override
         public void onBrailleInputEvent(BrailleInputEvent brailleInputEvent) {
+          BrailleDisplayLog.v(TAG, "onBrailleInputEvent " + brailleInputEvent);
           if (canSendRenderPackets()) {
-            BrailleDisplayLog.v(TAG, "onReadCommandArrived " + brailleInputEvent);
             KeyguardManager keyguardManager =
                 (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
             if (keyguardManager.isKeyguardLocked()) {
@@ -226,6 +334,33 @@ public class BrailleDisplayManager {
             }
             controller.onBrailleInputEvent(brailleInputEvent);
           }
+        }
+
+        @Override
+        public Optional<BrailleDisplayProperties> start(
+            String deviceName, int vendorId, int prodId, boolean useHid, String parameters) {
+          return connectioneer.aspectDisplayer.start(
+              deviceName, vendorId, prodId, useHid, parameters);
+        }
+
+        @Override
+        public void consumePacketFromDevice(byte[] packet) {
+          connectioneer.aspectDisplayer.consumePacketFromDevice(packet);
+        }
+
+        @Override
+        public void stop() {
+          connectioneer.aspectDisplayer.stop();
+        }
+
+        @Override
+        public int readCommand() {
+          return connectioneer.aspectDisplayer.readCommand();
+        }
+
+        @Override
+        public void writeBrailleDots(byte[] brailleDotBytes) {
+          connectioneer.aspectDisplayer.writeBrailleDots(brailleDotBytes);
         }
       };
 }

@@ -16,6 +16,7 @@
 package com.google.android.accessibility.talkback.compositor.roledescription;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
+import static android.view.accessibility.AccessibilityNodeInfo.CollectionInfo.SELECTION_MODE_NONE;
 import static androidx.core.view.ViewCompat.ACCESSIBILITY_LIVE_REGION_NONE;
 import static com.google.android.accessibility.talkback.compositor.CompositorUtils.PRUNE_EMPTY;
 import static com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor.DESC_ORDER_NAME_ROLE_STATE_POSITION;
@@ -30,15 +31,14 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.StringBuilderUtils;
 import com.google.android.accessibility.utils.traversal.ReorderedChildrenIterator;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Provides tree nodes description.
@@ -74,52 +74,76 @@ public class TreeNodesDescription {
 
   /**
    * Returns the aggregate node tree description text that has the node tree status and the
-   * description information.
+   * description information. By default, we iterate through the given node's children to aggregate
+   * the subtree's description into one CharSequence.
    *
-   * @param node the node for description
-   * @param event the event for description
+   * @param node the node for the description
+   * @param event the event for the description
    */
   public CharSequence aggregateNodeTreeDescription(
       AccessibilityNodeInfoCompat node, AccessibilityEvent event) {
+    return aggregateNodeTreeDescription(node, event, /*shouldIterateChildren*/ true);
+  }
+
+  /**
+   * Returns the aggregate node tree description text that has the node tree status and the
+   * description information. Callers may determine whether to recursively iterate through the given
+   * node's children to aggregate the subtree's description into one CharSequence.
+   *
+   * <p>NOTE: callers dealing with Live Regions on Chrome should provide false for
+   * shouldIterateChildren, to avoid double announcement.
+   *
+   * @param node the node for description
+   * @param event the event for description
+   * @param boolean whether we should iterate through node's children to form the description
+   */
+  public CharSequence aggregateNodeTreeDescription(
+      AccessibilityNodeInfoCompat node, AccessibilityEvent event, boolean shouldIterateChildren) {
     if (node == null) {
       LogUtils.w(TAG, "aggregateNodeTreeDescription: node is null");
+      return "";
     }
     int descriptionOrder = globalVariables.getDescriptionOrder();
-    CharSequence treeDescription = treeDescriptionWithLabel(node, event);
+    CharSequence treeDescription = treeDescriptionWithLabel(node, event, shouldIterateChildren);
     CharSequence disabledState = AccessibilityNodeFeedbackUtils.getDisabledStateText(node, context);
-    CharSequence selectedState = AccessibilityNodeFeedbackUtils.getSelectedStateText(node, context);
+    CharSequence readOnlyState = AccessibilityNodeFeedbackUtils.getReadOnlyStateText(node, context);
+    CharSequence disabledStateOrReadOnlyState =
+        !TextUtils.isEmpty(disabledState) ? disabledState : readOnlyState;
+    CharSequence selectedState =
+        AccessibilityNodeFeedbackUtils.getSelectedStateText(node, context, globalVariables);
 
     LogUtils.v(
         TAG,
         "aggregateNodeTreeDescription: %s",
-        new StringBuilder()
-            .append(String.format(" (%s)", node.hashCode()))
-            .append(String.format(", treeDescriptionWithLabel={%s}", treeDescription))
-            .append(String.format(", selectedState=%s", selectedState))
-            .append(String.format(", descriptionOrder=%s", descriptionOrder))
-            .toString());
+        String.format(" (%s)", node.hashCode())
+            + String.format(", treeDescriptionWithLabel={%s}", treeDescription)
+            + String.format(", disabledStateOrReadOnlyState=%s", disabledStateOrReadOnlyState)
+            + String.format(", selectedState=%s", selectedState)
+            + String.format(", descriptionOrder=%s", descriptionOrder));
 
-    // Disabled state announcement should always be a postfix.
-    switch (descriptionOrder) {
-      case DESC_ORDER_NAME_ROLE_STATE_POSITION:
-      case DESC_ORDER_ROLE_NAME_STATE_POSITION:
-        return CompositorUtils.joinCharSequences(treeDescription, selectedState, disabledState);
-      case DESC_ORDER_STATE_NAME_ROLE_POSITION:
-        return CompositorUtils.joinCharSequences(selectedState, treeDescription, disabledState);
-      default:
-        return "";
-    }
+    // Disabled and read only state announcement should always be a postfix.
+    return switch (descriptionOrder) {
+      case DESC_ORDER_NAME_ROLE_STATE_POSITION, DESC_ORDER_ROLE_NAME_STATE_POSITION ->
+          CompositorUtils.joinCharSequences(
+              treeDescription, selectedState, disabledStateOrReadOnlyState);
+      case DESC_ORDER_STATE_NAME_ROLE_POSITION ->
+          CompositorUtils.joinCharSequences(
+              selectedState, treeDescription, disabledStateOrReadOnlyState);
+      default -> "";
+    };
   }
 
   /**
    * Returns the node tree description appended label information if it has the label information.
    */
   private CharSequence treeDescriptionWithLabel(
-      AccessibilityNodeInfoCompat node, AccessibilityEvent event) {
-    boolean shouldAppendChildNode = shouldAppendChildNode(event);
+      AccessibilityNodeInfoCompat node, AccessibilityEvent event, boolean shouldIterateChildren) {
+    boolean shouldAppendChildNode = shouldAppendChildNode(context, event, shouldIterateChildren);
     CharSequence appendedTreeDescription =
-        getAppendedTreeDescription(node, event, shouldAppendChildNode);
-    CharSequence labelDescription = getDescriptionFromLabelNode(node);
+        getAppendedTreeDescription(node, event, shouldIterateChildren, shouldAppendChildNode);
+    CharSequence labelDescription =
+        AccessibilityNodeFeedbackUtils.getDescriptionFromLabelNode(
+            node, context, imageContents, globalVariables);
 
     LogUtils.v(
         TAG,
@@ -136,22 +160,27 @@ public class TreeNodesDescription {
             R.string.template_labeled_item, appendedTreeDescription, labelDescription);
   }
 
-  /** Returns {@code true} if it should append the child node tree description by the event. */
-  private static boolean shouldAppendChildNode(AccessibilityEvent event) {
+  /**
+   * Returns {@code true} if it should append the child node tree description by the event. Live
+   * region changes coming from Chrome set shouldIterateChildren=false when calculating a node's
+   * description. This avoids reading the entire subtree when receiving a change to just one node in
+   * a live region. However, for live region changes coming from native Android applications, we
+   * need to preserve this behavior for now. Therefore, shouldIterateChildren=true and
+   * shouldAppendChildNode should return true.
+   *
+   * <p>Additionally, shouldIterateChildren cannot be overridden by any other tree properties, while
+   * shouldAppendChildNode can be overridden by the node being unfocusable, which will cause it to
+   * be added to the description regardless.
+   */
+  private static boolean shouldAppendChildNode(
+      Context context, AccessibilityEvent event, boolean shouldIterateChildren) {
+    if (!shouldIterateChildren) {
+      return false;
+    }
     AccessibilityNodeInfoCompat srcNode = AccessibilityNodeInfoUtils.toCompat(event.getSource());
     boolean sourceIsLiveRegion =
         (srcNode != null) && (srcNode.getLiveRegion() != ACCESSIBILITY_LIVE_REGION_NONE);
     return (event.getEventType() == TYPE_WINDOW_CONTENT_CHANGED && sourceIsLiveRegion);
-  }
-
-  /** Returns the node description text from the label node. */
-  private CharSequence getDescriptionFromLabelNode(AccessibilityNodeInfoCompat node) {
-    AccessibilityNodeInfoCompat labelNode = node.getLabeledBy();
-    if (labelNode == null) {
-      return "";
-    }
-    return AccessibilityNodeFeedbackUtils.getNodeTextOrLabelOrIdDescription(
-        labelNode, context, imageContents, globalVariables);
   }
 
   /**
@@ -161,28 +190,25 @@ public class TreeNodesDescription {
    * appends some accessibility information, error text, hint and tooltip.
    */
   private CharSequence getAppendedTreeDescription(
-      AccessibilityNodeInfoCompat node, AccessibilityEvent event, boolean shouldAppendChildNode) {
+      AccessibilityNodeInfoCompat node,
+      AccessibilityEvent event,
+      boolean shouldIterateChildren,
+      boolean shouldAppendChildNode) {
     int descriptionOrder = globalVariables.getDescriptionOrder();
-    CharSequence treeDescription;
-    switch (descriptionOrder) {
-      case DESC_ORDER_NAME_ROLE_STATE_POSITION:
-      case DESC_ORDER_ROLE_NAME_STATE_POSITION:
-        treeDescription =
-            CompositorUtils.conditionalAppend(
-                treeNodesDescription(node, event, shouldAppendChildNode),
-                nodeStatusDescription(node),
-                CompositorUtils.getSeparator());
-        break;
-      case DESC_ORDER_STATE_NAME_ROLE_POSITION:
-        treeDescription =
-            CompositorUtils.conditionalPrepend(
-                nodeStatusDescription(node),
-                treeNodesDescription(node, event, shouldAppendChildNode),
-                CompositorUtils.getSeparator());
-        break;
-      default:
-        treeDescription = "";
-    }
+    CharSequence treeDescription =
+        switch (descriptionOrder) {
+          case DESC_ORDER_NAME_ROLE_STATE_POSITION, DESC_ORDER_ROLE_NAME_STATE_POSITION ->
+              CompositorUtils.conditionalAppend(
+                  treeNodesDescription(node, event, shouldIterateChildren, shouldAppendChildNode),
+                  nodeStatusDescription(node),
+                  CompositorUtils.getSeparator());
+          case DESC_ORDER_STATE_NAME_ROLE_POSITION ->
+              CompositorUtils.conditionalPrepend(
+                  nodeStatusDescription(node),
+                  treeNodesDescription(node, event, shouldIterateChildren, shouldAppendChildNode),
+                  CompositorUtils.getSeparator());
+          default -> "";
+        };
 
     CharSequence accessibilityNodeError =
         AccessibilityNodeFeedbackUtils.getAccessibilityNodeErrorText(node, context);
@@ -194,13 +220,13 @@ public class TreeNodesDescription {
         TAG,
         StringBuilderUtils.joinFields(
             String.format("    getAppendedTreeDescription: (%s)  ", node.hashCode()),
-            String.format(", treeDescription={%s} ,", treeDescription),
             StringBuilderUtils.optionalText("accessibilityNodeError", accessibilityNodeError),
+            String.format(", treeDescription={%s} ,", treeDescription),
             StringBuilderUtils.optionalText("accessibilityNodeHint", accessibilityNodeHint),
             StringBuilderUtils.optionalText("tooltip", tooltip)));
 
     return CompositorUtils.joinCharSequences(
-        treeDescription, accessibilityNodeError, accessibilityNodeHint, tooltip);
+        accessibilityNodeError, accessibilityNodeHint, treeDescription, tooltip);
   }
 
   /**
@@ -212,13 +238,13 @@ public class TreeNodesDescription {
   private CharSequence nodeStatusDescription(AccessibilityNodeInfoCompat node) {
     CharSequence collapsedOrExpandedState =
         AccessibilityNodeFeedbackUtils.getCollapsedOrExpandedStateText(node, context);
-    Locale preferredLocale = globalVariables.getPreferredLocaleByNode(node);
     boolean stateDescriptionIsEmpty =
         TextUtils.isEmpty(
-            AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, preferredLocale));
+            AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables));
     int role = Role.getRole(node);
     boolean srcIsCheckable = node.isCheckable();
     boolean srcIsChecked = node.isChecked();
+    int collectionSelectionMode = globalVariables.getCollectionSelectionMode();
 
     LogUtils.v(
         TAG,
@@ -229,20 +255,17 @@ public class TreeNodesDescription {
             .append(String.format(", stateDescriptionIsEmpty=%s", stateDescriptionIsEmpty))
             .append(String.format(", srcIsCheckable=%b", srcIsCheckable))
             .append(String.format(", srcIsChecked=%b", srcIsChecked))
+            .append(String.format(", collectionSelectionMode=%d", collectionSelectionMode))
             .toString());
 
+    // Appends checked state for checkable view if it is in collection selection or checked.
     // If the node has set stateDescription, node checked state description in tree nodes
     // description text will be redundant for switch and toggle button to be always announced in
     // tree nodes description text.
-    if (stateDescriptionIsEmpty
+    if ((stateDescriptionIsEmpty || node.isFieldRequired())
         && srcIsCheckable
-        && (role != Role.ROLE_SWITCH
-            && role != Role.ROLE_TOGGLE_BUTTON
-            && (role != Role.ROLE_CHECKED_TEXT_VIEW || srcIsChecked))) {
-      CharSequence checkedState =
-          node.isChecked()
-              ? context.getString(R.string.value_checked)
-              : context.getString(R.string.value_not_checked);
+        && (collectionSelectionMode != SELECTION_MODE_NONE || srcIsChecked)) {
+      CharSequence checkedState = AccessibilityNodeFeedbackUtils.getCheckedStateText(node, context);
       return CompositorUtils.joinCharSequences(collapsedOrExpandedState, checkedState);
     }
     return collapsedOrExpandedState;
@@ -251,14 +274,19 @@ public class TreeNodesDescription {
   /**
    * Returns the tree nodes description text.
    *
-   * <p>Note: it appends child node tree description if the source node has no content description.
+   * <p>Note: this function will recursively iterate through the node's subtree if the source node
+   * has no content description and shouldIterateChildren is true.
    *
-   * <p>Note: For {@link TYPE_WINDOW_CONTENT_CHANGED}, it appends child node tree description if the
-   * node role is a top-level scroll item, such as {@link Role.ROLE_LIST}, {@link Role.ROLE_GRID}
-   * and {@link Role.ROLE_PAGER}, and the node is accessibility live region.
+   * <p>Note: this function appends a child node's tree description if the node role is a top-level
+   * scroll item, such as {@link Role.ROLE_LIST}, {@link Role.ROLE_GRID} and {@link
+   * Role.ROLE_PAGER}, and shouldAppendChildNode is true. This typically narrowly scoped to live
+   * region changes not coming from Chrome.
    */
   private CharSequence treeNodesDescription(
-      AccessibilityNodeInfoCompat node, AccessibilityEvent event, boolean shouldAppendChildNode) {
+      AccessibilityNodeInfoCompat node,
+      AccessibilityEvent event,
+      boolean shouldIterateChildren,
+      boolean shouldAppendChildNode) {
     int role = Role.getRole(node);
     List<CharSequence> joinList = new ArrayList<>();
     // Join the role description text.
@@ -267,7 +295,7 @@ public class TreeNodesDescription {
     boolean isContentDescriptionEmpty =
         TextUtils.isEmpty(
             AccessibilityNodeFeedbackUtils.getNodeContentDescription(
-                node, context, globalVariables.getPreferredLocaleByNode(node)));
+                node, context, globalVariables));
     StringBuilder logString = new StringBuilder();
     logString
         .append(String.format(" (%s)", node.hashCode()))
@@ -275,7 +303,8 @@ public class TreeNodesDescription {
         .append(String.format(", isContentDescriptionEmpty=%b", isContentDescriptionEmpty))
         .append(String.format(", shouldAppendChildNode=%b", shouldAppendChildNode));
 
-    if (role != Role.ROLE_WEB_VIEW
+    if (shouldIterateChildren
+        && role != Role.ROLE_WEB_VIEW
         && (role == Role.ROLE_GRID
             || role == Role.ROLE_LIST
             || role == Role.ROLE_PAGER
@@ -304,7 +333,8 @@ public class TreeNodesDescription {
           if (isVisible && (!isAccessibilityFocusable || shouldAppendChildNode)) {
             // Join the tree description of child node.
             CharSequence description =
-                getAppendedTreeDescription(childNode, event, shouldAppendChildNode);
+                getAppendedTreeDescription(
+                    childNode, event, shouldIterateChildren, shouldAppendChildNode);
             logString.append(
                 String.format("\n        > appendChildNodeDescription= {%s}", description));
             joinList.add(description);

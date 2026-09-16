@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.TypingMethodPrefFragment"
+      android:key="@string/pref_typing_confirmation_key"
+      android:title="@string/title_pref_typing_confirmation"
+      app:summary="%s" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="@bool/pref_phonetic_letters_default"
+      android:key="@string/pref_phonetic_letters_key"
+      android:summary="@string/summary_pref_phonetic_letters"
+      android:title="@string/title_pref_phonetic_letters" />
+  <ListPreference
+      android:defaultValue="@string/pref_keyboard_echo_default"
+      android:dialogTitle="@string/title_pref_keyboard_echo_on_screen"
+      android:entries="@array/pref_keyboard_echo_entries"
+      android:entryValues="@array/pref_keyboard_echo_values"
+      android:key="@string/pref_keyboard_echo_on_screen_key"
+      android:summary="%s"
+      android:title="@string/title_pref_keyboard_echo_on_screen" />
+</PreferenceScreen>

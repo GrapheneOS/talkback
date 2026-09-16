@@ -16,7 +16,6 @@
 
 package com.google.android.accessibility.braille.brailledisplay.platform;
 
-import androidx.annotation.Nullable;
 import com.google.android.accessibility.braille.brailledisplay.platform.connect.device.ConnectableDevice;
 import java.util.Objects;
 
@@ -28,7 +27,8 @@ public class ConnectibleDeviceInfo {
   public final boolean isRemembered;
   public final boolean isConnecting;
   public final boolean isConnected;
-  @Nullable public final ConnectableDevice device;
+  public final boolean isAvailable;
+  public final ConnectableDevice device;
 
   public ConnectibleDeviceInfo(
       String deviceName,
@@ -36,17 +36,20 @@ public class ConnectibleDeviceInfo {
       boolean isRemembered,
       boolean isConnecting,
       boolean isConnected,
-      @Nullable ConnectableDevice btDevice) {
+      boolean isAvailable,
+      ConnectableDevice device) {
     this.deviceName = deviceName;
     this.deviceAddress = deviceAddress;
     this.isRemembered = isRemembered;
     this.isConnecting = isConnecting;
     this.isConnected = isConnected;
-    this.device = btDevice;
+    this.isAvailable = isAvailable;
+    this.device = device;
   }
 
-  public boolean hasConnectableDevice() {
-    return device != null;
+  /** Returns whether the device is available and connectable. */
+  public boolean isAvailable() {
+    return isAvailable;
   }
 
   public boolean isConnectingOrConnected() {
@@ -62,7 +65,12 @@ public class ConnectibleDeviceInfo {
       return false;
     }
     ConnectibleDeviceInfo rowDevice = (ConnectibleDeviceInfo) o;
-    return deviceName.equals(rowDevice.deviceName) && Objects.equals(device, rowDevice.device);
+    return deviceName.equals(rowDevice.deviceName)
+        && deviceAddress.equals(rowDevice.deviceAddress)
+        && isRemembered == rowDevice.isRemembered
+        && isConnecting == rowDevice.isConnecting
+        && isConnected == rowDevice.isConnected
+        && Objects.equals(device, rowDevice.device);
   }
 
   @Override
@@ -77,7 +85,7 @@ public class ConnectibleDeviceInfo {
         + String.format("%-30s", deviceName)
         + '\''
         + ", "
-        + (device != null ? "Vis" : "***")
+        + (isAvailable ? "Vis" : "***")
         + ", "
         + (isRemembered ? "Rem" : "***")
         + ", "

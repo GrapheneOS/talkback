@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -29,24 +29,28 @@ typedef enum {
   ALERT_BRAILLE_ON,
   ALERT_BRAILLE_OFF,
 
-  ALERT_COMMAND_DONE,
+  ALERT_CONSOLE_BELL,
+  ALERT_KEYS_AUTORELEASED,
   ALERT_COMMAND_REJECTED,
 
+  ALERT_RANGE_LIMIT,
   ALERT_MARK_SET,
 
-  ALERT_CLIPBOARD_BEGIN,
-  ALERT_CLIPBOARD_END,
+  ALERT_DATA_SAVED,
+  ALERT_DATA_RESTORED,
 
-  ALERT_NO_CHANGE,
+  ALERT_COPY_BEGIN,
+  ALERT_COPY_END,
+
   ALERT_TOGGLE_ON,
   ALERT_TOGGLE_OFF,
 
   ALERT_CURSOR_LINKED,
   ALERT_CURSOR_UNLINKED,
 
+  ALERT_SCREEN_FREEZE,
+  ALERT_SCREEN_LIVE,
   ALERT_SCREEN_FROZEN,
-  ALERT_SCREEN_UNFROZEN,
-  ALERT_FREEZE_REMINDER,
 
   ALERT_WRAP_DOWN,
   ALERT_WRAP_UP,
@@ -64,22 +68,17 @@ typedef enum {
   ALERT_MODIFIER_LOCK,
   ALERT_MODIFIER_OFF,
 
-  ALERT_CONSOLE_BELL,
-  ALERT_KEYS_AUTORELEASED,
-
-  ALERT_SCROLL_UP,
-
   ALERT_CONTEXT_DEFAULT,
   ALERT_CONTEXT_PERSISTENT,
   ALERT_CONTEXT_TEMPORARY,
+
+  ALERT_SCROLL_UP,
 } AlertIdentifier;
 
 extern void alert (AlertIdentifier identifier);
 
-extern int showDotPattern (unsigned char dots, unsigned char duration);
-
-extern void speakAlertMessage(const char *message);
-extern void speakAlertText(const wchar_t *text);
+extern void speakAlertMessage (const char *message);
+extern void speakAlertText (const wchar_t *text);
 
 #ifdef __cplusplus
 }

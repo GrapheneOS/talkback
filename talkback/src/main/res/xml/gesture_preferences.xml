@@ -2,10 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="@string/pref_category_manage_gestures_key">
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:title="@string/practice_gestures_title"
       android:key="@string/pref_practice_gestures_entry_point_key" />
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:title="@string/reset_gesture_settings_title"
       android:key="@string/pref_reset_gesture_settings_key"
       app:allowDividerBelow="true"/>
@@ -17,7 +17,7 @@
       android:entries="@array/pref_gesture_set_entries"
       android:entryValues="@array/pref_gesture_set_values" />
   <!-- One finger gestures -->
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_1finger_shortcuts_key"
       android:title="@string/one_finger_gestures_title">
     <com.google.android.accessibility.talkback.preference.base.GestureListPreference
@@ -40,10 +40,10 @@
         android:key="@string/pref_shortcut_right_key"
         android:summary="%s"
         android:title="@string/title_pref_shortcut_right"/>
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
   <!-- One finger back & forth gestures -->
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_1finger_back_forth_shortcuts_key"
       android:title="@string/one_finger_back_forth_gestures_title">
     <!-- One finger Back & Forth gestures -->
@@ -67,10 +67,10 @@
         android:key="@string/pref_shortcut_right_and_left_key"
         android:summary="%s"
         android:title="@string/title_pref_shortcut_right_and_left"/>
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
   <!-- One finger angle gestures -->
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_1finger_angle_shortcuts_key"
       android:title="@string/one_finger_angle_gestures_title">
     <!-- L-shaped gestures, down-right etc -->
@@ -114,10 +114,10 @@
         android:key="@string/pref_shortcut_right_and_down_key"
         android:summary="%s"
         android:title="@string/title_pref_shortcut_right_and_down"/>
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
   <!-- Two finger gestures -->
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_2finger_shortcuts_key"
       android:title="@string/two_finger_gestures_title">
     <com.google.android.accessibility.talkback.preference.base.GestureListPreference
@@ -165,10 +165,10 @@
         android:key="@string/pref_shortcut_2finger_swipe_right_key"
         android:summary="%s"
         android:title="@string/title_pref_shortcut_2finger_swipe_right"/>
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
   <!-- Three finger gestures -->
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_3finger_shortcuts_key"
       android:title="@string/three_finger_gestures_title">
     <com.google.android.accessibility.talkback.preference.base.GestureListPreference
@@ -221,10 +221,10 @@
         android:key="@string/pref_shortcut_3finger_swipe_right_key"
         android:summary="%s"
         android:title="@string/title_pref_shortcut_3finger_swipe_right"/>
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
   <!-- Four finger gestures -->
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_4finger_shortcuts_key"
       android:title="@string/four_finger_gestures_title">
     <com.google.android.accessibility.talkback.preference.base.GestureListPreference
@@ -267,10 +267,10 @@
         android:key="@string/pref_shortcut_4finger_swipe_right_key"
         android:summary="%s"
         android:title="@string/title_pref_shortcut_4finger_swipe_right"/>
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
   <!-- Fingerprint sensor swipe gestures -->
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_fingerprint_touch_shortcuts_key"
       android:title="@string/title_pref_category_fingerprint_touch_shortcuts">
     <com.google.android.accessibility.talkback.preference.base.GestureListPreference
@@ -293,6 +293,6 @@
         android:key="@string/pref_shortcut_fingerprint_right_key"
         android:summary="%s"
         android:title="@string/title_pref_shortcut_fingerprint_right"/>
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
 </PreferenceScreen>

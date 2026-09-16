@@ -224,16 +224,12 @@ public class VendorConfigReader {
   }
 
   static String getJsonKeyForPageId(PageId pageId) {
-    switch (pageId) {
-      case PAGE_ID_TV_OVERVIEW:
-        return JsonKeywords.STEP_OVERVIEW;
-      case PAGE_ID_TV_REMOTE:
-        return JsonKeywords.STEP_REMOTE;
-      case PAGE_ID_TV_SHORTCUT:
-        return JsonKeywords.STEP_SHORTCUT;
-      default:
-        throw new AssertionError("No JSON keyword defined for PageId " + pageId + ".");
-    }
+    return switch (pageId) {
+      case PAGE_ID_TV_OVERVIEW -> JsonKeywords.STEP_OVERVIEW;
+      case PAGE_ID_TV_REMOTE -> JsonKeywords.STEP_REMOTE;
+      case PAGE_ID_TV_SHORTCUT -> JsonKeywords.STEP_SHORTCUT;
+      default -> throw new AssertionError("No JSON keyword defined for PageId " + pageId + ".");
+    };
   }
 
   @VisibleForTesting

@@ -1,0 +1,64 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:overScrollMode="ifContentScrolls">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingTop="15dp"
+      android:paddingBottom="30dp"
+      android:orientation="vertical"
+      android:paddingHorizontal="16dp"
+      android:theme="@style/KeyboardDialogStyle">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:text="@string/custom_gestures_dialog_description" />
+    <TextView
+        android:id="@+id/assigned_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="13dp"
+        android:background="@drawable/assignment_dialog_background"
+        android:gravity="center"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/share_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/custom_gestures_dialog_share_description" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/custom_gesture_button_change_gesture"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/custom_gestures_dialog_change_gesture_button"
+        android:textColor="@color/settings_primary_text" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/custom_gestures_button_reset_to_default"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_gestures_dialog_reset_to_default_button"
+        android:textColor="@color/settings_primary_text" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/custom_gesture_button_remove"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_gestures_dialog_remove_button"
+        android:textColor="@color/settings_primary_text" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/custom_gesture_button_cancel"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel"
+        android:textColor="@color/braille_common_category_color" />
+  </LinearLayout>
+</ScrollView>

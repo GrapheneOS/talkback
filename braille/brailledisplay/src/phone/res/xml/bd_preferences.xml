@@ -56,6 +56,12 @@
         android:summary="@string/bd_preference_key_braille_elements_summary">
     </Preference>
 
+    <Preference
+        android:key="@string/pref_key_bd_learning_mode"
+        android:title="@string/bd_preference_key_learning_mode_title"
+        android:summary="@string/bd_preference_key_learning_mode_summary_inactive">
+    </Preference>
+
   </PreferenceCategory>
 
   <PreferenceCategory
@@ -70,6 +76,12 @@
         android:key="@string/pref_key_bd_auto_scroll"
         android:title="@string/bd_preference_key_auto_scroll_title"
         android:summary="@string/bd_preference_key_auto_scroll_summary"/>
+
+    <SwitchPreference
+        android:key="@string/pref_bd_caption_key"
+        android:title="@string/bd_preference_caption_title"
+        app:isPreferenceVisible="false"
+        android:summary="@string/bd_preference_caption_summary"/>
 
     <Preference
         app:key="@string/pref_key_bd_advanced"

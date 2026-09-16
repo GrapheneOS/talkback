@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ovo je vodič za poboljšani raspored tipki koji uključuje mnoge nove komande. Da odaberete raspored tipki, idite u Postavke TalkBacka &gt; Napredne postavke &gt; Prečice na tastaturi.\n\nPritišćite tipke Radnja + strelica udesno da odaberete temu. Za najbolje iskustvo uključite TalkBack prije nego što započnete.</string>
+  <string name="basic_interaction_link_text">Osnovna interakcija</string>
+  <string name="basic_interaction_link_subtext">Krećite se između stavki, čitajte po redovima, koristite menije i još mnogo toga</string>
+  <string name="browse_mode_link_text">Način rada za pregledanje</string>
+  <string name="browse_mode_link_subtext">Brže se krećite kroz web sadržaj pomoću naredbi za prelaz</string>
+  <string name="reading_controls_link_text">Kontrole za čitanje</string>
+  <string name="reading_controls_link_subtext">Koristite kontrole za čitanje da prelazite između stavki, prilagodite postavke govora i još mnogo toga</string>
+  <string name="image_descriptions_link_text">Opisi slika</string>
+  <string name="image_descriptions_link_subtext">Pokušajte preuzeti opise slika</string>
+  <string name="keyboard_shortcuts_link_text">Vježbanje prečica na tastaturi</string>
+  <string name="keyboard_shortcuts_link_subtext">Pritisnite tipke i kombinacije tipki i saznajte čemu služe</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack pruža govorne povratne informacije da možete koristiti uređaj bez gledanja u ekran. TalkBack može biti koristan osobama koje imaju poteškoće s gledanjem sadržaja ekrana. Kada je TalkBack uključen, fokusirana stavka na ekranu se čita naglas.\n\nPrvo se upoznajte s tastaturom. Pronađite tipku Radnja koja se nalazi iznad lijeve tipke Shift. Sada pronađite tipke sa strelicama u blizini donjeg desnog područja tastature. Pritisnite tipke Radnja + strelica udesno da pređete na sljedeću stavku.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Ovo je sljedeća stavka. Da se pomaknete na prethodnu stavku, pritisnite tipke Radnja + strelica ulijevo.\n\nKada se pomaknete na interaktivnu stavku kao što je dugme, pritisnite tipku Radnja + tipku za razmak da je aktivirate. Pronađite sljedeće dugme i nastavite pratiti vodič.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Čitanje pojedinačnih znakova, riječi ili pasusa</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Ponekad ćete htjeti čuti čitanje teksta naglas jedan po jedan znak.\n\nDa to uradite, možete koristiti navigaciju pomoću kontrola za čitanje. Pritišćite tipke Radnja + Shift + strelica udesno ili ulijevo dok ne čujete \"znakovi\".\n\nZatim pritišćite tipke Radnja + strelica nagore da pomjerate fokus navigacije unazad po znakovima. Pritišćite tipke Radnja + strelica nadolje da pomjerate fokus navigacije unaprijed znak po znak.\n\nIsprobajte sada. Također možete odabrati čitanje po riječima, redovima ili pasusima koristeći tipke Radnja + Shift + strelica udesno ili ulijevo.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigacija sistemom</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Ako sada isprobate ove prečice na tastaturi, to će zatvoriti vodič. Možda je bolje da pričekate dok dovršite vodič.\n\nDa prelazite između otvorenih prozora aplikacija i sistemskih elemenata kao što su obavještenja i traka zadataka, pritišćite tipke Radnja + Alt + Ctrl + strelica nagore ili nadolje.\n\nDa otvorite listu aplikacija, pritisnite tipku Radnja.\n\nDa odete na početni ekran i minimizirate sve otvorene prozore, pritisnite tipke Radnja + H ili Početni ekran u gornjem redu.\n\nDa odete na nedavne aplikacije, pritisnite tipke Radnja + Tab ili Pregled u gornjem redu.\n\nDa brzo pređete iz jednog prozora u drugi, zadržite tipku Alt i pritisnite Tab.\n\nDa se vratite, pritisnite tipke Radnja + Esc ili Nazad u gornjem redu.\n\nDa otvorite obavještenja, pritisnite tipke Radnja + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Podešavanje postavki govora</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Jačina zvuka govora TalkBacka se naziva jačina zvuka za pristupačnost. Podešava se zasebno od jačine zvuka medija.\n\nDa podesite jačinu zvuka za pristupačnost, pritisnite tipku Radnja + dugme za pojačavanje ili stišavanje zvuka.\n\nDa podesite brzinu govora, pritisnite tipke Radnja + Ctrl + dugme za pojačavanje zvuka da je povećate i Radnja + Ctrl + dugme za stišavanje zvuka da je smanjite.\n\nDa zaustavite govor bilo kada, pritisnite Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Meni TalkBacka i više prečica na tastaturi</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Meni TalkBacka uključuje postavke i kontrole koje vam mogu često trebati.\n\nDa otvorite meni TalkBacka, pritisnite tipke Radnja + Ctrl + M. Možete prilagoditi meni TalkBacka i kontrole za čitanje kasnije u postavkama TalkBacka.\n\nMeni prečica na tastaturi za TalkBack uključuje sve prečice na tastaturi koje možete koristiti.\n\nDa otvorite meni prečica na tastaturi, pritisnite tipke Radnja + Shift + /.\n\nDa saznate više o tastaturi i vježbate prečice na tastaturi, pritisnite tipke Radnja + 0 da otvorite ekran za vježbanje.</string>
+  <string name="keyboard_tutorial_finished_page_title">Sve je spremno!</string>
+  <string name="keyboard_tutorial_finished_page_text">Spremni ste koristiti TalkBack.\n\nNastavite se informirati o drugim temama ili pregledajte ove informacije bilo kada u postavkama TalkBacka.\n\nDa uključite ili isključite TalkBack bilo kada, pritisnite tipke Radnja + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Brže kretanje kroz web sadržaj pomoću načina rada za pregledanje</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Kada ste u pregledniku i web aplikacijama, možete uključiti način rada za pregledanje i prelaziti između različitih nivoa preciznosti čitanja i kontrola jednim pritiskom na tipku. Omogućava kretanje stranicom slično kretanju u okviru za uređivanje teksta, npr. pomoću strelica ulijevo i udesno za pomicanje po znakovima i strelica nagore i nadolje za pomicanje po redovima.\n\nDa uključite ili isključite način rada za pregledanje, pritisnite tipku Radnja dvaput.\n\nKada je način rada za pregledanje uključen, pritisnite D da pređete na sljedeće obilježje, F za sljedeću kontrolu ili polje obrasca, B za sljedeće dugme, K za sljedeći link i H za sljedeći naslov. Zadržite Shift i pritisnite ove tipke da se pomaknete unazad.\n\nTakođer možete koristiti strelice nagore i nadolje da prelazite između redova, strelice ulijevo i udesno da prelazite između slova i Ctrl + strelice ulijevo i udesno da prelazite između riječi.\n\nPritisnite tipke Radnja + strelica udesno da uđete u područje za vježbanje. Dok ste u području za vježbanje, linkovi, polja obrasca i dugmad neće imati nikakvu funkciju.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Nivoi naslova</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Web lokacije i web aplikacije često koriste naslove različitih nivoa za strukturiranje sadržaja. Kada je način rada za pregledanje uključen, pritisnite od 1 do 6 da pređete na nivoe naslova. Zadržite Shift i pritisnite ove tipke da se pomaknete unazad.\n\nPritisnite tipke Radnja + strelica udesno da uđete u područje za vježbanje.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabele</string>
+  <string name="keyboard_tutorial_tables_page_text">Način rada za pregledanje olakšava i kretanje u tabelama. Kada je način rada za pregledanje uključen, pritišćite tipke Alt + Ctrl + strelice nagore i nadolje da prelazite između redova, a Alt + Ctrl + strelice ulijevo i udesno da prelazite između kolona.\n\nPritisnite tipke Radnja + strelica udesno da uđete u područje za vježbanje.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Uređivanje teksta</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Kada uđete u polje za tekst, način rada za pregledanje će se privremeno isključiti da možete koristiti sve tipke za pisanje. Kada se isključi, čut ćete obavještenje i zvuk. Kada napustite polje za tekst, način rada za pregledanje će se ponovo uključiti i čut ćete drugo obavještenje i zvuk.\n\nPritisnite tipke Radnja + strelica udesno da uđete u područje za vježbanje.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Više o načinu rada za pregledanje</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Da provjerite kompletnu listu stavki između kojih možete prelaziti u načinu rada za pregledanje, pritisnite tipke Radnja + Shift + / i pretražite \"način rada za pregledanje\" u meniju prečica na tastaturi.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Čitanje pojedinačnih znakova, riječi ili pasusa</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Ponekad ćete htjeti čuti čitanje teksta naglas jedan po jedan znak.\n\nDa to uradite, možete koristiti navigaciju pomoću kontrola za čitanje. Pritišćite tipke Radnja + Shift + strelica udesno ili ulijevo dok ne čujete \"znakovi\". Zatim pritišćite tipke Radnja + strelica nagore da pomjerate fokus navigacije unazad znak po znak. Pritišćite tipke Radnja + strelica nadolje da pomjerate fokus navigacije unaprijed znak po znak.\n\nIsprobajte sada. Također možete odabrati čitanje po riječima, redovima ili pasusima koristeći tipke Radnja + Shift + strelica udesno ili ulijevo.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Prelazak između kontrola</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Kontrole su stavke s kojima možete stupati u interakciju, kao što su dugmad, polja za potvrdu i okviri za tekst.\n\nNa nekim stranicama ćete možda željeti preći s jedne kontrole na drugu da brzo pronađete radnju, kao što je sljedeće dugme.\n\nDa to učinite, pritišćite tipke Radnja + Shift + strelica udesno dok ne čujete \"kontrole\". Zatim pritisnite tipke Radnja + strelica nagore da odete na prethodno dugme i tipke Radnja + strelica nadolje da odete na sljedeće dugme.\n\nIsprobajte sada i pronađite sljedeće dugme.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Prelazak između linkova</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Također možete prelaziti između linkova na stranici.\n\nDa to uradite, pritišćite tipke Radnja + Shift + strelica udesno dok ne čujete \"linkovi\". Zatim pritišćite tipke Radnja + strelica nadolje da pronađete link s nazivom \"5. link\". Ako dvaput dodirnete ovaj link dok ste u vodiču, to neće imati nikakvu funkciju.\n\nPritisnite tipke Radnja + strelica udesno da pronađete sljedeće dugme i pređete na sljedeću stranicu.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Prelazak između naslova</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Također možete prelaziti s naslova na naslov na stranici.\n\nDa to sada isprobate, pritišćite tipke Radnja + Shift + strelica udesno dok ne čujete \"naslovi\". Zatim pritišćite tipke Radnja + strelica nadolje da pronađete naslov \"Navigacija\".</string>
+  <string name="keyboard_tutorial_find_next_button">Pritisnite tipke Radnja + strelica udesno da pronađete sljedeće dugme.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Prelazak između spremnika</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Da izađete iz spremnika, kao što je lista ili mreža, pritisnite tipke Radnja + Alt + Ctrl + strelica udesno ili ulijevo. Ovo je korisno kada želite zatvoriti dugu listu stavki.\n\nDa to sada isprobate, pritisnite tipke Radnja + strelica udesno da otvorite listu. Zatim pritisnite tipke Radnja + Alt + Ctrl + strelica udesno da pređete na sljedeći spremnik.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Da odete na sljedeći spremnik, pritisnite tipke Radnja + Alt + Ctrl + strelica udesno</string>
+  <string name="keyboard_tutorial_exit_container">Da izađete iz ovog spremnika, pritisnite tipke Radnja + Alt + Ctrl + strelica udesno</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Izašli ste iz spremnika. Također možete dodati spremnike u kontrole za čitanje, a zatim pritisnuti tipke Radnja + Shift + strelica udesno ili ulijevo da odaberete spremnike i tipke Radnja + strelica nagore ili nadolje da prelazite između spremnika. Da ažurirate kontrole za čitanje, idite u TalkBack &gt; Postavke &gt; Prilagodite menije &gt; Prilagodite kontrole za čitanje.\n\nPritisnite tipke Radnja + strelica udesno da pronađete sljedeće dugme.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Prilagođavanje kontrola za čitanje</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Također možete podesiti postavke govora pomoću kontrola za čitanje i prilagoditi šta možete raditi s kontrolama za čitanje u odjeljku TalkBack &gt; Postavke &gt; Prilagodite menije &gt; Prilagodite kontrole za čitanje.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Preuzimanje opisa slika</string>
+  <string name="keyboard_tutorial_image_description_page_text">Kada fokusirate sliku, pritisnite tipke Radnja + R, a zatim I. Jedna fotografija se nalazi u nastavku. Pokušajte dobiti njen opis.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Da promijenite postavke za opise slika, idite u Postavke TalkBacka &gt; Opisi slika i ikona.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Da promijenite postavke za opise slika, idite u Postavke TalkBacka, a zatim Opisi slika i ikona.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Primjer slike. Pritisnite tipke Radnja + R, a zatim I da čujete opis.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Glasovne komande</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Možete brzo upravljati TalkBackom pomoću glasa.\n\nNaprimjer, recite komandu da promijenite navigaciju, pređete na sljedeći naslov, kopirate tekst i još mnogo toga.\n\nDa to sada isprobate, pritisnite tipku Radnja + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Korištenje pretraživanja ekrana</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Funkcija pretraživanja ekrana vam omogućava da potražite određeni sadržaj na ekranu.\n\nDa je isprobate, pritisnite tipke Radnja + CTRL + /.\n\nUpišite ključnu riječ, npr. \"naprijed\", da na ekranu pronađete stavke koje sadržavaju taj tekst.\n\nPokušajte sada pretražiti \"naprijed\" da pronađete dugme \"Naprijed\".</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navigacija pomoću pretraživanja ekrana</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Nakon što odaberete rezultat, možete brzo prelaziti između različitih rezultata pretraživanja ekrana.\n\nDa to uradite, možete koristiti navigaciju pomoću kontrola za čitanje. Pritisnite tipke Radnja + Shift + strelica udesno ili ulijevo dok ne čujete \"pretraživanje ekrana\". Zatim pritisnite tipke Radnja + strelica nadolje ili nagore da se krećete po rezultatima pretraživanja ekrana.\n\nIsprobajte ovo sada. U nastavku je lista 3 dugmeta, a na svakom od njih se nalazi tekst \"radnja\". Pretražite riječ \"radnja\" pomoću pretraživanja ekrana, a zatim se krećite između dugmadi pomoću pretraživanja ekrana.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Vježbanje prečica na tastaturi</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Pritisnite neku tipku ili kombinaciju tipki na fizičkoj tastaturi da čujete šta radi. Pritisnite Ctrl + W ili Esc da izađete.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Otkrijte veličanstvenost kalifornijskih sekvoja&lt;/h1&gt;
+      &lt;p&gt;Kalifornijske sekvoje, prvenstveno obalna sekvoja (Sequoia sempervirens), najviša su stabla na svijetu. Neka stabla su visoka preko 115 metara i mogu živjeti hiljadama godina. Uspijevaju u vlažnoj primorskoj klimi sjeverne Kalifornije, a odgovaraju im kiša i magla.&lt;/p&gt;
+
+      &lt;h2&gt;Gdje ih možete vidjeti&lt;/h2&gt;
+      &lt;p&gt;Ove divove ćete pronaći u uskom pojasu duž obale Pacifika. Glavni parkovi uključuju:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Ovdje možete planirati posjetu: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Podržite očuvanje stabala&lt;/h2&gt;
+      &lt;p&gt;Zaštita ovih drevnih šuma je od ključnog značaja. Možete pomoći tako što ćete slijediti smjernice parka i podržavati napore za očuvanje stabala.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Podijelite svoje iskustvo&lt;/h2&gt;
+        &lt;p&gt;Jeste li bili u šumi sekvoja?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Da&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Ne&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Recite nam nešto o svom iskustvu&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Pošalji&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Šta još želite saznati o sekvojama?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Pošalji&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekvoje: očuvanje zdravlja okoliša&lt;/h1&gt;
+    &lt;p&gt;Sekvoje su važne za našu planetu i imaju veliku ulogu u očuvanju zdravlja okoliša.&lt;/p&gt;
+
+    &lt;h1&gt;Divovski pročišćivači zraka&lt;/h1&gt;
+    &lt;p&gt;Ovo drveće nevjerovatno dobro upija ugljen-dioksid iz zraka. Budući da upijaju velike količine ugljen-dioksida, sekvoje pomažu da naš zrak ostane čist.&lt;/p&gt;
+
+    &lt;h2&gt;Dom za životinje&lt;/h2&gt;
+    &lt;p&gt;Sekvoje pružaju dom i sklonište mnogim životinjama: od ptica u svojim granama do malih stvorenja u tlu.&lt;/p&gt;
+
+    &lt;h3&gt;Čarobnjaci za vodu&lt;/h3&gt;
+    &lt;p&gt;Odlične su u sakupljanju magle, koja zatim kaplje na tlo šume. Tlo tako ostaje vlažno i osigurava vodu za druge biljke i životinje, posebno kada je suša.&lt;/p&gt;
+
+    &lt;h4&gt;Štite tlo&lt;/h4&gt;
+    &lt;p&gt;Snažno korijenje sekvoja drži tlo na mjestu i sprečava njegovo ispiranje tokom jakih kiša i eroziju.&lt;/p&gt;
+
+    &lt;h5&gt;Grade šume&lt;/h5&gt;
+    &lt;p&gt;Kada stara sekvoja padne, njeno drvo postaje hrana i sklonište za nove biljke i stvorenja, čime nastaje bogato tlo za novi rast.&lt;/p&gt;
+
+    &lt;h6&gt;Jedinstveni ekosistemi&lt;/h6&gt;
+    &lt;p&gt;Budući da su sekvoje tako velike i dugo žive, stvaraju posebna šumska okruženja koja omogućavaju život živim bićima koja se ne može naći nigdje drugo.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Životinje šuma sekvoja&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Životinje šuma sekvoja\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Životinja&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Opis&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Gdje živi&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Zanimljivost&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banana puž golać&lt;/th&gt;
+            &lt;td&gt;Veliki, žuti, sluzavi puž golać&lt;/td&gt;
+            &lt;td&gt;Na tlu šume&lt;/td&gt;
+            &lt;td&gt;Drugi najveći puž golać na svijetu&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Džinovski pacifički daždevnjak&lt;/th&gt;
+            &lt;td&gt;Veliki daždevnjak tamne boje&lt;/td&gt;
+            &lt;td&gt;U blizini potoka i vlažnih područja&lt;/td&gt;
+            &lt;td&gt;Može narasti do 30 cm dužine&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Rooseveltov jelen&lt;/th&gt;
+            &lt;td&gt;Veliki jelen s impresivnim rogovima&lt;/td&gt;
+            &lt;td&gt;Pase na proplancima unutar šume&lt;/td&gt;
+            &lt;td&gt;Mužjaci mogu težiti više od 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Sjeverna pjegava sova&lt;/th&gt;
+            &lt;td&gt;Sova srednje veličine, lovi noću&lt;/td&gt;
+            &lt;td&gt;U gustim, starim šumama sekvoja&lt;/td&gt;
+            &lt;td&gt;\"Indikatorska vrsta\" – njeno stanje pokazuje zdravlje šume&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Američki crni medvjed&lt;/th&gt;
+            &lt;td&gt;Veliki sisar, obično crne ili smeđe boje&lt;/td&gt;
+            &lt;td&gt;Traži hranu širom šume&lt;/td&gt;
+            &lt;td&gt;Izvrsni penjač, često se može vidjeti na drveću&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Vaša razmišljanja o sekvojama i prirodi&lt;/h1&gt;
+
+      &lt;p&gt;Šta još želite saznati o sekvojama?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Koje vam je omiljeno mjesto u prirodi koje volite posjećivati?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;O kojem konceptu iz prirode želite saznati više?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

@@ -24,25 +24,22 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
 import com.google.android.accessibility.utils.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * Alertdialog wrapper to hold the wrapper of android.app.AlertDialog, MaterialAlertDialog or
  * support.v7.app.AlertDialog. This is for the different platforms, including the Wear OS.
  */
 public class A11yAlertDialogWrapper implements DialogInterface {
-  /** Types of Alertdialog style. */
-  public enum AlertDialogStyle {
-    // Uses for androidx.appcompat.app.AlertDialog
-    ALERT_DIALOG_CLASSIC,
-    // Uses for material dialog
-    ALERT_DIALOG_MATERIAL,
-  }
 
   // Hold the one of dialogWrapper for Alertdialog, such as android.app.AlertDialog,
   // MaterialAlertDialog or support.v7.app.AlertDialog, for the platforms including the Wear OS.
@@ -306,6 +303,11 @@ public class A11yAlertDialogWrapper implements DialogInterface {
     /** See {@link AlertDialog.Builder#setIcon(Drawable)} */
     A11yAlertDialogWrapper.Builder setIcon(@NonNull Drawable drawable);
 
+    /** See {@link AlertDialog.Builder#setAdapter(ListAdapter, OnClickListener)} */
+    @CanIgnoreReturnValue
+    A11yAlertDialogWrapper.Builder setAdapter(
+        @NonNull ListAdapter adapter, OnClickListener onClickListener);
+
     /** See {@link AlertDialog.Builder#setPositiveButton(int, OnClickListener)} */
     A11yAlertDialogWrapper.Builder setPositiveButton(
         @StringRes int resId, OnClickListener listener);
@@ -350,14 +352,17 @@ public class A11yAlertDialogWrapper implements DialogInterface {
     /** See {@link AlertDialog.Builder#setView(View)} */
     A11yAlertDialogWrapper.Builder setView(View view);
 
+    /** Sets a dialog to dismiss when the action button is clicked. It is only effective on Wear. */
+    A11yAlertDialogWrapper.Builder setDismissOnClick(boolean dismissOnClick);
+
     /** See {@link AlertDialog.Builder#create()} */
     @NonNull
     A11yAlertDialogWrapper create();
   }
 
   /**
-   * Creates {@link A11yAlertDialogWrapper.Builder} which holds {@link
-   * com.google.android.material.dialog.MaterialAlertDialogBuilder} for the most of the platforms.
+   * Creates {@link A11yAlertDialogWrapper.Builder} which holds {@link MaterialAlertDialogBuilder}
+   * for the most of the platforms.
    *
    * <p>Exception is as follows:
    *
@@ -371,14 +376,35 @@ public class A11yAlertDialogWrapper implements DialogInterface {
    * @return {@link A11yAlertDialogWrapper.Builder} for accessibility alert dialog
    */
   public static A11yAlertDialogWrapper.Builder materialDialogBuilder(@NonNull Context context) {
-    return AccessibilitySuiteAlertDialogWrapperFactory.createA11yAlertDialogWrapperBuilder(
-        context, AlertDialogStyle.ALERT_DIALOG_MATERIAL);
+    return AccessibilitySuiteAlertDialogWrapperFactory.createMaterialAlertDialogWrapperBuilder(
+        context);
   }
 
   /**
-   * Creates {@link A11yAlertDialogWrapper.Builder} which holds {@link
-   * com.google.android.material.dialog.MaterialAlertDialogBuilder} for the most of the platforms on
-   * the given {@code fm} fragment.
+   * Creates {@link A11yAlertDialogWrapper.Builder} which holds {@link MaterialAlertDialogBuilder}
+   * for the most of the platforms.
+   *
+   * <p>Exception is as follows:
+   *
+   * <ul>
+   *   <li>Wear OS: Holds WearableLegacyAlertDialogBuilder with {@link R.style.A11yAlertDialogTheme}
+   *       theme.
+   *   <li>Automotive OS: Holds {@link com.android.car.ui.AlertDialogBuilder} with default theme.
+   * </ul>
+   *
+   * @param context the current context
+   * @param materialThemeResId the customized theme for the material dialog
+   * @return {@link A11yAlertDialogWrapper.Builder} for accessibility alert dialog
+   */
+  public static A11yAlertDialogWrapper.Builder materialDialogBuilder(
+      @NonNull Context context, @StyleRes int materialThemeResId) {
+    return AccessibilitySuiteAlertDialogWrapperFactory.createMaterialAlertDialogWrapperBuilder(
+        context, materialThemeResId);
+  }
+
+  /**
+   * Creates {@link A11yAlertDialogWrapper.Builder} which holds {@link MaterialAlertDialogBuilder}
+   * for the most of the platforms on the given {@code fm} fragment.
    *
    * <p>Exception is as follows:
    *
@@ -396,61 +422,7 @@ public class A11yAlertDialogWrapper implements DialogInterface {
    */
   public static A11yAlertDialogWrapper.Builder materialDialogBuilder(
       @NonNull Context context, FragmentManager fm) {
-    return AccessibilitySuiteAlertDialogWrapperFactory.createA11yAlertDialogWrapperBuilder(
-        context, AlertDialogStyle.ALERT_DIALOG_MATERIAL, fm);
-  }
-
-  /**
-   * Creates {@link A11yAlertDialogWrapper.Builder} which holds {@link AlertDialog.Builder} for the
-   * most of the platforms.
-   *
-   * <p>Exception is as follows:
-   *
-   * <ul>
-   *   <li>Wear OS: Holds WearLegacyBuilder with default theme.
-   *   <li>Automotive OS: Holds {@link com.android.car.ui.AlertDialogBuilder} with default theme.
-   * </ul>
-   *
-   * @param context the current context
-   * @return {@link A11yAlertDialogWrapper.Builder} for accessibility alert dialog
-   */
-  public static A11yAlertDialogWrapper.Builder alertDialogBuilder(@NonNull Context context) {
-    return AccessibilitySuiteAlertDialogWrapperFactory.createA11yAlertDialogWrapperBuilder(
-        context, AlertDialogStyle.ALERT_DIALOG_CLASSIC);
-  }
-
-  /**
-   * Creates {@link A11yAlertDialogWrapper.Builder} which holds {@link AlertDialog.Builder} for the
-   * most of the platforms.
-   *
-   * <p>Exception is as follows:
-   *
-   * <ul>
-   *   <li>Wear OS: Holds WearableAlertDialog.Builder wrapping {@link
-   *       com.google.android.clockwork.common.wearable.wearmaterial.alertdialog.WearAlertDialog.Builder}
-   *       with default theme if {@code fm} is provided; otherwise, WearableLegacyAlertDialogBuilder
-   *       with {@link R.style.A11yAlertDialogTheme} theme.
-   *   <li>Automotive OS: Holds {@link com.android.car.ui.AlertDialogBuilder} with default theme.
-   * </ul>
-   *
-   * @param context the current context
-   * @param fm the FragmentManager which this fragment will be added to
-   * @return {@link A11yAlertDialogWrapper.Builder} for accessibility alert dialog
-   */
-  public static A11yAlertDialogWrapper.Builder alertDialogBuilder(
-      @NonNull Context context, FragmentManager fm) {
-    return AccessibilitySuiteAlertDialogWrapperFactory.createA11yAlertDialogWrapperBuilder(
-        context, AlertDialogStyle.ALERT_DIALOG_CLASSIC, fm);
-  }
-
-  /**
-   * Focuses the cancel button.
-   *
-   * @param alertDialog The {@link A11yAlertDialogWrapper} which focuses the cancel button.
-   */
-  public static void focusCancelButton(A11yAlertDialogWrapper alertDialog) {
-    Button cancelButton = alertDialog.getButton(BUTTON_NEGATIVE);
-    cancelButton.setFocusableInTouchMode(true);
-    cancelButton.requestFocus();
+    return AccessibilitySuiteAlertDialogWrapperFactory.createMaterialAlertDialogWrapperBuilder(
+        context, fm);
   }
 }

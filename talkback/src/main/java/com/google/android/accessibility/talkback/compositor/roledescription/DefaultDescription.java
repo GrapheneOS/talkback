@@ -20,8 +20,7 @@ import android.view.accessibility.AccessibilityEvent;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
-import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 
 /**
  * Role description for default node roles.
@@ -64,11 +63,6 @@ public class DefaultDescription implements RoleDescription {
       AccessibilityNodeInfoCompat node,
       Context context,
       GlobalVariables globalVariables) {
-    return AccessibilityNodeFeedbackUtils.getNodeStateDescription(
-        node,
-        context,
-        (globalVariables.getUserPreferredLocale() != null)
-            ? globalVariables.getUserPreferredLocale()
-            : AccessibilityNodeInfoUtils.getLocalesByNode(node));
+    return AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables);
   }
 }

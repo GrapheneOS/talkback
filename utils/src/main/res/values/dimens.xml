@@ -19,6 +19,25 @@
     <dimen name="tts_overlay_text_padding">8dp</dimen>
     <dimen name="tts_overlay_text_bottom_margin">12dp</dimen>
 
+    <!-- TTS bubble overlay dimensions -->
+    <dimen name="tts_bubble_overlay_text_padding_top">30dp</dimen>
+    <dimen name="tts_bubble_overlay_text_padding">10dp</dimen>
+    <dimen name="tts_bubble_overlay_button_width">20dp</dimen>
+    <dimen name="tts_bubble_overlay_button_padding">10dp</dimen>
+    <dimen name="tts_bubble_overlay_layout_width">500dp</dimen>
+    <dimen name="tts_bubble_overlay_layout_height">70dp</dimen>
+    <dimen name="tts_bubble_overlay_corner_radius">15dp</dimen>
+    <dimen name="tts_bubble_overlay_translation_z">4dp</dimen>
+    <dimen name="tts_bubble_overlay_window_bottom_offset">150dp</dimen>
+    <dimen name="tts_bubble_overlay_text_size">16sp</dimen>
+    <dimen name="tts_bubble_overlay_border_width">2dp</dimen>
+    <dimen name="tts_bubble_overlay_padding_top">2dp</dimen>
+    <dimen name="tts_bubble_overlay_padding_horizontal">10dp</dimen>
+    <dimen name="tts_bubble_overlay_text_margin_bottom">20dp</dimen>
+    <dimen name="tts_bubble_overlay_horizontal_margin">16dp</dimen>
+    <dimen name="tts_bubble_overlay_max_width">0dp</dimen>
+    <dimen name="tts_bubble_overlay_text_max_height">80dp</dimen>
+
     <dimen name="wearable_alert_dialog_padding_top">8dp</dimen>
     <dimen name="wearable_alert_dialog_padding_bottom">8dp</dimen>
     <dimen name="wearable_alert_dialog_padding_start">20dp</dimen>

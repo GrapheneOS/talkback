@@ -63,6 +63,10 @@ public class BrailleInputView extends View
 
   /** A callback for receiving signals from BrailleInputView. */
   public interface Callback {
+    /** Signals that invalid gesture has been produced. Returns true if the action is consumed. */
+    default boolean onInvalidGesture() {
+      return false;
+    }
 
     /**
      * Signals that {@link Swipe} input has been produced. Returns true if the action is consumed.
@@ -75,7 +79,7 @@ public class BrailleInputView extends View
      * consumed.
      */
     @CanIgnoreReturnValue
-    boolean onDotHoldAndDotSwipe(Swipe swipe, BrailleCharacter heldBrailleCharacter);
+    boolean onDotHoldAndDotSwipe(DotHoldSwipe dotHoldSwipe);
 
     /**
      * Allows the client to state which potential hold events it cares about. If the client returns
@@ -84,7 +88,10 @@ public class BrailleInputView extends View
      * up) the press.
      */
     @CanIgnoreReturnValue
-    boolean isCalibrationHoldRecognized(boolean inTwoStepCalibration, int pointersHeldCount);
+    default boolean isCalibrationHoldRecognized(
+        boolean inTwoStepCalibration, int pointersHeldCount) {
+      return false;
+    }
 
     /** Signals that hold has been produced. Returns true if the action is consumed. */
     @CanIgnoreReturnValue
@@ -96,17 +103,21 @@ public class BrailleInputView extends View
      * @return the client's notion of the latest update to the print text so that this View can
      *     render it (for low-vision users).
      */
-    String onBrailleProduced(BrailleCharacter brailleCharacter);
+    default String onBrailleProduced(BrailleCharacter brailleCharacter) {
+      return "";
+    }
 
     /** Signals that calibration has been produced. Returns true if the action is consumed. */
     @CanIgnoreReturnValue
-    boolean onCalibration(CalibrationTriggeredType type, FingersPattern hand);
+    default boolean onCalibration(CalibrationTriggeredType type, FingersPattern hand) {
+      return false;
+    }
 
     /** Signals that calibration has failed. */
-    void onCalibrationFailed(CalibrationTriggeredType calibration);
+    default void onCalibrationFailed(CalibrationTriggeredType calibration) {}
 
     /** Signals that two step calibration needs retry. */
-    void onTwoStepCalibrationRetry(boolean isFirstStep);
+    default void onTwoStepCalibrationRetry(boolean isFirstStep) {}
   }
 
   /** Indicates which finger pattern. */
@@ -140,7 +151,7 @@ public class BrailleInputView extends View
   private CaptionText captionText;
   private Size screenSizeInPixels;
   private int orientation;
-  private boolean isTableMode;
+  private boolean tabletopMode;
   private AutoPerformer autoPerformer;
   private BrailleInputOptions options;
   private boolean touchInteracting;
@@ -153,13 +164,19 @@ public class BrailleInputView extends View
    * need for it and we have a Callback that we need passed in during construction.
    */
   public BrailleInputView(
-      Context context, Callback callback, Size screenSizeInPixels, BrailleInputOptions options) {
+      Context context,
+      Callback callback,
+      Size screenSizeInPixels,
+      BrailleInputOptions options,
+      boolean tabletopMode) {
     super(context);
     this.callback = callback;
     this.screenSizeInPixels = screenSizeInPixels;
     this.orientation = getResources().getConfiguration().orientation;
     this.options = options;
     this.inputPlane = getInputPlane(context);
+    this.inputPlane.setTableTopMode(tabletopMode);
+    this.tabletopMode = tabletopMode;
     setBackgroundColor(getResources().getColor(R.color.input_plane_background));
     this.inputViewCaption = new InputViewCaption(context.getString(R.string.input_view_caption));
     addOnAttachStateChangeListener(this);
@@ -224,10 +241,10 @@ public class BrailleInputView extends View
   }
 
   /** Sets keyboard to table layout. */
-  public void setTableMode(boolean enabled) {
-    if (isTableMode != enabled) {
+  public void setTabletopMode(boolean enabled) {
+    if (tabletopMode != enabled) {
       inputPlane.setTableTopMode(enabled);
-      isTableMode = enabled;
+      tabletopMode = enabled;
       invalidate();
       requestLayout();
     }
@@ -266,6 +283,7 @@ public class BrailleInputView extends View
   public int getBrailleDotCount() {
     return options.brailleType().getDotCount();
   }
+
   /** Boolean value for whether a finger is currently touching the braille input view. */
   public boolean isTouchInteracting() {
     return touchInteracting;
@@ -339,18 +357,14 @@ public class BrailleInputView extends View
 
   private void updateTouchAction(MotionEvent event) {
     switch (event.getAction()) {
-      case MotionEvent.ACTION_DOWN:
-        touchInteracting = true;
-        break;
-      case MotionEvent.ACTION_UP:
-        touchInteracting = false;
-        break;
-      default: // fall out
+      case MotionEvent.ACTION_DOWN -> touchInteracting = true;
+      case MotionEvent.ACTION_UP -> touchInteracting = false;
+      default -> {}
     }
   }
 
   private boolean shouldPerformCalibrationAnimation(int type, int heldCount) {
-    if (type != BrailleInputPlaneResult.TYPE_CALIBRATION) {
+    if (type != MultitouchResult.TYPE_CALIBRATION_HOLD) {
       return false;
     }
     if (options.brailleType() == BrailleType.EIGHT_DOT) {
@@ -364,7 +378,9 @@ public class BrailleInputView extends View
 
   @CanIgnoreReturnValue
   private boolean processResult(BrailleInputPlaneResult result) {
-    if (result.type == MultitouchResult.TYPE_TAP) {
+    if (result.type == MultitouchResult.TYPE_INVALID) {
+      return callback.onInvalidGesture();
+    } else if (result.type == MultitouchResult.TYPE_TAP) {
       String newAddition = callback.onBrailleProduced(result.releasedBrailleCharacter);
       if (newAddition != null) {
         if (captionText != null) {
@@ -384,7 +400,7 @@ public class BrailleInputView extends View
         }
       }
       return processed;
-    } else if (result.type == BrailleInputPlaneResult.TYPE_CALIBRATION) {
+    } else if (result.type == MultitouchResult.TYPE_CALIBRATION_HOLD) {
       if (result.pointersHeldCount == 5) {
         calibrationType = CalibrationTriggeredType.FIVE_FINGERS;
         return callback.onCalibration(calibrationType, FingersPattern.FIVE_FINGERS);
@@ -412,10 +428,11 @@ public class BrailleInputView extends View
       } else {
         callback.onCalibrationFailed(calibrationType);
       }
-    } else if (result.type == BrailleInputPlaneResult.TYPE_HOLD) {
+    } else if (result.type == MultitouchResult.TYPE_HOLD) {
       return callback.onHoldProduced(result.pointersHeldCount);
-    } else if (result.type == BrailleInputPlaneResult.TYPE_HOLD_AND_SWIPE) {
-      return callback.onDotHoldAndDotSwipe(result.swipe, result.heldBrailleCharacter);
+    } else if (result.type == MultitouchResult.TYPE_HOLD_AND_SWIPE) {
+      return callback.onDotHoldAndDotSwipe(
+          new DotHoldSwipe(result.swipe, result.heldBrailleCharacter));
     }
     return false;
   }
@@ -440,8 +457,7 @@ public class BrailleInputView extends View
     // is restricted to 200dp, and is counted from the bottom edge upward.
     Rect boundingBox = new Rect();
     boundingBox.set(getLeft(), getTop(), getRight(), getBottom());
-    List<Rect> exclusions = ImmutableList.of(boundingBox);
-    ViewCompat.setSystemGestureExclusionRects(this, exclusions);
+    ViewCompat.setSystemGestureExclusionRects(this, ImmutableList.of(boundingBox));
   }
 
   /** Draws the print translation of the most recently inputted text (for low-vision users). */

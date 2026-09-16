@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -62,7 +62,7 @@ typedef struct {
   int inputTimeout;
   int outputTimeout;
   int requestTimeout;
-  unsigned char ignoreWriteTimeouts : 1;
+  unsigned char ignoreWriteTimeouts:1;
 } GioOptions;
 
 typedef struct {

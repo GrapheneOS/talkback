@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="true">
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/image_qna_chat_ui"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_above="@+id/chat_button_bar_typing"
+      android:paddingBottom="@dimen/image_caption_bottom_sheet_padding"/>
+
+  <LinearLayout
+      android:id="@+id/chat_button_bar_typing"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:orientation="vertical"
+      android:paddingStart="@dimen/image_caption_bottom_sheet_padding"
+      android:paddingEnd="@dimen/image_caption_bottom_sheet_padding"
+      android:paddingBottom="@dimen/image_caption_bottom_sheet_padding">
+
+    <LinearLayout
+        android:id="@+id/edit_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/speak_question"
+          style="@style/ImageQnaLeftIconButtonStyle"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:contentDescription="@string/image_qna_speak_question_description"
+          app:iconGravity="textStart"
+          app:iconSize="@dimen/bottom_sheet_icon_button_size"
+          app:icon="@drawable/ic_mic"
+          app:iconTint="@null" />
+
+      <EditText
+          android:id="@+id/question_edit_filed"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_weight="3"
+          android:inputType="text"
+          android:autofillHints="@string/image_qna_button_text"
+          android:hint="@string/image_qna_typing_button_text"
+          android:textSize="16sp"/>
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/send_button"
+          style="@style/ImageQnaRightIconButtonStyle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:contentDescription="@string/image_qna_send_button_text"
+          app:iconGravity="textStart"
+          app:iconSize="@dimen/bottom_sheet_icon_button_size"
+          app:icon="@drawable/ic_send"
+          app:iconTint="@null"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/ask_gemini_typing"
+          style="@style/ImageQnaLeftIconButtonStyle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="3"
+          android:text="@string/image_qna_typing_button_text"
+          android:textSize="16sp"
+          app:iconGravity="textStart"
+          app:iconPadding="8dp"
+          app:iconSize="@dimen/bottom_sheet_icon_button_size"
+          app:icon="@drawable/ic_keyboard"
+          app:iconTint="@null"/>
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/ask_gemini_voice_input"
+          style="@style/ImageQnaRightIconButtonStyle"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:contentDescription="@string/image_qna_button_text"
+          app:iconGravity="textStart"
+          app:iconSize="@dimen/bottom_sheet_icon_button_size"
+          app:icon="@drawable/ic_mic"
+          app:iconTint="@null"/>
+    </LinearLayout>
+  </LinearLayout>
+</RelativeLayout>

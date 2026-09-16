@@ -35,6 +35,7 @@
   <string name="symbol_period">마침표</string>
   <string name="symbol_pi">파이</string>
   <string name="symbol_pound">우물정</string>
+  <string name="symbol_hash">해시</string>
   <string name="symbol_pound_sterling">파운드 통화 기호</string>
   <string name="symbol_currency_peso">페소 기호</string>
   <string name="symbol_currency_dong">동 기호</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">닫는 대괄호</string>
   <string name="symbol_square_root">제곱근</string>
   <string name="symbol_trademark">상표 기호</string>
+  <string name="symbol_check_mark">체크표시</string>
   <string name="symbol_underscore">밑줄</string>
   <string name="symbol_vertical_bar">세로 막대</string>
   <string name="symbol_yen">엔</string>

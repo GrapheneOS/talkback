@@ -55,7 +55,6 @@ public abstract class DownloadDialog extends BaseDialog {
     super(context, resources.downloadTitleRes, /* pipeline= */ null);
     this.resources = resources;
     setPositiveButtonStringRes(R.string.confirm_download_positive_button_text);
-    setNegativeButtonStringRes(R.string.confirm_download_negative_button_text);
   }
 
   /** Checks if the "Do not show again" checkbox is checked. */
@@ -70,8 +69,7 @@ public abstract class DownloadDialog extends BaseDialog {
 
   @SuppressLint("InflateParams")
   @Override
-  public View getCustomizedView() {
-    LayoutInflater inflater = LayoutInflater.from(context);
+  public View getCustomizedView(LayoutInflater inflater) {
     final ScrollView root =
         (ScrollView) inflater.inflate(R.layout.confirm_download_dialog, /* root= */ null);
 
@@ -93,7 +91,7 @@ public abstract class DownloadDialog extends BaseDialog {
     switch (requester) {
       case MENU:
         {
-          message.setText(resources.downloadMessageForMenuRes);
+          message.setText(resources.downloadMessageRes);
           checkBox.setVisibility(View.VISIBLE);
           checkBox.setText(R.string.confirm_download_checkbox_text);
         }
@@ -105,7 +103,7 @@ public abstract class DownloadDialog extends BaseDialog {
         break;
       case SETTINGS: // fall-through
       default:
-        message.setText(resources.downloadMessageForSettingsRes);
+        message.setText(resources.downloadMessageRes);
     }
     return root;
   }

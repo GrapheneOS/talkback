@@ -81,7 +81,7 @@ public class TrainingIpcClient extends IpcClient {
     LogUtils.v(TAG, "handleMessageFromService(): %s", msg.what);
 
     switch (msg.what) {
-      case MSG_REQUEST_GESTURES:
+      case MSG_REQUEST_GESTURES -> {
         serviceData.actionKeyToGestureText.clear();
         Bundle data = msg.getData();
         data.keySet()
@@ -99,13 +99,13 @@ public class TrainingIpcClient extends IpcClient {
                   }
                   serviceData.actionKeyToGestureText.put(key, gesture);
                 });
-        break;
-      case MSG_SERVER_DESTROYED:
+      }
+      case MSG_SERVER_DESTROYED -> {
         if (ipcServerStateListener != null) {
           ipcServerStateListener.onIpcServerDestroyed();
         }
-        break;
-      case MSG_REQUEST_AVAILABLE_FEATURES:
+      }
+      case MSG_REQUEST_AVAILABLE_FEATURES -> {
         {
           Bundle bundle = msg.getData();
           serviceData.isIconDetectionUnavailable =
@@ -113,8 +113,8 @@ public class TrainingIpcClient extends IpcClient {
           serviceData.isImageDescriptionUnavailable =
               bundle.getBoolean(EXTRA_IS_IMAGE_DESCRIPTION_UNAVAILABLE);
         }
-        break;
-      default: // fall out
+      }
+      default -> {}
     }
   }
 
@@ -132,6 +132,7 @@ public class TrainingIpcClient extends IpcClient {
     private final boolean showExitBanner;
     private boolean isIconDetectionUnavailable = false;
     private boolean isImageDescriptionUnavailable = false;
+    private boolean hasAiCore = false;
 
     public ServiceData(Context context, boolean showExitBanner) {
       this.context = context;
@@ -174,6 +175,11 @@ public class TrainingIpcClient extends IpcClient {
     /** Checks whether the image description is unavailable. */
     public boolean isImageDescriptionUnavailable() {
       return isImageDescriptionUnavailable;
+    }
+
+    /** Checks whether the AI core existed in this device. */
+    public boolean hasAiCore() {
+      return hasAiCore;
     }
   }
 }

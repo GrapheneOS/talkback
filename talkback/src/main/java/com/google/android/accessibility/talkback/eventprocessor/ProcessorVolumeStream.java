@@ -16,7 +16,6 @@
 
 package com.google.android.accessibility.talkback.eventprocessor;
 
-
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Message;
@@ -140,13 +139,9 @@ public class ProcessorVolumeStream
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event, EventId eventId) {
     switch (event.getEventType()) {
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START:
-        isTouchInteracting = true;
-        break;
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END:
-        isTouchInteracting = false;
-        break;
-      default: // fall out
+      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START -> isTouchInteracting = true;
+      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END -> isTouchInteracting = false;
+      default -> {}
     }
   }
 
@@ -188,7 +183,9 @@ public class ProcessorVolumeStream
       if (mostRecentAdjustmentJustHappened
               && (mostRecentVolumeKeyAdjustment.stream == STREAM_TALKBACK_AUDIO)
           || (!mostRecentAdjustmentJustHappened
-              && actorState.getSpeechState().isSpeakingOrQueuedAndNotSourceIsVolumeAnnouncment())) {
+              && actorState
+                  .getSpeechState()
+                  .isSpeakingOrQueuedAndNotSourceIsVolumeAnnouncement())) {
         shouldRouteToAccessibilityStream = true;
         mostRecentVolumeKeyAdjustment.stream = STREAM_TALKBACK_AUDIO;
       } else {
@@ -221,13 +218,10 @@ public class ProcessorVolumeStream
 
   public void onPatternMatchedInternal(int patternCode, int buttonCombination, EventId eventId) {
     switch (patternCode) {
-      case VolumeButtonPatternDetector.SHORT_PRESS_PATTERN:
-        handleSingleShortTap(buttonCombination);
-        break;
-      case VolumeButtonPatternDetector.LONG_PRESS_PATTERN:
-        handleSingleLongTap(buttonCombination);
-        break;
-      default: // fall out
+      case VolumeButtonPatternDetector.SHORT_PRESS_PATTERN ->
+          handleSingleShortTap(buttonCombination);
+      case VolumeButtonPatternDetector.LONG_PRESS_PATTERN -> handleSingleLongTap(buttonCombination);
+      default -> {}
     }
   }
 

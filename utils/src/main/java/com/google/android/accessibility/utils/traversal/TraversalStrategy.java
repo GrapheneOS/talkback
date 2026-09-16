@@ -38,11 +38,6 @@ public interface TraversalStrategy {
   public static final int SEARCH_FOCUS_UP = 5;
   public static final int SEARCH_FOCUS_DOWN = 6;
 
-  /** Spatial direction to search for an item to focus. */
-  @IntDef({SEARCH_FOCUS_LEFT, SEARCH_FOCUS_RIGHT, SEARCH_FOCUS_UP, SEARCH_FOCUS_DOWN})
-  @Retention(RetentionPolicy.SOURCE)
-  public @interface SpatialSearchDirection {}
-
   /** Direction to search for an item to focus. */
   @IntDef({
     SEARCH_FOCUS_FORWARD,
@@ -69,22 +64,15 @@ public interface TraversalStrategy {
   public @interface SearchDirectionOrUnknown {}
 
   static String getSymbolicName(@SearchDirection int direction) {
-    switch (direction) {
-      case SEARCH_FOCUS_FORWARD:
-        return "SEARCH_FOCUS_FORWARD";
-      case SEARCH_FOCUS_BACKWARD:
-        return "SEARCH_FOCUS_BACKWARD";
-      case SEARCH_FOCUS_LEFT:
-        return "SEARCH_FOCUS_LEFT";
-      case SEARCH_FOCUS_RIGHT:
-        return "SEARCH_FOCUS_RIGHT";
-      case SEARCH_FOCUS_UP:
-        return "SEARCH_FOCUS_UP";
-      case SEARCH_FOCUS_DOWN:
-        return "SEARCH_FOCUS_DOWN";
-      default:
-        return String.format(Locale.ENGLISH, "unavailable direction: %d", direction);
-    }
+    return switch (direction) {
+      case SEARCH_FOCUS_FORWARD -> "SEARCH_FOCUS_FORWARD";
+      case SEARCH_FOCUS_BACKWARD -> "SEARCH_FOCUS_BACKWARD";
+      case SEARCH_FOCUS_LEFT -> "SEARCH_FOCUS_LEFT";
+      case SEARCH_FOCUS_RIGHT -> "SEARCH_FOCUS_RIGHT";
+      case SEARCH_FOCUS_UP -> "SEARCH_FOCUS_UP";
+      case SEARCH_FOCUS_DOWN -> "SEARCH_FOCUS_DOWN";
+      default -> String.format(Locale.ENGLISH, "unavailable direction: %d", direction);
+    };
   }
 
   /**

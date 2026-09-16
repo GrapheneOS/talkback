@@ -19,8 +19,11 @@ package com.google.android.accessibility.braille.common.translate;
 import static java.lang.Character.PRIVATE_USE;
 
 import android.content.res.Resources;
+import android.text.TextUtils;
 import com.google.android.accessibility.braille.common.R;
 import com.google.android.accessibility.braille.interfaces.BrailleCharacter;
+import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 /** Utils for translation of Braille. */
 public class BrailleTranslateUtils {
@@ -40,6 +43,32 @@ public class BrailleTranslateUtils {
     String dotsString = insertSpacesInto(brailleCharacter.toString());
     return resources.getQuantityString(
         R.plurals.braille_dots, brailleCharacter.getOnCount(), dotsString);
+  }
+
+  /**
+   * Returns a String representation of {@link BrailleCharacter} with human understanding the
+   * sentence. Example: "⠏" -> "dots 1, 2, 3 and 4".
+   */
+  public static String getDotsDescription(Resources resources, BrailleCharacter brailleCharacter) {
+    String dotsString =
+        changeToSentence(
+            resources, ImmutableList.copyOf(brailleCharacter.toLocaleString().split("")));
+    return resources.getQuantityString(
+        R.plurals.braille_dots, brailleCharacter.getOnCount(), dotsString);
+  }
+
+  /** Compose words to a sentence. Example: "abcd" -> "a, b, c and d". */
+  public static String changeToSentence(Resources resources, List<String> words) {
+    if (!words.isEmpty()) {
+      StringBuilder sentence = new StringBuilder();
+      sentence.append(words.get(0));
+      for (int i = 1; i < words.size(); i++) {
+        sentence.append(resources.getString(R.string.split_comma, words.get(i)));
+      }
+      return sentence.toString();
+    } else {
+      return TextUtils.join("", words);
+    }
   }
 
   /** Inserts space between characters. Example: "abc" -> "a b c". */

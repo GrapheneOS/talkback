@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.brailledisplay.platform.connect.usb;
 
 import static android.content.Context.BATTERY_SERVICE;
@@ -6,6 +22,7 @@ import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.BatteryManager;
@@ -13,7 +30,10 @@ import android.view.WindowManager;
 import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.braille.brailledisplay.BrailleDisplayLog;
 import com.google.android.accessibility.braille.brailledisplay.R;
+import com.google.android.accessibility.braille.brailledisplay.platform.ConnectStage;
 import com.google.android.accessibility.braille.brailledisplay.platform.connect.ConnectManager;
+import com.google.android.accessibility.braille.brailledisplay.platform.connect.Connector;
+import com.google.android.accessibility.braille.brailledisplay.platform.connect.D2dConnection;
 import com.google.android.accessibility.braille.brailledisplay.platform.connect.device.ConnectableDevice;
 import com.google.android.accessibility.braille.brailledisplay.platform.connect.device.ConnectableUsbDevice;
 import com.google.android.accessibility.braille.brailledisplay.platform.lib.BatteryChangeReceiver;
@@ -22,11 +42,12 @@ import com.google.android.accessibility.braille.brailledisplay.settings.BrailleD
 import com.google.android.accessibility.braille.common.BraillePreferenceUtils;
 import com.google.android.accessibility.braille.common.BrailleStringUtils;
 import com.google.android.accessibility.braille.common.BrailleUserPreferences;
+import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.material.MaterialComponentUtils;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /** Handles usb connection. */
@@ -37,19 +58,43 @@ public class UsbConnectManager extends ConnectManager {
   private final UsbPermissionReceiver usbPermissionReceiver;
   private final BatteryChangeReceiver batteryChangeReceiver;
   private final ScreenUnlockReceiver screenUnlockReceiver;
-  private final Callback callback;
+  private final ConnectManager.Callback connectManagerCallback;
   private final UsbManager usbManager;
   private final Context context;
   private final BatteryManager batteryManager;
-  private final AtomicBoolean askingPermission = new AtomicBoolean();
-  private UsbConnection deviceConnection;
+  private final AtomicReference<ConnectableDevice> askingPermission = new AtomicReference<>();
+  private Connector usbConnector;
+  private D2dConnection deviceConnection;
   private int batteryVolumePercentage = INVALID_BATTERY_PERCENTAGE;
   private Dialog usbConnectDialog;
   private Dialog batteryLowDialog;
+  private final Connector.Callback hidConnectorCallback =
+      new Connector.Callback() {
+        @Override
+        public void onConnectSuccess(D2dConnection connection) {
+          deviceConnection = connection;
+          connectManagerCallback.onConnectStarted(/* initial= */ false, ConnectStage.BRLTTY);
+          connectManagerCallback.onConnected(ConnectStage.HID, connection);
+        }
 
-  public UsbConnectManager(Context context, Callback callback) {
+        @Override
+        public void onDisconnected() {
+          disconnect();
+        }
+
+        @Override
+        public void onConnectFailure(ConnectableDevice device, Exception exception) {
+          BrailleDisplayLog.d(TAG, "usb onConnectFailure: " + exception.getMessage());
+          disconnect();
+          connectManagerCallback.onConnectStarted(/* initial= */ false, ConnectStage.BRLTTY);
+          deviceConnection = new UsbConnection(device);
+          connectManagerCallback.onConnected(ConnectStage.HID, deviceConnection);
+        }
+      };
+
+  public UsbConnectManager(Context context, ConnectManager.Callback callback) {
     this.context = context;
-    this.callback = callback;
+    this.connectManagerCallback = callback;
     batteryManager = (BatteryManager) context.getSystemService(BATTERY_SERVICE);
     usbPermissionReceiver =
         new UsbPermissionReceiver(
@@ -57,23 +102,30 @@ public class UsbConnectManager extends ConnectManager {
             new UsbPermissionReceiver.Callback() {
               @Override
               public void onPermissionGranted(UsbDevice device) {
-                BrailleDisplayLog.i(TAG, device.getDeviceName() + " usb permission granted.");
-                deviceConnection =
-                    new UsbConnection(ConnectableUsbDevice.builder().setUsbDevice(device).build());
-                callback.onConnected(deviceConnection);
-                if (isBatteryLow()) {
-                  showBatteryLowDialog();
-                } else {
-                  showConnectViaUsbDialog();
+                BrailleDisplayLog.i(
+                    TAG,
+                    device.getDeviceName()
+                        + ": "
+                        + device.getDeviceId()
+                        + " usb permission granted.");
+                if (isConnecting(String.valueOf(device.getDeviceId()))) {
+                  internalConnect(device);
+                  askingPermission.set(null);
                 }
-                askingPermission.set(false);
               }
 
               @Override
               public void onPermissionDenied(UsbDevice device) {
-                BrailleDisplayLog.i(TAG, device.getDeviceName() + " usb permission denied.");
-                callback.onDenied(ConnectableUsbDevice.builder().setUsbDevice(device).build());
-                askingPermission.set(false);
+                BrailleDisplayLog.i(
+                    TAG,
+                    device.getDeviceName()
+                        + ": "
+                        + device.getDeviceId()
+                        + " usb permission denied.");
+                if (isConnecting(String.valueOf(device.getDeviceId()))) {
+                  callback.onDenied(ConnectableUsbDevice.builder().setUsbDevice(device).build());
+                  askingPermission.set(null);
+                }
               }
             });
     batteryChangeReceiver =
@@ -109,7 +161,7 @@ public class UsbConnectManager extends ConnectManager {
 
   @Override
   public void onStart() {
-    callback.onDeviceListCleared();
+    connectManagerCallback.onDeviceListCleared();
     usbPermissionReceiver.registerSelf();
     batteryChangeReceiver.registerSelf();
     screenUnlockReceiver.registerSelf();
@@ -127,40 +179,58 @@ public class UsbConnectManager extends ConnectManager {
   @Override
   public void startSearch(Reason reason) {
     for (ConnectableDevice device : getBondedDevices()) {
-      callback.onDeviceSeen(device);
+      connectManagerCallback.onDeviceSeenOrUpdated(device);
     }
   }
 
   @Override
   public void stopSearch(Reason reason) {}
 
+  /**
+   * Establishes a connection to the specified device.
+   *
+   * <p>If the connector is currently connected/connecting to another device, this method will first
+   * disconnect it before establishing a new connection to the provided device.
+   *
+   * @param device The device to connect to.
+   */
   @Override
   public void connect(ConnectableDevice device) {
+    BrailleDisplayLog.i(TAG, "connect");
     UsbDevice usbDevice = ((ConnectableUsbDevice) device).usbDevice();
+    if (isConnectingOrConnected(device.address())) {
+      return;
+    }
+    // Disconnect the device that is not currently connected or connecting.
+    disconnect();
     if (usbManager.hasPermission(usbDevice)) {
-      deviceConnection = new UsbConnection(device);
-      callback.onConnected(deviceConnection);
-      if (isBatteryLow()) {
-        showBatteryLowDialog();
-      } else {
-        showConnectViaUsbDialog();
-      }
+      internalConnect(usbDevice);
     } else {
       usbManager.requestPermission(usbDevice, usbPermissionReceiver.createPendingIntent(usbDevice));
-      askingPermission.set(true);
+      askingPermission.set(device);
     }
   }
 
   @Override
   public void disconnect() {
     BrailleDisplayLog.i(TAG, "disconnect: " + (deviceConnection != null));
+    if (usbConnector != null) {
+      usbConnector.disconnect();
+      usbConnector = null;
+    }
     if (deviceConnection != null) {
       deviceConnection.shutdown();
       deviceConnection = null;
-      callback.onDisconnected();
+      connectManagerCallback.onDisconnected();
     }
+    askingPermission.set(null);
     dismissAllDialogs();
     batteryVolumePercentage = INVALID_BATTERY_PERCENTAGE;
+  }
+
+  @Override
+  public void forget(ConnectableDevice device) {
+    // Do nothing.
   }
 
   @Override
@@ -172,7 +242,7 @@ public class UsbConnectManager extends ConnectManager {
 
   @Override
   public boolean isConnecting() {
-    return askingPermission.get();
+    return askingPermission.get() != null || (usbConnector != null && deviceConnection == null);
   }
 
   @Override
@@ -198,13 +268,53 @@ public class UsbConnectManager extends ConnectManager {
   }
 
   @Override
-  public Optional<ConnectableDevice> getCurrentlyConnectingDevice() {
-    return Optional.empty();
+  public Optional<ConnectableDevice> getConnectingOrConnectedDevice() {
+    if (askingPermission.get() != null) {
+      return Optional.of(askingPermission.get());
+    }
+    if (usbConnector != null) {
+      return Optional.of(usbConnector.getDevice());
+    }
+    return Optional.ofNullable(deviceConnection).map(D2dConnection::getDevice);
   }
 
   @Override
-  public Optional<ConnectableDevice> getCurrentlyConnectedDevice() {
-    return Optional.ofNullable(deviceConnection).map(UsbConnection::getDevice);
+  public boolean isHidDevice(ConnectableDevice device) {
+    UsbDevice usbDevice = ((ConnectableUsbDevice) device).usbDevice();
+    if (device != null) {
+      for (int interfaceIndex = 0;
+          interfaceIndex < usbDevice.getInterfaceCount();
+          interfaceIndex++) {
+        if (usbDevice.getInterface(interfaceIndex).getInterfaceClass()
+            == UsbConstants.USB_CLASS_HID) {
+          return true;
+        }
+      }
+      BrailleDisplayLog.w(TAG, "HID interface not found.");
+    }
+    return false;
+  }
+
+  private void internalConnect(UsbDevice device) {
+    ConnectableDevice connectableDevice =
+        ConnectableUsbDevice.builder().setUsbDevice(device).build();
+    if (BuildVersionUtils.isAtLeastV() && useHid(context, connectableDevice)) {
+      BrailleDisplayLog.i(TAG, "Braille HID is supported.");
+      connectManagerCallback.onConnectStarted(/* initial= */ true, ConnectStage.HID);
+      usbConnector =
+          new UsbHidConnector(
+              context, connectableDevice, hidConnectorCallback, getBrailleDisplayController());
+      usbConnector.connect();
+    } else {
+      deviceConnection = new UsbConnection(connectableDevice);
+      connectManagerCallback.onConnected(ConnectStage.SERIAL, deviceConnection);
+      connectManagerCallback.onConnectStarted(/* initial= */ true, ConnectStage.BRLTTY);
+    }
+    if (isBatteryLow()) {
+      showBatteryLowDialog();
+    } else {
+      showConnectViaUsbDialog();
+    }
   }
 
   private void dismissAllDialogs() {
@@ -226,12 +336,13 @@ public class UsbConnectManager extends ConnectManager {
       return;
     }
     usbConnectDialog =
-        BraillePreferenceUtils.createTipAlertDialog(
+        BraillePreferenceUtils.createDontShowAgainDialog(
             getAccessibilityServiceContextProvider().getAccessibilityServiceContext(),
             context.getString(R.string.bd_usb_connect_dialog_title),
             context.getString(
                 R.string.bd_usb_connect_dialog_message, context.getString(R.string.bd_device)),
-            BrailleUserPreferences::writeShowUsbConnectDialog);
+            (context, checked) ->
+                BrailleUserPreferences.writeShowUsbConnectDialog(context, !checked));
     usbConnectDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
     usbConnectDialog.show();
   }

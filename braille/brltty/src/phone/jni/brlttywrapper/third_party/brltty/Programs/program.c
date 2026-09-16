@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -35,11 +35,6 @@
 #include "file.h"
 #include "parse.h"
 #include "system.h"
-
-const char standardStreamArgument[] = "-";
-const char standardInputName[] = "<standard-input>";
-const char standardOutputName[] = "<standard-output>";
-const char standardErrorName[] = "<standard-error>";
 
 const char *programPath;
 const char *programName;
@@ -137,71 +132,6 @@ beginProgram (int argumentCount, char **argumentVector) {
 
   programName = locatePathName(programPath);
   pushLogPrefix(programName);
-}
-
-const char *
-getProgramDirectory (void) {
-  static const char *programDirectory = NULL;
-
-  if (!programDirectory) {
-    if ((programDirectory = getPathDirectory(programPath))) {
-      logMessage(LOG_DEBUG, "program directory: %s", programDirectory);
-      registerProgramMemory("program-directory", &programDirectory);
-    } else {
-      logMessage(LOG_WARNING, gettext("cannot determine program directory"));
-      programDirectory = "";
-    }
-  }
-
-  if (!*programDirectory) return NULL;
-  return programDirectory;
-}
-
-int
-fixInstallPath (char **path) {
-  const char *programDirectory = getProgramDirectory();
-  if (!programDirectory) programDirectory = CURRENT_DIRECTORY_NAME;
-
-  const char *problem = strtext("cannot fix install path");
-  char *newPath = makePath(programDirectory, *path);
-
-  if (newPath) {
-    if (changeStringSetting(path, newPath)) {
-      if (isAbsolutePath(*path)) {
-        problem = NULL;
-      } else {
-        problem = strtext("install path not absolute");
-      }
-    }
-
-    free(newPath);
-  }
-
-  if (!problem) return 1;
-  logMessage(LOG_WARNING, "%s: %s", gettext(problem), *path);
-  return 0;
-}
-
-char *
-makeProgramPath (const char *name) {
-   const char *directory = getProgramDirectory();
-   if (!directory) return NULL;
-   return makePath(directory, name);
-}
-
-char *
-makeCommandPath (const char *name) {
-  char *path = NULL;
-  char *directory = NULL;
-
-  if (changeStringSetting(&directory, COMMANDS_DIRECTORY)) {
-    if (fixInstallPath(&directory)) {
-      path = makePath(directory, name);
-    }
-  }
-
-  if (directory) free(directory);
-  return path;
 }
 
 int

@@ -238,17 +238,11 @@ class TutorialAnimationView extends FrameLayout implements OrientationSensitive 
 
     private void updatePaint(int fingerCount, Size canvasSize, Direction swipeDirection) {
       this.direction = swipeDirection;
-      float canvasLength = 0;
-      switch (swipeDirection) {
-        case TOP_TO_BOTTOM:
-        case BOTTOM_TO_TOP:
-          canvasLength = canvasSize.getHeight() * SCALE_FACTOR;
-          break;
-        case LEFT_TO_RIGHT:
-        case RIGHT_TO_LEFT:
-          canvasLength = canvasSize.getWidth() * SCALE_FACTOR;
-          break;
-      }
+      float canvasLength =
+          switch (swipeDirection) {
+            case TOP_TO_BOTTOM, BOTTOM_TO_TOP -> canvasSize.getHeight() * SCALE_FACTOR;
+            case LEFT_TO_RIGHT, RIGHT_TO_LEFT -> canvasSize.getWidth() * SCALE_FACTOR;
+          };
       updateGesturesCoordinates(fingerCount, (int) canvasLength, canvasSize, swipeDirection);
       Rect gradientVariation = determineGradientVariation((int) canvasLength, swipeDirection);
       Shader shader =
@@ -286,22 +280,22 @@ class TutorialAnimationView extends FrameLayout implements OrientationSensitive 
         int x = 0;
         int y = 0;
         switch (swipeDirection) {
-          case TOP_TO_BOTTOM:
+          case TOP_TO_BOTTOM -> {
             x = canvasSize.getWidth() / 2 - distanceToStartPoint + i * gestureInterval;
             y = (canvasSize.getHeight() - canvasLength) / 2;
-            break;
-          case BOTTOM_TO_TOP:
+          }
+          case BOTTOM_TO_TOP -> {
             x = canvasSize.getWidth() / 2 - distanceToStartPoint + i * gestureInterval;
             y = (canvasSize.getHeight() - canvasLength) / 2 + canvasLength;
-            break;
-          case LEFT_TO_RIGHT:
+          }
+          case LEFT_TO_RIGHT -> {
             x = (canvasSize.getWidth() - canvasLength) / 2;
             y = canvasSize.getHeight() / 2 - distanceToStartPoint + i * gestureInterval;
-            break;
-          case RIGHT_TO_LEFT:
+          }
+          case RIGHT_TO_LEFT -> {
             x = (canvasSize.getWidth() - canvasLength) / 2 + canvasLength;
             y = canvasSize.getHeight() / 2 - distanceToStartPoint + i * gestureInterval;
-            break;
+          }
         }
         gesturesCircleCoordinates.add(new Point(x, y));
       }
@@ -312,24 +306,24 @@ class TutorialAnimationView extends FrameLayout implements OrientationSensitive 
       gradientVariation.left = gesturesCircleCoordinates.get(0).x - dotRadiusInPixels;
       gradientVariation.top = gesturesCircleCoordinates.get(0).y - dotRadiusInPixels;
       switch (swipeDirection) {
-        case TOP_TO_BOTTOM:
+        case TOP_TO_BOTTOM -> {
           gradientVariation.right = gradientVariation.left;
           gradientVariation.bottom = gradientVariation.top + canvasLength;
-          break;
-        case BOTTOM_TO_TOP:
+        }
+        case BOTTOM_TO_TOP -> {
           gradientVariation.right = gradientVariation.left;
           gradientVariation.top = gesturesCircleCoordinates.get(0).y + dotRadiusInPixels;
           gradientVariation.bottom = gradientVariation.top - canvasLength;
-          break;
-        case LEFT_TO_RIGHT:
+        }
+        case LEFT_TO_RIGHT -> {
           gradientVariation.right = gradientVariation.left + canvasLength;
           gradientVariation.bottom = gradientVariation.top;
-          break;
-        case RIGHT_TO_LEFT:
+        }
+        case RIGHT_TO_LEFT -> {
           gradientVariation.left = gesturesCircleCoordinates.get(0).x + dotRadiusInPixels;
           gradientVariation.right = gradientVariation.left - canvasLength;
           gradientVariation.bottom = gradientVariation.top;
-          break;
+        }
       }
       return gradientVariation;
     }
@@ -339,7 +333,7 @@ class TutorialAnimationView extends FrameLayout implements OrientationSensitive 
       float range = (float) animator.getAnimatedValue();
       for (Point point : gesturesCircleCoordinates) {
         switch (direction) {
-          case TOP_TO_BOTTOM:
+          case TOP_TO_BOTTOM -> {
             canvas.drawRoundRect(
                 point.x - dotRadiusInPixels,
                 point.y - dotRadiusInPixels,
@@ -349,8 +343,8 @@ class TutorialAnimationView extends FrameLayout implements OrientationSensitive 
                 dotRadiusInPixels,
                 roundRectPaint);
             canvas.drawCircle(point.x, point.y + range, dotRadiusInPixels, circlePaint);
-            break;
-          case BOTTOM_TO_TOP:
+          }
+          case BOTTOM_TO_TOP -> {
             canvas.drawRoundRect(
                 point.x - dotRadiusInPixels,
                 point.y + dotRadiusInPixels,
@@ -360,8 +354,8 @@ class TutorialAnimationView extends FrameLayout implements OrientationSensitive 
                 dotRadiusInPixels,
                 roundRectPaint);
             canvas.drawCircle(point.x, point.y - range, dotRadiusInPixels, circlePaint);
-            break;
-          case LEFT_TO_RIGHT:
+          }
+          case LEFT_TO_RIGHT -> {
             canvas.drawRoundRect(
                 point.x - dotRadiusInPixels,
                 point.y - dotRadiusInPixels,
@@ -371,8 +365,8 @@ class TutorialAnimationView extends FrameLayout implements OrientationSensitive 
                 dotRadiusInPixels,
                 roundRectPaint);
             canvas.drawCircle(point.x + range, point.y, dotRadiusInPixels, circlePaint);
-            break;
-          case RIGHT_TO_LEFT:
+          }
+          case RIGHT_TO_LEFT -> {
             canvas.drawRoundRect(
                 point.x + dotRadiusInPixels,
                 point.y - dotRadiusInPixels,
@@ -382,7 +376,7 @@ class TutorialAnimationView extends FrameLayout implements OrientationSensitive 
                 dotRadiusInPixels,
                 roundRectPaint);
             canvas.drawCircle(point.x - range, point.y, dotRadiusInPixels, circlePaint);
-            break;
+          }
         }
       }
     }

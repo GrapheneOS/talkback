@@ -22,8 +22,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.compositor.AccessibilityEventFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
-import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.Role;
 
 /** Role description for {@link Role.ROLE_PAGER}. */
@@ -56,12 +55,7 @@ public final class PagerPageDescription implements RoleDescription {
       Context context,
       GlobalVariables globalVariables) {
     CharSequence pagerPageState =
-        AccessibilityNodeFeedbackUtils.getNodeStateDescription(
-            node,
-            context,
-            (globalVariables.getUserPreferredLocale() == null)
-                ? AccessibilityNodeInfoUtils.getLocalesByNode(node)
-                : globalVariables.getUserPreferredLocale());
+        AccessibilityNodeFeedbackUtils.getNodeStateDescription(node, context, globalVariables);
     if (TextUtils.isEmpty(pagerPageState)) {
       return AccessibilityEventFeedbackUtils.getPagerIndexCount(event, context, globalVariables);
     }

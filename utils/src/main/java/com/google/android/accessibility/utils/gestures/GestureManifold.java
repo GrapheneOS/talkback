@@ -28,8 +28,11 @@ import android.content.Context;
 import android.os.Build;
 import android.view.MotionEvent;
 import androidx.annotation.RequiresApi;
+import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.gestures.GestureMatcher.AnalyticsEventLogger;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,16 +44,21 @@ import java.util.List;
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 public class GestureManifold implements GestureMatcher.StateChangeListener {
   public static final int GESTURE_FAKED_SPLIT_TYPING = -3;
-  public static final boolean ENABLE_MULTIPLE_GESTURE_SETS = false;
   public static final int GESTURE_TAP_HOLD_AND_2ND_FINGER_FORWARD_DOUBLE_TAP = -4;
   public static final int GESTURE_TAP_HOLD_AND_2ND_FINGER_BACKWARD_DOUBLE_TAP = -5;
+  public static final int GESTURE_TOUCH_EXPLORE = -6;
+  public static final int GESTURE_TAP_UP_TOUCH_EXPLORE = -7;
+  public static final int GESTURE_FAKED_SPLIT_TYPING_AND_HOLD = -8;
+
+  // Match the value of GESTURE_ID_2FINGER_1TAP_HOLD in TalkBack.
+  public static final int GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD = 63;
 
   private static final String LOG_TAG = "GestureManifold";
 
   private final List<GestureMatcher> gestures = new ArrayList<>();
   private final int displayId;
   // Listener to be notified of gesture start and end.
-  private Listener listener;
+  private final Listener listener;
   // Whether multi-finger gestures are enabled.
   boolean multiFingerGesturesEnabled;
   // Whether the two-finger passthrough is enabled when multi-finger gestures are enabled.
@@ -60,9 +68,38 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
   // A list of two-finger swipes, for easy adding and removal when turning on or off two-finger
   // passthrough.
   private final List<GestureMatcher> twoFingerSwipes = new ArrayList<>();
+  private boolean logMotionEvent = false;
+
+  /** Define the interface to get project base feature settings. */
+  public interface GestureConfigProvider {
+    default float getDoubleTapSlopMultiplier() {
+      return (float) 1.0;
+    }
+
+    default boolean getSpeedUpTouchExploreState() {
+      return false;
+    }
+
+    default boolean invalidSwipeGestureEarlyDetection() {
+      return false;
+    }
+
+    default boolean useMultipleGestureSet() {
+      return false;
+    }
+
+    default boolean enableSplitTapAndHold() {
+      return false;
+    }
+  }
 
   public GestureManifold(
-      Context context, Listener listener, int displayId, ImmutableList<String> supportGestureList) {
+      Context context,
+      Listener listener,
+      GestureConfigProvider configResolver,
+      AnalyticsEventLogger logger,
+      int displayId,
+      ImmutableList<String> supportGestureList) {
     this.listener = listener;
     this.displayId = displayId;
     multiFingerGesturesEnabled = false;
@@ -70,7 +107,8 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
 
     // Set up gestures.
     List<GestureMatcher> gestureMatcherList =
-        GestureMatcherFactory.getGestureMatcherList(context, supportGestureList, this);
+        GestureMatcherFactory.getGestureMatcherList(
+            context, supportGestureList, this, configResolver, logger);
 
     for (GestureMatcher gestureMatcher : gestureMatcherList) {
       if (gestureMatcher != null) {
@@ -91,21 +129,36 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
         }
       }
     }
-    if (ENABLE_MULTIPLE_GESTURE_SETS) {
+    if (configResolver.useMultipleGestureSet()) {
       gestures.add(
           new TwoFingerSecondFingerMultiTap(
               context,
               2,
               ROTATE_DIRECTION_FORWARD,
               GESTURE_TAP_HOLD_AND_2ND_FINGER_FORWARD_DOUBLE_TAP,
-              this));
+              this,
+              logger));
       gestures.add(
           new TwoFingerSecondFingerMultiTap(
               context,
               2,
               ROTATE_DIRECTION_BACKWARD,
               GESTURE_TAP_HOLD_AND_2ND_FINGER_BACKWARD_DOUBLE_TAP,
-              this));
+              this,
+              logger));
+    }
+  }
+
+  public void onConfigurationChanged(Context context) {
+    for (GestureMatcher gestureDetector : gestures) {
+      gestureDetector.onConfigurationChanged(context);
+    }
+  }
+
+  public void enableLogMotionEvent() {
+    logMotionEvent = true;
+    for (GestureMatcher gestureDetector : gestures) {
+      gestureDetector.enableLogMotionEvent();
     }
   }
 
@@ -116,12 +169,18 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
    * @return True if the event has been appropriately handled by the gesture manifold and related
    *     callback functions, false if it should be handled further by the calling function.
    */
-  public boolean onMotionEvent(MotionEvent event) {
+  @CanIgnoreReturnValue
+  public boolean onMotionEvent(EventId eventId, MotionEvent event) {
     for (GestureMatcher matcher : gestures) {
       if (matcher.getState() != GestureMatcher.STATE_GESTURE_CANCELED) {
-        LogUtils.v(LOG_TAG, matcher.toString());
-        matcher.onMotionEvent(event);
-        LogUtils.v(LOG_TAG, matcher.toString());
+        if (logMotionEvent) {
+          LogUtils.v(LOG_TAG, matcher.toString());
+        }
+        matcher.onMotionEvent(eventId, event);
+        if (logMotionEvent) {
+          LogUtils.v(LOG_TAG, matcher.toString());
+        }
+
         if (matcher.getState() == GestureMatcher.STATE_GESTURE_COMPLETED) {
           // Here we just return. The actual gesture dispatch is done in
           // onStateChanged().
@@ -166,6 +225,15 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
      * @param gestureId the gesture which is fail to match.
      */
     void onGestureCancelled(int gestureId);
+
+    /**
+     * Called when the gesture is processing and should be avoided to be interrupted. It's mainly be
+     * used to extend the multi-tap timeout even the user sets the touch focus delay with a shorter
+     * time.
+     *
+     * @param gestureId the gesture which is fail to match.
+     */
+    default void onGestureProcessing(int gestureId) {}
   }
 
   @Override
@@ -176,15 +244,39 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
       onGestureCompleted(gestureId, event);
     } else if (state == GestureMatcher.STATE_GESTURE_CANCELED) {
       listener.onGestureCancelled(gestureId);
+    } else if (state == GestureMatcher.STATE_GESTURE_PROCESSING) {
+      listener.onGestureProcessing(gestureId);
     }
   }
 
+  /**
+   * Called when the gesture detector has successfully identified the gesture by a series of
+   * MotionEvent.
+   *
+   * @param gestureId the gesture which is fail to match.
+   * @param event the last MotionEvent to match the identified gesture.
+   */
   private void onGestureCompleted(int gestureId, MotionEvent event) {
     // Note that gestures that complete immediately call clear() from onMotionEvent.
     // Gestures that complete on a delay call clear() here.
+    ArrayList<MotionEvent> eventList = new ArrayList<>();
+    eventList.add(event);
     AccessibilityGestureEvent gestureEvent =
-        new AccessibilityGestureEvent(gestureId, displayId, new ArrayList<MotionEvent>());
+        new AccessibilityGestureEvent(gestureId, displayId, eventList);
     for (GestureMatcher matcher : gestures) {
+      if (gestureId == GESTURE_TAP_UP_TOUCH_EXPLORE
+          && matcher.bypassCancelByTapUpToTouchExplore()) {
+        // Skip to cancel the gesture which claims itself to bypass cancel for this event.
+        continue;
+      } else if (gestureId == GESTURE_FAKED_SPLIT_TYPING
+          && matcher.getGestureId() == GESTURE_FAKED_SPLIT_TYPING_AND_HOLD) {
+        matcher.restart(true);
+        continue;
+      } else if (gestureId == GESTURE_FAKED_SPLIT_TYPING_AND_HOLD
+          && matcher.getGestureId() == GESTURE_FAKED_SPLIT_TYPING) {
+        matcher.restart(true);
+        continue;
+      }
       if (matcher.getGestureId() != gestureId) {
         matcher.cancelGesture(event, false);
       }
@@ -227,7 +319,15 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
   }
 
   /**
-   * Returns the current list of motion events. It is the caller's responsibility to copy the list
-   * if they want it to persist after a call to clear().
+   * This class helps to collect data (saved time to enter Touch Explore), in addition to the
+   * fundamental Gesture analytic event.
    */
+  public static class TapToTouchExploreAnalyticsEvent extends GestureAnalyticsEvent {
+    public int savedTimeMs;
+
+    public TapToTouchExploreAnalyticsEvent(int event, int gestureId, int savedTimeMs) {
+      super(event, gestureId);
+      this.savedTimeMs = savedTimeMs;
+    }
+  }
 }

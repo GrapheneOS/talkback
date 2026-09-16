@@ -16,69 +16,72 @@
 
 package com.google.android.accessibility.talkback.training;
 
-import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER;
-import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER_PRE_R;
-import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_GESTURE_NAVIGATION_USER;
-import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_GESTURE_NAVIGATION_USER_PRE_R;
-import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER;
-import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER_PRE_R;
-import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_FOR_GESTURE_NAVIGATION_USER;
-import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_FOR_GESTURE_NAVIGATION_USER_PRE_R;
+import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_FIRST_RUN_KEYBOARD_TUTORIAL;
+import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_FIRST_RUN_TUTORIAL;
+import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL;
 import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_FOR_TV;
 import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_FOR_WATCH;
+import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_KEYBOARD;
 import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_PRACTICE_GESTURE;
 import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_PRACTICE_GESTURE_PRE_R;
+import static com.google.android.accessibility.talkback.trainingcommon.TrainingConfig.TrainingId.TRAINING_ID_TUTORIAL_PRACTICE_KEYBOARD_GESTURE;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
+import androidx.annotation.VisibleForTesting;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingActivity;
+import com.google.android.accessibility.talkback.trainingcommon.TutorialChooserActivity;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
+import com.google.android.accessibility.utils.monitor.InputDeviceMonitor;
 
 /** Starts a {@link TrainingActivity} to show tutorial. */
 public class TutorialInitiator {
 
-  private static final int NAV_BAR_MODE_GESTURAL = 2;
+  public static Intent createFirstRunTutorialIntent(Context context) {
+    return createFirstRunTutorialIntent(context, new InputDeviceMonitor(context));
+  }
 
   /** Returns an intent to start tutorial for the first run users. */
-  public static Intent createFirstRunTutorialIntent(Context context) {
-    if (FormFactorUtils.getInstance().isAndroidWear()) {
-      return TrainingActivity.createTrainingIntent(context, TRAINING_ID_TUTORIAL_FOR_WATCH);
-    } else if (FormFactorUtils.getInstance().isAndroidTv()) {
+  @VisibleForTesting
+  public static Intent createFirstRunTutorialIntent(
+      Context context, InputDeviceMonitor inputDeviceMonitor) {
+    if (FormFactorUtils.isAndroidWear()) {
+      return TrainingActivity.createTrainingIntent(
+          context, TRAINING_ID_TUTORIAL_FOR_WATCH, /* showExitBanner= */ true);
+    } else if (FormFactorUtils.isAndroidTv()) {
       return TrainingActivity.createTrainingIntent(context, TRAINING_ID_TUTORIAL_FOR_TV);
+    } else if (FeatureFlagReader.enableShowTalkbackKeyboardTutorial(context)
+        && inputDeviceMonitor.hasPhysicalKeyboard()) {
+      return TrainingActivity.createTrainingIntent(
+          context, TRAINING_ID_FIRST_RUN_KEYBOARD_TUTORIAL, /* showExitBanner= */ true);
     } else {
       return TrainingActivity.createTrainingIntent(
-          context,
-          isGestureNavigateEnabled(context)
-              ? (FeatureSupport.isMultiFingerGestureSupported()
-                  ? TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_GESTURE_NAVIGATION_USER
-                  : TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_GESTURE_NAVIGATION_USER_PRE_R)
-              : (FeatureSupport.isMultiFingerGestureSupported()
-                  ? TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER
-                  : TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER_PRE_R),
-          /* showExitBanner= */ true);
+          context, TRAINING_ID_FIRST_RUN_TUTORIAL, /* showExitBanner= */ true);
     }
   }
 
   /** Returns an intent to start tutorial. */
   public static Intent createTutorialIntent(Context context) {
-    if (FormFactorUtils.getInstance().isAndroidWear()) {
+    return createTutorialIntent(context, new InputDeviceMonitor(context));
+  }
+
+  @VisibleForTesting
+  static Intent createTutorialIntent(Context context, InputDeviceMonitor inputDeviceMonitor) {
+    if (FormFactorUtils.isAndroidWear()) {
       return TrainingActivity.createTrainingIntent(context, TRAINING_ID_TUTORIAL_FOR_WATCH);
-    } else if (FormFactorUtils.getInstance().isAndroidTv()) {
+    } else if (FormFactorUtils.isAndroidTv()) {
       return TrainingActivity.createTrainingIntent(context, TRAINING_ID_TUTORIAL_FOR_TV);
-    } else if (isGestureNavigateEnabled(context)) {
-      return TrainingActivity.createTrainingIntent(
-          context,
-          FeatureSupport.isMultiFingerGestureSupported()
-              ? TRAINING_ID_TUTORIAL_FOR_GESTURE_NAVIGATION_USER
-              : TRAINING_ID_TUTORIAL_FOR_GESTURE_NAVIGATION_USER_PRE_R);
+    } else if (FeatureFlagReader.enableShowTalkbackKeyboardTutorial(context)
+        && inputDeviceMonitor.hasPhysicalKeyboard()
+        && inputDeviceMonitor.hasTouchScreen()) {
+      return new Intent(context, TutorialChooserActivity.class);
+    } else if (FeatureFlagReader.enableShowTalkbackKeyboardTutorial(context)
+        && inputDeviceMonitor.hasPhysicalKeyboard()) {
+      return TrainingActivity.createTrainingIntent(context, TRAINING_ID_TUTORIAL_KEYBOARD);
     } else {
-      return TrainingActivity.createTrainingIntent(
-          context,
-          FeatureSupport.isMultiFingerGestureSupported()
-              ? TRAINING_ID_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER
-              : TRAINING_ID_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER_PRE_R);
+      return TrainingActivity.createTrainingIntent(context, TRAINING_ID_TUTORIAL);
     }
   }
 
@@ -90,13 +93,25 @@ public class TutorialInitiator {
             : TRAINING_ID_TUTORIAL_PRACTICE_GESTURE_PRE_R);
   }
 
-  private static boolean isGestureNavigateEnabled(Context context) {
-    Resources resources = context.getResources();
-    int resourceId = resources.getIdentifier("config_navBarInteractionMode", "integer", "android");
-    if (resourceId > 0) {
-      return resources.getInteger(resourceId) == NAV_BAR_MODE_GESTURAL;
+  public static Intent createKeyboardTutorialIntent(Context context) {
+    return TrainingActivity.createTrainingIntent(context, TRAINING_ID_TUTORIAL_KEYBOARD);
+  }
+
+  public static Intent createPracticeKeyboardShortcutsIntent(Context context) {
+    // The keyboard learn mode page supports both keyboard shortcuts and multi-finger gestures.
+    if (FeatureFlagReader.enableShowLearnModePageKeyboard(context)
+        && FeatureSupport.isMultiFingerGestureSupported()) {
+      return TrainingActivity.createTrainingIntent(
+          context, TRAINING_ID_TUTORIAL_PRACTICE_KEYBOARD_GESTURE);
+    } else {
+      // TODO: Remove this failsafe once the flag is fully rolled out.
+      // Default to gestures page in the edge case that this intent get called without the
+      // necessary features flags enabled.
+      return TrainingActivity.createTrainingIntent(
+          context,
+          FeatureSupport.isMultiFingerGestureSupported()
+              ? TRAINING_ID_TUTORIAL_PRACTICE_GESTURE
+              : TRAINING_ID_TUTORIAL_PRACTICE_GESTURE_PRE_R);
     }
-    // Device doesn't support gesture navigation.
-    return false;
   }
 }

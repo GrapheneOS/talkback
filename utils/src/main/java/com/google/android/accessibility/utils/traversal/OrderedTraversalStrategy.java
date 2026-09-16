@@ -16,10 +16,9 @@
 
 package com.google.android.accessibility.utils.traversal;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.utils.Logger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -38,10 +37,18 @@ public class OrderedTraversalStrategy implements TraversalStrategy {
   private final Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache;
 
   public OrderedTraversalStrategy(@Nullable AccessibilityNodeInfoCompat rootNode) {
+    this(rootNode, false, false);
+  }
+
+  /** TODO: Experimental code. Remove {@code makeFabFirst} when experiment is done. */
+  public OrderedTraversalStrategy(
+      @Nullable AccessibilityNodeInfoCompat rootNode,
+      boolean includeChildrenOfNodesWithWebActions,
+      boolean makeFabFirst) {
     speakingNodesCache = new HashMap<>();
-    controller = new OrderedTraversalController();
+    controller = new OrderedTraversalController(makeFabFirst);
     controller.setSpeakingNodesCache(speakingNodesCache);
-    controller.initOrder(rootNode, false);
+    controller.initOrder(rootNode, includeChildrenOfNodesWithWebActions);
   }
 
   @Override
@@ -53,11 +60,13 @@ public class OrderedTraversalStrategy implements TraversalStrategy {
   public @Nullable AccessibilityNodeInfoCompat findFocus(
       AccessibilityNodeInfoCompat startNode, @SearchDirection int direction) {
     switch (direction) {
-      case TraversalStrategy.SEARCH_FOCUS_FORWARD:
+      case TraversalStrategy.SEARCH_FOCUS_FORWARD -> {
         return focusNext(startNode);
-      case TraversalStrategy.SEARCH_FOCUS_BACKWARD:
+      }
+      case TraversalStrategy.SEARCH_FOCUS_BACKWARD -> {
         return focusPrevious(startNode);
-      default: // fall out
+      }
+      default -> {}
     }
 
     return null;
@@ -89,7 +98,7 @@ public class OrderedTraversalStrategy implements TraversalStrategy {
   }
 
   /** Dumps the traversal order tree. */
-  public void dumpTree(@NonNull Logger treeDebugLogger) {
-    controller.dumpTree(treeDebugLogger);
+  public List<AccessibilityNodeInfoCompat> dumpTree() {
+    return controller.dumpTree();
   }
 }

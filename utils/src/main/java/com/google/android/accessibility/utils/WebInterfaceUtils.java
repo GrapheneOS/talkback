@@ -19,15 +19,17 @@ package com.google.android.accessibility.utils;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirectionOrUnknown;
 import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-/** Utility class for sending commands to ChromeVox. */
+/** Utility class for sending commands to Chrome. */
 public class WebInterfaceUtils {
 
   private static final String KEY_WEB_IMAGE = "AccessibilityNodeInfo.hasImage";
@@ -43,64 +45,203 @@ public class WebInterfaceUtils {
   public static final int DIRECTION_BACKWARD = -1;
 
   /**
-   * Action argument to use with {@link #performSpecialAction(AccessibilityNodeInfoCompat, int, int,
-   * EventId)} to instruct ChromeVox to move into or out of the special content navigation mode.
-   *
-   * <p>Using this constant also requires specifying a direction. {@link #DIRECTION_FORWARD}
-   * indicates ChromeVox should move into this content navigation mode, {@link #DIRECTION_BACKWARD}
-   * indicates ChromeVox should move out of this mode.
-   */
-  public static final int ACTION_TOGGLE_SPECIAL_CONTENT = -4;
-
-  /**
-   * Action argument to use with {@link #performSpecialAction(AccessibilityNodeInfoCompat, int, int,
-   * EventId)} to instruct ChromeVox to move into or out of the incremental search mode.
-   *
-   * <p>Using this constant does not require a direction as it only toggles the state.
-   */
-  public static final int ACTION_TOGGLE_INCREMENTAL_SEARCH = -5;
-
-  /**
-   * HTML element argument to use with {@link
-   * #performNavigationToHtmlElementAction(AccessibilityNodeInfoCompat, int, String, EventId)} to
-   * instruct ChromeVox to move to the next or previous page section.
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page section.
    */
   public static final String HTML_ELEMENT_MOVE_BY_SECTION = "SECTION";
 
   /**
-   * HTML element argument to use with {@link
-   * #performNavigationToHtmlElementAction(AccessibilityNodeInfoCompat, int, String, EventId)} to
-   * instruct ChromeVox to move to the next or previous page heading.
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page heading.
    */
   public static final String HTML_ELEMENT_MOVE_BY_HEADING = "HEADING";
 
   /**
-   * HTML element argument to use with {@link
-   * #performNavigationToHtmlElementAction(AccessibilityNodeInfoCompat, int, String, EventId)} to
-   * instruct ChromeVox to move to the next or previous page section.
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page section.
    */
   public static final String HTML_ELEMENT_MOVE_BY_LANDMARK = "LANDMARK";
 
   /**
-   * HTML element argument to use with {@link
-   * #performNavigationToHtmlElementAction(AccessibilityNodeInfoCompat, int, String, EventId)} to
-   * instruct ChromeVox to move to the next or previous link.
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous link.
    */
   public static final String HTML_ELEMENT_MOVE_BY_LINK = "LINK";
 
   /**
-   * HTML element argument to use with {@link
-   * #performNavigationToHtmlElementAction(AccessibilityNodeInfoCompat, int, String, EventId)} to
-   * instruct ChromeVox to move to the next or previous list.
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous list.
    */
   public static final String HTML_ELEMENT_MOVE_BY_LIST = "LIST";
 
   /**
-   * HTML element argument to use with {@link
-   * #performNavigationToHtmlElementAction(AccessibilityNodeInfoCompat, int, String, EventId)} to
-   * instruct ChromeVox to move to the next or previous control.
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous control.
    */
   public static final String HTML_ELEMENT_MOVE_BY_CONTROL = "CONTROL";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous button.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_BUTTON = "BUTTON";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous checkbox.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_CHECKBOX = "CHECKBOX";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous radio.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_RADIO = "RADIO";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous edit field.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_EDIT_FIELD = "TEXT_FIELD";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous focusable item.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_FOCUSABLE_ITEM = "FOCUSABLE";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page heading 1.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_HEADING_1 = "H1";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page heading 2.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_HEADING_2 = "H2";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page heading 3.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_HEADING_3 = "H3";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page heading 4.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_HEADING_4 = "H4";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page heading 5.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_HEADING_5 = "H5";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous page heading 6.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_HEADING_6 = "H6";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous image.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_GRAPHIC = "GRAPHIC";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous list item.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_LIST_ITEM = "LIST_ITEM";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous table.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_TABLE = "TABLE";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous combo box.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_COMBOBOX = "COMBOBOX";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous visited link.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_VISITED_LINK = "VISITED_LINK";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous unvisited link.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_UNVISITED_LINK = "UNVISITED_LINK";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous column.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_COLUMN = "COLUMN";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous row.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_ROW = "ROW";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous column bounds.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_COLUMN_BOUNDS = "COLUMN_BOUNDS";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous row bounds.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_ROW_BOUNDS = "ROW_BOUNDS";
+
+  /**
+   * HTML element argument to use with {@link AccessibilityNodeInfoCompat#performAction()} to
+   * instruct Chrome to move to the next or previous table bounds.
+   */
+  public static final String HTML_ELEMENT_MOVE_BY_TABLE_BOUNDS = "TABLE_BOUNDS";
+
+  private static final ImmutableMap<String, ImmutableList<String>> URL_BAR_IDS =
+      ImmutableMap.ofEntries(
+          Map.entry("com.android.chrome", ImmutableList.of("com.android.chrome:id/url_bar")),
+          Map.entry("com.chrome.beta", ImmutableList.of("com.chrome.beta:id/url_bar")),
+          Map.entry("com.chrome.dev", ImmutableList.of("com.chrome.dev:id/url_bar")),
+          Map.entry(
+              "org.mozilla.firefox",
+              ImmutableList.of(
+                  "org.mozilla.firefox:id/url",
+                  "org.mozilla.firefox:id/url_bar_title",
+                  "org.mozilla.firefox:id/url_edit_text",
+                  "org.mozilla.firefox:id/mozac_browser_toolbar_url_view",
+                  "org.mozilla.firefox:id/mozac_browser_toolbar_edit_url_view")),
+          Map.entry(
+              "org.mozilla.firefox_beta",
+              ImmutableList.of(
+                  "org.mozilla.firefox_beta:id/url",
+                  "org.mozilla.firefox_beta:id/url_bar_title",
+                  "org.mozilla.firefox_beta:id/url_edit_text",
+                  "org.mozilla.firefox_beta:id/mozac_browser_toolbar_url_view",
+                  "org.mozilla.firefox_beta:id/mozac_browser_toolbar_edit_url_view")),
+          Map.entry(
+              "com.sec.android.app.sbrowser",
+              ImmutableList.of("com.sec.android.app.sbrowser:id/location_bar_edit_text")),
+          Map.entry("com.android.browser", ImmutableList.of("com.android.browser:id/url")),
+          Map.entry("com.opera.android", ImmutableList.of("com.opera.android:id/url_field")),
+          Map.entry("com.opera.browser", ImmutableList.of("com.opera.browser:id/url_field")),
+          Map.entry(
+              "com.hsv.freeadblockerbrowser", ImmutableList.of("com.opera.browser:id/url_field")),
+          Map.entry("com.microsoft.emmx", ImmutableList.of("com.microsoft.emmx:id/url_bar")));
 
   /**
    * Filter for WebView container node. See {@link
@@ -140,46 +281,6 @@ public class WebInterfaceUtils {
     return logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD
         ? WebInterfaceUtils.DIRECTION_FORWARD
         : WebInterfaceUtils.DIRECTION_BACKWARD;
-  }
-
-  /**
-   * Sends an instruction to ChromeVox to read the specified HTML element in the given direction
-   * within a node.
-   *
-   * <p>WARNING: Calling this method with a source node of {@link android.webkit.WebView} has the
-   * side effect of closing the IME if currently displayed.
-   *
-   * @param node The node containing web content with ChromeVox to which the message should be sent
-   * @param direction {@link #DIRECTION_FORWARD} or {@link #DIRECTION_BACKWARD}
-   * @param htmlElement The HTML tag to send
-   * @return {@code true} if the action was performed, {@code false} otherwise.
-   */
-  public static boolean performNavigationToHtmlElementAction(
-      AccessibilityNodeInfoCompat node, int direction, String htmlElement, EventId eventId) {
-    final int action =
-        (direction == DIRECTION_FORWARD)
-            ? AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT
-            : AccessibilityNodeInfoCompat.ACTION_PREVIOUS_HTML_ELEMENT;
-    final Bundle args = new Bundle();
-    args.putString(AccessibilityNodeInfoCompat.ACTION_ARGUMENT_HTML_ELEMENT_STRING, htmlElement);
-    return PerformActionUtils.performAction(node, action, args, eventId);
-  }
-
-  /**
-   * Sends an instruction to ChromeVox to navigate by DOM object in the given direction within a
-   * node.
-   *
-   * @param node The node containing web content with ChromeVox to which the message should be sent
-   * @param direction {@link #DIRECTION_FORWARD} or {@link #DIRECTION_BACKWARD}
-   * @return {@code true} if the action was performed, {@code false} otherwise.
-   */
-  public static boolean performNavigationByDOMObject(
-      AccessibilityNodeInfoCompat node, int direction) {
-    final int action =
-        (direction == DIRECTION_FORWARD)
-            ? AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT
-            : AccessibilityNodeInfoCompat.ACTION_PREVIOUS_HTML_ELEMENT;
-    return node.performAction(action);
   }
 
   /**
@@ -225,89 +326,6 @@ public class WebInterfaceUtils {
   }
 
   /**
-   * Sends an instruction to ChromeVox to move within a page at a specified granularity in a given
-   * direction.
-   *
-   * <p>WARNING: Calling this method with a source node of {@link android.webkit.WebView} has the
-   * side effect of closing the IME if currently displayed.
-   *
-   * @param node The node containing web content with ChromeVox to which the message should be sent
-   * @param direction {@link #DIRECTION_FORWARD} or {@link #DIRECTION_BACKWARD}
-   * @param granularity The granularity with which to move or a special case argument.
-   * @return {@code true} if the action was performed, {@code false} otherwise.
-   */
-  public static boolean performNavigationAtGranularityAction(
-      AccessibilityNodeInfoCompat node, int direction, int granularity, EventId eventId) {
-    final int action =
-        (direction == DIRECTION_FORWARD)
-            ? AccessibilityNodeInfoCompat.ACTION_NEXT_AT_MOVEMENT_GRANULARITY
-            : AccessibilityNodeInfoCompat.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY;
-    final Bundle args = new Bundle();
-    args.putInt(AccessibilityNodeInfoCompat.ACTION_ARGUMENT_MOVEMENT_GRANULARITY_INT, granularity);
-    return PerformActionUtils.performAction(node, action, args, eventId);
-  }
-
-  /**
-   * Sends instruction to ChromeVox to perform one of the special actions defined by the ACTION
-   * constants in this class.
-   *
-   * <p>WARNING: Calling this method with a source node of {@link android.webkit.WebView} has the
-   * side effect of closing the IME if currently displayed.
-   *
-   * @param node The node containing web content with ChromeVox to which the message should be sent
-   * @param action The ACTION constant in this class match the special action that ChromeVox should
-   *     perform.
-   * @return {@code true} if the action was performed, {@code false} otherwise.
-   */
-  public static boolean performSpecialAction(AccessibilityNodeInfoCompat node, int action) {
-    return performSpecialAction(node, action, DIRECTION_FORWARD, null);
-  }
-
-  /**
-   * Sends instruction to ChromeVox to perform one of the special actions defined by the ACTION
-   * constants in this class.
-   *
-   * <p>WARNING: Calling this method with a source node of {@link android.webkit.WebView} has the
-   * side effect of closing the IME if currently displayed.
-   *
-   * @param node The node containing web content with ChromeVox to which the message should be sent
-   * @param action The ACTION constant in this class match the special action that ChromeVox should
-   *     perform.
-   * @param direction The DIRECTION constant in this class to add as an extra argument to the
-   *     special action.
-   * @return {@code true} if the action was performed, {@code false} otherwise.
-   */
-  public static boolean performSpecialAction(
-      AccessibilityNodeInfoCompat node, int action, int direction, EventId eventId) {
-    /*
-     * We use performNavigationAtGranularity to communicate with ChromeVox
-     * for these actions because it is side-effect-free. If we use
-     * performNavigationToHtmlElementAction and ChromeVox isn't injected,
-     * we'll actually move selection within the fallback implementation. We
-     * use the granularity field to hold a value that ChromeVox interprets
-     * as a special command.
-     */
-    return performNavigationAtGranularityAction(
-        node, direction, action /* fake granularity */, eventId);
-  }
-
-  /**
-   * Sends a message to ChromeVox indicating that it should enter or exit special content
-   * navigation. This is applicable for things like tables and math expressions.
-   *
-   * <p>NOTE: further navigation should occur at the default movement granularity.
-   *
-   * @param node The node representing the web content
-   * @param enabled Whether this mode should be entered or exited
-   * @return {@code true} if the action was performed, {@code false} otherwise.
-   */
-  public static boolean setSpecialContentModeEnabled(
-      AccessibilityNodeInfoCompat node, boolean enabled, EventId eventId) {
-    final int direction = (enabled) ? DIRECTION_FORWARD : DIRECTION_BACKWARD;
-    return performSpecialAction(node, ACTION_TOGGLE_SPECIAL_CONTENT, direction, eventId);
-  }
-
-  /**
    * Returns the WebView container node if the {@code node} is a web element. <strong>Note:</strong>
    * A web content node tree is always constructed with a WebView root node, a second level WebView
    * node, and all other nodes attached beneath the second level WebView node. When referring to the
@@ -345,7 +363,7 @@ public class WebInterfaceUtils {
   }
 
   /**
-   * Determines whether or not the given node contains native web content (and not ChromeVox).
+   * Determines whether or not the given node contains native web content (and not Chrome).
    *
    * @param node The node to evaluate
    * @return {@code true} if the node contains native web content, {@code false} otherwise
@@ -355,33 +373,8 @@ public class WebInterfaceUtils {
   }
 
   /**
-   * Determines whether or not the given node contains ChromeVox content.
-   *
-   * @param node The node to evaluate
-   * @return {@code true} if the node contains ChromeVox content, {@code false} otherwise
-   */
-  public static boolean hasLegacyWebContent(AccessibilityNodeInfoCompat node) {
-    if (node == null) {
-      return false;
-    }
-
-    if (!supportsWebActions(node)) {
-      return false;
-    }
-
-    // ChromeVox does not have sub elements, so if the parent element also has web content
-    // this cannot be ChromeVox.
-    if (supportsWebActions(node.getParent())) {
-      return false;
-    }
-
-    // ChromeVox never has child elements
-    return node.getChildCount() == 0;
-  }
-
-  /**
-   * Returns whether the given node has navigable web content, either legacy (ChromeVox) or native
-   * web content.
+   * Returns whether the given node has navigable web content, either legacy (Chrome) or native web
+   * content.
    *
    * @param node The node to check for web content.
    * @return Whether the given node has navigable web content.
@@ -405,6 +398,19 @@ public class WebInterfaceUtils {
     }
     Bundle extras = node.getExtras();
     return (extras != null) && VALUE_HAS_WEB_IMAGE.equals(extras.getString(KEY_WEB_IMAGE));
+  }
+
+  public static @Nullable AccessibilityNodeInfoCompat findUrlBar(AccessibilityNodeInfoCompat root) {
+    return AccessibilityNodeInfoUtils.searchFromBfs(
+        root,
+        new Filter<AccessibilityNodeInfoCompat>() {
+          @Override
+          public boolean accept(AccessibilityNodeInfoCompat node) {
+            return URL_BAR_IDS
+                .getOrDefault(node.getPackageName().toString(), ImmutableList.of())
+                .contains(node.getViewIdResourceName());
+          }
+        });
   }
 
   private static boolean isNodeFromFirefox(AccessibilityNodeInfoCompat node) {

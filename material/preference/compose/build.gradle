@@ -1,0 +1,15 @@
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+apply from: "../../../shared.gradle"
+
+android {
+    namespace = "com.google.android.accessibility.material.preference.compose"
+    defaultConfig {
+        targetSdk 34
+    }
+}
+
+dependencies {
+    implementation project(':proguard')
+    implementation project(':materialflags')
+}

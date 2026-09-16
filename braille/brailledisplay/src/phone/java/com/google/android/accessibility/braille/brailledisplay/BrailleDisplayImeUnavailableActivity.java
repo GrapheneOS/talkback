@@ -16,8 +16,6 @@
 
 package com.google.android.accessibility.braille.brailledisplay;
 
-import static com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.Constants.BRAILLE_KEYBOARD;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -98,14 +96,14 @@ public class BrailleDisplayImeUnavailableActivity extends Activity {
 
   /** Whether this Activity is necessary to start. */
   public static boolean necessaryToStart(Context context) {
-    return !BrailleCommonUtils.isInputMethodEnabled(context, BRAILLE_KEYBOARD)
-        || !BrailleCommonUtils.isInputMethodDefault(context, BRAILLE_KEYBOARD);
+    return !BrailleCommonUtils.isBrailleKeyboardEnabled(context)
+        || !BrailleCommonUtils.isBrailleKeyboardDefault(context);
   }
 
   private void checkStatus() {
-    if (!BrailleCommonUtils.isInputMethodEnabled(this, BRAILLE_KEYBOARD)) {
+    if (!BrailleCommonUtils.isBrailleKeyboardEnabled(this)) {
       showNotifyEnabledKeyboardDialog();
-    } else if (!BrailleCommonUtils.isInputMethodDefault(this, BRAILLE_KEYBOARD)) {
+    } else if (!BrailleCommonUtils.isBrailleKeyboardDefault(this)) {
       showNotifySwitchToKeyboardDialog();
     } else {
       finish();
@@ -129,6 +127,7 @@ public class BrailleDisplayImeUnavailableActivity extends Activity {
                 R.string.bd_ime_disabled_dialog_title_positive,
                 (dialog, which) -> {
                   final Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
+                  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                   startActivity(intent);
                   finish();
                 })
@@ -172,8 +171,8 @@ public class BrailleDisplayImeUnavailableActivity extends Activity {
       new ContentObserver(handler) {
         @Override
         public void onChange(boolean selfChange) {
-          if (BrailleCommonUtils.isInputMethodDefault(
-              BrailleDisplayImeUnavailableActivity.this, BRAILLE_KEYBOARD)) {
+          if (BrailleCommonUtils.isBrailleKeyboardDefault(
+              BrailleDisplayImeUnavailableActivity.this)) {
             finish();
           }
         }

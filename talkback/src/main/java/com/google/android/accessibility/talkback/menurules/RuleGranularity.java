@@ -18,17 +18,19 @@ package com.google.android.accessibility.talkback.menurules;
 
 import static com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.MENU_TYPE_GRANULARITY;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
-import static com.google.android.accessibility.utils.input.CursorGranularity.DEFAULT;
+import static com.google.android.accessibility.utils.input.CursorGranularity.COLUMN;
 import static com.google.android.accessibility.utils.input.CursorGranularity.LINE;
+import static com.google.android.accessibility.utils.input.CursorGranularity.ROW;
+import static com.google.android.accessibility.utils.input.CursorGranularity.ROW_COLUMN;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.view.Menu;
 import android.view.MenuItem;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.ActorState;
-import com.google.android.accessibility.talkback.CursorGranularityManager;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
@@ -37,6 +39,7 @@ import com.google.android.accessibility.talkback.contextmenu.AbstractOnContextMe
 import com.google.android.accessibility.talkback.contextmenu.ContextMenu;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem.DeferredType;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.Performance.EventId;
@@ -53,7 +56,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public class RuleGranularity extends NodeMenuRule {
   // TODO: Combine enum of Granularity at RuleGranularity & CursorGranularity
-  private enum GranularitySetting {
+  @VisibleForTesting
+  enum GranularitySetting {
     CHARACTERS(
         R.string.pref_show_navigation_menu_characters_setting_key,
         R.string.granularity_character,
@@ -82,30 +86,94 @@ public class RuleGranularity extends NodeMenuRule {
         R.string.pref_show_navigation_menu_links_setting_key,
         R.string.granularity_native_link,
         R.bool.pref_show_navigation_menu_links_default),
-    WEB_HEADINGS(
-        R.string.pref_show_navigation_menu_headings_setting_key,
-        R.string.granularity_web_heading,
-        R.bool.pref_show_navigation_menu_headings_default),
-    WEB_CONTROLS(
-        R.string.pref_show_navigation_menu_controls_setting_key,
-        R.string.granularity_web_control,
-        R.bool.pref_show_navigation_menu_controls_default),
-    WEB_LINKS(
-        R.string.pref_show_navigation_menu_links_setting_key,
-        R.string.granularity_web_link,
-        R.bool.pref_show_navigation_menu_links_default),
+    ROW_COLUMN(
+        R.string.pref_show_navigation_menu_row_column_setting_key,
+        R.string.granularity_row_column,
+        R.bool.pref_show_navigation_menu_row_column_default),
+    ROW(
+        R.string.pref_show_navigation_menu_row_setting_key,
+        R.string.granularity_row,
+        R.bool.pref_show_navigation_menu_row_default),
+    COLUMN(
+        R.string.pref_show_navigation_menu_column_setting_key,
+        R.string.granularity_column,
+        R.bool.pref_show_navigation_menu_column_default),
     WEB_LANDMARKS(
         R.string.pref_show_navigation_menu_landmarks_setting_key,
         R.string.granularity_web_landmark,
         R.bool.pref_show_navigation_menu_landmarks_default),
-    WEB_SPECIAL_CONTENT(
-        R.string.pref_show_navigation_menu_special_content_setting_key,
-        R.string.granularity_pseudo_web_special_content,
-        R.bool.pref_show_navigation_menu_special_content_default),
-    OTHER_WEB_NAVIGATION(
-        R.string.pref_show_navigation_menu_other_web_navigation_setting_key,
-        R.string.title_other_web_navigation,
-        R.bool.pref_show_navigation_menu_other_web_navigation_default),
+    WEB_BUTTONS(
+        R.string.pref_show_navigation_menu_buttons_setting_key,
+        R.string.granularity_web_button,
+        R.bool.pref_show_navigation_menu_buttons_default),
+    WEB_CHECKBOXES(
+        R.string.pref_show_navigation_menu_checkboxes_setting_key,
+        R.string.granularity_web_checkbox,
+        R.bool.pref_show_navigation_menu_checkboxes_default),
+    WEB_EDITFIELDS(
+        R.string.pref_show_navigation_menu_editfields_setting_key,
+        R.string.granularity_web_editfield,
+        R.bool.pref_show_navigation_menu_editfields_default),
+    WEB_FOCUSABLES(
+        R.string.pref_show_navigation_menu_focusables_setting_key,
+        R.string.granularity_web_focusable,
+        R.bool.pref_show_navigation_menu_focusables_default),
+    WEB_H1(
+        R.string.pref_show_navigation_menu_h1_setting_key,
+        R.string.granularity_web_h1,
+        R.bool.pref_show_navigation_menu_h1_default),
+    WEB_H2(
+        R.string.pref_show_navigation_menu_h2_setting_key,
+        R.string.granularity_web_h2,
+        R.bool.pref_show_navigation_menu_h2_default),
+    WEB_H3(
+        R.string.pref_show_navigation_menu_h3_setting_key,
+        R.string.granularity_web_h3,
+        R.bool.pref_show_navigation_menu_h3_default),
+    WEB_H4(
+        R.string.pref_show_navigation_menu_h4_setting_key,
+        R.string.granularity_web_h4,
+        R.bool.pref_show_navigation_menu_h4_default),
+    WEB_H5(
+        R.string.pref_show_navigation_menu_h5_setting_key,
+        R.string.granularity_web_h5,
+        R.bool.pref_show_navigation_menu_h5_default),
+    WEB_H6(
+        R.string.pref_show_navigation_menu_h6_setting_key,
+        R.string.granularity_web_h6,
+        R.bool.pref_show_navigation_menu_h6_default),
+    WEB_GRAPHICS(
+        R.string.pref_show_navigation_menu_graphics_setting_key,
+        R.string.granularity_web_graphic,
+        R.bool.pref_show_navigation_menu_graphics_default),
+    WEB_LISTITEMS(
+        R.string.pref_show_navigation_menu_listitems_setting_key,
+        R.string.granularity_web_listitem,
+        R.bool.pref_show_navigation_menu_listitems_default),
+    WEB_LISTS(
+        R.string.pref_show_navigation_menu_lists_setting_key,
+        R.string.granularity_web_list,
+        R.bool.pref_show_navigation_menu_lists_default),
+    WEB_TABLES(
+        R.string.pref_show_navigation_menu_tables_setting_key,
+        R.string.granularity_web_table,
+        R.bool.pref_show_navigation_menu_tables_default),
+    WEB_COMBOBOXES(
+        R.string.pref_show_navigation_menu_comboboxes_setting_key,
+        R.string.granularity_web_combobox,
+        R.bool.pref_show_navigation_menu_comboboxes_default),
+    WEB_VISITED_LINKS(
+        R.string.pref_show_navigation_menu_visited_links_setting_key,
+        R.string.granularity_web_visited_link,
+        R.bool.pref_show_navigation_menu_visited_links_default),
+    WEB_UNVISITED_LINKS(
+        R.string.pref_show_navigation_menu_unvisited_links_setting_key,
+        R.string.granularity_web_unvisited_link,
+        R.bool.pref_show_navigation_menu_unvisited_links_default),
+    WEB_RADIOS(
+        R.string.pref_show_navigation_menu_radios_setting_key,
+        R.string.granularity_web_radio,
+        R.bool.pref_show_navigation_menu_radios_default),
     WINDOW(
         R.string.pref_show_navigation_menu_window_setting_key,
         R.string.granularity_window,
@@ -160,90 +228,46 @@ public class RuleGranularity extends NodeMenuRule {
 
   @Override
   public boolean accept(Context context, AccessibilityNodeInfoCompat node) {
-    return !CursorGranularityManager.getSupportedGranularities(node).isEmpty();
+    // RuleGranularity doesn't use the flag includeAncestors, so the value doesn't matter.
+    return !getMenuItemsForNode(context, node, /* includeAncestors= */ false).isEmpty();
   }
 
   @Override
   public List<ContextMenuItem> getMenuItemsForNode(
       Context context, AccessibilityNodeInfoCompat node, boolean includeAncestors) {
-    final CursorGranularity current = actorState.getDirectionNavigation().getGranularityAt(node);
     final List<ContextMenuItem> items = new ArrayList<>();
-    final List<CursorGranularity> granularities =
-        CursorGranularityManager.getSupportedGranularities(node);
     final boolean hasWebContent = WebInterfaceUtils.hasNavigableWebContent(node);
 
-    // Don't populate the menu if only object is supported.
-    if (granularities.size() == 1) {
-      return items;
-    }
-
-    final GranularityMenuItemClickListener clickListener =
-        new GranularityMenuItemClickListener(context, pipeline, node, hasWebContent, analytics);
-
-    for (CursorGranularity granularity : granularities) {
+    for (CursorGranularity granularity : CursorGranularity.values()) {
       if (!isShowItemByGranularity(context, granularity, actorState)) {
         continue;
       }
 
-      ContextMenuItem item =
-          ContextMenu.createMenuItem(
-              context,
-              Menu.NONE,
-              granularity.resourceId,
-              Menu.NONE,
-              context.getString(granularity.resourceId));
-      item.setOnMenuItemClickListener(clickListener);
-      item.setCheckable(true);
-      item.setChecked(granularity.equals(current));
-      // Skip window and focued event for granularity options, REFERTO.
-      item.setSkipRefocusEvents(true);
-      item.setSkipWindowEvents(true);
-
-      // Items are added in "natural" order, e.g. object first.
-      items.add(item);
-    }
-
-    if (hasWebContent) {
-      // Web content support navigation at a pseudo granularity for
-      // entering special content like math or tables. This must be
-      // special cased as it doesn't fit the semantics of an actual
-      // granularity.
-
-      // Landmark granularity will be available for webviews only via Talkback menu and so it is
-      // added separately from the granularities list.
-      if (isShowItemByGranularity(
-          context,
-          R.string.pref_show_navigation_menu_landmarks_setting_key,
-          R.bool.pref_show_navigation_menu_landmarks_default)) {
-        ContextMenuItem landmark =
-            ContextMenu.createMenuItem(
-                context,
-                Menu.NONE,
-                CursorGranularity.WEB_LANDMARK.resourceId,
-                Menu.NONE,
-                context.getString(R.string.granularity_web_landmark));
-        landmark.setOnMenuItemClickListener(clickListener);
-        items.add(landmark);
+      if (granularity.isWebOnlyGranularity() && !hasWebContent) {
+        continue;
       }
 
-      if (isShowItemByGranularity(
-          context,
-          R.string.pref_show_navigation_menu_special_content_setting_key,
-          R.bool.pref_show_navigation_menu_special_content_default)) {
-        ContextMenuItem specialContent =
-            ContextMenu.createMenuItem(
-                context,
-                Menu.NONE,
-                R.id.pseudo_web_special_content,
-                Menu.NONE,
-                context.getString(R.string.granularity_pseudo_web_special_content));
-        specialContent.setOnMenuItemClickListener(clickListener);
-        items.add(specialContent);
+      if (granularity.isTableNavigationGranularity()) {
+        if (!actorState.getDirectionNavigation().hasNavigableTableContent()) {
+          continue;
+        }
+        if ((granularity.equals(ROW) || granularity.equals(COLUMN))
+            && !FeatureFlagReader.enableRowColumnTwoGranularities(context)) {
+          continue;
+        }
+        if (granularity.equals(ROW_COLUMN)
+            && !FeatureFlagReader.enableRowAndColumnOneGranularity(context)) {
+          continue;
+        }
       }
-    }
 
-    for (ContextMenuItem item : items) {
-      item.setDeferredType(DeferredType.WINDOWS_STABLE);
+      ContextMenuItem item = createMenuItem(context, node, granularity);
+      // Items are added in "natural" order but put table navigation items at the top.
+      if (granularity.isTableNavigationGranularity()) {
+        items.add(0, item);
+      } else {
+        items.add(item);
+      }
     }
 
     return items;
@@ -254,22 +278,41 @@ public class RuleGranularity extends NodeMenuRule {
     return context.getString(R.string.title_granularity);
   }
 
+  private ContextMenuItem createMenuItem(
+      Context context, AccessibilityNodeInfoCompat node, CursorGranularity granularity) {
+    final CursorGranularity current = actorState.getDirectionNavigation().getGranularityAt(node);
+    final GranularityMenuItemClickListener clickListener =
+        new GranularityMenuItemClickListener(context, pipeline, node, analytics);
+    ContextMenuItem item =
+        ContextMenu.createMenuItem(
+            context,
+            Menu.NONE,
+            granularity.resourceId,
+            Menu.NONE,
+            context.getString(granularity.resourceId));
+    item.setOnMenuItemClickListener(clickListener);
+    item.setCheckable(true);
+    item.setChecked(granularity.equals(current));
+    // Skip window and focued event for granularity options, REFERTO.
+    item.setSkipRefocusEvents(true);
+    item.setSkipWindowEvents(true);
+    item.setDeferredType(DeferredType.WINDOWS_STABLE);
+    return item;
+  }
+
   /** Listener may be shared by multi-contextItems. */
   private static class GranularityMenuItemClickListener
       extends AbstractOnContextMenuItemClickListener {
 
     private final Context context;
-    private final boolean hasWebContent;
 
     public GranularityMenuItemClickListener(
         Context context,
         Pipeline.FeedbackReturner pipeline,
         AccessibilityNodeInfoCompat node,
-        boolean hasWebContent,
         TalkBackAnalytics analytics) {
       super(node, pipeline, analytics);
       this.context = context;
-      this.hasWebContent = hasWebContent;
     }
 
     @Override
@@ -283,37 +326,9 @@ public class RuleGranularity extends NodeMenuRule {
         final int itemId = item.getItemId();
         analytics.onLocalContextMenuAction(MENU_TYPE_GRANULARITY, itemId);
 
-        if (itemId == R.id.pseudo_web_special_content) {
-          // If the user chooses to enter special web content, notify
-          // ChromeVox that the user entered this navigation mode and
-          // send further navigation movements at the default
-          // granularity.
-          // TODO: Check if this is still needed.
-          // Re-use FocusDirection and WebAction at Pipeline
-          if (pipeline.returnFeedback(eventId, Feedback.granularity(DEFAULT))) {
-            pipeline.returnFeedback(
-                eventId,
-                Feedback.navigateSpecialWeb(
-                    node, /* enabled= */ true, /* updateFocusHistory= */ true));
-            return true;
-          }
-          return false;
-        }
-
         final CursorGranularity granularity = CursorGranularity.fromResourceId(itemId);
         if (granularity == null) {
           return false;
-        } else if (hasWebContent && granularity == CursorGranularity.DEFAULT) {
-          // When the user switches to default granularity, always
-          // inform ChromeVox of this change so it can exit special
-          // content navigation mode if applicable. Sending this even
-          // when that mode hasn't been entered is fine and is simply
-          // a no-op on the ChromeVox side.
-          // TODO: Check if this is still needed.
-          pipeline.returnFeedback(
-              eventId,
-              Feedback.navigateSpecialWeb(
-                  node, /* enabled= */ false, /* updateFocusHistory= */ true));
         }
 
         boolean result =
@@ -334,9 +349,6 @@ public class RuleGranularity extends NodeMenuRule {
 
   private static boolean isShowItemByGranularity(
       Context service, CursorGranularity granularity, ActorState actorState) {
-    final Resources res = service.getResources();
-    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
-
     GranularitySetting granularitySetting =
         GranularitySetting.getGranularityFromResId(granularity.resourceId);
     if (granularitySetting == null) {
@@ -350,9 +362,8 @@ public class RuleGranularity extends NodeMenuRule {
       return false;
     }
 
-    return prefs.getBoolean(
-        res.getString(granularitySetting.prefKeyResId),
-        res.getBoolean(granularitySetting.defaultValueResId));
+    return isShowItemByGranularity(
+        service, granularitySetting.prefKeyResId, granularitySetting.defaultValueResId);
   }
 
   private static boolean isShowItemByGranularity(

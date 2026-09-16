@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/image_caption_bottom_sheet_padding">
+
+  <ImageView
+      android:id="@+id/gemini_spark"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:paddingBottom="@dimen/image_caption_bottom_sheet_padding"
+      android:layout_gravity="start"
+      android:src="@drawable/ic_gemini_spark"
+      android:contentDescription="@string/image_qna_button_text"
+      android:importantForAccessibility="no"/>
+
+  <androidx.constraintlayout.motion.widget.MotionLayout
+      android:id="@+id/generating_motionLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layoutDescription="@xml/gemini_motion">
+
+    <View
+        android:id="@+id/bar1"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bar2"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/gemini_generating" />
+
+    <View
+        android:id="@+id/bar2"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintTop_toBottomOf="@id/bar1"
+        app:layout_constraintBottom_toTopOf="@+id/bar3"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/gemini_generating"/>
+
+    <View
+        android:id="@+id/bar3"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintTop_toBottomOf="@id/bar2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/gemini_generating"/>
+
+  </androidx.constraintlayout.motion.widget.MotionLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="start"
+      android:padding="10dp"
+      android:background="@drawable/image_qna_message_background"
+      android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/model_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/ui_elements_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:focusable="true"
+        android:padding="10dp"
+        android:text="@string/screen_overview_heres_the_elements" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/ui_elements"
+        app:flexWrap="wrap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start" />
+  </LinearLayout>
+
+</LinearLayout>

@@ -16,7 +16,6 @@
 
 package com.google.android.accessibility.talkback.menurules;
 
-
 import android.content.Context;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.ActorState;
@@ -31,12 +30,14 @@ import java.util.List;
 /**
  * Rule for generating the action menu for a {@link AccessibilityNodeInfoCompat}.
  *
- * <p>The action menu contains custom actions, edit options and spelling suggestions.
+ * <p>The action menu contains custom actions, edit options, spannable links and spelling
+ * suggestions.
  */
 public class RuleAction extends NodeMenuRule {
   private final CustomActionMenu customActionMenu;
   private final EditingAndSelectingMenu editingAndSelectingMenu;
   private final TypoSuggestionMenu typoSuggestionMenu;
+  private final LinkMenu linkMenu;
 
   public RuleAction(
       Pipeline.FeedbackReturner pipeline,
@@ -49,14 +50,16 @@ public class RuleAction extends NodeMenuRule {
     customActionMenu = new CustomActionMenu(pipeline, analytics);
     editingAndSelectingMenu =
         new EditingAndSelectingMenu(pipeline, actorState, accessibilityFocusMonitor, analytics);
-    typoSuggestionMenu = new TypoSuggestionMenu(pipeline, accessibilityFocusMonitor);
+    typoSuggestionMenu = new TypoSuggestionMenu(pipeline, actorState, accessibilityFocusMonitor);
+    linkMenu = new LinkMenu(analytics);
   }
 
   @Override
   public boolean accept(Context context, AccessibilityNodeInfoCompat node) {
     return customActionMenu.accept(context, node)
         || editingAndSelectingMenu.accept(context, node)
-        || typoSuggestionMenu.accept(context, node);
+        || typoSuggestionMenu.accept(context, node)
+        || linkMenu.accept(context, node);
   }
 
   @Override
@@ -75,6 +78,10 @@ public class RuleAction extends NodeMenuRule {
     if (editingAndSelectingMenu.accept(context, node)) {
       actionItems.addAll(
           editingAndSelectingMenu.getMenuItemsForNode(context, node, includeAncestors));
+    }
+
+    if (linkMenu.accept(context, node)) {
+      actionItems.addAll(linkMenu.getMenuItemsForNode(context, node, includeAncestors));
     }
 
     return actionItems;

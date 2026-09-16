@@ -55,20 +55,20 @@ public class PassThroughModeInterpreter implements AccessibilityEventListener {
       return;
     }
     switch (event.getEventType()) {
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END:
+      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END -> {
         if (isInteractionPassThrough) {
           pipeline.input(eventId, event, new Interpretation.ID(PASS_THROUGH_INTERACTION_END));
         }
-        break;
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START:
+      }
+      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START -> {
         if (actorState.getPassThroughModeState().isPassThroughModeActive()) {
           pipeline.input(eventId, event, new Interpretation.ID(PASS_THROUGH_INTERACTION_START));
           isInteractionPassThrough = true;
         } else {
           isInteractionPassThrough = false;
         }
-        break;
-      default: // fall out
+      }
+      default -> {}
     }
   }
 }

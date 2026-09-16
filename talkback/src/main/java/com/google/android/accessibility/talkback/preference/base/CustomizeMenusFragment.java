@@ -42,8 +42,7 @@ public class CustomizeMenusFragment extends TalkbackBaseFragment {
       return;
     }
 
-    if (!FeatureSupport.isMultiFingerGestureSupported()
-        || FormFactorUtils.getInstance().isAndroidWear()) {
+    if (!FeatureSupport.isMultiFingerGestureSupported() || FormFactorUtils.isAndroidWear()) {
       PreferencesActivityUtils.setSummary(
           context,
           getPreferenceManager(),
@@ -54,6 +53,17 @@ public class CustomizeMenusFragment extends TalkbackBaseFragment {
           getPreferenceManager(),
           R.string.pref_category_manage_selector_menu_key,
           R.string.pref_category_selector_menu_summary_single_finger);
+    } else if (FormFactorUtils.isAndroidXr()) {
+      PreferencesActivityUtils.setSummary(
+          context,
+          getPreferenceManager(),
+          R.string.pref_category_manage_context_menu_key,
+          R.string.pref_category_context_menu_summary_xr);
+      PreferencesActivityUtils.setSummary(
+          context,
+          getPreferenceManager(),
+          R.string.pref_category_manage_selector_menu_key,
+          R.string.pref_category_selector_menu_summary_xr);
     }
   }
 }

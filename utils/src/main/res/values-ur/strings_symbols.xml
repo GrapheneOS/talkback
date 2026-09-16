@@ -35,6 +35,7 @@
   <string name="symbol_period">پیریڈ</string>
   <string name="symbol_pi">Pi</string>
   <string name="symbol_pound">پاؤنڈ</string>
+  <string name="symbol_hash">ہیش</string>
   <string name="symbol_pound_sterling">پاؤنڈ کرنسی کا نشان</string>
   <string name="symbol_currency_peso">‏Peso کا نشان</string>
   <string name="symbol_currency_dong">‏Dong کا نشان</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">دایاں سکوئیر بریکٹ</string>
   <string name="symbol_square_root">جذر مربع</string>
   <string name="symbol_trademark">ٹریڈ مارک</string>
+  <string name="symbol_check_mark">چیک مارک</string>
   <string name="symbol_underscore">انڈرسکور</string>
   <string name="symbol_vertical_bar">عمودی لائن</string>
   <string name="symbol_yen">ین</string>
@@ -141,7 +143,7 @@
   <string name="symbol_left_single_quotation_mark">بائیں سنگل کوٹیشن مارک</string>
   <string name="symbol_braille">بریل %s</string>
   <plurals name="dots">
-    <item quantity="one">نقطہ %s</item>
-    <item quantity="other">%s نقطے</item>
+    <item quantity="one">ڈاٹ %s</item>
+    <item quantity="other">%s ڈاٹ</item>
   </plurals>
 </resources>

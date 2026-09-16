@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.utils.feedbackpolicy;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -104,6 +105,7 @@ public class ScrollFeedbackManager implements AccessibilityEventListener {
   }
 
   @Override
+  @SuppressLint("SwitchIntDef") // pre-existing logic
   public void onAccessibilityEvent(
       AccessibilityEvent event, Performance.@Nullable EventId eventId) {
     if (shouldIgnoreEvent(event)) {
@@ -111,31 +113,29 @@ public class ScrollFeedbackManager implements AccessibilityEventListener {
     }
 
     switch (event.getEventType()) {
-      case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
+      case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
         // Window state changes clear the cache.
         cachedFromValues.clear();
         cachedItemCounts.clear();
         getHandler().cancelScrollFeedback();
-        break;
-      case AccessibilityEvent.TYPE_VIEW_SCROLLED:
-      case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
-        getHandler().postScrollFeedback(event, eventId);
-        break;
-      default: // fall out
+      }
+      case AccessibilityEvent.TYPE_VIEW_SCROLLED, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED ->
+          getHandler().postScrollFeedback(event, eventId);
+      default -> {}
     }
   }
 
+  @SuppressLint("SwitchIntDef") // existing logic
   private boolean shouldIgnoreEvent(AccessibilityEvent event) {
-    switch (event.getEventType()) {
-      case AccessibilityEventCompat.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
-      case AccessibilityEventCompat.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED:
-        return true;
-      case AccessibilityEventCompat.TYPE_WINDOW_CONTENT_CHANGED:
-      case AccessibilityEventCompat.TYPE_VIEW_SCROLLED:
-        return shouldIgnoreWindowContentChangedOrViewScrolledEvent(event);
-      default:
-        return false;
-    }
+    return switch (event.getEventType()) {
+      case AccessibilityEventCompat.TYPE_VIEW_ACCESSIBILITY_FOCUSED,
+          AccessibilityEventCompat.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED ->
+          true;
+      case AccessibilityEventCompat.TYPE_WINDOW_CONTENT_CHANGED,
+          AccessibilityEventCompat.TYPE_VIEW_SCROLLED ->
+          shouldIgnoreWindowContentChangedOrViewScrolledEvent(event);
+      default -> false;
+    };
   }
 
   /**
@@ -319,10 +319,8 @@ public class ScrollFeedbackManager implements AccessibilityEventListener {
       final EventIdAnd<AccessibilityEvent> eventAndId = (EventIdAnd<AccessibilityEvent>) msg.obj;
       final AccessibilityEvent event = eventAndId.object;
       switch (msg.what) {
-        case SCROLL_FEEDBACK:
-          parent.handleScrollFeedback(event, eventAndId.eventId);
-          break;
-        default: // fall out
+        case SCROLL_FEEDBACK -> parent.handleScrollFeedback(event, eventAndId.eventId);
+        default -> {}
       }
     }
 

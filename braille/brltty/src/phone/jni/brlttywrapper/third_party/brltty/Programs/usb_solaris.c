@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -27,6 +27,7 @@
 #include <sys/usb/clients/ugen/usb_ugen.h>
 
 #include "log.h"
+#include "bitfield.h"
 #include "io_usb.h"
 #include "usb_internal.h"
 
@@ -512,7 +513,7 @@ usbAllocateEndpointExtension (UsbEndpoint *endpoint) {
       }
     nameError:
 
-      deallocateQueue(eptx->requests);
+      destroyQueue(eptx->requests);
     }
 
     free(eptx);
@@ -539,7 +540,7 @@ usbDeallocateEndpointExtension (UsbEndpointExtension *eptx) {
   }
 
   if (eptx->requests) {
-    deallocateQueue(eptx->requests);
+    destroyQueue(eptx->requests);
     eptx->requests = NULL;
   }
 

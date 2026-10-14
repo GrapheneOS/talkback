@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -25,21 +25,20 @@ extern "C" {
 
 typedef struct PtyObjectStruct PtyObject;
 
-extern PtyObject *ptyNewObject(void);
-extern void ptyDestroyObject(PtyObject *pty);
+extern PtyObject *ptyNewObject (void);
+extern void ptyDestroyObject (PtyObject *pty);
 
-extern const char *ptyGetPath(const PtyObject *pty);
-extern int ptyGetMaster(const PtyObject *pty);
+extern const char *ptyGetPath (const PtyObject *pty);
+extern int ptyGetMaster (const PtyObject *pty);
 
-extern void ptySetLogLevel(PtyObject *pty, unsigned char level);
-extern void ptySetLogInput(PtyObject *pty, int yes);
+extern void ptySetLogLevel (PtyObject *pty, unsigned char level);
+extern void ptySetLogInput (PtyObject *pty, int yes);
 
-extern int ptyWriteInputData(PtyObject *pty, const void *data, size_t length);
-extern int ptyWriteInputCharacter(PtyObject *pty, wchar_t character,
-                                  int kxMode);
+extern int ptyWriteInputData (PtyObject *pty, const void *data, size_t length);
+extern int ptyWriteInputCharacter (PtyObject *pty, wchar_t character, int kxMode);
 
-extern void ptyCloseMaster(PtyObject *pty);
-extern int ptyOpenSlave(const PtyObject *pty, int *fileDescriptor);
+extern void ptyCloseMaster (PtyObject *pty);
+extern int ptyOpenSlave (const PtyObject *pty, int *fileDescriptor);
 
 #ifdef __cplusplus
 }

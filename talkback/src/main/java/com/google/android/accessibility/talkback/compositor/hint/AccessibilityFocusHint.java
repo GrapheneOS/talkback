@@ -24,6 +24,7 @@ import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFee
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
@@ -42,10 +43,18 @@ public class AccessibilityFocusHint {
   private final NodeRoleHint roleHint;
 
   public AccessibilityFocusHint(Context context, GlobalVariables globalVariables) {
+    this(context, globalVariables, new NodeRoleHint(context, globalVariables));
+  }
+
+  public AccessibilityFocusHint(
+      Context context, GlobalVariables globalVariables, NodeRoleHint roleHint) {
     this.context = context;
     this.globalVariables = globalVariables;
+    this.roleHint = roleHint;
+  }
 
-    roleHint = new NodeRoleHint(context, globalVariables);
+  public ClickableHint getClickableHint() {
+    return roleHint.getClickableHint();
   }
 
   /**
@@ -97,19 +106,37 @@ public class AccessibilityFocusHint {
 
   private static CharSequence getHintForAdjustableChild(
       AccessibilityNodeInfoCompat node, GlobalVariables globalVariables) {
+    if (isValidAdjustableNode(node)) {
+      return globalVariables.getGlobalAdjustableHint();
+    } else if (isValidAdjustableNodeForWear(node)) {
+      return globalVariables.getWearInputFocusedAdjustableHint();
+    }
+    return "";
+  }
+
+  private static boolean isValidAdjustableNode(AccessibilityNodeInfoCompat node) {
     AccessibilityNodeInfoCompat parentNode = node.getParent();
     if (parentNode == null) {
       LogUtils.w(TAG, "getHintForAdjustableChild: error  Parent node is null.");
-      return "";
+      return false;
     }
     int role = Role.getRole(parentNode);
-    if (role == ROLE_NUMBER_PICKER
+    return role == ROLE_NUMBER_PICKER
         && (AccessibilityNodeInfoUtils.supportsAction(
                 parentNode, AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD)
             || AccessibilityNodeInfoUtils.supportsAction(
-                parentNode, AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD))) {
-      return globalVariables.getGlobalAdjustableHint();
+                parentNode, AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD));
+  }
+
+  private static boolean isValidAdjustableNodeForWear(AccessibilityNodeInfoCompat node) {
+    if (!FormFactorUtils.isAndroidWear()) {
+      return false;
     }
-    return "";
+    if (node == null) {
+      LogUtils.w(TAG, "isValidAdjustableNodeForWear: node is null");
+      return false;
+    }
+    int role = Role.getRole(node);
+    return role == ROLE_NUMBER_PICKER && node.isFocused();
   }
 }

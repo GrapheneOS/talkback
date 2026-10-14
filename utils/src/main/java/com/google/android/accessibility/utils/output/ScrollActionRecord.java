@@ -18,12 +18,12 @@ package com.google.android.accessibility.utils.output;
 
 import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNode;
 import com.google.android.accessibility.utils.StringBuilderUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -43,6 +43,11 @@ public class ScrollActionRecord {
   public static final int ACTION_AUTO_SCROLL = 1;
   public static final int ACTION_SCROLL_COMMAND = 2;
   public static final int ACTION_MANUAL_SCROLL = 3;
+
+  /** Gets the unique id of this scroll action record. */
+  public int getScrollInstanceId() {
+    return scrollInstanceId;
+  }
 
   /** Source action types that result in scroll events. */
   @IntDef({ACTION_UNKNOWN, ACTION_AUTO_SCROLL, ACTION_SCROLL_COMMAND, ACTION_MANUAL_SCROLL})
@@ -81,6 +86,7 @@ public class ScrollActionRecord {
   // SystemClock.uptimeMillis(), used to compare with AccessibilityEvent.getEventTime().
   public final long autoScrolledTime;
   public final @Nullable String scrollSource;
+  public final @Nullable AutoScrollSuccessChecker autoScrollChecker;
 
   //////////////////////////////////////////////////////////////////////////////////////
   // Construction
@@ -93,12 +99,31 @@ public class ScrollActionRecord {
       @UserAction int userAction,
       long autoScrolledTime,
       @Nullable String scrollSource) {
+    this(
+        scrollInstanceId,
+        scrolledNode,
+        scrolledNodeCompat,
+        userAction,
+        autoScrolledTime,
+        scrollSource,
+        /* autoScrollChecker= */ null);
+  }
+
+  public ScrollActionRecord(
+      int scrollInstanceId,
+      @Nullable AccessibilityNode scrolledNode,
+      @Nullable AccessibilityNodeInfoCompat scrolledNodeCompat,
+      @UserAction int userAction,
+      long autoScrolledTime,
+      @Nullable String scrollSource,
+      @Nullable AutoScrollSuccessChecker autoScrollChecker) {
     this.scrollInstanceId = scrollInstanceId;
     this.userAction = userAction;
     this.scrolledNode = scrolledNode;
     this.scrolledNodeCompat = scrolledNodeCompat;
     this.autoScrolledTime = autoScrolledTime;
     this.scrollSource = scrollSource;
+    this.autoScrollChecker = autoScrollChecker;
   }
 
   //////////////////////////////////////////////////////////////////////////////////////
@@ -126,9 +151,8 @@ public class ScrollActionRecord {
     }
   }
 
-  @NonNull
   @Override
-  public String toString() {
+  public @NonNull String toString() {
     return StringBuilderUtils.joinFields(
         StringBuilderUtils.optionalSubObj("scrolledNode", scrolledNode),
         StringBuilderUtils.optionalSubObj("scrolledNodeCompat", scrolledNodeCompat),
@@ -136,5 +160,27 @@ public class ScrollActionRecord {
         StringBuilderUtils.optionalInt("userAction", userAction, 0),
         StringBuilderUtils.optionalInt("autoScrolledTime", autoScrolledTime, 0),
         StringBuilderUtils.optionalText("scrollSource", scrollSource));
+  }
+
+  public @Nullable AccessibilityNodeInfoCompat getScrolledNode() {
+    if (scrolledNodeCompat != null) {
+      return scrolledNodeCompat;
+    }
+    if (scrolledNode != null) {
+      return scrolledNode.getCompat();
+    }
+    return null;
+  }
+
+  public @Nullable AutoScrollSuccessChecker getAutoScrollSuccessChecker() {
+    return autoScrollChecker;
+  }
+
+  /** Determines if auto-scroll success by the delta of the view-scrolled event. */
+  public interface AutoScrollSuccessChecker {
+
+    /** Returns {@code true} if the scrolling action is completed. */
+    boolean isAutoScrollSuccess(
+        AccessibilityNodeInfoCompat scrolledNodeInRecord, AccessibilityEvent scrolledEvent);
   }
 }

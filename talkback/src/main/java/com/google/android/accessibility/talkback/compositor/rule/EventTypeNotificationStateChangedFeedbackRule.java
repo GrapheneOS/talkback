@@ -16,7 +16,6 @@
 package com.google.android.accessibility.talkback.compositor.rule;
 
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_TYPE_NOTIFICATION_STATE_CHANGED;
-import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_QUEUE;
 import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH;
 
 import android.app.Notification;
@@ -28,8 +27,8 @@ import com.google.android.accessibility.talkback.compositor.Compositor.HandleEve
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.EventFeedback;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
-import com.google.android.accessibility.talkback.compositor.TalkBackFeedbackProvider;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
+import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.StringBuilderUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
@@ -66,6 +65,9 @@ public final class EventTypeNotificationStateChangedFeedbackRule {
         eventOptions -> {
           int role = Role.getSourceRole(eventOptions.eventObject);
           boolean isToast = role == Role.ROLE_TOAST;
+          CharSequence notificationCategory =
+              getNotificationCategoryStateText(
+                  context, AccessibilityEventUtils.extractNotification(eventOptions.eventObject));
 
           CharSequence ttsOutput;
           if (isToast) {
@@ -75,14 +77,28 @@ public final class EventTypeNotificationStateChangedFeedbackRule {
             LogUtils.v(
                 TAG, " ttsOutputRule= eventContentDescriptionOrEventAggregateText, role=toast");
           } else {
-            CharSequence notificationCategory =
-                getNotificationCategoryStateText(
-                    context, AccessibilityEventUtils.extractNotification(eventOptions.eventObject));
             CharSequence notificationDetails =
                 getNotificationDetailsStateText(
                     AccessibilityEventUtils.extractNotification(eventOptions.eventObject));
             ttsOutput =
                 CompositorUtils.joinCharSequences(notificationCategory, notificationDetails);
+            // Add a hint on how to answer the call using the gesture shortcut to play or pause
+            // media.
+            if (notificationCategory
+                .toString()
+                .equals(context.getString(R.string.notification_category_call))) {
+              if (globalVariables.getEnableMediaControlHintForCall()
+                  && FeatureSupport.supportMediaControlHintForCall()
+                  && globalVariables.getUsageHintEnabled()) {
+                CharSequence gestureString =
+                    globalVariables.getGestureStringForMediaControlShortcut();
+                if (gestureString != null) {
+                  String hint = context.getString(R.string.template_hint_for_call, gestureString);
+                  ttsOutput = CompositorUtils.joinCharSequences(ttsOutput, hint);
+                }
+              }
+            }
+
             LogUtils.v(
                 TAG,
                 StringBuilderUtils.joinFields(
@@ -92,16 +108,19 @@ public final class EventTypeNotificationStateChangedFeedbackRule {
                     StringBuilderUtils.optionalText(", role", Role.roleToString(role))));
           }
 
-          int queueMode = isToast ? QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH : QUEUE_MODE_QUEUE;
-
+          boolean isToastOrCall =
+              isToast
+                  || notificationCategory
+                      .toString()
+                      .equals(context.getString(R.string.notification_category_call));
           return EventFeedback.builder()
               .setTtsOutput(Optional.of(ttsOutput))
-              .setQueueMode(queueMode)
+              .setQueueMode(QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH)
               .setTtsAddToHistory(true)
-              .setForceFeedbackEvenIfAudioPlaybackActive(isToast)
-              .setForceFeedbackEvenIfMicrophoneActive(isToast)
+              .setForceFeedbackEvenIfAudioPlaybackActive(isToastOrCall)
+              .setForceFeedbackEvenIfMicrophoneActive(isToastOrCall)
               .setForceFeedbackEvenIfSsbActive(false)
-              .setForceFeedbackEvenIfPhoneCallActive(isToast)
+              .setForceFeedbackEvenIfPhoneCallActive(isToastOrCall)
               .build();
         });
   }
@@ -112,34 +131,24 @@ public final class EventTypeNotificationStateChangedFeedbackRule {
     if (notification == null || notification.category == null) {
       return "";
     }
-    switch (notification.category) {
-      case Notification.CATEGORY_CALL:
-        return context.getString(R.string.notification_category_call);
-      case Notification.CATEGORY_MESSAGE:
-        return context.getString(R.string.notification_category_msg);
-      case Notification.CATEGORY_EMAIL:
-        return context.getString(R.string.notification_category_email);
-      case Notification.CATEGORY_EVENT:
-        return context.getString(R.string.notification_category_event);
-      case Notification.CATEGORY_PROMO:
-        return context.getString(R.string.notification_category_promo);
-      case Notification.CATEGORY_ALARM:
-        return context.getString(R.string.notification_category_alarm);
-      case Notification.CATEGORY_PROGRESS:
-        return context.getString(R.string.notification_category_progress);
-      case Notification.CATEGORY_SOCIAL:
-        return context.getString(R.string.notification_category_social);
-      case Notification.CATEGORY_ERROR:
-        return context.getString(R.string.notification_category_err);
-      case Notification.CATEGORY_TRANSPORT:
-        return context.getString(R.string.notification_category_transport);
-      case Notification.CATEGORY_SYSTEM:
-        return context.getString(R.string.notification_category_sys);
-      case Notification.CATEGORY_SERVICE:
-        return context.getString(R.string.notification_category_service);
-      default:
-        return "";
-    }
+    return switch (notification.category) {
+      case Notification.CATEGORY_CALL -> context.getString(R.string.notification_category_call);
+      case Notification.CATEGORY_MESSAGE -> context.getString(R.string.notification_category_msg);
+      case Notification.CATEGORY_EMAIL -> context.getString(R.string.notification_category_email);
+      case Notification.CATEGORY_EVENT -> context.getString(R.string.notification_category_event);
+      case Notification.CATEGORY_PROMO -> context.getString(R.string.notification_category_promo);
+      case Notification.CATEGORY_ALARM -> context.getString(R.string.notification_category_alarm);
+      case Notification.CATEGORY_PROGRESS ->
+          context.getString(R.string.notification_category_progress);
+      case Notification.CATEGORY_SOCIAL -> context.getString(R.string.notification_category_social);
+      case Notification.CATEGORY_ERROR -> context.getString(R.string.notification_category_err);
+      case Notification.CATEGORY_TRANSPORT ->
+          context.getString(R.string.notification_category_transport);
+      case Notification.CATEGORY_SYSTEM -> context.getString(R.string.notification_category_sys);
+      case Notification.CATEGORY_SERVICE ->
+          context.getString(R.string.notification_category_service);
+      default -> "";
+    };
   }
 
   /** Returns the notification details state text. */

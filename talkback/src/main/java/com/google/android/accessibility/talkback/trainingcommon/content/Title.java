@@ -20,14 +20,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingIpcClient.ServiceData;
-import com.google.android.accessibility.utils.DisplayUtils;
 
 /** A title shows at the beginning in general. */
 public class Title extends PageContentConfig {
@@ -38,17 +36,9 @@ public class Title extends PageContentConfig {
   /** Has precedence over {@link #titleResId}. */
   @Nullable private final String titleString;
 
-  /** The dp value for extra margin top. */
-  private final int extraMarginTopDp;
-
-  /** The flag to determine whether the horizontal margin would be reset. */
-  private final boolean clearTitleHorizontalMargin;
-
   public Title(PageConfig pageConfig) {
     titleResId = pageConfig.getPageNameResId();
     titleString = pageConfig.getPageNameString();
-    extraMarginTopDp = pageConfig.getExtraTitleMarginTop();
-    clearTitleHorizontalMargin = pageConfig.clearTitleHorizontalMargin();
   }
 
   @Override
@@ -61,17 +51,14 @@ public class Title extends PageContentConfig {
     } else {
       title.setText(titleResId);
     }
-
-    ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) title.getLayoutParams();
-    if (extraMarginTopDp > 0) {
-      layoutParams.topMargin += DisplayUtils.dpToPx(context, extraMarginTopDp);
-    }
-    if (clearTitleHorizontalMargin) {
-      layoutParams.leftMargin = 0;
-      layoutParams.rightMargin = 0;
-    }
-    title.setLayoutParams(layoutParams);
-
     return view;
+  }
+
+  protected String provideFinalizedTitle(Context context) {
+    String finalizedTitle = titleString;
+    if (finalizedTitle == null) {
+      finalizedTitle = context.getString(titleResId);
+    }
+    return finalizedTitle;
   }
 }

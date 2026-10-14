@@ -21,13 +21,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import androidx.annotation.ColorInt;
 import androidx.preference.Preference;
+import com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory;
+import com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.utils.FocusIndicatorUtils;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
-import com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory;
-import com.google.android.accessibility.utils.preference.AccessibilitySuiteRadioButtonPreference;
 
 /**
  * Fragment used to display TalkBack focus indicator preferences. If TalkBackService is activated

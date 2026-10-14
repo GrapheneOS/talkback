@@ -35,6 +35,7 @@
   <string name="symbol_period">Obdobje</string>
   <string name="symbol_pi">Pi</string>
   <string name="symbol_pound">Funt</string>
+  <string name="symbol_hash">Šestnajstiška koda</string>
   <string name="symbol_pound_sterling">Znak za valuto funt</string>
   <string name="symbol_currency_peso">Znak za peso</string>
   <string name="symbol_currency_dong">Znak za dong</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">Desni oglati oklepaj</string>
   <string name="symbol_square_root">Kvadratni koren</string>
   <string name="symbol_trademark">Blagovna znamka</string>
+  <string name="symbol_check_mark">Kljukica</string>
   <string name="symbol_underscore">Podčrtaj</string>
   <string name="symbol_vertical_bar">Navpična črta</string>
   <string name="symbol_yen">Jen</string>
@@ -141,7 +143,7 @@
   <string name="symbol_left_single_quotation_mark">Levi enojni zgornji narekovaj</string>
   <string name="symbol_braille">braillova pisava %s</string>
   <plurals name="dots">
-    <item quantity="one">pika %s</item>
+    <item quantity="one">piko %s</item>
     <item quantity="two">piki %s</item>
     <item quantity="few">pike %s</item>
     <item quantity="other">pike %s</item>

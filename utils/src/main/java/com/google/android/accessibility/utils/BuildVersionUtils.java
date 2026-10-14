@@ -17,7 +17,9 @@
 package com.google.android.accessibility.utils;
 
 import android.os.Build;
+import android.text.TextUtils;
 import androidx.annotation.ChecksSdkIntAtLeast;
+import java.util.Objects;
 
 /**
  * This file provides a wrapper for the Build versions. Everytime an android version number gets
@@ -77,5 +79,26 @@ public class BuildVersionUtils {
   @ChecksSdkIntAtLeast(api = 34)
   public static boolean isAtLeastU() {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
+  }
+
+  @ChecksSdkIntAtLeast(api = 35)
+  public static boolean isAtLeastV() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM;
+  }
+
+  public static boolean isSystemPreload() {
+    return TextUtils.equals(BuildConfig.IS_SYSTEM_PRELOAD, "True");
+  }
+
+  @ChecksSdkIntAtLeast(api = 36)
+  public static boolean isAtLeastBaklava() {
+    // TODO: Update to Build.VERSION_CODES.BAKLAVA when it's available
+    // to compile in all builds.
+    return Build.VERSION.SDK_INT >= 36;
+  }
+
+  /** Returns true if device is running Robolectric. */
+  public static boolean isRobolectric() {
+    return Objects.equals(Build.FINGERPRINT, "robolectric");
   }
 }

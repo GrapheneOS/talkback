@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ова упатство е за подобрениот распоред на копчињата, што опфаќа многу нови наредби. За да го изберете распоредот на копчиња, одете во „Поставки за TalkBack &gt; Напредни поставки &gt; Кратенки од тастатурата“.\n\nПритиснете Action + стрелка надесно за да изберете тема. За најдобро доживување, вклучете ја TalkBack пред да започнете.</string>
+  <string name="basic_interaction_link_text">Основна интеракција</string>
+  <string name="basic_interaction_link_subtext">Движете се низ ставките, читајте ред по ред, користете менија и друго</string>
+  <string name="browse_mode_link_text">Режим на прелистување</string>
+  <string name="browse_mode_link_subtext">Движете се низ веб-содржините побрзо со наредбите за префрлање</string>
+  <string name="reading_controls_link_text">Контроли за читање</string>
+  <string name="reading_controls_link_subtext">Користете ги контролите за читање за да се префрлате од една на друга ставка, да ги приспособувате поставките за говор и друго</string>
+  <string name="image_descriptions_link_text">Описи на слики</string>
+  <string name="image_descriptions_link_subtext">Обидете се да добиете описи на сликите</string>
+  <string name="keyboard_shortcuts_link_text">Вежбајте кратенки од тастатурата</string>
+  <string name="keyboard_shortcuts_link_subtext">Притискајте копчиња и комбинации на копчиња и дознајте што прават</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack ви обезбедува говорни повратни информации, па може да го користите уредот без да гледате во екранот. TalkBack може да биде корисна за лица што имаат тешкотии да го видат екранот. Кога функцијата TalkBack е вклучена, нагласената ставка на екранот се изговара наглас.\n\nПрво, да се запознаеме со вашата тастатура. Најдете го копчето за дејство, кое се наоѓа над левото копче Shift. Сега да ги најдеме копчињата со стрелки во близина на долната десна област на тастатурата. Притиснете Action + стрелка надесно за да се преместите на следната ставка.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Ова е следната ставка. За да се преместите на претходната ставка, притиснете Action + стрелка налево.\n\nКога ќе се преместите на интерактивна ставка како копче, притиснете Action + Space за да ја активирате. Најдете го копчето „Следно“ и продолжете со упатството.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Читајте по знак, збор или пасус</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Некогаш можеби ќе сакате да слушате читање текст наглас знак по знак.\n\nЗа да го направите тоа, може да користите навигација со контроли за читање. Притиснете Action + Shift + стрелка надесно или налево додека не слушнете „знаци“.\n\nСледно, притиснете Action + стрелка нагоре за да го поместите фокусот на навигацијата наназад за еден знак. Притиснете Action + стрелка надолу за да го поместите фокусот на навигацијата нанапред за еден знак.\n\nПробајте сега. Може и да изберете да се чита по зборови, редови или пасуси со користење на Action + Shift + стрелка надесно или налево.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Навигација низ системот</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Упатството ќе се затвори откако ќе ги испробате кратенкиве од тастатурата. Можеби ќе сакате да почекате додека не го завршите упатството.\n\nЗа да се префрлате од еден на друг отворен прозорец на апликациите и системските елементи како известувањата и „Лентата со задачи“, притиснете Action + Alt + Ctrl + стрелка нагоре или надолу.\n\nЗа да го отворите списокот со апликации, притиснете Action.\n\nЗа да одите на почетниот екран и да ги минимизирате сите отворени прозорци, притиснете Action + H или „Почетен екран“ во горниот ред.\n\nЗа да одите на неодамнешните апликации, притиснете Action + Tab или „Преглед“ во горниот ред.\n\nЗа брзо да се прфрлате од еден на друг прозорец, задржете го копчето Alt и притиснете Tab.\n\nЗа да се вратите назад, притиснете Action + Esc или „Назад“ во горниот ред.\n\nЗа да ги отворите известувањата, притиснете Action + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Приспособете ги поставките за говор</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Јачината на звукот на говор на TalkBack се нарекува јачина на звук на пристапноста. Се приспособува одделно од јачината на звукот на аудиовизуелните содржини.\n\nЗа да ја приспособите јачината на звукот на пристапноста, притиснете Action + зголемување или намалување на звукот.\n\nЗа да ја приспособите брзината на говорот, притиснете Action + Ctrl + зголемување на звукот за да ја зголемите и Action + Ctrl + намалување на звукот за да ја намалите.\n\nЗа да го сопрете говорот во секое време, притиснете Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Мени на TalkBack и повеќе кратенки од тастатурата</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Менито на TalkBack опфаќа поставки и контроли што може често да ви требаат.\n\nЗа да го отворите менито на TalkBack, притиснете Action + Ctrl + M. Може да ги приспособите менито на TalkBack и контролите за читање подоцна во поставките за TalkBack.\n\nМенито со кратенки од тастатурата на TalkBack ги опфаќа сите кратенки од тастатурата што може да ги користите.\n\nЗа да го отворите менито со кратенки од тастатурата, притиснете Action + Shift + /.\n\nЗа да дознаете повеќе за тастатурата и да вежбате кратенки од тастатурата, притиснете Action + 0 за да го отворите екранот за вежбање.</string>
+  <string name="keyboard_tutorial_finished_page_title">Готово!</string>
+  <string name="keyboard_tutorial_finished_page_text">Спремни сте за користење на TalkBack.\n\nДознајте повеќе за другите теми сега или прегледајте ги информацииве кога сакате во поставките за TalkBack.\n\nЗа да ја вклучите или исклучите TalkBack кога сакате, притиснете Action + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Движете се низ веб-содржините побрзо со режимот на прелистување</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Кога сте во прелистувачот и апликациите за прелистувач, може да вклучите режим на прелистување и да прескокнувате меѓу различни типови грануларност и контроли за читање со едно притискање на копче. Ова го прави движењето низ страницата слично на движењето во поле за изменување текст, како стрелките налево и надесно за движење по знак и стрелките нагоре и надолу за движење по ред.\n\nЗа да го вклучите или исклучите режимот на прелистување, притиснете двапати на копчето за дејство.\n\nКога е вклучен режимот на прелистување, притиснете D за да скокнете на следното обележје, F за следната контрола или поле за формулар, B за следното копче, K за следниот линк и H за следниот наслов. Задржете го копчето Shift и притиснете ги копчињава за да се движите наназад.\n\nМоже да ги користите и стрелките нагоре и надолу за да прескокнувате редови, стрелките налево и надесно за да прескокнувате букви и Ctrl + стрелките налево и надесно за да прескокнувате зборови.\n\nПритиснете Action + стрелка надесно за да влезете во област за вежбање. Додека сте во областа за вежбање, линковите, полињата за формулари и копчињата нема да направат ништо.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Нивоа на наслови</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Веб-сајтовите и апликациите за прелистувач често користат наслови со различни нивоа за да ги структурираат содржините. Кога е вклучен режимот на прелистување, притиснете од 1 до 6 за да се префрлате од едно на друго ниво на наслов. Задржете Shift и притиснете ги копчињава за да се движите наназад.\n\nПритиснете Action + стрелка надесно за да влезете во област за вежбање.</string>
+  <string name="keyboard_tutorial_tables_page_title">Табели</string>
+  <string name="keyboard_tutorial_tables_page_text">Режимот на прелистување ја олеснува и навигацијата низ табелите. Кога е вклучен режимот на прелистување, притиснете Alt + Ctrl + стрелките нагоре и надолу за да се префрлате од еден на друг ред и Alt + Ctrl + стрелките налево и надесно за да се префрлате од една на друга колона.\n\nПритиснете Action + стрелка надесно за да влезете во област за вежбање.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Изменување текст</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Кога ќе влезете во текстуално поле, режимот на прелистување привремено ќе се исклучи за да може да ги користите сите копчиња за да пишувате. Ќе слушнете објава и звук кога ќе се исклучи. Откако ќе го напуштите текстуалното поле, режимот на прелистување ќе се вклучи повторно и ќе слушнете друга објава и звук.\n\nПритиснете Action + стрелка надесно за да влезете во област за вежбање.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Повеќе за режимот на прелистување</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">За да го проверите целосниот список со ставки меѓу кои може да се префрлате во режим на прелистување, притиснете Action + Shift + / и пребарајте „Режим на прелистување“ во менито со кратенки од тастатурата.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Читајте по знак, збор или пасус</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Некогаш можеби ќе сакате да слушате читање текст наглас знак по знак.\n\nЗа да го направите тоа, може да користите навигација со контроли за читање. Притиснете Action + Shift + стрелка надесно или налево додека не слушнете „знаци“. Следно, притиснете Action + стрелка нагоре за да го поместите фокусот на навигацијата наназад за еден знак. Притиснете Action + стрелка надолу за да го поместите фокусот на навигацијата нанапред за еден знак.\n\nПробајте сега. Може и да изберете да се чита по зборови, редови или пасуси со користење на Action + Shift + стрелка надесно или налево.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Скокајте од една на друга контрола</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Контроли се ставките за интеракција, како копчињата, полињата за избор и текстуалните полиња.\n\nНа некои страници можеби ќе сакате да скокате од контрола на контрола за брзо наоѓање дејства, како што е копчето „Следно“.\n\nЗа да го направите ова, притиснете Action + Shift + стрелка надесно додека не слушнете „контроли“. Следно, притиснете Action + стрелка нагоре за да одите на претходното копче и Action + стрелка надолу за да одите на следното копче.\n\nИспробајте сега и најдете го копчето „Следно“.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Скокајте од еден на друг линк</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Може и да скокате од еден на друг линк на страницата.\n\nЗа да го направите ова, притиснете Action + Shift + стрелка надесно додека не слушнете „линкови“. Следно, притиснете Action + стрелка надолу за да го најдете линкот со име „Линк 5“. Додека сте во упатството, допирањето двапати на линков нема да направи ништо.\n\nПритиснете Action + стрелка надесно за да го најдете копчето „Следно“ и одете на следната страница.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Скокајте од еден на друг наслов</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Може и да скокате од еден на друг наслов на страницата.\n\nЗа да испробате сега, притиснете Action + Shift + стрелка надесно додека не слушнете „наслови“. Следно, притиснете Action + стрелка надолу за да го најдете насловот „Навигација“.</string>
+  <string name="keyboard_tutorial_find_next_button">Притиснете Action + стрелка надесно за да го најдете копчето „Следно“.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Скокајте од еден на друг контејнер</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">За да излезете од некој контејнер, како список или мрежа, притиснете Action + Alt + Ctrl + стрелка надесно или налево. Ова е корисно кога сакате да се излезете од долг список со ставки.\n\nЗа да испробате сега, притиснете Action + стрелка надесно за да влезете во списокот. Потоа притиснете Action + Alt + Ctrl + стрелка надесно за да одите на следниот контејнер.</string>
+  <string name="keyboard_tutorial_go_to_next_container">За да одите на следниот контејнер, притиснете Action + Alt + Ctrl + стрелка надесно</string>
+  <string name="keyboard_tutorial_exit_container">За да излезете од контејнеров, притиснете Action + Alt + Ctrl + стрелка надесно</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Излеговте од контејнерот. Може и да додадете контејнери во контролите за читање, а потоа да притиснете Action + Shift + стрелка надесно или налево за да изберете контејнери и Action + стрелка надолу или нагоре за да скокате од еден на друг контејнер. За да ги ажурирате контролите за читање, одете во „TalkBack &gt; Поставки &gt; Приспособете ги менијата &gt; Приспособете ги контролите за читање“.\n\nПритиснете Action + стрелка надесно за да го најдете копчето „Следно“.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Приспособете ги контролите за читање</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Може и да ги приспособите поставките за говор со контролите за читање и да приспособите што може да правите со контролите за читање во „TalkBack &gt; Поставки &gt; Приспособете ги менијата &gt; Приспособете ги контролите за читање“.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Обидете се да добиете описи на сликите</string>
+  <string name="keyboard_tutorial_image_description_page_text">Кога сте фокусирани на слика, притиснете Action + R, а потоа I. Подолу има една фотографија. Обидете се да добиете опис на фотографијата.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Може да ги промените поставките за опис на слики кога сакате во „Поставки за TalkBack &gt; Описи на сликите и иконите“.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Може да ги промените поставките за опис на слики кога сакате во „Поставки за TalkBack“, па во „Описи на сликите и иконите“.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Примерок слика. Притиснете Action + R, па I за да слушнете опис.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Гласовни наредби</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Може да го користите гласот за да ја контролирате TalkBack набрзина.\n\nНа пример, кажете наредба за промена на навигацијата, скокање на следниот наслов, копирање текст и друго.\n\nЗа да испробате сега, притиснете Action + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Користење на „Пребарување на екранот“</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Функцијата „Пребарување на екранот“ ви овозможува да барате одредени содржини на екранот.\n\nЗа да ја испробате, притиснете Action + CTRL + /. Напишете клучен збор како „следно“ за да најдете ставки со тој текст на екранот.\n\nОбидете се да пребарате „следно“ сега за да го најдете копчето „Следно“.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Движење со „Пребарување на екранот“</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Може брзо да се движите низ различните резултати од пребарувањето од „Пребарување на екранот“ откако ќе изберете некој од резултатите.\n\nЗа да го направите ова, може да користите навигација со контролите за читање. Притиснете Action + Shift + стрелка надесно или стрелка налево додека не слушнете „Пребарување на екранот“. Следно, притиснете Action + стрелка надолу или стрелка нагоре за да се движите низ резултатите од „Пребарување на екранот“.\n\nАјде да испробаме сега. Подолу е списокот со 3 копчиња и сите го содржат текстот „action“. Пребарајте „action“ користејќи „Пребарување на екранот“, па движете се со „Пребарување на екранот“ за да ги разгледате дејствата.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Вежбање кратенки од тастатурата</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Притиснете физичко копче од тастатура или комбинација копчиња за да слушнете што прави. Притиснете Ctrl + W или Escape за да излезете.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Откријте го величествениот изглед на калифорниските секвои&lt;/h1&gt;
+      &lt;p&gt;Калифорниските секвои, особено крајбрежната секвоја (Sequoia sempervrens), се највисоките дрвја во светот. Некои се високи над 115 метри и може да живеат илјадници години. Успеваат да опстанат во влажната крајбрежна клима на северна Калифорнија, а им користат дождот и маглата.&lt;/p&gt;
+
+      &lt;h2&gt;Каде може да ги видите&lt;/h2&gt;
+      &lt;p&gt;Ќе ги најдете џиновиве во теснецот долж брегот на Тихиот Океан. Клучните паркови се:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Националниот и државниот парк Redwood&lt;/li&gt;
+        &lt;li&gt;Државниот парк Humboldt Redwoods&lt;/li&gt;
+        &lt;li&gt;Државниот парк Big Basin Redwoods&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Испланирајте ја вашата посета овде: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Државни паркови на Калифорнија – секвои&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Поддржете ја заштитата&lt;/h2&gt;
+      &lt;p&gt;Заштитата на овие древни шуми е клучна. Може да помогнете така што ќе ги следите упатствата на паркот и ќе ги поддржите напорите за зачувување.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Споделете го вашето доживување&lt;/h2&gt;
+        &lt;p&gt;Дали сте биле во шумите со секвои?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Да&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Не&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Кажете ни за вашето доживување&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Испрати&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Што друго би сакале да дознаете за секвоите?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Испрати&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Секвои: Одржување на здрава животна средина&lt;/h1&gt;
+    &lt;p&gt;Секвоите се важни за нашата планета, играат огромна улога во одржувањето на здрава животна средина.&lt;/p&gt;
+
+    &lt;h1&gt;Огромни прочистувачи на воздухот&lt;/h1&gt;
+    &lt;p&gt;Овие дрвја се неверојатни во впивањето јаглерод диоксид од воздухот. Со тоа што апсорбираат толку многу јаглерод диоксид, секвоите помагаат да се одржи чистотата на воздухот.&lt;/p&gt;
+
+    &lt;h2&gt;Дом за животните&lt;/h2&gt;
+    &lt;p&gt;Секвоите служат како домови и засолништа за многу животни, од птиците во нивните гранки до малите суштества во почвата.&lt;/p&gt;
+
+    &lt;h3&gt;Водени волшебници&lt;/h3&gt;
+    &lt;p&gt;Одлични се во фаќањето магла, која потоа капе на шумското тло. Ова ја одржува почвата влажна и обезбедува вода за други растенија и животни, особено кога е суво.&lt;/p&gt;
+
+    &lt;h4&gt;Заштитници на почвата&lt;/h4&gt;
+    &lt;p&gt;Нивните силни корени ја држат почвата на место, спречувајќи ја да се излие при силни дождови и спречувајќи ерозија.&lt;/p&gt;
+
+    &lt;h5&gt;Пошумувачи&lt;/h5&gt;
+    &lt;p&gt;Кога старите секвои паѓаат, нивното дрво станува храна и засолниште за нови растенија и суштества, создавајќи богата почва за нов раст.&lt;/p&gt;
+
+    &lt;h6&gt;Уникатни екосистеми&lt;/h6&gt;
+    &lt;p&gt;Бидејќи секвоите се толку големи и живеат толку долго, тие создаваат посебни шумски средини што го поддржуваат животот што не се наоѓа на друго место.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Животни во шумите со секвои&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Животни во шумите со секвои\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Животно&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Опис&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Каде живее&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Интересен факт&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Банана полжав&lt;/th&gt;
+            &lt;td&gt;Голем, жолт, лигав полжав&lt;/td&gt;
+            &lt;td&gt;На шумското тло&lt;/td&gt;
+            &lt;td&gt;Втор најголем полжав во светот&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Тихоокеански џиновски саламандери&lt;/th&gt;
+            &lt;td&gt;Големи саламандери со темна боја&lt;/td&gt;
+            &lt;td&gt;Во близина на потоци и влажни места&lt;/td&gt;
+            &lt;td&gt;Може да пораснат до 30 cm должина&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Рузвелтов елен&lt;/th&gt;
+            &lt;td&gt;Голем елен со импресивни рогови&lt;/td&gt;
+            &lt;td&gt;Пасе на чистините во шумата&lt;/td&gt;
+            &lt;td&gt;Мажјаците може да тежат над 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Северен шарен був&lt;/th&gt;
+            &lt;td&gt;Був со средна големина, лови ноќе&lt;/td&gt;
+            &lt;td&gt;Во густи, зрели шуми со секвои&lt;/td&gt;
+            &lt;td&gt;„Индикаторски вид“ – неговото здравје ја покажува здравствената состојба на шумата&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Црна мечка&lt;/th&gt;
+            &lt;td&gt;Голем цицач, обично црн или кафеав&lt;/td&gt;
+            &lt;td&gt;Бара храна низ шумата&lt;/td&gt;
+            &lt;td&gt;Одлично се качуваат, често се забележуваат на дрвјата&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Вашите размислувања за секвоите и природата&lt;/h1&gt;
+
+      &lt;p&gt;Што друго би сакале да научите за секвоите?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Кое ви е омилено место во природата што сакате да го посетите?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;За кој концепт во природата сакате да дознаете повеќе?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

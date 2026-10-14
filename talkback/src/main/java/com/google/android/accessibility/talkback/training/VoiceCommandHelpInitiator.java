@@ -29,7 +29,7 @@ public class VoiceCommandHelpInitiator {
   public static Intent createVoiceCommandHelpIntent(Context context) {
     return TrainingActivity.createTrainingIntent(
         context,
-        FormFactorUtils.getInstance().isAndroidWear()
+        FormFactorUtils.isAndroidWear()
             ? TRAINING_ID_VOICE_COMMAND_HELP_FOR_WATCH
             : TRAINING_ID_VOICE_COMMAND_HELP);
   }

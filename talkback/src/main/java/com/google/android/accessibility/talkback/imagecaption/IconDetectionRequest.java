@@ -16,12 +16,11 @@
 
 package com.google.android.accessibility.talkback.imagecaption;
 
-import static com.google.android.accessibility.utils.caption.ImageCaptionUtils.CaptionType.ICON_LABEL;
+import static com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType.ICON_LABEL;
 
 import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.utils.caption.Result;
 import com.google.android.accessibility.utils.screenunderstanding.IconAnnotationsDetector;
 import java.util.Locale;
 

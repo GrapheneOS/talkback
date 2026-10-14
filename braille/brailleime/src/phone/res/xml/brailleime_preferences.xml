@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <Preference
-      android:key="@string/pref_brailleime_turn_on_braille_keyboard"
-      android:title="@string/set_up_braille_keyboard" />
+  <PreferenceCategory android:key="@string/pref_brailleime_preferences_category">
 
-  <Preference
-      android:key="@string/pref_brailleime_review_all_gestures"
-      android:title="@string/review_all_gestures_title" />
+    <Preference
+        android:key="@string/pref_brailleime_turn_on_braille_keyboard"
+        android:title="@string/set_up_braille_keyboard" />
 
-  <Preference
-      android:key="@string/pref_brailleime_translator_codes_preferred"
-      android:summary="%s"
-      android:title="@string/preferred_languages_title" />
+    <Preference
+        android:key="@string/pref_brailleime_review_all_gestures"
+        android:title="@string/review_all_gestures_title" />
 
-  <ListPreference
-      android:key="@string/pref_brailleime_translator_code"
-      android:summary="%s"
-      android:title="@string/preferred_typing_language_title" />
+    <Preference
+        android:key="@string/pref_brailleime_translator_codes_preferred"
+        android:summary="%s"
+        android:title="@string/preferred_languages_title" />
 
-  <Preference
-      android:key="@string/pref_braille_contracted_mode"
-      android:title="@string/preferred_braille_grade_title">
-    <intent android:action=".BrailleGradeActivity" />
-  </Preference>
+    <ListPreference
+        android:key="@string/pref_brailleime_translator_code"
+        android:summary="%s"
+        android:title="@string/preferred_typing_language_title" />
 
-  <ListPreference
-      android:key="@string/pref_brailleime_layout_mode"
-      android:title="@string/context_menu_layout_selection"
-      android:summary="%s" />
+    <Preference
+        android:key="@string/pref_braille_contracted_mode"
+        android:title="@string/preferred_braille_grade_title">
+      <intent android:action=".BrailleGradeActivity" />
+    </Preference>
 
-  <SwitchPreference
-      android:key="@string/pref_brailleime_accumulate_mode"
-      android:summary="@string/summary_pref_accumulate_presses"
-      android:title="@string/title_pref_accumulate_presses" />
+    <ListPreference
+        android:key="@string/pref_brailleime_layout_mode"
+        android:title="@string/context_menu_layout_selection"
+        android:summary="%s" />
 
-  <SwitchPreference
-      android:key="@string/pref_brailleime_reverse_dots_mode"
-      android:summary="@string/summary_pref_reverse_dots"
-      android:title="@string/title_pref_reverse_dots" />
+    <SwitchPreferenceCompat
+        android:key="@string/pref_brailleime_accumulate_mode"
+        android:summary="@string/summary_pref_accumulate_presses"
+        android:title="@string/title_pref_accumulate_presses" />
+
+    <SwitchPreferenceCompat
+        android:key="@string/pref_brailleime_reverse_dots_mode"
+        android:summary="@string/summary_pref_reverse_dots"
+        android:title="@string/title_pref_reverse_dots" />
+
+  </PreferenceCategory>
 
 </PreferenceScreen>

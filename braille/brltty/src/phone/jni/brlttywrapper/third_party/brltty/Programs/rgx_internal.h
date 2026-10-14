@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,7 +19,7 @@
 #ifndef BRLTTY_INCLUDED_RGX_INTERNAL
 #define BRLTTY_INCLUDED_RGX_INTERNAL
 
-#include "strfmth.h"
+#include "strfmt_types.h"
 
 #if defined(USE_PKG_RGX_NONE)
 #define RGX_NO_MATCH 1

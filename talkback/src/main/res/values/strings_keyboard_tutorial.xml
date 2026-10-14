@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
+  <!--The text for the instructions for the keyboard tutorial. [CHAR_LIMIT=NONE]-->
+  <string name="talkback_keyboard_tutorial_text">This tutorial is for the enhanced keymap, which includes many new commands. To select the keymap, go to TalkBack settings > Advanced settings > Keyboard shortcuts.\n\nPress Action + Right arrow to select a topic. For the best experience, turn on TalkBack before getting started.</string>
+  <!-- The text of basic interaction on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="basic_interaction_link_text">Basic interaction</string>
+  <!-- The subtext of basic interaction on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="basic_interaction_link_subtext">Move between items, read by lines, use menus, and more</string>
+  <!-- The text of browse mode on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="browse_mode_link_text">Browse mode</string>
+  <!-- The subtext of browse mode on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="browse_mode_link_subtext">Navigate web content faster with jump commands</string>
+  <!-- The text of reading controls on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="reading_controls_link_text">Reading controls</string>
+  <!-- The subtext of reading controls on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="reading_controls_link_subtext">Use reading controls to jump between items, adjust speech settings and more</string>
+  <!-- The text of image descriptions on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="image_descriptions_link_text">Image descriptions</string>
+  <!-- The subtext of image descriptions on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="image_descriptions_link_subtext">Try getting descriptions of images</string>
+  <!-- The text of keyboard shortcuts on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_shortcuts_link_text">Practice keyboard shortcuts</string>
+  <!-- The subtext of keyboard shortcuts on the index page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_shortcuts_link_subtext">Press keys and key combinations and learn what they do</string>
+
+  <!-- Welcome to TalkBack keyboard tutorial pages. -->
+  <!-- The text of the keyboard tutorial welcome to talkback page. [CHAR_LIMIT=NONE]-->
+  <string name ="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack provides spoken feedback so that you can use your device without looking at the screen. TalkBack can be helpful for people who have difficulty seeing the screen. When TalkBack is on, the focused item on the screen is spoken out loud.\n\nFirst let\'s get familiar with your keyboard. Find the Action key, which is above the left Shift key. Now let\'s find the arrow keys near the bottom-right area of the keyboard. Press Action + Right arrow to move to the next item.</string>
+  <!-- The text of the keyboard tutorial next item. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">This is the next item. To move to the previous item, press Action + Left arrow.\n\nWhen you move to an interactive item like a button, press Action + Space to activate it. Find the next button and continue the tutorial.</string>
+  <!-- The title of the keyboard tutorial reading by lines, words and characters page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Read by character, word, or paragraph</string>
+  <!-- The description of how to read by lines, words and characters. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Sometimes, you might want to hear text read aloud one character at a time.\n\nTo do this, you can use reading controls navigation. Press Action + Shift + Right or Left arrow until you hear "characters."\n\nNext, press Action + Up arrow to move the navigation focus backward by character. Press Action + Down arrow down to move the navigation focus forward by character.\n\nTry it now. You can also choose to read by words, lines, or paragraphs using Action + Shift + Right or Left arrow.</string>
+  <!-- The title of the keyboard tutorial system navigation page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_system_navigation_page_title">System navigation</string>
+  <!-- The description of how to navigate to system pages. "Search" is a generic term, not a product name. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_system_navigation_page_text">Trying these keyboard shortcuts now will close the tutorial. You may want to wait until you\'ve completed the tutorial.\n\nTo jump between open app windows and system elements like notifications and the Taskbar, press Action + Alt + Ctrl + Up or Down arrow.\n\nTo open the app list, press Action.\n\nTo go to the Home screen and minimize all open windows, press Action + H or Home in the top row.\n\nTo go to your recent apps, press Action + Tab or Overview in the top row.\n\nTo quickly jump between windows, hold down Alt and press Tab.\n\nTo go back, press Action + Esc or Back in the top row.\n\nTo open notifications, press Action + N.</string>
+  <!-- The title of the keyboard tutorial speech settings page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_speech_settings_page_title">Adjust speech settings</string>
+  <!-- The description of how to adjust speech settings. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_speech_settings_page_text">The volume for TalkBack speech is called the accessibility volume. It\'s adjusted separately from the media volume.\n\nTo adjust the accessibility volume, press Action + Volume up or down.\n\nTo adjust the speech rate, press Action + Ctrl + Volume up to increase and Action + Ctrl + Volume down to decrease.\n\nTo stop speech at any time, press Ctrl.</string>
+  <!-- The title of the keyboard tutorial more keyboard shortcuts page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack menu and more keyboard shortcuts</string>
+  <!-- The description of how to use the talkback menu and more keyboard shortcuts. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">The TalkBack menu includes settings and controls that you may need often.\n\nTo open the TalkBack menu, press Action + Ctrl + M. You can customize the TalkBack menu and your reading controls later in TalkBack settings.\n\nThe TalkBack keyboard shortcuts menu includes all the keyboard shortcuts you can use.\n\nTo open the keyboard shortcuts menu, press Action + Shift + /.\n\nTo learn more about the keyboard and practice keyboard shortcuts, press Action + 0 to open the practice screen.</string>
+  <!-- The title of the keyboard tutorial finished page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_finished_page_title">All set!</string>
+  <!-- The description of the keyboard tutorial finished page. "Keep" is a generic term, not a product name. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_finished_page_text">You are ready to use TalkBack.\n\nKeep learning about other topics now, or review this info anytime in TalkBack settings.\n\nTo turn TalkBack on or off at any time, press Action + Alt + T.</string>
+
+  <!-- Browse mode pages in keyboard tutorial. -->
+  <!-- The title of the keyboard tutorial browse mode page. [CHAR_LIMIT=NONE]-->
+  <string name ="keyboard_tutorial_browse_mode_page_title">Navigate web content faster with browse mode</string>
+  <!-- The description of how to use browse mode. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_browse_mode_page_text">When you are in the browser and web apps, you can turn on browse mode and jump between different types of reading granularity and controls with a single press of a key. It makes navigating a page similar to navigating in a text editing box, such as left and right arrows to move by character and up and down arrows to move by line.\n\nTo turn on or off browse mode, double-press the Action key.\n\nWhen browse mode is on, press D to jump to the next landmark, F for the next control or form field, B for the next button, K for the next link and H for the next heading. Hold Shift and press these keys to move backward.\n\nYou can also use Up and Down arrows to jump by lines, Left and Right arrows to jump by letters, and Ctrl + Left and Right arrows to jump by words.\n\nPress Action + Right arrow to enter a practice area. While in the practice area links, form fields, and buttons won\'t do anything.</string>
+  <!-- The title of the keyboard tutorial heading levels page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_heading_levels_page_title">Heading levels</string>
+  <!-- The description of how to use heading levels. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_heading_levels_page_text">Websites and web apps often use headings with different levels to structure the content. When browse mode is on, press 1 through 6 to jump to the heading levels. Hold Shift and press these keys to move backward.\n\nPress Action + Right arrow to enter a practice area.</string>
+  <!-- The title of the keyboard tutorial tables page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_tables_page_title">Tables</string>
+  <!-- The description of how to use tables. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_tables_page_text">Browse mode also makes table navigation easier. When browse mode is on, press Alt + Ctrl + Up and Down arrows to jump between rows and Alt + Ctrl + Left and Right arrows to jump between columns.\n\nPress Action + Right arrow to enter a practice area.</string>
+  <!-- The title of the keyboard tutorial editing text page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_editing_text_page_title">Editing text</string>
+  <!-- The description of how to use editing text. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_editing_text_page_text">When you enter a text field, browse mode will be temporarily turned off so that you can use all the keys to type. You will hear an announcement and a sound when it’s turned off. Once you leave the text field, browse mode will turn back on and you will hear another announcement and sound.\n\nPress Action + Right arrow to enter a practice area.</string>
+  <!-- The title of the keyboard tutorial more browse mode page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_more_browse_mode_page_title">More about browse mode</string>
+  <!-- The description of how to use more browse mode. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_more_browse_mode_page_text">To check the complete list of items you can jump between in browse mode, press Action + Shift + / and search for\"browse mode\" in the keyboard shortcuts menu.</string>
+
+
+  <!-- Reading controls pages in keyboard tutorial. -->
+  <!-- The title of the keyboard tutorial reading controls page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_reading_controls_page_title">Read by character, word, or paragraph</string>
+  <!-- The description of how to use reading controls. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_reading_controls_page_text">Sometimes, you might want to hear text read aloud one character at a time.\n\nTo do this, you can use reading controls navigation. Press Action + Shift + Right or Left arrow until you hear "characters." Next, press Action + Up arrow to move the navigation focus backward by character. Press Action + Down arrow down to move the navigation focus forward by character.\n\nTry it now. You can also choose to read by words, lines or paragraphs using Action + Shift + Right or Left arrow.</string>
+  <!-- The title of the keyboard tutorial jump between controls page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Jump between controls</string>
+  <!-- The description of how to use jump between controls. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Controls are items that you can interact with, like buttons, checkboxes, and text boxes.\n\nOn some pages, you may want to jump between controls to quickly find an action, like the next button.\n\nTo do this, press Action + Shift + Right arrow until you hear "controls." Next, press Action + Up arrow to go to the previous button and Action + Down arrow to go to the next button.\n\nTry it now and find the next button.</string>
+  <!-- The title of the keyboard tutorial jump between links page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_jump_between_links_page_title">Jump between links</string>
+  <!-- The description of how to use jump between links. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_jump_between_links_page_text">You can also jump between links on a page.\n\nTo do this, press Action + Shift + Right arrow until you hear "links." Next, press Action + Down arrow to find the link named "Link 5." While in the tutorial, double tapping this link won\'t do anything.\n\nPress Action + Right arrow to find the next button and go to the next page.</string>
+  <!-- The title of the keyboard tutorial jump between headings page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Jump between headings</string>
+  <!-- The description of how to use jump between headings. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_jump_between_headings_page_text">You can also jump between headings on a page.\n\nTo try it now, press Action + Shift + Right arrow until you hear "headings." Next, press Action + Down arrow to find the "Navigation" heading.</string>
+  <!-- The description of how to find next button using the keyboard. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_find_next_button">Press Action + Right arrow to find the next button.</string>
+  <!-- The title of the keyboard tutorial jump between containers page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Jump between containers</string>
+  <!-- The description of how to use jump between containers. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_jump_between_containers_page_text">To exit out of a container, like a list or grid, press Action + Alt + Ctrl + Right or Left arrow. This is useful when you want to move out of a long list of items.\n\nTo try it now, press Action + Right arrow to enter the list. Then press Action + Alt + Ctrl + Right arrow to go to the next container.</string>
+  <!-- The description of how to go to the next container using the keyboard. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_go_to_next_container">To go to the next container, press Action + Alt + Ctrl + Right arrow</string>
+  <!-- The description of how to exit out of a container using the keyboard. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_exit_container">To exit this container, press Action + Alt + Ctrl + Right arrow</string>
+  <!-- The description of how to add containers to reading controls. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_add_container_reading_controls">You\'ve exited the container. You can also add containers to your reading controls and then press Action + Shift + Right or Left arrow to select containers and Action + Down or Up arrow to jump between containers. To update reading controls, go to TalkBack > Settings > Customize menus > Customize reading controls.\n\nPress Action + Right arrow to find the next button.</string>
+  <!-- The title of the keyboard tutorial customize reading controls page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Customize reading controls</string>
+  <!-- The description of how to use customize reading controls. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">You can also adjust speech settings using reading controls and customize what you can do with reading controls in TalkBack > Settings > Customize menus > Customize reading controls.</string>
+
+
+  <!-- Image description pages in keyboard tutorial. -->
+  <!-- The title of the keyboard tutorial image description page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_image_description_page_title">Try getting image descriptions</string>
+  <!-- The description of how to use image description. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_image_description_page_text">When you\'re focused on an image, press Action + R, then I. There\'s one photo below. Try getting a description for it.</string>
+  <!-- Keyboard tutorial image description settings description. [CHAR_LIMIT=NONE] -->
+  <string name="keyboard_tutorial_image_description_settings_description">You can change image description settings anytime in TalkBack settings > Image &#38; icon descriptions.</string>
+  <!-- Keyboard tutorial image description settings description for TTS. [CHAR_LIMIT=NONE] -->
+  <string name="keyboard_tutorial_image_description_settings_description_tts">You can change image description settings anytime in TalkBack settings then Image &#38; icon descriptions.</string>
+  <!-- Keyboard tutorial image description sample image content description. [CHAR_LIMIT=NONE] -->
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Sample image. Press Action + R, then I to hear a description.</string>
+
+
+  <!-- Voice commands pages in keyboard tutorial. -->
+  <!-- The title of the keyboard tutorial voice commands page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_voice_commands_page_title">Voice commands</string>
+  <!-- The description of how to use voice commands. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_voice_commands_page_text">You can use your voice to control TalkBack quickly.\n\nFor example, say a command to change navigation, jump to the next heading, copy text and more.\n\nTo try it now, press Action + \\.</string>
+
+  <!-- Screen search pages in keyboard tutorial. -->
+  <!-- The title of the keyboard tutorial screen search page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_screen_search_page_title">Using screen search search</string>
+  <!-- The description of how to use screen search. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_screen_search_page_text">The screen search feature allows you to look for specific content on the screen.\n\nTo try it, press Action + CTRL + /. Type in a keyword, like \"next,\" to find items with the text on the screen.\n\nTry searching for \"next\" now to find the next button.</string>
+  <!-- The title of the keyboard tutorial navigate to screen search page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navigate by screen search</string>
+  <!-- The description of how to use navigate to screen search. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">You can quickly move between different search results from screen search after you\'ve selected a result.\n\nTo do this, you can use reading controls navigation. Press Action + Shift + Right or Left arrow until you hear \"screen search.\" Next, press Action + Down or Up arrow to navigate by screen search results.\n\nLet\'s try it now. Below is a list of 3 buttons, all of them containing the text\"action.\" Search for\"action\" using screen search, then navigate by screen search to move between them.</string>
+
+  <!-- Practice keyboard shortcuts pages in keyboard tutorial. -->
+  <!-- The title of the keyboard tutorial practice keyboard shortcuts page. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Practice keyboard shortcuts</string>
+  <!-- The description of how to use practice keyboard shortcuts. [CHAR_LIMIT=NONE]-->
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Press a physical keyboard key or key combination to hear what it does. Press Ctrl + W, or Escape to exit.</string>
+
+  <!-- Practice area with various web elements like headings, links, and buttons to navigate. [CHAR_LIMIT=NONE]-->
+  <string name="browse_mode_practice_general"><![CDATA[
+    <main>
+      <h1>Discover the Majesty of California Redwoods</h1>
+      <p>California\'s redwoods, primarily the coast redwood (Sequoia sempervrens), are the world\'s tallest trees. Some stand over 380 feet (115 meters) and can live for thousands of years. They thrive in the humid coastal climate of northern California, benefiting from rain and fog.</p>
+
+      <h2>Where to See Them</h2>
+      <p>You\'ll find these giants in a narrow strip along the Pacific coast. Key parks include:</p>
+      <ul>
+        <li>Redwood National and State Parks</li>
+        <li>Humboldt Redwoods State Park</li>
+        <li>Big Basin Redwoods State Park</li>
+      </ul>
+
+      <p>Plan your visit here: <a href="https://www.parks.ca.gov/?page_id=24723">California State Parks - redwoods</a></p>
+
+      <h2>Support Conservation</h2>
+      <p>Protecting these ancient forests is vital. You can help by following park guidelines and supporting conservation efforts.</p>
+
+      <hr>
+      <form>
+        <h2>Share Your Experience</h2>
+        <p>Have you been to the redwoods?</p>
+        <div class="radio-group">
+            <div class="radio-option">
+                <input type="radio" id="yes" name="seenRedwoods" value="yes" checked>
+                <label for="yes">Yes</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="no" name="seenRedwoods" value="no">
+                <label for="no">No</label>
+            </div>
+        </div>
+
+        <p>Tell us about your experience</p>
+        <div>
+            <textarea class="full-width-textarea" rows="2"></textarea>
+        </div>
+        <div>
+          <button>Submit</button>
+        </div>
+      </form>
+      <form>
+        <p>What else would you like to learn about redwoods?</p>
+        <div>
+            <textarea class="full-width-textarea" rows="2"></textarea>
+        </div>
+        <div>
+          <button>Submit</button>
+        </div>
+      </form>
+    </main>
+  ]]></string>
+  <!-- Practice area with heading levels 1 through 6 to practice jumping between them. [CHAR_LIMIT=NONE]-->
+  <string name="browse_mode_practice_heading_levels"><![CDATA[
+    <h1>Redwood Trees: Keeping Our Environment Healthy</h1>
+    <p>Redwoods are important for our planet, playing a huge role in keeping our environment healthy.</p>
+
+    <h1>Giant Air Cleaners</h1>
+    <p>These trees are amazing at soaking up carbon dioxide from the air. By taking in so much of it, redwoods help keep our air clean.</p>
+
+    <h2>Home for Animals</h2>
+    <p>Redwoods provide homes and shelter for many animals, from birds in their branches to small creatures in the soil.</p>
+
+    <h3>Water Wizards</h3>
+    <p>They\'re great at catching fog, which then drips to the forest floor. This keeps the ground moist and provides water for other plants and animals, especially when it\'s dry.</p>
+
+    <h4>Soil Protectors</h4>
+    <p>Their strong roots hold the soil in place, stopping it from washing away during heavy rains and preventing erosion.</p>
+
+    <h5>Forest Builders</h5>
+    <p>When old redwoods fall, their wood becomes food and shelter for new plants and creatures, creating rich soil for new growth.</p>
+
+    <h6>Unique Ecosystems</h6>
+    <p>Because redwoods are so big and live so long, they create special forest environments that support life found nowhere else.</p>
+  ]]></string>
+  <!-- Practice area containing a data table for navigating between rows and columns. [CHAR_LIMIT=NONE]-->
+  <string name="browse_mode_practice_tables"><![CDATA[
+  <h2>Animals of the Redwood Forests</h2>
+
+  <div>
+    <div class="table-container">
+      <table aria-label="Animals of the Redwood Forests">
+        <thead>
+          <tr>
+            <th role="columnheader" scope="col">Animal</th>
+            <th role="columnheader" scope="col">Description</th>
+            <th role="columnheader" scope="col">Where They Live</th>
+            <th role="columnheader" scope="col">Fun Fact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Banana Slug</th>
+            <td>Large, yellow, slimy slug</td>
+            <td>On the forest floor</td>
+            <td>Second largest slug in the world</td>
+          </tr>
+          <tr>
+            <th scope="row">Pacific Giant Salamander</th>
+            <td>Large, dark-colored salamander</td>
+            <td>Near streams and moist areas</td>
+            <td>Can grow up to a foot long</td>
+          </tr>
+          <tr>
+            <th scope="row">Roosevelt Elk</th>
+            <td>Large deer with impressive antlers</td>
+            <td>Grazes in clearings within the forest</td>
+            <td>Males can weigh over 1,000 pounds</td>
+          </tr>
+          <tr>
+            <th scope="row">Northern Spotted Owl</th>
+            <td>Medium-sized owl, hunts at night</td>
+            <td>In dense, mature redwood forests</td>
+            <td>An "indicator species" – its health shows forest health</td>
+          </tr>
+          <tr>
+            <th scope="row">Black Bear</th>
+            <td>Large mammal, typically black or brown</td>
+            <td>Forages for food throughout the forest</td>
+            <td>Excellent climbers, often seen in trees</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  ]]></string>
+  <!-- Practice area with editable text fields to practice entering and exiting typing mode. [CHAR_LIMIT=NONE]-->
+  <string name="browse_mode_practice_text_fields"><![CDATA[
+      <h1>Your thoughts on Redwoods and nature</h1>
+
+      <p>What else would you like to learn about Redwoods?</p>
+      <div>
+          <textarea class="full-width-textarea"></textarea>
+      </div>
+
+      <p>What is your favorite place in nature to visit?</p>
+      <div>
+          <textarea class="full-width-textarea"></textarea>
+      </div>
+
+      <p>What is one concept in nature you want to learn more about?</p>
+      <div>
+          <textarea class="full-width-textarea"></textarea>
+      </div>
+  ]]></string>
+</resources>

@@ -16,11 +16,19 @@
 
 package com.google.android.accessibility.utils.gestures;
 
+import static com.google.android.accessibility.utils.gestures.GestureAnalyticsEvent.EVENT_DOUBLE_TAP_SLOP_OVER_RANGE;
+
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+import androidx.annotation.RequiresApi;
+import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.R;
+import com.google.android.accessibility.utils.gestures.GestureManifold.GestureConfigProvider;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * This class matches multi-tap gestures. The number of taps for each instance is specified in the
@@ -28,11 +36,11 @@ import com.google.android.accessibility.utils.R;
  *
  * @hide
  */
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 public class MultiTap extends GestureMatcher {
-
-  // Maximum reasonable number of taps.
-  public static final int MAX_TAPS = 10;
+  private static final String TAG = "MultiTap";
   final int targetTaps;
+  private final GestureConfigProvider configProvider;
   // The acceptable distance between two taps
   int doubleTapSlop;
   // The acceptable distance the pointer can move and still count as a tap.
@@ -46,15 +54,34 @@ public class MultiTap extends GestureMatcher {
   long lastUpTime;
 
   public MultiTap(
-      Context context, int taps, int gesture, GestureMatcher.StateChangeListener listener) {
-    super(gesture, new Handler(context.getMainLooper()), listener);
+      Context context,
+      int taps,
+      int gesture,
+      GestureMatcher.StateChangeListener listener,
+      GestureConfigProvider configProvider,
+      GestureMatcher.AnalyticsEventLogger logger) {
+    super(gesture, new Handler(context.getMainLooper()), listener, logger);
+    this.configProvider = configProvider;
     targetTaps = taps;
-    doubleTapSlop = ViewConfiguration.get(context).getScaledDoubleTapSlop();
+    initializeViewConfigurationParameters(context);
+    clear();
+  }
+
+  @Override
+  public void onConfigurationChanged(Context context) {
+    initializeViewConfigurationParameters(context);
+  }
+
+  private void initializeViewConfigurationParameters(Context context) {
+    doubleTapSlop =
+        (int)
+            (ViewConfiguration.get(context).getScaledDoubleTapSlop()
+                * configProvider.getDoubleTapSlopMultiplier());
+    LogUtils.v(TAG, "Double-Tap slop is: %d", doubleTapSlop);
     touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     int deltaTapTimeout = context.getResources().getInteger(R.integer.config_tap_timeout_delta);
     tapTimeout = ViewConfiguration.getTapTimeout() + deltaTapTimeout;
     doubleTapTimeout = GestureConfiguration.DOUBLE_TAP_TIMEOUT_MS;
-    clear();
   }
 
   @Override
@@ -68,10 +95,11 @@ public class MultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onDown(MotionEvent event) {
+  protected void onDown(EventId eventId, MotionEvent event) {
     long time = event.getEventTime();
     long timeDelta = time - lastUpTime;
     if (timeDelta > doubleTapTimeout) {
+      debugMotionEvent(TAG, "onDown/doubleTapTimeout's over. Gesture:%d", getGestureId());
       cancelGesture(event);
       return;
     }
@@ -80,7 +108,8 @@ public class MultiTap extends GestureMatcher {
       baseX = event.getX();
       baseY = event.getY();
     }
-    if (!isInsideSlop(event, doubleTapSlop)) {
+    if (!isInsideSlop(event, doubleTapSlop, /* isTouchSlop= */ false)) {
+      debugMotionEvent(TAG, "onDown/doubleTapSlop's over. Gesture:%d", getGestureId());
       cancelGesture(event);
       return;
     }
@@ -96,8 +125,9 @@ public class MultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onUp(MotionEvent event) {
+  protected void onUp(EventId eventId, MotionEvent event) {
     if (!isValidUpEvent(event)) {
+      debugMotionEvent(TAG, "onUp/!isValidUpEvent. Gesture:%d", getGestureId());
       cancelGesture(event);
       return;
     }
@@ -105,52 +135,96 @@ public class MultiTap extends GestureMatcher {
       currentTaps++;
       if (currentTaps == targetTaps) {
         // Done.
-        completeGesture(event);
-        return;
+        completeGesture(eventId, event);
+      } else {
+        processGesture(eventId, event);
       }
       // Needs more taps.
     } else {
       // Either too many taps or nonsensical event stream.
       cancelGesture(event);
+      debugMotionEvent(TAG, "onUp/Too many taps. Gesture:%d", getGestureId());
     }
   }
 
   @Override
-  protected void onMove(MotionEvent event) {
-    if (!isInsideSlop(event, touchSlop)) {
+  protected void onMove(EventId eventId, MotionEvent event) {
+    if (!isInsideSlop(event, touchSlop, /* isTouchSlop= */ true)) {
       cancelGesture(event);
+      debugMotionEvent(TAG, "onMove/!isInsideSlop. Gesture:%d", getGestureId());
     }
   }
 
   @Override
-  protected void onPointerDown(MotionEvent event) {
+  protected void onPointerDown(EventId eventId, MotionEvent event) {
     cancelGesture(event);
+    debugMotionEvent(TAG, "onPointerDown. Gesture:%d", getGestureId());
   }
 
   @Override
-  protected void onPointerUp(MotionEvent event) {
+  protected void onPointerUp(EventId eventId, MotionEvent event) {
     cancelGesture(event);
+    debugMotionEvent(TAG, "onPointerUp. Gesture:%d", getGestureId());
   }
 
   @Override
   public String getGestureName() {
-    switch (targetTaps) {
-      case 2:
-        return "Double Tap";
-      case 3:
-        return "Triple Tap";
-      default:
-        return Integer.toString(targetTaps) + " Taps";
+    return switch (targetTaps) {
+      case 2 -> "Double Tap";
+      case 3 -> "Triple Tap";
+      default -> Integer.toString(targetTaps) + " Taps";
+    };
+  }
+
+  /**
+   * This class helps to collect data (double-tap slop over), in addition to the fundamental Gesture
+   * analytic event.
+   */
+  public static class MultiTapAnalyticsEvent extends GestureAnalyticsEvent {
+    public int doubleTapSlopOverRange;
+
+    MultiTapAnalyticsEvent(int event, int gestureId) {
+      super(event, gestureId);
+    }
+
+    @CanIgnoreReturnValue
+    MultiTapAnalyticsEvent setDoubleTapSlopOverRange(int doubleTapSlopOverRange) {
+      this.doubleTapSlopOverRange = doubleTapSlopOverRange;
+      return this;
     }
   }
 
-  private boolean isInsideSlop(MotionEvent event, int slop) {
+  private void logExceededSlop(double deviation) {
+    int extraData;
+
+    if (deviation < 0.1) {
+      extraData = MultiTapAnalyticsEvent.EXTRA_DEBUG_DOUBLE_TAP_SLOP_OVER_IN_10_PERCENT;
+    } else if (deviation < 0.2) {
+      extraData = MultiTapAnalyticsEvent.EXTRA_DEBUG_DOUBLE_TAP_SLOP_OVER_IN_20_PERCENT;
+    } else if (deviation < 0.5) {
+      extraData = MultiTapAnalyticsEvent.EXTRA_DEBUG_DOUBLE_TAP_SLOP_OVER_IN_50_PERCENT;
+    } else if (deviation < 1.0) {
+      extraData = MultiTapAnalyticsEvent.EXTRA_DEBUG_DOUBLE_TAP_SLOP_OVER_IN_100_PERCENT;
+    } else {
+      extraData = MultiTapAnalyticsEvent.EXTRA_DEBUG_DOUBLE_TAP_SLOP_OVER_MORE_THAN_100_PERCENT;
+    }
+    debugMotionEvent(TAG, "logExceededSlop. Gesture:%d, range:%d", getGestureId(), extraData);
+    MultiTapAnalyticsEvent event =
+        new MultiTapAnalyticsEvent(EVENT_DOUBLE_TAP_SLOP_OVER_RANGE, getGestureId())
+            .setDoubleTapSlopOverRange(extraData);
+    analyticsEvent(event);
+  }
+
+  private boolean isInsideSlop(MotionEvent event, int slop, boolean isTouchSlop) {
     final float deltaX = baseX - event.getX();
     final float deltaY = baseY - event.getY();
     if (deltaX == 0 && deltaY == 0) {
       return true;
     }
     final double moveDelta = Math.hypot(deltaX, deltaY);
+    if (!isTouchSlop && moveDelta > slop) {
+      logExceededSlop((moveDelta - slop) / slop);
+    }
     return moveDelta <= slop;
   }
 
@@ -158,10 +232,12 @@ public class MultiTap extends GestureMatcher {
     long time = upEvent.getEventTime();
     long timeDelta = time - lastDownTime;
     if (timeDelta > tapTimeout) {
+      debugMotionEvent(TAG, "isValidUpEvent/tapTimeout's over. Gesture:%d", getGestureId());
       return false;
     }
     lastUpTime = time;
-    if (!isInsideSlop(upEvent, touchSlop)) {
+    if (!isInsideSlop(upEvent, touchSlop, /* isTouchSlop= */ true)) {
+      debugMotionEvent(TAG, "isValidUpEvent/!isInsideSlop. Gesture:%d", getGestureId());
       return false;
     }
     return true;

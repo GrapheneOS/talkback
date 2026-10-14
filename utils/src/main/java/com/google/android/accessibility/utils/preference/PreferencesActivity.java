@@ -28,10 +28,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * {@link BasePreferencesActivity} and provide common functions for a11y preference activity.
  */
 public abstract class PreferencesActivity extends BasePreferencesActivity {
-  // This variable is used as argument of Intent to identify which fragment should be created.
-  public static final String FRAGMENT_NAME = "FragmentName";
 
-  /** Creates a PreferenceFragmentCompat when AccessibilityPreferencesActivity is called. */
+  /**
+   * Creates a {@link PreferenceFragmentCompat} when {@link PreferencesActivity} is called, except
+   * for Wear.
+   */
   protected abstract PreferenceFragmentCompat createPreferenceFragment();
 
   @Override
@@ -44,16 +45,14 @@ public abstract class PreferencesActivity extends BasePreferencesActivity {
       setContentView(R.layout.preference_with_survey);
     }
 
-    // Creates UI for the preferenceFragment created by the child class of
-    // AccessibilityBasePreferencesActivity.
-    PreferenceFragmentCompat preferenceFragment = createPreferenceFragment();
-    if (preferenceFragment != null && savedInstanceState == null) {
-      FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-      transaction.replace(getContainerId(), preferenceFragment, getFragmentTag());
-      if (addRootFragmentToBackStack()) {
-        transaction.addToBackStack(/* name= */ null);
+    // Creates UI for the preferenceFragment created by the child class of BasePreferencesActivity.
+    if (!isDefaultFragmentTransactionHandled()) {
+      PreferenceFragmentCompat preferenceFragment = createPreferenceFragment();
+      if (preferenceFragment != null && savedInstanceState == null) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(getContainerId(), preferenceFragment, getFragmentTag());
+        transaction.commit();
       }
-      transaction.commit();
     }
   }
 
@@ -63,12 +62,12 @@ public abstract class PreferencesActivity extends BasePreferencesActivity {
    */
   @Override
   public boolean onNavigateUp() {
-    if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-      getSupportFragmentManager().popBackStackImmediate();
-    } else {
+    if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
       // Closes the activity if there is no fragment inside the stack. Otherwise the activity will
       // has a blank screen since there is no any fragment.
       finishAfterTransition();
+    } else {
+      getSupportFragmentManager().popBackStackImmediate();
     }
     return true;
   }

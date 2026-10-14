@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_category_reduce_latency_summary_key"
+        android:summary="@string/title_pref_category_reduce_latency_summary"
+        android:selectable="false" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:title="@string/reset_latency_settings_title"
+        android:key="@string/pref_reset_latency_settings_key"
+        app:allowDividerBelow="true"/>
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.FocusDelayPrefFragment"
+        android:key="@string/pref_touch_focus_time_out_key"
+        app:summary="%s"
+        android:title="@string/title_pref_touch_focus_timeout" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_cache_keyboard_keys_default"
+        android:title="@string/title_pref_cache_keyboard_keys"
+        android:summary="@string/summary_cache_keyboard_keys"
+        android:key="@string/pref_cache_keyboard_keys" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TypingFocusDelayPrefFragment"
+        android:key="@string/pref_typing_focus_time_out_key"
+        app:summary="%s"
+        android:title="@string/title_pref_touch_explore_timeout" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TypingMethodPrefFragment"
+        android:key="@string/pref_typing_confirmation_key"
+        app:summary="%s"
+        android:title="@string/title_pref_typing_confirmation" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:defaultValue="@string/pref_typing_long_press_duration_default"
+        android:dialogTitle="@string/title_pref_typing_long_tap_duration"
+        android:entries="@array/pref_typing_long_press_entries"
+        android:entryValues="@array/pref_typing_long_press_values"
+        android:key="@string/pref_typing_long_press_duration_key"
+        android:summary="%s"
+        android:title="@string/title_pref_typing_long_tap_duration" />
+</PreferenceScreen>

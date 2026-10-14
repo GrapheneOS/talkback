@@ -86,6 +86,9 @@ public class ProcessorAccessibilityHints {
     /** A hint about spelling suggestion available for text editing. */
     private boolean spellingSuggestionHint = false;
 
+    /** A hint about opening a single link. */
+    private boolean openSingleLinkHint = false;
+
     /** A hint about screen whose hint will be read by the utterance complete action. */
     private @Nullable CharSequence pendingScreenHint;
 
@@ -190,17 +193,12 @@ public class ProcessorAccessibilityHints {
     @Nullable EventInterpretation eventInterp = null;
     @Nullable HintEventInterpretation hintInterp = null;
     if (hintInfo.getPendingHintSource() != null) {
-      switch (hintInfo.getPendingHintEventType()) {
-        case TYPE_VIEW_FOCUSED:
-          hintEventType = HintEventInterpretation.HINT_TYPE_INPUT_FOCUS;
-          break;
-        case TYPE_VIEW_TEXT_CHANGED:
-          hintEventType = HintEventInterpretation.HINT_TYPE_TYPO;
-          break;
-        default:
-          hintEventType = HintEventInterpretation.HINT_TYPE_ACCESSIBILITY_FOCUS;
-          break;
-      }
+      hintEventType =
+          switch (hintInfo.getPendingHintEventType()) {
+            case TYPE_VIEW_FOCUSED -> HintEventInterpretation.HINT_TYPE_INPUT_FOCUS;
+            case TYPE_VIEW_TEXT_CHANGED -> HintEventInterpretation.HINT_TYPE_TYPO;
+            default -> HintEventInterpretation.HINT_TYPE_ACCESSIBILITY_FOCUS;
+          };
       hintInterp = new HintEventInterpretation(hintEventType);
       eventInterp = new EventInterpretation(Compositor.EVENT_SPEAK_HINT);
     } else if (hintInfo.getPendingScreenHint() != null) {
@@ -213,6 +211,10 @@ public class ProcessorAccessibilityHints {
       eventInterp = new EventInterpretation(Compositor.EVENT_SPEAK_HINT);
     } else if (hintInfo.spellingSuggestionHint) {
       hintEventType = HintEventInterpretation.HINT_TYPE_TEXT_SUGGESTION;
+      hintInterp = new HintEventInterpretation(hintEventType);
+      eventInterp = new EventInterpretation(Compositor.EVENT_SPEAK_HINT);
+    } else if (hintInfo.openSingleLinkHint) {
+      hintEventType = HintEventInterpretation.HINT_TYPE_LINK;
       hintInterp = new HintEventInterpretation(hintEventType);
       eventInterp = new EventInterpretation(Compositor.EVENT_SPEAK_HINT);
     }
@@ -248,7 +250,7 @@ public class ProcessorAccessibilityHints {
     @Nullable HintEventInterpretation hintInterp = eventInterp.getHint();
     int hintType = hintInterp.getHintType();
     if (hintType != HINT_TYPE_NONE) {
-      String hintTTSOutput =
+      CharSequence hintTTSOutput =
           compositor.parseTTSText(
               hintInfo.getPendingHintSource(), eventInterp.getEvent(), eventInterp);
       if (TextUtils.isEmpty(hintTTSOutput)) {
@@ -290,14 +292,16 @@ public class ProcessorAccessibilityHints {
 
     final int eventType = variables.eventType(depth);
     switch (eventType) {
-      case TYPE_VIEW_FOCUSED: // Schedule delayed hint for input-focus event.
-      case TYPE_VIEW_TEXT_CHANGED: // Schedule earcon and delayed hints for spelling suggestions.
+      case TYPE_VIEW_FOCUSED, TYPE_VIEW_TEXT_CHANGED -> {
+        // Schedule delayed hint for input-focus event.
+        // Schedule earcon and delayed hints for spelling suggestions.
         source = variables.source(depth);
         if (source != null) {
           return nodeEventToHint(eventType, source, context, compositor);
         }
-        break;
-      case TYPE_VIEW_ACCESSIBILITY_FOCUSED: // Schedule delayed hint for accessibility-focus event.
+      }
+      case TYPE_VIEW_ACCESSIBILITY_FOCUSED -> {
+        // Schedule delayed hint for accessibility-focus event.
         source = variables.source(depth);
         if (source != null) {
           return nodeEventToHint(
@@ -308,11 +312,11 @@ public class ProcessorAccessibilityHints {
               context,
               compositor);
         }
-        break;
-      case TYPE_VIEW_CLICKED:
-      case TYPE_TOUCH_INTERACTION_START:
+      }
+      case TYPE_VIEW_CLICKED, TYPE_TOUCH_INTERACTION_START -> {
         // Clear hints that were generated before a click or in an old window configuration.
         return cancelNonFocusHints();
+      }
     }
 
     return null;
@@ -407,6 +411,17 @@ public class ProcessorAccessibilityHints {
       @NonNull Context context, @NonNull TextComposer compositor) {
     @NonNull HintInfo hintInfo = new HintInfo();
     hintInfo.spellingSuggestionHint = true;
+    return hintInfoToFeedback(hintInfo, context, compositor);
+  }
+
+  /**
+   * Returns a hint about opening a single link. The hint will be spoken after the next utterance is
+   * completed.
+   */
+  public static Feedback.Part.@NonNull Builder singleLinkToHint(
+      @NonNull Context context, @NonNull TextComposer compositor) {
+    @NonNull HintInfo hintInfo = new HintInfo();
+    hintInfo.openSingleLinkHint = true;
     return hintInfoToFeedback(hintInfo, context, compositor);
   }
 }

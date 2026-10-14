@@ -28,15 +28,15 @@ import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.IntDef;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.talkback.compositor.parsetree.ParseTree;
 import com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
-import com.google.android.accessibility.utils.ImageContents;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.input.TextEventInterpretation;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.SpeechParam;
 import com.google.android.accessibility.utils.output.FeedbackItem;
+import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
 import com.google.android.accessibility.utils.output.SpeechCleanupUtils;
 import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
@@ -104,6 +104,7 @@ public class Compositor {
     EVENT_TYPE_INPUT_SELECTION_RESET_SELECTION,
     EVENT_TYPE_SET_TEXT_BY_ACTION,
     EVENT_SPEAK_HINT,
+    EVENT_SYNTHESIZE_SPEECH,
     EVENT_MAGNIFICATION_CHANGED,
     EVENT_SCROLL_POSITION,
     EVENT_INPUT_DESCRIBE_NODE,
@@ -144,6 +145,10 @@ public class Compositor {
   public static final int EVENT_SCROLL_POSITION = BASE_EVENT_ID + 13;
   public static final int EVENT_INPUT_DESCRIBE_NODE = BASE_EVENT_ID + 14;
   public static final int EVENT_MAGNIFICATION_CHANGED = BASE_EVENT_ID + 15;
+  public static final int EVENT_HEADS_UP_NOTIFICATION_APPEARED = BASE_EVENT_ID + 16;
+  public static final int EVENT_ACTIONABLE_NONMODAL_ALERT_APPEARED = BASE_EVENT_ID + 17;
+
+  public static final int EVENT_SYNTHESIZE_SPEECH = BASE_EVENT_ID + 18;
 
   public static final int BASE_TEXT_EVENT_ID = BASE_EVENT_ID + 100;
   public static final int EVENT_TYPE_INPUT_TEXT_CLEAR = TextEventInterpretation.TEXT_CLEAR;
@@ -298,11 +303,17 @@ public class Compositor {
   /** Callback interface for talkback-pipeline to receive async speech feedback. */
   public interface Speaker {
     void speak(CharSequence text, @Nullable EventId eventId, SpeakOptions options);
+
+    void addSpeech(
+        CharSequence text,
+        @Nullable EventId eventId,
+        Bundle speechParams,
+        LoadSpeechResultNotifier statusNotifier);
   }
 
   /** Limited-scope interface to map an event to text for announcement. */
   public interface TextComposer {
-    @Nullable String parseTTSText(
+    @Nullable CharSequence parseTTSText(
         @Nullable AccessibilityNodeInfoCompat source,
         int event,
         EventInterpretation eventInterpretation);
@@ -422,10 +433,11 @@ public class Compositor {
   public void handleEvent(
       AccessibilityNodeInfoCompat source,
       @Nullable EventId eventId,
-      EventInterpretation eventInterpretation) {
+      EventInterpretation eventInterpretation,
+      LoadSpeechResultNotifier loadSpeechResultNotifier) {
     HandleEventOptions options =
         new HandleEventOptions().source(source).interpretation(eventInterpretation);
-    handleEvent(eventInterpretation.getEvent(), eventId, options);
+    handleEvent(eventInterpretation.getEvent(), eventId, options, loadSpeechResultNotifier);
   }
 
   /** Handles a standard AccessibilityEvent */
@@ -445,6 +457,14 @@ public class Compositor {
   }
 
   private void handleEvent(int event, @Nullable EventId eventId, HandleEventOptions options) {
+    handleEvent(event, eventId, options, null);
+  }
+
+  private void handleEvent(
+      int event,
+      @Nullable EventId eventId,
+      HandleEventOptions options,
+      LoadSpeechResultNotifier synthesizeResultNotifier) {
     // Extract options.
     @Nullable EventInterpretation eventInterpretation = options.eventInterpretation;
     if (eventInterpretation != null) {
@@ -534,7 +554,11 @@ public class Compositor {
           .setUtteranceGroup(clearQueueGroup)
           .setCompletedAction(runnable);
       speakOptions.mFlags |= flags;
-      speak(ttsOutput, eventId, speakOptions);
+      if (synthesizeResultNotifier != null) {
+        addSpeech(ttsOutput, eventId, speechParams, synthesizeResultNotifier);
+      } else {
+        speak(ttsOutput, eventId, speakOptions);
+      }
     } else {
       if (speakOptions != null) {
         speakOptions.mFlags |= FeedbackItem.FLAG_NO_SPEECH;
@@ -548,22 +572,28 @@ public class Compositor {
     }
   }
 
-  public @Nullable String parseTTSText(
+  private void addSpeech(
+      CharSequence ttsOutput,
+      @Nullable EventId eventId,
+      Bundle speechParams,
+      LoadSpeechResultNotifier notifier) {
+    if (speechController != null) {
+      speechController.addSpeech(ttsOutput, notifier, speechParams, eventId);
+    } else {
+      speaker.addSpeech(ttsOutput, eventId, speechParams, notifier);
+    }
+  }
+
+  public @Nullable CharSequence parseTTSText(
       @Nullable AccessibilityNodeInfoCompat source,
       int event,
       EventInterpretation eventInterpretation) {
     EventFeedback eventFeedback =
         getEventFeedback(
             event, new HandleEventOptions().source(source).interpretation(eventInterpretation));
-    CharSequence ttsText =
-        (eventFeedback != null && eventFeedback.ttsOutput().isPresent())
-            ? eventFeedback.ttsOutput().get()
-            : null;
-
-    if (ttsText == null) {
-      return null;
-    }
-    return ttsText.toString();
+    return (eventFeedback != null && eventFeedback.ttsOutput().isPresent())
+        ? eventFeedback.ttsOutput().get()
+        : null;
   }
 
   /**
@@ -630,94 +660,62 @@ public class Compositor {
   // Methods for logging
 
   public static String eventTypeToString(int eventType) {
-    switch (eventType) {
-      case EVENT_UNKNOWN:
-        return "EVENT_UNKNOWN";
-      case EVENT_SPOKEN_FEEDBACK_ON:
-        return "EVENT_SPOKEN_FEEDBACK_ON";
-      case EVENT_SPOKEN_FEEDBACK_DISABLED:
-        return "EVENT_SPOKEN_FEEDBACK_DISABLED";
-      case EVENT_CAPS_LOCK_ON:
-        return "EVENT_CAPS_LOCK_ON";
-      case EVENT_CAPS_LOCK_OFF:
-        return "EVENT_CAPS_LOCK_OFF";
-      case EVENT_NUM_LOCK_ON:
-        return "EVENT_NUM_LOCK_ON";
-      case EVENT_NUM_LOCK_OFF:
-        return "EVENT_NUM_LOCK_OFF";
-      case EVENT_SCROLL_LOCK_ON:
-        return "EVENT_SCROLL_LOCK_ON";
-      case EVENT_SCROLL_LOCK_OFF:
-        return "EVENT_SCROLL_LOCK_OFF";
-      case EVENT_ORIENTATION_PORTRAIT:
-        return "EVENT_ORIENTATION_PORTRAIT";
-      case EVENT_ORIENTATION_LANDSCAPE:
-        return "EVENT_ORIENTATION_LANDSCAPE";
-      case EVENT_SPEAK_HINT:
-        return "EVENT_SPEAK_HINT";
-      case EVENT_SCROLL_POSITION:
-        return "EVENT_SCROLL_POSITION";
-      case EVENT_INPUT_DESCRIBE_NODE:
-        return "EVENT_INPUT_DESCRIBE_NODE";
-      case EVENT_MAGNIFICATION_CHANGED:
-        return "EVENT_MAGNIFICATION_CHANGED";
-      case EVENT_TYPE_INPUT_TEXT_CLEAR:
-        return "EVENT_TYPE_INPUT_TEXT_CLEAR";
-      case EVENT_TYPE_INPUT_TEXT_REMOVE:
-        return "EVENT_TYPE_INPUT_TEXT_REMOVE";
-      case EVENT_TYPE_INPUT_TEXT_ADD:
-        return "EVENT_TYPE_INPUT_TEXT_ADD";
-      case EVENT_TYPE_INPUT_TEXT_REPLACE:
-        return "EVENT_TYPE_INPUT_TEXT_REPLACE";
-      case EVENT_TYPE_INPUT_TEXT_PASSWORD_ADD:
-        return "EVENT_TYPE_INPUT_TEXT_PASSWORD_ADD";
-      case EVENT_TYPE_INPUT_TEXT_PASSWORD_REMOVE:
-        return "EVENT_TYPE_INPUT_TEXT_PASSWORD_REMOVE";
-      case EVENT_TYPE_INPUT_TEXT_PASSWORD_REPLACE:
-        return "EVENT_TYPE_INPUT_TEXT_PASSWORD_REPLACE";
-      case EVENT_TYPE_INPUT_CHANGE_INVALID:
-        return "EVENT_TYPE_INPUT_CHANGE_INVALID";
-      case EVENT_TYPE_INPUT_SELECTION_FOCUS_EDIT_TEXT:
-        return "EVENT_TYPE_INPUT_SELECTION_FOCUS_EDIT_TEXT";
-      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_TO_BEGINNING:
-        return "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_TO_BEGINNING";
-      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_TO_END:
-        return "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_TO_END";
-      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_NO_SELECTION:
-        return "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_NO_SELECTION";
-      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_WITH_SELECTION:
-        return "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_WITH_SELECTION";
-      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_SELECTION_CLEARED:
-        return "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_SELECTION_CLEARED";
-      case EVENT_TYPE_INPUT_SELECTION_CUT:
-        return "EVENT_TYPE_INPUT_SELECTION_CUT";
-      case EVENT_TYPE_INPUT_SELECTION_PASTE:
-        return "EVENT_TYPE_INPUT_SELECTION_PASTE";
-      case EVENT_TYPE_INPUT_SELECTION_TEXT_TRAVERSAL:
-        return "EVENT_TYPE_INPUT_SELECTION_TEXT_TRAVERSAL";
-      case EVENT_TYPE_INPUT_SELECTION_SELECT_ALL:
-        return "EVENT_TYPE_INPUT_SELECTION_SELECT_ALL";
-      case EVENT_TYPE_INPUT_SELECTION_SELECT_ALL_WITH_KEYBOARD:
-        return "EVENT_TYPE_INPUT_SELECTION_SELECT_ALL_WITH_KEYBOARD";
-      case EVENT_TYPE_INPUT_SELECTION_RESET_SELECTION:
-        return "EVENT_TYPE_INPUT_SELECTION_RESET_SELECTION";
-      case EVENT_TYPE_SET_TEXT_BY_ACTION:
-        return "EVENT_TYPE_SET_TEXT_BY_ACTION";
-      default:
-        return AccessibilityEventUtils.typeToString(eventType);
-    }
+    return switch (eventType) {
+      case EVENT_UNKNOWN -> "EVENT_UNKNOWN";
+      case EVENT_SPOKEN_FEEDBACK_ON -> "EVENT_SPOKEN_FEEDBACK_ON";
+      case EVENT_SPOKEN_FEEDBACK_DISABLED -> "EVENT_SPOKEN_FEEDBACK_DISABLED";
+      case EVENT_CAPS_LOCK_ON -> "EVENT_CAPS_LOCK_ON";
+      case EVENT_CAPS_LOCK_OFF -> "EVENT_CAPS_LOCK_OFF";
+      case EVENT_NUM_LOCK_ON -> "EVENT_NUM_LOCK_ON";
+      case EVENT_NUM_LOCK_OFF -> "EVENT_NUM_LOCK_OFF";
+      case EVENT_SCROLL_LOCK_ON -> "EVENT_SCROLL_LOCK_ON";
+      case EVENT_SCROLL_LOCK_OFF -> "EVENT_SCROLL_LOCK_OFF";
+      case EVENT_ORIENTATION_PORTRAIT -> "EVENT_ORIENTATION_PORTRAIT";
+      case EVENT_ORIENTATION_LANDSCAPE -> "EVENT_ORIENTATION_LANDSCAPE";
+      case EVENT_SPEAK_HINT -> "EVENT_SPEAK_HINT";
+      case EVENT_SCROLL_POSITION -> "EVENT_SCROLL_POSITION";
+      case EVENT_INPUT_DESCRIBE_NODE -> "EVENT_INPUT_DESCRIBE_NODE";
+      case EVENT_SYNTHESIZE_SPEECH -> "EVENT_SYNTHESIZE_SPEECH";
+      case EVENT_MAGNIFICATION_CHANGED -> "EVENT_MAGNIFICATION_CHANGED";
+      case EVENT_TYPE_INPUT_TEXT_CLEAR -> "EVENT_TYPE_INPUT_TEXT_CLEAR";
+      case EVENT_TYPE_INPUT_TEXT_REMOVE -> "EVENT_TYPE_INPUT_TEXT_REMOVE";
+      case EVENT_TYPE_INPUT_TEXT_ADD -> "EVENT_TYPE_INPUT_TEXT_ADD";
+      case EVENT_TYPE_INPUT_TEXT_REPLACE -> "EVENT_TYPE_INPUT_TEXT_REPLACE";
+      case EVENT_TYPE_INPUT_TEXT_PASSWORD_ADD -> "EVENT_TYPE_INPUT_TEXT_PASSWORD_ADD";
+      case EVENT_TYPE_INPUT_TEXT_PASSWORD_REMOVE -> "EVENT_TYPE_INPUT_TEXT_PASSWORD_REMOVE";
+      case EVENT_TYPE_INPUT_TEXT_PASSWORD_REPLACE -> "EVENT_TYPE_INPUT_TEXT_PASSWORD_REPLACE";
+      case EVENT_TYPE_INPUT_CHANGE_INVALID -> "EVENT_TYPE_INPUT_CHANGE_INVALID";
+      case EVENT_TYPE_INPUT_SELECTION_FOCUS_EDIT_TEXT ->
+          "EVENT_TYPE_INPUT_SELECTION_FOCUS_EDIT_TEXT";
+      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_TO_BEGINNING ->
+          "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_TO_BEGINNING";
+      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_TO_END ->
+          "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_TO_END";
+      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_NO_SELECTION ->
+          "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_NO_SELECTION";
+      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_WITH_SELECTION ->
+          "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_WITH_SELECTION";
+      case EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_SELECTION_CLEARED ->
+          "EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_SELECTION_CLEARED";
+      case EVENT_TYPE_INPUT_SELECTION_CUT -> "EVENT_TYPE_INPUT_SELECTION_CUT";
+      case EVENT_TYPE_INPUT_SELECTION_PASTE -> "EVENT_TYPE_INPUT_SELECTION_PASTE";
+      case EVENT_TYPE_INPUT_SELECTION_TEXT_TRAVERSAL -> "EVENT_TYPE_INPUT_SELECTION_TEXT_TRAVERSAL";
+      case EVENT_TYPE_INPUT_SELECTION_SELECT_ALL -> "EVENT_TYPE_INPUT_SELECTION_SELECT_ALL";
+      case EVENT_TYPE_INPUT_SELECTION_SELECT_ALL_WITH_KEYBOARD ->
+          "EVENT_TYPE_INPUT_SELECTION_SELECT_ALL_WITH_KEYBOARD";
+      case EVENT_TYPE_INPUT_SELECTION_RESET_SELECTION ->
+          "EVENT_TYPE_INPUT_SELECTION_RESET_SELECTION";
+      case EVENT_TYPE_SET_TEXT_BY_ACTION -> "EVENT_TYPE_SET_TEXT_BY_ACTION";
+      default -> AccessibilityEventUtils.typeToString(eventType);
+    };
   }
 
   private static String getFlavorName(@Flavor int flavor) {
-    switch (flavor) {
-      case FLAVOR_NONE:
-        return "FLAVOR_NONE";
-      case FLAVOR_TV:
-        return "FLAVOR_TV";
-      case FLAVOR_JASPER:
-        return "FLAVOR_JASPER";
-      default:
-        return "UNKNOWN";
-    }
+    return switch (flavor) {
+      case FLAVOR_NONE -> "FLAVOR_NONE";
+      case FLAVOR_TV -> "FLAVOR_TV";
+      case FLAVOR_JASPER -> "FLAVOR_JASPER";
+      default -> "UNKNOWN";
+    };
   }
 }

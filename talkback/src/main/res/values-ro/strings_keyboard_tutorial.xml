@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Acest tutorial vizează configurarea de taste îmbunătățită, care include multe comenzi noi. Pentru a selecta configurarea de taste, accesează Setări TalkBack &gt; Setări avansate &gt; Comenzi rapide de la tastatură.\n\nApasă pe tasta de acțiuni + săgeată spre dreapta pentru a selecta un subiect. Pentru o experiență optimă, activează TalkBack înainte să începi.</string>
+  <string name="basic_interaction_link_text">Interacțiune de bază</string>
+  <string name="basic_interaction_link_subtext">Treci de la un element la altul, citește pe rânduri, folosește meniuri și altele</string>
+  <string name="browse_mode_link_text">Modul de navigare</string>
+  <string name="browse_mode_link_subtext">Navighează mai rapid în conținutul web cu ajutorul comenzilor de salt</string>
+  <string name="reading_controls_link_text">Comenzi pentru citire</string>
+  <string name="reading_controls_link_subtext">Folosește comenzile pentru citire pentru a trece de la un element la altul, a ajusta setările pentru vorbire și altele</string>
+  <string name="image_descriptions_link_text">Descrierile imaginilor</string>
+  <string name="image_descriptions_link_subtext">Încearcă să obții descrieri ale imaginilor</string>
+  <string name="keyboard_shortcuts_link_text">Exersează comenzi rapide de la tastatură</string>
+  <string name="keyboard_shortcuts_link_subtext">Apasă taste și combinații de taste și află ce fac</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack oferă feedback rostit, ca să poți folosi dispozitivul fără să te uiți la ecran. Funcția le poate fi utilă utilizatorilor cu dificultăți în a vedea ecranul. Când TalkBack este activat, elementul focalizat de pe ecran este rostit cu voce tare.\n\nMai întâi, familiarizează-te cu tastatura. Caută tasta de acțiuni, care se află deasupra tastei Shift din stânga. Caută tastele săgeată în partea din dreapta jos a tastaturii. Apasă tasta de acțiuni + săgeata spre dreapta pentru a trece la elementul următor.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Acesta este elementul următor. Pentru a trece la elementul anterior, apasă tasta de acțiuni + săgeata spre stânga.\n\nCând treci la un element interactiv, cum ar fi un buton, apasă tasta de acțiuni + tasta de spațiu pentru a-l activa. Caută butonul următor și continuă tutorialul.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Citește pe caractere, cuvinte sau paragrafe</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Uneori, poate că dorești să auzi textul citit cu voce tare pe caractere.\n\nÎn acest scop, poți folosi navigarea cu ajutorul comenzilor pentru citire. Apasă tasta de acțiuni + Shift + săgeată spre dreapta sau spre stânga până când auzi „caractere”.\n\nApoi apasă tasta de acțiuni + săgeată în sus pentru a muta focalizarea pe navigare înapoi cu câte un caracter. Apasă tasta de acțiuni + săgeata în jos pentru a muta focalizarea pe navigare înainte cu câte un caracter.\n\nÎncearcă acum. Poți alege să citești pe cuvinte, rânduri sau paragrafe folosind tasta de acțiuni + Shift + săgeata spre dreapta sau spre stânga.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigarea în sistem</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Dacă încerci acum aceste comenzi rapide de la tastatură, tutorialul se va închide. Îți recomandăm să aștepți până când finalizezi tutorialul.\n\nPentru a trece de la ferestrele aplicațiilor deschise și elementele de sistem, cum ar fi notificările și bara de activități, apasă tasta de acțiuni + Alt + Ctrl + săgeată în sus sau în jos.\n\nPentru a deschide lista de aplicații, apasă tasta de acțiuni.\n\nPentru a accesa ecranul de pornire și a minimiza toate ferestrele deschise, apasă tasta de acțiuni + H sau tasta Ecran de pornire pe rândul de sus.\n\nPentru a accesa aplicațiile recente, apasă tasta de acțiuni + Tab sau Prezentare generală pe rândul de sus.\n\nPentru a trece rapid de la o fereastră la alta, apasă lung pe Alt și apasă pe Tab.\n\nPentru a reveni, apasă tasta de acțiuni + Esc sau Înapoi pe rândul de sus.\n\nPentru a deschide notificările, apasă tasta de acțiuni + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Ajustează setările pentru vorbire</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Volumul vorbirii în TalkBack se numește volum pentru accesibilitate. Se ajustează separat de volumul media.\n\nCa să ajustezi volumul pentru accesibilitate, apasă tasta de acțiuni + butonul de creștere sau de reducere a volumului.\n\nCa să ajustezi viteza vorbirii, apasă tasta de acțiuni + Ctrl + butonul de creștere a volumului pentru creștere și tasta de acțiuni + Ctrl + butonul de reducere a volumului pentru reducere.\n\nCa să oprești oricând vorbirea, apasă pe Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Meniul TalkBack și mai multe comenzi rapide de la tastatură</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Meniul TalkBack include setări și comenzi de care este posibil să ai nevoie frecvent.\n\nPentru a deschide meniul TalkBack, apasă tasta de acțiuni + Ctrl + M. Poți personaliza meniul TalkBack și comenzile pentru citire mai târziu, în setările TalkBack.\n\nMeniul cu comenzi rapide de la tastatură TalkBack include toate comenzile rapide de la tastatură pe care le poți folosi.\n\nPentru a deschide meniul cu comenzi rapide de la tastatură, apasă tasta de acțiuni + Shift + /.\n\nPentru a afla mai multe despre tastatură și pentru a exersa comenzile rapide de la tastatură, apasă tasta de acțiuni + 0 pentru a deschide ecranul de exersare.</string>
+  <string name="keyboard_tutorial_finished_page_title">Gata!</string>
+  <string name="keyboard_tutorial_finished_page_text">Ești gata să folosești TalkBack.\n\nAflă în continuare despre alte subiecte acum sau examinează oricând aceste informații din setările TalkBack.\n\nPentru a activa sau a dezactiva oricând TalkBack, apasă tasta de acțiuni + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Navighează mai rapid în conținutul web cu modul de navigare</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Când folosești browserul și aplicațiile web, poți să activezi modul de navigare și să comuți între diferite niveluri de detaliere a lecturii și comenzi cu o singură apăsare de tastă. Astfel, navigarea într-o pagină este similară cu navigarea într-o casetă de editare a textului, de exemplu, cu săgețile spre stânga și spre dreapta pentru a naviga după caracter și cu săgețile în sus și în jos pentru a naviga după rând.\n\nPentru a activa sau a dezactiva modul de navigare, apasă de două ori tasta de acțiuni.\n\nCând modul de navigare este activat, apasă pe D pentru a trece la următorul reper, pe F pentru a trece la următoarea comandă sau la următorul câmp din formular, pe B pentru a trece la următorul buton, pe K pentru a trece la următorul link și pe H pentru a trece la următorul titlu. Apasă lung pe Shift și apasă aceste taste pentru a naviga înapoi.\n\nPoți folosi și săgețile în sus și în jos pentru a sări peste rânduri, săgețile spre stânga și spre dreapta pentru a sări peste litere și Ctrl + săgețile spre stânga și spre dreapta pentru a sări peste cuvinte.\n\nApasă tasta de acțiuni + săgeata spre dreapta pentru a accesa o zonă de exersare. În zona de exersare, linkurile, câmpurile din formular și butoanele nu vor realiza nicio acțiune.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Nivelurile titlurilor</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Site-urile și aplicațiile web folosesc adesea titluri cu diferite niveluri pentru a structura conținutul. Când modul de navigare este activat, apasă tastele de la 1 la 6 pentru a trece la nivelurile titlurilor. Apasă lung pe Shift și apasă aceste taste pentru a naviga înapoi.\n\nApasă tasta de acțiuni + săgeata spre dreapta pentru a accesa o zonă de exersare.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabele</string>
+  <string name="keyboard_tutorial_tables_page_text">Modul de navigare facilitează și navigarea în tabele. Când modul de navigare este activat, apasă pe Alt + Ctrl + săgeată în sus și în jos pentru a trece de la un rând la altul și pe Alt + Ctrl + săgeată spre stânga și spre dreapta pentru a trece de la o coloană la alta.\n\nApasă tasta de acțiuni + săgeată spre dreapta pentru a accesa o zonă de exersare.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Editarea textului</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Când accesezi un câmp de text, modul de navigare va fi dezactivat temporar, astfel încât să poți folosi toate tastele pentru a scrie. Vei auzi un anunț și un sunet când este dezactivat. După ce părăsești câmpul de text, modul de navigare se va reactiva și vei auzi alt anunț și alt sunet.\n\nApasă tasta de acțiuni + săgeată spre dreapta pentru a accesa o zonă de exersare.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Mai multe despre modul de navigare</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Pentru a vedea lista completă a elementelor prin care poți să navighezi în modul de navigare, apasă tasta de acțiuni + Shift + / și caută „modul de navigare” în meniul de comenzi rapide de la tastatură.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Citește pe caractere, cuvinte sau paragrafe</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Uneori, poate că dorești să auzi textul citit cu voce tare pe caractere.\n\nÎn acest scop, poți folosi navigarea cu ajutorul comenzilor pentru citire. Apasă tasta de acțiuni + Shift + săgeată spre dreapta sau spre stânga până când auzi „caractere”. Apoi apasă tasta de acțiuni + săgeată în sus pentru a muta focalizarea pe navigare înapoi cu câte un caracter. Apasă tasta de acțiuni + săgeata în jos pentru a muta focalizarea pe navigare înainte cu câte un caracter.\n\nÎncearcă acum. Poți alege să citești pe cuvinte, rânduri sau paragrafe folosind tasta de acțiuni + Shift + săgeata spre dreapta sau spre stânga.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Navigarea prin comenzi</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Comenzile sunt elemente cu care poți interacționa, cum ar fi butoanele, casetele de selectare și casetele text.\n\nÎn anumite pagini, este necesar să navighezi prin comenzi ca să găsești rapid o acțiune, de exemplu, butonul următor.\n\nPentru a face acest lucru, apasă tasta de acțiuni + Shift + săgeată spre dreapta până când auzi „comenzi”. Apoi apasă tasta de acțiuni + săgeata în sus pentru a accesa butonul anterior și tasta de acțiuni + săgeata în jos pentru a accesa butonul următor.\n\nÎncearcă acum și găsește butonul următor.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Navigarea prin linkuri</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Poți să navighezi și prin linkurile dintr-o pagină.\n\nPentru a face acest lucru, apasă tasta de acțiuni + Shift + săgeata spre dreapta până când auzi „linkuri”. Apoi apasă tasta de acțiuni + săgeata în jos pentru a găsi linkul numit „Linkul 5”. În tutorial, dacă atingi de două ori acest link, nu se va întâmpla nimic.\n\nApasă tasta de acțiuni + săgeata spre dreapta ca să găsești butonul următor și să accesezi pagina următoare.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Navigarea prin titluri</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Poți să navighezi și prin titlurile dintr-o pagină.\n\nCa să încerci acum, apasă tasta de acțiuni + Shift + săgeata spre dreapta până când auzi „titluri”. Apoi apasă tasta de acțiuni + săgeata în jos pentru a găsi titlul Navigare.</string>
+  <string name="keyboard_tutorial_find_next_button">Apasă tasta de acțiuni + săgeata spre dreapta pentru a găsi butonul următor.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Comută între containere</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Ca să ieși dintr-un container, cum ar fi o listă sau o grilă, apasă tasta de acțiuni + Alt + Ctrl + săgeată spre dreapta sau spre stânga. Acțiunea este utilă când vrei să ieși dintr-o listă lungă de elemente.\n\nCa să o încerci acum, apasă tasta de acțiuni + săgeată spre dreapta ca să deschizi lista. Apoi apasă tasta de acțiuni + Alt + Ctrl + săgeată spre dreapta pentru a trece la următorul container.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Pentru a trece la următorul container, apasă tasta de acțiuni + Alt + Ctrl + săgeată spre dreapta</string>
+  <string name="keyboard_tutorial_exit_container">Pentru a ieși din acest container, apasă tasta de acțiuni + Alt + Ctrl + săgeată spre dreapta</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Ai ieșit din container. Poți și să adaugi containere la comenzile pentru citire, apoi să apeși tasta de acțiuni + Shift + săgeata spre dreapta sau spre stânga pentru a selecta containere și tasta de acțiuni + săgeata în jos sau în sus pentru a trece de la un container la altul. Pentru a actualiza comenzile pentru citire, accesează TalkBack &gt; Setări &gt; Personalizează meniurile &gt; Personalizează comenzile pentru citire.\n\nApasă tasta de acțiuni + săgeată spre dreapta pentru a găsi următorul buton.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Personalizează comenzile pentru citire</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Poți să ajustezi setările pentru vorbire folosind comenzile pentru citire și să personalizezi acțiunile pe care le poți face cu comenzile pentru citire în TalkBack &gt; Setări &gt; Personalizează meniurile &gt; Personalizează comenzile pentru citire.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Încearcă să obții descrieri ale imaginilor</string>
+  <string name="keyboard_tutorial_image_description_page_text">Când focalizezi pe o imagine, apasă tasta de acțiuni + R, apoi pe I. Mai jos apare o fotografie. Solicită o descriere a acesteia.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Poți modifica oricând setările pentru descrierea imaginilor din Setări TalkBack &gt; Descrieri ale imaginilor și pictogramelor.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Poți modifica oricând setările pentru descrierea imaginilor din Setări TalkBack &gt; Descrieri ale imaginilor și pictogramelor.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Exemplu de imagine. Apasă tasta de acțiuni + R, apoi pe I pentru a auzi o descriere.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Comenzi vocale</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Îți poți folosi vocea ca să controlezi rapid TalkBack.\n\nDe exemplu, rostește o comandă ca să schimbi navigarea, să treci la următorul titlu, să copiezi text și multe altele.\n\nCa să încerci acum, apasă pe Acțiune + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Se folosește căutarea pe ecran</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Funcția de căutare pe ecran îți permite să cauți un anumit conținut pe ecran.\n\nCa să o încerci, apasă pe Acțiune + CTRL + /. Introdu un cuvânt cheie, cum ar fi „înainte”, pentru a găsi elemente cu textul respectiv pe ecran.\n\nÎncearcă să cauți „înainte” acum pentru a găsi butonul Înainte.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navighează folosind căutarea pe ecran</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">După ce ai selectat un rezultat, poți să treci rapid de la un rezultat la altul din căutarea pe ecran.\n\nPentru aceasta, poți folosi navigarea cu ajutorul comenzilor pentru citire. Apasă pe Acțiune + Shift + săgeată spre dreapta sau spre stânga până când auzi „căutare pe ecran”. Apoi apasă pe Acțiune + săgeată în jos sau în sus pentru a naviga în rezultatele căutării pe ecran.\n\nÎncearcă acum. Mai jos este o listă cu trei butoane, toate conținând textul „acțiune”. Caută „acțiune” folosind căutarea pe ecran, apoi navighează folosind căutarea pe ecran pentru a te deplasa între ele.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Exersează comenzi rapide de la tastatură</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Apasă o tastă sau o combinație de taste de pe tastatura fizică pentru a auzi ce rol are. Apasă Ctrl + W sau Escape pentru a ieși.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Descoperă măreția arborilor de sequoia din California&lt;/h1&gt;
+      &lt;p&gt;Arborii de sequoia din California, în special cei de pe coastă (Sequoia sempervirens), sunt cei mai înalți copaci din lume. Unii au peste 115 metri înălțime și pot trăi mii de ani. Se dezvoltă foarte bine în climatul umed din nordul Californiei, beneficiind de ploaie și ceață.&lt;/p&gt;
+
+      &lt;h2&gt;Unde îi poți vedea&lt;/h2&gt;
+      &lt;p&gt;Vei găsi acești giganți pe o fâșie îngustă de-a lungul coastei Pacificului. Printre parcurile importante se numără:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Planifică-ți vizita aici: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Susține conservarea&lt;/h2&gt;
+      &lt;p&gt;Protejarea acestor păduri antice este vitală. Ne poți ajuta respectând regulile parcului și susținând eforturile de conservare.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Spune-ne despre experiența ta&lt;/h2&gt;
+        &lt;p&gt;Ai fost în pădurile de sequoia?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Da&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nu&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Spune-ne despre experiența ta&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Trimite&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Ce altceva ai vrea să afli despre sequoia?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Trimite&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sequoia: menținerea unui mediu sănătos&lt;/h1&gt;
+    &lt;p&gt;Arborii de sequoia sunt importanți pentru planeta noastră, având un rol esențial în menținerea unui mediu sănătos.&lt;/p&gt;
+
+    &lt;h1&gt;Purificatori uriași ai aerului&lt;/h1&gt;
+    &lt;p&gt;Acești copaci sunt uimitori în ce privește absorbția dioxidului de carbon din aer. Absorb o cantitate mare de dioxid de carbon, contribuind la menținerea aerului curat.&lt;/p&gt;
+
+    &lt;h2&gt;Casa animalelor&lt;/h2&gt;
+    &lt;p&gt;Arborii de sequoia oferă adăpost pentru multe animale, de la păsările de pe ramuri la viețuitoarele mici din sol.&lt;/p&gt;
+
+    &lt;h3&gt;Magia apei&lt;/h3&gt;
+    &lt;p&gt;Sunt foarte buni la captarea ceții, care apoi se scurge pe solul pădurii. Astfel, solul rămâne umed și oferă apă altor plante și animale, mai ales când este secetă.&lt;/p&gt;
+
+    &lt;h4&gt;Protectori ai solului&lt;/h4&gt;
+    &lt;p&gt;Rădăcinile lor puternice mențin solul pe loc, împiedicându-l să fie spălat de ploile abundente și prevenind eroziunea.&lt;/p&gt;
+
+    &lt;h5&gt;Creatori ai pădurilor&lt;/h5&gt;
+    &lt;p&gt;Când arborii bătrâni de sequoia cad, lemnul lor devine hrană și adăpost pentru plante și viețuitoare noi, creând un sol bogat pentru creștere.&lt;/p&gt;
+
+    &lt;h6&gt;Ecosisteme unice&lt;/h6&gt;
+    &lt;p&gt;Deoarece arborii de sequoia sunt atât de mari și trăiesc atât de mult, ei creează un mediu forestier special, care susține viața care nu se găsește nicăieri altundeva.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Animalele din pădurile de sequoia&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animalele din pădurile de sequoia\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Descriere&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Unde trăiește&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Ceva amuzant&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Melcul banană&lt;/th&gt;
+            &lt;td&gt;Melc mare, galben și alunecos&lt;/td&gt;
+            &lt;td&gt;Pe solul pădurii&lt;/td&gt;
+            &lt;td&gt;Al doilea melc ca mărime din lume&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamandra gigant din Pacific&lt;/th&gt;
+            &lt;td&gt;Salamandră mare, de culoare închisă&lt;/td&gt;
+            &lt;td&gt;În apropierea râurilor și în zonele umede&lt;/td&gt;
+            &lt;td&gt;Poate crește până la o lungime de 30 cm&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Elanul Roosevelt&lt;/th&gt;
+            &lt;td&gt;Cerb mare, cu coarne impresionante&lt;/td&gt;
+            &lt;td&gt;Paște în luminișurile din pădure&lt;/td&gt;
+            &lt;td&gt;Masculii pot cântări peste 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bufnița nordică cu pete&lt;/th&gt;
+            &lt;td&gt;Pasăre nocturnă de mărime medie&lt;/td&gt;
+            &lt;td&gt;În pădurile dense, cu arbori maturi de sequoia&lt;/td&gt;
+            &lt;td&gt;„Specie indicatoare – starea ei indică starea pădurii&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Urs negru&lt;/th&gt;
+            &lt;td&gt;Mamifer mare, de obicei negru sau maro&lt;/td&gt;
+            &lt;td&gt;Caută mâncare prin toată pădurea&lt;/td&gt;
+            &lt;td&gt;Cățărător excelent, văzut adeseori prin copaci&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Părerea ta despre sequoia și natură&lt;/h1&gt;
+
+      &lt;p&gt;Ce altceva ai vrea să afli despre sequoia?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Care este locul tău preferat din natură?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Despre ce concept din natură ai vrea să afli mai multe?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

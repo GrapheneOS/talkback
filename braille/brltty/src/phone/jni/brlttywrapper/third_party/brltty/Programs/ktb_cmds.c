@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -29,6 +29,7 @@ static const CommandListEntry commandList_modes[] = {
   { .code = BRL_CMD_DISPMD },
   { .code = BRL_CMD_FREEZE },
   { .code = BRL_CMD_BLK(DESCCHAR) },
+  { .code = BRL_CMD_BLK(COLOR) },
   { .code = BRL_CMD_TIME },
   { .code = BRL_CMD_INDICATORS },
   { .code = BRL_CMD_BLK(CONTEXT) },
@@ -104,14 +105,20 @@ static const CommandListEntry commandList_window[] = {
 };
 
 static const CommandListEntry commandList_clipboard[] = {
+  { .code = BRL_CMD_CLIP_SHOW },
+  { .code = BRL_CMD_CLIP_CLEAR },
   { .code = BRL_CMD_BLK(CLIP_NEW) },
   { .code = BRL_CMD_BLK(CLIP_ADD) },
   { .code = BRL_CMD_BLK(COPY_LINE) },
   { .code = BRL_CMD_BLK(COPY_RECT) },
   { .code = BRL_CMD_BLK(CLIP_COPY) },
   { .code = BRL_CMD_BLK(CLIP_APPEND) },
+  { .code = BRL_CMD_BLK(COPY_SMART_NEW) },
+  { .code = BRL_CMD_BLK(COPY_SMART_ADD) },
   { .code = BRL_CMD_PASTE },
+  { .code = BRL_CMD_PASTE_ALTMODE },
   { .code = BRL_CMD_BLK(PASTE_HISTORY) },
+  { .code = BRL_CMD_BLK(PASTE_HISTORY_ALTMODE) },
   { .code = BRL_CMD_PRSEARCH },
   { .code = BRL_CMD_NXSEARCH },
   { .code = BRL_CMD_CLIP_SAVE },
@@ -179,8 +186,10 @@ static const CommandListEntry commandList_say[] = {
   { .code = BRL_CMD_SAY_FASTER },
   { .code = BRL_CMD_SAY_LOWER },
   { .code = BRL_CMD_SAY_HIGHER },
+  { .code = BRL_CMD_SPK_PUNCT_LEVEL },
   { .code = BRL_CMD_AUTOSPEAK },
   { .code = BRL_CMD_ASPK_SEL_LINE },
+  { .code = BRL_CMD_ASPK_EMP_LINE },
   { .code = BRL_CMD_ASPK_SEL_CHAR },
   { .code = BRL_CMD_ASPK_INS_CHARS },
   { .code = BRL_CMD_ASPK_DEL_CHARS },
@@ -197,11 +206,16 @@ static const CommandListEntry commandList_speak[] = {
   { .code = BRL_CMD_SPEAK_NEXT_CHAR },
   { .code = BRL_CMD_SPEAK_FRST_CHAR },
   { .code = BRL_CMD_SPEAK_LAST_CHAR },
+  { .code = BRL_CMD_SPEAK_CURR_PWRD },
+  { .code = BRL_CMD_SPELL_CURR_PWRD },
+  { .code = BRL_CMD_SPEAK_PREV_PWRD },
+  { .code = BRL_CMD_SPEAK_NEXT_PWRD },
   { .code = BRL_CMD_SPEAK_CURR_WORD },
   { .code = BRL_CMD_SPELL_CURR_WORD },
   { .code = BRL_CMD_SPEAK_PREV_WORD },
   { .code = BRL_CMD_SPEAK_NEXT_WORD },
   { .code = BRL_CMD_SPEAK_CURR_LINE },
+  { .code = BRL_CMD_SPELL_CURR_LINE },
   { .code = BRL_CMD_SPEAK_PREV_LINE },
   { .code = BRL_CMD_SPEAK_NEXT_LINE },
   { .code = BRL_CMD_SPEAK_FRST_LINE },

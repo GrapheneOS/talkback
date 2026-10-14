@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/training_vertical_margin"
+    android:layout_marginBottom="@dimen/training_vertical_margin"
+    android:background="@drawable/practice_area_background"
+    android:padding="@dimen/training_padding"
+    >
+    <WebView
+        android:id="@+id/tutorial_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/training_webview_height"/>
+</FrameLayout>

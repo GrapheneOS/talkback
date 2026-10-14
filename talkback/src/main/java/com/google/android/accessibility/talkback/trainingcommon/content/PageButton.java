@@ -30,11 +30,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
-import com.google.android.accessibility.brailleime.BrailleImeUtils;
+import com.android.talkback.TalkBackPreferencesActivity;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.preference.base.TypingMethodPrefFragment;
+import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingFragment;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingIpcClient.ServiceData;
-import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.android.accessibility.utils.preference.PreferencesActivity;
 import com.google.errorprone.annotations.Immutable;
 import java.util.function.Consumer;
 
@@ -49,9 +51,9 @@ public class PageButton extends PageContentConfig {
   @Immutable
   public enum PageButtonAction implements ButtonOnClickListener {
     OPEN_READING_MODE_PAGE(PageButton::openReadingModePage),
+    OPEN_TYPING_PREFERENCE_PAGE(PageButton::openTypingPreference),
     OPEN_LOOKOUT_PAGE(PageButton::openLookoutPage),
-    BRAILLE_TUTORIAL(PageButton::openBrailleTutorialForSpellCheck);
-
+    OPEN_TUTORIAL_INDEX_PAGE(PageButton::openTutorialIndexPage);
     private final ButtonOnClickListener onClickListener;
 
     PageButtonAction(ButtonOnClickListener onClickListener) {
@@ -144,19 +146,22 @@ public class PageButton extends PageContentConfig {
     context.startActivity(intent);
   }
 
+  private static void openTypingPreference(Context context) {
+    final Intent intent = new Intent(context, TalkBackPreferencesActivity.class);
+    intent.putExtra(PreferencesActivity.FRAGMENT_NAME, TypingMethodPrefFragment.class.getName());
+    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+    context.startActivity(intent);
+  }
+
   private static void openLookoutPage(Context context) {
     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(LOOKOUT_PLAYSTORE_URL));
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     context.startActivity(intent);
   }
 
-  private static void openBrailleTutorialForSpellCheck(Context context) {
-    Intent intent = BrailleImeUtils.getStartSpellCheckGestureCommandActivityIntent(context);
-    if (intent == null) {
-      LogUtils.e(TAG, "No intent to view braille tutorial for Spell Check.");
-      return;
-    }
-    context.startActivity(intent);
+  private static void openTutorialIndexPage(Context context) {
+    Intent tutorialintent = TutorialInitiator.createTutorialIntent(context);
+    context.startActivity(tutorialintent);
   }
 
   @VisibleForTesting

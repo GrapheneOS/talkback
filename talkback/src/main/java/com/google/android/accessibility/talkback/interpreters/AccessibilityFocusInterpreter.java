@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.interpreters;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED;
+import static com.google.android.accessibility.talkback.Interpretation.Touch.Action.LIFT;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -32,6 +33,7 @@ import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.compositor.AccessibilityFocusEventInterpretation;
 import com.google.android.accessibility.talkback.compositor.AccessibilityFocusEventInterpreter;
 import com.google.android.accessibility.talkback.compositor.Compositor;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForScreenStateChange;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration;
@@ -47,10 +49,10 @@ import com.google.android.accessibility.talkback.interpreters.ManualScrollInterp
 import com.google.android.accessibility.talkback.interpreters.ManualScrollInterpreter.ScrolledViewChangeListener;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.DisplayUtils;
+import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
-import com.google.android.accessibility.utils.caption.ImageCaptionUtils;
 import com.google.android.accessibility.utils.labeling.Label;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirection;
@@ -80,7 +82,6 @@ public class AccessibilityFocusInterpreter
 
   private Pipeline.InterpretationReceiver pipelineInterpretations;
   private ActorState actorState;
-  private final FormFactorUtils formFactorUtils;
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
   // Construction methods
@@ -94,10 +95,9 @@ public class AccessibilityFocusInterpreter
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
     this.screenState = screenState;
     focusProcessorForTapAndTouchExploration =
-        new FocusProcessorForTapAndTouchExploration(analytics);
+        new FocusProcessorForTapAndTouchExploration(context, analytics);
     focusProcessorForScreenStateChange =
         new FocusProcessorForScreenStateChange(accessibilityFocusMonitor);
-    formFactorUtils = FormFactorUtils.getInstance();
   }
 
   public void performSplitTap(EventId eventId) {
@@ -106,25 +106,26 @@ public class AccessibilityFocusInterpreter
       // TODO: Split-tap should be activated everywhere, not just IME.
       // If FocusProcessorForTapAndTouchExploration#performSplitTap returns false (
       // support the Text-Entry-Key for lift-to-type, we should enable this.
-      // performClick(eventId);
+      if (FeatureSupport.supportSplitTapEverywhere()
+          && FeatureFlagReader.splitTapEverywhere(context)) {
+        performClick(eventId);
+      }
     }
   }
-  // TODO: Split-tap should be activated everywhere, not just IME.
-  //  private void performClick(EventId eventId) {
-  //    AccessibilityNodeInfoCompat currentA11yFocusedNode =
-  //        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
-  //    if (currentA11yFocusedNode != null) {
-  //      pipelineInterpretations.input(
-  //          eventId, /* event= */ null, Interpretation.Touch.create(LIFT,
-  // currentA11yFocusedNode));
-  //    }
-  //  }
+
+  private void performClick(EventId eventId) {
+    AccessibilityNodeInfoCompat currentA11yFocusedNode =
+        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+    if (currentA11yFocusedNode != null) {
+      pipelineInterpretations.input(
+          eventId, /* event= */ null, Interpretation.Touch.create(LIFT, currentA11yFocusedNode));
+    }
+  }
 
   public void setPipeline(Pipeline.InterpretationReceiver pipeline) {
     this.pipelineInterpretations = pipeline;
     this.focusProcessorForTapAndTouchExploration.setInterpretationReceiver(pipeline);
     focusProcessorForScreenStateChange.setPipeline(pipeline);
-    focusProcessorForTapAndTouchExploration.setInterpretationReceiver(pipeline);
   }
 
   public void setActorState(ActorState actorState) {
@@ -171,7 +172,7 @@ public class AccessibilityFocusInterpreter
           ManualScroll.builder()
               .setDirection(interpretation.direction())
               .setScreenState(screenState.getStableScreenState());
-      if (formFactorUtils.isAndroidWear()) {
+      if (FormFactorUtils.isAndroidWear()) {
         builder.setCurrentFocusedNode(currentA11yFocusedNode);
       }
 
@@ -182,7 +183,7 @@ public class AccessibilityFocusInterpreter
 
   private boolean shouldMoveFocus(
       AccessibilityNodeInfoCompat currentA11yFocusedNode, @SearchDirection int direction) {
-    if (formFactorUtils.isAndroidWear()) {
+    if (FormFactorUtils.isAndroidWear()) {
       // In a Watch device, especially for a rounded screen, we have to move focus onto the next
       // node before current focused node being invisible to mitigate the fighting between TB and
       // a scrolling list view. To do so, we need to focus onto another node when the current
@@ -199,7 +200,7 @@ public class AccessibilityFocusInterpreter
 
   private boolean shouldFocusNextNodeForWatch(
       Context context, AccessibilityNodeInfoCompat node, @SearchDirection int direction) {
-    if (!formFactorUtils.isAndroidWear()) {
+    if (!FormFactorUtils.isAndroidWear()) {
       return false;
     }
 
@@ -262,6 +263,7 @@ public class AccessibilityFocusInterpreter
   @Override
   public @Nullable AccessibilityFocusEventInterpretation interpret(AccessibilityEvent event) {
     FocusActionInfo info = actorState.getFocusHistory().getFocusActionInfoFromEvent(event);
+    boolean forceMuteFeedback = info != null && info.forceMuteFeedback;
 
     // For user interface interaction (such as quick menu to handle slider/number-picker) and image
     // caption.
@@ -269,8 +271,10 @@ public class AccessibilityFocusInterpreter
       AccessibilityNodeInfoCompat node = AccessibilityNodeInfoUtils.toCompat(event.getSource());
       // Skips caption if the view has already been labeled.
       boolean needsCaption =
-          ImageCaptioner.supportsImageCaption(context)
-              && ImageCaptionUtils.needImageCaption(context, node)
+          !forceMuteFeedback
+              && ImageCaptioner.supportsImageCaption(context)
+              && ImageCaptioner.needAutomaticCaptioning(
+                  context, node, actorState.getGeminiState().hasAiCore())
               && actorState.getLabelManagerState().getLabelIdForNode(node) == Label.NO_ID;
       pipelineInterpretations.input(
           Performance.getInstance().onEventReceived(event),

@@ -2,7 +2,7 @@
 /*
  * libbrlapi - A library providing access to braille terminals for applications.
  *
- * Copyright (C) 2002-2023 by
+ * Copyright (C) 2002-2026 by
  *   Samuel Thibault <Samuel.Thibault@ens-lyon.org>
  *   Sébastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
  *
@@ -16,6 +16,13 @@
  * Web Page: http://brltty.app/
  *
  * This software is maintained by Dave Mielke <dave@mielke.cc>.
+ */
+
+/** \mainpage BrlAPI API reference manual
+ * This documentation provides all the API details of BrlAPI.
+ *
+ * A general introduction guide is available online on
+ * https://brltty.app/doc/Manual-BrlAPI/English/BrlAPI.html
  */
 
 /** \file
@@ -35,7 +42,7 @@ extern "C" {
  * @{ */
 
 /** Library version. */
-#define BRLAPI_RELEASE "0.8.5"
+#define BRLAPI_RELEASE "0.8.8"
 
 /** Library major version. */
 #define BRLAPI_MAJOR 0
@@ -44,7 +51,7 @@ extern "C" {
 #define BRLAPI_MINOR 8
 
 /** Library revision. */
-#define BRLAPI_REVISION 5
+#define BRLAPI_REVISION 8
 
 /** Returns the version of the library */
 void brlapi_getLibraryVersion(int *major, int *minor, int *revision);
@@ -101,7 +108,7 @@ typedef signed int ssize_t;
  *
  * @{ */
 
-/** Type for BrlAPI hanles */
+/** Type for BrlAPI handles */
 typedef struct brlapi_handle_t brlapi_handle_t;
 
 /** Returns the size of an object of type brlapi_handle_t in bytes */
@@ -349,7 +356,7 @@ void * BRLAPI_STDCALL brlapi__getClientData(brlapi_handle_t *handle);
  * @{
  */
 
-/** Maximum name length for driver names embeded in BrlAPI packets, not counting
+/** Maximum name length for driver names embedded in BrlAPI packets, not counting
  * any termination \\0 character */
 #define BRLAPI_MAXNAMELENGTH 31
 
@@ -439,6 +446,11 @@ int BRLAPI_STDCALL brlapi__getDisplaySize(brlapi_handle_t *handle, unsigned int 
  * Once brlapi_enterTtyMode() is called, brlapi_leaveTtyMode() has to be called
  * before calling brlapi_enterTtyMode() again.
  *
+ * If the application does not want to take control of a particular tty, but
+ * keep control on all ttys, brlapi_enterTtyModeWithPath should be called
+ * instead with nttys equal to 0. This is usually what a screen reader wants to
+ * use.
+ *
  * TODO: document which functions work in TTY mode only.
  *
  * \sa brlapi_leaveTtyMode() brlapi_readKey()
@@ -519,8 +531,8 @@ int BRLAPI_STDCALL brlapi__setFocus(brlapi_handle_t *handle, int tty);
  * After brlapi_enterTtyMode() has been called, the application can
  * call one of these functions to write things on the braille display.
  *
- * \note Be sure to call brlapi_enterTtyMode() \e before calling brlapi_write(),
- * or else you'll get an error. This is particularly not always trivial when
+ * \note Be sure to call brlapi_enterTtyMode() \e before calling brlapi_write(), or
+ * else you'll get an error. This is particularly not always trivial when
  * writing multithreaded applications.
  *
  * \note Dots are coded as described in ISO/TR 11548-1: a dot pattern is coded
@@ -598,12 +610,7 @@ int BRLAPI_STDCALL brlapi__writeDots(brlapi_handle_t *handle, const unsigned cha
 /** Structure containing arguments to be given to brlapi_write() */
 typedef struct {
   int displayNumber /** Display number ::BRLAPI_DISPLAY_DEFAULT == unspecified */;
-  unsigned int
-      regionBegin /** Region of display to update, 1st character of display is
-                     1, 1st character of the second line of display is the width
-                     of a line plus 1, etc. Regions are always a linear wrap
-                     over the different lines. */
-      ;
+  unsigned int regionBegin /** Region of display to update, 1st character of display is 1, 1st character of the second line of display is the width of a line plus 1, etc. Regions are always a linear wrap over the different lines. */;
   int regionSize /** Number of characters held in andMask and orMask. If negative, its absolute value is taken into account, and the output is padded or truncated to fill the rest of the display. */;
   const char *text /** Text to display, must hold as many characters as the region fields expresses. */;
   int textSize /** Size of text in bytes. If -1, strlen() is used for computing it. */;
@@ -665,7 +672,7 @@ typedef struct {
  * If given, the "text" field holds the text that will be displayed in the
  * region.  The char string must hold exactly as many characters as the region
  * fields express.  For multibyte text, this is the number of \e multibyte
- * caracters.  Notably, combining and double-width caracters count for 1.
+ * characters.  Notably, combining and double-width characters count for 1.
  *
  * The actual length of the text in \e bytes may be specified thanks to
  * textSize.  If -1 is given, it will be computed thanks to strlen(), so "text"
@@ -807,7 +814,7 @@ int BRLAPI_STDCALL brlapi_describeKeyCode (brlapi_keyCode_t code, brlapi_describ
  *   \c XtAppAddInput(app_context, \c fileDescriptor, \c XtInputReadMask|XtInputExceptMask, \c f, \c data)
  * - etc.
  *
- * and then, when you detect inbound trafic on the file descriptor, do something
+ * and then, when you detect inbound traffic on the file descriptor, do something
  * like this:
  *
  * while (brlapi_readKey(0, &code) {
@@ -1160,7 +1167,12 @@ int BRLAPI_STDCALL brlapi__setParameter(brlapi_handle_t *handle, brlapi_param_t 
  * \param len is the size of the data.
  *
  * This callback only gets called when the application calls some brlapi_
- * function (i.e. BrlAPI gets direct control of the execution).
+ * function (i.e. BrlAPI gets direct control of the execution), BrlAPI itself
+ * does not start a separate thread or such.
+ *
+ * If an application wants to see such event trigger a callback getting called
+ * e.g. in another thread, it can use brlapi_pause() to give BrlAPI an
+ * opportunity to receive messages and call the callbacks.
  */
 typedef void (*brlapi_paramCallback_t)(brlapi_param_t parameter, brlapi_param_subparam_t subparam, brlapi_param_flags_t flags, void *priv, const void *data, size_t len);
 

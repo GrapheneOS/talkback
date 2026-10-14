@@ -16,12 +16,13 @@
 
 package com.google.android.accessibility.braille.brailledisplay.settings;
 
-import static com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils.SupportedCommand.Category.BASIC;
-import static com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils.SupportedCommand.Category.BRAILLE_SETTINGS;
-import static com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils.SupportedCommand.Category.EDITING;
-import static com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils.SupportedCommand.Category.NAVIGATION;
-import static com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils.SupportedCommand.Category.SYSTEM_ACTIONS;
-import static com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils.SupportedCommand.Category.TALKBACK_FEATURES;
+import static com.google.android.accessibility.braille.brailledisplay.SupportedCommand.Category.BASIC;
+import static com.google.android.accessibility.braille.brailledisplay.SupportedCommand.Category.BRAILLE_SETTINGS;
+import static com.google.android.accessibility.braille.brailledisplay.SupportedCommand.Category.EDITING;
+import static com.google.android.accessibility.braille.brailledisplay.SupportedCommand.Category.NAVIGATION;
+import static com.google.android.accessibility.braille.brailledisplay.SupportedCommand.Category.SYSTEM_ACTIONS;
+import static com.google.android.accessibility.braille.brailledisplay.SupportedCommand.Category.TALKBACK_FEATURES;
+import static com.google.android.accessibility.braille.brailledisplay.SupportedCommand.Category.WEB_NAVIGATION;
 import static com.google.android.accessibility.braille.common.BrailleUserPreferences.BRAILLE_SHARED_PREFS_FILENAME;
 
 import android.content.Intent;
@@ -29,9 +30,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import com.google.android.accessibility.braille.brailledisplay.FeatureFlagReader;
 import com.google.android.accessibility.braille.brailledisplay.R;
+import com.google.android.accessibility.braille.brailledisplay.SupportedCommand;
 import com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils;
-import com.google.android.accessibility.braille.brailledisplay.controller.utils.BrailleKeyBindingUtils.SupportedCommand;
 import com.google.android.accessibility.braille.brltty.BrailleDisplayProperties;
 import com.google.android.accessibility.braille.brltty.BrailleKeyBinding;
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
@@ -56,7 +58,7 @@ public class KeyBindingsActivity extends PreferencesActivity {
   }
 
   /** Fragment that holds the key binding preference. */
-  public static class KeyBindingsFragment extends PreferenceFragmentCompat {
+    public static class KeyBindingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String rootKey) {
@@ -64,6 +66,10 @@ public class KeyBindingsActivity extends PreferencesActivity {
       PreferenceSettingsUtils.addPreferencesFromResource(this, R.xml.key_bindings);
       BrailleDisplayProperties props = getActivity().getIntent().getParcelableExtra(PROPERTY_KEY);
       for (Map.Entry<SupportedCommand.Category, Integer> entry : createCategoryMap().entrySet()) {
+        if (!FeatureFlagReader.useBrowseMode(getContext()) && entry.getKey() == WEB_NAVIGATION) {
+          getPreferenceScreen().removePreferenceRecursively(getString(entry.getValue()));
+          continue;
+        }
         if (props == null) {
           setPreferenceClickListener(entry.getKey(), entry.getValue());
         } else {
@@ -79,13 +85,15 @@ public class KeyBindingsActivity extends PreferencesActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
-        case android.R.id.home:
+        case android.R.id.home -> {
           Intent intent = new Intent(getContext(), BrailleDisplaySettingsActivity.class);
           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
           startActivity(intent);
           return true;
-        default:
+        }
+        default -> {
           return super.onOptionsItemSelected(item);
+        }
       }
     }
 
@@ -93,22 +101,18 @@ public class KeyBindingsActivity extends PreferencesActivity {
       BrailleDisplayProperties displayProperties =
           getActivity().getIntent().getParcelableExtra(PROPERTY_KEY);
       Preference preference = findPreference(getString(keyId));
-      preference.setOnPreferenceClickListener(
-          preference1 -> {
-            Intent intent = new Intent(getContext(), KeyBindingsCommandActivity.class);
-            intent.putExtra(KeyBindingsCommandActivity.TITLE_KEY, preference.getTitle());
-            intent.putExtra(KeyBindingsCommandActivity.TYPE_KEY, category.name());
-            intent.putExtra(PROPERTY_KEY, displayProperties);
-            getContext().startActivity(intent);
-            return true;
-          });
+      Intent intent = new Intent(getContext(), KeyBindingsCommandActivity.class);
+      intent.putExtra(KeyBindingsCommandActivity.TITLE_KEY, preference.getTitle());
+      intent.putExtra(KeyBindingsCommandActivity.TYPE_KEY, category);
+      intent.putExtra(PROPERTY_KEY, displayProperties);
+      preference.setIntent(intent);
     }
 
     private boolean isCategoryCommandSupported(
         BrailleDisplayProperties displayProperties, SupportedCommand.Category category) {
       ArrayList<BrailleKeyBinding> sortedBindings =
           BrailleKeyBindingUtils.getSortedBindingsForDisplay(displayProperties);
-      return BrailleKeyBindingUtils.getSupportedCommands(getContext()).stream()
+      return SupportedCommand.getAvailableSupportedCommands(getContext()).stream()
           .filter(supportedCommand -> supportedCommand.getCategory().equals(category))
           .anyMatch(
               supportedCommand ->
@@ -126,6 +130,7 @@ public class KeyBindingsActivity extends PreferencesActivity {
       categoryMap.put(TALKBACK_FEATURES, R.string.pref_key_bd_keybindings_talkback_features);
       categoryMap.put(BRAILLE_SETTINGS, R.string.pref_key_bd_keybindings_braille_settings);
       categoryMap.put(EDITING, R.string.pref_key_bd_keybindings_editing);
+      categoryMap.put(WEB_NAVIGATION, R.string.pref_key_bd_keybindings_web_navigation);
       return categoryMap;
     }
   }

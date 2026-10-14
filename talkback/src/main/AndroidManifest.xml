@@ -29,15 +29,11 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- Required for App Enumeration -->
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" tools:ignore="QueryAllPackagesPermission"/>
 
     <!-- Required for sending data to Google Analytics. -->
-    <uses-permission
-      android:name="android.permission.INTERNET"
-      tools:node="remove" />
-    <uses-permission
-      android:name="android.permission.ACCESS_NETWORK_STATE"
-      tools:node="remove" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -53,6 +49,9 @@
     <!-- Required for posting notifications, beginning in Android T. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Required for binding AICore service for on-device AI features. -->
+    <uses-permission android:name="com.google.android.apps.aicore.service.BIND_SERVICE"/>
+
     <!-- Hardware compatibility. -->
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -62,8 +61,11 @@
         android:required="false" />
 
     <application
-        android:label="@string/app_name"
+        android:label="@string/talkback_title"
         android:supportsRtl="true">
+
+        <!-- Allows local profiling on release builds -->
+        <profileable android:shell="true" />
 
         <!-- TalkBack -->
         <service
@@ -105,10 +107,18 @@
             android:theme="@style/TalkBackSettings"
             tools:ignore="ExportedActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.accessibilityservice.SERVICE_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+
+        <!-- TalkBack subsettings Preferences -->
+        <activity
+            android:name="com.android.talkback.TalkBackPreferencesActivity$TalkBackSubSettings"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:exported="false"
+            android:label="@string/talkback_preferences_title"
+            android:theme="@style/TalkBackSettings">
         </activity>
 
         <!-- TalkBack permission request activity proxy -->
@@ -130,13 +140,33 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/TrainingActivityTheme"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustPan"
             tools:ignore="ExportedActivity"
             android:directBootAware="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="com.google.android.accessibility.talkback.training.START" />
             </intent-filter>
+        </activity>
+
+        <!-- To choose between touch and keyboard tutorial. -->
+        <activity
+            android:name="com.google.android.accessibility.talkback.trainingcommon.TutorialChooserActivity"
+            android:theme="@style/Theme.TutorialChooserDialog"
+            android:exported="false">
+        </activity>
+
+        <!-- Absolutely same with TrainingActivity for onboarding link to tutorial without breaking the singleTop launch mode.
+             To prevent slowdown of talkback event-handlers, arrange to run on a separate process. -->
+        <activity
+            android:name="com.google.android.accessibility.talkback.trainingcommon.SecondaryTrainingActivity"
+            android:process=":Tutorial"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:exported="true"
+            android:theme="@style/TrainingActivityTheme"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="ExportedActivity"
+            android:directBootAware="true">
         </activity>
 
         <activity android:name="com.google.android.accessibility.talkback.labeling.LabelImportActivity"
@@ -149,16 +179,11 @@
         <!-- Custom Label Manager - Summary Activity -->
         <activity
             android:name="com.google.android.accessibility.talkback.labeling.LabelManagerSummaryActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/label_manager_summary_title"
             android:launchMode="singleTop"
             android:theme="@style/TalkBackSettings"
             android:taskAffinity="com.google.android.accessibility.talkback.SettingsAffinity" >
-            <!-- This preference activity can receive an implicit intent action -->
-            <intent-filter>
-                <action android:name=".labeling.TalkBackSelectorPreferencesActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <!-- Custom Label Manager - Package Activity -->
@@ -224,10 +249,6 @@
         <meta-data
             android:name="support_lift_to_type"
             android:value="@bool/support_lift_to_type" />
-
-        <meta-data
-            android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="ocr" />
 
     </application>
 </manifest>

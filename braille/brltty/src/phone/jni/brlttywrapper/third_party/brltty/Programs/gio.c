@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -28,6 +28,7 @@
 #include "io_generic.h"
 #include "gio_internal.h"
 #include "io_serial.h"
+#include "hid_types.h"
 
 const GioProperties *const gioProperties[] = {
   &gioProperties_serial,
@@ -66,6 +67,7 @@ gioInitializeDescriptor (GioDescriptor *descriptor) {
   descriptor->bluetooth.options.inputTimeout = 1000;
   descriptor->bluetooth.options.requestTimeout = 5000;
 
+  descriptor->hid.modelTable = NULL;
   gioInitializeOptions(&descriptor->hid.options);
 
   gioInitializeOptions(&descriptor->null.options);
@@ -120,8 +122,11 @@ gioGetProperties (
     }
   }
 
+  logMessage(LOG_CATEGORY(GENERIC_IO),
+    "unsupported generic resource identifier: %s", *identifier
+  );
+
   errno = ENOSYS;
-  logMessage(LOG_WARNING, "unsupported generic resource identifier: %s", *identifier);
   return NULL;
 }
 
@@ -485,6 +490,22 @@ gioAskResource (
   return method(endpoint->handle, recipient, type,
                 request, value, index, buffer, size,
                 endpoint->options.requestTimeout);
+}
+
+HidItemsDescriptor *
+gioGetHidDescriptorMethod (
+  GioEndpoint *endpoint) {
+  GioGetHidDescriptorMethod *method = endpoint->handleMethods->getHidDescriptor;
+
+  if (!method) {
+    logUnsupportedOperation("getHidDescriptor");
+    errno = ENOSYS;
+    return NULL;
+  }
+
+  return method(
+    endpoint->handle
+  );
 }
 
 int

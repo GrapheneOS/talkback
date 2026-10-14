@@ -99,13 +99,13 @@ public class LabelManagerSummaryActivity extends BasePreferencesActivity
   /** Finishes the activity when the up button is pressed on the action bar. */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case android.R.id.home:
+    return switch (item.getItemId()) {
+      case android.R.id.home -> {
         finish();
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
-    }
+        yield true;
+      }
+      default -> super.onOptionsItemSelected(item);
+    };
   }
 
   @Override
@@ -122,8 +122,10 @@ public class LabelManagerSummaryActivity extends BasePreferencesActivity
 
   private void onImportLabelButtonClicked() {
     final Intent importIntent = new Intent();
+    final String[] mimeTypes = {"application/json", "application/octet-stream"};
     importIntent.setAction(Intent.ACTION_GET_CONTENT);
-    importIntent.setType("application/json");
+    importIntent.setType("*/*");
+    importIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
     importIntent.addCategory(Intent.CATEGORY_OPENABLE);
 
     final PackageManager manager = getApplicationContext().getPackageManager();

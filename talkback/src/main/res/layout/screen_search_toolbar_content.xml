@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/control_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+  <HorizontalScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+    <include
+        android:id="@+id/included_filter_buttons"
+        layout="@layout/screen_search_list_search_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+  </HorizontalScrollView>
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:background="@color/divider_color"
+      android:focusable="false" />
+  <include
+      android:id="@+id/included_text_search"
+      layout="@layout/screen_search_text_search"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+</LinearLayout>

@@ -3,7 +3,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2024 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -25,16 +25,16 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* Define this to be a string containing the copyright notice. */
-#define PACKAGE_COPYRIGHT "© 1995-2023 by The BRLTTY Developers"
+#define PACKAGE_COPYRIGHT "© 1995-2024 by The BRLTTY Developers"
 
 /* Define this to be a string containing the full name of the package. */
 #define PACKAGE_NAME "BRLTTY"
 
 /* Define this to be a string containing the version of the package. */
-#define PACKAGE_VERSION "6.6"
+#define PACKAGE_VERSION "6.9.1"
 
 /* Define this to be a string containing the full name and version of the package. */
-#define PACKAGE_STRING "BRLTTY 6.6"
+#define PACKAGE_STRING "BRLTTY 6.9.1"
 
 /* Define this to be a string containing the URL of the home page of the package. */
 #define PACKAGE_URL "https://brltty.app/"
@@ -317,6 +317,9 @@ extern "C" {
 /* Define this if the header file syslog.h exists. */
 #define HAVE_SYSLOG_H 1
 
+/* Define this if the header file termios.h exists. */
+#define HAVE_TERMIOS_H 1
+
 /* Define this if the header file wchar.h exists. */
 #define HAVE_WCHAR_H 1
 
@@ -536,9 +539,8 @@ extern "C" {
 /* Define this to be a string containing the name of the default preferences file. */
 #define PREFERENCES_FILE "brltty.prefs"
 
-/* Define this to be a string containing the path to the helper commands
- * directory. */
-#define COMMANDS_DIRECTORY "/libexec/brltty"
+/* Define this to be a string containing the path to the helper commands directory. */
+#define HELPERS_DIRECTORY "/libexec/brltty"
 
 /* Define this to be a string containing the path to the drivers directory. */
 #define DRIVERS_DIRECTORY "/lib/brltty"
@@ -553,9 +555,7 @@ extern "C" {
 #define PRIVILEGE_PARAMETERS ""
 
 /* Define this to be a string containing a list of the braille driver codes. */
-#define BRAILLE_DRIVER_CODES                                                 \
-  "al at bm bn ce eu fs hm ht hw ic ir md mm mt np pg pm sk vo bc bd bl cb " \
-  "cn dp ec fa hd lt mb mn tn ts vd vs"
+#define BRAILLE_DRIVER_CODES "al at bm bn ce eu fs hm ht hw ic ir md mm mt np pg pm sk vo bc bd bl cb cn dp ec fa hd lt mb mn tn ts vd vs"
 
 /* Define this to be a string containing the default parameters for the braille driver(s). */
 #define BRAILLE_PARAMETERS ""

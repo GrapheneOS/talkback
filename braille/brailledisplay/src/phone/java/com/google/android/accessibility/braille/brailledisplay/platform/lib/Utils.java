@@ -16,17 +16,15 @@
 
 package com.google.android.accessibility.braille.brailledisplay.platform.lib;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.accessibility.AccessibilityManager;
 import androidx.annotation.Nullable;
+import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 import java.util.List;
 
 /** Some utilities for Braille Display. */
@@ -127,27 +125,6 @@ public class Utils {
     return result;
   }
 
-  /** Returns if accessibility service is enabled. */
-  // TODO: use existing Utils class for the his method
-  public static boolean isAccessibilityServiceEnabled(Context context, String packageName) {
-    @Nullable
-    AccessibilityManager manager =
-        (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
-    if (manager == null) {
-      return false;
-    }
-    List<AccessibilityServiceInfo> list =
-        manager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK);
-    if (list != null) {
-      for (AccessibilityServiceInfo serviceInfo : list) {
-        if (serviceInfo.getId().contains(packageName)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   // Requires SDK_INT >= KITKAT
   // Returns false if an exception occurred in reading from Secure Settings.
   public static boolean isGlobalLocationSettingEnabled(Context context) {
@@ -184,7 +161,7 @@ public class Utils {
             | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
     // Highlight TalkBack item in Accessibility Settings upon arriving there (Pixel only).
     if (component != null) {
-      Utils.attachSettingsHighlightBundle(intent, component);
+      PreferenceSettingsUtils.attachSettingsHighlightBundle(intent, component);
     }
     try {
       context.startActivity(intent);
@@ -192,12 +169,6 @@ public class Utils {
     } catch (Exception e) {
       return false;
     }
-  }
-
-  public static void attachSettingsHighlightBundle(Intent intent, ComponentName componentName) {
-    Bundle bundle = new Bundle();
-    bundle.putString(":settings:fragment_args_key", componentName.flattenToString());
-    intent.putExtra(":settings:show_fragment_args", bundle);
   }
 
   public static boolean launchLocationSettingsActivity(Context context) {

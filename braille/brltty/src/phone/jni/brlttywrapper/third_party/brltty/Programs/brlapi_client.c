@@ -1,7 +1,7 @@
 /*
  * libbrlapi - A library providing access to braille terminals for applications.
  *
- * Copyright (C) 2002-2023 by
+ * Copyright (C) 2002-2026 by
  *   Samuel Thibault <Samuel.Thibault@ens-lyon.org>
  *   Sébastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
  *
@@ -20,7 +20,9 @@
 /* api_client.c handles connection with BrlApi */
 
 #ifdef __ANDROID__
+#ifndef __ANDROID_API__
 #define __ANDROID_API__ 21
+#endif /* __ANDROID_API__ */
 #endif /* __ANDROID__ */
 
 #define WIN_ERRNO_STORAGE_CLASS static
@@ -37,6 +39,10 @@
 #include <assert.h>
 #include <limits.h>
 #include <unistd.h>
+
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif /* HAVE_ALLOCA_H */
 
 #ifndef __MINGW32__
 #ifdef HAVE_LANGINFO_H
@@ -1419,10 +1425,11 @@ static ssize_t _brlapi__getParameter(brlapi_handle_t *handle, brlapi_param_t par
     pthread_mutex_unlock(&handle->req_mutex);
     return -1;
   }
-  if (flags & BRLAPI_PARAMF_GET)
+  if (flags & BRLAPI_PARAMF_GET) {
     rlen = brlapi__waitForPacket(handle, BRLAPI_PACKET_PARAM_VALUE, reply, sizeof(*reply), 1, -1);
-  else
+  } else {
     rlen = brlapi__waitForAck(handle);
+  }
   pthread_mutex_unlock(&handle->req_mutex);
 
   if (rlen < 0) {
@@ -1799,7 +1806,7 @@ int BRLAPI_STDCALL brlapi__enterTtyModeWithPath(brlapi_handle_t *handle, const i
 	    }
 	  }
 
-	  if (chosen >= 0) sd_session_get_vt(sessions[i], &vtnr);
+	  if (chosen >= 0) sd_session_get_vt(sessions[chosen], &vtnr);
 
 	  for (i = 0; i < nsessions; i++) free(sessions[i]);
 	  free(sessions);

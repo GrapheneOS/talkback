@@ -82,7 +82,7 @@ public class DimmingOverlayView extends LinearLayout {
             TextUtils.isEmpty(gesture) ? "" : Ascii.toLowerCase(gesture),
             context.getString(R.string.shortcut_disable_dimming));
     TextView instruction2 = (TextView) findViewById(R.id.message_line_1);
-    if (!FormFactorUtils.getInstance().isAndroidWear()) {
+    if (!FormFactorUtils.isAndroidWear()) {
       // Wear display cannot hold large information. The DIM overlay view does not take input but
       // provide hint to user for turning off DIM. The DimScreenActor will feedback the instruction,
       // and we do not need to show in on wear screen.

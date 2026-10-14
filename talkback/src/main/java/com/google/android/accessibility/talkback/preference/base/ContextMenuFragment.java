@@ -22,6 +22,8 @@ import android.text.TextUtils;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.ImageCaptioner;
+import com.google.android.accessibility.talkback.actor.gemini.GeminiConfiguration;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
@@ -94,12 +96,33 @@ public class ContextMenuFragment extends TalkbackBaseFragment {
         };
     prefs.registerOnSharedPreferenceChangeListener(listener);
 
+    // For screen overview menu item.
+    Preference screenOverviewPreference =
+        findPreference(
+            context.getString(R.string.pref_show_context_menu_summarize_view_setting_key));
+    if (screenOverviewPreference != null) {
+      boolean visible = ImageCaptioner.supportsImageCaption(context);
+      screenOverviewPreference.setVisible(visible);
+      if (visible && GeminiConfiguration.isScreenQnaActionsEnabled(context)) {
+        screenOverviewPreference.setSummary(R.string.summary_screen_overview);
+      }
+    }
+
     // For describe-image menu item.
     Preference describeImagePreference =
         findPreference(
             context.getString(R.string.pref_show_context_menu_image_caption_setting_key));
     if (describeImagePreference != null) {
       describeImagePreference.setVisible(ImageCaptioner.supportsImageCaption(context));
+    }
+
+    // For Keyboard shortcuts menu item.
+    Preference keyboardShortcutsPreference =
+        findPreference(
+            context.getString(R.string.pref_show_context_menu_show_keyboard_shortcuts_setting_key));
+    if (keyboardShortcutsPreference != null) {
+      keyboardShortcutsPreference.setVisible(
+          FeatureFlagReader.enableShowKeyboardShortcutsDialog(context));
     }
   }
 

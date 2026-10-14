@@ -19,7 +19,6 @@ package com.google.android.accessibility.braille.brailledisplay.settings;
 import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.preference.PreferenceFragmentCompat;
-import com.google.android.accessibility.braille.brailledisplay.BrailleDisplay;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
 import com.google.android.accessibility.utils.preference.PreferencesActivity;
 
@@ -44,7 +43,6 @@ public class BrailleDisplaySettingsActivity extends PreferencesActivity {
   @Override
   protected PreferenceFragmentCompat createPreferenceFragment() {
     return new BrailleDisplaySettingsFragment(
-        AccessibilityServiceCompatUtils.Constants.TALKBACK_SERVICE,
-        BrailleDisplay.ENCODER_FACTORY.getDeviceNameFilter());
+        AccessibilityServiceCompatUtils.Constants.TALKBACK_SERVICE);
   }
 }

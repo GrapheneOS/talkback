@@ -16,16 +16,16 @@
 
 package com.google.android.accessibility.talkback.dynamicfeature;
 
-import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
-import static com.google.android.accessibility.utils.caption.ImageCaptionUtils.CaptionType.ICON_LABEL;
+import static com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType.ICON_LABEL;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.Feedback;
-import com.google.android.accessibility.talkback.Pipeline;
+import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.DownloadDialogResources;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.ImageCaptionPreferenceKeys;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.UninstallDialogResources;
+import com.google.common.collect.ImmutableList;
 
 /**
  * Shows a confirmation dialog to guide users through the download of the icon detection module
@@ -33,31 +33,34 @@ import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConsta
  */
 public class IconDetectionModuleDownloadPrompter extends ModuleDownloadPrompter {
 
-  @Nullable private Pipeline.FeedbackReturner pipeline;
-
   /**
    * Creates a {@link ModuleDownloadPrompter} to handle the process of icon detection download and
    * uninstallation.
    */
-  public IconDetectionModuleDownloadPrompter(Context context, FeatureDownloader featureDownloader) {
+  public IconDetectionModuleDownloadPrompter(
+      Context context, Downloader downloader, @Nullable Downloader downloaderLegacy) {
     super(
         context,
-        featureDownloader,
-        ICON_LABEL,
+        downloader,
+        downloaderLegacy,
+        ImmutableList.of(ICON_LABEL),
         ImageCaptionPreferenceKeys.ICON_DETECTION,
         DownloadDialogResources.ICON_DETECTION,
         UninstallDialogResources.ICON_DETECTION);
   }
 
-  public void setPipeline(@Nullable Pipeline.FeedbackReturner pipeline) {
-    this.pipeline = pipeline;
+  @Override
+  public int getDownloadSuccessfulHint() {
+    return R.string.download_icon_detection_successful_hint;
+  }
+
+  @Override
+  public int getDownloadingHint() {
+    return R.string.downloading_icon_detection_hint;
   }
 
   @Override
   protected boolean initModule() {
-    if (pipeline == null) {
-      return false;
-    }
-    return pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.initializeIconDetection());
+    return returnFeedback(Feedback.initializeIconDetection());
   }
 }

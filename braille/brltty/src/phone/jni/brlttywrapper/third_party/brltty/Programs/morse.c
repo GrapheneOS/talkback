@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -224,7 +224,7 @@ playMorseSequence (MorseObject *morse) {
     if (!addMorseElement(morse, &element)) return 0;
   }
 
-  tunePlayTones(morse->elements.array);
+  tunePlayTones(morse->elements.array, 0);
   tuneSynchronize();
   return 1;
 }

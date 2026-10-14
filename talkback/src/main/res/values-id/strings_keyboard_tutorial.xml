@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Tutorial ini menjelaskan peta tombol yang ditingkatkan, yang menyertakan banyak perintah baru. Untuk memilih peta tombol, buka setelan TalkBack &gt; Setelan lanjutan &gt; Pintasan keyboard.\n\nTekan Tindakan + Panah kanan untuk memilih topik. Untuk mendapatkan pengalaman terbaik, aktifkan TalkBack sebelum memulai.</string>
+  <string name="basic_interaction_link_text">Interaksi dasar</string>
+  <string name="basic_interaction_link_subtext">Pindah antar-item, baca per baris, gunakan menu, dan lainnya</string>
+  <string name="browse_mode_link_text">Mode penjelajahan</string>
+  <string name="browse_mode_link_subtext">Jelajahi konten web lebih cepat dengan perintah lompat</string>
+  <string name="reading_controls_link_text">Kontrol pembacaan</string>
+  <string name="reading_controls_link_subtext">Gunakan kontrol pembacaan untuk berpindah antar-item, menyesuaikan setelan ucapan, dan lainnya</string>
+  <string name="image_descriptions_link_text">Deskripsi gambar</string>
+  <string name="image_descriptions_link_subtext">Coba dapatkan deskripsi gambar</string>
+  <string name="keyboard_shortcuts_link_text">Berlatih menggunakan pintasan keyboard</string>
+  <string name="keyboard_shortcuts_link_subtext">Tekan tombol dan kombinasi tombol serta pelajari fungsinya</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack memberikan respons lisan sehingga Anda dapat menggunakan perangkat tanpa melihat layar. TalkBack dapat berguna bagi orang yang kesulitan melihat layar atau orang yang mengalami gangguan penglihatan. Jika TalkBack diaktifkan, item yang difokuskan di layar akan diucapkan lisan.\n\nPertama, mari kita kenali keyboard Anda. Temukan tombol Tindakan, yang berada di atas tombol Shift kiri. Sekarang, mari kita cari tombol panah di dekat area kanan bawah keyboard. Tekan Tindakan + Panah kanan untuk berpindah ke item berikutnya.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Ini adalah item berikutnya. Untuk berpindah ke item sebelumnya, tekan Tindakan + Panah kiri.\n\nSaat Anda berpindah ke item interaktif seperti tombol, tekan Tindakan + Spasi untuk mengaktifkannya. Temukan tombol berikutnya dan lanjutkan tutorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Membaca menurut karakter, kata, atau paragraf</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Terkadang, Anda mungkin ingin mendengarkan teks dibacakan lisan satu karakter demi satu karakter.\n\nUntuk melakukannya, Anda dapat menggunakan navigasi kontrol pembacaan. Tekan Tindakan + Shift + Panah kanan atau kiri hingga Anda mendengar \"karakter\".\n\nSelanjutnya, tekan Tindakan + Panah atas untuk memundurkan fokus navigasi per karakter. Tekan Tindakan + Panah bawah untuk memajukan fokus navigasi per karakter.\n\nCoba sekarang. Anda juga dapat memilih untuk membaca menurut kata, baris, atau paragraf menggunakan Tindakan + Shift + Panah kanan atau kiri.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigasi sistem</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Mencoba pintasan keyboard ini sekarang akan menutup tutorial. Anda sebaiknya menunggu hingga menyelesaikan tutorial.\n\nUntuk berpindah-pindah antara jendela aplikasi yang terbuka dan elemen sistem seperti notifikasi dan Taskbar, tekan Tindakan + Alt + Ctrl + Panah atas atau bawah.\n\nUntuk membuka daftar aplikasi, tekan Tindakan.\n\nUntuk membuka Layar utama dan meminimalkan semua jendela yang terbuka, tekan Tindakan + H atau Home di baris atas.\n\nUntuk membuka aplikasi terbaru, tekan Tindakan + Tab atau Ringkasan di baris atas.\n\nUntuk berpindah-pindah jendela dengan cepat, tahan Alt dan tekan Tab.\n\nUntuk kembali, tekan Tindakan + Esc atau Back di baris atas.\n\nUntuk membuka notifikasi, tekan Tindakan + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Menyesuaikan setelan ucapan</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Volume ucapan TalkBack disebut volume aksesibilitas. Volume ini disesuaikan secara terpisah dari volume media.\n\nUntuk menyesuaikan volume aksesibilitas, tekan Tindakan + Naikkan atau turunkan volume.\n\nUntuk menyesuaikan kecepatan bicara, tekan Tindakan + Ctrl + Naikkan volume untuk menambah volume dan Tindakan + Ctrl + Turunkan volume untuk mengurangi volume.\n\nUntuk menghentikan ucapan kapan saja, tekan Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menu TalkBack dan pintasan keyboard lainnya</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Menu TalkBack mencakup setelan dan kontrol yang mungkin sering diperlukan.\n\nUntuk membuka menu TalkBack, tekan Tindakan + Ctrl + M. Anda dapat menyesuaikan menu TalkBack dan kontrol pembacaan nanti di setelan TalkBack.\n\nMenu pintasan keyboard TalkBack mencakup semua pintasan keyboard yang dapat Anda gunakan.\n\nUntuk membuka menu pintasan keyboard, tekan Tindakan + Shift + /.\n\nUntuk mempelajari lebih lanjut keyboard dan berlatih pintasan keyboard, tekan Tindakan + 0 untuk membuka layar latihan.</string>
+  <string name="keyboard_tutorial_finished_page_title">Selesai</string>
+  <string name="keyboard_tutorial_finished_page_text">Anda siap menggunakan TalkBack.\n\nTerus pelajari topik lainnya sekarang, atau tinjau info ini kapan saja di setelan TalkBack.\n\nUntuk mengaktifkan atau menonaktifkan TalkBack kapan saja, tekan Tindakan + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Membuka konten web lebih cepat dengan mode penjelajahan</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Saat membuka browser dan aplikasi web, Anda dapat mengaktifkan mode penjelajahan dan berpindah antar-berbagai jenis perincian dan kontrol baca dengan sekali menekan tombol. Mode ini membuat navigasi halaman mirip dengan navigasi di kotak edit teks, seperti panah kiri dan kanan untuk berpindah menurut karakter serta panah atas dan bawah untuk berpindah menurut baris.\n\nUntuk mengaktifkan atau menonaktifkan mode penjelajahan, tekan dua kali tombol Tindakan.\n\nSaat mode penjelajahan aktif, tekan D untuk berpindah ke penanda berikutnya, F untuk berpindah ke kontrol atau kolom formulir berikutnya, B untuk berpindah ke tombol berikutnya, K untuk berpindah ke link berikutnya, dan H untuk berpindah ke judul berikutnya. Tahan Shift dan tekan tombol ini untuk mundur.\n\nAnda juga dapat menggunakan Panah atas dan bawah untuk berpindah berdasarkan baris, Panah kiri dan kanan untuk berpindah berdasarkan huruf, dan Ctrl + Panah kiri dan kanan untuk berpindah berdasarkan kata.\n\nTekan Tindakan + Panah kanan untuk masuk ke area latihan. Saat berada di area latihan, link, kolom formulir, dan tombol tidak akan melakukan apa pun.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Tingkat judul</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Situs dan aplikasi web sering menggunakan judul dengan tingkat yang berbeda untuk menyusun konten. Saat mode penjelajahan aktif, tekan 1 hingga 6 untuk berpindah tingkat judul. Tahan Shift dan tekan tombol ini untuk mundur.\n\nTekan Tindakan + Panah kanan untuk masuk ke area latihan.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabel</string>
+  <string name="keyboard_tutorial_tables_page_text">Mode penjelajahan juga memudahkan navigasi tabel. Saat mode penjelajahan aktif, tekan Alt + Ctrl + Panah atas dan bawah untuk berpindah antar-baris dan Alt + Ctrl + Panah kiri dan kanan untuk berpindah antar-kolom.\n\nTekan Tindakan + Panah kanan untuk masuk ke area latihan.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Mengedit teks</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Saat Anda membuka kolom teks, mode penjelajahan akan dinonaktifkan sementara agar Anda dapat menggunakan semua tombol untuk mengetik. Anda akan mendengar pemberitahuan dan suara saat mode ini dinonaktifkan. Setelah Anda keluar dari kolom teks, mode penjelajahan akan diaktifkan kembali dan Anda akan mendengar pemberitahuan dan suara lagi.\n\nTekan Tindakan + Panah kanan untuk masuk ke area latihan.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Selengkapnya tentang mode penjelajahan</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Untuk memeriksa daftar lengkap item yang memungkinkan Anda berpindah-pindah di antaranya dalam mode penjelajahan, tekan Tindakan + Shift + / dan telusuri \"mode penjelajahan\" di menu pintasan keyboard.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Membaca menurut karakter, kata, atau paragraf</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Terkadang, Anda mungkin ingin mendengarkan teks dibacakan lisan satu karakter demi satu karakter.\n\nUntuk melakukannya, Anda dapat menggunakan navigasi kontrol pembacaan. Tekan Tindakan + Shift + Panah kanan atau kiri hingga Anda mendengar \"karakter\". Selanjutnya, tekan Tindakan + Panah atas untuk memundurkan fokus navigasi per karakter. Tekan Tindakan + Panah bawah untuk memajukan fokus navigasi per karakter.\n\nCoba sekarang. Anda juga dapat memilih untuk membaca menurut kata, baris, atau paragraf menggunakan Tindakan + Shift + Panah kanan atau kiri.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Berpindah antar-kontrol</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Kontrol adalah item yang dapat berinteraksi dengan Anda, seperti tombol, kotak centang, dan kotak teks.\n\nDi halaman tertentu, Anda mungkin ingin berpindah antar-kontrol untuk menemukan tindakan dengan cepat, seperti tombol berikutnya.\n\nUntuk melakukannya, tekan Tindakan + Shift + Panah kanan hingga Anda mendengar \"kontrol\". Selanjutnya, tekan Tindakan + Panah atas untuk menuju tombol sebelumnya dan Tindakan + Panah bawah untuk menuju tombol berikutnya.\n\nCoba sekarang dan temukan tombol berikutnya.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Berpindah antar-link</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Anda juga dapat berpindah antar-link di suatu halaman.\n\nUntuk melakukannya, tekan Tindakan + Shift + Panah kanan hingga Anda mendengar \"link\". Selanjutnya, tekan Tindakan + Panah bawah untuk menemukan link bernama \"Link 5\". Selama di tutorial, mengetuk dua kali link ini tidak akan menghasilkan tindakan apa pun.\n\nTekan Tindakan + Panah kanan untuk menemukan tombol berikutnya dan membuka halaman berikutnya.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Berpindah antar-judul</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Anda juga dapat berpindah antar-judul di suatu halaman.\n\nUntuk mencobanya sekarang, tekan Tindakan + Shift + Panah kanan hingga Anda mendengar \"judul\". Selanjutnya, tekan Tindakan + Panah bawah untuk menemukan judul \"Navigasi\".</string>
+  <string name="keyboard_tutorial_find_next_button">Tekan Tindakan + Panah kanan untuk menemukan tombol berikutnya.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Berpindah antar-penampung</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Untuk keluar dari penampung, seperti daftar atau petak, tekan Tindakan + Alt + Ctrl + Panah kanan atau kiri. Fitur ini berguna saat Anda ingin keluar dari daftar item yang panjang.\n\nUntuk mencobanya sekarang, tekan Tindakan + Panah kanan untuk membuka daftar. Kemudian, tekan Tindakan + Alt + Ctrl + Panah kanan untuk membuka penampung berikutnya.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Untuk membuka penampung berikutnya, tekan Tindakan + Alt + Ctrl + Panah kanan</string>
+  <string name="keyboard_tutorial_exit_container">Untuk keluar dari penampung ini, tekan Tindakan + Alt + Ctrl + Panah kanan</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Anda telah keluar dari penampung. Anda juga dapat menambahkan penampung ke kontrol pembacaan, lalu tekan Tindakan + Shift + Panah kanan atau kiri untuk memilih penampung dan Tindakan + Panah bawah atau atas untuk berpindah antar-penampung. Untuk memperbarui kontrol pembacaan, buka TalkBack &gt; Setelan &gt; Sesuaikan menu &gt; Sesuaikan kontrol pembacaan.\n\nTekan Tindakan + Panah kanan untuk menemukan tombol berikutnya.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Menyesuaikan kontrol pembacaan</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Anda juga dapat menyesuaikan setelan ucapan menggunakan kontrol pembacaan dan menyesuaikan hal yang dapat Anda lakukan dengan kontrol pembacaan di TalkBack &gt; Setelan &gt; Sesuaikan menu &gt; Sesuaikan kontrol pembacaan.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Coba dapatkan deskripsi gambar</string>
+  <string name="keyboard_tutorial_image_description_page_text">Saat Anda memfokuskan gambar, tekan Tindakan + R, lalu I. Ada satu foto di bawah. Coba dapatkan deskripsinya.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Anda dapat mengubah setelan deskripsi gambar kapan saja di setelan TalkBack &gt; Deskripsi gambar &amp; ikon.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Anda dapat mengubah setelan deskripsi gambar kapan saja di setelan TalkBack, lalu Deskripsi gambar &amp; ikon.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Gambar sampel. Tekan Tindakan + R, lalu I untuk mendengar deskripsi.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Perintah suara</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Anda dapat menggunakan suara Anda untuk mengontrol TalkBack dengan cepat.\n\nMisalnya, ucapkan perintah untuk mengubah navigasi, berpindah ke judul berikutnya, menyalin teks, dan lainnya.\n\nUntuk mencobanya sekarang, tekan Tindakan + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Menggunakan fitur telusuri layar</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Fitur telusuri layar memungkinkan Anda mencari konten tertentu di layar.\n\nUntuk mencobanya, tekan Tindakan + CTRL + /. Ketik kata kunci, seperti \"berikutnya\", untuk menemukan item dengan teks tersebut di layar.\n\nCoba telusuri \"berikutnya\" sekarang untuk menemukan tombol berikutnya.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Menavigasi dengan fitur telusuri layar</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Anda dapat berpindah dengan cepat antar-hasil penelusuran yang berbeda dari fitur telusuri layar setelah memilih satu hasil.\n\nUntuk melakukannya, Anda dapat menggunakan navigasi kontrol pembacaan. Tekan Tindakan + Shift + Panah kanan atau kiri hingga Anda mendengar \"telusuri layar\". Selanjutnya, tekan Tindakan + Panah bawah atau atas untuk menavigasi berdasarkan hasil fitur telusuri layar.\n\nMari coba sekarang. Di bawah ini adalah daftar 3 tombol, yang semuanya berisi teks \"tindakan\". Telusuri \"tindakan\" menggunakan fitur telusuri layar, lalu gunakan fitur telusuri layar untuk berpindah antar-tombol tersebut.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Berlatih pintasan keyboard</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Tekan tombol atau kombinasi tombol keyboard fisik untuk mendengar fungsinya. Tekan Ctrl + W, atau Escape untuk keluar.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Temukan Keagungan Pohon Redwood California&lt;/h1&gt;
+      &lt;p&gt;Pohon redwood California, terutama coast redwood (Sequoia sempervrens), adalah pohon tertinggi di dunia. Beberapa pohon tingginya lebih dari 115 meter (380 kaki) dan dapat hidup selama ribuan tahun. Pohon ini tumbuh subur di iklim pesisir yang lembap di California utara, yang mendapatkan manfaat dari hujan dan kabut.&lt;/p&gt;
+
+      &lt;h2&gt;Tempat untuk Melihatnya&lt;/h2&gt;
+      &lt;p&gt;Anda dapat menemukan pohon-pohon raksasa ini di sepanjang jalur sempit di pesisir Pasifik. Taman utama meliputi:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Rencanakan kunjungan Anda di sini: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Dukung Konservasi&lt;/h2&gt;
+      &lt;p&gt;Melindungi hutan kuno ini sangat penting. Anda dapat membantu dengan mengikuti pedoman taman dan mendukung upaya konservasi.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Bagikan Pengalaman Anda&lt;/h2&gt;
+        &lt;p&gt;Apakah Anda pernah mengunjungi hutan redwood?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Ya&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Tidak&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Ceritakan pengalaman Anda&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Kirim&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Apa lagi yang ingin Anda ketahui tentang pohon redwood?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Kirim&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Pohon Redwood: Menjaga Kesehatan Lingkungan Kita&lt;/h1&gt;
+    &lt;p&gt;Pohon Redwood sangat penting bagi planet kita, dan berperan besar dalam menjaga kesehatan lingkungan kita.&lt;/p&gt;
+
+    &lt;h1&gt;Penyaring Udara Raksasa&lt;/h1&gt;
+    &lt;p&gt;Pohon-pohon luar biasa ini dapat menyerap karbon dioksida dari udara dalam jumlah besar. Dengan menyerap begitu banyak karbon dioksida, pohon redwood membantu menjaga udara kita tetap bersih.&lt;/p&gt;
+
+    &lt;h2&gt;Rumah bagi Hewan&lt;/h2&gt;
+    &lt;p&gt;Pohon redwood menyediakan rumah dan tempat berlindung bagi banyak hewan, mulai dari burung di dahan hingga makhluk kecil di tanah.&lt;/p&gt;
+
+    &lt;h3&gt;Penyerap Air&lt;/h3&gt;
+    &lt;p&gt;Pohon ini sangat baik dalam menangkap kabut, yang kemudian menetes ke tanah hutan. Hal ini menjaga tanah tetap lembap dan menyediakan air bagi tanaman dan hewan lain, terutama saat cuaca kering.&lt;/p&gt;
+
+    &lt;h4&gt;Pelindung Tanah&lt;/h4&gt;
+    &lt;p&gt;Akarnya yang kuat menahan tanah tetap di tempatnya, mencegahnya hanyut saat hujan lebat dan mencegah erosi.&lt;/p&gt;
+
+    &lt;h5&gt;Pembentuk Hutan&lt;/h5&gt;
+    &lt;p&gt;Saat pohon redwood tua tumbang, kayunya menjadi makanan dan tempat berlindung bagi tanaman dan makhluk hidup baru, sehingga menciptakan tanah yang subur untuk pertumbuhan baru.&lt;/p&gt;
+
+    &lt;h6&gt;Ekosistem yang Unik&lt;/h6&gt;
+    &lt;p&gt;Karena pohon redwood sangat besar dan hidup sangat lama, mereka menciptakan lingkungan hutan khusus yang mendukung kehidupan yang tidak ditemukan di tempat lain.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Hewan di Hutan Redwood&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Hewan di Hutan Redwood\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Hewan&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Deskripsi&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Tempat Tinggal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Fakta Menarik&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Siput Pisang&lt;/th&gt;
+            &lt;td&gt;Siput besar berwarna kuning dan berlendir&lt;/td&gt;
+            &lt;td&gt;Di tanah hutan&lt;/td&gt;
+            &lt;td&gt;Siput terbesar kedua di dunia&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamander Raksasa Pasifik&lt;/th&gt;
+            &lt;td&gt;Salamander besar berwarna gelap&lt;/td&gt;
+            &lt;td&gt;Di dekat aliran air dan area lembap&lt;/td&gt;
+            &lt;td&gt;Bisa tumbuh hingga sepanjang 30 cm&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Rusa Roosevelt&lt;/th&gt;
+            &lt;td&gt;Rusa besar dengan tanduk yang mengesankan&lt;/td&gt;
+            &lt;td&gt;Merumput di area terbuka di dalam hutan&lt;/td&gt;
+            &lt;td&gt;Rusa jantan bisa memiliki berat lebih dari 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Burung Hantu Bintik Utara&lt;/th&gt;
+            &lt;td&gt;Burung hantu berukuran sedang, berburu pada malam hari&lt;/td&gt;
+            &lt;td&gt;Di hutan redwood yang tua dan lebat&lt;/td&gt;
+            &lt;td&gt;Merupakan \"spesies indikator\", kesehatannya menunjukkan kesehatan hutan&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Beruang Hitam&lt;/th&gt;
+            &lt;td&gt;Mamalia besar, biasanya berwarna hitam atau cokelat&lt;/td&gt;
+            &lt;td&gt;Mencari makan di seluruh hutan&lt;/td&gt;
+            &lt;td&gt;Pemanjat yang hebat, sering terlihat di pohon&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Pendapat Anda tentang pohon Redwood dan alam&lt;/h1&gt;
+
+      &lt;p&gt;Apa lagi yang ingin Anda pelajari tentang pohon Redwood?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Apa tempat favorit Anda di alam yang ingin Anda kunjungi?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Apa satu konsep di alam yang ingin Anda pelajari lebih lanjut?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

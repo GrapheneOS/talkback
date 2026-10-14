@@ -39,11 +39,13 @@ $(call build-braille-drivers,\
 	FreedomScientific \
 	HumanWare \
 	Baum \
+	BrailleMemo \
 	Papenmeier \
 	HIMS \
 	Alva \
 	Seika \
 	HandyTech \
+	HID \
        )
 
 #----------------------------------------------------------------
@@ -61,8 +63,8 @@ LOCAL_SRC_FILES:= \
 	BrlttyWrapper.c \
 	libbrltty.c \
 	bluetooth_android.c \
-	usb_android.c \
-	prefs.c
+	hid_android.c \
+	usb_android.c
 LOCAL_WHOLE_STATIC_LIBRARIES := libbrltty
 
 include $(BUILD_SHARED_LIBRARY)
@@ -123,7 +125,6 @@ LOCAL_SRC_FILES+= \
 # HID objects
 LOCAL_SRC_FILES+= \
 	Programs/hid.c \
-	Programs/hid_none.c \
 	Programs/hid_items.c \
 
 # USB objects
@@ -143,6 +144,10 @@ LOCAL_SRC_FILES+= \
 # Other, not sure where they come from.
 LOCAL_SRC_FILES+= \
 	Programs/cmdline.c \
+	Programs/cmdbase.c \
+	Programs/cmdput.c \
+	Programs/color.c \
+	Programs/match.c \
 	Programs/pgmprivs_none.c \
 	Programs/service_none.c \
 	Programs/spk_input.c \

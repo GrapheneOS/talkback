@@ -37,7 +37,8 @@ public class HintEventInterpretation extends ReadOnly {
     HINT_TYPE_SCREEN,
     HINT_TYPE_SELECTOR,
     HINT_TYPE_TEXT_SUGGESTION,
-    HINT_TYPE_TYPO
+    HINT_TYPE_TYPO,
+    HINT_TYPE_LINK
   })
   @Retention(RetentionPolicy.SOURCE)
   public @interface HintType {}
@@ -49,6 +50,7 @@ public class HintEventInterpretation extends ReadOnly {
   public static final int HINT_TYPE_SELECTOR = 4;
   public static final int HINT_TYPE_TEXT_SUGGESTION = 5;
   public static final int HINT_TYPE_TYPO = 6;
+  public static final int HINT_TYPE_LINK = 7;
 
   //////////////////////////////////////////////////////////////////////////////////////////
   // Member variables
@@ -113,23 +115,16 @@ public class HintEventInterpretation extends ReadOnly {
   }
 
   public static String hintTypeToString(@HintType int hintType) {
-    switch (hintType) {
-      case HINT_TYPE_NONE:
-        return "HINT_TYPE_NONE";
-      case HINT_TYPE_ACCESSIBILITY_FOCUS:
-        return "HINT_TYPE_ACCESSIBILITY_FOCUS";
-      case HINT_TYPE_INPUT_FOCUS:
-        return "HINT_TYPE_INPUT_FOCUS";
-      case HINT_TYPE_SCREEN:
-        return "HINT_TYPE_SCREEN";
-      case HINT_TYPE_SELECTOR:
-        return "HINT_TYPE_SELECTOR";
-      case HINT_TYPE_TEXT_SUGGESTION:
-        return "HINT_TYPE_TEXT_SUGGESTION";
-      case HINT_TYPE_TYPO:
-        return "HINT_TYPE_TYPO";
-      default:
-        return "(unhandled)";
-    }
+    return switch (hintType) {
+      case HINT_TYPE_NONE -> "HINT_TYPE_NONE";
+      case HINT_TYPE_ACCESSIBILITY_FOCUS -> "HINT_TYPE_ACCESSIBILITY_FOCUS";
+      case HINT_TYPE_INPUT_FOCUS -> "HINT_TYPE_INPUT_FOCUS";
+      case HINT_TYPE_SCREEN -> "HINT_TYPE_SCREEN";
+      case HINT_TYPE_SELECTOR -> "HINT_TYPE_SELECTOR";
+      case HINT_TYPE_TEXT_SUGGESTION -> "HINT_TYPE_TEXT_SUGGESTION";
+      case HINT_TYPE_TYPO -> "HINT_TYPE_TYPO";
+      case HINT_TYPE_LINK -> "HINT_TYPE_LINK";
+      default -> "(unhandled)";
+    };
   }
 }

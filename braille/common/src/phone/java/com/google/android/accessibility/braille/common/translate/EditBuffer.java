@@ -76,15 +76,6 @@ public interface EditBuffer {
   /** Moves the cursor in the text field. */
   boolean moveTextFieldCursor(ImeConnection imeConnection, int index);
 
-  /** Moves the cursor to the beginning of text field. */
-  boolean moveCursorToBeginning(ImeConnection imeConnection);
-
-  /** Moves the cursor to the end of text field. */
-  boolean moveCursorToEnd(ImeConnection imeConnection);
-
-  /** Selects All text from the text field. */
-  boolean selectAllText(ImeConnection imeConnection);
-
   /** Gets the holdings info for braille display. */
   HoldingsInfo getHoldingsInfo(ImeConnection imeConnection);
 }

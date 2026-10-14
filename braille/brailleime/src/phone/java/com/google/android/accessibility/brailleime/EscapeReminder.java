@@ -38,6 +38,7 @@ public class EscapeReminder {
   }
 
   @VisibleForTesting static final int IDLE_THRESHOLD_DURATION_MS = 15000;
+  private static final int MSG_LEAVE_REMINDER = 0;
   private static final int MAX_REMINDER_COUNT = 3;
   private static final int MAX_SHOW_OPTION_DIALOG_COUNT = 3;
   private static final int MAX_EXIT_KEYBOARD_COUNT = 5;
@@ -63,20 +64,21 @@ public class EscapeReminder {
         }
       };
 
-  private final Runnable leaveReminder =
-      new Runnable() {
-        @Override
-        public void run() {
-          finishSpeaking.set(false);
-          callback.onRemind(utteranceCompleteRunnable);
-          reminderCount++;
-        }
-      };
-
   public EscapeReminder(Context context, Callback callback) {
     this.context = context;
     this.callback = callback;
-    this.handler = new Handler();
+    this.handler =
+        new Handler(
+            context.getMainLooper(),
+            msg -> {
+              if (msg.what == MSG_LEAVE_REMINDER) {
+                finishSpeaking.set(false);
+                callback.onRemind(utteranceCompleteRunnable);
+                reminderCount++;
+                return true;
+              }
+              return false;
+            });
     this.optionsDialogCounter = BrailleUserPreferences.readShowOptionDialogCount(context);
     this.exitKeyboardCounter = BrailleUserPreferences.readExitKeyboardCount(context);
   }
@@ -85,9 +87,10 @@ public class EscapeReminder {
   public void startTimer() {
     // There is a condition that startTimer() is called between the announce task sent to TalkBack
     // but it hasn't been spoken. Introduce finishSpeaking to stop timer starting here.
-    if (!handler.hasCallbacks(leaveReminder) && finishSpeaking.get()) {
+    if (!handler.hasMessages(MSG_LEAVE_REMINDER) && finishSpeaking.get()) {
       if (shouldAnnounceReminder()) {
-        handler.postDelayed(leaveReminder, IDLE_THRESHOLD_DURATION_MS * reminderCount);
+        handler.sendEmptyMessageDelayed(
+            MSG_LEAVE_REMINDER, IDLE_THRESHOLD_DURATION_MS * reminderCount);
       }
     }
   }

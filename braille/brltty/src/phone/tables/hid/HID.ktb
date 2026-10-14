@@ -1,0 +1,45 @@
+title Generic HID Braille Display
+note These files must be placed in a directory named 'hid' to be loaded properly by brltty
+
+include ../chords.kti
+
+bind RoutingKey ROUTE:ROUTE+128
+map Space SPACE
+map SpaceLeft SPACE
+map SpaceRight SPACE
+
+note Panning and Rocker keys
+note     PanLeft/RockerUp move the Braille cell window left
+note     PanRight/RockerDown move the Braille cell window right
+bind PanLeft FWINLT
+bind PanRight FWINRT
+bind RockerUp FWINLT
+bind RockerDown FWINRT
+bind RockerPress KEY_ENTER
+
+note D-Pad
+note     DPadLeft moves to previous item, DPadRight moves to next item
+note     DPadUp moves up a line, DPadDown moves down a line
+note     DPadCenter is KEY_ENTER
+bind DPadLeft CHRLT
+bind DPadRight CHRRT
+bind DPadUp LNUP
+bind DPadDown LNDN
+bind DPadCenter KEY_ENTER
+
+note Joystick
+note     JoystickLeft moves the Braille cell window left, JoystickRight move the Braille cell window right
+note     JoystickUp moves up a line, JoystickDown moves down a line
+note     JoystickCenter is KEY_ENTER
+bind JoystickUp LNUP
+bind JoystickDown LNDN
+bind JoystickLeft FWINLT
+bind JoystickRight FWINRT
+bind JoystickCenter KEY_ENTER
+
+assign chord Space
+include ../android-chords.kti
+assign chord SpaceLeft
+include ../android-chords.kti
+assign chord SpaceRight
+include ../android-chords.kti

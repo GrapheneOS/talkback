@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.braille.brailledisplay.controller;
 
 import static com.google.android.accessibility.braille.common.translate.EditBufferUtils.NO_CURSOR;
@@ -21,9 +37,8 @@ import com.google.android.accessibility.braille.interfaces.BrailleWord;
 import com.google.android.accessibility.braille.interfaces.SelectionRange;
 import com.google.android.accessibility.braille.translate.TranslationResult;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,7 +49,6 @@ public class ContentHelper {
   private static final String TAG = "ContentHelper";
   // Dot pattern used to overlay characters under a selection.
   private static final BrailleCharacter SELECTION_DOTS = new BrailleCharacter("78");
-  private int numTextCells;
 
   /**
    * Cursor position last passed to the translate method of the translator. We use this because it
@@ -68,11 +82,6 @@ public class ContentHelper {
     this(translatorManager, () -> wrapStrategy);
   }
 
-  /** Sets the number of text cells. */
-  public void setTextCells(int numTextCell) {
-    this.numTextCells = numTextCell;
-  }
-
   /** Generates display info needed by a displayer. */
   public DisplayInfo generateDisplayInfo(
       CharSequence text, int panStrategy, boolean isSplitParagraphs) {
@@ -80,7 +89,8 @@ public class ContentHelper {
     TranslationResult translationResult =
         translatorManager.getOutputTranslator().translate(text, NO_CURSOR);
     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
-    Range<Integer> selectionRangeToTranslate = findSelectionRange(spannableStringBuilder);
+    Range<Integer> selectionRangeToTranslate =
+        DisplaySpans.findSelectionRange(spannableStringBuilder);
     int cursorByteStart =
         textToDisplayPosition(translationResult, selectionRangeToTranslate.getLower());
     int cursorByteEnd =
@@ -96,6 +106,7 @@ public class ContentHelper {
   }
 
   /** Generates display info needed by a displayer. */
+  @CanIgnoreReturnValue
   public DisplayInfo generateDisplayInfo(
       int panStrategy,
       SelectionRange selection,
@@ -138,6 +149,8 @@ public class ContentHelper {
    * Moves the display starting and ending positions to the left of the current content and returns
    * the display info.
    */
+  @Nullable
+  @CanIgnoreReturnValue
   public DisplayInfo panUp(Source source) {
     WrapStrategy wrapStrategy = wrapStrategyRetriever.getWrapStrategy();
     return wrapStrategy.panUp()
@@ -154,6 +167,7 @@ public class ContentHelper {
    * Moves the display starting and ending positions to the left of the current content and returns
    * the display info.
    */
+  @Nullable
   public DisplayInfo panDown(Source source) {
     WrapStrategy wrapStrategy = wrapStrategyRetriever.getWrapStrategy();
     return wrapStrategy.panDown()
@@ -167,6 +181,7 @@ public class ContentHelper {
   }
 
   /** Retranslates the display info. This should only called when output language changes */
+  @Nullable
   public DisplayInfo retranslate() {
     if (originalText == null) {
       return null;
@@ -197,6 +212,7 @@ public class ContentHelper {
     return offsetArgument;
   }
 
+  @Nullable
   private DisplayInfo getDisplayInfo(
       CharSequence text,
       int displayStart,
@@ -297,27 +313,7 @@ public class ContentHelper {
     // Map the current display start and past-the-end positions
     // to the corresponding input positions.
     int oldTextStart = displayToTextPosition(oldTranslationResult, oldDisplayPosition);
-    int oldTextEnd = displayToTextPosition(oldTranslationResult, oldDisplayPosition + numTextCells);
-    // Find the nodes that overlap with the display.
-    AccessibilityNodeInfoCompat[] displayedNodes =
-        oldSpanned.getSpans(oldTextStart, oldTextEnd, AccessibilityNodeInfoCompat.class);
-    Arrays.sort(displayedNodes, new ByDistanceComparator(oldSpanned, oldTextStart));
-    // Find corresponding node in new content.
-    for (AccessibilityNodeInfoCompat oldNode : displayedNodes) {
-      AccessibilityNodeInfoCompat newNode =
-          (AccessibilityNodeInfoCompat) DisplaySpans.getEqualSpan(newSpanned, oldNode);
-      if (newNode == null) {
-        continue;
-      }
-      int oldDisplayStart =
-          textToDisplayPosition(oldTranslationResult, oldSpanned.getSpanStart(oldNode));
-      int newDisplayStart =
-          textToDisplayPosition(newTranslationResult, newSpanned.getSpanStart(newNode));
-      // TODO: If crashes happen here, return -1 when *DisplayStart == -1.
-      // Offset position according to diff in node position.
-      return oldDisplayPosition + (newDisplayStart - oldDisplayStart);
-    }
-    return NO_CURSOR;
+    return textToDisplayPosition(newTranslationResult, oldTextStart);
   }
 
   private int getPanPosition(
@@ -335,13 +331,11 @@ public class ContentHelper {
     // beginning of the line.
     int panPosition = NO_CURSOR;
     switch (panStrategy) {
-      case CellsContent.PAN_RESET:
-        panPosition = 0;
-        break;
-      case CellsContent.PAN_KEEP:
+      case CellsContent.PAN_RESET -> panPosition = 0;
+      case CellsContent.PAN_KEEP -> {
         if (oldTranslationResult != null && oldTranslationResult.text() != null) {
           // We don't align the display position to the size of the display in this case so that
-          // content doesn't jump around on the dipslay if content before the current display
+          // content doesn't jump around on the display if content before the current display
           // position changes size.
           panPosition =
               findMatchingPanPosition(
@@ -351,11 +345,9 @@ public class ContentHelper {
                   newTranslationResult,
                   oldDisplayPosition);
         }
-        break;
-      case CellsContent.PAN_CURSOR:
-        break;
-      default:
-        BrailleDisplayLog.e(TAG, "Unknown pan strategy: " + panStrategy);
+      }
+      case CellsContent.PAN_CURSOR -> {}
+      default -> BrailleDisplayLog.e(TAG, "Unknown pan strategy: " + panStrategy);
     }
     return panPosition;
   }
@@ -373,18 +365,6 @@ public class ContentHelper {
         overlaidBrailleContent.set(i, overlaidBrailleContent.get(i).union(SELECTION_DOTS));
       }
     }
-  }
-
-  private static Range<Integer> findSelectionRange(Spanned spanned) {
-    if (spanned != null) {
-      DisplaySpans.SelectionSpan[] selectionSpans =
-          spanned.getSpans(0, spanned.length(), DisplaySpans.SelectionSpan.class);
-      if (selectionSpans.length > 0) {
-        return new Range<>(
-            spanned.getSpanStart(selectionSpans[0]), spanned.getSpanEnd(selectionSpans[0]));
-      }
-    }
-    return new Range<>(NO_CURSOR, NO_CURSOR);
   }
 
   private static int displayToTextPosition(
@@ -411,30 +391,5 @@ public class ContentHelper {
       return translationResult.brailleToTextPositions().size();
     }
     return posMap.get(textPosition);
-  }
-
-  private static class ByDistanceComparator implements Comparator<AccessibilityNodeInfoCompat> {
-    private final Spanned spanned;
-    private final int start;
-
-    public ByDistanceComparator(Spanned spannedArg, int startArg) {
-      spanned = spannedArg;
-      start = startArg;
-    }
-
-    @Override
-    public int compare(AccessibilityNodeInfoCompat a, AccessibilityNodeInfoCompat b) {
-      int aStart = spanned.getSpanStart(a);
-      int bStart = spanned.getSpanStart(b);
-      int aDist = Math.abs(start - aStart);
-      int bDist = Math.abs(start - bStart);
-      if (aDist != bDist) {
-        return aDist - bDist;
-      }
-      // They are on the same distance, compare by length.
-      int aLength = aStart + spanned.getSpanEnd(a);
-      int bLength = bStart + spanned.getSpanEnd(b);
-      return aLength - bLength;
-    }
   }
 }

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">මෙම නිබන්ධනය නව විධාන රාශියක් ඇතුළත් වැඩි දියුණු කළ යතුරු සිතියම සඳහා වේ. යතුරු සිතියම තේරීමට, TalkBack සැකසීම් &gt; උසස් සැකසීම් &gt; යතුරුපුවරු කෙටිමං වෙත යන්න.\n\nමාතෘකාවක් තේරීමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න. හොඳම අත්දැකීම සඳහා, ආරම්භ කිරීමට පෙර TalkBack ක්‍රියාත්මක කරන්න.</string>
+  <string name="basic_interaction_link_text">මූලික අන්තර්ක්‍රියා</string>
+  <string name="basic_interaction_link_subtext">අයිතම අතර ගමන් කරන්න, පේළි අනුව කියවන්න, මෙනු භාවිතා කරන්න, සහ තවත් දේ</string>
+  <string name="browse_mode_link_text">බ්‍රව්සරය මාදිලිය</string>
+  <string name="browse_mode_link_subtext">පැනීමේ විධාන සමඟ වෙබ් අන්තර්ගතය වේගයෙන් සංචාලනය කරන්න</string>
+  <string name="reading_controls_link_text">කියවීම් පාලන</string>
+  <string name="reading_controls_link_subtext">අයිතම අතර පැනීමට, කථන සැකසීම් සකස් කිරීමට සහ තවත් දේ සඳහා කියවීමේ පාලන භාවිතා කරන්න</string>
+  <string name="image_descriptions_link_text">රූප විස්තර</string>
+  <string name="image_descriptions_link_subtext">රූපවල විස්තර ලබා ගැනීමට උත්සාහ කරන්න</string>
+  <string name="keyboard_shortcuts_link_text">යතුරුපුවරු කෙටිමං පුහුණු වන්න</string>
+  <string name="keyboard_shortcuts_link_subtext">යතුරු සහ යතුරු සංයෝජන ඔබා ඒවා කරන දේ ඉගෙන ගන්න</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack ඔබට තිරය දෙස බැලීමෙන් තොරව ඔබේ උපාංගය භාවිත කිරීමට හැකි වන ලෙස කියවූ ප්‍රතිපෝෂණය ලබා දෙයි. TalkBack තිරය බැලීමට දුෂ්කර පුද්ගලයන් සඳහා ප්‍රයෝජනවත් විය හැක. TalkBack ක්‍රියාත්මක විට, තිරය මත නාභිගත කළ අයිතමය ශබ්ද නඟා කථා කරනු ලැබේ.\n\nපළමුව ඔබේ යතුරු පුවරුව සමග හුරුපුරුදු වෙමු. වම් Shift යතුරට ඉහළින් ඇති ක්‍රියා යතුර සොයා ගන්න. දැන් අපි යතුරු පුවරුවේ පහළ දකුණු ප්‍රදේශය අසල ඇති ඊතල යතුරු සොයා ගනිමු. මීළඟ අයිතමයට යාමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">මෙය මීළඟ අයිතමයයි. පෙර අයිතමයට යාමට, ක්‍රියාව + වම් ඊතලය ඔබන්න.\n\nඔබ බොත්තමක් වැනි අන්තර්ක්‍රියාකාරී අයිතමයකට ගිය විට, එය සක්‍රිය කිරීමට ක්‍රියාව + ඉඩ ඔබන්න. මීළඟ බොත්තම සොයා ගෙන නිබන්ධනය දිගටම කරගෙන යන්න.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">අනුලකුණ, වචනය හෝ ඡේදය අනුව කියවන්න</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">සමහර අවස්ථාවල, වරකට එක් අනුලකුණක් ශබ්ද නඟා කියවීමට ඔබට අවශ්‍ය විය හැක.\n\nමෙය කිරීමට, ඔබට කියවීමේ පාලන සංචාලනය භාවිත කළ හැක. ඔබට \"අනුලකුණු\" ඇසෙන තෙක් ක්‍රියාව + Shift + දකුණු හෝ වම් ඊතලය ඔබන්න.\n\nමීළඟට, සංචාලන නාභිගත කිරීම අනුලකුණකින් පසුපසට ගෙන යාමට ක්‍රියාව + ඉහළ ඊතලය ඔබන්න. සංචාලන නාභිගත කිරීම අනුලකුණකින් ඉදිරියට ගෙන යාමට ක්‍රියාව + පහළ ඊතලය ඔබන්න.\n\nඑය දැන් උත්සාහ කරන්න. ක්‍රියාව + Shift + දකුණු හෝ වම් ඊතලය භාවිතයෙන් ඔබට වචන, පේළි හෝ ඡේද අනුව කියවීමට ද තෝරා ගත හැක.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">පද්ධති සංචලනය</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">දැන් මෙම යතුරුපුවරු කෙටිමං උත්සාහ කිරීමෙන් නිබන්ධනය වැසෙනු ඇත. ඔබ නිබන්ධනය සම්පූර්ණ කරන තෙක් රැඳී සිටීමට ඔබට අවශ්‍ය විය හැක.\n\nවිවෘත යෙදුම් කවුළු සහ දැනුම්දීම් සහ කාර්ය තීරුව වැනි පද්ධති මූලද්‍රව්‍ය අතර පැනීමට, ක්‍රියාව + Alt + Ctrl + ඉහළ හෝ පහළ ඊතලය ඔබන්න.\n\nයෙදුම් ලැයිස්තුව විවෘත කිරීමට, ක්‍රියාව ඔබන්න.\n\nමුල් තිරය වෙත ගොස් විවෘත කවුළු සියල්ල අවම කිරීමට, ක්‍රියාව + H හෝ ඉහළ පේළියේ නිවස ඔබන්න.\n\nඔබේ මෑත යෙදුම් වෙත යාමට, ක්‍රියාව + පටිත්ත හෝ ඉහළ පේළියේ දළ විශ්ලේෂණය ඔබන්න.\n\nකවුළු අතර ඉක්මනින් පැනීමට, Alt ඔබාගෙන පටිත්ත ඔබන්න.\n\nආපසු යාමට, ක්‍රියාව + Esc හෝ ඉහළ පේළියේ ආපසු ඔබන්න.\n\nදැනුම්දීම් විවෘත කිරීමට, ක්‍රියාව + N ඔබන්න.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">කථන සැකසීම් සීරුමාරු කරන්න</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack කථාව සඳහා වන හඬ පරිමාව ප්‍රවේශ්‍යතා හඬ පරිමාව ලෙස හැඳින්වේ. එය මාධ්‍ය හඬ පරිමාවෙන් වෙන වෙනම සීරුමාරු කර ඇත.\n\nප්‍රවේශ්‍යතා හඬ පරිමාව ගැළපුම් කිරීම සඳහා, ක්‍රියාව + හඬ පරිමාව වැඩි හෝ අඩු ඔබන්න.\n\nකථන වේගය ගැළපුම් කිරීම සඳහා, වැඩි කිරීමට ක්‍රියාව + Ctrl + හඬ පරිමාව වැඩි සහ අඩු කිරීමට ක්‍රියාව + Ctrl + හඬ පරිමාව අඩු ඔබන්න.\n\nඕනෑම වේලාවක කථනය නැවැත්වීමට, Ctrl ඔබන්න.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack මෙනුව සහ තවත් යතුරු පුවරු කෙටිමං</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack මෙනුවේ ඔබට නිතරම අවශ්‍ය විය හැකි සැකසීම් සහ පාලනයන් ඇතුළත් වේ.\n\nTalkBack මෙනුව විවෘත කිරීමට, ක්‍රියාව + Ctrl + M ඔබන්න. ඔබට TalkBack සැකසීම් තුළ පසුව TalkBack මෙනුව සහ ඔබේ කියවීමේ පාලන අභිරුචි කළ හැක.\n\nTalkBack යතුරුපුවරු කෙටිමං මෙනුවට ඔබට භාවිත කළ හැකි සියලුම යතුරුපුවරු කෙටිමං ඇතුළත් වේ.\n\nයතුරුපුවරු කෙටිමං මෙනුව විවෘත කිරීමට, ක්‍රියාව + Shift + / ඔබන්න.\n\nයතුරුපුවරුව ගැන තව දැන ගැනීමට සහ යතුරුපුවරු කෙටිමං පුහුණු කිරීමට, පුහුණු තිරය විවෘත කිරීමට ක්‍රියාව + 0 ඔබන්න.</string>
+  <string name="keyboard_tutorial_finished_page_title">සියල්ල සූදානම්!</string>
+  <string name="keyboard_tutorial_finished_page_text">ඔබ TalkBack භාවිත කිරීමට සූදානම් ය.\n\nදැන් වෙනත් මාතෘකා ගැන ඉගෙන ගැනීම දිගටම කර ගෙන යන්න, නැතහොත් ඕනෑම වේලාවක මෙම තොරතුරු TalkBack සැකසීම් තුළ සමාලෝචනය කරන්න.\n\nඕනෑම වේලාවක TalkBack ක්‍රියාත්මක හෝ ක්‍රියා විරහිත කිරීමට, ක්‍රියාව + Alt + T ඔබන්න.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">බ්‍රවුස් ප්‍රකාරය සමග වෙබ් අන්තර්ගතය වේගයෙන් සංචාලනය කරන්න</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">ඔබ බ්‍රවුසරයේ සහ වෙබ් යෙදුම්වල සිටින විට, ඔබට බ්‍රවුස් කිරීමේ ප්‍රකාරය ක්‍රියාත්මක කළ හැකි අතර යතුරක් එක වරක් එබීමෙන් විවිධ ආකාරයේ කියවීමේ කැටිති සහ පාලන අතරට පැනිය හැක. එය අනුලකුණුවෙන් ගෙන යාමට වම් සහ දකුණු ඊතල සහ පේළියෙන් ගෙන යාමට ඉහළ සහ පහළ ඊතල වැනි පෙළ සංස්කරණ කොටුවක සංචාලනයට සමාන පිටුවක් සංචාලනය කරයි.\n\nබ්‍රවුස් ප්‍රකාරය ක්‍රියාත්මක හෝ ක්‍රියාවිරහිත කිරීමට, ක්‍රියා යතුර දෙවරක් ඔබන්න.\n\nබ්‍රවුස් ප්‍රකාරය ක්‍රියාත්මක විට, මීළඟ සන්ධිස්ථානයට පැනීමට D ඔබන්න, මීළඟ පාලනය හෝ පෝරම ක්ෂේත්‍රය සඳහා F, මීළඟ බොත්තම සඳහා B, මීළඟ සබැඳිය සඳහා K සහ මීළඟ ශීර්ෂය සඳහා H ඔබන්න. පසුපසට යාමට Shift ඔබා මෙම යතුරු ඔබන්න.\n\nපේළිවලින් පැනීමට ඔබට ඉහළ සහ පහළ ඊතල, අකුරුවලින් පැනීමට වම් සහ දකුණු ඊතල, සහ වචනවලින් පැනීමට Ctrl + වම් සහ දකුණු ඊතල භාවිත කළ හැක.\n\nපුහුණු ප්‍රදේශයකට ඇතුළු වීමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න. පුහුණු ප්‍රදේශයේ සබැඳි, පෝරම ක්ෂේත්‍ර සහ බොත්තම් කිසිවක් නොකරනු ඇත.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">ශීර්ෂ මට්ටම්</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">වෙබ් අඩවි සහ වෙබ් යෙදුම් බොහෝ විට අන්තර්ගතය ව්‍යුහගත කිරීමට විවිධ මට්ටම් සහිත ශීර්ෂ භාවිතා කරයි. බ්‍රවුස් ප්‍රකාරය ක්‍රියාත්මක වූ විට, ශීර්ෂ මට්ටම් වෙත පැනීමට 1 සිට 6 දක්වා ඔබන්න. ආපස්සට යාමට Shift ඔබා මෙම යතුරු ඔබන්න.\n\nපුහුණු ප්‍රදේශයකට ඇතුළු වීමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_tables_page_title">වගු</string>
+  <string name="keyboard_tutorial_tables_page_text">බ්‍රවුස් කිරීමේ ප්‍රකාරය වගු සංචාලනය ද පහසු කරයි. බ්‍රවුස් කිරීමේ ප්‍රකාරය ක්‍රියාත්මක වූ විට, පේළි අතර පැනීමට Alt + Ctrl + ඉහළ සහ පහළ ඊතල සහ තීරු අතර පැනීමට Alt + Ctrl + වම් සහ දකුණු ඊතල ඔබන්න.\n\nපුහුණු ප්‍රදේශයකට ඇතුළු වීමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">පෙළ සංස්කරණය කිරීම</string>
+  <string name="keyboard_tutorial_editing_text_page_text">ඔබ පෙළ ක්ෂේත්‍රයකට ඇතුළු වූ විට, ඔබට ටයිප් කිරීමට සියලු යතුරු භාවිත කළ හැකි වන පරිදි බ්‍රවුස් ප්‍රකාරය තාවකාලිකව ක්‍රියාවිරහිත වනු ඇත. එය ක්‍රියාවිරහිත කළ විට ඔබට නිවේදනයක් සහ ශබ්දයක් ඇසෙනු ඇත. ඔබ පෙළ ක්ෂේත්‍රයෙන් පිට වූ පසු, බ්‍රවුස් ප්‍රකාරය නැවත ක්‍රියාත්මක වන අතර ඔබට තවත් නිවේදනයක් සහ ශබ්දයක් ඇසෙනු ඇත.\n\nපුහුණු ප්‍රදේශයකට ඇතුළු වීමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">බ්‍රවුස් ප්‍රකාරය ගැන තවත්</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">ඔබට බ්‍රවුස් ප්‍රකාරයේ දී පැනිය හැකි අයිතමවල සම්පූර්ණ ලැයිස්තුව පරීක්ෂා කිරීමට, ක්‍රියාව + Shift + / ඔබා යතුරුපුවරු කෙටිමං මෙනුවේ\"බ්‍රවුස් ප්‍රකාරය\" සොයන්න.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">අනුලකුණ, වචනය හෝ ඡේදය අනුව කියවන්න</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">සමහර අවස්ථාවල, වරකට එක් අනුලකුණක් ශබ්ද නඟා කියවීමට ඔබට අවශ්‍ය විය හැක.\n\nමෙය කිරීමට, ඔබට කියවීමේ පාලන සංචාලනය භාවිත කළ හැක. ඔබට \"අක්ෂර\" ඇසෙන තෙක් ක්‍රියාව + Shift + දකුණු හෝ වම් ඊතලය ඔබන්න. මීළඟට, සංචාලන නාභිගත කිරීම අනුලකුණකින් පසුපසට ගෙන යාමට ක්‍රියාව + ඉහළ ඊතලය ඔබන්න. සංචාලන නාභිගත කිරීම අනුලකුණකින් ඉදිරියට ගෙන යාමට ක්‍රියාව + පහළ ඊතලය ඔබන්න.\n\nඑය දැන් උත්සාහ කරන්න. ක්‍රියාව + Shift + දකුණු හෝ වම් ඊතලය භාවිතයෙන් ඔබට වචන, පේළි හෝ ඡේද අනුව කියවීමට ද තෝරා ගත හැක.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">පාලන අතර පනින්න</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">පාලන යනු බොත්තම්, තේරීම් කොටු සහ පෙළ කොටු වැනි ඔබට අන්තර් ක්‍රියා කළ හැකි අයිතම වේ.\n\nසමහර පිටුවල, මීළඟ බොත්තම වැනි ක්‍රියාවක් ඉක්මනින් සොයා ගැනීම සඳහා පාලන අතර පැනීමට ඔබට අවශ්‍ය විය හැක.\n\nමෙය සිදු කිරීමට, ඔබට \"පාලන\" ඇසෙන තෙක් ක්‍රියාව + Shift + දකුණු ඊතලය ඔබන්න. මීළඟට, පෙර බොත්තම වෙත යාමට ක්‍රියාව + ඉහළ ඊතලය සහ මීළඟ බොත්තම වෙත යාමට ක්‍රියාව + පහළ ඊතලය ඔබන්න.\n\nදැන් එය උත්සාහ කර මීළඟ බොත්තම සොයා ගන්න.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">සබැඳි අතර පනින්න</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">ඔබට පිටුවක ඇති සබැඳි අතර ද පැනිය හැක.\n\nමෙය සිදු කිරීමට, ඔබට \"සබැඳි\" ඇසෙන තෙක් ක්‍රියාව + Shift + දකුණු ඊතලය ඔබන්න. මීළඟට, \"සබැඳිය 5\" නම් සබැඳිය සොයා ගැනීමට ක්‍රියාව + පහළ ඊතලය ඔබන්න. නිබන්ධනයේ සිටින අතරතුර, මෙම සබැඳිය දෙවරක් තට්ටු කිරීමෙන් කිසිවක් සිදු නොවනු ඇත.\n\nමීළඟ බොත්තම සොයා ගැනීමට සහ මීළඟ පිටුවට යාමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">ශීර්ෂක අතර පනින්න</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">ඔබට පිටුවක ශීර්ෂ අතර පැනීමටද හැකිය.\n\nදැන් එය උත්සාහ කිරීමට, ඔබට \"ශීර්ෂ\" ඇසෙන තෙක් ක්‍රියාව + Shift + දකුණු ඊතලය ඔබන්න. මීළඟට, \"සංචාලනය\" ශීර්ෂය සොයා ගැනීමට ක්‍රියාව + පහළ ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_find_next_button">මීළඟ බොත්තම සොයා ගැනීමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">බහාලුම් අතර පනින්න</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">ලැයිස්තුවක් හෝ ජාලකයක් වැනි බහාලුමකින් පිටවීමට, ක්‍රියාව + Alt + Ctrl + දකුණු හෝ වම් ඊතලය ඔබන්න. ඔබට දිගු අයිතම ලැයිස්තුවකින් ඉවත් වීමට අවශ්‍ය විට මෙය ප්‍රයෝජනවත් වේ.\n\nදැන් එය උත්සාහ කිරීමට, ලැයිස්තුවට ඇතුළු වීමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න. ඉන්පසු මීළඟ බහාලුම වෙත යාමට ක්‍රියාව + Alt + Ctrl + දකුණු ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_go_to_next_container">මීළඟ බහාලුම වෙත යාමට, ක්‍රියාව + Alt + Ctrl + දකුණු ඊතලය ඔබන්න</string>
+  <string name="keyboard_tutorial_exit_container">මෙම බහාලුමෙන් පිටවීමට, ක්‍රියාව + Alt + Ctrl + දකුණු ඊතලය ඔබන්න</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">ඔබ බහාලුමෙන් පිටවී ඇත. ඔබට ඔබේ කියවීමේ පාලනවලට බහාලුම් එක් කළ හැකි අතර බහාලුම් තේරීමට ක්‍රියාව + Shift + දකුණු හෝ වම් ඊතලය සහ බහාලුම් අතර පැනීමට ක්‍රියාව + පහළ හෝ ඉහළ ඊතලය ඔබන්න. කියවීමේ පාලන යාවත්කාලීන කිරීමට, TalkBack &gt; සැකසීම් &gt; මෙනු අභිරුචිකරණය කරන්න &gt; කියවීමේ පාලන අභිරුචිකරණය කරන්න වෙත යන්න.\n\nමීළඟ බොත්තම සොයා ගැනීමට ක්‍රියාව + දකුණු ඊතලය ඔබන්න.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">කියවීම් පාලන අභිරුචිකරණය කරන්න</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">ඔබට කියවීමේ පාලන භාවිත කර කථන සැකසීම් ගැළපුම් කිරීමට සහ TalkBack &gt; සැකසීම් &gt; මෙනු අභිරුචි කරන්න &gt; කියවීමේ පාලන අභිරුචි කරන්න තුළ කියවීමේ පාලන සමග ඔබට කළ හැකි දෙය අභිරුචි කිරීමට ද හැක.</string>
+  <string name="keyboard_tutorial_image_description_page_title">රූප විස්තර ලබා ගැනීමට උත්සාහ කරන්න</string>
+  <string name="keyboard_tutorial_image_description_page_text">ඔබ රූපයක් වෙත නාභිගත කර ඇති විට, ක්‍රියාව + R, පසුව I ඔබන්න. පහත එක් ඡායාරූපයක් ඇත. ඒ සඳහා විස්තරයක් ලබා ගැනීමට උත්සාහ කරන්න.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">ඔබට TalkBack සැකසීම් &gt; රූපය සහ අයිකන විස්තර තුළ ඕනෑම වේලාවක රූප විස්තර සැකසීම් වෙනස් කළ හැක.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">ඔබට TalkBack සැකසීම් සහ රූප සහ නිරූපක විස්තර තුළ ඕනෑම වේලාවක රූප විස්තර සැකසීම් වෙනස් කළ හැක.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">නියැදි රූපය. ක්‍රියාව + R ඔබන්න, ඉන්පසු විස්තරයක් ඇසීමට I ඔබන්න.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">හඬ විධාන</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBack ඉක්මනින් පාලනය කිරීමට ඔබට ඔබේ කටහඬ භාවිත කළ හැක.\n\nඋදාහරණයක් ලෙස, සංචාලනය වෙනස් කිරීමට, මීළඟ ශීර්ෂයට පැනීමට, පෙළ පිටපත් කිරීමට සහ තවත් දේ සඳහා විධානයක් කියන්න.\n\nදැන් එය උත්සාහ කිරීමට, ක්‍රියාව + \\ ඔබන්න.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">තිර සෙවීම සෙවීම භාවිතා කිරීම</string>
+  <string name="keyboard_tutorial_screen_search_page_text">තිර සෙවීම් විශේෂාංගය ඔබට තිරය මත නිශ්චිත අන්තර්ගතයන් සෙවීමට ඉඩ දෙයි.\n\nඑය උත්සාහ කිරීමට, ක්‍රියාව + CTRL + / ඔබන්න. තිරය මත පෙළ සහිත අයිතම සොයා ගැනීමට, \"මීළඟ\" වැනි මූලික පදයක් ටයිප් කරන්න.\n\nමීළඟ බොත්තම සොයා ගැනීමට දැන් \"මීළඟ\" සඳහා සෙවීමට උත්සාහ කරන්න.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">තිර සෙවීම මගින් සංචාලනය කරන්න</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">ඔබ ප්‍රතිඵලයක් තෝරා ගත් පසු ඔබට තිර සෙවීමෙන් විවිධ සෙවීම් ප්‍රතිඵල අතර ඉක්මනින් ගමන් කළ හැක.\n\nමෙය සිදු කිරීම සඳහා, ඔබට කියවීම් පාලන සංචාලනය භාවිත කළ හැක. ඔබට \"තිර සෙවීම\" ඇසෙන තෙක් ක්‍රියාව + Shift + දකුණු හෝ වම් ඊතලය ඔබන්න. මීළඟට, තිර සෙවීම් ප්‍රතිඵල මගින් සංචාලනය කිරීමට ක්‍රියාව + පහළ හෝ ඉහළ ඊතලය ඔබන්න.\n\nඅපි දැන් එය උත්සාහ කරමු. පහත දැක්වෙන්නේ බොත්තම් 3ක ලැයිස්තුවකි, ඒවා සියල්ලේම\"ක්‍රියාව\" යන පාඨය අඩංගු වේ. තිර සෙවීම භාවිතයෙන්\"ක්‍රියාව\" සඳහා සොයන්න, ඉන්පසු ඒවා අතර ගමන් කිරීමට තිර සෙවීම මගින් සංචාලනය කරන්න.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">යතුරුපුවරු කෙටිමං පුහුණු වන්න</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">එය කරන දේ ඇසීමට භෞතික යතුරුපුවරු යතුරක් හෝ යතුරු සංයෝජනයක් ඔබන්න. පිටවීමට Ctrl + W, හෝ Escape ඔබන්න.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;කැලිෆෝනියා රෙඩ්වුඩ්ස් හි ශ්‍රේෂ්ඨත්වය සොයා ගන්න&lt;/h1&gt;
+      &lt;p&gt;කැලිෆෝනියාවේ රෙඩ්වුඩ්, මූලික වශයෙන් වෙරළ රෙඩ්වුඩ් (සෙක්වොයියා සෙම්පර්වීරන්ස්), ලෝකයේ උසම ගස් වේ. සමහර ඒවා අඩි 380කට (මීටර් 115) වඩා උස වන අතර වසර දහස් ගණනක් ජීවත් විය හැක. ඔවුන් වර්ෂාවෙන් සහ මීදුමෙන් ප්‍රතිලාභ ලබමින්, උතුරු කැලිෆෝනියාවේ ආර්ද්‍ර වෙරළබඩ දේශගුණය තුළ වර්ධනය වේ.&lt;/p&gt;
+
+      &lt;h2&gt;ඒවා දැකිය හැකි ස්ථානය&lt;/h2&gt;
+      &lt;p&gt;පැසිෆික් වෙරළ දිගේ පටු තීරුවක මෙම යෝධයන් ඔබට හමුවනු ඇත. ප්‍රධාන උද්‍යානවලට ඇතුළත් වන්නේ:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;රෙඩ්වුඩ් ජාතික සහ රාජ්‍ය උද්‍යාන&lt;/li&gt;
+        &lt;li&gt;හම්බෝල්ට් රෙඩ්වුඩ්ස් රාජ්‍ය උද්‍යානය&lt;/li&gt;
+        &lt;li&gt;බිග් බේසින් රෙඩ්වුඩ්ස් රාජ්‍ය උද්‍යානය&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;ඔබේ සංචාරය මෙහි සැලසුම් කරන්න: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;කැලිෆෝනියා රාජ්‍ය උද්‍යාන - රෙඩ්වුඩ්ස්&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;සංරක්ෂණයට සහාය වන්න&lt;/h2&gt;
+      &lt;p&gt;මෙම පැරණි වනාන්තර ආරක්ෂා කිරීම අත්‍යවශ්‍ය වේ. උද්‍යාන මාර්ගෝපදේශ අනුගමනය කිරීමෙන් සහ සංරක්ෂණ ප්‍රයත්නයන්ට සහාය වීමෙන් ඔබට උදවු කළ හැක.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;ඔබේ අත්දැකීම බෙදා ගන්න&lt;/h2&gt;
+        &lt;p&gt;ඔබ රෙඩ්වුඩ්ස් වෙත ගොස් තිබේ ද?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;ඔව්&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;නැත&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;ඔබේ අත්දැකීම ගැන අපට කියන්න&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Submit&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;රෙඩ්වුඩ්ස් ගැන ඔබ තව ඉගෙන ගැනීමට කැමති කුමක් ද?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;ඉදිරිපත් කරන්න&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;රෙඩ්වුඩ්: අපේ පරිසරය සෞඛ්‍ය සම්පන්නව තබා ගැනීම&lt;/h1&gt;
+    &lt;p&gt;රෙඩ්වුඩ්ස් අපේ ග්‍රහලෝකය සඳහා වැදගත් වන අතර, අපේ පරිසරය සෞඛ්‍ය සම්පන්නව තබා ගැනීමට විශාල කාර්යභාරයක් ඉටු කරයි.&lt;/p&gt;
+
+    &lt;h1&gt;යෝධ වායු පිරිසිදු කරන්නන්&lt;/h1&gt;
+    &lt;p&gt;මෙම ගස් වාතයෙන් කාබන් ඩයොක්සයිඩ් අවශෝෂණය කර ගැනීමට පුදුම සහගතයි. එය බොහෝමයක් ලබා ගැනීමෙන්, රතු ලී අපේ වාතය පිරිසිදුව තබා ගැනීමට උදවු කරයි.&lt;/p&gt;
+
+    &lt;h2&gt;සතුන් සඳහා නිවස&lt;/h2&gt;
+    &lt;p&gt;රතු ලී ඔවුන්ගේ අතු වල කුරුල්ලන්ගේ සිට පසෙහි කුඩා ජීවීන් දක්වා බොහෝ සතුන් සඳහා නිවාස සහ නවාතැන් සපයයි.&lt;/p&gt;
+
+    &lt;h3&gt;ජල මායාකරුවන්&lt;/h3&gt;
+    &lt;p&gt;ඔවුන් මීදුම අල්ලා ගැනීමට විශිෂ්ටයි, එය පසුව වනාන්තර බිමට වැටේ. මෙය බිම තෙත් කර අනෙකුත් ශාක හා සතුන්ට, විශේෂයෙන් වියළි කාලයේ දී ජලය සපයයි.&lt;/p&gt;
+
+    &lt;h4&gt;පාංශු ආරක්ෂකයින්&lt;/h4&gt;
+    &lt;p&gt;ඔවුන්ගේ ශක්තිමත් මූලයන් බිම රඳවා තබා ගනී, අධික වර්ෂාපතේ දී සෝදා යාම සහ ඛාදනය වීම වළක්වයි.&lt;/p&gt;
+
+    &lt;h5&gt;වනාන්තර ගොඩනඟන්නන්&lt;/h5&gt;
+    &lt;p&gt;පැරණි රතු ලී වැටෙන විට, ඒවායේ දැව නව ශාක හා ජීවීන් සඳහා ආහාර සහ නවාතැන් බවට පත් වන අතර, නව වර්ධනය සඳහා පොහොසත් පසක් නිර්මාණය කරයි.&lt;/p&gt;
+
+    &lt;h6&gt;අද්විතීය පරිසර පද්ධති&lt;/h6&gt;
+    &lt;p&gt;රතු ලී ඉතා විශාල සහ දිගු කාලයක් ජීවත් වන නිසා, ඒවා වෙනත් කිසිම තැනක සොයාගත නොහැකි ජීවයට සහාය වන විශේෂ වනාන්තර පරිසරයන් නිර්මාණය කරයි.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;රෙඩ්වුඩ් වනාන්තරවල සතුන්&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"රෙඩ්වුඩ් වනාන්තරවල සතුන්\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;සත්වයා&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;විස්තරය&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;ඔවුන් ජීවත් වන ස්ථානය&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;විනෝද කරුණ&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;කෙසෙල් ගොළුබෙල්ලා&lt;/th&gt;
+            &lt;td&gt;විශාල, කහ, සිනිඳු ගොළුබෙල්ලා&lt;/td&gt;
+            &lt;td&gt;වනාන්තරයේ බිම&lt;/td&gt;
+            &lt;td&gt;ලෝකයේ දෙවන විශාලතම ගොළුබෙල්ලා&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;පැසිෆික් යෝධ සලාමන්ඩර්&lt;/th&gt;
+            &lt;td&gt;විශාල, අඳුරු පැහැති සලාමන්ඩර්&lt;/td&gt;
+            &lt;td&gt;ඇළ දොළ සහ තෙත් ප්‍රදේශ අසල&lt;/td&gt;
+            &lt;td&gt;අඩි එකක් දක්වා වර්ධනය විය හැක&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;රූස්වෙල්ට් එල්ක්&lt;/th&gt;
+            &lt;td&gt;ආකර්ෂණීය අං සහිත විශාල මුවන්&lt;/td&gt;
+            &lt;td&gt;වනාන්තරය තුළ එළිපෙහෙළි කිරීම්වල තණ කයි&lt;/td&gt;
+            &lt;td&gt;පිරිමි සතුන්ගේ බර රාත්තල් 1,000කට වඩා වැඩි විය හැක&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;උතුරු ලප බකමූණා&lt;/th&gt;
+            &lt;td&gt;මධ්‍යම ප්‍රමාණයේ බකමූණා, රාත්‍රියේ දඩයම් කරයි&lt;/td&gt;
+            &lt;td&gt;ඝන, පරිණත රෙඩ්වුඩ් වනාන්තරවල&lt;/td&gt;
+            &lt;td&gt;\"දර්ශක විශේෂයක්\" – එහි සෞඛ්‍යය වනාන්තර සෞඛ්‍යය පෙන්වයි&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;කළු වලසා&lt;/th&gt;
+            &lt;td&gt;විශාල ක්ෂීරපායී, සාමාන්‍යයෙන් කළු හෝ දුඹුරු&lt;/td&gt;
+            &lt;td&gt;වනාන්තරය පුරා ආහාර සොයයි&lt;/td&gt;
+            &lt;td&gt;විශිෂ්ට නගින්නන්, බොහෝ විට ගස්වල දක්නට ලැබේ&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;රෙඩ්වුඩ් සහ ස්වභාවය පිළිබඳ ඔබේ අදහස්&lt;/h1&gt;
+
+      &lt;p&gt;රෙඩ්වුඩ් ගැන ඔබ ඉගෙන ගැනීමට කැමති වෙන මොනවා ද?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;ඔබ සංචාරය කිරීමට කැමති ස්වභාවයේ ප්‍රියතම ස්ථානය කුමක් ද?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;ඔබට තව දැන ගැනීමට අවශ්‍ය ස්වභාවයේ එක් සංකල්පයක් කුමක් ද?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

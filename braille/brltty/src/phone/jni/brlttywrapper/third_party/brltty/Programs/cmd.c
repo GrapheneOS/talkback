@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -55,11 +55,12 @@ const CommandModifierEntry commandModifierTable_vertical[] = {
 };
 
 const CommandModifierEntry commandModifierTable_input[] = {
-  {.name="shift"  , .bit=BRL_FLG_INPUT_SHIFT  },
-  {.name="control", .bit=BRL_FLG_INPUT_CONTROL},
-  {.name="meta"   , .bit=BRL_FLG_INPUT_META   },
-  {.name="altgr"  , .bit=BRL_FLG_INPUT_ALTGR  },
-  {.name="gui"    , .bit=BRL_FLG_INPUT_GUI    },
+  {.name="shift"   , .bit=BRL_FLG_INPUT_SHIFT   },
+  {.name="control" , .bit=BRL_FLG_INPUT_CONTROL },
+  {.name="meta"    , .bit=BRL_FLG_INPUT_META    },
+  {.name="altgr"   , .bit=BRL_FLG_INPUT_ALTGR   },
+  {.name="gui"     , .bit=BRL_FLG_INPUT_GUI     },
+  {.name="capslock", .bit=BRL_FLG_INPUT_CAPSLOCK},
   {.name=NULL     , .bit=0                    }
 };
 
@@ -359,7 +360,7 @@ static
 STR_BEGIN_FORMATTER(formatLogTransformedCommandData, const void *data)
   const LogTransformedCommandData *cmd = data;
 
-  STR_PRINTF("command: ");
+  STR_PRINTF("transformed command: ");
   STR_FORMAT(formatCommand, cmd->oldCommand);
 
   STR_PRINTF(" -> ");

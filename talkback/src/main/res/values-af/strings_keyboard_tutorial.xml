@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Hierdie tutoriaal is vir die verbeterde sleutelkaart wat baie nuwe opdragte insluit. Gaan na TalkBack-instellings &gt; Gevorderde instellings &gt; Kortpadsleutels om die sleutelkaart te kies.\n\nDruk Handeling + regspyl om ’n onderwerp te kies. Skakel TalkBack aan voor jy begin om die beste ervaring te geniet.</string>
+  <string name="basic_interaction_link_text">Basiese interaksie</string>
+  <string name="basic_interaction_link_subtext">Skuif tussen items, lees per reël, gebruik kieslyste en meer</string>
+  <string name="browse_mode_link_text">Blaaimodus</string>
+  <string name="browse_mode_link_subtext">Navigeer vinniger deur webinhoud met springopdragte</string>
+  <string name="reading_controls_link_text">Leeskontroles</string>
+  <string name="reading_controls_link_subtext">Gebruik leeskontroles om tussen items te spring, spraakinstellings te verstel en meer</string>
+  <string name="image_descriptions_link_text">Prentbeskrywings</string>
+  <string name="image_descriptions_link_subtext">Probeer om beskrywings van prente te kry</string>
+  <string name="keyboard_shortcuts_link_text">Oefen kortpadsleutels</string>
+  <string name="keyboard_shortcuts_link_subtext">Druk sleutels en sleutelkombinasies en leer wat hulle doen</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack verskaf gesproke terugvoer sodat jy jou toestel kan gebruik sonder om na die skerm te kyk. TalkBack kan nuttig wees vir mense wat sukkel om die skerm te sien. Wanneer TalkBack aan is, word die fokusitem op die skerm hardop gesê.\n\nKom ons maak eers kennis met jou sleutelbord. Kry die Handeling-sleutel wat bo die linker-Shift-sleutel is. Kom ons kry nou die pylsleutels naby die onderste regterkant van die sleutelbord. Druk Handeling + regspyl om na die volgende item te beweeg.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Dit is die volgende item. Druk Handeling + linkspyl om na die vorige item te beweeg.\n\nDruk Handeling + Spasiebalk om ’n interaktiewe item soos ’n knoppie te aktiveer wanneer jy daarheen beweeg. Kry die volgende knoppie en gaan voort met die tutoriaal.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Lees per karakter, woord of paragraaf</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Soms wil jy dalk teks hardop gelees hoor, een karakter op ’n slag.\n\nJy kan leeskontrolesnavigasie hiervoor gebruik. Druk Handeling + Shift + regs- of linkspyl totdat jy “karakters” hoor.\n\nDruk dan Handeling + oppyl om die navigasiefokus per karakter agtertoe te beweeg. Druk Handeling + afpyl om die navigasiefokus per karakter vorentoe te beweeg.\n\nProbeer dit nou. Jy kan ook kies om per woorde, reëls of paragrawe te lees deur Handeling + Shift + regs- of linkspyl te gebruik.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Stelselnavigasie</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">As jy nou hierdie kortpadsleutels probeer, sal die tutoriaal toemaak. Jy moet dalk wag totdat jy die tutoriaal voltooi het.\n\nDruk Handeling + Alt + Ctrl + op- of afpyl om tussen oop appvensters en stelselitems soos kennisgewings en die Taakbalk te spring.\n\nDruk Handeling om die applys oop te maak.\n\nDruk Handeling + H of Tuis in die boonste ry om na die Tuisskerm te gaan en alle oop vensters te minimeer.\n\nDruk Handeling + Tab of Oorsig in die boonste ry om na jou onlangse apps te gaan.\n\nHou Alt in en druk Tab om vinnig tussen vensters te spring.\n\nDruk Handeling + Esc of Terug in die boonste ry om terug te gaan.\n\nDruk Handeling + N om kennisgewings oop te maak.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Verstel spraakinstellings</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Die volume vir TalkBack-spraak word die toeganklikheidvolume genoem. Dit word apart van die mediavolume verstel.\n\nOm die toeganklikheidvolume te verstel, moet jy Handeling + Volume harder of sagter druk.\n\nOm die praattempo te verstel, moet jy Handeling + Ctrl + Volume harder druk om dit vinniger te maak en Handeling + Ctrl + Volume sagter om dit stadiger te maak.\n\nOm enige tyd die spraak te stop, moet jy Ctrl druk.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack-kieslys en meer kortpadsleutels</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Die TalkBack-kieslys sluit instellings en kontroles in wat jy dalk dikwels nodig sal hê.\n\nDruk Handeling + Ctrl + M om die TalkBack-kieslys oop te maak. Jy kan later die TalkBack-kieslys en jou leesbeheer in TalkBack-instellings pasmaak.\n\nDie TalkBack-kortpadsleutelskieslys sluit al die kortpadsleutels in wat jy kan gebruik.\n\nDruk Handeling + Shift + / om die kortpadsleutelskieslys oop te maak.\n\nDruk Handeling + 0 om die oefenskerm oop te maak as jy meer oor die sleutelbord wil uitvind en kortpadsleutels wil oefen.</string>
+  <string name="keyboard_tutorial_finished_page_title">Gereed!</string>
+  <string name="keyboard_tutorial_finished_page_text">Jy is gereed om TalkBack te gebruik.\n\nHou aan om meer oor ander onderwerpe uit te vind, of gaan hierdie inligting enige tyd in TalkBack-instellings na.\n\nDruk Handeling + Alt + T om TalkBack enige tyd aan of af te skakel.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Navigeer webinhoud vinniger met blaaimodus</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Wanneer jy in die blaaier en webapps is, kan jy blaaimodus aanskakel en met ’n enkele druk van ’n sleutel tussen verskillende soorte leesverfyndheidsvlakke en -kontroles spring. Dit maak die navigasie van ’n bladsy soortgelyk aan die navigasie in ’n teksredigeringkassie, soos links- en regspyle om per karakter te beweeg en op- en afpyle om per reël te beweeg.\n\nDubbeldruk die Handeling-sleutel om blaaimodus aan of af te skakel.\n\nWanneer blaaimodus aan is, druk D om na die volgende baken te spring, F vir die volgende kontrole of vormveld, B vir die volgende knoppie, K vir die volgende skakel en H vir die volgende opskrif. Hou Shift in en druk hierdie sleutels om agtertoe te beweeg.\n\nJy kan ook die op- en afpyl gebruik om volgens lyne te spring, die links- en regspyl om volgens letters te spring, en Ctrl + links- en regspyl om volgens woorde te spring.\n\nDruk Handeling + regspyl om ’n oefenarea in te gaan. Terwyl jy in die oefenarea is, sal skakels, vormvelde en knoppies niks doen nie.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Opskrifvlakke</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Webwerwe en webapps gebruik dikwels opskrifte met verskillende vlakke om die inhoud te struktureer. Wanneer blaaimodus aan is, druk 1 tot 6 om na die opskrifvlakke te spring. Hou Shift in en druk hierdie sleutels om agtertoe te beweeg.\n\nDruk Handeling + regspyl om by ’n oefenarea in te gaan.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabelle</string>
+  <string name="keyboard_tutorial_tables_page_text">Blaaimodus maak tabelnavigasie ook makliker. Druk Alt + Ctrl + op- en afpyl om tussen rye te spring en Alt + Ctrl + links- en regspyl om tussen kolomme te spring wanneer blaaimodus aan is.\n\nDruk Handeling + regspyl om by ’n oefenarea in te gaan.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Wysig tans teks</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Wanneer jy in ’n teksveld ingaan, sal blaaimodus tydelik afgeskakel word sodat jy al die sleutels kan gebruik om te tik. Jy sal ’n aankondiging en ’n geluid hoor wanneer dit afgeskakel is. Sodra jy die teksveld verlaat, sal blaaimodus weer aangeskakel word en sal jy nog ’n aankondiging en geluid hoor.\n\nDruk Handeling + regspyl om by ’n oefenarea in te gaan.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Meer oor blaaimodus</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Druk Handeling + Shift + / en soek “blaaimodus” in die kortpadsleutelkieslys om die volledige lys items na te gaan waartussen jy in blaaimodus kan spring.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Lees per karakter, woord of paragraaf</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Soms wil jy dalk teks hardop gelees hoor, een karakter op ’n slag.\n\nJy kan leeskontrolesnavigasie hiervoor gebruik. Druk Handeling + Shift + regs- of linkspyl totdat jy “karakters” hoor. Druk dan Handeling + oppyl om die navigasiefokus per karakter agtertoe te beweeg. Druk Handeling + afpyl om die navigasiefokus per karakter vorentoe te beweeg.\n\nProbeer dit nou. Jy kan ook kies om per woorde, reëls of paragrawe te lees deur Handeling + Shift + regs- of linkspyl te gebruik.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Spring tussen kontroles</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Kontroles is items waarmee jy kan interaksie hê, soos knoppies, merkblokkies en tekskassies.\n\nJy sal dalk op sommige bladsye tussen kontroles wil spring om ’n handeling, soos die volgende knoppie, vinnig te kry.\n\nOm dit te doen, moet jy Handeling + Shift + regspyl druk totdat jy “kontroles” hoor. Druk dan Handeling + oppyl om na die vorige knoppie te gaan en Handeling + afpyl om na die volgende knoppie te gaan.\n\nProbeer dit nou en kry die volgende knoppie.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Spring tussen skakels</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Jy kan ook tussen skakels op ’n bladsy spring.\n\nOm dit te doen, moet jy Handeling + Shift + regspyl druk totdat jy “skakels” hoor. Druk dan Handeling + afpyl om die skakel genaamd “Skakel 5” te kry. Terwyl jy in die tutoriaal is, sal niks gebeur wanneer jy hierdie skakel dubbeltik nie.\n\nDruk Handeling + regspyl om die volgende knoppie te kry en na die volgende bladsy te gaan.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Spring tussen opskrifte</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Jy kan ook tussen opskrifte op ’n bladsy spring.\n\nProbeer dit nou deur Handeling + Shift + regspyl te druk totdat jy “opskrifte” hoor. Druk dan Handeling + afpyl om die “Navigasie”-opskrif te kry.</string>
+  <string name="keyboard_tutorial_find_next_button">Druk Handeling + regspyl om die volgende knoppie te kry.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Wissel tussen houers</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">As jy ’n houer soos ’n lys of rooster wil verlaat, moet jy Handeling + Alt + Ctrl + regs- of linkspyl druk. Dit is nuttig wanneer jy ’n lang lys items wil verlaat.\n\nProbeer dit nou deur Handeling + regspyl te druk om in die lys in te gaan. Druk dan Handeling + Alt + Ctrl + regspyl om na die volgende houer te gaan.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Druk Handeling + Alt + Ctrl + regspyl om na die volgende houer te gaan</string>
+  <string name="keyboard_tutorial_exit_container">Druk Handeling + Alt + Ctrl + regspyl om hierdie houer te verlaat</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Jy het die houer verlaat. Jy kan ook houers by jou leeskontroles voeg en dan Handeling + Shift + regs- of linkspyl druk om houers te kies en Handeling + af- of oppyl om tussen houers te spring. Gaan na TalkBack &gt; Instellings &gt; Pasmaak kieslyste &gt; Pasmaak leesbeheer om leesbeheer op te dateer.\n\nDruk Handeling + regspyl om die volgende knoppie te kry.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Pasmaak leeskontroles</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Jy kan ook spraakinstellings met leesbeheer verstel en pasmaak wat jy met leesbeheer kan doen in TalkBack &gt; Instellings &gt; Pasmaak kieslyste &gt; Pasmaak leesbeheer.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Probeer om prentbeskrywings te kry</string>
+  <string name="keyboard_tutorial_image_description_page_text">Wanneer jy op ’n prent gefokus is, druk Handeling + R, en dan I. Daar is een foto hier onder. Probeer om ’n beskrywing daarvoor te kry.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Jy kan enige tyd die instellings vir prentbeskrywings verander in TalkBack-instellings &gt; Prent- en ikoonbeskrywings.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Jy kan enige tyd die instellings vir prentbeskrywings verander in TalkBack-instellings, en dan Prent- en ikoonbeskrywings.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Voorbeeldprent. Druk Handeling + R en dan I om ’n beskrywing te hoor.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Stemopdragte</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Jy kan jou stem gebruik om TalkBack vinnig te beheer.\n\nJy kan byvoorbeeld ’n opdrag gee om navigasie te verander, na die volgende opskrif te spring, teks te kopieer, en meer.\n\nDruk Handeling + \\ om dit nou te probeer.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Gebruik kitsskermsoek</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Jy kan met die kitsskermsoekkenmerk spesifieke inhoud op die skerm soek.\n\nOm dit te probeer, moet jy Handeling + CTRL + / druk. Tik ’n sleutelwoord in, soos “volgende”, om items met die teks op die skerm te soek.\n\nProbeer nou om “volgende” te soek om die volgende-knoppie te kry.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navigeer met kitsskermsoek</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Jy kan vinnig tussen verskillende soekresultate van kitsskermsoek af beweeg nadat jy ’n resultaat gekies het.\n\nOm dit te doen, kan jy leeskontrolesnavigasie gebruik. Druk Handeling + Shift + regs- of linkspyl totdat jy “skermsoektog” hoor. Druk dan Handeling + af- of oppyl om volgens kitsskermsoekresultate te navigeer.\n\nKom ons probeer dit nou. Hier onder is ’n lys van 3 knoppies, wat almal die teks “handeling” bevat. Soek “handeling” met kitsskermsoek en navigeer dan met kitsskermsoek om tussen hulle te beweeg.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Oefen kortpadsleutels</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Druk ’n fisiese sleutelbordtoets of kombinasie van toetse om te hoor wat dit doen. Druk Ctrl + W, of Escape om uit te gaan.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Ontdek die prag van Kaliforniese rooihoutbome&lt;/h1&gt;
+      &lt;p&gt;Kalifornië se rooihoutbome, hoofsaaklik die kusrooibos (Sequoia sempervrens), is die wêreld se hoogste bome. Sommige is meer as 115 meter hoog en kan duisende jare lank leef. Hulle floreer in die vogtige kusgebiedklimaat van noordelike Kalifornië en trek voordeel uit reën en mis.&lt;/p&gt;
+
+      &lt;h2&gt;Waar om hulle te sien&lt;/h2&gt;
+      &lt;p&gt;Jy sal hierdie reuse in ’n smal strook langs die Stille Oseaan-kus kry. Belangrike parke sluit in:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Beplan jou besoek hier: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Steun bewaring&lt;/h2&gt;
+      &lt;p&gt;Dit is noodsaaklik om hierdie antieke woude te beskerm. Jy kan help deur parkriglyne te volg en bewaringpogings te steun.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Deel jou ervaring&lt;/h2&gt;
+        &lt;p&gt;Was jy al by die rooihoutbome?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Ja&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nee&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Vertel ons van jou ervaring&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Dien in&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Waaroor wil jy nog meer uitvind oor rooibosse?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Dien in&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Rooihoutbome: Hou ons omgewing gesond&lt;/h1&gt;
+    &lt;p&gt;Rooihoutbome is belangrik vir ons planeet en speel ’n groot rol om ons omgewing gesond te hou.&lt;/p&gt;
+
+    &lt;h1&gt;Reuse lugskoonmakers&lt;/h1&gt;
+    &lt;p&gt;Hierdie bome is fantasties om koolstofdioksied uit die lug op te neem. Deur so baie daarvan in te neem, help rooihoutbome om ons lug skoon te hou.&lt;/p&gt;
+
+    &lt;h2&gt;Tuisplek vir diere&lt;/h2&gt;
+    &lt;p&gt;Rooihoutbome verskaf huise en skuiling vir baie diere, van voëls in hul takke tot klein diertjies in die grond.&lt;/p&gt;
+
+    &lt;h3&gt;Waterkenners&lt;/h3&gt;
+    &lt;p&gt;Hulle is uitstekend om mis te vang wat dan op die woudvloer drup. Dit hou die grond klam en verskaf water vir ander plante en diere, veral wanneer dit droog is.&lt;/p&gt;
+
+    &lt;h4&gt;Grondbeskermers&lt;/h4&gt;
+    &lt;p&gt;Hul sterk wortels hou die grond in plek en verhoed dat dit tydens swaar reën wegspoel en erosie veroorsaak.&lt;/p&gt;
+
+    &lt;h5&gt;Woudbouers&lt;/h5&gt;
+    &lt;p&gt;Wanneer ou rooihoutbome val, word hul hout kos en skuiling vir nuwe plante en diere, wat ryk grond vir nuwe groei skep.&lt;/p&gt;
+
+    &lt;h6&gt;Unieke ekosisteme&lt;/h6&gt;
+    &lt;p&gt;Omdat rooihoutbome so groot is en so lank leef, skep hulle spesiale woudomgewings wat lewe ondersteun wat nêrens anders gevind word nie.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Diere van die rooihoutwoude&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dier&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Beskrywing&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Waar hulle woon&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Pretfeit&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Piesangslak&lt;/th&gt;
+            &lt;td&gt;Groot, geel, slymerige slak&lt;/td&gt;
+            &lt;td&gt;Op die woudvloer&lt;/td&gt;
+            &lt;td&gt;Tweede grootste slak in die wêreld&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Stille Oseaan-reusesalamander&lt;/th&gt;
+            &lt;td&gt;Groot, donkerkleurige salamander&lt;/td&gt;
+            &lt;td&gt;Naby strome en vogtige gebiede&lt;/td&gt;
+            &lt;td&gt;Kan tot ’n voet lank word&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt-elk&lt;/th&gt;
+            &lt;td&gt;Groot takbok met indrukwekkende horings&lt;/td&gt;
+            &lt;td&gt;Wei in oop plekke in die woud&lt;/td&gt;
+            &lt;td&gt;Mannetjies kan meer as 450 kg weeg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Noordelike koluil&lt;/th&gt;
+            &lt;td&gt;Middelgrootte uil, jag snags&lt;/td&gt;
+            &lt;td&gt;In digte, volwasse rooihoutwoude&lt;/td&gt;
+            &lt;td&gt;’n “Indikatorspesie” – die gesondheid daarvan wys die gesondheid van die woud&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Swartbeer&lt;/th&gt;
+            &lt;td&gt;Groot soogdier, gewoonlik swart of bruin&lt;/td&gt;
+            &lt;td&gt;Soek kos in die hele woud&lt;/td&gt;
+            &lt;td&gt;Uitstekende klimmers, word dikwels in bome gesien&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Jou gedagtes oor rooihoutbome en die natuur&lt;/h1&gt;
+
+      &lt;p&gt;Waaroor wil jy nog meer uitvind oor rooihoutbome?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Wat is jou gunstelingplek in die natuur om te besoek?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Watter konsep in die natuur wil jy meer inligting oor hê?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

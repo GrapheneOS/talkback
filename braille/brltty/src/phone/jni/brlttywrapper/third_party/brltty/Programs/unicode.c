@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -24,6 +24,49 @@
 #include "unicode.h"
 #include "ascii.h"
 
+#ifdef __ANDROID__
+#include "system_java.h"
+#endif /* __ANDROID__ */
+
+int
+isSurrogateCodepoint (wchar_t codepoint) {
+  return (codepoint >= UNICODE_SURROGATE_BEGIN) && (codepoint <= UNICODE_SURROGATE_END);
+}
+
+static int
+testLowSurrogateBit (wchar_t codepoint) {
+  return !!(codepoint & UNICODE_SURROGATE_LOW);
+}
+
+static int
+isHighSurrogate (wchar_t codepoint) {
+  return isSurrogateCodepoint(codepoint) && !testLowSurrogateBit(codepoint);
+}
+
+static int
+isLowSurrogate (wchar_t codepoint) {
+  return isSurrogateCodepoint(codepoint) && testLowSurrogateBit(codepoint);
+}
+
+static wchar_t
+getSurrogateDataBits (wchar_t codepoint) {
+  return codepoint & UNICODE_SURROGATE_MASK;
+}
+
+wchar_t
+makeSupplementaryCodepoint (wchar_t high, wchar_t low) {
+  if (isHighSurrogate(high)) {
+    if (isLowSurrogate(low)) {
+      wchar_t codepoint = getSurrogateDataBits(high) << UNICODE_SURROGATE_SHIFT;
+      codepoint |= getSurrogateDataBits(low);
+      codepoint += 0X10000;
+      return codepoint;
+    }
+  }
+
+  return 0;
+}
+
 #ifdef HAVE_ICU
 #include <unicode/uversion.h>
 #include <unicode/uchar.h>
@@ -41,7 +84,7 @@ isUcharCompatible (wchar_t character) {
 }
 
 static int
-getName (wchar_t character, char *buffer, size_t size, UCharNameChoice choice) {
+getUcharName (wchar_t character, char *buffer, size_t size, UCharNameChoice choice) {
   UErrorCode error = U_ZERO_ERROR;
   u_charName(character, choice, buffer, size, &error);
   return U_SUCCESS(error) && *buffer;
@@ -73,11 +116,30 @@ nextBaseCharacter (const UChar **current, const UChar *end) {
 
 int
 getCharacterName (wchar_t character, char *buffer, size_t size) {
-#ifdef HAVE_ICU
-  return getName(character, buffer, size, U_EXTENDED_CHAR_NAME);
-#else /* HAVE_ICU */
-  return 0;
-#endif /* HAVE_ICU */
+  int gotName = 0;
+
+  if (size > 1) {
+#if defined(__ANDROID__)
+    char *name = getJavaCharacterName(character);
+
+    if (name) {
+      size_t length = strlen(name);
+      if (length >= size) length = size - 1;
+
+      char *end = mempcpy(buffer, name, length);
+      *end = 0;
+      gotName = 1;
+
+      free(name);
+    }
+#elif defined(HAVE_ICU)
+    if (getUcharName(character, buffer, size, U_EXTENDED_CHAR_NAME)) {
+      gotName = 1;
+    }
+#endif /* get character name */
+  }
+
+  return gotName;
 }
 
 int
@@ -92,7 +154,7 @@ getCharacterByName (wchar_t *character, const char *name) {
 int
 getCharacterAlias (wchar_t character, char *buffer, size_t size) {
 #ifdef HAVE_ICU
-  return getName(character, buffer, size, U_CHAR_NAME_ALIAS);
+  return getUcharName(character, buffer, size, U_CHAR_NAME_ALIAS);
 #else /* HAVE_ICU */
   return 0;
 #endif /* HAVE_ICU */

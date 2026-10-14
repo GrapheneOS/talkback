@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 apply from: "../../shared.gradle"
 
+android {
+    namespace = "com.google.android.accessibility.braille.brailledisplay"
+}
+
 dependencies {
     implementation project(':proguard')
     implementation project(':utils')
@@ -9,8 +13,4 @@ dependencies {
     implementation project(':brailleinterfaces')
     implementation project(':brailletranslate')
     implementation project(':braillecommon')
-}
-
-android {
-    namespace "com.google.android.accessibility.braille.brailledisplay"
 }

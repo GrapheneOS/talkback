@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Este tutorial refere-se ao mapa de teclas melhorado, que inclui muitos comandos novos. Para selecionar o mapa de teclas, aceda a Definições do TalkBack &gt; Definições avançadas &gt; Atalhos de teclado.\n\nPrima Ação + seta para a direita para selecionar um tópico. Para a melhor experiência, ative o TalkBack antes de começar.</string>
+  <string name="basic_interaction_link_text">Interação básica</string>
+  <string name="basic_interaction_link_subtext">Mova-se entre itens, leia por linhas, use menus e muito mais</string>
+  <string name="browse_mode_link_text">Modo de navegação</string>
+  <string name="browse_mode_link_subtext">Navegue mais rapidamente no conteúdo da Web com comandos de alternância</string>
+  <string name="reading_controls_link_text">Controlos de leitura</string>
+  <string name="reading_controls_link_subtext">Use os controlos de leitura para alternar entre itens, ajustar as definições de voz e muito mais</string>
+  <string name="image_descriptions_link_text">Descrições de imagens</string>
+  <string name="image_descriptions_link_subtext">Experimente receber descrições de imagens</string>
+  <string name="keyboard_shortcuts_link_text">Pratique os atalhos de teclado</string>
+  <string name="keyboard_shortcuts_link_subtext">Prima teclas e combinações de teclas e saiba o que fazem</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">O TalkBack dá feedback de voz para que possa usar o dispositivo sem olhar para o ecrã. O TalkBack pode ser útil para pessoas que têm dificuldade em ver o ecrã. Quando o TalkBack está ativado, o item focado no ecrã é dito em voz alta.\n\nPrimeiro, vamos familiarizar-nos com o teclado. Procure a tecla Ação, que está acima da tecla Shift do lado esquerdo. Agora, vamos encontrar as teclas de seta perto da área inferior direita do teclado. Prima Ação + seta para a direita para passar para o item seguinte.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Este é o item seguinte. Para retroceder para o item anterior, prima Ação + seta para a esquerda.\n\nQuando se deslocar para um item interativo, como um botão, prima Ação + espaço para o ativar. Encontre o botão seguinte e continue o tutorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Leia por caráter, palavra ou parágrafo</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Por vezes, pode ser útil ouvir texto em voz alta um caráter de cada vez.\n\nPara isso, pode usar a navegação dos controlos de leitura. Prima Ação + Shift + seta para a direita ou para a esquerda até ouvir \"carateres\".\n\nEm seguida, prima Ação + seta para cima para mover o foco da navegação para trás por caráter. Prima Ação + seta para baixo para mover o foco da navegação para a frente por caráter.\n\nExperimente agora. Também pode optar por ler por palavras, linhas ou parágrafos usando a combinação de teclas Ação + Shift + seta para a direita ou para a esquerda.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navegação no sistema</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Se experimentar estes atalhos de teclado agora, fecha o tutorial. Recomendamos que espere até ter concluído o tutorial.\n\nPara alternar entre janelas de apps abertas e elementos do sistema, como notificações e a Barra de tarefas, prima Ação + Alt + Ctrl + seta para cima ou para baixo.\n\nPara abrir a lista de apps, prima Ação.\n\nPara aceder ao ecrã principal e minimizar todas as janelas abertas, prima Ação + H ou Home na linha superior.\n\nPara aceder às apps recentes, prima Ação + Tab ou Vista geral na linha superior.\n\nPara alternar rapidamente entre janelas, mantenha premida a tecla Alt e prima Tab.\n\nPara voltar atrás, prima Ação + Esc ou Anterior na linha superior.\n\nPara abrir as notificações, prima Ação + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Ajuste as definições de voz</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">O volume da voz do TalkBack denomina-se volume da acessibilidade. É ajustado em separado do volume de multimédia.\n\nPara ajustar o volume da acessibilidade, prima Ação + aumentar volume ou diminuir volume.\n\nPara ajustar a velocidade de voz, prima Ação + Ctrl + aumentar volume para a aumentar e Ação + Ctrl + diminuir volume para a diminuir.\n\nPara parar a voz em qualquer altura, prima Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menu do TalkBack e mais atalhos de teclado</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">O menu do TalkBack inclui definições e controlos de que pode precisar com frequência.\n\nPara abrir o menu do TalkBack, prima Ação + Ctrl + M. Pode personalizar o menu do TalkBack e os controlos de leitura mais tarde nas Definições do TalkBack.\n\nO menu de atalhos de teclado do TalkBack inclui todos os atalhos de teclado que pode usar.\n\nPara abrir o menu de atalhos de teclado, prima Ação + Shift + /.\n\nPara saber mais sobre o teclado e praticar atalhos de teclado, prima Ação + 0 para abrir o ecrã de prática.</string>
+  <string name="keyboard_tutorial_finished_page_title">Tudo pronto!</string>
+  <string name="keyboard_tutorial_finished_page_text">Já pode usar o TalkBack.\n\nContinue a ler sobre outros tópicos agora ou reveja estas informações em qualquer altura nas Definições do TalkBack.\n\nPara ativar ou desativar o TalkBack em qualquer altura, prima Ação + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Navegue mais rapidamente no conteúdo da Web com o modo de navegação</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Quando está no navegador e nas apps Web, pode ativar o modo de navegação e alternar entre diferentes tipos de controlos e nível de detalhe de leitura premindo apenas uma tecla. Torna a navegação numa página semelhante à navegação numa caixa de edição de texto, por exemplo, usando as setas para a esquerda e para a direita para mover por caráter e as setas para cima e para baixo para mover por linha.\n\nPara ativar ou desativar o modo de navegação, prima duas vezes a tecla Ação.\n\nQuando o modo de navegação está ativado, prima D para avançar para o ponto de referência seguinte, F para o controlo ou o campo de formulário seguinte, B para o botão seguinte, K para o link seguinte e H para o título seguinte. Mantenha premida a tecla Shift e prima estas teclas para retroceder.\n\nTambém pode usar as setas para cima e para baixo para avançar por linhas, as setas para a esquerda e para a direita para avançar por letras e Ctrl + as setas para a esquerda e para a direita para avançar por palavras.\n\nPrima Ação + seta para a direita para aceder a uma área para praticar. Enquanto estiver na área para praticar, os links, os campos do formulário e os botões não realizam nenhuma ação.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Níveis de título</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Os Websites e as apps Web usam frequentemente títulos com diferentes níveis para estruturar o conteúdo. Quando o modo de navegação está ativado, prima 1 a 6 para ir para os níveis de título. Mantenha a tecla Shift premida e prima estas teclas para retroceder.\n\nPrima Ação + seta para a direita para aceder a uma área para praticar.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabelas</string>
+  <string name="keyboard_tutorial_tables_page_text">O modo de navegação também facilita a navegação em tabelas. Quando o modo de navegação está ativado, prima Alt + Ctrl + setas para cima e para baixo para alternar entre linhas e Alt + Ctrl + setas para a esquerda e para a direita para alternar entre colunas.\n\nPrima Ação + seta para a direita para aceder a uma área para praticar.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Editar texto</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Quando acede a um campo de texto, o modo de navegação é desativado temporariamente para que possa usar todas as teclas para escrever. Vai ouvir um anúncio e um som quando este for desativado. Assim que sair do campo de texto, o modo de navegação é reativado e ouve outro anúncio e som.\n\nPrima Ação + seta para a direita para aceder a uma área para praticar.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Mais sobre o modo de navegação</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Para verificar a lista completa de itens entre os quais pode alternar no modo de navegação, prima Ação + Shift + / e procure \"modo de navegação\" no menu de atalhos de teclado.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Leia por caráter, palavra ou parágrafo</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Por vezes, pode ser útil ouvir texto em voz alta um caráter de cada vez.\n\nPara isso, pode usar a navegação dos controlos de leitura. Prima Ação + Shift + seta para a direita ou para a esquerda até ouvir \"carateres\". Em seguida, prima Ação + seta para cima para mover o foco da navegação para trás por caráter. Prima Ação + seta para baixo para mover o foco da navegação para a frente por caráter.\n\nExperimente agora. Também pode optar por ler por palavras, linhas ou parágrafos usando a combinação de teclas Ação + Shift + seta para a direita ou para a esquerda.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Alterne entre controlos</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Os controlos são itens interativos, como botões, caixas de verificação e caixas de texto.\n\nEm algumas páginas, pode ser útil alternar entre controlos para localizar rapidamente uma ação, como o botão seguinte.\n\nPara isso, prima Ação + Shift + seta para a direita até ouvir \"controlos\". Em seguida, prima Ação + seta para cima para aceder ao botão anterior e Ação + seta para baixo para aceder ao botão seguinte.\n\nExperimente agora e encontre o botão seguinte.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Alterne entre links</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Também pode alternar entre links numa página.\n\nPara isso, prima Ação + Shift + seta para a direita até ouvir \"links\". Em seguida, prima Ação + seta para baixo para encontrar o link denominado \"Link 5\". Enquanto estiver no tutorial, tocar duas vezes neste link não faz nada.\n\nPrima Ação + seta para a direita para encontrar o botão seguinte e aceder à página seguinte.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Alterne entre títulos</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Também pode alternar entre títulos numa página.\n\nPara experimentar agora, prima Ação + Shift + seta para a direita até ouvir \"títulos\". Em seguida, prima Ação + seta para baixo para encontrar o título \"Navegação\".</string>
+  <string name="keyboard_tutorial_find_next_button">Prima Ação + seta para a direita para encontrar o botão seguinte.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Alterne entre contentores</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Para sair de um contentor, como uma lista ou uma grelha, prima Ação + Alt + Ctrl + seta para a direita ou para a esquerda. Este gesto é útil quando quer sair de uma lista longa de itens.\n\nPara experimentar agora, prima Ação + seta para a direita para aceder à lista. Em seguida, prima Ação + Alt + Ctrl + seta para a direita para aceder ao contentor seguinte.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Para aceder ao contentor seguinte, prima Ação + Alt + Ctrl + seta para a direita</string>
+  <string name="keyboard_tutorial_exit_container">Para sair deste contentor, prima Ação + Alt + Ctrl + seta para a direita</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Saiu do contentor. Também pode adicionar contentores aos controlos de leitura e, em seguida, premir Ação + Shift + seta para a direita ou para a esquerda para selecionar contentores e Ação + seta para baixo ou para cima para alternar entre contentores. Para atualizar os controlos de leitura, aceda a TalkBack &gt; Definições &gt; Personalizar menus &gt; Personalizar controlos de leitura.\n\nPrima Ação + seta para a direita para encontrar o botão seguinte.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Personalize os controlos de leitura</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Também pode ajustar as definições de voz através dos controlos de leitura e personalizar o que pode fazer com os controlos de leitura em TalkBack &gt; Definições &gt; Personalizar menus &gt; Personalizar controlos de leitura.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Experimente receber descrições de imagens</string>
+  <string name="keyboard_tutorial_image_description_page_text">Quando focar uma imagem, prima Ação + R e, de seguida, I. Existe uma foto abaixo. Experimente receber uma descrição da foto.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Pode alterar as definições de descrição de imagens em qualquer altura nas Definições do TalkBack &gt; Descrições de imagens e ícones.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Pode alterar as definições de descrição de imagens em qualquer altura nas Definições do TalkBack e, em seguida, Descrições de imagens e ícones.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Imagem de exemplo. Prima Ação + R e, em seguida, I para ouvir uma descrição.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Comandos de voz</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Pode usar a sua voz para controlar rapidamente o TalkBack.\n\nPor exemplo, diga um comando para alterar a navegação, avançar para o título seguinte, copiar texto e muito mais.\n\nPara experimentar agora, prima Ação + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Usar a Pesquisa direta</string>
+  <string name="keyboard_tutorial_screen_search_page_text">A funcionalidade Pesquisa direta permite-lhe procurar conteúdo específico no ecrã.\n\nPara a experimentar, prima Ação + CTRL + /. Introduza uma palavra-chave, como \"seguinte\", para encontrar itens com esse texto no ecrã.\n\nExperimente pesquisar \"seguinte\" agora para encontrar o botão seguinte.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navegue através da Pesquisa direta</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Pode alternar rapidamente entre diferentes resultados da pesquisa a partir da Pesquisa direta depois de selecionar um resultado.\n\nPara o fazer, pode usar a navegação dos controlos de leitura. Prima Ação + Shift + seta para a direita ou para a esquerda até ouvir \"Pesquisa direta\". De seguida, prima Ação + seta para baixo ou para cima para navegar pelos resultados da Pesquisa direta.\n\nVamos experimentar agora. Segue-se uma lista de 3 botões, todos com o texto \"ação\". Pesquise \"ação\" através da Pesquisa direta e, de seguida, navegue através da Pesquisa direta para os percorrer.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Pratique os atalhos de teclado</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Prima uma tecla ou uma combinação de teclas do teclado físico para ouvir o que faz. Prima Ctrl + W ou Escape para sair.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Descubra a magnificência das sequoias-gigantes da Califórnia&lt;/h1&gt;
+      &lt;p&gt;As sequoias-gigantes da Califórnia, principalmente a espécie sequoia-gigante costeira (Sequoia sempervirens), são as árvores mais altas do mundo. Algumas têm mais de 115 metros de altura e podem viver milhares de anos. Prosperam no clima costeiro húmido do norte da Califórnia, beneficiando da chuva e do nevoeiro.&lt;/p&gt;
+
+      &lt;h2&gt;Onde pode vê-las&lt;/h2&gt;
+      &lt;p&gt;Encontra estas árvores gigantes numa faixa estreita ao longo da costa do Pacífico. Os principais parques incluem:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Planeie a sua visita aqui: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – sequoias-gigantes&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Apoie a conservação&lt;/h2&gt;
+      &lt;p&gt;É fundamental proteger estas florestas antigas. Pode ajudar seguindo as diretrizes do parque e apoiando os esforços de conservação.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Partilhe a sua experiência&lt;/h2&gt;
+        &lt;p&gt;Já viu as sequoias-gigantes?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Sim&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Não&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Conte-nos a sua experiência&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Enviar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Que mais gostaria de saber sobre as sequoias-gigantes?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Enviar&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sequoias-gigantes: a manter o nosso ambiente saudável&lt;/h1&gt;
+    &lt;p&gt;As sequoias-gigantes são importantes para o nosso planeta e desempenham um papel fundamental na manutenção de um ambiente saudável.&lt;/p&gt;
+
+    &lt;h1&gt;Gigantescos purificadores de ar&lt;/h1&gt;
+    &lt;p&gt;Estas árvores são fantásticas a absorver dióxido de carbono do ar. Ao absorverem tanto dióxido de carbono, as sequoias-gigantes ajudam a manter o nosso ar limpo.&lt;/p&gt;
+
+    &lt;h2&gt;Lar de animais&lt;/h2&gt;
+    &lt;p&gt;As sequoias-gigantes oferecem lares e abrigos a muitos animais, desde aves nos seus ramos a pequenas criaturas no solo.&lt;/p&gt;
+
+    &lt;h3&gt;Magia da água&lt;/h3&gt;
+    &lt;p&gt;São ótimas a captar o nevoeiro, que depois pinga para o solo da floresta. Isto mantém o solo húmido e fornece água a outras plantas e animais, especialmente quando está um tempo seco.&lt;/p&gt;
+
+    &lt;h4&gt;Protetoras do solo&lt;/h4&gt;
+    &lt;p&gt;As respetivas raízes fortes mantêm o solo no lugar, impedindo que seja arrastado durante as chuvas fortes e prevenindo a erosão.&lt;/p&gt;
+
+    &lt;h5&gt;Criadoras de florestas&lt;/h5&gt;
+    &lt;p&gt;Quando as sequoias-gigantes antigas caem, a respetiva madeira torna-se alimento e abrigo para novas plantas e criaturas, criando um solo rico para o novo crescimento.&lt;/p&gt;
+
+    &lt;h6&gt;Ecossistemas únicos&lt;/h6&gt;
+    &lt;p&gt;Como as sequoias-gigantes são tão grandes e vivem tanto tempo, criam ambientes florestais especiais que abrigam formas de vida que não se encontram em mais nenhum lugar.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Animais das florestas de sequoias-gigantes&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animais das florestas de sequoias-gigantes\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Descrição&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Onde vivem&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Curiosidade&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Lesma-banana&lt;/th&gt;
+            &lt;td&gt;Lesma grande, amarela e viscosa&lt;/td&gt;
+            &lt;td&gt;No solo da floresta&lt;/td&gt;
+            &lt;td&gt;A segunda maior lesma do mundo&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamandra-gigante-do-pacífico&lt;/th&gt;
+            &lt;td&gt;Salamandra grande e escura&lt;/td&gt;
+            &lt;td&gt;Perto de riachos e áreas húmidas&lt;/td&gt;
+            &lt;td&gt;Pode crescer até 30 cm de comprimento&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Veado-de-roosevelt&lt;/th&gt;
+            &lt;td&gt;Veado grande com chifres impressionantes&lt;/td&gt;
+            &lt;td&gt;Pastoreia em clareiras na floresta&lt;/td&gt;
+            &lt;td&gt;Os machos podem pesar mais de 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Coruja-malhada-do-norte&lt;/th&gt;
+            &lt;td&gt;Coruja de tamanho médio que caça à noite&lt;/td&gt;
+            &lt;td&gt;Em florestas de sequoias-gigantes densas e maduras&lt;/td&gt;
+            &lt;td&gt;Uma \"espécie indicadora\" – a sua saúde mostra a saúde da floresta&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Urso-negro&lt;/th&gt;
+            &lt;td&gt;Mamífero grande, normalmente preto ou castanho&lt;/td&gt;
+            &lt;td&gt;Procura comida por toda a floresta&lt;/td&gt;
+            &lt;td&gt;Excelentes escaladores, frequentemente vistos em árvores&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;As suas ideias sobre as sequoias-gigantes e a natureza&lt;/h1&gt;
+
+      &lt;p&gt;O que mais gostaria de saber sobre as sequoias-gigantes?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Qual o lugar na natureza que mais gosta de visitar?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Sobre que conceito da natureza quer saber mais?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

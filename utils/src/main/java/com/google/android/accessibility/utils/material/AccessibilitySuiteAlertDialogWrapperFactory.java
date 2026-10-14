@@ -15,29 +15,28 @@
  */
 package com.google.android.accessibility.utils.material;
 
-import static com.google.android.accessibility.utils.material.A11yAlertDialogWrapper.AlertDialogStyle.ALERT_DIALOG_CLASSIC;
-
 import android.content.Context;
 import androidx.fragment.app.FragmentManager;
 import androidx.annotation.Nullable;
-import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper.AlertDialogStyle;
+import androidx.annotation.StyleRes;
 
 /** The class is used to create the form-specific alert dialog builder for the phone platform. */
 public final class AccessibilitySuiteAlertDialogWrapperFactory {
 
-  public static A11yAlertDialogWrapper.Builder createA11yAlertDialogWrapperBuilder(
-      Context context, AlertDialogStyle style) {
-    if (style == ALERT_DIALOG_CLASSIC) {
-      return new PhoneAlertDialogWrapperBuilder(AlertDialogUtils.v7Builder(context));
-
-    } else {
-      return new PhoneAlertDialogWrapperBuilder(MaterialComponentUtils.alertDialogBuilder(context));
-    }
+  public static A11yAlertDialogWrapper.Builder createMaterialAlertDialogWrapperBuilder(
+      Context context) {
+    return new PhoneAlertDialogWrapperBuilder(MaterialComponentUtils.alertDialogBuilder(context));
   }
 
-  public static A11yAlertDialogWrapper.Builder createA11yAlertDialogWrapperBuilder(
-      Context context, AlertDialogStyle style, @Nullable FragmentManager fragmentManager) {
-    return createA11yAlertDialogWrapperBuilder(context, style);
+  public static A11yAlertDialogWrapper.Builder createMaterialAlertDialogWrapperBuilder(
+      Context context, @Nullable FragmentManager fragmentManager) {
+    return createMaterialAlertDialogWrapperBuilder(context);
+  }
+
+  public static A11yAlertDialogWrapper.Builder createMaterialAlertDialogWrapperBuilder(
+      Context context, @StyleRes int materialThemeResId) {
+    return new PhoneAlertDialogWrapperBuilder(
+        MaterialComponentUtils.alertDialogBuilder(context, materialThemeResId));
   }
 
   private AccessibilitySuiteAlertDialogWrapperFactory() {}

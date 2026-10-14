@@ -94,7 +94,9 @@ public class DirectionNavigationInterpreter implements AccessibilityEventListene
             TraversalStrategyUtils.getLogicalDirection(
                 navigationAction.searchDirection, WindowUtils.isScreenLayoutRTL(context));
         pipeline.input(
-            eventId, Interpretation.DirectionNavigation.create(linearDirection, moveToNode));
+            eventId,
+            Interpretation.DirectionNavigation.create(
+                linearDirection, navigationAction.originalNavigationGranularity, moveToNode));
       }
     }
   }

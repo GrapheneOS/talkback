@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -22,25 +22,25 @@
 #include "ascii.h"
 
 typedef enum {
-  BN_REQ_BEGIN = ASCII_ESC,
+  BN_REQ_BEGIN    = ASCII_ESC,
   BN_REQ_DESCRIBE = '?',
-  BN_REQ_WRITE = 'B'
+  BN_REQ_WRITE    = 'B'
 } BN_RequestType;
 
 typedef enum {
-  BN_RSP_CHARACTER = 0X80,
-  BN_RSP_SPACE = 0X81,
-  BN_RSP_BACKSPACE = 0X82,
-  BN_RSP_ENTER = 0X83,
-  BN_RSP_THUMB = 0X84,
-  BN_RSP_ROUTE = 0X85,
-  BN_RSP_DESCRIBE = 0X86,
-  BN_RSP_INPUT_CHAR = 0X88,
-  BN_RSP_INPUT_VKEY = 0X89,
+  BN_RSP_CHARACTER   = 0X80,
+  BN_RSP_SPACE       = 0X81,
+  BN_RSP_BACKSPACE   = 0X82,
+  BN_RSP_ENTER       = 0X83,
+  BN_RSP_THUMB       = 0X84,
+  BN_RSP_ROUTE       = 0X85,
+  BN_RSP_DESCRIBE    = 0X86,
+  BN_RSP_INPUT_CHAR  = 0X88,
+  BN_RSP_INPUT_VKEY  = 0X89,
   BN_RSP_INPUT_RESET = 0X8A,
-  BN_RSP_QWERTY_KEY = 0X8C,
+  BN_RSP_QWERTY_KEY  = 0X8C,
   BN_RSP_QWERTY_MODS = 0X8D,
-  BN_RSP_DISPLAY = ASCII_ESC
+  BN_RSP_DISPLAY     = ASCII_ESC
 } BN_ResponseType;
 
 typedef enum {

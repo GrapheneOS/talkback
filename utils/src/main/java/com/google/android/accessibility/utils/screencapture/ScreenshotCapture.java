@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.utils.screencapture;
 
+import static android.accessibilityservice.AccessibilityService.ERROR_TAKE_SCREENSHOT_NO_ACCESSIBILITY_ACCESS;
 import static com.google.android.accessibility.utils.AccessibilityWindowInfoUtils.WINDOW_ID_NONE;
 
 import android.accessibilityservice.AccessibilityService;
@@ -26,6 +27,7 @@ import android.graphics.Bitmap.Config;
 import android.hardware.HardwareBuffer;
 import android.view.Display;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
@@ -91,6 +93,11 @@ public class ScreenshotCapture {
             Bitmap bitmap;
             try (HardwareBuffer hardwareBuffer = screenshot.getHardwareBuffer()) {
               bitmap = Bitmap.wrapHardwareBuffer(hardwareBuffer, screenshot.getColorSpace());
+            } catch (IllegalArgumentException e) {
+              LogUtils.e(TAG, "Taken screenshot could not be converted to Bitmap, %s", e);
+              listener.onScreenCaptureFinished(
+                  /* screenCapture= */ null, /* isFormatSupported= */ false);
+              return;
             }
 
             if (bitmap != null) {
@@ -111,6 +118,23 @@ public class ScreenshotCapture {
     }
   }
 
+  private static void takeScreenshot(
+      AccessibilityService service,
+      WindowOrFullScreenScreenshotCallback listener,
+      Executor executor,
+      int windowId) {
+    if (!FeatureSupport.canTakeScreenShotByAccessibilityService()) {
+      LogUtils.e(TAG, "Taking screenshot but platform's not support");
+      listener.onFailure(ERROR_TAKE_SCREENSHOT_NO_ACCESSIBILITY_ACCESS);
+      return;
+    }
+    if (windowId != WINDOW_ID_NONE && FeatureSupport.supportTakeScreenshotByWindow()) {
+      service.takeScreenshotOfWindow(windowId, executor, listener.setCaptureByWindow());
+    } else {
+      service.takeScreenshot(Display.DEFAULT_DISPLAY, executor, listener);
+    }
+  }
+
   /**
    * Method to take screenshot with native support method.
    *
@@ -124,8 +148,55 @@ public class ScreenshotCapture {
   public static void takeScreenshotByNode(
       AccessibilityService service,
       @Nullable AccessibilityNodeInfoCompat node,
-      CaptureListener listener) {
+      WindowOrFullScreenScreenshotCallback listener) {
     int windowId = (node == null) ? WINDOW_ID_NONE : node.getWindowId();
     takeScreenshot(service, listener, service.getMainExecutor(), windowId);
+  }
+
+  /**
+   * An extension class of Accessibility library interface. It will note whether the screenshot
+   * taken by window or by display. This class is an intermediate class and for internal usage only.
+   */
+  @RequiresApi(api = 30)
+  public static class WindowOrFullScreenScreenshotCallback implements TakeScreenshotCallback {
+    private boolean captureByWindow = false;
+    @Nullable private Bitmap bitmap;
+
+    public WindowOrFullScreenScreenshotCallback() {}
+
+    @Override
+    public void onFailure(int errorCode) {
+      LogUtils.e(TAG, "Taking screenshot but failed [error:" + errorCode + "]");
+    }
+
+    @Override
+    public void onSuccess(ScreenshotResult screenshot) {
+      try (HardwareBuffer hardwareBuffer = screenshot.getHardwareBuffer()) {
+        bitmap = Bitmap.wrapHardwareBuffer(hardwareBuffer, screenshot.getColorSpace());
+      } catch (IllegalArgumentException e) {
+        LogUtils.e(TAG, "Taken screenshot could not be converted to Bitmap, %s", e);
+        return;
+      }
+
+      if (bitmap != null) {
+        Bitmap bitmapCopy = bitmap.copy(Config.ARGB_8888, /* isMutable= */ bitmap.isMutable());
+        bitmap.recycle();
+        bitmap = bitmapCopy;
+      }
+    }
+
+    public TakeScreenshotCallback setCaptureByWindow() {
+      captureByWindow = true;
+      return this;
+    }
+
+    public boolean isCaptureByWindow() {
+      return captureByWindow;
+    }
+
+    @Nullable
+    public Bitmap getBitmap() {
+      return bitmap;
+    }
   }
 }

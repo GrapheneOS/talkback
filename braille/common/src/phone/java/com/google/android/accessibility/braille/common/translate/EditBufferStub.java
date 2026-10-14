@@ -96,22 +96,7 @@ public class EditBufferStub implements EditBuffer {
   }
 
   @Override
-  public boolean moveCursorToBeginning(ImeConnection imeConnection) {
-    return true;
-  }
-
-  @Override
-  public boolean moveCursorToEnd(ImeConnection imeConnection) {
-    return true;
-  }
-
-  @Override
   public HoldingsInfo getHoldingsInfo(ImeConnection imeConnection) {
     return null;
-  }
-
-  @Override
-  public boolean selectAllText(ImeConnection imeConnection) {
-    return false;
   }
 }

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">ይህ አጋዥ ሥልጠና ብዙ አዳዲስ ትዕዛዞችን ለሚያካትተው የተሻሻለው የቁልፍ ካርታ ነው። የቁልፍ ካርታውን ለመምረጥ ወደ TalkBack ቅንብሮች &gt; የላቁ ቅንብሮች &gt; የቁልፍ ሰሌዳ አቋራጮች ይሂዱ።\n\nርዕስ ለመምረጥ እርምጃ + የቀኝ ቀስት ይጫኑ። ምርጥ ተሞክሮን ለማግኘት ከመጀመርዎ በፊት TalkBackን ያብሩ።</string>
+  <string name="basic_interaction_link_text">መሠረታዊ መስተጋብር</string>
+  <string name="basic_interaction_link_subtext">በንጥሎች መካከል ይንቀሳቀሱ፣ በመስመሮች ያንብቡ፣ ምናሌዎችን ይጠቀሙ እና ሌሎችም</string>
+  <string name="browse_mode_link_text">የአሰሳ ሁነታ</string>
+  <string name="browse_mode_link_subtext">በመዝለል ትዕዛዞች የድር ይዘትን በፍጥነት ያስሱ</string>
+  <string name="reading_controls_link_text">የንባብ መቆጣጠሪያዎች</string>
+  <string name="reading_controls_link_subtext">በንጥሎች መካከል ለመዝለል፣ የንግግር ቅንብሮችን ለማስተካከል እና ሌሎችንም ለማድረግ የንባብ መቆጣጠሪያዎችን ይጠቀሙ</string>
+  <string name="image_descriptions_link_text">የምስል መግለጫዎች</string>
+  <string name="image_descriptions_link_subtext">የምስል መግለጫዎችን ለማግኘት ይሞክሩ</string>
+  <string name="keyboard_shortcuts_link_text">የቁልፍ ሰሌዳ አቋራጮችን ይለማመዱ</string>
+  <string name="keyboard_shortcuts_link_subtext">ቁልፎች እና የቁልፍ ጥምረቶችን ይጫኑ እና ምን እንደሚያደርጉ ይወቁ</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack ማያ ገጹን ሳይመለከቱ መሣሪያዎን መጠቀም እንዲችሉ የቃል ግብረመልስን ያቀርባል። TalkBack ማያ ገጹን ማየት ለሚቸገሩ ሰዎች አጋዥ ሊሆን ይችላል። TalkBack በሚበራበት ጊዜ በማያ ገጹ ላይ ትኩረት የተደረገበት ንጥል ጮክ ብሎ ይነገራል።\n\nመጀመሪያ ከቁልፍ ሰሌዳዎ ጋር እንተዋወቅ። ከግራ Shift ቁልፍ በላይ የሚገኘውን የድርጊት ቁልፍ ያግኙ። አሁን ከቁልፍ ሰሌዳው በታችኛው ቀኝ አካባቢ አቅራቢያ ያሉትን የቀስት ቁልፎች እንፈልግ። ወደ ቀጣዩ ንጥል ለመንቀሳቀስ እርምጃ + የቀኝ ቀስት ይጫኑ።</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">ይህ ቀጣዩ ንጥል ነው። ወደ ቀዳሚው ንጥል ለመንቀሳቀስ እርምጃ + የግራ ቀስት ይጫኑ።\n\nእንደ አዝራር ወዳለ በይነተገናኝ ንጥል ሲንቀሳቀሱ እሱን ለማግበር እርምጃ + ክፍተት ይጫኑ። ቀጣዩን አዝራር ያግኙ እና አጋዥ ሥልጠናውን ይቀጥሉ።</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">በቁምፊ፣ በቃል ወይም በአንቀጽ ያንብቡ</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">አንዳንድ ጊዜ አንድ ቁምፊ በአንድ ጊዜ ጽሑፍ ጮክ ተብሎ ሲነበብ ማዳመጥ ይፈልጉ ይሆናል።\n\nይህን ለማድረግ የንባብ መቆጣጠሪያዎች አሰሳን መጠቀም ይችላሉ። «ቁምፊዎች» የሚለውን እስኪሰሙ ድረስ እርምጃ + Shift + የቀኝ ወይም የግራ ቀስት ይጫኑ።\n\nበመቀጠል የዳሰሳ ትኩረቱን በቁምፊ ወደ ኋላ ለማንቀሳቀስ እርምጃ + የላይ ቀስት ይጫኑ። የዳሰሳ ትኩረቱን ወደፊት በቁምፊ ለማንቀሳቀስ እርምጃ + የታች ቀስት ወደታች ይጫኑ።\n\nአሁን ይሞክሩት። እንዲሁም እርምጃ + ቀያይር + የቀኝ ወይም የግራ ቀስት በመጠቀም በቃላት፣ በመስመሮች ወይም በአንቀጾች ለማንበብ መምረጥ ይችላሉ።</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">የሥርዓት ዳሰሳ</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">እነዚህን የቁልፍ ሰሌዳ አቋራጮች አሁን መሞከር አጋዥ ሥልጠናውን ይዘጋል። አጋዥ ሥልጠናውን እስኪጨርሱ ድረስ መጠበቅ ይፈልጉ ይሆናል።\n\nእንደ ማሳወቂያዎች እና የተግባር አሞሌ ባሉ ክፍት የመተግበሪያ መስኮቶች እና የሥርዓት አካላት መካከል ለመዝለል እርምጃ + Alt + Ctrl + ወደላይ ወይም ወደታች ቀስት ይጫኑ።\n\nየመተግበሪያ ዝርዝሩን ለመክፈት እርምጃን ይጫኑ።\n\nወደ መነሻ ማያ ገጽ ለመሄድ እና ሁሉንም ክፍት መስኮቶች ለመቀነስ ከላይ ባለው ረድፍ ውስጥ እርምጃ + H ወይም መነሻን ይጫኑ።\n\nወደ የቅርብ ጊዜ መተግበሪያዎችዎ ለመሄድ ከላይ ባለው ረድፍ ውስጥ እርምጃ + ትር ወይም አጠቃላይ ዕይታን ይጫኑ።\n\nበመስኮቶች መካከል በፍጥነት ለመዝለል Altን ተጭነው ይያዙ እና ትርን ይጫኑ።\n\nወደ ኋላ ለመመለስ ከላይ ባለው ረድፍ ውስጥ እርምጃ + Esc ወይም ተመለስን ይጫኑ።\n\nማሳወቂያዎችን ለመክፈት እርምጃ + Nን ይጫኑ።</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">የንግግር ቅንብሮችን ያስተካክሉ</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">የTalkBack ንግግር የድምፅ መጠን የተደራሽነት የድምፅ መጠን ይባላል። ከሚዲያው የድምፅ መጠን ተለይቶ ለብቻ ይስተካከላል።\n\nየተደራሽነት የድምፅ መጠኑን ለማስተካከል፣ እርምጃ + ድምፅ ጨምር ወይም ቀንስ የሚለውን ይጫኑ።\n\nየንግግር መጠንን ለማስተካከል፣ ለመጨመር እርምጃ + Ctrl + ድምፅ ጨምር እና ለመቀነስ እርምጃ + Ctrl + ድምፅ ቀንስ የሚለውን ይጫኑ።\n\nንግግርን በማንኛውም ጊዜ ለማቆም Ctrlን ይጫኑ።</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">የTalkBack ምናሌ እና ተጨማሪ የቁልፍ ሰሌዳ አቋራጮች</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">የTalkBack ምናሌው እርስዎ በብዛት ሊያስፈልጉዎት የሚችሉ ቅንብሮችን እና መቆጣጠሪያዎችን ያካትታል።\n\nየTalkBack ምናሌውን ለመክፈት እርምጃ + Ctrl + Mን ይጫኑ። የTalkBack ምናሌውን እና የንባብ መቆጣጠሪያዎችዎን በኋላ ላይ በTalkBack ቅንብሮች ውስጥ ማበጀት ይችላሉ።\n\nየTalkBack የቁልፍ ሰሌዳ አቋራጮች ምናሌ እርስዎ መጠቀም የሚችሏቸውን ሁሉንም የቁልፍ ሰሌዳ አቋራጮች ያካትታል።\n\nየቁልፍ ሰሌዳ አቋራጮች ምናሌውን ለመክፈት እርምጃ + Shift + / የሚለውን ይጫኑ።\n\nስለ የቁልፍ ሰሌዳው የበለጠ ለማወቅ እና የቁልፍ ሰሌዳ አቋራጮችን ለመለማመድ የልምምድ ማያ ገጹን ለመክፈት እርምጃ + 0 የሚለውን ይጫኑ።</string>
+  <string name="keyboard_tutorial_finished_page_title">ሁሉም ዝግጁ!</string>
+  <string name="keyboard_tutorial_finished_page_text">TalkBackን ለመጠቀም ዝግጁ ነዎት።\n\nስለ ሌሎች ርዕሰ ጉዳዮች አሁን ማወቅዎን ይቀጥሉ ወይም በTalkBack ቅንብሮች ውስጥ ይህን መረጃ በማንኛውም ጊዜ ይገምግሙት።\n\nTalkBackን በማንኛውም ጊዜ ለማብራት ወይም ለማጥፋት እርምጃ + Alt + Tን ይጫኑ።</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">በአሰሳ ሁነታ የድር ይዘትን ይበልጥ በፍጥነት ያስሱ</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">በአሳሹ እና በድር መተግበሪያዎች ውስጥ ሲሆኑ የአሰሳ ሁነታን ማብራት እና በተለያዩ የንባብ ጥራት እና መቆጣጠሪያዎች መካከል በአንድ የቁልፍ ግፊት መዝለል ይችላሉ። ገጽን ማሰስ እንደ በቁምፊ ለመንቀሳቀስ የግራ እና የቀኝ ቀስቶች እና እንደ በመስመር ለመንቀሳቀስ የላይ እና የታች ቀስቶች ባሉ የጽሑፍ አርትዖት ሣጥን ውስጥ ከማሰስ ጋር ተመሳሳይ ያደርገዋል።\n\nየአሰሳ ሁነታን ለማብራት ወይም ለማጥፋት የድርጊት ቁልፉን ሁለቴ ይጫኑ።\n\nየአሰሳ ሁነታ ሲበራ ወደ ቀጣዩ ምልክት ለመዝለል D፣ ወደ ቀጣዩ መቆጣጠሪያ ወይም የቅጽ መስክ ለመዝለል F፣ ወደ ቀጣዩ አዝራር ለመዝለል B፣ ወደ ቀጣዩ አገናኝ ለመዝለል K እና ወደ ቀጣዩ ርዕስ ለመዝለል H ይጫኑ። ወደኋላ ለመንቀሳቀስ Shiftን ይያዙ እና እነዚህን ቁልፎች ይጫኑ።\n\nእንዲሁም በመስመሮች ለመዝለል የላይ እና የታች ቀስቶችን፣ በፊደሎች ለመዝለል የግራ እና የቀኝ ቀስቶችን እና በቃላት ለመዝለል Ctrl + የግራ እና የቀኝ ቀስቶችን መጠቀም ይችላሉ።\n\nየልምምድ ቦታ ለመግባት እርምጃ + የቀኝ ቀስት ይጫኑ። በልምምድ አካባቢ ውስጥ ሳሉ አገናኞች፣ የቅጽ መስኮች እና አዝራሮች ምንም ነገር አያደርጉም።</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">የርዕስ ደረጃዎች</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">ድር ጣቢያዎች እና የድር መተግበሪያዎች ይዘቱን ለማዋቀር የተለያዩ ደረጃዎች ያላቸውን ርዕሶች ይጠቀማሉ። የአሰሳ ሁነታ ሲበራ ወደ የርዕስ ደረጃዎች ለመዝለል ከ1 እስከ 6 ይጫኑ። ወደኋላ ለመንቀሳቀስ ቀያይርን ይያዙ እና እነዚህን ቁልፎች ይጫኑ።\n\nየልምምድ ቦታ ለመግባት እርምጃ + የቀኝ ቀስት ይጫኑ።</string>
+  <string name="keyboard_tutorial_tables_page_title">ሠንጠረዦች</string>
+  <string name="keyboard_tutorial_tables_page_text">እንዲሁም የአሰሳ ሁነታ የሰንጠረዥ አሰሳን የበለጠ ቀላል ያደርገዋል። የአሰሳ ሁነታ ሲበራ በረድፎች መካከል ለመዝለል Alt + Ctrl + ወደላይ እና ወደታች ቀስቶችን እና በዓምዶች መካከል ለመዝለል Alt + Ctrl + ወደግራ እና ወደቀኝ ቀስቶችን ይጫኑ።\n\nየልምምድ ቦታ ለመግባት እርምጃ + የቀኝ ቀስት ይጫኑ።</string>
+  <string name="keyboard_tutorial_editing_text_page_title">ጽሑፍን በማርትዕ ላይ</string>
+  <string name="keyboard_tutorial_editing_text_page_text">የጽሑፍ መስክ ውስጥ ሲገቡ ለመተየብ ሁሉንም ቁልፎች መጠቀም እንዲችሉ የአሰሳ ሁነታ በጊዜያዊነት ይጠፋል። ሲጠፋ ማስታወቂያ እና ድምፅ ይሰማሉ። አንዴ የጽሑፍ መስኩን ለቅቀው ከወጡ በኋላ የአሰሳ ሁነታው ተመልሶ ይበራል እና ሌላ ማስታወቂያ እና ድምፅ ይሰማሉ።\n\nየልምምድ ቦታ ለመግባት እርምጃ + የቀኝ ቀስት ይጫኑ።</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">ስለ የአሰሳ ሁነታ ተጨማሪ</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">በአሰሳ ሁነታ ውስጥ መዝለል የሚችሉባቸውን የንጥሎች ሙሉ ዝርዝር ለመፈተሽ፣ እርምጃ + Shift + / ይጫኑ እና በቁልፍ ሰሌዳ አቋራጮች ምናሌ ውስጥ «የአሰሳ ሁነታ»ን ይፈልጉ።</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">በቁምፊ፣ በቃል ወይም በአንቀጽ ያንብቡ</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">አንዳንድ ጊዜ አንድ ቁምፊ በአንድ ጊዜ ጽሑፍ ጮክ ተብሎ ሲነበብ ማዳመጥ ይፈልጉ ይሆናል።\n\nይህን ለማድረግ የንባብ መቆጣጠሪያዎች አሰሳን መጠቀም ይችላሉ። «ቁምፊዎች» የሚለውን እስኪሰሙ ድረስ እርምጃ + Shift + የቀኝ ወይም የግራ ቀስት ይጫኑ። በመቀጠል የዳሰሳ ትኩረቱን ወደ ኋላ በቁምፊ ለማንቀሳቀስ እርምጃ + የላይ ቀስት ይጫኑ። የዳሰሳ ትኩረቱን ወደፊት በቁምፊ ለማንቀሳቀስ እርምጃ + የታች ቀስት ወደታች ይጫኑ።\n\nአሁን ይሞክሩት። እንዲሁም እርምጃ + ቀያይር + የቀኝ ወይም የግራ ቀስት በመጠቀም በቃላት፣ በመስመሮች ወይም በአንቀጾች ለማንበብ መምረጥ ይችላሉ።</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">በመቆጣጠሪያዎች መካከል ይዝለሉ</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">መቆጣጠሪያዎች እንደ አዝራሮች፣ አመልካች ሳጥኖች እና የጽሑፍ ሳጥኖች ያሉ መስተጋብር መፍጠር የሚችሉባቸው ንጥሎች ናቸው።\n\nበአንዳንድ ገጾች ላይ እንደ ቀጣይ አዝራር ያለ አንድ እርምጃን በፍጥነት ለማግኘት በመቆጣጠሪያዎች መካከል መዝለል ሊፈልጉ ይችላሉ።\n\nይህን ለማድረግ «መቆጣጠሪያዎች» እስኪሰሙ ድረስ እርምጃ + Shift + የቀኝ ቀስት ይጫኑ። በመቀጠል ወደ ቀዳሚው አዝራር ለመሄድ እርምጃ + ወደላይ ቀስት እና ወደ ቀጣዩ አዝራር ለመሄድ እርምጃ + ወደታች ቀስት ይጫኑ።\n\nአሁን ይሞክሩት እና ቀጣዩን አዝራር ያግኙ።</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">በአገናኞች መካከል ይዝለሉ</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">እንዲሁም በአንድ ገጽ ላይ ባሉ አገናኞች መካከል መዝለል ይችላሉ።\n\nይህን ለማድረግ «አገናኞች» እስኪሰሙ ድረስ እርምጃ + ቀያይር + የቀኝ ቀስት ይጫኑ። ቀጥሎ «አገናኝ 5» የሚለውን አገናኝ ለማግኘት እርምጃ + ወደታች ቀስት የሚለውን ይጫኑ። በአጋዥ ሥልጠናው ውስጥ ሳሉ ይህን አገናኝ ሁለቴ መታ ማድረግ ምንም ነገር አያደርግም።\n\nቀጣዩን አዝራር ለማግኘት እና ወደ ቀጣዩ ገጽ ለመሄድ እርምጃ + ቀኝ ቀስት ይጫኑ።</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">በርዕሶች መካከል ይዝለሉ</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">እንዲሁም በአንድ ገጽ ላይ በሠንጠረዦች መካከል መዝለል ይችላሉ።\n\nአሁን እሱን ለመሞከር «ርዕሶች» እስከሚሰሙ ድረስ እርምጃ + ቀያይር + የቀኝ ቀስት ይጫኑ። በመቀጠል «ዳሰሳ» የሚለውን ርዕስ ለማግኘት እርምጃ + የታች ቀስት ይጫኑ።</string>
+  <string name="keyboard_tutorial_find_next_button">ቀጣዩን አዝራር ለማግኘት እርምጃ + ቀኝ ቀስትን ይጫኑ።</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">በመያዣዎች መካከል ይዝለሉ</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">እንደ ዝርዝር ወይም ፍርግርግ ካለ መያዣ ለመውጣት እርምጃ + Alt + Ctrl + የቀኝ ወይም የግራ ቀስት ይጫኑ። ከረጅም የንጥሎች ዝርዝር መውጣት በሚፈልጉበት ጊዜ ይህ ጠቃሚ ነው።\n\nአሁን እሱን ለመሞከር ዝርዝሩን ለማስገባት እርምጃ + የቀኝ ቀስት ይጫኑ። ከዚያ ወደ ቀጣዩ መያዣ ለመሄድ እርምጃ + Alt + Ctrl + የቀኝ ቀስት ይጫኑ።</string>
+  <string name="keyboard_tutorial_go_to_next_container">ወደ ቀጣዩ መያዣ ለመሄድ እርምጃ + Alt + Ctrl + የቀኝ ቀስት ይጫኑ</string>
+  <string name="keyboard_tutorial_exit_container">ከዚህ መያዣ ለመውጣት እርምጃ + Alt + Ctrl + የቀኝ ቀስት ይጫኑ</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">ከመያዣው ወጥተዋል። እንዲሁም ወደ የንባብ መቆጣጠሪያዎችዎ መያዣዎችን ማከል እና ከዚያም መያዣዎችን ለመምረጥ እርምጃ + Shift + የቀኝ ወይም የግራ ቀስት እና በመያዣዎች መካከል ለመዝለል እርምጃ + የታች ወይም የላይ ቀስት መጫን ይችላሉ። የንባብ መቆጣጠሪያዎችን ለማዘመን ወደ TalkBack &gt; ቅንብሮች &gt; ምናሌዎችን አብጅ &gt; የንባብ መቆጣጠሪያዎችን አብጅ ይሂዱ።\n\nቀጣዩን አዝራር ለማግኘት እርምጃ + የቀኝ ቀስት ይጫኑ።</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">የንባብ መቆጣጠሪያዎችን አብጅ</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">እንዲሁም የንባብ መቆጣጠሪያዎችን በመጠቀም የንግግር ቅንብሮችን ማስተካከል እና በTalkBack &gt; ቅንብሮች &gt; ምናሌዎችን አብጅ &gt; የንባብ መቆጣጠሪያዎችን አብጅ ውስጥ በንባብ መቆጣጠሪያዎች ምን ማድረግ እንደሚችሉ ማበጀት ይችላሉ።</string>
+  <string name="keyboard_tutorial_image_description_page_title">የምስል መግለጫዎችን ለማግኘት ይሞክሩ</string>
+  <string name="keyboard_tutorial_image_description_page_text">በምስል ላይ ሲያተኩሩ፣ እርምጃ + R፣ ከዚያ I ይጫኑ። ከታች አንድ ፎቶ አለ። ለእሱ መግለጫ ለማግኘት ይሞክሩ።</string>
+  <string name="keyboard_tutorial_image_description_settings_description">በማንኛውም ጊዜ TalkBack ቅንብሮች &gt; የምስል እና የአዶ መግለጫዎች ውሰጥ የምስል መግለጫ ቅንብሮችን መለወጥ ይችላሉ።</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">በማንኛውም ጊዜ TalkBack ቅንብሮች ከዚያም የምስል እና የአዶ መግለጫዎች ውስጥ የምስል መግለጫ ቅንብሮችን መለወጥ ይችላሉ።</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">የናሙና ምስል። መግለጫ ለመስማት እርምጃ + R፣ ከዚያ I ይጫኑ።</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">የድምፅ ትዕዛዞች</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBackን በፍጥነት ለመቆጣጠር ድምፅዎን መጠቀም ይችላሉ።\n\nለምሳሌ፣ አሰሳን ለመለወጥ፣ ወደ ቀጣዩ ርዕስ ለመዝለል፣ ጽሑፍ ለመቅዳት እና ሌሎችንም ለማድረግ ትዕዛዝ ይናገሩ።\n\nአሁን ለመሞከር እርምጃ + \\የሚለውን ይጫኑ።</string>
+  <string name="keyboard_tutorial_screen_search_page_title">የማያ ገጽ ፍለጋ ፍለጋን መጠቀም</string>
+  <string name="keyboard_tutorial_screen_search_page_text">የማያ ገጽ ፍለጋ ባህሪው በማያ ገፅ ላይ የተወሰነ ይዘት እንዲፈልጉ ይፈቅድልዎታል።\n\nእሱን ለመሞከር፣ እርምጃ + CTRL + / ይጫኑ። በማያ ገፁ ላይ ጽሑፍ ያላቸውን ንጥሎች ለማግኘት እንደ «ቀጣይ» ያለ ቁልፍ ቃል ይተይቡ።\n\nቀጣዩን አዝራር ለማግኘት «ቀጣይ» የሚለውን መፈለግ አሁን ይሞክሩ።</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">በማያ ገጽ ፍለጋ ያስሱ</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">ውጤት ከመረጡ በኋላ ከማያ ገጽ ፍለጋ በተለያዩ የፍለጋ ውጤቶች መካከል በፍጥነት መንቀሳቀስ ይችላሉ።\n\nይህን ለማድረግ የንባብ መቆጣጠሪያዎች አሰሳን መጠቀም ይችላሉ። «የማያ ገጽ ፍለጋ» የሚለውን እስከሚሰሙ ድረስ እርምጃ + Shift + የቀኝ ወይም የግራ ቀስትን ይጫኑ። በመቀጠል፣ በማያ ገጽ ፍለጋ ውጤቶች ለማሰስ እርምጃ + የታች ወይም የላይ ቀስትን ይጫኑ።\n\nአሁን እንሞክረው። ሁሉም «እርምጃ» የሚለውን ጽሑፍ የያዙ 3 አዝራሮች ዝርዝር ከታች ይገኛል። የማያ ገጽ ፍለጋን በመጠቀም «እርምጃ»ን ይፈልጉ፣ ከዚያም በእነሱ መካከል ለመንቀሳቀስ በማያ ገጽ ፍለጋ ያስሱ።</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">የቁልፍ ሰሌዳ አቋራጮችን ይለማመዱ</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">የሚያደርገውን ለመስማት የአካላዊ ቁልፍ ሰሌዳ ቁልፍ ወይም የቁልፍ ጥምር ይጫኑ። ለመውጣት Ctrl + W ወይም ዝለልን ይጫኑ።</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;የካሊፎርኒያ ሬድዉድስን ግርማ ያግኙ&lt;/h1&gt;
+      &lt;p&gt;በዋነኛነት የባህር ዳርቻ ሬድዉድ (ሴኩያ ሴምፐርቭሬንስ) የሆኑት የካሊፎርኒያ ሬድዉድስ የዓለም ረጅሞቹ ዛፎች ናቸው። አንዳንዶቹ ከ380 ጫማ (115 ሜትር) በላይ ቁመት አላቸው እና በሺዎች ለሚቆጠሩ ዓመታት መኖር ይችላሉ። ከዝናብ እና ከጭጋግ ተጠቃሚ በሚሆኑበት በሰሜን ካሊፎርኒያ እርጥበት አዘል የባህር ዳርቻ የአየር ንብረት ውስጥ ይበቅላሉ።&lt;/p&gt;
+
+      &lt;h2&gt;የት እንደሚመለከቷቸው&lt;/h2&gt;
+      &lt;p&gt;እነዚህን ግዙፎች ከፓስፊክ የባህር ዳርቻ አጠገብ በጠባብ ንጣፍ ውስጥ ያገኟቸዋል። ቁልፍ ፓርኮች የሚከተሉትን ያካትታሉ፦&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;ሬድዉድ ብሔራዊ እና የግዛት ፓርኮች&lt;/li&gt;
+        &lt;li&gt;ሀምቦልት ሬድዉድስ የግዛት ፓርክ&lt;/li&gt;
+        &lt;li&gt;ቢግ ባሲን ሬድዉድስ የግዛት ፓርክ&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;ጉብኝትዎን እዚህ ያቅዱ፦ &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;የአካባቢ ጥበቃን ይደግፉ&lt;/h2&gt;
+      &lt;p&gt;እነዚህን ጥንታዊ ደኖች መጠበቅ አንገብጋቢ ጉዳይ ነው። የፓርክ መመሪያዎችን በመከተል እና የአካባቢ ጥበቃ ጥረቶችን በመደገፍ ማገዝ ይችላሉ።&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;ተሞክሮዎን ያጋሩ&lt;/h2&gt;
+        &lt;p&gt;ወደ ሬድዉድስ ሄደው ያውቃሉ?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;አዎ&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;አይ&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;ስለ ተሞክሮዎ ይንገሩን&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;አስገባ&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;ስለ ሬድዉድስ ሌላ ምን ማወቅ ይፈልጋሉ?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;አስገባ&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;ሬድዉድስ ዛፎች፦ አካባቢያችንን ጤናማ አድርጎ ማቆየት&lt;/h1&gt;
+    &lt;p&gt;ሬድዉዶች አካባቢያችንን ጤናማ አድርጎ በማቆየት ላይ ትልቅ ሚና በመጫወት ለፕላኔታችን አስፈላጊ ናቸው።&lt;/p&gt;
+
+    &lt;h1&gt;ግዙፍ የአየር ማጽጃዎች&lt;/h1&gt;
+    &lt;p&gt;እነዚህ ዛፎች ከአየር ላይ ካርቦን ዳይኦክሳይድን በመምጠጥ ላይ አስደናቂ ናቸው። ሬድዉድስ በጣም ብዙውን በማስገባት አየራችንን ንፁህ አድርጎ ለማቆየት ያግዛሉ።&lt;/p&gt;
+
+    &lt;h2&gt;የእንስሳት መኖሪያ&lt;/h2&gt;
+    &lt;p&gt;ሬድዉድስ በቅርንጫፎቻቸው ውስጥ ካሉ ወፎች እስከ በአፈር ውስጥ ላሉ ትናንሽ ፍጥረታት ድረስ ለብዙ እንስሳት ቤቶችን እና መጠለያዎችን ይሰጣሉ።&lt;/p&gt;
+
+    &lt;h3&gt;የውሃ አዋቂዎች&lt;/h3&gt;
+    &lt;p&gt;ጭጋግን በመያዝ በጣም ጥሩ ናቸው፣ ይህም ወደ የደን ወለል ይንጠባጠባል። ይህ መሬቱን እርጥበት አዘል ሆኖ እንዲቆይ ያደርጋል እና ለሌሎች እፅዋት እና እንስሳት በተለይም ደረቅ በሚሆንበት ጊዜ ውሃ ያቀርባል።&lt;/p&gt;
+
+    &lt;h4&gt;የአፈር ጠባቂዎች&lt;/h4&gt;
+    &lt;p&gt;ጠንካራ ሥሮቻቸው አፈሩን በቦታው በመያዝ በከባድ ዝናብ ጊዜ ተጠርገው ከመሄድ ያስቆማሉ እና የአፈር መሸርሸርን ይከላከላሉ።&lt;/p&gt;
+
+    &lt;h5&gt;የደን ገንቢዎች&lt;/h5&gt;
+    &lt;p&gt;የድሮ ሬድዉድስ ሲወድቁ እንጨታቸው ለአዳዲስ እፅዋት እና ፍጥረታት ለአዲስ እድገት የሚሆን የበለፀገ አፈር በመፍጠር ምግብ እና መጠለያ ይሆናል።&lt;/p&gt;
+
+    &lt;h6&gt;ልዩ ሥነ ምህዳሮች&lt;/h6&gt;
+    &lt;p&gt;ሬድዉድስ በጣም ትልቅ እና ለረጅም ጊዜ ስለሚኖሩ በሌላ ቦታ የማይገኝ ሕይወትን የሚደግፉ ልዩ የደን አካባቢዎችን ይፈጥራሉ።&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;የሬድዉድ ደኖች እንስሳት&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;እንስሳ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;መግለጫ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;የሚኖሩበት ቦታ&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;አስደሳች እውነታ&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ሙዝ መሳይ ስላግ&lt;/th&gt;
+            &lt;td&gt;ትልቅ፣ ቢጫ፣ ቀጭን ስላግ&lt;/td&gt;
+            &lt;td&gt;በደን ወለል ላይ&lt;/td&gt;
+            &lt;td&gt;በዓለም ላይ ሁለተኛው ትልቁ ስላግ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;የፓሲፊክ ግዙፍ ሳላማንደር&lt;/th&gt;
+            &lt;td&gt;ትልቅ፣ ጥቁር ቀለም ያለው ሳላማንደር&lt;/td&gt;
+            &lt;td&gt;ከጅረቶች እና እርጥበት አዘል ቦታዎች አጠገብ&lt;/td&gt;
+            &lt;td&gt;እስከ አንድ ጫማ ርዝመት ማደግ ይችላል&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ሩዝቬልት ኤልክ&lt;/th&gt;
+            &lt;td&gt;አስደናቂ ቀንዶች ያሉት ትልቅ አጋዘን&lt;/td&gt;
+            &lt;td&gt;በደን ውስጥ ባሉ ክፍት ቦታዎች ላይ ለግጦሽ ይሰማራል&lt;/td&gt;
+            &lt;td&gt;ወንዶች ከ1,000 ፓውንዶች በላይ ሊመዝኑ ይችላሉ&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ሰሜናዊ ባለነጠብጣብ ጉጉት&lt;/th&gt;
+            &lt;td&gt;በምሽት የሚያድን መካከለኛ መጠን ያለው ጉጉት&lt;/td&gt;
+            &lt;td&gt;ጥቅጥቅ ባሉ፣ በአንጋፋ የሬድዉድ ደኖች ውስጥ&lt;/td&gt;
+            &lt;td&gt;«አመልካች ዝርያ» – ጤንነቱ የደን ጤንነትን ያሳያል&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;ጥቁር ድብ&lt;/th&gt;
+            &lt;td&gt;በተለምዶ ጥቁር ወይም ቡናማ የሆነ ትልቅ አጥቢ እንስሳ&lt;/td&gt;
+            &lt;td&gt;በመላው ጫካ ውስጥ ምግብ እየተዘዋወረ ይፈልጋል&lt;/td&gt;
+            &lt;td&gt;አቀበት በመውጣት የተካኑ፣ ብዙውን ጊዜ በዛፎች ላይ ይታያሉ&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;ስለ ሬድዉድስ እና ተፈጥሮ ያሉዎት ሐሳቦች&lt;/h1&gt;
+
+      &lt;p&gt;ስለ ሬድዉድስ ሌላ ምን ማወቅ ይፈልጋሉ?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;በተፈጥሮ ውስጥ ለመጎብኘት የሚወዱት ቦታ የት ነው?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;የበለጠ ማወቅ የሚፈልጉት በተፈጥሮ ውስጥ ያለ አንድ ጽንሰ-ሐሳብ ምንድን ነው?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

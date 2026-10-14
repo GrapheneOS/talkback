@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/tutorial_chooser_dialog_padding"
+    tools:context=".trainingcommon.TutorialChooserActivity">
+
+    <TextView
+        android:id="@+id/choose_tutorial_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_tutorial_title"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:layout_marginBottom="@dimen/tutorial_chooser_dialog_title_margin_bottom"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/touch_tutorial_button"
+        style="@style/TutorialChooserButton"
+        android:text="@string/touch_tutorial_button"
+        app:icon="@drawable/gs_touch_app_vd_theme_24" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/keyboard_tutorial_button"
+        style="@style/TutorialChooserButton"
+        android:text="@string/keyboard_tutorial_button"
+        app:icon="@drawable/gs_keyboard_vd_theme_24" />
+
+</LinearLayout>

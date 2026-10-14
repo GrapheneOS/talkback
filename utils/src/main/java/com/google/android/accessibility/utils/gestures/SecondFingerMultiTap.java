@@ -16,13 +16,15 @@
 
 package com.google.android.accessibility.utils.gestures;
 
+import static android.util.Log.ERROR;
+import static android.util.Log.VERBOSE;
 import static android.view.MotionEvent.INVALID_POINTER_ID;
 
 import android.content.Context;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
-import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.android.accessibility.utils.Performance.EventId;
 
 /**
  * This class matches second-finger multi-tap gestures. A second-finger multi-tap gesture is where
@@ -43,8 +45,12 @@ class SecondFingerMultiTap extends GestureMatcher {
   long lastUpTime;
 
   SecondFingerMultiTap(
-      Context context, int taps, int gesture, GestureMatcher.StateChangeListener listener) {
-    super(gesture, new Handler(context.getMainLooper()), listener);
+      Context context,
+      int taps,
+      int gesture,
+      GestureMatcher.StateChangeListener listener,
+      GestureMatcher.AnalyticsEventLogger logger) {
+    super(gesture, new Handler(context.getMainLooper()), listener, logger);
     targetTaps = taps;
     doubleTapSlop = ViewConfiguration.get(context).getScaledDoubleTapSlop();
 
@@ -66,7 +72,7 @@ class SecondFingerMultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onPointerDown(MotionEvent event) {
+  protected void onPointerDown(EventId eventId, MotionEvent event) {
     if (event.getPointerCount() > 2) {
       cancelGesture(event);
       return;
@@ -93,7 +99,7 @@ class SecondFingerMultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onPointerUp(MotionEvent event) {
+  protected void onPointerUp(EventId eventId, MotionEvent event) {
     if (event.getPointerCount() > 2) {
       cancelGesture(event);
       return;
@@ -112,7 +118,7 @@ class SecondFingerMultiTap extends GestureMatcher {
       currentTaps++;
       if (currentTaps == targetTaps) {
         // Done.
-        completeGesture(event);
+        completeGesture(eventId, event);
         return;
       }
     } else {
@@ -122,45 +128,41 @@ class SecondFingerMultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onMove(MotionEvent event) {
+  protected void onMove(EventId eventId, MotionEvent event) {
     switch (event.getPointerCount()) {
-      case 1:
+      case 1 -> {
         // We don't need to track anything about one-finger movements.
-        break;
-      case 2:
+      }
+      case 2 -> {
         if (!isSecondFingerInsideSlop(event, touchSlop)) {
           cancelGesture(event);
         }
-        break;
-      default:
-        // More than two fingers means we stop tracking.
-        cancelGesture(event);
-        break;
+      }
+      default ->
+          // More than two fingers means we stop tracking.
+          cancelGesture(event);
     }
   }
 
   @Override
-  protected void onUp(MotionEvent event) {
+  protected void onUp(EventId eventId, MotionEvent event) {
     // Cancel early when possible, or it will take precedence over two-finger double tap.
     cancelGesture(event);
   }
 
   @Override
   public String getGestureName() {
-    switch (targetTaps) {
-      case 2:
-        return "Second Finger Double Tap";
-      case 3:
-        return "Second Finger Triple Tap";
-      default:
-        return "Second Finger " + Integer.toString(targetTaps) + " Taps";
-    }
+    return switch (targetTaps) {
+      case 2 -> "Second Finger Double Tap";
+      case 3 -> "Second Finger Triple Tap";
+      default -> "Second Finger " + Integer.toString(targetTaps) + " Taps";
+    };
   }
 
   private boolean isSecondFingerInsideSlop(MotionEvent event, int slop) {
     int pointerIndex = event.findPointerIndex(secondFingerPointerId);
     if (pointerIndex == -1) {
-      LogUtils.e(getGestureName(), "Unable to find pointer.");
+      gestureMotionEventLog(ERROR, "Unable to find pointer.");
       return false;
     }
     final float deltaX = baseX - event.getX(pointerIndex);
@@ -169,7 +171,7 @@ class SecondFingerMultiTap extends GestureMatcher {
       return true;
     }
     final double moveDelta = Math.hypot(deltaX, deltaY);
-    LogUtils.v(getGestureName(), "moveDelta: %g", moveDelta);
+    gestureMotionEventLog(VERBOSE, "moveDelta: %g", moveDelta);
     return moveDelta <= slop;
   }
 

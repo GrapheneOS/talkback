@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.compositor.rule;
 import static androidx.core.view.accessibility.AccessibilityWindowInfoCompat.TYPE_INPUT_METHOD;
 import static androidx.core.view.accessibility.AccessibilityWindowInfoCompat.TYPE_SYSTEM;
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_TYPE_VIEW_ACCESSIBILITY_FOCUSED;
+import static com.google.android.accessibility.talkback.compositor.CompositorConfigs.shouldEarlyAnnounceForLiftToType;
 import static com.google.android.accessibility.talkback.compositor.CompositorUtils.PRUNE_EMPTY;
 import static com.google.android.accessibility.talkback.compositor.TalkBackFeedbackProvider.EMPTY_FEEDBACK;
 import static com.google.android.accessibility.utils.AccessibilityNodeInfoUtils.WINDOW_TYPE_PICTURE_IN_PICTURE;
@@ -26,24 +27,30 @@ import static com.google.android.accessibility.utils.output.SpeechController.QUE
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityWindowInfo;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.AccessibilityEventFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.AccessibilityFocusEventInterpretation;
 import com.google.android.accessibility.talkback.compositor.AccessibilityInterpretationFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.AccessibilityNodeFeedbackUtils;
+import com.google.android.accessibility.talkback.compositor.Compositor;
 import com.google.android.accessibility.talkback.compositor.Compositor.HandleEventOptions;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.EventFeedback;
+import com.google.android.accessibility.talkback.compositor.EventInterpretation;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
-import com.google.android.accessibility.talkback.compositor.TalkBackFeedbackProvider;
 import com.google.android.accessibility.talkback.compositor.roledescription.TreeNodesDescription;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
+import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ImageContents;
+import com.google.android.accessibility.utils.Filter;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Role;
+import com.google.android.accessibility.utils.SpannableUtils;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
@@ -61,6 +68,8 @@ import java.util.function.Function;
 public final class EventTypeViewAccessibilityFocusedFeedbackRule {
 
   private static final String TAG = "EventTypeViewAccessibilityFocusedFeedbackRule";
+
+  @VisibleForTesting public static CharSequence currentContainerTitle = "";
 
   /**
    * Adds the feedback rules to the provided event feedback rules map, {@code eventFeedbackRules}.
@@ -111,16 +120,21 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
     boolean isInitialFocus =
         accessibilityFocusEventInterpretation.getIsInitialFocusAfterScreenStateChange();
     boolean isEventNavigateByUser = accessibilityFocusEventInterpretation.getIsNavigateByUser();
+    boolean isDeviceScreenNoTouch = globalVariables.isDeviceScreenNoTouch();
+    // TYPE_VIEW_HOVER_ENTER handled the feedback in this case.
     CharSequence ttsOutput =
-        viewAccessibilityFocusedDescription(
-            eventOptions.eventObject,
-            srcNode,
-            isEventNavigateByUser,
-            context,
-            imageContents,
-            globalVariables,
-            processorPhoneticLetters,
-            treeNodesDescription);
+        shouldEarlyAnnounceForLiftToType(context)
+                && isEqualsToLastHoverEnterKeyboardEventNode(eventOptions.eventInterpretation)
+            ? ""
+            : viewAccessibilityFocusedDescription(
+                eventOptions.eventObject,
+                srcNode,
+                isEventNavigateByUser,
+                context,
+                imageContents,
+                globalVariables,
+                processorPhoneticLetters,
+                treeNodesDescription);
 
     LogUtils.v(
         TAG,
@@ -130,11 +144,12 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
             .append(String.format(", ttsOutput={%s}", ttsOutput))
             .append(String.format(", isInitialFocus=%s", isInitialFocus))
             .append(String.format(", isEventNavigateByUser=%s", isEventNavigateByUser))
+            .append(String.format(", isDeviceScreenNoTouch=%s", isDeviceScreenNoTouch))
             .toString());
 
     return EventFeedback.builder()
         .setTtsOutput(Optional.of(ttsOutput))
-        .setQueueMode(queueMode(isInitialFocus))
+        .setQueueMode(queueMode(isInitialFocus, isDeviceScreenNoTouch))
         .setTtsAddToHistory(true)
         .setAdvanceContinuousReading(true)
         .setForceFeedbackEvenIfAudioPlaybackActive(
@@ -147,6 +162,8 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
         .setPreventDeviceSleep(true)
         .setEarcon(earcon(srcNode, globalVariables))
         .setHaptic(haptic(srcNode))
+        .setInlineFormatting(
+            supportInlineFormatting(srcNode, accessibilityFocusEventInterpretation))
         .build();
   }
 
@@ -157,7 +174,7 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
    *   The feedback text is composed of below elements:
    *   <li>1. Unlabelled description or Node tree description or Event description,
    *   <li>2. Collection item transition or Node role/heading description,
-   *   <li>3. Collection transition,
+   *   <li>3. Collection transition, or Container transition,
    *   <li>4. Window transition,
    * </ul>
    */
@@ -170,6 +187,22 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
       GlobalVariables globalVariables,
       ProcessorPhoneticLetters processorPhoneticLetters,
       TreeNodesDescription treeNodesDescription) {
+
+    // Modifying announcement order for TV. AGUA requirement b/334050530
+    // AXR shares the same order as ATV
+    if (FormFactorUtils.isAndroidTv() || FormFactorUtils.isAndroidXr()) {
+      return EventTypeViewAccessibilityFocusedFeedbackRuleForTV
+          .viewAccessibilityFocusedDescriptionForTv(
+              event,
+              node,
+              isEventNavigateByUser,
+              context,
+              imageContents,
+              globalVariables,
+              processorPhoneticLetters,
+              treeNodesDescription);
+    }
+
     StringBuilder logString = new StringBuilder();
     List<CharSequence> outputJoinList = new ArrayList<>();
     Locale preferredLocale = globalVariables.getPreferredLocaleByNode(node);
@@ -213,7 +246,7 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
         .append(String.format("\n Verbosity speakCollectionInfo=%s", speakCollectionInfo))
         .append(String.format(", speakRoles=%s", speakRoles));
     CharSequence collectionItemTransition =
-        speakCollectionInfo ? globalVariables.getCollectionItemTransitionDescription() : "";
+        speakCollectionInfo ? globalVariables.getCollectionItemTransitionDescription(node) : "";
     if (!TextUtils.isEmpty(collectionItemTransition)) {
       outputJoinList.add(collectionItemTransition);
       logString.append(
@@ -236,11 +269,19 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
     }
 
     // Prepare collection transition state if the collection transition happened for feedback.
-    CharSequence collectionTransition =
-        speakCollectionInfo ? globalVariables.getCollectionTransitionDescription() : "";
-    if (!TextUtils.isEmpty(collectionTransition)) {
-      outputJoinList.add(collectionTransition);
-      logString.append(String.format("\n    collectionTransition={%s}", collectionTransition));
+    if (speakCollectionInfo) {
+      CharSequence collectionTransition = globalVariables.getCollectionTransitionDescription();
+      if (!TextUtils.isEmpty(collectionTransition)) {
+        outputJoinList.add(collectionTransition);
+        logString.append(String.format("\n    collectionTransition={%s}", collectionTransition));
+      } else {
+        // Prepare container transition state for feedback.
+        CharSequence containerTransition = containerTransitionState(node, context);
+        if (!TextUtils.isEmpty(containerTransition)) {
+          outputJoinList.add(containerTransition);
+          logString.append(String.format("\n    containerTransition={%s}", containerTransition));
+        }
+      }
     }
 
     // Prepare window transition state if the window transition happened for feedback.
@@ -266,7 +307,7 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
    * the window which the accessibility focus is located. Even, if it is not navigation by user, the
    * title should be read in split screen mode.
    */
-  private static CharSequence windowTransitionState(
+  protected static CharSequence windowTransitionState(
       boolean isEventNavigateByUser,
       AccessibilityNodeInfoCompat node,
       Context context,
@@ -314,8 +355,28 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
     return windowTransitionState;
   }
 
-  private static int queueMode(boolean isInitialFocus) {
-    return isInitialFocus ? QUEUE_MODE_QUEUE : QUEUE_MODE_FLUSH_ALL;
+  /** Returns the container transition state text if the container transition happened. */
+  protected static CharSequence containerTransitionState(
+      AccessibilityNodeInfoCompat node, Context context) {
+    CharSequence lastContainerTitle = currentContainerTitle;
+    // Get container title from self or ancestor node.
+    AccessibilityNodeInfoCompat containerNode =
+        AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(
+            node, Filter.node((n) -> (n != null) && !TextUtils.isEmpty(n.getContainerTitle())));
+    currentContainerTitle = containerNode == null ? "" : containerNode.getContainerTitle();
+    if (TextUtils.equals(lastContainerTitle, currentContainerTitle)) {
+      return "";
+    }
+    if (!TextUtils.isEmpty(currentContainerTitle)) {
+      return context.getString(R.string.in_collection_role_description, currentContainerTitle);
+    } else if (!TextUtils.isEmpty(lastContainerTitle)) {
+      return context.getString(R.string.out_of_role_description, lastContainerTitle);
+    }
+    return "";
+  }
+
+  private static int queueMode(boolean isInitialFocus, boolean isDeviceScreenNoTouch) {
+    return (isInitialFocus && !isDeviceScreenNoTouch) ? QUEUE_MODE_QUEUE : QUEUE_MODE_FLUSH_ALL;
   }
 
   private static boolean forceFeedbackEvenIfMicrophoneActive(
@@ -353,6 +414,30 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
     return AccessibilityNodeInfoUtils.isActionableForAccessibility(node)
         ? R.array.view_actionable_pattern
         : R.array.view_hovered_pattern;
+  }
+
+  private static boolean isEqualsToLastHoverEnterKeyboardEventNode(
+      EventInterpretation eventInterpretation) {
+    return eventInterpretation != null
+        && eventInterpretation.getAccessibilityFocusInterpretation() != null
+        && eventInterpretation
+            .getAccessibilityFocusInterpretation()
+            .isEqualsToLastHoverEnterKeyboardEventNode();
+  }
+
+  private static boolean supportInlineFormatting(
+      AccessibilityNodeInfoCompat node,
+      AccessibilityFocusEventInterpretation accessibilityFocusEventInterpretation) {
+    // TODO : fine tune the logic for web nodes. Some web nodes lack of FocusActionInfo
+    // so we workaround this to check EVENT_UNKNOWN. Besides, some web nodes having special roles
+    // lack of formattings so we need to skip them.
+    boolean assumeIsNavigateByUser =
+        accessibilityFocusEventInterpretation.getIsNavigateByUser()
+            || (accessibilityFocusEventInterpretation.getEvent() == Compositor.EVENT_UNKNOWN
+                && WebInterfaceUtils.isWebContainer(node));
+    return assumeIsNavigateByUser
+        && (!WebInterfaceUtils.isWebContainer(node)
+            || SpannableUtils.hasTargetSpan(node.getText(), AbsoluteSizeSpan.class, false));
   }
 
   private EventTypeViewAccessibilityFocusedFeedbackRule() {}

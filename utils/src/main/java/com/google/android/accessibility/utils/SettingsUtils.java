@@ -28,6 +28,24 @@ public class SettingsUtils {
   /** Value of hidden constant {@code android.provider.Settings.Secure.USER_SETUP_COMPLETE} */
   public static final String USER_SETUP_COMPLETE = "user_setup_complete";
 
+  /**
+   * Value of hidden constant {@code
+   * android.provider.Settings.Global.ACCESSIBILITY_VIBRATION_WATCH_ENABLED}
+   */
+  public static final String VIBRATION_WATCH_ENABLED = "a11y_vibration_watch_enabled";
+
+  /** Tethered Configuration state. */
+  public static final String TETHER_CONFIG_STATE = "tethered_config_state";
+
+  /** Tethered configuration state is unknown. */
+  public static final int TETHERED_CONFIG_UNKNOWN = 0;
+
+  /** Device is set in tethered mode. */
+  public static final int TETHERED_CONFIG_TETHERED = 2;
+
+  /** Do-not-disturb, DND, state. */
+  private static final String ZEN_MODE = "zen_mode";
+
   public static boolean allowLinksOutOfSettings(Context context) {
     // Do not allow access to web during setup. REFERTO affects android M-O.
     return 1 == Settings.Secure.getInt(context.getContentResolver(), USER_SETUP_COMPLETE, 0);
@@ -76,6 +94,40 @@ public class SettingsUtils {
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     context.startActivity(intent);
     return false;
+  }
+
+  /** Works only when the caller is a system app. */
+  public static boolean isVibrationWatchEnabled(Context context) {
+    return Settings.Global.getInt(context.getContentResolver(), VIBRATION_WATCH_ENABLED, 0) != 0;
+  }
+
+  /** Returns whether the device is in standalone or restricted connectivity mode */
+  public static boolean isStandaloneOrRestricted(Context context) {
+    return !isConfigFullyTethered(getTetherConfiguration(context));
+  }
+
+  /** Returns whether the config is fully tethered or not. */
+  public static boolean isConfigFullyTethered(int config) {
+    return config == TETHERED_CONFIG_TETHERED || config == TETHERED_CONFIG_UNKNOWN;
+  }
+
+  /** Gets current tether configuration value. */
+  public static int getTetherConfiguration(Context context) {
+    return Settings.Global.getInt(
+        context.getContentResolver(), TETHER_CONFIG_STATE, TETHERED_CONFIG_UNKNOWN);
+  }
+
+  /** Returns device do-not-disturb, DND, state. */
+  public static int getDoNotDisturbState(Context context) {
+    return Settings.Global.getInt(context.getContentResolver(), ZEN_MODE, 0);
+  }
+
+  /**
+   * Returns whether touch exploration is enabled. This is more reliable than {@code
+   * AccessibilityManager.isTouchExplorationEnabled()} because it updates atomically.
+   */
+  public static boolean isTouchExplorationEnabled(ContentResolver resolver) {
+    return Settings.Secure.getInt(resolver, Settings.Secure.TOUCH_EXPLORATION_ENABLED, 0) == 1;
   }
 
   /** Returns value of constants in Settings.Global. */

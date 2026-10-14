@@ -16,9 +16,9 @@
 package com.google.android.accessibility.utils.preference;
 
 import android.graphics.drawable.Drawable;
-import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import android.view.MenuItem;
 import com.google.android.accessibility.utils.FeatureSupport;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -27,6 +27,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * code (for open-source) to inherit from AppCompatActivity.
  */
 public abstract class BasePreferencesActivity extends AppCompatActivity {
+
+  // This variable are used as arguments of Intent to identify the fragment which should be created.
+  public static final String FRAGMENT_NAME = "FragmentName";
+  public static final String FRAGMENT_ARGS = "FragmentArgs";
+
   private static final int DEFAULT_CONTAINER_ID = android.R.id.content;
 
   /**
@@ -35,13 +40,13 @@ public abstract class BasePreferencesActivity extends AppCompatActivity {
    */
   @Override
   public void onBackPressed() {
-    super.onBackPressed();
-
     // Closes the activity if there is no fragment inside the stack. Otherwise the activity will has
     // a blank screen since there is no any fragment. onBackPressed() in Activity.java only handles
     // popBackStackImmediate(). This will close activity to avoid a blank screen.
     if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
       finishAfterTransition();
+    } else {
+      super.onBackPressed();
     }
   }
 
@@ -82,7 +87,8 @@ public abstract class BasePreferencesActivity extends AppCompatActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == android.R.id.home) {
-        onBackPressed();
+      onBackPressed();
+      return true;
     }
     return super.onOptionsItemSelected(item);
   }
@@ -96,8 +102,8 @@ public abstract class BasePreferencesActivity extends AppCompatActivity {
     return DEFAULT_CONTAINER_ID;
   }
 
-  /** Returns {@code true} if the root fragment should be added to the fragment back stack. */
-  protected boolean addRootFragmentToBackStack() {
-    return !FeatureSupport.isTv(getApplicationContext());
+  /** Return {@code true} if the ancestor already handles fragment transaction. */
+  protected boolean isDefaultFragmentTransactionHandled() {
+    return false;
   }
 }

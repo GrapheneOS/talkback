@@ -39,9 +39,9 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityRecordCompat;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.talkback.RingerModeAndScreenMonitor;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.VoiceActionMonitor;
+import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMonitor;
 import com.google.android.accessibility.utils.AccessibilityEventListener;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
@@ -58,14 +58,15 @@ import com.google.android.accessibility.utils.monitor.DisplayMonitor.DisplayStat
 import com.google.android.accessibility.utils.output.Utterance;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.checkerframework.checker.initialization.qual.UnderInitialization;
 
 /** Runs a collection of AccessibilityEventListeners on each event. */
 public class AccessibilityEventProcessor implements DisplayStateChangedListener {
   private static final String TAG = "A11yEventProcessor";
-  private static final String DUMP_EVENT_LOG_FORMAT = "A11yEventDumper: %s";
+  private static final String DUMP_EVENT_LOG_FORMAT = "A11yEventDumper: %s, source=%s";
   private TalkBackListener testingListener;
 
   /** Event types to drop after receiving a window state change. */
@@ -149,7 +150,8 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
    * List of passive event processors. All processors in the list are sent the event in the order
    * they were added.
    */
-  private final List<AccessibilityEventListener> accessibilityEventListeners = new ArrayList<>();
+  private final List<AccessibilityEventListener> accessibilityEventListeners =
+      new CopyOnWriteArrayList<>();
 
   private long lastWindowStateChanged;
   private AccessibilityEvent lastFocusedEvent;
@@ -234,7 +236,8 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
     }
 
     if ((dumpEventMask & event.getEventType()) != 0) {
-      LogUtils.v(TAG, DUMP_EVENT_LOG_FORMAT, event);
+      final AccessibilityNodeInfo node = event.getSource();
+      LogUtils.v(TAG, DUMP_EVENT_LOG_FORMAT, event, node == null ? "null" : node.hashCode());
     }
 
     if (shouldDropRefocusEvent(event)) {
@@ -406,7 +409,7 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
     // On TV, we want to ignore such events. Since the Accessibility API does not correctly report
     // the window focus, we have to work around that. One of the rare cases where we have multiple
     // windows open, is when the picture-in-picture mode is active.
-    if (FormFactorUtils.getInstance().isAndroidTv()
+    if (FormFactorUtils.isAndroidTv()
         && event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED
         && isPipFocused()
         && event.getSource() != null
@@ -504,7 +507,7 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
    * <p>A selected event should be kept if: - The most recent focused event occurred over {@link
    * #DELAY_SELECTED_AFTER_FOCUS} ms ago. - The most recent focused event occurred on a different
    * branch of the accessibility node tree, i.e., not in an ancestor or descendant of the selected
-   * event.
+   * event. - The most recent focused event occurred on a collection (list or grid).
    *
    * @param event The view-selected event to consider retaining.
    * @return Whether to retain the event.
@@ -525,8 +528,10 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
           AccessibilityNodeInfoUtils.toCompat(selectedSource);
       AccessibilityNodeInfoCompat focusedSourceCompat =
           AccessibilityNodeInfoUtils.toCompat(focusedSource);
-
-      if (AccessibilityNodeInfoUtils.areInSameBranch(selectedSourceCompat, focusedSourceCompat)) {
+      int focusedRole = Role.getRole(focusedSourceCompat);
+      if ((focusedRole != Role.ROLE_LIST && focusedRole != Role.ROLE_GRID)
+          && AccessibilityNodeInfoUtils.areInSameBranch(
+              selectedSourceCompat, focusedSourceCompat)) {
         return false;
       }
     }
@@ -557,7 +562,9 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
     // Log the listeners for this event type.
     if (LogUtils.getLogLevel() <= Log.VERBOSE) {
       StringBuilder handlerNames = new StringBuilder();
-      for (AccessibilityEventListener eventListener : accessibilityEventListeners) {
+      Iterator<AccessibilityEventListener> iterator = accessibilityEventListeners.iterator();
+      while (iterator.hasNext()) {
+        AccessibilityEventListener eventListener = iterator.next();
         int eventTypesHandled = eventListener.getEventTypes();
         if (AccessibilityEventUtils.eventMatchesAnyType(event, eventTypesHandled)) {
           handlerNames.append((handlerNames.length() == 0) ? "" : ","); // Delimiter
@@ -568,7 +575,9 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
     }
 
     // Send events to the only those processors which handle them.
-    for (AccessibilityEventListener eventProcessor : accessibilityEventListeners) {
+    Iterator<AccessibilityEventListener> iterator = accessibilityEventListeners.iterator();
+    while (iterator.hasNext()) {
+      AccessibilityEventListener eventProcessor = iterator.next();
       int eventTypesHandled = eventProcessor.getEventTypes();
       if (AccessibilityEventUtils.eventMatchesAnyType(event, eventTypesHandled)) {
         eventProcessor.onAccessibilityEvent(event, eventId);
@@ -627,7 +636,7 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
     @Override
     public void handleMessage(Message message, AccessibilityEventProcessor parent) {
       switch (message.what) {
-        case MESSAGE_WHAT_PROCESS_EVENT:
+        case MESSAGE_WHAT_PROCESS_EVENT -> {
           if (message.obj == null) {
             return;
           }
@@ -635,14 +644,13 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
           EventIdAnd<AccessibilityEvent> eventAndId = (EventIdAnd<AccessibilityEvent>) message.obj;
           AccessibilityEvent event = eventAndId.object;
           parent.processEvent(event, eventAndId.eventId);
-          break;
-
-        case MESSAGE_WHAT_PROCESSOR_IDLE:
+        }
+        case MESSAGE_WHAT_PROCESSOR_IDLE -> {
           if (accessibilityEventIdleListener != null) {
             LogUtils.d(TAG, "Processor idle state.");
             accessibilityEventIdleListener.onIdle();
           }
-          break;
+        }
       }
     }
 

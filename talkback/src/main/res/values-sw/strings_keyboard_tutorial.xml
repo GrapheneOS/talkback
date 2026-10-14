@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Mafunzo haya yanahusu ramani ya vitufe iliyoboreshwa, inayojumuisha amri nyingi mpya. Ili uchague ramani ya vitufe, nenda kwenye mipangilio ya TalkBack &gt; Mipangilio ya kina &gt; Mikato ya kibodi.\n\nBonyeza kitufe cha Action pamoja na Kishale cha kulia ili uchague mada. Ili upate hali bora ya utumiaji, washa TalkBack kabla uanze.</string>
+  <string name="basic_interaction_link_text">Matumizi ya kawaida</string>
+  <string name="basic_interaction_link_subtext">Sogeza kati ya vipengee, soma kulingana na mistari, tumia menyu na zaidi</string>
+  <string name="browse_mode_link_text">Hali ya kuvinjari</string>
+  <string name="browse_mode_link_subtext">Vinjari maudhui ya wavuti kwa haraka zaidi ukitumia amri za kuruka</string>
+  <string name="reading_controls_link_text">Vidhibiti vya kusoma</string>
+  <string name="reading_controls_link_subtext">Tumia vidhibiti vya kusoma ili uruke kati ya vipengee, urekebishe mipangilio ya matamshi na zaidi</string>
+  <string name="image_descriptions_link_text">Maelezo ya picha</string>
+  <string name="image_descriptions_link_subtext">Jaribu kupata maelezo kuhusu picha</string>
+  <string name="keyboard_shortcuts_link_text">Mazoezi ya mikato ya kibodi</string>
+  <string name="keyboard_shortcuts_link_subtext">Bonyeza vitufe na michanganyiko ya vitufe na ufahamu vitendo vinavyotekeleza</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack hutoa maelezo yanayotamkwa ili uweze kutumia kifaa chako bila kuangalia skrini. TalkBack inaweza kuwasaidia watu walio na matatizo ya kuona skrini. Wakati umewasha TalkBack, kipengee unachoangazia kwenye skrini hutamkwa kwa sauti.\n\nKwanza, hebu tuifahamu kibodi yako. Tafuta kitufe cha Action, kilicho juu ya kitufe cha Shift cha kushoto. Sasa hebu tutafute vitufe vya vishale karibu na sehemu ya chini kulia kwenye kibodi. Bonyeza kitufe cha Action pamoja na Kishale cha kulia ili uende kwenye kipengee kinachofuata.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Hiki ndicho kipengee kinachofuata. Ili uende kwenye kipengee kilichotangulia, bonyeza kitufe cha Action pamoja na Kishale cha kushoto.\n\nUnaposogeza kwenye kipengee wasilianifu kama vile kitufe, bonyeza kitufe cha Action pamoja na kitufe cha Space ili ukiwashe. Tafuta kitufe cha kinachofuata kisha uendelee na mafunzo.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Kusoma kulingana na herufi, neno au aya</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Wakati mwingine, unaweza kutaka kusikia maandishi yakisomwa kwa sauti, herufi moja baada ya nyingine.\n\nIli ufanye hivyo, unaweza kutumia usogezaji wa vidhibiti vya kusoma. Bonyeza kitufe cha Action pamoja na Shift na Kishale cha kulia au cha kushoto hadi usikie \"herufi.\"\n\nKisha, bonyeza kitufe cha Action pamoja na Kishale cha juu ili usogeze nyuma ulengaji wa kipengee kwenye skrini kulingana na herufi. Bonyeza kitufe cha Action pamoja na Kishale cha chini ili usogeze mbele ulengaji wa kipengee kwenye skrini kulingana na herufi.\n\nJaribu hivyo sasa. Unaweza pia kuchagua kusoma kulingana na maneno, mistari au aya ukitumia kitufe cha Action pamoja na Shift na Kishale cha kulia au cha kushoto.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Usogezaji kwenye mfumo</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Kujaribu mikato hii ya kibodi sasa kutafunga mafunzo. Huenda ukahitaji kusubiri hadi utakapokamilisha mafunzo.\n\nIli uruke kati ya madirisha ya programu yaliyo wazi na vipengele vya mfumo kama vile arifa na Upauzana, bonyeza kitufe cha Action pamoja na Alt na Ctrl kisha Kishale cha juu au cha chini.\n\nIli ufungue orodha ya programu, bonyeza kitufe cha Action.\n\nIli uende kwenye Skrini ya kwanza na upunguze madirisha yote yaliyo wazi, bonyeza kitufe cha Action pamoja na H au Ukurasa wa kwanza katika safu mlalo ya juu.\n\nIli uende kwenye programu zako za hivi majuzi, bonyeza kitufe cha Action pamoja na Tab au Muhtasari katika safu mlalo ya juu.\n\nIli uruke haraka kati ya madirisha, bonyeza na ushikilie Alt kisha ubonyeze Tab.\n\nIli urudi nyuma, bonyeza kitufe cha Action pamoja na Esc au cha Nyuma katika safu mlalo ya juu.\n\nIli ufungue arifa, bonyeza kitufe cha Action pamoja na N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Kurekebisha mipangilio ya matamshi</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Kiwango cha sauti ya TalkBack kinajulikana kama kiwango cha sauti ya ufikivu. Hurekebishwa kando na sauti ya maudhui.\n\nIli urekebishe kiwango cha sauti ya ufikivu, bonyeza kitufe cha Action pamoja na Ongeza au Punguza sauti.\n\nIli urekebishe kasi ya kutamka, bonyeza kitufe cha Action pamoja na Ctrl na Ongeza sauti ili uongeze na kitufe cha Action pamoja na Ctrl na Punguza sauti ili upunguze.\n\nBonyeza Ctrl ili usimamishe matamshi wakati wowote.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menyu ya TalkBack na mikato zaidi ya kibodi</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Menyu ya TalkBack inajumuisha mipangilio na vidhibiti unavyoweza kuhitaji mara kwa mara.\n\nIli ufungue menyu ya TalkBack, bonyeza kitufe cha Action pamoja na Ctrl na M. Unaweza kuwekea mapendeleo menyu ya TalkBack na vidhibiti vyako vya kusoma baadaye katika mipangilio ya TalkBack.\n\nMenyu ya mikato ya kibodi ya TalkBack inajumuisha mikato yote ya kibodi unayoweza kutumia.\n\nIli ufungue menyu ya mikato ya kibodi, bonyeza kitufe cha Action pamoja na Shift na /.\n\nIli upate maelezo zaidi kuhusu kibodi na ufanyie mazoezi mikato ya kibodi, bonyeza kitufe cha Action pamoja na 0 ili ufungue skrini ya mazoezi.</string>
+  <string name="keyboard_tutorial_finished_page_title">Tayari!</string>
+  <string name="keyboard_tutorial_finished_page_text">Uko tayari kutumia TalkBack.\n\nEndelea kujifunza kuhusu mada nyingine sasa au usome maelezo haya katika mipangilio ya TalkBack wakati wowote.\n\nIli uwashe au uzime TalkBack wakati wowote, bonyeza kitufe cha Action pamoja na Alt na T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Pitia maudhui ya wavuti kwa haraka zaidi ukitumia hali ya kuvinjari</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Ukiwa kwenye kivinjari na programu za wavuti, unaweza kuwasha hali ya kuvinjari na kuruka kati ya aina tofauti za vidhibiti na mchakato wa usomaji kwa kubonyeza kitufe mara moja. Hufanya usogezaji kwenye ukurasa uwe sawa na usogezaji katika kisanduku cha kubadilisha maandishi, kama vile kishale cha kushoto na cha kulia kusogeza kulingana na herufi na kishale cha juu na cha chini kusogeza kulingana na mstari.\n\nIli uwashe au uzime hali ya kuvinjari, bonyeza mara mbili kitufe cha Action.\n\nUkiwasha hali ya kuvinjari, bonyeza D ili uruke kwenye alama muhimu inayofuata, F ili uruke kwenye kidhibiti au sehemu ya fomu inayofuata, B ili uruke kwenye kitufe kinachofuata, K ili uruke kwenye kiungo kinachofuata na H ili uruke kwenye kichwa kinachofuata. Bonyeza na ushikilie Shift kisha ubonyeze vitufe hivi ili usogeze nyuma.\n\nUnaweza pia kutumia Kishale cha juu na cha chini kuruka kulingana na mistari, kishale cha kushoto na cha kulia kuruka kulingana na herufi na Ctrl pamoja na Kishale cha kushoto na cha kulia kuruka kulingana na maneno.\n\nBonyeza kitufe cha Action pamoja na Kishale cha kulia ili uingie katika sehemu ya mazoezi. Ukiwa katika viungo vya sehemu ya mazoezi, sehemu za fomu na vitufe havitafanya chochote.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Viwango vya vichwa</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Mara nyingi tovuti na programu za wavuti hutumia vichwa vyenye viwango tofauti kupanga maudhui. Ukiwasha hali ya kuvinjari, bonyeza 1 hadi 6 ili uruke kwenye viwango vya vichwa. Bonyeza na ushikilie Shift kisha ubonyeze vitufe hivi ili usogeze nyuma.\n\nBonyeza kitufe cha Action pamoja na Kishale cha kulia ili uingie katika sehemu ya mazoezi.</string>
+  <string name="keyboard_tutorial_tables_page_title">Majedwali</string>
+  <string name="keyboard_tutorial_tables_page_text">Hali ya kuvinjari pia hurahisisha usogezaji wa jedwali. Ukiwasha hali ya kuvinjari, bonyeza Alt pamoja na Ctrl na Kishale cha juu na cha chini ili uruke kati ya safu mlalo na Alt pamoja na Ctrl na Kishale cha kushoto na cha kulia ili uruke kati ya safu wima.\n\nBonyeza kitufe cha Action pamoja na Kishale cha kulia ili uingie katika sehemu ya mazoezi.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Kubadilisha maandishi</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Ukiingia kwenye sehemu ya maandishi, hali ya kuvinjari itazimwa kwa muda ili uweze kutumia vitufe vyote kuandika. Utasikia tangazo na sauti itakapozimwa. Baada ya kuondoka kwenye sehemu ya maandishi, hali ya kuvinjari itawashwa tena na utasikia tangazo na sauti nyingine.\n\nBonyeza kitufe cha Action pamoja na kishale cha kulia ili uingie katika sehemu ya mazoezi.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Maelezo zaidi kuhusu hali ya kuvinjari</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Ili uangalie orodha kamili ya vipengee unavyoweza kuruka kati yavyo katika hali ya kuvinjari, bonyeza kitufe cha Action pamoja na Shift na / kisha utafute \"hali ya kuvinjari\" kwenye menyu ya mikato ya kibodi.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Kusoma kulingana na herufi, neno au aya</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Wakati mwingine, unaweza kutaka kusikia maandishi yakisomwa kwa sauti, herufi moja baada ya nyingine.\n\nIli ufanye hivyo, unaweza kutumia usogezaji wa vidhibiti vya kusoma. Bonyeza kitufe cha Action pamoja na Shift na Kishale cha Kulia au cha Kushoto hadi usikie \"herufi.\" Kisha, bonyeza kitufe cha Action pamoja na Kishale cha juu ili usogeze nyuma ulengaji wa kipengee kwenye skrini kulingana na herufi. Bonyeza kitufe cha Action pamoja na Kishale cha chini ili usogeze mbele ulengaji wa kipengee kwenye skrini kulingana na herufi.\n\nJaribu hivyo sasa. Unaweza pia kuchagua kusoma kulingana na maneno, mistari au aya ukitumia kitufe cha Action pamoja na Shift na Kishale cha kulia au cha kushoto.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Kuruka kati ya vidhibiti</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Vidhibiti ni vipengee unavyoweza kutumia, kama vile vitufe, visanduku vya kuteua na visanduku vya maandishi.\n\nKwenye baadhi ya kurasa, unaweza kutaka kuruka kati ya vidhibiti ili upate kitendo kwa haraka, kama vile kitufe kinachofuata.\n\nIli ufanye hivyo, bonyeza kitufe cha Action pamoja na Shift na Kishale cha kulia hadi usikie \"vidhibiti.\" Kisha, bonyeza kitufe cha Action pamoja na Kishale cha juu ili uende kwenye kitufe kilichotangulia na kitufe cha Action pamoja na Kishale cha chini ili uende kwenye kitufe kinachofuata.\n\nJaribu hivyo sasa na upate kitufe kinachofuata.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Kuruka kati ya viungo</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Unaweza pia kuruka kati ya viungo kwenye ukurasa.\n\nIli ufanye hivyo, bonyeza kitufe cha Action pamoja na Shift na Kishale cha kulia hadi utakaposikia \"viungo.\" Kisha, bonyeza kitufe cha Action pamoja na Kishale cha chini ili upate kiungo kinachoitwa \"Kiungo cha 5.\" Ukiwa kwenye mafunzo, hatua ya kugusa kiungo hiki mara mbili haitafanya chochote.\n\nBonyeza kitufe cha Action pamoja na kishale cha Kulia ili upate kitufe kinachofuata kisha uende kwenye ukurasa unaofuata.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Kuruka kati ya vichwa</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Unaweza pia kuruka kati ya vichwa kwenye ukurasa.\n\nIli ujaribu hivyo sasa, bonyeza kitufe cha Action pamoja na Shift na Kishale cha kulia hadi utakaposikia \"vichwa.\" Kisha, bonyeza kitufe cha Action pamoja na Kishale cha chini ili upate kichwa cha \"Usogezaji\".</string>
+  <string name="keyboard_tutorial_find_next_button">Bonyeza kitufe cha Action pamoja na Kishale cha kulia ili upate kitufe kinachofuata.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Kuruka kati ya metadata</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Ili uondoke kwenye metadata, kama vile orodha au gridi, bonyeza kitufe cha Action pamoja na Alt na Ctrl na Kishale cha kulia au cha kushoto. Hatua hii ni muhimu ukitaka kuondoka kwenye orodha ndefu ya vipengee.\n\nIli ujaribu hivyo sasa, bonyeza kitufe cha Action pamoja na Kishale cha kulia ili uingie kwenye orodha. Kisha bonyeza kitufe cha Action pamoja na Alt na Ctrl na Kishale cha kulia ili uende kwenye metadata inayofuata.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Ili uende kwenye metadata inayofuata, bonyeza kitufe cha Action pamoja na Alt na Ctrl na Kishale cha kulia</string>
+  <string name="keyboard_tutorial_exit_container">Ili uondoke kwenye metadata hii, bonyeza kitufe cha Action pamoja na Alt na Ctrl na Kishale cha kulia</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Umeondoka kwenye metadata. Unaweza pia kuweka metadata kwenye vidhibiti vyako vya kusoma kisha ubonyeze kitufe cha Action pamoja na Shift na Kishale cha Kulia au cha Kushoto ili uchague metadata na kitufe cha Action pamoja na Kishale cha Juu au cha Chini ili uruke kati ya metadata. Ili usasishe vidhibiti vya kusoma, nenda kwenye TalkBack &gt; Mipangilio &gt; Wekea mapendeleo menyu &gt; Wekea mapendeleo vidhibiti vya kusoma.\n\nBonyeza kitufe cha Action pamoja na Kishale cha kulia ili upate kitufe kinachofuata.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Kuwekea mapendeleo vidhibiti vya kusoma</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Unaweza pia kurekebisha mipangilio ya matamshi ukitumia vidhibiti vya kusoma na uwekee mapendeleo mambo unayoweza kufanya ukitumia vidhibiti vya kusoma kwenye TalkBack &gt; Mipangilio &gt; Wekea mapendeleo menyu &gt; Wekea mapendeleo vidhibiti vya kusoma.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Kujaribu kupata maelezo kuhusu picha</string>
+  <string name="keyboard_tutorial_image_description_page_text">Ukiangazia picha, bonyeza kitufe cha Action pamoja na R, kisha I. Kuna picha moja hapa chini. Jaribu kupata maelezo yake.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Unaweza kubadilisha mipangilio ya maelezo kuhusu picha wakati wowote katika mipangilio ya TalkBack &gt; Maelezo kuhusu picha na aikoni.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Unaweza kubadilisha mipangilio ya maelezo kuhusu picha wakati wowote katika mipangilio ya TalkBack kisha Maelezo kuhusu picha na aikoni.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Sampuli ya picha. Bonyeza kitufe cha Action pamoja na R, kisha I ili usikie maelezo.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Amri za sauti</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Unaweza kutumia sauti yako kudhibiti TalkBack haraka.\n\nKwa mfano, tamka amri ili ubadilishe usogezaji, uruke hadi kichwa kinachofuata, unakili maandishi na mengineyo.\n\nIli uijaribu sasa, bonyeza Action pamoja na \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Kutumia kipengele cha utafutaji kwenye skrini</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Kipengele cha utafutaji kwenye skrini hukuruhusu kutafuta maudhui mahususi kwenye skrini.\n\nIli ukijaribu, bonyeza kitufe cha Action pamoja na CTRL pamoja na /. Andika neno muhimu, kama vile \"inayofuata,\" ili upate vipengee vyenye maandishi hayo kwenye skrini.\n\nJaribu kutafuta \"inayofuata\" sasa ili upate kitufe cha inayofuata.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Kusogeza ukitumia utafutaji kwenye skrini</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Unaweza kusogeza kwa haraka kati ya matokeo tofauti ya utafutaji ukitumia kipengele cha utafutaji kwenye skrini baada ya kuchagua tokeo.\n\nIli ufanye hivi, unaweza kutumia usogezaji wa vidhibiti vya kusoma. Bonyeza kitufe cha Action pamoja na Shift pamoja na Kishale cha kulia au cha Kushoto hadi usikie \"utafutaji kwenye skrini.\" Kisha, bonyeza kitufe cha Action pamoja na kishale cha Juu au Chini ili usogeze kwa matokeo ya utafutaji kwenye skrini.\n\nHebu tujaribu sasa. Ifuatayo ni orodha ya vitufe 3, vyote vikiwa na maandishi \"kitendo.\" Tafuta \"kitendo\" ukitumia kipengele cha utafutaji kwenye skrini, kisha usogeze kati ya vitufe hivyo kwenye kipengele hicho.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Mazoezi ya mikato ya kibodi</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Bonyeza kitufe cha kibodi halisi au mchanganyiko wa vitufe ili usikie kinachofanyika. Bonyeza Ctrl pamoja na W au Escape ili uondoke.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Gundua Ukubwa na Misekwoya ya California&lt;/h1&gt;
+      &lt;p&gt;Misekwoya ya California, hasa ile ya pwani (Sequoia sempervrens), ndiyo miti mirefu zaidi duniani. Baadhi ya miti hii ina urefu wa zaidi ya futi 380 (mita 115) na inaweza kuishi kwa maelfu ya miaka. Hukua vizuri katika hali ya hewa ya unyevu wa pwani ya kaskazini mwa California, ikinufaika na mvua na ukungu.&lt;/p&gt;
+
+      &lt;h2&gt;Mahali pa Kuiona&lt;/h2&gt;
+      &lt;p&gt;Utapata miti hii mikubwa katika ukanda mwembamba kando ya pwani ya Pasifiki. Mbuga muhimu ni pamoja na:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Mbuga za Taifa na za Jimbo za Misekwoya&lt;/li&gt;
+        &lt;li&gt;Mbuga ya jimbo ya Misekwoya ya Humboldt&lt;/li&gt;
+        &lt;li&gt;Mbuga ya Jimbo ya Misekwoya ya Big Basin&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Panga kutembelea hapa: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Mbuga za Jimbo la California - misekwoya&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Kusaidia Utunzaji&lt;/h2&gt;
+      &lt;p&gt;Ni muhimu kulinda misitu hii ya zamani. Unaweza kusaidia kwa kufuata mwongozo wa mbuga na kuunga mkono juhudi za utunzaji.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Elezea Hali Yako&lt;/h2&gt;
+        &lt;p&gt;Je, umewahi kutembelea misitu ya misekwoya?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Ndiyo&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div classquot;radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Hapana&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Tueleze kuhusu hali yako&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Tuma&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Ungependa kujifunza nini kingine kuhusu misekwoya?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Tuma&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Miti ya Misekwoya: Kutunza Mazingira Yetu&lt;/h1&gt;
+    &lt;p&gt;Misekwoya ni muhimu kwa sayari yetu, ina jukumu kubwa katika kutunza mazingira yetu.&lt;/p&gt;
+
+    &lt;h1&gt;Visafishaji Vikubwa vya Hewa&lt;/h1&gt;
+    &lt;p&gt;Miti hii ni mizuri sana katika kufyonza kabonidioksidi kutoka hewani. Kwa kufyonza kabonidioksidi kwa wingi, misekwoya husaidia kudumisha usafi wa hewa tunayopumua.&lt;/p&gt;
+
+    &lt;h2&gt;Makazi kwa Wanyama&lt;/h2&gt;
+    &lt;p&gt;Misekwoya hutoa makazi na hifadhi kwa wanyama wengi, kuanzia ndege kwenye matawi hadi viumbe wadogo ndani ya udongo.&lt;/p&gt;
+
+    &lt;h3&gt;Vyanzo Bora vya Maji&lt;/h3&gt;
+    &lt;p&gt;Miti hii ni mizuri katika kunasa ukungu, ambao hutiririka hadi kwenye udongo wa msitu. Hali hii hufanya udongo uwe na unyevu na kutoa maji kwa mimea na wanyama wengine, hasa wakati wa kiangazi.&lt;/p&gt;
+
+    &lt;h4&gt;Hulinda Udongo&lt;/h4&gt;
+    &lt;p&gt;Mizizi yake imara hushikilia udongo vizuri, hivyo kuuzuia usisombwe na maji wakati wa mvua kubwa na kuzuia mmomonyoko wa udongo.&lt;/p&gt;
+
+    &lt;h5&gt;Hukuza Misitu&lt;/h5&gt;
+    &lt;p&gt;Misekwoya iliyozeeka inapoanguka, mbao zake huwa chakula na makazi ya mimea na viumbe wapya, hivyo kutengeneza udongo wenye rutuba ili kukuza mimea mipya.&lt;/p&gt;
+
+    &lt;h6&gt;Mazingira ya Kipekee&lt;/h6&gt;
+    &lt;p&gt;Kwa sababu misekwoya ni mikubwa na huishi kwa muda mrefu, hutengeneza mazingira maalum ya misitu yanayosaidia maisha ambayo hayapatikani kwingineko.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Wanyama wanaoishi katika Misitu yenye Misekwoya&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Wanyama wanaoishi katika Misitu yenye Misekwoya\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Mnyama&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Maelezo&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Anakoishi&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Ukweli wa Kusisimua&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Konokono Mkubwa wa Rangi ya Manjano&lt;/th&gt;
+            &lt;td&gt;Konokono mkubwa, wa rangi ya manjano na anayeteleza&lt;/td&gt;
+            &lt;td&gt;Kwenye ardhi ya msitu&lt;/td&gt;
+            &lt;td&gt;Konokono wa pili kwa ukubwa duniani&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamanda Mkubwa wa Pasifiki&lt;/th&gt;
+            &lt;td&gt;Salamanda mkubwa wa rangi nyeusi&lt;/td&gt;
+            &lt;td&gt;Karibu na vijito na maeneo yenye unyevu&lt;/td&gt;
+            &lt;td&gt;Anaweza kukua hadi urefu wa futi moja&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Kulungu wa Roosevelt&lt;/th&gt;
+            &lt;td&gt;Kulungu mkubwa mwenye pembe za kuvutia&lt;/td&gt;
+            &lt;td&gt;Hula kwenye maeneo ya wazi katika msitu&lt;/td&gt;
+            &lt;td&gt;Madume wanaweza kupima zaidi ya pauni 1,000&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Bundi wa Kaskazini Mwenye Madoadoa&lt;/th&gt;
+            &lt;td&gt;Bundi wa ukubwa wa kati, huwinda usiku&lt;/td&gt;
+            &lt;td&gt;Katika misitu minene ya misekwoya iliyokomaa&lt;/td&gt;
+            &lt;td&gt;Ni \"aina ya kiashiria\" – afya yake inaonyesha afya ya msitu&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Dubu Mweusi&lt;/th&gt;
+            &lt;td&gt;Mnyama mkubwa, kwa kawaida wa rangi nyeusi au kahawia&lt;/td&gt;
+            &lt;td&gt;Hutafuta chakula katika msitu&lt;/td&gt;
+            &lt;td&gt;Ni mahiri katika ukweaji miti, mara nyingi huonekana kwenye miti&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Maoni yako kuhusu Misekwoya na asili&lt;/h1&gt;
+
+      &lt;p&gt;Ungependa kujifunza nini kingine kuhusu Misekwoya?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Ni eneo gani unalopenda kutembelea katika mazingira ya asili?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Ni dhana ipi moja katika mazingira ya asili ambayo ungependa kujifunza zaidi?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

@@ -23,6 +23,7 @@ import android.content.DialogInterface.OnKeyListener;
 import android.graphics.drawable.Drawable;
 import androidx.appcompat.app.AlertDialog;
 import android.view.View;
+import android.widget.ListAdapter;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
@@ -77,6 +78,14 @@ class PhoneAlertDialogWrapperBuilder implements A11yAlertDialogWrapper.Builder {
   @Override
   public A11yAlertDialogWrapper.Builder setMessage(@NonNull CharSequence message) {
     v7Builder.setMessage(message);
+    return this;
+  }
+
+  @CanIgnoreReturnValue
+  @Override
+  public A11yAlertDialogWrapper.Builder setAdapter(
+      @NonNull ListAdapter adapter, OnClickListener onClickListener) {
+    v7Builder.setAdapter(adapter, onClickListener);
     return this;
   }
 
@@ -195,6 +204,12 @@ class PhoneAlertDialogWrapperBuilder implements A11yAlertDialogWrapper.Builder {
   @Override
   public A11yAlertDialogWrapper.Builder setView(View view) {
     v7Builder.setView(view);
+    return this;
+  }
+
+  @Override
+  public A11yAlertDialogWrapper.Builder setDismissOnClick(boolean dismissOnClick) {
+    // Leaves this API to do nothing since only the wear version supports it.
     return this;
   }
 

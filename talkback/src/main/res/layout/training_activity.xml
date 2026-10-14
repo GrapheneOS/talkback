@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="1dp"
-        android:theme="@style/TrainingActionBarTheme" />
+        android:theme="@style/TrainingActionBarTheme"
+        android:touchscreenBlocksFocus="false"/>
 
   </LinearLayout>
 

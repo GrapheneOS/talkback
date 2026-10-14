@@ -18,10 +18,12 @@ package com.google.android.accessibility.brailleime.input;
 
 import android.graphics.PointF;
 import androidx.annotation.IntDef;
+import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * The result produced by a {@link MultitouchHandler} commission.
@@ -36,10 +38,18 @@ import javax.annotation.Nullable;
  */
 class MultitouchResult {
 
-  @IntDef({TYPE_TAP, TYPE_SWIPE, TYPE_HOLD, TYPE_CALIBRATION_HOLD, TYPE_HOLD_AND_SWIPE})
+  @IntDef({
+    TYPE_INVALID,
+    TYPE_TAP,
+    TYPE_SWIPE,
+    TYPE_HOLD,
+    TYPE_CALIBRATION_HOLD,
+    TYPE_HOLD_AND_SWIPE
+  })
   @Retention(RetentionPolicy.SOURCE)
   public @interface Type {}
 
+  static final int TYPE_INVALID = -1;
   static final int TYPE_TAP = 0;
   static final int TYPE_SWIPE = 1;
   static final int TYPE_HOLD = 2;
@@ -53,42 +63,50 @@ class MultitouchResult {
 
   private MultitouchResult() {}
 
-  static MultitouchResult createTap(List<PointF> releaseContributors) {
+  static MultitouchResult createInvalidGesture() {
     MultitouchResult result = new MultitouchResult();
-    result.type = TYPE_TAP;
-    result.releasedPoints = releaseContributors;
+    result.type = TYPE_INVALID;
     return result;
   }
 
-  static MultitouchResult createSwipe(Swipe swipe, List<PointF> releaseContributors) {
+  static MultitouchResult createTap(ImmutableList<PointF> releaseContributors) {
+    MultitouchResult result = new MultitouchResult();
+    result.type = TYPE_TAP;
+    result.releasedPoints = new ArrayList<>(releaseContributors);
+    return result;
+  }
+
+  static MultitouchResult createSwipe(Swipe swipe, ImmutableList<PointF> releaseContributors) {
     MultitouchResult result = new MultitouchResult();
     result.type = TYPE_SWIPE;
     result.swipe = swipe;
-    result.releasedPoints = releaseContributors;
+    result.releasedPoints = new ArrayList<>(releaseContributors);
     return result;
   }
 
-  static MultitouchResult createCalibrationHold(List<PointF> holdContributors) {
+  static MultitouchResult createCalibrationHold(ImmutableList<PointF> holdContributors) {
     MultitouchResult result = new MultitouchResult();
     result.type = TYPE_CALIBRATION_HOLD;
-    result.heldPoints = holdContributors;
+    result.heldPoints = new ArrayList<>(holdContributors);
     return result;
   }
 
-  static MultitouchResult createHold(List<PointF> holdContributors) {
+  static MultitouchResult createHold(ImmutableList<PointF> holdContributors) {
     MultitouchResult result = new MultitouchResult();
     result.type = TYPE_HOLD;
-    result.heldPoints = holdContributors;
+    result.heldPoints = new ArrayList<>(holdContributors);
     return result;
   }
 
   static MultitouchResult createHoldAndDotSwipe(
-      List<PointF> holdContributors, Swipe swipe, List<PointF> releaseContributors) {
+      ImmutableList<PointF> holdContributors,
+      Swipe swipe,
+      ImmutableList<PointF> releaseContributors) {
     MultitouchResult result = new MultitouchResult();
     result.type = TYPE_HOLD_AND_SWIPE;
     result.swipe = swipe;
-    result.heldPoints = holdContributors;
-    result.releasedPoints = releaseContributors;
+    result.heldPoints = new ArrayList<>(holdContributors);
+    result.releasedPoints = new ArrayList<>(releaseContributors);
     return result;
   }
 

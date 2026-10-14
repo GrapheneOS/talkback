@@ -20,6 +20,7 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import androidx.annotation.VisibleForTesting;
 
 /** Methods to return the form factor which TalkBack is running on. */
@@ -27,39 +28,37 @@ public class FormFactorUtils {
 
   private static FormFactorUtils instance;
 
-  public static void initialize(Context context) {
-    instance = new FormFactorUtils(context);
-  }
-
-  public static FormFactorUtils getInstance() {
+  private static FormFactorUtils getInstance() {
     if (instance == null) {
       throw new IllegalStateException(
-          "We should initialize FormFactorUtils before getting instance.");
+          "We need to initialize FormFactorUtils before checking the type of form factor.");
     }
     return instance;
+  }
+
+  public static void initialize(Context context) {
+    instance = new FormFactorUtils(context);
   }
 
   private final boolean isAndroidAuto;
   private final boolean isAndroidWear;
   private final boolean isAndroidTv;
+  private final boolean isAndroidPc;
+  private final boolean isAndroidXr;
 
   @VisibleForTesting
   FormFactorUtils(Context context) {
     isAndroidAuto = context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE);
     isAndroidWear = context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WATCH);
     isAndroidTv = initIsAndroidTv(context);
-  }
-
-  public boolean isAndroidAuto() {
-    return isAndroidAuto;
-  }
-
-  public boolean isAndroidWear() {
-    return isAndroidWear;
-  }
-
-  public boolean isAndroidTv() {
-    return isAndroidTv;
+    isAndroidPc =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
+            && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_PC);
+    // Remove the check for FEATURE_XR_IMMERSIVE once FEATURE_XR_API_SPATIAL is fully supported.
+    // FEATURE_XR_IMMERSIVE is currently being deprecated in favor of FEATURE_XR_API_SPATIAL.
+    isAndroidXr =
+        context.getPackageManager().hasSystemFeature("android.software.xr.api.spatial")
+            || context.getPackageManager().hasSystemFeature("android.software.xr.immersive");
   }
 
   /** Returns whether TB is running on Android Tv. */
@@ -67,5 +66,25 @@ public class FormFactorUtils {
     UiModeManager modeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
     return ((modeManager != null)
         && (modeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION));
+  }
+
+  public static boolean isAndroidAuto() {
+    return getInstance().isAndroidAuto;
+  }
+
+  public static boolean isAndroidWear() {
+    return getInstance().isAndroidWear;
+  }
+
+  public static boolean isAndroidTv() {
+    return getInstance().isAndroidTv;
+  }
+
+  public static boolean isAndroidPc() {
+    return getInstance().isAndroidPc;
+  }
+
+  public static boolean isAndroidXr() {
+    return getInstance().isAndroidXr;
   }
 }

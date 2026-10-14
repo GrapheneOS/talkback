@@ -37,6 +37,7 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 
 /** Default rule that adds the text of the node and a check mark if the node is checkable. */
 public class DefaultBrailleRule implements BrailleRule {
+  private static final String BRAILLE_UNICODE_IN_PROGRESS = "⠣⠿⠜";
 
   /** Interface for converting {@link AccessibilityNodeInfoCompat} into {@link CharSequence}. */
   public interface NodeTextSupplier {
@@ -59,11 +60,11 @@ public class DefaultBrailleRule implements BrailleRule {
   @Override
   public CharSequence format(Context context, AccessibilityNodeInfoCompat node) {
     SpannableStringBuilder result = new SpannableStringBuilder();
-    CharSequence text = getNodeText(node);
+    CharSequence text = getNodeText(context, node);
     if (TextUtils.isEmpty(text)) {
       AccessibilityNodeInfoCompat labeledBy = node.getLabeledBy();
       if (labeledBy != null) {
-        text = getNodeText(labeledBy);
+        text = getNodeText(context, labeledBy);
       }
     }
     if (TextUtils.isEmpty(text) && nodeTextSupplier.needsLabel(node)) {
@@ -76,7 +77,7 @@ public class DefaultBrailleRule implements BrailleRule {
     StringUtils.appendWithSpaces(result, BrailleCommonUtils.filterNonPrintCharacter(text));
 
     if (node.isCheckable() || node.isChecked()) {
-      CharSequence mark;
+      String mark;
       if (node.isChecked()) {
         mark = context.getString(R.string.checkmark_checked);
       } else {
@@ -101,7 +102,7 @@ public class DefaultBrailleRule implements BrailleRule {
     return true;
   }
 
-  private CharSequence getFallbackText(Context context, AccessibilityNodeInfoCompat node) {
+  private String getFallbackText(Context context, AccessibilityNodeInfoCompat node) {
     // Order is important below because of class inheritance.
     if (matchesAny(node, Button.class, ImageButton.class)) {
       return context.getString(R.string.type_unlabeled_button);
@@ -131,7 +132,7 @@ public class DefaultBrailleRule implements BrailleRule {
   }
 
   @Nullable
-  private CharSequence getNodeText(AccessibilityNodeInfoCompat node) {
+  private CharSequence getNodeText(Context context, AccessibilityNodeInfoCompat node) {
     if (node == null) {
       return null;
     }
@@ -142,6 +143,11 @@ public class DefaultBrailleRule implements BrailleRule {
     CharSequence hint = AccessibilityNodeInfoUtils.getHintText(node);
     if (!TextUtils.isEmpty(hint)) {
       return hint;
+    }
+    CharSequence state = AccessibilityNodeInfoUtils.getState(node);
+    if (!TextUtils.isEmpty(state)
+        && context.getString(R.string.bd_state_description_in_progress).contentEquals(state)) {
+      return BRAILLE_UNICODE_IN_PROGRESS;
     }
     return nodeTextSupplier.getCustomLabelText(node);
   }

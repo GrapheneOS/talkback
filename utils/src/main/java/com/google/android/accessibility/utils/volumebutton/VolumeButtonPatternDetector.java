@@ -93,14 +93,11 @@ public class VolumeButtonPatternDetector {
   }
 
   private static boolean isFromVolumeKey(int keyCode) {
-    switch (keyCode) {
-      case KeyEvent.KEYCODE_VOLUME_DOWN:
-      case KeyEvent.KEYCODE_VOLUME_UP:
-      case KeyEvent.KEYCODE_HEADSETHOOK:
-        return true;
-      default:
-        return false;
-    }
+    return switch (keyCode) {
+      case KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_HEADSETHOOK ->
+          true;
+      default -> false;
+    };
   }
 
   private void processKeyEvent(KeyEvent event) {

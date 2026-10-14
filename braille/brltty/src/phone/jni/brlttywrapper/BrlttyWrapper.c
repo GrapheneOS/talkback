@@ -19,6 +19,7 @@
  * com.google.android.accessibility.braille.brltty.BrlttyEncoder.
  */
 
+#include <alog.h>
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -29,14 +30,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <alog.h>
 
 #include "bluetooth_android.h"
-#include "usb_android.h"
 #include "libbrltty.h"
 #include "third_party/brltty/Headers/brl_cmds.h"
-#include "third_party/brltty/Programs/brlapi_keycodes.h"
-#include "third_party/brltty/Headers/io_usb.h"
+#include "usb_android.h"
+#include "third_party/brltty/Programs/bluetooth_internal.h"
+#include "third_party/brltty/Programs/usb_devices.h"
 
 #define LOG_TAG "BrlttyEncoder_native"
 
@@ -86,7 +86,7 @@ static jint mapBrlttyCommand(int brlttyCommand,
                              jint* outArg,
                              jboolean* isUnifiedCommand);
 // Callback used when listing the brltty keymap.
-static int reportKeyBinding(int command, int keyCount, const char* keys[],
+static int reportKeyBinding(int command, int keyNameCount, const char* keyNames[],
                             int isLongPress, void* data);
 
 // Maps from brltty command codes (without arguments and flags)
@@ -107,16 +107,23 @@ static jlong nativeData;
 
 static jclass class_BrlttyWrapper;
 static jclass class_BrailleKeyBinding;
+static jclass class_BluetoothDeviceEntry;
+static jclass class_UsbDeviceEntry;
 static jclass class_IndexOutOfBoundsException;
 static jclass class_OutOfMemoryError;
 static jclass class_NullPointerException;
 static jclass class_RuntimeException;
 static jclass class_IOException;
 static jclass class_String;
+static jclass class_ArrayList;
 static jfieldID field_tablesDirPath;
 static jmethodID method_sendBytesToDevice;
 static jmethodID method_readDelayed;
+static jmethodID method_add;
 static jmethodID method_BrailleKeyBinding_ctor;
+static jmethodID method_BluetoothDeviceEntry_ctor;
+static jmethodID method_UsbDeviceEntry_ctor;
+static jmethodID method_ArrayList_ctor;
 
 // Data for the reportKeyBinding callback.
 typedef struct ListKeyMapData {
@@ -182,6 +189,39 @@ freenat:
   return JNI_FALSE;
 }
 
+jobject JNIMETHOD(getBluetoothDriverTableNative)(JNIEnv* env, jobject thiz){
+  const BluetoothNameEntry *entry = bluetoothNameTable;
+  jobject objectList = (*env)->NewObject(env, class_ArrayList, method_ArrayList_ctor);
+  while (entry->namePrefix) {
+    for (int i = 0; entry->driverCodes[i] != NULL; ++i) {
+      jobject obj = (*env)->NewObject(
+          env, class_BluetoothDeviceEntry, method_BluetoothDeviceEntry_ctor,
+          (*env)->NewStringUTF(env, entry->driverCodes[i]),
+          (*env)->NewStringUTF(env, entry->namePrefix));
+      (*env)->CallBooleanMethod(env, objectList, method_add, obj);
+    }
+    entry += 1;
+  }
+  return objectList;
+}
+
+jobject JNIMETHOD(getUsbDriverTableNative)(JNIEnv* env, jobject thiz){
+  const UsbDeviceEntry *entry = usbDeviceTable;
+  jobject objectList = (*env)->NewObject(env, class_ArrayList, method_ArrayList_ctor);
+  while (entry->vendorIdentifier) {
+    for (int i = 0; entry->driverCodes[i] != NULL; ++i) {
+      jobject obj = (*env)->NewObject(
+          env, class_UsbDeviceEntry, method_UsbDeviceEntry_ctor,
+          (*env)->NewStringUTF(env, entry->driverCodes[i]),
+          entry->vendorIdentifier,
+          entry->productIdentifier);
+      (*env)->CallBooleanMethod(env, objectList, method_add, obj);
+    }
+    entry += 1;
+  }
+  return objectList;
+}
+
 jboolean JNIMETHOD(startNative)(JNIEnv* env, jobject thiz, jstring driverCode,
                                 jstring brailleDevice, jfloat timeoutFactor) {
   jboolean result = JNI_FALSE;
@@ -240,7 +280,6 @@ void JNIMETHOD(stopNative)(JNIEnv* env, jobject thiz) {
   }
   brltty_destroy();
   nativeData = 0;
-  usbForgetDevices();
   bluetoothAndroidSetConnection(NULL);
   usbAndroidSetContext(NULL);
   close(nat->pipefd[0]);
@@ -409,6 +448,30 @@ void JNIMETHOD(classInitNative)(JNIEnv* env, jclass clazz) {
             "(I[Ljava/lang/String;ZZ)V"))) {
     return;
   }
+  if (!(class_BluetoothDeviceEntry = getGlobalClassRef(
+          env, DISPLAY_PLATFORM_PACKAGE "BluetoothDeviceEntry"))) {
+    LOGE("Couldn't find BluetoothDeviceEntry");
+    return;
+  }
+    if (!(class_UsbDeviceEntry = getGlobalClassRef(
+            env, DISPLAY_PLATFORM_PACKAGE "UsbDeviceEntry"))) {
+      LOGE("Couldn't find UsbDeviceEntry");
+      return;
+    }
+  if (!(method_BluetoothDeviceEntry_ctor =
+        (*env)->GetMethodID(
+            env, class_BluetoothDeviceEntry, "<init>",
+            "(Ljava/lang/String;Ljava/lang/String;)V"))) {
+    LOGE("Couldn't find BluetoothDeviceEntry constructor");
+    return;
+  }
+    if (!(method_UsbDeviceEntry_ctor =
+          (*env)->GetMethodID(
+              env, class_UsbDeviceEntry, "<init>",
+              "(Ljava/lang/String;II)V"))) {
+      LOGE("Couldn't find UsbDeviceEntry constructor");
+      return;
+    }
   if (!(class_OutOfMemoryError =
         getGlobalClassRef(env, "java/lang/OutOfMemoryError"))) {
     return;
@@ -430,6 +493,22 @@ void JNIMETHOD(classInitNative)(JNIEnv* env, jclass clazz) {
   }
   if (!(class_String =
         getGlobalClassRef(env, "java/lang/String"))) {
+    return;
+  }
+  if (!(class_ArrayList =
+        getGlobalClassRef(env, "java/util/ArrayList"))) {
+    LOGE("Couldn't find ArrayList");
+    return;
+  }
+  if (!(method_ArrayList_ctor =
+        (*env)->GetMethodID(
+            env, class_ArrayList, "<init>", "()V"))) {
+    LOGE("Couldn't find ArrayList constructor");
+    return;
+  }
+  if (!(method_add = (*env)->GetMethodID(
+          env, class_ArrayList, "add", "(Ljava/lang/Object;)Z"))){
+    LOGE("Couldn't find add method");
     return;
   }
   if (!initCommandTables(env)) {
@@ -547,58 +626,123 @@ initCommandTables(JNIEnv* env) {
       {"CMD_SCROLL_BACKWARD", CUSTOM_KEY + 5},
       {"CMD_NAV_TOP", CUSTOM_KEY + 6},
       {"CMD_NAV_BOTTOM", CUSTOM_KEY + 7},
-      {"CMD_GLOBAL_BACK", CUSTOM_KEY + 8},
-      {"CMD_GLOBAL_HOME", CUSTOM_KEY + 9},
-      {"CMD_GLOBAL_RECENTS", CUSTOM_KEY + 10},
-      {"CMD_GLOBAL_NOTIFICATIONS", CUSTOM_KEY + 11},
-      {"CMD_HELP", CUSTOM_KEY + 12},
-      {"CMD_HEADING_NEXT", CUSTOM_KEY + 13},
-      {"CMD_HEADING_PREVIOUS", CUSTOM_KEY + 14},
-      {"CMD_CONTROL_NEXT", CUSTOM_KEY + 15},
-      {"CMD_CONTROL_PREVIOUS", CUSTOM_KEY + 16},
-      {"CMD_LINK_NEXT", CUSTOM_KEY + 17},
-      {"CMD_LINK_PREVIOUS", CUSTOM_KEY + 18},
-      {"CMD_TOGGLE_SCREEN_SEARCH", CUSTOM_KEY + 19},
-      {"CMD_EDIT_CUSTOM_LABEL", CUSTOM_KEY + 20},
-      {"CMD_SWITCH_TO_NEXT_INPUT_LANGUAGE", CUSTOM_KEY + 21},
-      {"CMD_SWITCH_TO_NEXT_OUTPUT_LANGUAGE", CUSTOM_KEY + 22},
-      {"CMD_BRAILLE_DISPLAY_SETTINGS", CUSTOM_KEY + 23},
-      {"CMD_TALKBACK_SETTINGS", CUSTOM_KEY + 24},
-      {"CMD_QUICK_SETTINGS", CUSTOM_KEY + 25},
-      {"CMD_ALL_APPS", CUSTOM_KEY + 26},
-      {"CMD_OPEN_TALKBACK_MENU", CUSTOM_KEY + 27},
-      {"CMD_KEY_DEL", CUSTOM_KEY + 28},
-      {"CMD_KEY_ENTER", CUSTOM_KEY + 29},
-      {"CMD_TURN_OFF_BRAILLE_DISPLAY", CUSTOM_KEY + 30},
-      {"CMD_CHARACTER_PREVIOUS", CUSTOM_KEY + 31},
-      {"CMD_CHARACTER_NEXT", CUSTOM_KEY + 32},
-      {"CMD_WORD_PREVIOUS", CUSTOM_KEY + 33},
-      {"CMD_WORD_NEXT", CUSTOM_KEY + 34},
-      {"CMD_WINDOW_PREVIOUS", CUSTOM_KEY + 35},
-      {"CMD_WINDOW_NEXT", CUSTOM_KEY + 36},
-      {"CMD_DEL_WORD", CUSTOM_KEY + 37},
-      {"CMD_TOGGLE_VOICE_FEEDBACK", CUSTOM_KEY + 38},
-      {"CMD_PREVIOUS_READING_CONTROL", CUSTOM_KEY + 39},
-      {"CMD_NEXT_READING_CONTROL", CUSTOM_KEY + 40},
+      {"CMD_TABLE_ROW_NEXT", CUSTOM_KEY + 8},
+      {"CMD_TABLE_ROW_PREVIOUS", CUSTOM_KEY + 9},
+      {"CMD_TABLE_COL_NEXT", CUSTOM_KEY + 10},
+      {"CMD_TABLE_COL_PREVIOUS", CUSTOM_KEY + 11},
+      {"CMD_GLOBAL_BACK", CUSTOM_KEY + 12},
+      {"CMD_GLOBAL_HOME", CUSTOM_KEY + 13},
+      {"CMD_GLOBAL_RECENTS", CUSTOM_KEY + 14},
+      {"CMD_GLOBAL_NOTIFICATIONS", CUSTOM_KEY + 15},
+      {"CMD_HELP", CUSTOM_KEY + 16},
+      {"CMD_UNVISITED_LINK_NEXT_IN_BROWSE", CUSTOM_KEY + 17},
+      {"CMD_UNVISITED_LINK_NEXT", CUSTOM_KEY + 18},
+      {"CMD_UNVISITED_LINK_PREVIOUS", CUSTOM_KEY + 19},
+      {"CMD_TOGGLE_SCREEN_SEARCH", CUSTOM_KEY + 20},
+      {"CMD_EDIT_CUSTOM_LABEL", CUSTOM_KEY + 21},
+      {"CMD_SWITCH_TO_NEXT_INPUT_LANGUAGE", CUSTOM_KEY + 22},
+      {"CMD_SWITCH_TO_NEXT_OUTPUT_LANGUAGE", CUSTOM_KEY + 23},
+      {"CMD_BRAILLE_DISPLAY_SETTINGS", CUSTOM_KEY + 24},
+      {"CMD_TALKBACK_SETTINGS", CUSTOM_KEY + 25},
+      {"CMD_QUICK_SETTINGS", CUSTOM_KEY + 26},
+      {"CMD_ALL_APPS", CUSTOM_KEY + 27},
+      {"CMD_OPEN_TALKBACK_MENU", CUSTOM_KEY + 28},
+      {"CMD_KEY_DEL", CUSTOM_KEY + 29},
+      {"CMD_KEY_ENTER", CUSTOM_KEY + 30},
+      {"CMD_TURN_OFF_BRAILLE_DISPLAY", CUSTOM_KEY + 31},
+      {"CMD_NAV_CHARACTER_PREVIOUS", CUSTOM_KEY + 32},
+      {"CMD_NAV_CHARACTER_NEXT", CUSTOM_KEY + 33},
+      {"CMD_NAV_WORD_PREVIOUS", CUSTOM_KEY + 34},
+      {"CMD_NAV_WORD_NEXT", CUSTOM_KEY + 35},
+      {"CMD_NAV_WINDOW_PREVIOUS", CUSTOM_KEY + 36},
+      {"CMD_NAV_WINDOW_NEXT", CUSTOM_KEY + 37},
+      {"CMD_DEL_WORD", CUSTOM_KEY + 38},
+      {"CMD_TOGGLE_VOICE_FEEDBACK", CUSTOM_KEY + 39},
+      {"CMD_PREVIOUS_READING_CONTROL", CUSTOM_KEY + 40},
+      {"CMD_NEXT_READING_CONTROL", CUSTOM_KEY + 41},
       {"CMD_NAVIGATE_BY_READING_GRANULARITY_OR_ADJUST_READING_CONTROL_BACKWARD",
-       CUSTOM_KEY + 41},
-      {"CMD_NAVIGATE_BY_READING_GRANULARITY_OR_ADJUST_READING_CONTROL_FORWARD",
        CUSTOM_KEY + 42},
-      {"CMD_TOGGLE_BRAILLE_GRADE", CUSTOM_KEY + 43},
-      {"CMD_LONG_PRESS_CURRENT", CUSTOM_KEY + 44},
-      {"CMD_STOP_READING", CUSTOM_KEY + 45},
-      {"CMD_SELECTION_CUT", CUSTOM_KEY + 46},
-      {"CMD_SELECTION_COPY", CUSTOM_KEY + 47},
-      {"CMD_SELECTION_PASTE", CUSTOM_KEY + 48},
-      {"CMD_SELECTION_SELECT_ALL", CUSTOM_KEY + 49},
-      {"CMD_SELECT_PREVIOUS_CHARACTER", CUSTOM_KEY + 50},
-      {"CMD_SELECT_NEXT_CHARACTER", CUSTOM_KEY + 51},
-      {"CMD_SELECT_PREVIOUS_WORD", CUSTOM_KEY + 52},
-      {"CMD_SELECT_NEXT_WORD", CUSTOM_KEY + 53},
-      {"CMD_SELECT_PREVIOUS_LINE", CUSTOM_KEY + 54},
-      {"CMD_SELECT_NEXT_LINE", CUSTOM_KEY + 55},
+      {"CMD_NAVIGATE_BY_READING_GRANULARITY_OR_ADJUST_READING_CONTROL_FORWARD",
+       CUSTOM_KEY + 43},
+      {"CMD_TOGGLE_BRAILLE_GRADE", CUSTOM_KEY + 44},
+      {"CMD_LONG_PRESS_CURRENT", CUSTOM_KEY + 45},
+      {"CMD_STOP_READING", CUSTOM_KEY + 46},
+      {"CMD_SELECTION_CUT", CUSTOM_KEY + 47},
+      {"CMD_SELECTION_COPY", CUSTOM_KEY + 48},
+      {"CMD_SELECTION_PASTE", CUSTOM_KEY + 49},
+      {"CMD_SELECTION_SELECT_ALL", CUSTOM_KEY + 50},
+      {"CMD_SELECT_PREVIOUS_CHARACTER", CUSTOM_KEY + 51},
+      {"CMD_SELECT_NEXT_CHARACTER", CUSTOM_KEY + 52},
+      {"CMD_SELECT_PREVIOUS_WORD", CUSTOM_KEY + 53},
+      {"CMD_SELECT_NEXT_WORD", CUSTOM_KEY + 54},
       {"CMD_TOGGLE_AUTO_SCROLL", CUSTOM_KEY + 56},
-      {"CMD_PLAY_PAUSE_MEDIA", CUSTOM_KEY + 57}};
+      {"CMD_PLAY_PAUSE_MEDIA", CUSTOM_KEY + 57},
+      {"CMD_NEXT_INPUT_METHOD", CUSTOM_KEY + 58},
+      {"CMD_SELECTION_SELECT_CURRENT_TO_START", CUSTOM_KEY + 59},
+      {"CMD_SELECTION_SELECT_CURRENT_TO_END", CUSTOM_KEY + 60},
+      {"CMD_SHOW_POPUP_MESSAGE_HISTORY", CUSTOM_KEY + 61},
+      {"CMD_CAPTION_ENTER_OR_EXIT", CUSTOM_KEY + 62},
+      {"CMD_TOGGLE_BROWSE_MODE", CUSTOM_KEY + 63},
+      {"CMD_ARIA_LANDMARK_NEXT_IN_BROWSE", CUSTOM_KEY + 64},
+      {"CMD_ARIA_LANDMARK_NEXT", CUSTOM_KEY + 65},
+      {"CMD_ARIA_LANDMARK_PREVIOUS", CUSTOM_KEY + 66},
+      {"CMD_GRAPHIC_NEXT_IN_BROWSE", CUSTOM_KEY + 67},
+      {"CMD_GRAPHIC_NEXT", CUSTOM_KEY + 68},
+      {"CMD_GRAPHIC_PREVIOUS", CUSTOM_KEY + 69},
+      {"CMD_LIST_NEXT_IN_BROWSE", CUSTOM_KEY + 70},
+      {"CMD_LIST_NEXT", CUSTOM_KEY + 71},
+      {"CMD_LIST_PREVIOUS", CUSTOM_KEY + 72},
+      {"CMD_LIST_ITEM_NEXT_IN_BROWSE", CUSTOM_KEY + 73},
+      {"CMD_LIST_ITEM_NEXT", CUSTOM_KEY + 74},
+      {"CMD_LIST_ITEM_PREVIOUS", CUSTOM_KEY + 75},
+      {"CMD_TABLE_NEXT_IN_BROWSE", CUSTOM_KEY + 76},
+      {"CMD_TABLE_NEXT", CUSTOM_KEY + 77},
+      {"CMD_TABLE_PREVIOUS", CUSTOM_KEY + 78},
+      {"CMD_HEADING_NEXT_IN_BROWSE", CUSTOM_KEY + 79},
+      {"CMD_HEADING_NEXT", CUSTOM_KEY + 80},
+      {"CMD_HEADING_PREVIOUS", CUSTOM_KEY + 81},
+      {"CMD_HEADING_1_NEXT_IN_BROWSE", CUSTOM_KEY + 82},
+      {"CMD_HEADING_1_NEXT", CUSTOM_KEY + 83},
+      {"CMD_HEADING_1_PREVIOUS", CUSTOM_KEY + 84},
+      {"CMD_HEADING_2_NEXT_IN_BROWSE", CUSTOM_KEY + 85},
+      {"CMD_HEADING_2_NEXT", CUSTOM_KEY + 86},
+      {"CMD_HEADING_2_PREVIOUS", CUSTOM_KEY + 87},
+      {"CMD_HEADING_3_NEXT_IN_BROWSE", CUSTOM_KEY + 88},
+      {"CMD_HEADING_3_NEXT", CUSTOM_KEY + 89},
+      {"CMD_HEADING_3_PREVIOUS", CUSTOM_KEY + 90},
+      {"CMD_HEADING_4_NEXT_IN_BROWSE", CUSTOM_KEY + 91},
+      {"CMD_HEADING_4_NEXT", CUSTOM_KEY + 92},
+      {"CMD_HEADING_4_PREVIOUS", CUSTOM_KEY + 93},
+      {"CMD_HEADING_5_NEXT_IN_BROWSE", CUSTOM_KEY + 94},
+      {"CMD_HEADING_5_NEXT", CUSTOM_KEY + 95},
+      {"CMD_HEADING_5_PREVIOUS", CUSTOM_KEY + 96},
+      {"CMD_HEADING_6_NEXT_IN_BROWSE", CUSTOM_KEY + 97},
+      {"CMD_HEADING_6_NEXT", CUSTOM_KEY + 98},
+      {"CMD_HEADING_6_PREVIOUS", CUSTOM_KEY + 99},
+      {"CMD_CONTROL_NEXT_IN_BROWSE", CUSTOM_KEY + 100},
+      {"CMD_CONTROL_NEXT", CUSTOM_KEY + 101},
+      {"CMD_CONTROL_PREVIOUS", CUSTOM_KEY + 102},
+      {"CMD_BUTTON_NEXT_IN_BROWSE", CUSTOM_KEY + 103},
+      {"CMD_BUTTON_NEXT", CUSTOM_KEY + 104},
+      {"CMD_BUTTON_PREVIOUS", CUSTOM_KEY + 105},
+      {"CMD_CHECKBOX_NEXT_IN_BROWSE", CUSTOM_KEY + 106},
+      {"CMD_CHECKBOX_NEXT", CUSTOM_KEY + 107},
+      {"CMD_CHECKBOX_PREVIOUS", CUSTOM_KEY + 108},
+      {"CMD_RADIO_BUTTON_NEXT_IN_BROWSE", CUSTOM_KEY + 109},
+      {"CMD_RADIO_BUTTON_NEXT", CUSTOM_KEY + 110},
+      {"CMD_RADIO_BUTTON_PREVIOUS", CUSTOM_KEY + 111},
+      {"CMD_COMBO_BOX_NEXT_IN_BROWSE", CUSTOM_KEY + 112},
+      {"CMD_COMBO_BOX_NEXT", CUSTOM_KEY + 113},
+      {"CMD_COMBO_BOX_PREVIOUS", CUSTOM_KEY + 114},
+      {"CMD_EDIT_FIELD_NEXT_IN_BROWSE", CUSTOM_KEY + 115},
+      {"CMD_EDIT_FIELD_NEXT", CUSTOM_KEY + 116},
+      {"CMD_EDIT_FIELD_PREVIOUS", CUSTOM_KEY + 117},
+      {"CMD_LINK_NEXT_IN_BROWSE", CUSTOM_KEY + 118},
+      {"CMD_LINK_NEXT", CUSTOM_KEY + 119},
+      {"CMD_LINK_PREVIOUS", CUSTOM_KEY + 120},
+      {"CMD_VISITED_LINK_NEXT_IN_BROWSE", CUSTOM_KEY + 121},
+      {"CMD_VISITED_LINK_NEXT", CUSTOM_KEY + 122},
+      {"CMD_VISITED_LINK_PREVIOUS", CUSTOM_KEY + 123}};
   unifiedCommandMap = createCommandMap(
       env, cls, unifiedCommands,
       sizeof(unifiedCommands) / sizeof(unifiedCommands[0]));

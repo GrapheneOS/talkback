@@ -16,6 +16,8 @@
 
 package com.google.android.accessibility.braille.translate.liblouis;
 
+import static com.google.common.base.Strings.nullToEmpty;
+
 import android.util.Log;
 import com.google.android.accessibility.braille.interfaces.BrailleCharacter;
 import com.google.android.accessibility.braille.interfaces.BrailleWord;
@@ -79,6 +81,9 @@ public class LouisTranslation {
   public static TranslationResult translate(
       CharSequence text, String tableName, int cursorPosition) {
     TranslationResult result = translateNative(text, tableName, cursorPosition);
+    if (result == null) {
+      result = TranslationResult.createUnknown(text, cursorPosition);
+    }
     // Force translate braille unicode character to correct translation.
     for (int i = 0; i < text.length(); i++) {
       if (BrailleUnicode.isBraille(text.charAt(i))) {
@@ -95,7 +100,7 @@ public class LouisTranslation {
 
   /** Back-translates a byte array of dot patterns into the corresponding String. */
   public static String backTranslate(byte[] cells, String tableName, int mode) {
-    return backTranslateNative(cells, tableName, mode);
+    return nullToEmpty(backTranslateNative(cells, tableName, mode));
   }
 
   // Native methods.

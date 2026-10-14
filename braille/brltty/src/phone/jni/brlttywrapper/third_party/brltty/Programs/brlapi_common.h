@@ -1,7 +1,7 @@
 /*
  * libbrlapi - A library providing access to braille terminals for applications.
  *
- * Copyright (C) 2002-2023 by
+ * Copyright (C) 2002-2026 by
  *   Samuel Thibault <Samuel.Thibault@ens-lyon.org>
  *   Sébastien Hinderer <Sebastien.Hinderer@ens-lyon.org>
  *
@@ -159,7 +159,7 @@ typedef struct {
   uint32_t content[BRLAPI_MAXPACKETSIZE/sizeof(uint32_t)+1]; /* +1 for additional \0 */
   PacketState state;
   int readBytes; /* Already read bytes */
-  unsigned char *p; /* Where read() should load datas */
+  unsigned char *p; /* Where read() should load data */
   int n; /* Value to give so read() */
 #ifdef __MINGW32__
   OVERLAPPED overl;
@@ -366,7 +366,7 @@ ssize_t BRLAPI(readPacket)(brlapi_fileDescriptor fd, brlapi_packetType_t *packet
 /* Function : brlapi_loadAuthKey */
 /* Loads an authorization key from the given file */
 /* It is stored in auth, and its size in authLength */
-/* If the file is non-existant or unreadable, returns -1 */
+/* If the file is non-existent or unreadable, returns -1 */
 static int BRLAPI(loadAuthKey)(const char *filename, size_t *authlength, void *auth)
 {
   int fd;
@@ -487,6 +487,7 @@ static const brlapi_packetTypeEntry_t brlapi_packetTypeTable[] = {
   { BRLAPI_PACKET_VERSION, "Version" },
   { BRLAPI_PACKET_AUTH, "Auth" },
   { BRLAPI_PACKET_GETDRIVERNAME, "GetDriverName" },
+  { BRLAPI_PACKET_GETMODELID, "GetModelID" },
   { BRLAPI_PACKET_GETDISPLAYSIZE, "GetDisplaySize" },
   { BRLAPI_PACKET_ENTERTTYMODE, "EnterTtyMode" },
   { BRLAPI_PACKET_SETFOCUS, "SetFocus" },
@@ -502,6 +503,7 @@ static const brlapi_packetTypeEntry_t brlapi_packetTypeTable[] = {
   { BRLAPI_PACKET_RESUMEDRIVER, "ResumeDriver" },
   { BRLAPI_PACKET_PARAM_VALUE, "ParameterValue" },
   { BRLAPI_PACKET_PARAM_REQUEST, "ParameterRequest" },
+  { BRLAPI_PACKET_PARAM_UPDATE, "ParameterUpdate" },
   { BRLAPI_PACKET_SYNCHRONIZE, "Synchronize" },
   { BRLAPI_PACKET_ACK, "Ack" },
   { BRLAPI_PACKET_ERROR, "Error" },
@@ -827,6 +829,15 @@ static const brlapi_param_properties_t brlapi_param_properties[BRLAPI_PARAM_COUN
     .canRead = 1,
     .canWatch = 1,
     .canWrite = 1,
+  },
+
+//Driver-speciic Parameters
+  [BRLAPI_PARAM_DRIVER_PROPERTY_VALUE] = {
+    .type = BRLAPI_PARAM_TYPE_UINT64,
+    .canRead = 1,
+    .canWrite = 1,
+    .canWatch = 1,
+    .hasSubparam = 1,
   },
 };
 

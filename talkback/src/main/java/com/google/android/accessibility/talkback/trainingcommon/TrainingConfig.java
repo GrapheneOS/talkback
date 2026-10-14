@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.trainingcommon;
 
 import androidx.annotation.StringRes;
 import com.google.android.accessibility.talkback.trainingcommon.NavigationButtonBar.ButtonType;
+import com.google.android.accessibility.talkback.trainingcommon.TrainingIpcClient.ServiceData;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -49,24 +50,23 @@ public abstract class TrainingConfig {
   /** Unique identifiers for training. */
   public enum TrainingId {
     TRAINING_ID_ON_BOARDING_TALKBACK,
-    TRAINING_ID_ON_BOARDING_TALKBACK_WITHOUT_DESCRIBE_IMAGE,
+    TRAINING_ID_FIRST_RUN_AFTER_UPDATED_ON_BOARDING_TALKBACK,
     TRAINING_ID_ON_BOARDING_FOR_MULTIFINGER_GESTURES,
     TRAINING_ID_TUTORIAL_FOR_WATCH,
     TRAINING_ID_TUTORIAL_FOR_TV,
-    TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_GESTURE_NAVIGATION_USER,
-    TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_GESTURE_NAVIGATION_USER_PRE_R,
-    TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER,
-    TRAINING_ID_FIRST_RUN_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER_PRE_R,
-    TRAINING_ID_TUTORIAL_FOR_GESTURE_NAVIGATION_USER,
-    TRAINING_ID_TUTORIAL_FOR_GESTURE_NAVIGATION_USER_PRE_R,
-    TRAINING_ID_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER,
-    TRAINING_ID_TUTORIAL_FOR_3_BUTTON_NAVIGATION_USER_PRE_R,
+    TRAINING_ID_FIRST_RUN_TUTORIAL,
+    TRAINING_ID_FIRST_RUN_KEYBOARD_TUTORIAL,
+    TRAINING_ID_TUTORIAL,
     TRAINING_ID_TUTORIAL_PRACTICE_GESTURE,
     TRAINING_ID_TUTORIAL_PRACTICE_GESTURE_PRE_R,
+    TRAINING_ID_TUTORIAL_PRACTICE_KEYBOARD_GESTURE,
+    TRAINING_ID_TUTORIAL_SPELL_CHECK,
     TRAINING_ID_VOICE_COMMAND_HELP,
     TRAINING_ID_VOICE_COMMAND_HELP_FOR_WATCH,
+    TRAINING_ID_TUTORIAL_KEYBOARD,
   }
 
+  private int totalShownPageNumber = -1;
   private int totalPageNumber = -1;
 
   @StringRes
@@ -83,17 +83,54 @@ public abstract class TrainingConfig {
 
   public abstract boolean isSupportNavigateUpArrow();
 
-  /** The total number of the page where page number information is shown. */
-  public int getTotalPageNumber() {
-    if (totalPageNumber < 0) {
-      totalPageNumber = 0;
+  /**
+   * The total number of the page where page number information is shown. Returns 0, if any page in
+   * the training requires hiding the page number by {@link PageConfig.Builder#hidePageNumber()}.
+   */
+  public int getTotalShownPageNumber(ServiceData serviceData) {
+    if (totalShownPageNumber < 0) {
+      totalShownPageNumber = 0;
       for (PageConfig pageConfig : getPages()) {
-        if (pageConfig.showPageNumber()) {
-          totalPageNumber++;
-        } else {
+        if (!pageConfig.showPageNumber()) {
+          // The remaining pages won't be calculated since the method is used for the single page or
+          // the last page.
           break;
         }
+        if (pageConfig.showingPredicate() != null
+            && !pageConfig.showingPredicate().test(serviceData)) {
+          continue;
+        }
+        totalShownPageNumber++;
       }
+    }
+    return totalShownPageNumber;
+  }
+
+  /** Gets the actual current page number which eliminates the not showing pages. */
+  public int getActualCurrentPageNumber(int currentPageNumber, ServiceData serviceData) {
+    int actualCurrentPageNumber = currentPageNumber;
+    ImmutableList<PageConfig> pages = getPages();
+    for (int i = 0; i < currentPageNumber; i++) {
+      PageConfig pageConfig = pages.get(i);
+      if (pageConfig.showingPredicate() != null
+          && !pageConfig.showingPredicate().test(serviceData)) {
+        actualCurrentPageNumber--;
+      }
+    }
+    return actualCurrentPageNumber;
+  }
+
+  /** The total number of page. The page with a hidden page number is also counted. */
+  public int getTotalPageNumber(ServiceData serviceData) {
+    if (totalPageNumber < 0) {
+      totalPageNumber =
+          (int)
+              getPages().stream()
+                  .filter(
+                      (pageConfig ->
+                          pageConfig.showingPredicate() == null
+                              || pageConfig.showingPredicate().test(serviceData)))
+                  .count();
     }
     return totalPageNumber;
   }

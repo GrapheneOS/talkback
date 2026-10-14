@@ -18,11 +18,11 @@ package com.google.android.accessibility.talkback.focusmanagement.record;
 
 import static com.google.android.accessibility.utils.AccessibilityNodeInfoUtils.toStringShort;
 
-import android.os.SystemClock;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -32,6 +32,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * action.
  */
 public class FocusActionRecord {
+  private static final String TAG = "FocusActionRecord";
+
   /**
    * Time when the accessibility focus action is performed. Initialized with
    * SystemClock.uptimeMillis().
@@ -114,14 +116,12 @@ public class FocusActionRecord {
   }
 
   /** Returns the stored unique id which is created in the FocusActionRecord constructor. */
-  @Nullable
-  public String getUniqueId() {
+  public @Nullable String getUniqueId() {
     return uniqueId;
   }
 
   /** Returns a copied instance of another FocusActionRecord. */
-  @Nullable
-  public static FocusActionRecord copy(FocusActionRecord record) {
+  public static @Nullable FocusActionRecord copy(FocusActionRecord record) {
     if (record == null) {
       return null;
     }
@@ -134,68 +134,76 @@ public class FocusActionRecord {
   }
 
   /**
-   * Returns true when the unique id are identical and not both null.
+   * Returns the focusable node from the focus record with the following priority:
    *
-   * @param uniqueId existing uniqueId.
-   * @param node Accessibility node to check its own uniqueId
+   * <ol>
+   *   <li>Unique id match
+   *   <li>Focused node match
+   *   <li>Node path score match
+   * </ol>
+   *
+   * @param root The root node of the current tree.
+   * @param focusFinder The focus finder to find the focusable node.
+   * @param focusActionRecord The focus action record to get the focusable node from.
+   * @return The focusable node from the focus record.
    */
-  private static boolean checkUniqueIdIdentical(
-      @NonNull String uniqueId, AccessibilityNodeInfoCompat node) {
-    return uniqueId.equals(compoundPackageNameAndUniqueId(node));
-  }
-
-  /**
-   * Returns the last focused node in {@code window} if it's still valid on screen with same unique
-   * identifier, otherwise returns focusable node with the same position.
-   */
-  @Nullable
-  public static AccessibilityNodeInfoCompat getFocusableNodeFromFocusRecord(
+  public static @Nullable AccessibilityNodeInfoCompat getFocusableNodeFromFocusRecord(
       @Nullable AccessibilityNodeInfoCompat root,
       @NonNull FocusFinder focusFinder,
       @NonNull FocusActionRecord focusActionRecord) {
     AccessibilityNodeInfoCompat lastFocusedNode = focusActionRecord.getFocusedNode();
 
-    // When looking up the focusable node by focus record, the refocus candidate(last focused node)
-    // should
-    // 1. Keep valid (after refresh) and
-    // 2. Has identical unique id
-    // 3. The refreshed node is focusable.
+    // 1. Unique id match
     @Nullable String uniqueId = focusActionRecord.getUniqueId();
-    if (lastFocusedNode.refresh() && AccessibilityNodeInfoUtils.shouldFocusNode(lastFocusedNode)) {
-      if ((uniqueId == null && lastFocusedNode.getUniqueId() == null)
-          || (uniqueId != null && checkUniqueIdIdentical(uniqueId, lastFocusedNode))) {
-        return lastFocusedNode;
-      }
-    }
-
     if (uniqueId != null) {
-      lastFocusedNode =
-          AccessibilityNodeInfoUtils.searchFromBfs(
-              root,
-              new Filter<AccessibilityNodeInfoCompat>() {
-                @Override
-                public boolean accept(AccessibilityNodeInfoCompat node) {
-                  return uniqueId.equals(compoundPackageNameAndUniqueId(node));
-                }
-              });
-      if (lastFocusedNode != null && AccessibilityNodeInfoUtils.shouldFocusNode(lastFocusedNode)) {
-        return lastFocusedNode;
+      AccessibilityNodeInfoCompat uniqueIdNode = null;
+      if (lastFocusedNode.refresh()
+          && uniqueId.equals(compoundPackageNameAndUniqueId(lastFocusedNode))) {
+        uniqueIdNode = lastFocusedNode;
+      } else {
+        uniqueIdNode =
+            AccessibilityNodeInfoUtils.searchFromBfs(
+                root,
+                new Filter<AccessibilityNodeInfoCompat>() {
+                  @Override
+                  public boolean accept(AccessibilityNodeInfoCompat node) {
+                    return uniqueId.equals(compoundPackageNameAndUniqueId(node));
+                  }
+                });
+      }
+      if (uniqueIdNode != null && AccessibilityNodeInfoUtils.shouldFocusNode(uniqueIdNode)) {
+        LogUtils.d(TAG, "getFocusableNodeFromFocusRecord from uniqueId=%s", uniqueId);
+        return uniqueIdNode;
       }
     }
-
+    // 2. Focused node match. Don't use cached node if it's in collection because collection reuse
+    // views.
+    if (lastFocusedNode.refresh()
+        && AccessibilityNodeInfoUtils.shouldFocusNode(lastFocusedNode)
+        && !AccessibilityNodeInfoUtils.isInCollection(lastFocusedNode)) {
+      LogUtils.d(
+          TAG,
+          "getFocusableNodeFromFocusRecord from focused node in focusActionRecord=%s",
+          focusActionRecord);
+      return lastFocusedNode;
+    }
+    // 3. Node path score match
     if (root == null) {
       return null;
     }
-
     @Nullable NodePathDescription nodePath =
         focusActionRecord.getNodePathDescription(); // Not owner
+    if (nodePath == null) {
+      return null;
+    }
     @Nullable AccessibilityNodeInfoCompat nodeAtSamePosition =
-        (nodePath == null) ? null : nodePath.findNodeToRefocus(root, focusFinder);
+        nodePath.findNodeToRefocus(root, focusFinder);
     if ((nodeAtSamePosition != null)
         && AccessibilityNodeInfoUtils.shouldFocusNode(nodeAtSamePosition)) {
+      LogUtils.d(
+          TAG, "getFocusableNodeFromFocusRecord from nodeAtSamePosition in nodePath=%s", nodePath);
       return nodeAtSamePosition;
     }
-
     return null;
   }
 

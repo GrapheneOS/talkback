@@ -19,18 +19,16 @@ package com.google.android.accessibility.talkback.actor;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 
 import android.content.Context;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.Voice;
 import android.text.TextUtils;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline.FeedbackReturner;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService.SpeechLanguage;
+import com.google.android.accessibility.utils.StringUtils;
 import com.google.android.accessibility.utils.monitor.ScreenMonitor;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -91,30 +89,36 @@ public class LanguageActor {
       return false;
     }
 
-    Set<Voice> voices = actorState.getSpeechState().getVoices();
-    if (voices == null) {
+    // Prior to Q1 2025, Talkback and SelectToSpeak shared the same TTS voice policy due to both
+    // being in the same package. Q1 2025 onwards, Talkback and SelectToSpeak will have separate
+    // TTS voice policies so that the latter can have assistant voices without affecting the former.
+    // The code below ensures that logic relying on getVoices is compatible before and after the TTS
+    // configuration is submitted.
+    //
+    // Getting SelectToSpeak and Talkback languages because both will be configured as
+    // sub applications in TTS. Once configured, voices (and subsequently languages) will be the
+    // superset of both applications. If tts configured, we'll need to ensure that the
+    // languages are filtered by application. Otherwise, we'll default to the original logic.
+    Set<Locale> languagesAvailableTalkback = actorState.getSpeechState().getLanguages("TALKBACK");
+    Set<Locale> languagesAvailableSelectToSpeak =
+        (languagesAvailableTalkback != null)
+            ? null
+            : actorState.getSpeechState().getLanguages("SELECT_TO_SPEAK");
+
+    // If both are null, we are not tts configured, so use the original method instead.
+    if (languagesAvailableTalkback == null && languagesAvailableSelectToSpeak == null) {
+      languagesAvailableTalkback = actorState.getSpeechState().getLanguages();
+    }
+
+    if (languagesAvailableTalkback == null) {
       return false;
     }
-
-    // Using Set because there are many duplicate Voice in TextToSpeech.getVoices().
-    Set<Locale> languagesAvailable = new HashSet<>();
-
     // The item is "Reset" means using system language.
-    languagesAvailable.add(null);
+    languagesAvailableTalkback.add(null);
 
-    for (Voice voice : voices) {
-      Set<String> features = voice.getFeatures();
-      // Filtering the installed voices to add to the menu
-      if ((features != null)
-          && !features.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED)
-          && !voice.isNetworkConnectionRequired()) {
-        languagesAvailable.add(voice.getLocale());
-      }
-    }
-
-    LogUtils.v(TAG, "Installed languages: " + languagesAvailable);
-    if (languagesAvailable.size() >= 3) {
-      installLanguages = languagesAvailable;
+    LogUtils.v(TAG, "Installed languages: " + languagesAvailableTalkback);
+    if (languagesAvailableTalkback.size() >= 3) {
+      installLanguages = languagesAvailableTalkback;
       return true;
     }
 
@@ -198,10 +202,12 @@ public class LanguageActor {
     }
     String country = locale.getDisplayCountry();
     if (TextUtils.isEmpty(country)) {
-      return locale.getDisplayLanguage();
+      return StringUtils.capitalizeFirstLetter(locale.getDisplayLanguage());
     } else {
       return context.getString(
-          R.string.template_language_options_menu_item, locale.getDisplayLanguage(), country);
+          R.string.template_language_options_menu_item,
+          StringUtils.capitalizeFirstLetter(locale.getDisplayLanguage()),
+          country);
     }
   }
 }

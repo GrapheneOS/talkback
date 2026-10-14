@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Ten samouczek dotyczy ulepszonej mapy klawiszy, która zawiera wiele nowych poleceń. Aby wybrać mapę klawiszy, otwórz Ustawienia TalkBack &gt; Ustawienia zaawansowane &gt; Skróty klawiszowe.\n\nAby wybrać temat, naciśnij klawisz działania + strzałkę w prawo. Aby zwiększyć komfort obsługi, przed rozpoczęciem włącz TalkBack.</string>
+  <string name="basic_interaction_link_text">Podstawowa interakcja</string>
+  <string name="basic_interaction_link_subtext">Poruszaj się między elementami strony, czytaj tekst po wierszu, korzystaj z menu i wykonuj inne działania</string>
+  <string name="browse_mode_link_text">Tryb przeglądania</string>
+  <string name="browse_mode_link_subtext">Poruszaj się szybciej po treściach w internecie za pomocą poleceń przechodzenia</string>
+  <string name="reading_controls_link_text">Sterowanie czytaniem</string>
+  <string name="reading_controls_link_subtext">Używaj sterowania czytaniem, aby przechodzić między elementami na stronie, dostosowywać ustawienia mowy i wykonywać inne działania</string>
+  <string name="image_descriptions_link_text">Opisy obrazów</string>
+  <string name="image_descriptions_link_subtext">Spróbuj uzyskać opisy obrazów</string>
+  <string name="keyboard_shortcuts_link_text">Ćwiczenie skrótów klawiszowych</string>
+  <string name="keyboard_shortcuts_link_subtext">Naciskaj poszczególne klawisze i ich kombinacje, aby dowiedzieć się, jakie mają funkcje</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack umożliwia odsłuchiwanie komunikatów głosowych. Dzięki temu nie musisz patrzeć na ekran urządzenia, którego używasz. Funkcja ta może być przydatna dla osób mających trudności z czytaniem treści na ekranie. Gdy funkcja TalkBack jest włączona, zaznaczony element na ekranie jest odczytywany na głos.\n\nNajpierw zapoznaj się z klawiaturą. Znajdź klawisz działania nad lewym klawiszem shift. Teraz znajdź klawisze strzałek w prawym dolnym obszarze klawiatury. Aby przejść do następnego elementu, naciśnij klawisz działania + strzałkę w prawo.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">To jest następny element. Aby przejść do poprzedniego, naciśnij klawisz działania + strzałkę w lewo.\n\nGdy przejdziesz do elementu interaktywnego, takiego jak przycisk, naciśnij klawisz działania + spację, aby aktywować ten element. Znajdź przycisk Dalej i kontynuuj samouczek.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Czytanie po znaku, słowie lub akapicie</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Tekst może być odczytywany na głos znak po znaku.\n\nW tym celu możesz użyć nawigacji za pomocą elementów sterowania czytaniem. Naciskaj klawisz działania + strzałkę w prawo lub w lewo, aż usłyszysz „znaki”.\n\nNastępnie naciskaj klawisz działania + strzałkę w górę, aby przesuwać zaznaczenie wstecz znak po znaku. Naciskaj klawisz działania + strzałkę w dół, aby przesuwać zaznaczenie do przodu znak po znaku.\n\nSpróbuj to zrobić teraz. Możesz też wybrać odczytywanie po słowie, wierszu lub akapicie przez jednoczesne naciskanie klawisza działania + shift + strzałki w prawo lub w lewo.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Poruszanie się po systemie</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Jeśli teraz wypróbujesz te skróty klawiszowe, samouczek zostanie zamknięty. Zalecamy najpierw go dokończyć.\n\nAby przełączać się między otwartymi oknami aplikacji i elementami systemu, takimi jak powiadomienia czy pasek aplikacji, naciskaj klawisz działania +Alt + Ctrl + strzałkę w górę lub w dół.\n\nAby otworzyć listę aplikacji, naciśnij klawisz działania.\n\nAby przejść do ekranu głównego i zminimalizować wszystkie otwarte okna, naciśnij klawisz działania + H lub Home w górnym rzędzie.\n\nAby przejść do ostatnio używanych aplikacji, naciśnij klawisz działania + Tab lub Przegląd w górnym rzędzie.\n\nW celu szybkiego przełączania się między oknami przytrzymaj klawisz Alt i naciśnij Tab.\n\nAby wrócić, naciśnij klawisz działania + Esc lub Wstecz w górnym rzędzie.\n\nAby otworzyć powiadomienia, naciśnij klawisz działania + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Dostosowywanie ustawień mowy</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Głośność mowy w trybie TalkBack określa się jako głośność ułatwień dostępu. Reguluje się ją niezależnie od głośności multimediów.\n\nAby dostosować głośność ułatwień dostępu, naciśnij klawisz działania + przycisk zwiększania lub zmniejszania głośności.\n\nAby zmienić szybkość mowy, naciśnij klawisz działania + Ctrl + przycisk zwiększania głośności w celu zwiększenia szybkości lub klawisz działania + Ctrl + przycisk zmniejszania głośności w celu jej zmniejszenia.\n\nMożesz w każdej chwili zatrzymać odczytywanie, naciskając klawisz Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menu TalkBack i inne skróty klawiszowe</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">W menu TalkBack znajdziesz często używane ustawienia i elementy sterujące.\n\nAby otworzyć to menu, naciśnij klawisz działania + Ctrl + M. Menu TalkBack i elementy sterowania czytaniem możesz dostosować później w ustawieniach funkcji TalkBack.\n\nW menu skrótów klawiszowych TalkBack są podane wszystkie skróty, których możesz używać.\n\nAby je otworzyć, naciśnij klawisz działania + Shift + /.\n\nAby dowiedzieć się więcej o klawiaturze i opanować skróty klawiszowe, otwórz ekran ćwiczenia. W tym celu naciśnij klawisz działania + 0.</string>
+  <string name="keyboard_tutorial_finished_page_title">Wszystko gotowe</string>
+  <string name="keyboard_tutorial_finished_page_text">Możesz już korzystać z funkcji TalkBack.\n\nZapoznaj się teraz z innymi tematami. Możesz też w każdej chwili wrócić do tych informacji w ustawieniach TalkBack.\n\nAby w dowolnym momencie włączyć lub wyłączyć TalkBack, naciśnij klawisz działania + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Szybsze poruszanie się po treściach w internecie za pomocą trybu przeglądania</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">W przeglądarce i aplikacjach internetowych możesz włączyć tryb przeglądania i przełączać się między różnymi poziomami szczegółowości odczytywania oraz elementami sterującymi jednym naciśnięciem klawisza. Ta metoda poruszania się po stronie jest podobna do nawigacji w polu edycji tekstu – strzałki w lewo i w prawo służą do przechodzenia po znakach, a strzałki w górę i w dół – po wierszach.\n\nAby włączyć lub wyłączyć tryb przeglądania, naciśnij dwukrotnie klawisz działania.\n\nGdy tryb przeglądania jest włączony, naciśnij klawisz D, aby przejść do następnego punktu orientacyjnego, F – do następnego elementu sterującego lub pola formularza, B – do następnego przycisku, K – do następnego linku, a H – do następnego nagłówka. Aby przejść wstecz, naciśnij te klawisze z przytrzymanym klawiszem shift.\n\nMożesz też użyć strzałek w górę i w dół, aby przechodzić między wierszami, strzałek w lewo i w prawo, aby przechodzić między literami, oraz Ctrl + strzałki w lewo i w prawo, aby przechodzić między słowami.\n\nAby przejść do obszaru ćwiczenia, naciśnij klawisz działania + strzałkę w prawo. W tym obszarze linki, pola formularzy i przyciski nie będą działać.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Poziomy nagłówków</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Witryny i aplikacje internetowe często mają nagłówki na różnych poziomach w celu ustrukturyzowania treści. Gdy tryb przeglądania jest włączony, naciśnij jeden z klawiszy od 1 do 6, aby przejść do poziomów nagłówków. Aby przejść wstecz, naciśnij te klawisze z przytrzymanym klawiszem shift.\n\nAby przejść do obszaru ćwiczenia, naciśnij klawisz działania + strzałkę w prawo.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabele</string>
+  <string name="keyboard_tutorial_tables_page_text">Tryb przeglądania ułatwia też nawigację w tabelach. Gdy jest on włączony, naciskaj klawisze Alt + Ctrl + strzałkę w górę lub w dół, aby przechodzić między wierszami, oraz Alt + Ctrl + strzałkę w lewo lub w prawo, aby przechodzić między kolumnami.\n\nAby przejść do obszaru ćwiczenia, naciśnij klawisz działania + strzałkę w prawo.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Edytowanie tekstu</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Gdy przejdziesz do pola tekstowego, tryb przeglądania zostanie tymczasowo wyłączony, aby można było używać wszystkich klawiszy do pisania. Po wyłączeniu trybu przeglądania usłyszysz komunikat i dźwięk. Gdy opuścisz pole tekstowe, tryb przeglądania zostanie ponownie włączony oraz usłyszysz kolejny komunikat i dźwięk.\n\nAby przejść do obszaru ćwiczenia, naciśnij klawisz działania + strzałkę w prawo.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Więcej informacji o trybie przeglądania</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Aby sprawdzić pełną listę elementów, między którymi możesz przechodzić w trybie przeglądania, naciśnij klawisz działania + shift + / i wyszukaj „tryb przeglądania” w menu skrótów klawiszowych.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Czytanie po znaku, słowie lub akapicie</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Tekst może być odczytywany na głos znak po znaku.\n\nW tym celu możesz użyć nawigacji za pomocą elementów sterowania czytaniem. Naciskaj klawisz działania + strzałkę w prawo lub w lewo, aż usłyszysz „znaki”. Następnie naciskaj klawisz działania + strzałkę w górę, aby przesuwać zaznaczenie wstecz znak po znaku. Naciskaj klawisz działania + strzałkę w dół, aby przesuwać zaznaczenie do przodu znak po znaku.\n\nSpróbuj to zrobić teraz. Możesz też wybrać odczytywanie po słowie, wierszu lub akapicie przez jednoczesne naciskanie klawisza działania + shift + strzałki w prawo lub w lewo.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Przechodzenie między elementami sterującymi</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Elementy sterujące obsługuje się podobnie jak przyciski, pola wyboru i pola tekstowe.\n\nNa niektórych stronach możesz przechodzić między nimi i szybko znajdować odpowiednie działania, np. przycisk Dalej.\n\nW tym celu naciskaj klawisz działania + shift + strzałkę w prawo, aż usłyszysz „elementy sterujące”. Następnie naciśnij klawisz działania + strzałkę w górę, aby przejść do przycisku Wstecz, lub klawisz działania + strzałkę w dół, aby przejść do przycisku Dalej.\n\nSpróbuj teraz znaleźć przycisk Dalej.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Przechodzenie między linkami</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Możesz też przechodzić między linkami na stronie.\n\nW tym celu naciskaj klawisz działania + shift i strzałkę w prawo, aż usłyszysz „linki”. Następnie naciśnij klawisz działania + strzałkę w dół, aby znaleźć link o nazwie „Link 5”. W samouczku dwukrotne kliknięcie tego linku nie będzie miało żadnego efektu.\n\nNaciśnij klawisz działania + strzałkę w prawo, aby znaleźć przycisk Dalej i przejść na kolejną stronę.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Przechodzenie między nagłówkami</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Możesz też przechodzić między nagłówkami na stronie.\n\nSpróbuj to zrobić teraz. Naciskaj klawisz działania + shift + strzałkę w prawo, aż usłyszysz „nagłówki”. Następnie naciśnij klawisz działania + strzałkę w dół, aby znaleźć nagłówek „Nawigacja”.</string>
+  <string name="keyboard_tutorial_find_next_button">Aby znaleźć przycisk Dalej, naciśnij klawisz działania + strzałkę w prawo.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Przechodzenie między kontenerami</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Aby opuścić kontener, np. listę lub siatkę, naciśnij klawisz działania + Alt + Ctrl + strzałkę w prawo lub w lewo. Jest to przydatne, gdy chcesz wyjść z długiej listy elementów.\n\nSpróbuj to zrobić teraz. Naciśnij klawisz działania + strzałkę w prawo, aby przejść do listy. Następnie naciśnij klawisz działania + Alt + Ctrl + strzałkę w prawo, aby przejść do następnego kontenera.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Aby przejść do następnego kontenera, naciśnij klawisz działania + Alt + Ctrl + strzałkę w prawo</string>
+  <string name="keyboard_tutorial_exit_container">Aby opuścić ten kontener, naciśnij klawisz działania + Alt + Ctrl + strzałkę w prawo</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Kontener został opuszczony. Możesz też dodać kontenery do elementów sterowania czytaniem, a następnie naciskać klawisz działania + shift + strzałkę w prawo lub w lewo, aby wybierać kontenery, oraz klawisz działania + strzałkę w dół lub w górę, aby przełączać się między nimi. Aby zaktualizować elementy sterowania czytaniem, wybierz TalkBack &gt; Ustawienia &gt; Dostosuj menu &gt; Dostosuj elementy sterujące czytaniem.\n\nAby znaleźć przycisk Dalej, naciśnij klawisz działania + strzałkę w prawo.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Dostosowywanie elementów sterowania czytaniem</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Ustawienia mowy możesz też dostosowywać za pomocą elementów sterowania czytaniem. Możesz też ustawić funkcje tych elementów. Aby to zrobić, wybierz TalkBack &gt; Ustawienia &gt; Dostosuj menu &gt; Dostosuj elementy sterujące czytaniem.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Próbne uzyskanie opisów obrazów</string>
+  <string name="keyboard_tutorial_image_description_page_text">Po zaznaczeniu obrazu naciśnij klawisz działania + R, a potem I. Poniżej jest 1 zdjęcie. Spróbuj uzyskać jego opis.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Ustawienia opisów obrazów możesz zmienić w każdej chwili. Aby to zrobić, wybierz Ustawienia TalkBack &gt; Opisy obrazów i ikon.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Ustawienia opisów obrazów możesz zmienić w każdej chwili. Aby to zrobić, wybierz Ustawienia TalkBack, a następnie Opisy obrazów i ikon.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Przykładowy obraz. Aby usłyszeć opis, naciśnij klawisz działania + R, a potem I.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Polecenia głosowe</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Możesz teraz szybko sterować funkcją TalkBack głosowo.\n\nWypowiedz polecenie w celu na przykład zmiany sposobu nawigacji, przejścia do następnego nagłówka czy skopiowania tekstu.\n\nAby wypróbować to teraz, naciśnij klawisz działania + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Korzystanie z funkcji wyszukiwania zawartości ekranu</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Funkcja ta umożliwia wyszukiwanie określonej zawartości na ekranie.\n\nAby ją wypróbować, naciśnij klawisz działania + Ctrl + /. Wpisz słowo kluczowe, np. „dalej”, aby znaleźć elementy z tym tekstem na ekranie.\n\nSpróbuj teraz wyszukać w ten sposób przycisk Dalej.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Nawigowanie za pomocą wyszukiwania zawartości ekranu</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Po wybraniu wyniku wyszukiwania zawartości ekranu możesz szybko przechodzić do innych wyników.\n\nUmożliwia to nawigacja przy użyciu elementów sterowania czytaniem. Naciskaj klawisz działania + shift + strzałkę w prawo lub w lewo, aż usłyszysz „wyszukiwanie zawartości ekranu”. Następnie naciśnij klawisz działania + strzałkę w dół lub w górę, aby poruszać się po wynikach wyszukiwania zawartości ekranu.\n\nSpróbuj to zrobić teraz. Poniżej jest lista 3 przycisków, z których każdy zawiera tekst „działanie”. Wyszukaj „działanie” za pomocą wyszukiwania zawartości ekranu, a potem poruszaj się między przyciskami, korzystając z tej funkcji.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Ćwiczenie skrótów klawiszowych</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Naciśnij klawisz lub kombinację klawiszy na klawiaturze fizycznej, aby usłyszeć, jakie ma przypisane działanie. Aby wyjść, naciśnij Ctrl + W lub Escape.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Podziwiaj piękno majestatycznych kalifornijskich sekwoi&lt;/h1&gt;
+      &lt;p&gt;Kalifornijskie sekwoje, zwłaszcza sekwoje wieczniezielone (sequoia sempervirens), są najwyższymi drzewami na świecie. Niektóre mają ponad 115 m wysokości i żyją tysiące lat. Dobrze rosną w wilgotnym klimacie nadmorskim północnej Kalifornii dzięki regularnym opadom deszczu i mgłom.&lt;/p&gt;
+
+      &lt;h2&gt;Gdzie je zobaczyć&lt;/h2&gt;
+      &lt;p&gt;Te giganty rosną w wąskim pasie wzdłuż wybrzeża Pacyfiku. Najpopularniejsze parki to:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks,&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park,&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park.&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Zaplanuj wizytę: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – sekwoje&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Wspieraj ochronę przyrody&lt;/h2&gt;
+      &lt;p&gt;Ochrona tych starożytnych lasów jest niezwykle ważna. Możesz w tym pomóc – przestrzegaj zasad obowiązujących w parkach i wspieraj działania na rzecz ochrony przyrody.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Podziel się wrażeniami&lt;/h2&gt;
+        &lt;p&gt;Czy udało Ci się zobaczyć sekwoje?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Tak&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nie&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Opowiedz nam o swoich wrażeniach&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Prześlij&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Czego jeszcze chcesz się dowiedzieć o sekwojach?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Prześlij&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekwoje: na straży przyrody&lt;/h1&gt;
+    &lt;p&gt;Drzewa te są ważne dla naszej planety i kluczowe dla dobrej kondycji środowiska.&lt;/p&gt;
+
+    &lt;h1&gt;Gigantyczne oczyszczacze&lt;/h1&gt;
+    &lt;p&gt;Sekwoje doskonale pochłaniają dwutlenek węgla z powietrza. Pomagają w ten sposób utrzymywać jego czystość.&lt;/p&gt;
+
+    &lt;h2&gt;Dom dla zwierząt&lt;/h2&gt;
+    &lt;p&gt;Sekwoje dają dom i schronienie wielu zwierzętom – od ptaków w koronach po małe stworzenia w glebie.&lt;/p&gt;
+
+    &lt;h3&gt;Niesamowite wykorzystywanie wody&lt;/h3&gt;
+    &lt;p&gt;Sekwoje świetnie wychwytują mgłę, która następnie skrapla się i spływa na leśny grunt. Dzięki temu gleba jest wilgotna i zapewnia wodę innym roślinom oraz zwierzętom, zwłaszcza gdy jest sucho.&lt;/p&gt;
+
+    &lt;h4&gt;Ochrona gleby&lt;/h4&gt;
+    &lt;p&gt;Mocne korzenie utrzymują glebę na miejscu, dzięki czemu zapobiegają jej wypłukiwaniu podczas ulewnych deszczów i powstrzymują erozję.&lt;/p&gt;
+
+    &lt;h5&gt;Budulec lasów&lt;/h5&gt;
+    &lt;p&gt;Gdy stare sekwoje padają, ich drewno użyźnia glebę oraz staje się pożywieniem i schronieniem dla nowych roślin i zwierząt.&lt;/p&gt;
+
+    &lt;h6&gt;Unikalne ekosystemy&lt;/h6&gt;
+    &lt;p&gt;Ponieważ sekwoje są tak duże i żyją tak długo, tworzą specjalne środowiska leśne, w których życie rozwija się jak nigdzie indziej.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Zwierzęta w lasach sekwojowych&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Zwierzęta w lasach sekwojowych\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Zwierzę&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Opis&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Gdzie żyje&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Ciekawostka&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Ślimak bananowy&lt;/th&gt;
+            &lt;td&gt;Duży, żółty, pokryty śluzem ślimak&lt;/td&gt;
+            &lt;td&gt;Na leśnym gruncie&lt;/td&gt;
+            &lt;td&gt;Drugi co do wielkości ślimak na świecie&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Pacyficzna salamandra olbrzymia&lt;/th&gt;
+            &lt;td&gt;Duża, ciemna salamandra&lt;/td&gt;
+            &lt;td&gt;W pobliżu strumieni i wilgotnych miejsc&lt;/td&gt;
+            &lt;td&gt;Może osiągnąć 30 cm długości&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Łoś Roosevelta&lt;/th&gt;
+            &lt;td&gt;Duży jeleń z imponującym porożem&lt;/td&gt;
+            &lt;td&gt;Pasie się na polanach w lesie&lt;/td&gt;
+            &lt;td&gt;Samce mogą ważyć ponad 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Puszczyk plamisty&lt;/th&gt;
+            &lt;td&gt;Średniej wielkości sowa polująca w nocy&lt;/td&gt;
+            &lt;td&gt;W gęstych, starych lasach sekwojowych&lt;/td&gt;
+            &lt;td&gt;Jest to gatunek wskaźnikowy – jego stan świadczy o stanie lasu&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Niedźwiedź czarny&lt;/th&gt;
+            &lt;td&gt;Duży ssak, zwykle o czarnym lub brązowym umaszczeniu&lt;/td&gt;
+            &lt;td&gt;Szuka pożywienia w całym lesie&lt;/td&gt;
+            &lt;td&gt;Doskonale się wspina, często można go zobaczyć na drzewach&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Twoje przemyślenia na temat sekwoi i przyrody&lt;/h1&gt;
+
+      &lt;p&gt;Czego jeszcze chcesz się dowiedzieć o sekwojach?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Jakie naturalne miejsce najbardziej lubisz odwiedzać?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Jakie zagadnienie związane z przyrodą chcesz zgłębić?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

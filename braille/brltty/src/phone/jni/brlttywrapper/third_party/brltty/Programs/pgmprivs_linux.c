@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -21,6 +21,7 @@
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <sys/mount.h>
 
 #include "log.h"
 #include "strfmt.h"
@@ -342,6 +343,7 @@ processRequiredGroups (GroupsProcessor *processGroups, int logProblems, void *da
         const char *path = rge->path;
 
         if (path) {
+          logMessage(LOG_DEBUG, "checking group owner of path: %s", path);
           struct stat status;
 
           if (stat(path, &status) != -1) {
@@ -571,6 +573,7 @@ static const RequiredCapabilityEntry requiredCapabilityTable[] = {
 
 static void
 setRequiredCapabilities (int stayPrivileged) {
+  logCurrentCapabilities("temporary");
   cap_t newCaps, oldCaps;
 
   if (amPrivilegedUser()) {
@@ -662,6 +665,42 @@ logCurrentCapabilities (const char *label) {
 }
 #endif /* CAP_IS_SUPPORTED */
 
+static int
+setRootMountPropagation (int flag) {
+  if (mount(NULL, "/", NULL, (flag | MS_REC), NULL) != -1) return 1;
+  logSystemError("mount[root,propagatin]");
+  return 0;
+}
+
+static int
+isolateDirectory (const char *directory, const char *label) {
+  const char *mountTarget = directory;
+  if (!mountTarget) return 1;
+
+  const char *mountType = "tmpfs";
+  const char *mountSource = mountType;
+
+  if (mount(mountSource, mountTarget, mountType, 0, "") != -1) {
+    logMessage(LOG_DEBUG, "%s mountpoint is %s: %s", label, mountType, mountTarget);
+
+    if (mount(NULL, mountTarget, NULL, (MS_PRIVATE), "") != -1) {
+      logMessage(LOG_DEBUG, "%s mountpoint is private: %s", label, mountTarget);
+      return 1;
+    } else {
+      logSystemError("mount[private]");
+    }
+  } else {
+    logSystemError("mount[tmpfs]");
+  }
+
+  return 0;
+}
+
+static int
+isolateDevicesDirectory (void) {
+  return isolateDirectory(getDevicesDirectory(), "devices");
+}
+
 #ifdef HAVE_SCHED_H
 #include <sched.h>
 
@@ -679,19 +718,20 @@ static const IsolatedNamespaceEntry isolatedNamespaceTable[] = {
   },
   #endif /* CLONE_NEWCGROUP */
 
-  #ifdef CLONE_NEWNS
-  { .unshareFlag = CLONE_NEWNS,
-    .name = "mount",
-    .summary = "mount points",
-  },
-  #endif /* CLONE_NEWNS */
-
   #ifdef CLONE_NEWUTS
   { .unshareFlag = CLONE_NEWUTS,
     .name = "UTS",
     .summary = "host name and NIS domain name",
   },
   #endif /* CLONE_NEWUTS */
+
+  // should be last
+  #ifdef CLONE_NEWNS
+  { .unshareFlag = CLONE_NEWNS,
+    .name = "mount",
+    .summary = "mount points",
+  },
+  #endif /* CLONE_NEWNS */
 }; static const uint8_t isolatedNamespaceCount = ARRAY_COUNT(isolatedNamespaceTable);
 
 static void
@@ -719,8 +759,21 @@ isolateNamespaces (void) {
       ine += 1;
     }
 
+    int isolatingMounts = !!(unshareFlags & CLONE_NEWNS);
+
+    if (isolatingMounts) {
+      if (!setRootMountPropagation(MS_SHARED)) {
+        isolatingMounts = 0;
+      }
+    }
+
     if (unshare(unshareFlags) == -1) {
       logSystemError("unshare");
+    } else if (isolatingMounts) {
+      if (setRootMountPropagation(MS_SLAVE)) {
+        logMessage(LOG_DEBUG, "root file system is enslaved");
+        isolateDevicesDirectory();
+      }
     }
   } else {
     logMessage(LOG_WARNING, "can't isolate namespaces");
@@ -2235,7 +2288,7 @@ getPrivilegeParametersPlatform (void) {
 
 void
 establishProgramPrivileges (char **parameters, int stayPrivileged) {
-  logCurrentCapabilities("at start");
+  logCurrentCapabilities("initial");
 
   setCommandSearchPath(parameters[PARM_PATH]);
   setDefaultShell(parameters[PARM_SHELL]);
@@ -2279,7 +2332,7 @@ establishProgramPrivileges (char **parameters, int stayPrivileged) {
   }
 
   establishPrivileges(stayPrivileged);
-  logCurrentCapabilities("after relinquish");
+  logCurrentCapabilities("permanent");
 
 #ifdef SECCOMP_MODE_FILTER
   scfInstallFilter(parameters[PARM_SCFMODE]);

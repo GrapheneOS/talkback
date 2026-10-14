@@ -29,6 +29,7 @@ import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.WeakReferenceHandler;
 import com.google.android.accessibility.utils.monitor.InputModeTracker;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,8 @@ import java.util.List;
  * </ul>
  */
 public class TouchExplorationInterpreter implements AccessibilityEventListener {
+
+  private static final String TAG = "TouchExplorationInterpreter";
 
   /** Listens to {@link TouchExplorationAction}. */
   public interface TouchExplorationActionListener {
@@ -91,10 +94,9 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
   public void onAccessibilityEvent(AccessibilityEvent event, EventId eventId) {
     final boolean result;
     switch (event.getEventType()) {
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START:
-        result = handleTouchInteractionStartEvent(eventId);
-        break;
-      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END:
+      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_START ->
+          result = handleTouchInteractionStartEvent(eventId);
+      case AccessibilityEvent.TYPE_TOUCH_INTERACTION_END -> {
         if (FeatureSupport.hoverEventOutOfOrder()) {
           // REFERTO. In some case, framework sends a Hover_Enter event enter after
           // User_Interaction_end event. Defer the action for workaround.
@@ -103,10 +105,8 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
         } else {
           result = handleTouchInteractionEndEvent(eventId);
         }
-        break;
-      default:
-        result = handleHoverEnterEvent(event, eventId);
-        break;
+      }
+      default -> result = handleHoverEnterEvent(event, eventId);
     }
     if (result) {
       setInputTouchMode();
@@ -118,6 +118,10 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
     postDelayHandler.executePendingTouchEndAction();
     setLastTouchedNode(/*touchedNode= */ null);
     postDelayHandler.cancelPendingEmptyTouchAction(/* dispatchPendingActionImmediately= */ false);
+    LogUtils.v(
+        TAG,
+        "handleTouchInteractionStartEvent: TOUCH_INTERACTION_START,"
+            + " touchedFocusableNode=null");
     return dispatchTouchExplorationAction(
         new TouchExplorationAction(
             TouchExplorationAction.TOUCH_INTERACTION_START, /* touchedFocusableNode= */ null),
@@ -129,6 +133,9 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
     setLastTouchedNode(/*touchedNode= */ null);
     // Dispatch pending empty touch action immediately.
     postDelayHandler.cancelPendingEmptyTouchAction(/* dispatchPendingActionImmediately= */ true);
+    LogUtils.v(
+        TAG,
+        "handleTouchInteractionEndEvent: TOUCH_INTERACTION_END," + " touchedFocusableNode=null");
     return dispatchTouchExplorationAction(
         new TouchExplorationAction(
             TouchExplorationAction.TOUCH_INTERACTION_END, /* touchedFocusableNode= */ null),
@@ -153,6 +160,11 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
 
     final AccessibilityNodeInfoCompat touchedFocusableNode =
         AccessibilityNodeInfoUtils.findFocusFromHover(touchedNode);
+    LogUtils.v(
+        TAG,
+        "handleHoverEnterEvent: touchedNode=%s, touchedFocusableNode=%s",
+        touchedNode,
+        touchedFocusableNode);
 
     if (touchedFocusableNode == null) {
       // REFERTO. If no focusable node is being touched, don't dispatch empty touch
@@ -161,6 +173,8 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
       postDelayHandler.postDelayEmptyTouchAction(eventId);
     } else {
       postDelayHandler.cancelPendingEmptyTouchAction(/* dispatchPendingActionImmediately= */ false);
+      LogUtils.v(
+          TAG, "handleHoverEnterEvent: HOVER_ENTER, touchedFocusableNode=%s", touchedFocusableNode);
       return dispatchTouchExplorationAction(
           new TouchExplorationAction(TouchExplorationAction.HOVER_ENTER, touchedFocusableNode),
           eventId);
@@ -211,6 +225,8 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
     @Override
     protected void handleMessage(Message msg, TouchExplorationInterpreter parent) {
       if (msg.what == MSG_EMPTY_TOUCH_ACTION) {
+        LogUtils.v(
+            TAG, "handleMessage: MSG_EMPTY_TOUCH_ACTION, HOVER_ENTER, touchedFocusableNode=null");
         parent.dispatchTouchExplorationAction(
             new TouchExplorationAction(
                 TouchExplorationAction.HOVER_ENTER, /* touchedFocusableNode= */ null),
@@ -229,6 +245,10 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
           dispatchPendingActionImmediately && hasMessages(MSG_EMPTY_TOUCH_ACTION);
       removeMessages(MSG_EMPTY_TOUCH_ACTION);
       if (shouldDispatchEmptyTouchAction) {
+        LogUtils.v(
+            TAG,
+            "cancelPendingEmptyTouchAction: shouldDispatchEmptyTouchAction, HOVER_ENTER,"
+                + " touchedFocusableNode=null");
         getParent()
             .dispatchTouchExplorationAction(
                 new TouchExplorationAction(

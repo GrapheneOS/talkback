@@ -19,8 +19,6 @@ package com.google.android.accessibility.utils;
 import static android.content.Context.SENSOR_SERVICE;
 import static android.content.Context.VIBRATOR_SERVICE;
 
-import android.Manifest;
-import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.annotation.SuppressLint;
 import android.app.UiModeManager;
@@ -28,25 +26,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.accessibility.AccessibilityManager;
-import android.view.accessibility.AccessibilityNodeInfo;
-import android.view.accessibility.AccessibilityWindowInfo;
+import android.view.InputDevice;
 import androidx.annotation.ChecksSdkIntAtLeast;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.Constants;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 
 /** Methods to check hardware and software support for operating system features. */
 public final class FeatureSupport {
+
+  private static final String TAG = "FeatureSupport";
+
   @Nullable private static Boolean brailleDisplaySettingsActivityPresent = null;
   @Nullable private static Boolean brailleKeyboardSettingsActivityPresent = null;
   @Nullable private static Boolean isWatch = null;
+
+  private static final int SDK_INT_MULTIPLIER = 100000; // Copied from android.os.Build.java
+  public static final int BAKLAVA_1 = 36 * SDK_INT_MULTIPLIER + 1;
 
   // Enforce noninstantiability with a private constructor.
   private FeatureSupport() {}
@@ -67,10 +71,6 @@ public final class FeatureSupport {
     return isWatch;
   }
 
-  public static boolean isArc() {
-    return (Build.DEVICE != null) && Build.DEVICE.matches(".+_cheets|cheets_.+");
-  }
-
   public static boolean isTv(Context context) {
     if (context == null) {
       return false;
@@ -82,11 +82,7 @@ public final class FeatureSupport {
   }
 
   public static boolean isPhoneOrTablet(Context context) {
-    return (!isWatch(context) && !isArc() && !isTv(context));
-  }
-
-  public static boolean useSpeakPasswordsServicePref() {
-    return BuildVersionUtils.isAtLeastO();
+    return (!isWatch(context) && !isTv(context));
   }
 
   /** Returns {@code true} for devices which have separate audio a11y stream. */
@@ -199,6 +195,14 @@ public final class FeatureSupport {
    */
   public static boolean supportAnnounceMagnificationChanged() {
     return Build.VERSION.SDK_INT != VERSION_CODES.S && Build.VERSION.SDK_INT != VERSION_CODES.S_V2;
+  }
+
+  /**
+   * Returns {@code true} if platform supports magnification activated state in magnification
+   * config.
+   */
+  public static boolean supportMagnificationConfigActivateState() {
+    return BuildVersionUtils.isAtLeastU();
   }
 
   /**
@@ -316,6 +320,18 @@ public final class FeatureSupport {
         && AccessibilityServiceInfo.flagToString(
                 AccessibilityServiceInfo.FLAG_REQUEST_2_FINGER_PASSTHROUGH)
             != null;
+  }
+
+  /** Returns {@code true} if the gesture navigation enabled. */
+  public static boolean isGestureNavigateEnabled(Context context) {
+    final int navBarModeGestural = 2;
+    Resources resources = context.getResources();
+    int resourceId = resources.getIdentifier("config_navBarInteractionMode", "integer", "android");
+    if (resourceId > 0) {
+      return resources.getInteger(resourceId) == navBarModeGestural;
+    }
+    // Device doesn't support gesture navigation.
+    return false;
   }
 
   /** Returns true if the platform supports FLAG_SERVICE_HANDLES_DOUBLE_TAP. */
@@ -454,6 +470,7 @@ public final class FeatureSupport {
   }
 
   /** Returns {@code true} if the device supports gesture detection in the service side. */
+  @ChecksSdkIntAtLeast(api = 33)
   public static boolean supportGestureDetection() {
     return BuildVersionUtils.isAtLeastT();
   }
@@ -493,6 +510,28 @@ public final class FeatureSupport {
   }
 
   /**
+   * Returns {@code true} if this Android platform supports to listen generic {@link
+   * android.view.MotionEvent}s.
+   */
+  public static boolean supportMotionEventSources() {
+    return BuildVersionUtils.isAtLeastU();
+  }
+
+  /** Returns {@code true} if this device supports a rotary encoder. */
+  public static boolean supportsRotaryEncoder() {
+    int[] deviceIds = InputDevice.getDeviceIds();
+    for (int deviceId : deviceIds) {
+      InputDevice inputDevice = InputDevice.getDevice(deviceId);
+      if (inputDevice != null && inputDevice.supportsSource(InputDevice.SOURCE_ROTARY_ENCODER)) {
+        LogUtils.d(TAG, "This device supports a rotary encoder.");
+        return true;
+      }
+    }
+    LogUtils.d(TAG, "This device doesn't support a rotary encoder.");
+    return false;
+  }
+
+  /**
    * Returns {@code true} if the device supports multiple gesture set. The new gesture to switch
    * between gesture set is available only for gesture detection on the service side.
    */
@@ -506,5 +545,63 @@ public final class FeatureSupport {
    */
   public static boolean supportInputConnectionByA11yService() {
     return BuildVersionUtils.isAtLeastT();
+  }
+
+  /**
+   * Returns {@code true} if the device officially supports answering a call with the media control
+   * gesture.
+   */
+  public static boolean supportMediaControlHintForCall() {
+    return BuildVersionUtils.isAtLeastU();
+  }
+
+  /**
+   * Returns {@code true} if TalkBack should support quickly navigating to heads-up notifications.
+   * HUNs have been around for years, but we check for T since unlocked calls are HUNs starting in
+   * TQPR3.
+   */
+  public static boolean supportQuickNavigationToHeadsUpNotifications() {
+    return BuildVersionUtils.isAtLeastT();
+  }
+
+  /** Returns {@code true} if the device supports SuggestionSpan#FLAG_GRAMMAR_ERROR. */
+  public static boolean supportGrammarError() {
+    return BuildVersionUtils.isAtLeastS();
+  }
+
+  /** Returns {@code true} if this Android platform supports 3fps for take-screenshot. */
+  public static boolean supportTakeScreenshot3fps() {
+    return BuildVersionUtils.isAtLeastS();
+  }
+
+  /** Returns {@code true} if this Android platform supports WindowMetrics. */
+  public static boolean supportWindowMetrics() {
+    return BuildVersionUtils.isAtLeastR();
+  }
+
+  /** Returns {@code true} if this Android platform supports Split Tap everywhere. */
+  @ChecksSdkIntAtLeast(api = 36)
+  public static boolean supportSplitTapEverywhere() {
+    return Build.VERSION.SDK_INT >= 36 && Build.VERSION.SDK_INT_FULL >= BAKLAVA_1;
+  }
+
+  /** Returns {@code true} if this Android platform supports CONTENT_CHANGE_TYPE_EXPANDED Event. */
+  @ChecksSdkIntAtLeast(api = 36)
+  public static boolean supportExpandedAccessibilityEvent() {
+    return Build.VERSION.SDK_INT >= 36;
+  }
+
+  /** Returns {@code true} if this Android platform supports CONTENT_CHANGE_TYPE_CHECKED Event. */
+  @ChecksSdkIntAtLeast(api = 36)
+  public static boolean supportCheckedAccessibilityEvent() {
+    return Build.VERSION.SDK_INT >= 36;
+  }
+
+  /** Resets the cached static state for testing purposes. */
+  @VisibleForTesting
+  public static void testing_reset() {
+    brailleDisplaySettingsActivityPresent = null;
+    brailleKeyboardSettingsActivityPresent = null;
+    isWatch = null;
   }
 }

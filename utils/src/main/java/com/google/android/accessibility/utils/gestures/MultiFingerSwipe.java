@@ -16,17 +16,20 @@
 
 package com.google.android.accessibility.utils.gestures;
 
+import static android.util.Log.VERBOSE;
 import static android.view.MotionEvent.INVALID_POINTER_ID;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.os.Build;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+import androidx.annotation.RequiresApi;
+import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.R;
-import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +39,7 @@ import java.util.List;
  * gesture. A swipe is specified as a series of one or more directions e.g. left, left and up, etc.
  * At this time swipes with more than two directions are not supported.
  */
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 class MultiFingerSwipe extends GestureMatcher {
 
   // Direction constants.
@@ -64,20 +68,25 @@ class MultiFingerSwipe extends GestureMatcher {
   // We sample based on a minimum distance between points, primarily to improve accuracy by
   // reducing noisy minor changes in direction.
   private static final float MIN_CM_BETWEEN_SAMPLES = 0.25f;
-  private final float minPixelsBetweenSamplesX;
-  private final float minPixelsBetweenSamplesY;
-  // The minmimum distance the finger must travel before we evaluate the initial direction of the
+  private float minPixelsBetweenSamplesX;
+  private float minPixelsBetweenSamplesY;
+  // The minimum distance the finger must travel before we evaluate the initial direction of the
   // swipe.
   // Anything less is still considered a touch.
   private int touchSlop;
+  private int tapTimeout;
+  // This is used to record the time of onDown/onPointerDown, so that we can check whether the all
+  // fingersʼ tap comply the TapTimeout spec.
+  private long lastDownTime;
 
   MultiFingerSwipe(
       Context context,
       int fingerCount,
       int direction,
       int gesture,
-      GestureMatcher.StateChangeListener listener) {
-    super(gesture, new Handler(context.getMainLooper()), listener);
+      GestureMatcher.StateChangeListener listener,
+      GestureMatcher.AnalyticsEventLogger logger) {
+    super(gesture, new Handler(context.getMainLooper()), listener, logger);
     targetFingerCount = fingerCount;
     pointerIds = new int[targetFingerCount];
     base = new PointF[targetFingerCount];
@@ -87,16 +96,26 @@ class MultiFingerSwipe extends GestureMatcher {
       strokeBuffers.add(new ArrayList<PointF>());
     }
     targetDirection = direction;
+    initializeViewConfigurationParameters(context);
+    clear();
+  }
+
+  @Override
+  public void onConfigurationChanged(Context context) {
+    initializeViewConfigurationParameters(context);
+  }
+
+  private void initializeViewConfigurationParameters(Context context) {
     DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
     // Calculate gesture sampling interval.
     final float pixelsPerCmX = displayMetrics.xdpi / GestureUtils.CM_PER_INCH;
     final float pixelsPerCmY = displayMetrics.ydpi / GestureUtils.CM_PER_INCH;
     minPixelsBetweenSamplesX = MIN_CM_BETWEEN_SAMPLES * pixelsPerCmX;
     minPixelsBetweenSamplesY = MIN_CM_BETWEEN_SAMPLES * pixelsPerCmY;
+    tapTimeout = targetFingerCount * ViewConfiguration.getTapTimeout();
     touchSlop =
         ViewConfiguration.get(context).getScaledTouchSlop()
             * context.getResources().getInteger(R.integer.config_slop_default_multiplier);
-    clear();
   }
 
   @Override
@@ -117,11 +136,12 @@ class MultiFingerSwipe extends GestureMatcher {
       previousGesturePoint[i].y = Float.NaN;
       strokeBuffers.get(i).clear();
     }
+    lastDownTime = Long.MAX_VALUE;
     super.clear();
   }
 
   @Override
-  protected void onDown(MotionEvent event) {
+  protected void onDown(EventId eventId, MotionEvent event) {
     if (currentFingerCount > 0) {
       cancelGesture(event);
       return;
@@ -140,6 +160,7 @@ class MultiFingerSwipe extends GestureMatcher {
       cancelGesture(event);
       return;
     }
+    lastDownTime = event.getEventTime();
     pointerIds[pointerIndex] = pointerId;
     if (Float.isNaN(base[pointerIndex].x) && Float.isNaN(base[pointerIndex].y)) {
       final float x = event.getX(actionIndex);
@@ -160,11 +181,17 @@ class MultiFingerSwipe extends GestureMatcher {
   }
 
   @Override
-  protected void onPointerDown(MotionEvent event) {
+  protected void onPointerDown(EventId eventId, MotionEvent event) {
     if (event.getPointerCount() > targetFingerCount) {
       cancelGesture(event);
       return;
     }
+    long timeDelta = event.getEventTime() - lastDownTime;
+    if (timeDelta > tapTimeout) {
+      cancelGesture(event);
+      return;
+    }
+    lastDownTime = event.getEventTime();
     currentFingerCount += 1;
     if (currentFingerCount != event.getPointerCount()) {
       cancelGesture(event);
@@ -205,7 +232,7 @@ class MultiFingerSwipe extends GestureMatcher {
   }
 
   @Override
-  protected void onPointerUp(MotionEvent event) {
+  protected void onPointerUp(EventId eventId, MotionEvent event) {
     if (!targetFingerCountReached) {
       cancelGesture(event);
       return;
@@ -238,7 +265,7 @@ class MultiFingerSwipe extends GestureMatcher {
   }
 
   @Override
-  protected void onMove(MotionEvent event) {
+  protected void onMove(EventId eventId, MotionEvent event) {
     for (int pointerIndex = 0; pointerIndex < targetFingerCount; ++pointerIndex) {
       if (pointerIds[pointerIndex] == INVALID_POINTER_ID) {
         // Fingers have started to move before the required number of fingers are down.
@@ -248,12 +275,14 @@ class MultiFingerSwipe extends GestureMatcher {
         // those who have.
         continue;
       }
-      LogUtils.v(getGestureName(), "Processing move on finger %d", pointerIndex);
+      gestureMotionEventLog(
+          VERBOSE, getGestureName(), "Processing move on finger %d", pointerIndex);
       int index = event.findPointerIndex(pointerIds[pointerIndex]);
       if (index < 0) {
         // This finger is not present in this event. It could have gone up just before this
         // movement.
-        LogUtils.v(getGestureName(), "Finger %d not found in this event. skipping.", pointerIndex);
+        gestureMotionEventLog(
+            VERBOSE, "Finger %d not found in this event. skipping.", pointerIndex);
         continue;
       }
       final float x = event.getX(index);
@@ -266,7 +295,7 @@ class MultiFingerSwipe extends GestureMatcher {
       final float dY = Math.abs(y - previousGesturePoint[pointerIndex].y);
       final double moveDelta =
           Math.hypot(Math.abs(x - base[pointerIndex].x), Math.abs(y - base[pointerIndex].y));
-      LogUtils.v(getGestureName(), "moveDelta%g", moveDelta);
+      gestureMotionEventLog(VERBOSE, "moveDelta%g", moveDelta);
       if (getState() == STATE_CLEAR) {
         if (moveDelta < (targetFingerCount * touchSlop)) {
           // This still counts as a touch not a swipe.
@@ -307,18 +336,19 @@ class MultiFingerSwipe extends GestureMatcher {
   }
 
   @Override
-  protected void onUp(MotionEvent event) {
+  protected void onUp(EventId eventId, MotionEvent event) {
     switch (getState()) {
-      case STATE_GESTURE_STARTED:
-        break;
-      case STATE_CLEAR:
+      case STATE_GESTURE_STARTED -> {}
+      case STATE_CLEAR -> {
         // For Swipe gestures, this is the very last motion event. When any of the swipe gesture
         // detectors matches, the others will enter the clear state. We should not Cancel the
         // detector again for the Up event, or it cannot detect new gesture immediately.
         return;
-      default:
+      }
+      default -> {
         cancelGesture(event);
         return;
+      }
     }
     currentFingerCount = 0;
     final int actionIndex = event.getActionIndex();
@@ -339,20 +369,20 @@ class MultiFingerSwipe extends GestureMatcher {
     if (dX >= minPixelsBetweenSamplesX || dY >= minPixelsBetweenSamplesY) {
       strokeBuffers.get(pointerIndex).add(new PointF(x, y));
     }
-    recognizeGesture(event);
+    recognizeGesture(eventId, event);
   }
 
   /**
    * Looks at the sequence of motions in mStrokeBuffer, classifies the gesture, then transitions to
    * the complete or cancel state depending on the result.
    */
-  private void recognizeGesture(MotionEvent event) {
+  private void recognizeGesture(EventId eventId, MotionEvent event) {
     // Check the path of each finger against the specified direction.
     // Note that we sample every 2.5 MMm, and the direction matching is extremely tolerant (each
     // direction has a 90-degree arch of tolerance) meaning that minor perpendicular movements
     // should not create false negatives.
     for (int i = 0; i < targetFingerCount; ++i) {
-      LogUtils.v(getGestureName(), "Recognizing finger: %d", i);
+      gestureMotionEventLog(VERBOSE, "Recognizing finger: %d", i);
       if (strokeBuffers.get(i).size() < 2) {
         Log.d(getGestureName(), "Too few points.");
         cancelGesture(event);
@@ -360,7 +390,7 @@ class MultiFingerSwipe extends GestureMatcher {
       }
       List<PointF> path = strokeBuffers.get(i);
 
-      LogUtils.v(getGestureName(), "path= %s", path.toString());
+      gestureMotionEventLog(VERBOSE, "path= %s", path.toString());
       // Classify line segments, and call Listener callbacks.
       if (!recognizeGesturePath(path)) {
         cancelGesture(event);
@@ -368,7 +398,7 @@ class MultiFingerSwipe extends GestureMatcher {
       }
     }
     // If we reach this point then all paths match.
-    completeGesture(event);
+    completeGesture(eventId, event);
   }
 
   /**
@@ -385,15 +415,15 @@ class MultiFingerSwipe extends GestureMatcher {
       float dY = end.y - start.y;
       int direction = toDirection(dX, dY);
       if (direction != targetDirection) {
-        LogUtils.v(
-            getGestureName(),
+        gestureMotionEventLog(
+            VERBOSE,
             "Found direction %s when expecting %s",
             directionToString(direction),
             directionToString(this.targetDirection));
         return false;
       }
     }
-    LogUtils.v(getGestureName(), "Completed.");
+    gestureMotionEventLog(VERBOSE, "Completed.");
     return true;
   }
 
@@ -411,20 +441,14 @@ class MultiFingerSwipe extends GestureMatcher {
   }
 
   public static String directionToString(int direction) {
-    switch (direction) {
-      case LEFT:
-        return "left";
-      case RIGHT:
-        return "right";
-      case UP:
-        return "up";
-      case DOWN:
-        return "down";
-      case UNCERTAIN:
-        return "still";
-      default:
-        return "Unknown Direction";
-    }
+    return switch (direction) {
+      case LEFT -> "left";
+      case RIGHT -> "right";
+      case UP -> "up";
+      case DOWN -> "down";
+      case UNCERTAIN -> "still";
+      default -> "Unknown Direction";
+    };
   }
 
   @Override

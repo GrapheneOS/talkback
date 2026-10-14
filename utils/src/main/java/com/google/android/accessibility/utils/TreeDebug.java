@@ -18,8 +18,8 @@ package com.google.android.accessibility.utils;
 
 import android.accessibilityservice.AccessibilityService;
 import android.graphics.Rect;
+import android.text.ParcelableSpan;
 import android.text.TextUtils;
-import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
 import android.view.accessibility.AccessibilityNodeInfo.CollectionItemInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.annotation.NonNull;
@@ -28,6 +28,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -49,8 +50,7 @@ public class TreeDebug {
     if (windows == null || windows.isEmpty()) {
       return;
     }
-    int displayId = AccessibilityWindowInfoUtils.getDisplayId(windows.get(0));
-    treeDebugLogger.log("------------Node tree------------ display %d", displayId);
+    treeDebugLogger.log("------------Node tree------------");
     for (AccessibilityWindowInfo window : windows) {
       if (window == null) {
         continue;
@@ -170,15 +170,26 @@ public class TreeDebug {
     }
 
     @Nullable CharSequence nodeText = AccessibilityNodeInfoUtils.getText(node);
+    @Nullable String textWithSpansInfo =
+        SpannableUtils.spansToStringForLogging(nodeText, ParcelableSpan.class);
     if (nodeText != null) {
       sb.append(":TEXT{");
       sb.append(nodeText.toString().trim());
+      if (!TextUtils.isEmpty(textWithSpansInfo)) {
+        sb.append(textWithSpansInfo);
+      }
       sb.append("}");
     }
 
     if (node.getContentDescription() != null) {
       sb.append(":CONTENT{");
       sb.append(node.getContentDescription().toString().trim());
+      sb.append("}");
+    }
+
+    if (!TextUtils.isEmpty(node.getRoleDescription())) {
+      sb.append(":ROLE{");
+      sb.append(node.getRoleDescription().toString().trim());
       sb.append("}");
     }
 
@@ -204,53 +215,73 @@ public class TreeDebug {
       }
     }
 
-    int actions = node.getActions();
-    if (actions != 0) {
+    List<AccessibilityActionCompat> actions = node.getActionList();
+    if (!actions.isEmpty()) {
       sb.append("(action:");
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_FOCUS) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_FOCUS)) {
         sb.append("FOCUS/");
       }
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_ACCESSIBILITY_FOCUS)) {
         sb.append("A11Y_FOCUS/");
       }
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_CLEAR_ACCESSIBILITY_FOCUS) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_CLEAR_ACCESSIBILITY_FOCUS)) {
         sb.append("CLEAR_A11Y_FOCUS/");
       }
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_SCROLL_BACKWARD)) {
         sb.append("SCROLL_BACKWARD/");
       }
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_SCROLL_FORWARD)) {
         sb.append("SCROLL_FORWARD/");
       }
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_CLICK) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_CLICK)) {
         sb.append("CLICK/");
       }
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_LONG_CLICK) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_LONG_CLICK)) {
         sb.append("LONG_CLICK/");
       }
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_EXPAND) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_EXPAND)) {
         sb.append("EXPAND/");
       }
-      if ((actions & AccessibilityNodeInfoCompat.ACTION_COLLAPSE) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_COLLAPSE)) {
         sb.append("COLLAPSE/");
       }
-      if ((actions & AccessibilityAction.ACTION_SCROLL_TO_POSITION.getId()) != 0) {
+      if (actions.contains(AccessibilityActionCompat.ACTION_SCROLL_UP)) {
+        sb.append("SCROLL_UP/");
+      }
+      if (actions.contains(AccessibilityActionCompat.ACTION_SCROLL_DOWN)) {
+        sb.append("SCROLL_DOWN/");
+      }
+      if (actions.contains(AccessibilityActionCompat.ACTION_SCROLL_LEFT)) {
+        sb.append("SCROLL_LEFT/");
+      }
+      if (actions.contains(AccessibilityActionCompat.ACTION_SCROLL_RIGHT)) {
+        sb.append("SCROLL_RIGHT/");
+      }
+      if (actions.contains(AccessibilityActionCompat.ACTION_SCROLL_TO_POSITION)) {
         sb.append("SCROLL_TO_POSITION/");
+      }
+      if (actions.contains(AccessibilityActionCompat.ACTION_SCROLL_IN_DIRECTION)) {
+        sb.append("SCROLL_IN_DIRECTION/");
       }
       sb.setLength(sb.length() - 1);
       sb.append(")");
     }
 
-    sb.append("(custom action:");
-    List<AccessibilityActionCompat> actionsList = node.getActionList();
-    for (AccessibilityActionCompat action : actionsList) {
+    boolean hasCustomAction = false;
+    StringBuilder customActionSb = new StringBuilder();
+    customActionSb.append("(custom action:");
+    for (AccessibilityActionCompat action : actions) {
       CharSequence label = action.getLabel();
       if (label != null) {
-        sb.append("LABEL:").append(label).append("/");
+        customActionSb.append("LABEL:").append(label).append("/");
+        hasCustomAction = true;
       }
     }
-    sb.setLength(sb.length() - 1);
-    sb.append(")");
+    customActionSb.setLength(customActionSb.length() - 1);
+    customActionSb.append(")");
+    if (hasCustomAction) {
+      sb.append(customActionSb);
+    }
 
     if (node.isFocusable()) {
       sb.append(":focusable");
@@ -297,6 +328,10 @@ public class TreeDebug {
       sb.append(":textSelectable");
     }
 
+    if (node.isFieldRequired()) {
+      sb.append(":fieldRequired");
+    }
+
     int liveRegion = node.getLiveRegion();
     if (liveRegion == ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE) {
       sb.append(":politeLiveRegion");
@@ -336,37 +371,70 @@ public class TreeDebug {
         }
       }
     }
+    if (node.getRangeInfo() != null) {
+      sb.append(":range");
+      sb.append("#max=");
+      sb.append(node.getRangeInfo().getMax());
+      sb.append(",min=");
+      sb.append(node.getRangeInfo().getMin());
+      sb.append(",current=");
+      sb.append(node.getRangeInfo().getCurrent());
+      sb.append(",type=");
+      sb.append(node.getRangeInfo().getType());
+    }
+
+    if (AccessibilityNodeInfoUtils.getViewIdText(node) != null) {
+      sb.append(":resourceId=");
+      sb.append(AccessibilityNodeInfoUtils.getViewIdText(node));
+    }
 
     return sb.toString();
   }
 
   /** Logs the traversal order of node trees for given list of windows. */
   public static void logOrderedTraversalTree(
-      List<AccessibilityWindowInfo> windows, @NonNull Logger logger) {
-    if (windows == null || windows.isEmpty()) {
-      return;
-    }
-    int displayId = AccessibilityWindowInfoUtils.getDisplayId(windows.get(0));
-    logger.log("------------Node tree traversal order---------- display %d", displayId);
+      List<AccessibilityWindowInfo> windows,
+      Logger logger,
+      @Nullable List<AccessibilityNodeInfoCompat> nodeCollector) {
+    logger.log("------------Node tree traversal order----------");
     for (AccessibilityWindowInfo window : windows) {
-      if (window == null) {
-        continue;
-      }
       logger.log("Window: %s", window);
       AccessibilityNodeInfoCompat root =
           AccessibilityNodeInfoUtils.toCompat(AccessibilityWindowInfoUtils.getRoot(window));
-      logOrderedTraversalTree(root, logger);
+      if (root != null) {
+        OrderedTraversalStrategy orderTraversalStrategy = new OrderedTraversalStrategy(root);
+        List<AccessibilityNodeInfoCompat> nodes = orderTraversalStrategy.dumpTree();
+        for (AccessibilityNodeInfoCompat node : nodes) {
+          if (nodeCollector != null) {
+            if (AccessibilityNodeInfoUtils.shouldFocusNode(node)) {
+              nodeCollector.add(node);
+            }
+          }
+          logger.log(
+              " (%d)%s%s",
+              node.hashCode(),
+              TreeDebug.nodeDebugDescription(node),
+              getCustomizedTraversalNodeString(node));
+        }
+      }
     }
   }
 
-  /** Logs the traversal order of node tree for using the input node as the root. */
-  private static void logOrderedTraversalTree(
-      @Nullable AccessibilityNodeInfoCompat node, @NonNull Logger logger) {
-    if (node == null) {
-      return;
+  /**
+   * Returns the string contains the attribute {@link AccessibilityNodeInfo#getTraversalBefore()}
+   * and {@link AccessibilityNodeInfo#getTraversalAfter()} of the target node.
+   */
+  private static String getCustomizedTraversalNodeString(AccessibilityNodeInfoCompat node) {
+    StringBuilder builder = new StringBuilder();
+    AccessibilityNodeInfoCompat beforeNode = node.getTraversalBefore();
+    AccessibilityNodeInfoCompat afterNode = node.getTraversalAfter();
+    if (beforeNode != null) {
+      builder.append(" before:").append(beforeNode.hashCode());
     }
-    OrderedTraversalStrategy orderTraversalStrategy = new OrderedTraversalStrategy(node);
-    orderTraversalStrategy.dumpTree(logger);
+    if (afterNode != null) {
+      builder.append(" after:").append(afterNode.hashCode());
+    }
+    return builder.toString();
   }
 
   /**
@@ -374,9 +442,18 @@ public class TreeDebug {
    * displays.
    *
    * @param service The parent service
+   * @param focusIndicatorSpec Focus indicator info, in case a screenshot is desired
    */
-  public static void logNodeTreesOnAllDisplays(@NonNull AccessibilityService service) {
-    logNodeTreesOnAllDisplays(service, defaultLogger);
+  public static void logNodeTreesOnAllDisplaysAndWriteScreenshot(
+      AccessibilityService service, TreeDebugRenderer.FocusIndicatorSpec focusIndicatorSpec) {
+    List<AccessibilityNodeInfoCompat> nodesForScreenshot = new ArrayList<>();
+    logNodeTreesOnAllDisplays(service, defaultLogger, nodesForScreenshot);
+    if (focusIndicatorSpec != null) {
+      if (FeatureSupport.canTakeScreenShotByAccessibilityService()) {
+        new TreeDebugRenderer(service, nodesForScreenshot, focusIndicatorSpec)
+            .startRenderOperation();
+      }
+    }
   }
 
   /**
@@ -387,12 +464,19 @@ public class TreeDebug {
    * @param treeDebugLogger The functional interface for logging
    */
   public static void logNodeTreesOnAllDisplays(
-      @NonNull AccessibilityService service, Logger treeDebugLogger) {
+      AccessibilityService service, Logger treeDebugLogger) {
+    logNodeTreesOnAllDisplays(service, treeDebugLogger, null);
+  }
+
+  private static void logNodeTreesOnAllDisplays(
+      AccessibilityService service,
+      Logger logger,
+      List<AccessibilityNodeInfoCompat> nodesForScreenshot) {
     AccessibilityServiceCompatUtils.forEachWindowInfoListOnAllDisplays(
         service,
         windowInfoList -> {
-          TreeDebug.logNodeTrees(windowInfoList, treeDebugLogger);
-          TreeDebug.logOrderedTraversalTree(windowInfoList, treeDebugLogger);
+          TreeDebug.logNodeTrees(windowInfoList, logger);
+          TreeDebug.logOrderedTraversalTree(windowInfoList, logger, nodesForScreenshot);
         });
   }
 }

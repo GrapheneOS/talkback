@@ -35,6 +35,7 @@
   <string name="symbol_period">দাৰি চিহ্ন</string>
   <string name="symbol_pi">পাই</string>
   <string name="symbol_pound">পাউণ্ড</string>
+  <string name="symbol_hash">হেশ্ব</string>
   <string name="symbol_pound_sterling">পাউণ্ড মুদ্ৰাৰ চিহ্ন</string>
   <string name="symbol_currency_peso">পেছ’ মুদ্ৰাৰ চিহ্ন</string>
   <string name="symbol_currency_dong">ডং মুদ্ৰাৰ চিহ্ন</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">সোঁ বৰবন্ধনী</string>
   <string name="symbol_square_root">বর্গমূল</string>
   <string name="symbol_trademark">ট্ৰেডমার্ক</string>
+  <string name="symbol_check_mark">টিক চিহ্ন</string>
   <string name="symbol_underscore">আণ্ডাৰস্ক\'ৰ</string>
   <string name="symbol_vertical_bar">উলম্ব ৰেখা</string>
   <string name="symbol_yen">য়েন চিহ্ন</string>

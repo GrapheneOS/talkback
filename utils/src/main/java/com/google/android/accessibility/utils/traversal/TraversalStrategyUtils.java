@@ -50,16 +50,41 @@ public class TraversalStrategyUtils {
       AccessibilityNodeInfoCompat root,
       FocusFinder focusFinder,
       @TraversalStrategy.SearchDirection int direction) {
+    return getTraversalStrategy(root, focusFinder, direction, false, false);
+  }
+
+  /**
+   * Depending on whether the direction is spatial or logical, returns the appropriate traversal
+   * strategy to handle the case.
+   */
+  public static TraversalStrategy getTraversalStrategy(
+      AccessibilityNodeInfoCompat root,
+      FocusFinder focusFinder,
+      OrderedTraversalStrategyConfig config) {
+    return getTraversalStrategy(
+        root,
+        focusFinder,
+        config.searchDirection(),
+        config.includeChildrenOfNodesWithWebActions(),
+        config.makeFabFirst());
+  }
+
+  /** TODO: Experimental code. Remove {@code makeFabFirst} when experiment is done. */
+  public static TraversalStrategy getTraversalStrategy(
+      AccessibilityNodeInfoCompat root,
+      FocusFinder focusFinder,
+      @TraversalStrategy.SearchDirection int direction,
+      boolean includeChildrenOfNodesWithWebActions,
+      boolean makeFabFirst) {
     switch (direction) {
-      case SEARCH_FOCUS_BACKWARD:
-      case SEARCH_FOCUS_FORWARD:
-        return new OrderedTraversalStrategy(root);
-      case SEARCH_FOCUS_LEFT:
-      case SEARCH_FOCUS_RIGHT:
-      case SEARCH_FOCUS_UP:
-      case SEARCH_FOCUS_DOWN:
+      case SEARCH_FOCUS_BACKWARD, SEARCH_FOCUS_FORWARD -> {
+        return new OrderedTraversalStrategy(
+            root, includeChildrenOfNodesWithWebActions, makeFabFirst);
+      }
+      case SEARCH_FOCUS_LEFT, SEARCH_FOCUS_RIGHT, SEARCH_FOCUS_UP, SEARCH_FOCUS_DOWN -> {
         return new DirectionalTraversalStrategy(root, focusFinder);
-      default: // fall out
+      }
+      default -> {}
     }
 
     throw new IllegalArgumentException("direction must be a SearchDirection");
@@ -68,22 +93,15 @@ public class TraversalStrategyUtils {
   /** Converts {@link TraversalStrategy.SearchDirection} to view focus direction. */
   public static int nodeSearchDirectionToViewSearchDirection(
       @TraversalStrategy.SearchDirection int direction) {
-    switch (direction) {
-      case SEARCH_FOCUS_FORWARD:
-        return View.FOCUS_FORWARD;
-      case SEARCH_FOCUS_BACKWARD:
-        return View.FOCUS_BACKWARD;
-      case SEARCH_FOCUS_LEFT:
-        return View.FOCUS_LEFT;
-      case SEARCH_FOCUS_RIGHT:
-        return View.FOCUS_RIGHT;
-      case SEARCH_FOCUS_UP:
-        return View.FOCUS_UP;
-      case SEARCH_FOCUS_DOWN:
-        return View.FOCUS_DOWN;
-      default:
-        throw new IllegalArgumentException("Direction must be a SearchDirection");
-    }
+    return switch (direction) {
+      case SEARCH_FOCUS_FORWARD -> View.FOCUS_FORWARD;
+      case SEARCH_FOCUS_BACKWARD -> View.FOCUS_BACKWARD;
+      case SEARCH_FOCUS_LEFT -> View.FOCUS_LEFT;
+      case SEARCH_FOCUS_RIGHT -> View.FOCUS_RIGHT;
+      case SEARCH_FOCUS_UP -> View.FOCUS_UP;
+      case SEARCH_FOCUS_DOWN -> View.FOCUS_DOWN;
+      default -> throw new IllegalArgumentException("Direction must be a SearchDirection");
+    };
   }
 
   /**
@@ -92,15 +110,13 @@ public class TraversalStrategyUtils {
    */
   public static boolean isSpatialDirection(@TraversalStrategy.SearchDirection int direction) {
     switch (direction) {
-      case SEARCH_FOCUS_FORWARD:
-      case SEARCH_FOCUS_BACKWARD:
+      case SEARCH_FOCUS_FORWARD, SEARCH_FOCUS_BACKWARD -> {
         return false;
-      case SEARCH_FOCUS_UP:
-      case SEARCH_FOCUS_DOWN:
-      case SEARCH_FOCUS_LEFT:
-      case SEARCH_FOCUS_RIGHT:
+      }
+      case SEARCH_FOCUS_UP, SEARCH_FOCUS_DOWN, SEARCH_FOCUS_LEFT, SEARCH_FOCUS_RIGHT -> {
         return true;
-      default: // fall out
+      }
+      default -> {}
     }
 
     throw new IllegalArgumentException("direction must be a SearchDirection");
@@ -129,17 +145,19 @@ public class TraversalStrategyUtils {
     }
 
     switch (direction) {
-      case SEARCH_FOCUS_LEFT:
+      case SEARCH_FOCUS_LEFT -> {
         return left;
-      case SEARCH_FOCUS_RIGHT:
+      }
+      case SEARCH_FOCUS_RIGHT -> {
         return right;
-      case SEARCH_FOCUS_UP:
-      case SEARCH_FOCUS_BACKWARD:
+      }
+      case SEARCH_FOCUS_UP, SEARCH_FOCUS_BACKWARD -> {
         return SEARCH_FOCUS_BACKWARD;
-      case SEARCH_FOCUS_DOWN:
-      case SEARCH_FOCUS_FORWARD:
+      }
+      case SEARCH_FOCUS_DOWN, SEARCH_FOCUS_FORWARD -> {
         return SEARCH_FOCUS_FORWARD;
-      default: // fall out
+      }
+      default -> {}
     }
 
     throw new IllegalArgumentException("direction must be a SearchDirection");
@@ -424,23 +442,15 @@ public class TraversalStrategyUtils {
 
   public static String directionToString(
       @TraversalStrategy.SearchDirectionOrUnknown int direction) {
-    switch (direction) {
-      case SEARCH_FOCUS_FORWARD:
-        return "SEARCH_FOCUS_FORWARD";
-      case SEARCH_FOCUS_BACKWARD:
-        return "SEARCH_FOCUS_BACKWARD";
-      case SEARCH_FOCUS_LEFT:
-        return "SEARCH_FOCUS_LEFT";
-      case SEARCH_FOCUS_RIGHT:
-        return "SEARCH_FOCUS_RIGHT";
-      case SEARCH_FOCUS_UP:
-        return "SEARCH_FOCUS_UP";
-      case SEARCH_FOCUS_DOWN:
-        return "SEARCH_FOCUS_DOWN";
-      case TraversalStrategy.SEARCH_FOCUS_UNKNOWN:
-        return "SEARCH_FOCUS_UNKNOWN";
-      default:
-        return "(unhandled)";
-    }
+    return switch (direction) {
+      case SEARCH_FOCUS_FORWARD -> "SEARCH_FOCUS_FORWARD";
+      case SEARCH_FOCUS_BACKWARD -> "SEARCH_FOCUS_BACKWARD";
+      case SEARCH_FOCUS_LEFT -> "SEARCH_FOCUS_LEFT";
+      case SEARCH_FOCUS_RIGHT -> "SEARCH_FOCUS_RIGHT";
+      case SEARCH_FOCUS_UP -> "SEARCH_FOCUS_UP";
+      case SEARCH_FOCUS_DOWN -> "SEARCH_FOCUS_DOWN";
+      case TraversalStrategy.SEARCH_FOCUS_UNKNOWN -> "SEARCH_FOCUS_UNKNOWN";
+      default -> "(unhandled)";
+    };
   }
 }

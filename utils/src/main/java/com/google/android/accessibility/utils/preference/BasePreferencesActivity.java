@@ -16,9 +16,14 @@
 package com.google.android.accessibility.utils.preference;
 
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import com.google.android.accessibility.utils.FeatureSupport;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -33,6 +38,28 @@ public abstract class BasePreferencesActivity extends AppCompatActivity {
   public static final String FRAGMENT_ARGS = "FragmentArgs";
 
   private static final int DEFAULT_CONTAINER_ID = android.R.id.content;
+
+  @Override
+  protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    applyWindowInsetsToContent();
+  }
+
+  private void applyWindowInsetsToContent() {
+    View content = findViewById(android.R.id.content);
+    if (content == null) {
+      return;
+    }
+    ViewCompat.setOnApplyWindowInsetsListener(
+        content,
+        (view, windowInsets) -> {
+          Insets insets =
+              windowInsets.getInsets(
+                  WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+          view.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+          return WindowInsetsCompat.CONSUMED;
+        });
+  }
 
   /**
    * If action-bar back key button is pressed, end this sub-activity when there is no fragment in

@@ -23,6 +23,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.google.android.accessibility.utils.Performance.EventId;
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /** A wrapper class for all user interfaces which need to response some input events. */
 public class UserInterface {
@@ -32,16 +33,17 @@ public class UserInterface {
      * Invoked when the accessibility focus changed.
      *
      * @param nodeInfo the new focused node
-     * @param interpretation the focused event interpretation
+     * @param axFocused the focused event interpretation
      */
-    void newItemFocused(AccessibilityNodeInfo nodeInfo, Interpretation interpretation);
+    default void newItemFocused(
+        AccessibilityNodeInfo nodeInfo, Interpretation.@NonNull AccessibilityFocused axFocused) {}
 
     /**
      * Invoked when the state of selection mode on an editable is changed.
      *
      * @param active whether the selection mode is active or not
      */
-    void editTextOrSelectableTextSelected(boolean active);
+    default void editTextOrSelectableTextSelected(boolean active) {}
 
     /**
      * Invoked when Touch Interaction is active.
@@ -49,7 +51,7 @@ public class UserInterface {
      * @param active The state after TYPE_TOUCH_INTERACTION_START and before
      *     TYPE_TOUCH_INTERACTION_END means active.
      */
-    void touchInteractionState(boolean active);
+    default void touchInteractionState(boolean active) {}
   }
 
   private final List<UserInputEventListener> listeners = new ArrayList<>();
@@ -71,22 +73,24 @@ public class UserInterface {
     listeners.remove(listener);
   }
 
+  public void unregisterAllListeners() {
+    listeners.clear();
+  }
+
   public void handleEvent(
       EventId eventId, AccessibilityEvent event, Interpretation eventInterpretation) {
     if (listeners.isEmpty()) {
       return;
     }
     if (event != null && event.getEventType() == TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
-      if (eventInterpretation instanceof Interpretation.AccessibilityFocused) {
+      if (eventInterpretation instanceof Interpretation.AccessibilityFocused axFocused) {
         listeners.stream()
-            .forEach(listener -> listener.newItemFocused(event.getSource(), eventInterpretation));
+            .forEach(listener -> listener.newItemFocused(event.getSource(), axFocused));
       }
-    } else if (eventInterpretation instanceof Interpretation.TouchInteraction) {
+    } else if (eventInterpretation instanceof Interpretation.TouchInteraction touchInteraction) {
       listeners.stream()
           .forEach(
-              listener ->
-                  listener.touchInteractionState(
-                      ((Interpretation.TouchInteraction) eventInterpretation).interactionActive()));
+              listener -> listener.touchInteractionState(touchInteraction.interactionActive()));
     }
   }
 }

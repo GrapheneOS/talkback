@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -292,9 +292,7 @@ readCharacters_MenuScreen (const ScreenBox *box, ScreenCharacter *buffer) {
 
       for (unsigned int column=0; column<box->width; column+=1) {
         unsigned int index = column + box->left;
-
         character->text = (index < rmi->length)? rmi->text[index]: WC_C(' ');
-        character->attributes = SCR_COLOUR_DEFAULT;
         character += 1;
       }
     }

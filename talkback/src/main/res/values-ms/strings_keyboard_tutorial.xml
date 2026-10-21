@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Tutorial ini tersedia untuk peta kekunci dipertingkatkan, yang menyertakan banyak perintah baharu. Untuk memilih peta kekunci, akses tetapan TalkBack &gt; Tetapan lanjutan &gt; Pintasan papan kekunci.\n\nTekan Tindakan + Anak panah ke Kanan untuk memilih topik. Untuk mendapatkan pengalaman yang terbaik, hidupkan ciri TalkBack sebelum bermula.</string>
+  <string name="basic_interaction_link_text">Interaksi asas</string>
+  <string name="basic_interaction_link_subtext">Beralih antara item, baca mengikut baris, gunakan menu dan pelbagai lagi</string>
+  <string name="browse_mode_link_text">Mod semak imbas</string>
+  <string name="browse_mode_link_subtext">Navigasi kandungan web lebih pantas dengan arahan lompat</string>
+  <string name="reading_controls_link_text">Kawalan bacaan</string>
+  <string name="reading_controls_link_subtext">Gunakan kawalan bacaan untuk beralih antara item, melaraskan tetapan pertuturan dan pelbagai lagi</string>
+  <string name="image_descriptions_link_text">Perihalan imej</string>
+  <string name="image_descriptions_link_subtext">Cuba dapatkan perihalan bagi imej</string>
+  <string name="keyboard_shortcuts_link_text">Pintasan papan kekunci latihan</string>
+  <string name="keyboard_shortcuts_link_subtext">Tekan kekunci dan kombinasi kekunci untuk mengetahui fungsi kekunci dan kombinasi tersebut</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack menyediakan maklum balas yang dituturkan supaya anda dapat menggunakan peranti anda tanpa melihat skrin. TalkBack membantu orang yang mengalami kesukaran melihat skrin. Apabila TalkBack dihidupkan, item yang difokuskan pada skrin akan disebut dengan kuat.\n\nKita akan membiasakan diri dengan papan kekunci anda dahulu. Cari kekunci Tindakan, yang terletak di atas kekunci Shift kiri. Sekarang, cari kekunci anak panah berdekatan bahagian bawah sebelah kanan papan kekunci. Tekan Tindakan + Anak panah ke Kanan untuk beralih ke item yang seterusnya.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Item ini ialah item seterusnya. Untuk beralih kepada item sebelumnya, tekan Tindakan + Anak panah ke Kiri.\n\nApabila anda beralih kepada item interaktif seperti butang, tekan Tindakan + Ruang untuk mengaktifkan item tersebut. Cari butang seterusnya dan teruskan tutorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Baca mengikut aksara, perkataan atau perenggan</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Kadangkala, anda mungkin mahu mendengar teks dibaca dengan kuat satu aksara pada satu-satu masa.\n\nUntuk melakukan perkara ini, anda boleh menggunakan navigasi kawalan bacaan. Tekan Tindakan + Shift + Anak panah ke Kanan atau ke Kiri sehingga anda mendengar \"aksara\".\n\nSeterusnya, tekan Tindakan + Anak panah ke Atas untuk mengalihkan fokus navigasi ke belakang mengikut aksara. Tekan Tindakan + Anak panah ke Bawah untuk mengalihkan fokus navigasi ke hadapan mengikut aksara.\n\nCuba sekarang. Anda juga boleh memilih untuk membaca mengikut perkataan, baris atau perenggan menggunakan Tindakan + Shift + Anak panah ke Kanan atau ke Kiri.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navigasi sistem</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Tindakan mencuba pintasan papan kekunci ini sekarang akan menutup tutorial. Anda mungkin mahu menunggu sehingga anda melengkapkan tutorial ini.\n\nUntuk melangkau antara tetingkap apl yang terbuka dengan elemen sistem seperti pemberitahuan dan Bar Tugas, tekan Tindakan + Alt + Ctrl + Anak panah ke Atas atau ke Bawah.\n\nUntuk membuka senarai apl, tekan Tindakan.\n\nUntuk mengakses skrin Laman Utama dan meminimumkan semua tetingkap yang terbuka, tekan Tindakan + H atau Laman Utama dalam baris atas.\n\nUntuk mengakses apl terbaharu anda, tekan Tindakan + Tab atau Ikhtisar dalam baris atas.\n\nUntuk melangkau antara tetingkap dengan pantas, tahan Alt dan tekan Tab.\n\nUntuk kembali, tekan Tindakan + Esc atau Kembali dalam baris atas.\n\nUntuk membuka pemberitahuan, tekan Tindakan + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Laraskan tetapan pertuturan</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Kelantangan pertuturan TalkBack dipanggil kelantangan kebolehaksesan. Kelantangan ini dilaraskan secara berasingan daripada kelantangan media.\n\nUntuk melaraskan kelantangan kebolehaksesan, tekan Tindakan + Naikkan atau kurangkan kelantangan.\n\nUntuk melaraskan kadar pertuturan, tekan Tindakan + Ctrl + Naikkan kelantangan untuk meningkatkan kadar pertuturan dan Tindakan + Ctrl + Kurangkan kelantangan untuk mengurangkan kadar pertuturan.\n\nUntuk menghentikan pertuturan pada bila-bila masa, tekan Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menu TalkBack dan lebih banyak pintasan papan kekunci</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">Menu TalkBack merangkumi tetapan dan kawalan yang mungkin anda perlukan dengan kerap.\n\nUntuk membuka menu TalkBack, tekan Tindakan + Ctrl + M. Anda boleh menyesuaikan menu TalkBack dan kawalan bacaan anda kemudian dalam tetapan TalkBack.\n\nMenu pintasan papan kekunci TalkBack merangkumi semua pintasan papan kekunci yang boleh anda gunakan.\n\nUntuk membuka menu pintasan papan kekunci, tekan Tindakan + Shift + /.\n\nUntuk mengetahui perihal papan kekunci dengan lebih lanjut dan pintasan papan kekunci latihan, tekan Tindakan + 0 untuk membuka skrin latihan.</string>
+  <string name="keyboard_tutorial_finished_page_title">Siap!</string>
+  <string name="keyboard_tutorial_finished_page_text">Anda sudah bersedia untuk menggunakan TalkBack.\n\nTeruskan belajar tentang topik lain sekarang atau semak maklumat ini pada bila-bila masa dalam tetapan TalkBack.\n\nUntuk menghidupkan atau mematikan TalkBack pada bila-bila masa, tekan Tindakan + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Navigasi kandungan web dengan lebih pantas menggunakan mod semak imbas</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Apabila anda menggunakan penyemak imbas dan apl web, anda boleh menghidupkan mod semak imbas dan melangkau antara jenis granulariti bacaan yang berbeza dan kawalan dengan menekan satu kekunci. Mod ini menjadikan navigasi halaman serupa dengan navigasi dalam kotak pengeditan teks, seperti anak panah ke kiri dan ke kanan untuk beralih mengikut aksara dan anak panah ke atas dan ke bawah untuk beralih mengikut baris.\n\nUntuk menghidupkan atau mematikan mod semak imbas, tekan dua kali kekunci Tindakan.\n\nApabila mod semak imbas dihidupkan, tekan D untuk melangkau kepada tanda tempat seterusnya, F untuk kawalan seterusnya atau medan borang, B untuk butang seterusnya, K untuk pautan seterusnya dan H untuk tajuk seterusnya. Tahan Shift dan tekan kekunci ini untuk beralih ke belakang.\n\nAnda juga boleh menggunakan Anak panah ke Atas dan ke Bawah untuk beralih mengikut baris, Anak panah ke Kiri dan ke Kanan untuk beralih mengikut huruf dan Ctrl + Anak panah ke Kiri dan ke Kanan untuk beralih mengikut perkataan.\n\nTekan Tindakan + Anak panah ke Kanan untuk memasuki kawasan latihan. Semasa dalam pautan kawasan latihan, medan borang dan butang tidak akan melakukan apa-apa.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Tahap tajuk</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Laman web dan apl web sering menggunakan tajuk dengan tahap yang berbeza untuk menstrukturkan kandungan. Apabila mod semak imbas dihidupkan, tekan 1 hingga 6 untuk melangkau kepada tahap tajuk. Tahan Shift dan tekan kekunci ini untuk beralih ke belakang.\n\nTekan Tindakan + Anak panah ke Kanan untuk memasuki kawasan latihan.</string>
+  <string name="keyboard_tutorial_tables_page_title">Jadual</string>
+  <string name="keyboard_tutorial_tables_page_text">Mod semak imbas juga memudahkan navigasi jadual. Apabila mod semak imbas dihidupkan, tekan Alt + Ctrl + Anak panah ke Atas dan ke Bawah untuk melangkau antara baris dan tekan Alt + Ctrl + Anak panah ke Kiri dan ke Kanan untuk melangkau antara lajur.\n\nTekan Tindakan + Anak panah ke Kanan untuk memasuki kawasan latihan.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Pengeditan teks</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Apabila anda memasuki medan teks, mod semak imbas akan dimatikan untuk sementara waktu supaya anda boleh menggunakan semua kekunci untuk menaip. Anda akan mendengar pengumuman dan bunyi apabila mod ini dimatikan. Setelah anda meninggalkan medan teks, mod semak imbas akan dihidupkan semula dan anda akan mendengar pengumuman dan bunyi yang lain.\n\nTekan Tindakan + anak panah ke Kanan untuk memasuki kawasan latihan.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Maklumat lanjut tentang mod semak imbas</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Untuk menyemak senarai lengkap item yang boleh anda langkau antara item tersebut dalam mod semak imbas, tekan Tindakan + Shift + / dan cari \"mod semak imbas\" dalam menu pintasan papan kekunci.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Baca mengikut aksara, perkataan atau perenggan</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Kadangkala, anda mungkin mahu mendengar teks dibaca dengan kuat satu aksara pada satu-satu masa.\n\nUntuk melakukan perkara ini, anda boleh menggunakan navigasi kawalan bacaan. Tekan Tindakan + Shift + Anak panah ke Kanan atau ke Kiri sehingga anda mendengar \"aksara\". Seterusnya, tekan Tindakan + Anak panah ke Atas untuk mengalihkan fokus navigasi ke belakang mengikut aksara. Tekan Tindakan + Anak panah ke Bawah untuk mengalihkan fokus navigasi ke hadapan mengikut aksara.\n\nCuba sekarang. Anda juga boleh memilih untuk membaca mengikut perkataan, baris atau perenggan menggunakan Tindakan + Shift + Anak panah ke Kanan atau ke Kiri.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Langkau antara kawalan</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Kawalan ialah item yang boleh berinteraksi dengan anda, seperti butang, kotak pilihan dan kotak teks.\n\nPada sesetengah halaman, anda mungkin mahu melangkau antara kawalan untuk menemukan tindakan dengan pantas, seperti butang seterusnya.\n\nUntuk melakukan perkara ini, tekan Tindakan + Shift + Anak panah ke Kanan sehingga anda mendengar \"kawalan\". Seterusnya, tekan Tindakan + Anak panah ke Atas untuk mengakses butang sebelumnya dan Tindakan + Anak panah ke Bawah untuk mengakses butang seterusnya.\n\nCuba sekarang dan temukan butang seterusnya.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Langkau antara pautan</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Anda juga boleh melangkau antara pautan pada halaman.\n\nUntuk melakukan perkara ini, tekan Tindakan + Shift + Anak panah ke Kanan sehingga anda mendengar \"pautan\". Seterusnya, tekan Tindakan + Anak panah ke Bawah untuk menemukan pautan yang bernama \"Pautan 5\". Semasa dalam tutorial, tindakan mengetik dua kali pautan ini tidak akan melakukan apa-apa.\n\nTekan Tindakan + Anak panah ke Kanan untuk mencari butang seterusnya dan akses halaman seterusnya.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Langkau antara tajuk</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Anda juga boleh beralih antara tajuk pada halaman.\n\nUntuk mencuba sekarang, tekan Tindakan + Shift + Anak panah ke Kanan sehingga anda mendengar \"tajuk\". Seterusnya, tekan Tindakan + Anak panah ke Bawah untuk menemukan tajuk \"Navigasi\".</string>
+  <string name="keyboard_tutorial_find_next_button">Tekan Tindakan + Anak panah ke Kanan untuk menemukan butang seterusnya.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Langkau antara bekas</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Untuk keluar daripada bekas, seperti senarai atau grid, tekan Tindakan + Alt + Ctrl + Anak panah ke Kanan atau ke Kiri. Kawalan ini berguna apabila anda mahu keluar daripada senarai item yang panjang.\n\nUntuk mencuba sekarang, tekan Tindakan + Anak panah ke Kanan untuk memasuki senarai. Kemudian, tekan Tindakan + Alt + Ctrl + Anak panah ke Kanan untuk mengakses bekas seterusnya.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Untuk mengakses bekas seterusnya, tekan Tindakan + Alt + Ctrl + Anak panah ke Kanan</string>
+  <string name="keyboard_tutorial_exit_container">Untuk keluar daripada bekas ini, tekan Tindakan + Alt + Ctrl + Anak panah ke Kanan</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Anda telah keluar daripada bekas. Anda juga boleh menambahkan bekas pada kawalan bacaan anda, kemudian tekan Tindakan + Shift + Anak panah ke Kanan atau ke Kiri untuk memilih bekas dan Tindakan + Anak panah ke Bawah atau ke Atas untuk melangkau antara bekas. Untuk mengemaskinikan kawalan bacaan, akses TalkBack &gt; Tetapan &gt; Sesuaikan menu &gt; Sesuaikan kawalan bacaan.\n\nTekan Tindakan + Anak panah ke Kanan untuk menemukan butang seterusnya.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Sesuaikan kawalan bacaan</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Anda juga boleh melaraskan tetapan pertuturan menggunakan kawalan bacaan dan menyesuaikan perkara yang boleh anda lakukan dengan kawalan bacaan dalam TalkBack &gt; Tetapan &gt; Sesuaikan menu &gt; Sesuaikan kawalan bacaan.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Cuba dapatkan perihalan imej</string>
+  <string name="keyboard_tutorial_image_description_page_text">Apabila anda memfokuskan imej, tekan Tindakan + R, kemudian I. Terdapat satu foto di bawah. Cuba dapatkan perihalan untuk imej tersebut.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Anda boleh menukar tetapan perihalan imej pada bila-bila masa dalam tetapan TalkBack &gt; Perihalan imej &amp; ikon.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Anda boleh menukar tetapan perihalan imej pada bila-bila masa dalam tetapan TalkBack, kemudian Perihalan imej &amp; ikon.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Imej sampel. Tekan Tindakan + R, kemudian I untuk mendengar perihalan.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Perintah suara</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Anda boleh menggunakan suara anda untuk mengawal TalkBack dengan cepat.\n\nSebagai contoh, sebutkan perintah untuk mengubah navigasi, melangkau kepada tajuk seterusnya, menyalin teks dan pelbagai lagi.\n\nUntuk mencuba sekarang, tekan Tindakan + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Menggunakan carian skrin</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Ciri carian skrin membolehkan anda mencari kandungan tertentu pada skrin.\n\nUntuk mencuba ciri tersebut, tekan Tindakan + CTRL + /. Taip kata kunci, seperti \"seterusnya\", untuk menemukan item dengan teks itu pada skrin.\n\nCuba cari \"seterusnya\" sekarang untuk menemukan butang seterusnya.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navigasi mengikut carian skrin</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Anda boleh beralih antara hasil carian yang berbeza dengan pantas daripada carian skrin selepas anda memilih hasil carian.\n\nUntuk berbuat demikian, anda boleh menggunakan navigasi kawalan bacaan. Tekan Tindakan + Shift + Anak panah ke Kanan atau ke Kiri sehingga anda mendengar \"carian skrin\". Seterusnya, tekan Tindakan + Anak panah ke Bawah atau ke Atas untuk menavigasi mengikut hasil carian skrin.\n\nMari cuba ciri ini sekarang. Yang berikut ialah senarai 3 butang, kesemua butang mengandungi teks \"tindakan\". Cari \"tindakan\" menggunakan carian skrin, kemudian navigasi mengikut carian skrin untuk beralih antara carian skrin tersebut.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Pintasan papan kekunci latihan</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Tekan kekunci papan kekunci fizikal atau gabungan kekunci untuk mendengar perkara yang dilakukan oleh kekunci tersebut. Tekan Ctrl + W atau Escape untuk keluar.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Temukan Keagungan Pokok Redwood California&lt;/h1&gt;
+      &lt;p&gt;Pokok Redwood California, terutamanya Pokok Redwood pesisir pantai (Sequoia sempervrens), merupakan pokok tertinggi di dunia. Sesetengah pokok berdiri setinggi lebih 380 kaki (115 meter) dan boleh hidup selama beribu-ribu tahun. Pokok ini tumbuh subur dalam iklim pesisir pantai yang lembap di utara California, mendapat manfaat daripada hujan dan kabus.&lt;/p&gt;
+
+      &lt;h2&gt;Lokasi untuk Melihat Pokok Ini&lt;/h2&gt;
+      &lt;p&gt;Anda akan menemukan pokok gergasi ini di sepanjang pesisir pantai Pasifik. Taman utama termasuk:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Rancang lawatan anda di sini: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks - redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Sokong Pemuliharaan&lt;/h2&gt;
+      &lt;p&gt;Kita perlu melindungi hutan purba ini. Anda boleh membantu dengan mematuhi garis panduan taman dan menyokong usaha pemuliharaan.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Kongsi Pengalaman Anda&lt;/h2&gt;
+        &lt;p&gt;Pernahkah anda melawat Pokok Redwood?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Ya&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Tidak&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Beritahu kami tentang pengalaman anda&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Serahkan&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Apakah perkara lain yang mahu anda ketahui tentang redwood?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Serahkan&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Pokok Redwood: Memastikan Persekitaran Kita Sihat&lt;/h1&gt;
+    &lt;p&gt;Pokok Redwood penting untuk planet kita, memainkan peranan yang besar untuk memastikan persekitaran kita sihat.&lt;/p&gt;
+
+    &lt;h1&gt;Pembersih Udara Gergasi&lt;/h1&gt;
+    &lt;p&gt;Pokok ini sangat hebat dengan keupayaan menyerap karbon dioksida daripada udara. Dengan menyerap banyak karbon dioksida, Pokok Redwood membantu untuk memastikan udara kita bersih.&lt;/p&gt;
+
+    &lt;h2&gt;Rumah untuk Haiwan&lt;/h2&gt;
+    &lt;p&gt;Pokok Redwood menyediakan rumah dan perlindungan untuk banyak haiwan, daripada burung di dahan pokok kepada makhluk kecil di dalam tanah.&lt;/p&gt;
+
+    &lt;h3&gt;Pakar Air&lt;/h3&gt;
+    &lt;p&gt;Pokok Redwood mampu menyerap kabus yang banyak, yang kemudiannya menitis ke lantai hutan. Hal ini mengekalkan kelembapan tanah dan menyediakan air untuk tumbuhan dan haiwan lain, terutamanya semasa musim kering.&lt;/p&gt;
+
+    &lt;h4&gt;Pelindung Tanah&lt;/h4&gt;
+    &lt;p&gt;Akar pokok yang kuat menahan tanah daripada dihanyutkan semasa hujan lebat dan mencegah hakisan.&lt;/p&gt;
+
+    &lt;h5&gt;Pembina Hutan&lt;/h5&gt;
+    &lt;p&gt;Apabila Pokok Redwood yang lama tumbang, kayu pokok tersebut menjadi makanan dan tempat perlindungan untuk tumbuhan dan makhluk baharu, mewujudkan tanah yang subur untuk pertumbuhan baharu.&lt;/p&gt;
+
+    &lt;h6&gt;Ekosistem Unik&lt;/h6&gt;
+    &lt;p&gt;Oleh sebab Pokok Redwood sangat besar dan hidup dalam tempoh yang lama, pokok ini mewujudkan persekitaran hutan istimewa yang menyokong kehidupan yang tidak ditemukan di tempat lain.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Haiwan di Hutan Redwood&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Haiwan&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Perihalan&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Tempat Tinggal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Fakta Menarik&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Siput Pisang&lt;/th&gt;
+            &lt;td&gt;Lintah bulan yang besar, berwarna kuning dan berlendir&lt;/td&gt;
+            &lt;td&gt;Di lantai hutan&lt;/td&gt;
+            &lt;td&gt;Lintah bulan kedua terbesar di dunia&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamander Gergasi Pasifik&lt;/th&gt;
+            &lt;td&gt;Salamander besar berwarna gelap&lt;/td&gt;
+            &lt;td&gt;Berdekatan dengan anak sungai dan kawasan lembap&lt;/td&gt;
+            &lt;td&gt;Boleh membesar hingga sepanjang satu kaki&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt Elk&lt;/th&gt;
+            &lt;td&gt;Rusa besar dengan tanduk yang mengagumkan&lt;/td&gt;
+            &lt;td&gt;Meragut di kawasan lapang dalam hutan&lt;/td&gt;
+            &lt;td&gt;Rusa jantan boleh mencapai berat lebih 1,000 paun&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Burng Hantu Bertompok Utara&lt;/th&gt;
+            &lt;td&gt;Burung hantu bersaiz sederhana, memburu pada waktu malam&lt;/td&gt;
+            &lt;td&gt;Di Hutan Redwood yang padat dan matang&lt;/td&gt;
+            &lt;td&gt;\"Spesies penunjuk\" – kesihatan burung hantu ini menunjukkan kesihatan hutan&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Beruang Hitam&lt;/th&gt;
+            &lt;td&gt;Mamalia besar, biasanya berwarna hitam atau coklat&lt;/td&gt;
+            &lt;td&gt;Mencari makanan di seluruh hutan&lt;/td&gt;
+            &lt;td&gt;Pendaki yang hebat, sering dilihat di atas pokok&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Pendapat anda tentang Pokok Redwood dan alam semula jadi&lt;/h1&gt;
+
+      &lt;p&gt;Apakah perkara lain yang mahu anda ketahui tentang Pokok Redwood?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Apakah tempat semula jadi kegemaran anda yang mahu dilawati?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Apakah satu konsep dalam alam semula jadi yang mahu anda ketahui dengan lebih lanjut?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

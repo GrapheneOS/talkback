@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -25,10 +25,8 @@ extern "C" {
 
 typedef long int MessageType;
 
-extern int sendMessage(int queue, MessageType type, const void *content,
-                       size_t length, int flags);
-extern ssize_t receiveMessage(int queue, MessageType *type, void *buffer,
-                              size_t size, int flags);
+extern int sendMessage (int queue, MessageType type, const void *content, size_t length, int flags);
+extern ssize_t receiveMessage (int queue, MessageType *type, void *buffer, size_t size, int flags);
 
 typedef struct {
   void *data;
@@ -38,10 +36,8 @@ typedef struct {
   char content[];
 } MessageHandlerParameters;
 
-typedef void MessageHandler(const MessageHandlerParameters *parameters);
-extern int startMessageReceiver(const char *name, int queue, MessageType type,
-                                size_t size, MessageHandler *handler,
-                                void *data);
+typedef void MessageHandler (const MessageHandlerParameters *parameters);
+extern int startMessageReceiver (const char *name, int queue, MessageType type, size_t size, MessageHandler *handler, void *data);
 
 #ifdef __cplusplus
 }

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Denne vejledning er til den forbedrede tastaturoversigt, som indeholder mange nye kommandoer. Du kan vælge tastaturoversigten ved at gå til TalkBack-indstillinger &gt; Avancerede indstillinger &gt; Tastaturgenveje.\n\nTryk på Handling + højrepil for at vælge et emne. Du får den bedste brugeroplevelse ved at aktivere TalkBack, inden du går i gang.</string>
+  <string name="basic_interaction_link_text">Grundlæggende interaktion</string>
+  <string name="basic_interaction_link_subtext">Skift mellem elementer, læs efter linjer, brug menuer og meget mere</string>
+  <string name="browse_mode_link_text">Browsertilstand</string>
+  <string name="browse_mode_link_subtext">Naviger hurtigere i webindhold med springkommandoer</string>
+  <string name="reading_controls_link_text">Indstillinger for oplæsning</string>
+  <string name="reading_controls_link_subtext">Brug indstillinger for oplæsning til at skifte mellem elementer, justere taleindstillinger og meget mere</string>
+  <string name="image_descriptions_link_text">Billedbeskrivelser</string>
+  <string name="image_descriptions_link_subtext">Prøv at hente beskrivelser af billeder</string>
+  <string name="keyboard_shortcuts_link_text">Øv dig på tastaturgenveje</string>
+  <string name="keyboard_shortcuts_link_subtext">Tryk på taster og tastekombinationer, og se, hvad de gør</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack giver dig talefeedback, så du kan bruge din enhed uden at kigge på skærmen. TalkBack kan være en hjælp for brugere, der har svært ved at se skærmen. Når TalkBack er aktiveret, oplæses det element på skærmen, der fokuseres på.\n\nLad os først lære dit tastatur at kende. Find handlingstasten, som er ovenover den venstre Shift-tast. Find nu piletasterne nederst til højre på tastaturet. Tryk på Handling + højrepil for at gå til næste element.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Dette er det næste element. Du kan gå til det forrige element ved at trykke på Handling + venstrepil.\n\nNår du går til et interaktivt element som f.eks. en knap, kan du aktivere det ved at trykke på Handling + mellemrumstasten. Find knappen Næste, og fortsæt med vejledningen.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Læs ét tegn, ord eller afsnit ad gangen</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Nogle gange vil du måske gerne høre tekst oplæst ét tegn ad gangen.\n\nDu kan gøre dette ved at bruge indstillingerne for oplæsning. Tryk på Handling + Shift + højrepil eller venstrepil, indtil du hører \"tegn\".\n\nTryk derefter på Handling + pil op for at flytte navigationsfokusset bagud efter tegn. Tryk på Handling + pil ned for at flytte navigationsfokusset fremad efter tegn.\n\nPrøv det nu. Du kan også vælge at læse efter ord, linjer eller afsnit ved hjælp af Handling + Skift + højre- eller venstrepil.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Systemnavigation</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Hvis du prøver disse tastaturgenveje nu, lukkes vejledningen. Det kan være en god idé at vente, indtil du har gennemført vejledningen.\n\nHvis du vil skifte mellem åbne appvinduer og systemelementer som f.eks. notifikationer og proceslinjen, skal du trykke på Handling + Alt + Ctrl + pil op eller pil ned.\n\nHvis du vil åbne applisten, skal du trykke på Handling.\n\nHvis du vil gå til startskærmen og minimere alle åbne vinduer, skal du trykke på Handling + H eller Hjem på den øverste række.\n\nHvis du vil gå til dine seneste apps, skal du trykke på Handling + Tab eller Oversigt på den øverste række.\n\nHvis du hurtigt vil skifte mellem vinduer, skal du holde Alt nede og trykke på Tab.\n\nHvis du vil gå tilbage, skal du trykke på Handling + Esc eller Tilbage på den øverste række.\n\nHvis du vil åbne notifikationer, skal du trykke på Handling + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Juster taleindstillinger</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">Lydstyrken for TalkBack-tale omtales som lydstyrken for hjælpefunktioner. Den justeres uafhængigt af lydstyrken for medier.\n\nDu kan justere lydstyrken for hjælpefunktioner ved at trykke på Handling + lydstyrke op eller ned.\n\nDu kan justere talehastigheden ved at trykke på Handling + Ctrl + lydstyrke op for at øge den og Handling + Ctrl + lydstyrke ned for at sænke den.\n\nDu kan til enhver tid stoppe tale ved at trykke på Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack-menuen og flere tastaturgenveje</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack-menuen indeholder indstillinger og styringselementer, som du ofte kan få brug for.\n\nTryk på Handling + Ctrl + M for at åbne TalkBack-menuen. Du kan tilpasse TalkBack-menuen og dine indstillinger for oplæsning senere i TalkBack-indstillingerne.\n\nTalkBack-menuen med tastaturgenveje indeholder alle de tastaturgenveje, du kan bruge.\n\nDu kan åbne menuen med tastaturgenveje ved at trykke på Handling + Shift + /.\n\nDu kan få flere oplysninger om tastaturet og øve dig på tastaturgenveje ved at trykke på Handling + 0 for at åbne øvekærmen.</string>
+  <string name="keyboard_tutorial_finished_page_title">Det var det hele.</string>
+  <string name="keyboard_tutorial_finished_page_text">Du er nu klar til at bruge TalkBack.\n\nDu kan fortsætte med at lære om andre emner nu, eller du kan til enhver tid gennemgå disse oplysninger i indstillingerne for TalkBack.\n\nDu kan til enhver tid aktivere eller deaktivere TalkBack ved at trykke på Handling + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Naviger hurtigere i webindhold med browsertilstand</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Når du er i browseren og webapps, kan du aktivere browsertilstand og skifte mellem forskellige indstillinger og typer af detaljegrad for oplæsningen med et enkelt tryk på en tast. Det gør det muligt at navigere på en side på samme måde som i et tekstredigeringsfelt, f.eks. med venstre- og højrepil for at flytte efter tegn og pil op og pil ned for at flytte efter linje.\n\nDu kan slå browsertilstand til eller fra ved at trykke to gange på handlingsknappen.\n\nNår browsertilstand er aktiveret, kan du trykke på D for at gå til det næste område, F for at gå til det næste styringselement eller formularfelt, B for at gå til den næste knap, K for at gå til det næste link og H for at gå til den næste overskrift. Hold fingeren på Shift, og tryk på disse taster for at gå baglæns.\n\nDu kan også bruge pil op og pil ned til at springe mellem linjer, venstrepil og højrepil til at springe mellem bogstaver og Ctrl + venstrepil og højrepil til at springe mellem ord.\n\nTryk på Alt + højrepil for at gå til et øveområde. Når du er i øveområdet, sker der ikke noget, hvis du trykker på links, formularfelter eller knapper.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Overskriftsniveauer</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Websites og webapps bruger ofte overskrifter med forskellige niveauer til at strukturere indholdet. Når browsertilstand er aktiveret, kan du trykke på 1 til 6 for at gå til overskriftsniveauerne. Hold fingeren på Shift, og tryk på disse taster for at gå tilbage.\n\nTryk på Handling + højrepil for at gå til et øveområde.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tabeller</string>
+  <string name="keyboard_tutorial_tables_page_text">Browsertilstand gør det også nemmere at navigere i tabeller. Når brownsertilstand er aktiveret, kan du trykke på Alt + Ctrl + pil op eller pil ned for at skifte mellem rækker og Alt + Ctrl + venstrepil eller højrepil for at skifte mellem kolonner.\n\nTryk på Handling + højrepil for at gå til et øveområde.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Redigering af tekst</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Når du indtaster tekst i et tekstfelt, deaktiveres browsertilstand midlertidigt, så du kan bruge alle tasterne til at skrive. Du hører en meddelelse og en lyd, når den er deaktiveret. Når du forlader tekstfeltet, aktiveres browsertilstand igen, og du hører en ny meddelelse og en ny lyd.\n\nTryk på Handling + højrepil for at gå til et øveområde.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Få flere oplysninger om browsertilstand</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Du kan se den komplette liste over elementer, du kan hoppe mellem i browsertilstand, ved at trykke på Handling + Shift + / og søge efter \"browsertilstand\" i menuen med tastaturgenveje.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Læs ét tegn, ord eller afsnit ad gangen</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Nogle gange vil du måske gerne høre tekst oplæst ét tegn ad gangen.\n\nDu kan gøre dette ved at bruge indstillingerne for oplæsning. Tryk på Handling + Shift + højre- eller venstrepil, indtil du hører \"tegn\". Tryk derefter på Handling + pil op for at flytte navigationsfokusset bagud efter tegn. Tryk på Handling + pil ned for at flytte navigationsfokusset fremad efter tegn.\n\nPrøv det nu. Du kan også vælge at læse ud fra ord, linjer eller afsnit ved hjælp af Alt + Shift + højre- eller venstrepil.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Hop mellem styringselementer</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Styringselementer er elementer, du kan interagere med, f.eks. knapper, afkrydsningsfelter og tekstfelter.\n\nPå nogle sider kan du få brug for at hoppe mellem styringselementer, f.eks. til den næste knap, så du hurtigt kan finde en handling.\n\nDet gør du ved at trykke på Handling + Shift + højrepil, indtil du hører \"styringselementer\". Tryk derefter på Handling + pil op for at gå til den forrige knap og Handling + pil ned for at gå til den næste knap.\n\nPrøv det nu, og find den næste knap.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Hop mellem links</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Du kan også hoppe mellem links på en side.\n\nDet gør du ved at trykke på Handling + Shift + højrepil, indtil du hører \"links\". Tryk derefter på Handling + pil ned for at finde linket med navnet \"Link 5\". Når du er i vejledningen, sker der ikke noget, hvis du trykker to gange på linket.\n\nTryk på Handling + højrepil for at finde den næste knap og gå til næste side.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Hop mellem overskrifter</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Du kan også hoppe mellem overskrifter på en side.\n\nDu kan prøve det nu ved at trykke på Handling + Shift + højrepil, indtil du hører \"overskrifter\". Tryk derefter på Handling + pil ned for at finde overskriften \"Navigation\".</string>
+  <string name="keyboard_tutorial_find_next_button">Tryk på Handling + højrepil for at finde knappen Næste.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Hop mellem containere</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Du kan forlade en container som f.eks. en liste eller et gitter ved at trykke på Handling + Alt + Ctrl + højrepil eller venstrepil. Dette er nyttigt, når du vil forlade en lang liste med elementer.\n\nDu kan prøve det nu ved at trykke på Handling + højrepil for at gå til listen. Tryk derefter på Handling + Alt + Ctrl + højrepil for at gå til den næste container.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Hvis du vil gå til den næste container, skal du trykke på Handling + Alt + Ctrl + højrepil</string>
+  <string name="keyboard_tutorial_exit_container">Hvis du vil forlade denne container, skal du trykke på Handling + Alt + Ctrl + højrepil</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Du har forladt containeren. Du kan også føje containere til dine indstillinger for oplæsning og derefter trykke på Handling + Shift + højrepil eller venstrepil for at vælge containere og Handling + pil ned eller pil op for at skifte mellem containere. Du kan opdatere indstillingerne for oplæsning ved at gå til TalkBack &gt; Indstillinger &gt; Tilpas menuer &gt; Tilpas indstillinger for oplæsning.\n\nTryk på Handling + højrepil for at finde knappen Næste.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Tilpas indstillingerne for oplæsning</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Du kan også justere taleindstillinger ved hjælp af indstillingerne for oplæsning og tilpasse, hvad du kan gøre med indstillingerne for oplæsning, under TalkBack &gt; Indstillinger &gt; Tilpas menuer &gt; Tilpas indstillinger for oplæsning.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Prøv at hente billedbeskrivelser</string>
+  <string name="keyboard_tutorial_image_description_page_text">Når du fokuserer på et billede, skal du trykke på Handling + R og derefter I. Der er ét billede nedenfor. Prøv at få en beskrivelse af det.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Du kan til enhver tid ændre indstillingerne for billedbeskrivelser under TalkBack-indstillinger &gt; Billed- og ikonbeskrivelser.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Du kan til enhver tid ændre indstillingerne for billedbeskrivelser under TalkBack-indstillinger efterfulgt af Billed- og ikonbeskrivelser.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Eksempelbillede. Tryk på Handling + R og derefter på I for at høre en beskrivelse.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Stemmekommandoer</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Du kan bruge din stemme til hurtigt at styre TalkBack.\n\nDu kan f.eks. sige en kommando for at ændre navigationsmetode, hoppe til næste overskrift, kopiere tekst og meget mere.\n\nDu kan prøve det nu ved at trykke på Handling + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Brug af skærmsøgning</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Funktionen til skærmsøgning giver dig mulighed for at søge efter bestemt indhold på skærmen.\n\nPrøv det ved at trykke på Handling + Ctrl + /. Indtast et søgeord, f.eks. \"næste\", for at finde elementer med den pågældende tekst på skærmen.\n\nPrøv at søge efter \"næste\" nu for at finde knappen Næste.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Naviger ved hjælp af skærmsøgning</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Du kan hurtigt gå fra søgeresultatet til søgeresultat via skærmsøgning, når du har valgt et resultat.\n\nDet gør du ved at bruge navigation via indstillingerne for oplæsning. Tryk på Handling + Shift + højre- eller venstrepil, indtil du hører \"skærmsøgning\". Tryk derefter på Handling + pil ned eller pil op for at navigere efter skærmsøgningsresultater.\n\nLad os prøve det nu. Nedenfor er der en liste med 3 knapper, som alle indeholder teksten \"handling\". Søg efter \"handling\" ved hjælp af skærmsøgning, og naviger derefter ved hjælp af skærmsøgning for at gå fra et søgeresultat til et andet.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Øv dig på tastaturgenveje</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Tryk på en fysisk tastaturtast eller en tastekombination for at høre, hvad den gør. Tryk på Ctrl + W eller Escape for at afslutte.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Oplev de majestætiske californiske redwoodtræer&lt;/h1&gt;
+      &lt;p&gt;Californiens redwoodtræer, især kystredwoodtræerne (Sequoia sempervrens), er verdens højeste træer. Nogle er over 115 meter høje og kan blive flere tusinde år gamle. De trives i det fugtige kystklima i det nordlige Californien, hvor de nyder godt af regn og tåge.&lt;/p&gt;
+
+      &lt;h2&gt;Hvor kan man se dem?&lt;/h2&gt;
+      &lt;p&gt;Du kan se disse gigantiske træer i et smalt bælte langs Stillehavskysten. De vigtigste parker omfatter:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood National and State Parks&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods State Park&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods State Park&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Planlæg dit besøg her: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California State Parks – redwoods&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Støt bevaring&lt;/h2&gt;
+      &lt;p&gt;Det er vigtigt at beskytte disse gamle skove. Du kan hjælpe ved at følge retningslinjerne for færden i parken og støtte bevaringsbestræbelser.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Del din oplevelse&lt;/h2&gt;
+        &lt;p&gt;Har du besøgt redwoodtræerne?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Ja&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Nej&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Fortæl os om din oplevelse&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Send&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Hvad vil du ellers gerne vide om redwoodtræerne?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Send&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Redwoodtræer: Holder vores miljø sundt&lt;/h1&gt;
+    &lt;p&gt;Redwoodtræer er vigtige for vores planet, da de spiller en stor rolle i at holde vores miljø sundt.&lt;/p&gt;
+
+    &lt;h1&gt;Kæmpemæssige luftrensere&lt;/h1&gt;
+    &lt;p&gt;Disse træer er fantastiske til at optage kuldioxid fra luften. Ved at optage så meget kuldioxid hjælper redwoodtræer med at holde vores luft ren.&lt;/p&gt;
+
+    &lt;h2&gt;Hjemsted for dyrearter&lt;/h2&gt;
+    &lt;p&gt;Redwoodtræer er hjemsted for mange dyrearter, fra fugle på grene til små skabninger i jorden.&lt;/p&gt;
+
+    &lt;h3&gt;Vandmagikere&lt;/h3&gt;
+    &lt;p&gt;De er gode til at fange tåge, som derefter drypper ned på skovbunden. Dette holder jorden fugtig og giver vand til andre planter og dyr, især når det er tørt.&lt;/p&gt;
+
+    &lt;h4&gt;Jordbeskyttere&lt;/h4&gt;
+    &lt;p&gt;Deres stærke rødder holder jorden på plads, så den ikke skylles væk under kraftig regn, og de forhindrer erosion.&lt;/p&gt;
+
+    &lt;h5&gt;Skaber skov&lt;/h5&gt;
+    &lt;p&gt;Når gamle redwoodtræer falder, bliver deres træ til mad og ly for nye planter og væsner, hvilket skaber en næringsrig jordbund, så der kan ske ny vækst.&lt;/p&gt;
+
+    &lt;h6&gt;Unikke økosystemer&lt;/h6&gt;
+    &lt;p&gt;Fordi redwoodtræer er så store og lever så længe, skaber de særlige skovmiljøer, der understøtter liv, som ikke findes andre steder.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Dyrene i redwoodskovene&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals of the Redwood Forests\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dyr&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Beskrivelse&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Hvor de lever&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Finurligt faktum&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banansnegl&lt;/th&gt;
+            &lt;td&gt;Stor, gul, slimet snegl&lt;/td&gt;
+            &lt;td&gt;På skovbunden&lt;/td&gt;
+            &lt;td&gt;Den næststørste snegl i verden&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Kæmpesalamander&lt;/th&gt;
+            &lt;td&gt;Stor, mørkfarvet salamander&lt;/td&gt;
+            &lt;td&gt;I nærheden af vandløb og fugtige områder&lt;/td&gt;
+            &lt;td&gt;Kan blive op til 30 cm lang&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt-elg&lt;/th&gt;
+            &lt;td&gt;Stor hjort med imponerende gevir&lt;/td&gt;
+            &lt;td&gt;Græsser i skovens lysninger&lt;/td&gt;
+            &lt;td&gt;Hannerne kan veje over 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Nordlig plettet ugle&lt;/th&gt;
+            &lt;td&gt;Mellemstor ugle, der jager om natten&lt;/td&gt;
+            &lt;td&gt;I tætte, gamle redwoodskove&lt;/td&gt;
+            &lt;td&gt;En \"indikatorart\" – dens afspejler skovens helbred&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Sortbjørn&lt;/th&gt;
+            &lt;td&gt;Stort pattedyr, typisk sort eller brun&lt;/td&gt;
+            &lt;td&gt;Søger efter føde i hele skoven&lt;/td&gt;
+            &lt;td&gt;Fremragende klatrere, der ofte ses i træer&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Dine tanker om redwoodtræer og naturen&lt;/h1&gt;
+
+      &lt;p&gt;Hvad vil du gerne vide mere om i forbindelse med redwoodtræer?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Hvad er dit yndlingssted i naturen?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Hvad er et begreb i naturen, du gerne vil vide mere om?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

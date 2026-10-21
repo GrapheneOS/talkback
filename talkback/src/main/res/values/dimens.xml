@@ -77,6 +77,7 @@
     <dimen name="training_padding_end">24dp</dimen>
     <dimen name="training_padding_top">36dp</dimen>
     <dimen name="training_padding_bottom">36dp</dimen>
+    <dimen name="training_padding">24dp</dimen>
     <dimen name="training_title_padding_horizontal">0dp</dimen>
     <dimen name="training_button_text_padding_bottom">0dp</dimen>
     <dimen name="training_title_text_size">26sp</dimen>
@@ -106,14 +107,13 @@
     <dimen name="training_page_number_height">24sp</dimen>
     <dimen name="training_list_margin_top">32dp</dimen>
     <dimen name="training_list_item_padding">16dp</dimen>
-    <dimen name="training_list_item_margin_top">8dp</dimen>
-    <dimen name="training_list_item_margin_bottom">8dp</dimen>
+    <dimen name="training_list_item_text_padding">32dp</dimen>
     <dimen name="training_list_item_margin_start">8dp</dimen>
     <dimen name="training_list_item_stroke_width">1dp</dimen>
     <dimen name="training_list_item_corner_radius">4dp</dimen>
-    <dimen name="training_list_item_height">64dp</dimen>
     <dimen name="training_list_item_text_size">18sp</dimen>
     <dimen name="training_list_item_text_height">26dp</dimen>
+    <dimen name="training_list_item_summary_margin_top">12dp</dimen>
     <dimen name="training_text_with_number_margin_top">16dp</dimen>
     <dimen name="training_link_padding">16dp</dimen>
     <dimen name="training_link_margin_top">24dp</dimen>
@@ -130,6 +130,12 @@
     <dimen name="training_banner_title_text_size">20sp</dimen>
     <dimen name="training_banner_padding">20dp</dimen>
     <dimen name="training_banner_button_radius">16dp</dimen>
+    <dimen name="training_table_cell_padding_left">8dp</dimen>
+    <dimen name="training_table_cell_height">26sp</dimen>
+    <dimen name="training_navigation_padding_top">0dp</dimen>
+    <dimen name="training_vertical_margin">30dp</dimen>
+    <dimen name="training_webview_height">200dp</dimen>
+
     <!-- TV Training -->
     <dimen name="tv_training_left_column_width">340dp</dimen>
     <dimen name="tv_training_right_column_width">268dp</dimen>
@@ -159,5 +165,31 @@
     <dimen name="label_manager_button_width">364dp</dimen>
     <dimen name="label_manager_button_height">56dp</dimen>
     <dimen name="label_dialog_padding">24dp</dimen>
+
+    <!-- Talkback keyboard -->
+    <dimen name="two_target_min_width">72dp</dimen>
+
+    <!-- Image caption result bottom sheet -->
+    <dimen name="image_caption_bottom_sheet_padding">16dp</dimen>
+    <dimen name="image_qna_message_background_corner_radius">16dp</dimen>
+    <dimen name="bottom_sheet_dialog_top_radius">20dp</dimen>
+    <dimen name="bottom_sheet_icon_button_size">28dp</dimen>
+
+    <!-- Keyboard shortcuts dialog -->
+    <dimen name="kayboard_shortcuts_dialog_command_title_text_size">16sp</dimen>
+    <dimen name="kayboard_shortcuts_dialog_category_title_text_size">14sp</dimen>
+    <dimen name="keyboard_shortcuts_dialog_background_inset">32dp</dimen>
+    <dimen name="keyboard_shortcuts_dialog_search_corner_radius">20dp</dimen>
+    <dimen name="keyboard_shortcuts_dialog_icon_size">24dp</dimen>
+    <dimen name="keyboard_shortcuts_dialog_search_bar_height">40dp</dimen>
+
+    <!-- Tutorial Chooser Dialog -->
+    <dimen name="tutorial_chooser_dialog_corner_radius">28dp</dimen>
+    <dimen name="tutorial_chooser_dialog_button_radius">24dp</dimen>
+    <dimen name="tutorial_chooser_dialog_padding">24dp</dimen>
+    <dimen name="tutorial_chooser_dialog_title_margin_bottom">24dp</dimen>
+    <dimen name="tutorial_chooser_dialog_button_padding">16dp</dimen>
+    <dimen name="tutorial_chooser_dialog_button_icon_padding">16dp</dimen>
+    <dimen name="tutorial_chooser_dialog_button_margin_bottom">16dp</dimen>
 
 </resources>

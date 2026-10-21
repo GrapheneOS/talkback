@@ -115,14 +115,14 @@ public class DraggableOverlay extends SimpleOverlay {
     windowParams.flags &= ~WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
     if (windowParams.y > touchStealingView.getHeight() / 2) {
       switch (windowParams.gravity & Gravity.VERTICAL_GRAVITY_MASK) {
-        case Gravity.BOTTOM:
+        case Gravity.BOTTOM -> {
           windowParams.gravity &= ~Gravity.VERTICAL_GRAVITY_MASK;
           windowParams.gravity |= Gravity.TOP;
-          break;
-        case Gravity.TOP:
+        }
+        case Gravity.TOP -> {
           windowParams.gravity &= ~Gravity.VERTICAL_GRAVITY_MASK;
           windowParams.gravity |= Gravity.BOTTOM;
-          break;
+        }
       }
     }
     windowParams.y = 0;
@@ -148,12 +148,8 @@ public class DraggableOverlay extends SimpleOverlay {
     }
 
     switch (windowParams.gravity & Gravity.VERTICAL_GRAVITY_MASK) {
-      case Gravity.BOTTOM:
-        windowParams.y = (int) (dragOrigin - event.getRawY());
-        break;
-      case Gravity.TOP:
-        windowParams.y = (int) (event.getRawY() - dragOrigin);
-        break;
+      case Gravity.BOTTOM -> windowParams.y = (int) (dragOrigin - event.getRawY());
+      case Gravity.TOP -> windowParams.y = (int) (event.getRawY() - dragOrigin);
     }
     setParams(windowParams);
   }
@@ -179,7 +175,7 @@ public class DraggableOverlay extends SimpleOverlay {
     @Override
     public boolean onTouch(View view, MotionEvent event) {
       switch (event.getActionMasked()) {
-        case MotionEvent.ACTION_DOWN:
+        case MotionEvent.ACTION_DOWN -> {
           if (view != touchStealingView) {
             touchStartX = event.getRawX();
             touchStartY = event.getRawY();
@@ -187,21 +183,18 @@ public class DraggableOverlay extends SimpleOverlay {
             handler.sendMessageAtTime(
                 handler.obtainMessage(MSG_LONG_PRESS, event), event.getEventTime() + timeout);
           }
-          break;
-
-        case MotionEvent.ACTION_UP:
+        }
+        case MotionEvent.ACTION_UP -> {
           handler.removeMessages(MSG_LONG_PRESS);
           if (view == touchStealingView) {
             stopDragging();
           }
-          break;
-
-        case MotionEvent.ACTION_CANCEL:
+        }
+        case MotionEvent.ACTION_CANCEL -> {
           handler.removeMessages(MSG_LONG_PRESS);
           cancelDragging();
-          break;
-
-        case MotionEvent.ACTION_MOVE:
+        }
+        case MotionEvent.ACTION_MOVE -> {
           float distanceX = event.getRawX() - touchStartX;
           float distanceY = event.getRawY() - touchStartY;
           float distanceSquare = distanceX * distanceX + distanceY * distanceY;
@@ -209,7 +202,7 @@ public class DraggableOverlay extends SimpleOverlay {
             handler.removeMessages(MSG_LONG_PRESS);
           }
           drag(event);
-          break;
+        }
       }
 
       return false;
@@ -218,9 +211,7 @@ public class DraggableOverlay extends SimpleOverlay {
     @Override
     public boolean handleMessage(Message msg) {
       switch (msg.what) {
-        case MSG_LONG_PRESS:
-          startDragging((MotionEvent) msg.obj);
-          break;
+        case MSG_LONG_PRESS -> startDragging((MotionEvent) msg.obj);
       }
       return true;
     }

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -44,6 +44,7 @@
 #include "blink.h"
 #include "routing.h"
 #include "api_control.h"
+#include "options.h"
 #include "core.h"
 
 static void
@@ -51,17 +52,17 @@ overlayAttributesUnderline (unsigned char *cell, unsigned char attributes) {
   unsigned char dots;
 
   switch (attributes) {
-    case SCR_COLOUR_FG_DARK_GREY | SCR_COLOUR_BG_BLACK:
-    case SCR_COLOUR_FG_LIGHT_GREY | SCR_COLOUR_BG_BLACK:
-    case SCR_COLOUR_FG_LIGHT_GREY | SCR_COLOUR_BG_BLUE:
-    case SCR_COLOUR_FG_BLACK | SCR_COLOUR_BG_CYAN:
+    case VGA_COLOR_FG_DARK_GRAY | VGA_COLOR_BG_BLACK:
+    case VGA_COLOR_FG_LIGHT_GRAY | VGA_COLOR_BG_BLACK:
+    case VGA_COLOR_FG_LIGHT_GRAY | VGA_COLOR_BG_BLUE:
+    case VGA_COLOR_FG_BLACK | VGA_COLOR_BG_CYAN:
       return;
 
-    case SCR_COLOUR_FG_BLACK | SCR_COLOUR_BG_LIGHT_GREY:
+    case VGA_COLOR_FG_BLACK | VGA_COLOR_BG_LIGHT_GRAY:
       dots = BRL_DOT_7 | BRL_DOT_8;
       break;
 
-    case SCR_COLOUR_FG_WHITE | SCR_COLOUR_BG_BLACK:
+    case VGA_COLOR_FG_WHITE | VGA_COLOR_BG_BLACK:
     default:
       dots = BRL_DOT_8;
       break;
@@ -150,7 +151,7 @@ translateScreenCharacter_text (
   }
 
   if (prefs.showAttributes) {
-    overlayAttributesUnderline(cell, character->attributes);
+    overlayAttributesUnderline(cell, getScreenColorAttributes(&character->color));
   }
 
   {
@@ -169,7 +170,11 @@ static void
 translateScreenCharacter_attributes (
   const ScreenCharacter *character, unsigned char *cell, wchar_t *text
 ) {
-  *text = UNICODE_BRAILLE_ROW | (*cell = convertAttributesToDots(attributesTable, character->attributes));
+  *text = UNICODE_BRAILLE_ROW | (
+    *cell = convertAttributesToDots(
+      attributesTable, getScreenColorAttributes(&character->color)
+    )
+  );
 }
 
 static void
@@ -357,7 +362,7 @@ contractScreenRow (BrailleRowDescriptor *brd, unsigned int screenRow, unsigned c
         attributes = 0;
       }
 
-      attributes |= inputCharacters[inputOffset].attributes;
+      attributes |= getScreenColorAttributes(&inputCharacters[inputOffset].color);
     }
 
     while (outputOffset < outputLength) {
@@ -1001,26 +1006,38 @@ autospeak (AutospeakMode mode) {
     }
 
   autospeak:
-    if (mode == AUTOSPEAK_SILENT) count = 0;
+    if (scr.quality >= autospeakMinimumScreenContentQuality) {
+      if (mode == AUTOSPEAK_SILENT) count = 0;
 
-    characters += column;
-    int interrupt = 1;
+      characters += column;
+      int interrupt = 1;
 
-    if (indent) {
-      if (speakIndent(characters, count, 0)) {
-        interrupt = 0;
+      if (indent) {
+        if (speakIndent(characters, count, 0)) {
+          interrupt = 0;
+        }
       }
-    }
 
-    if (count && (scr.quality >= autospeakMinimumScreenContentQuality)) {
-      if (!reason) reason = "unknown reason";
+      if ((characters == newCharacters) && (count > 1)) {
+        if (isAllSpaceCharacters(newCharacters, newWidth)) {
+          count = 0;
 
-      logMessage(LOG_CATEGORY(SPEECH_EVENTS),
-        "autospeak: %s: [%d,%d] %d.%d",
-        reason, ses->winx, ses->winy, column, count
-      );
+          if (prefs.autospeakEmptyLine) {
+            sayString(&spk, gettext("blank"), SAY_OPT_MUTE_FIRST);
+          }
+        }
+      }
 
-      speakCharacters(characters, count, 0, interrupt);
+      if (count) {
+        if (!reason) reason = "unknown reason";
+
+        logMessage(LOG_CATEGORY(SPEECH_EVENTS),
+          "autospeak: %s: [%d,%d] %d.%d",
+          reason, ses->winx, ses->winy, column, count
+        );
+
+        speakCharacters(characters, count, 0, interrupt);
+      }
     }
   }
 
@@ -1085,8 +1102,10 @@ doUpdate (void) {
   if (scr.unreadable) {
     logMessage(LOG_CATEGORY(UPDATE_EVENTS), "screen unreadable: %s", scr.unreadable);
   } else {
-    logMessage(LOG_CATEGORY(UPDATE_EVENTS), "screen: #%d %dx%d [%d,%d]",
-               scr.number, scr.cols, scr.rows, scr.posx, scr.posy);
+    logMessage(LOG_CATEGORY(UPDATE_EVENTS),
+      "screen: #%d %dx%d [%d,%d] scq:%u",
+      scr.number, scr.cols, scr.rows, scr.posx, scr.posy, scr.quality
+    );
   }
 
   if (opt_releaseDevice) {
@@ -1258,9 +1277,11 @@ doUpdate (void) {
           unsigned char cells[length];
           memset(cells, 0, length);
           renderStatusFields(fields, cells);
-          fillDotsRegion(textBuffer, brl.buffer,
-                         statusStart, statusCount, brl.textColumns, brl.textRows,
-                         cells, length);
+
+          fillDotsRegion(
+            textBuffer, brl.buffer, statusStart, statusCount,
+            brl.textColumns, brl.textRows, cells, length
+          );
         }
 
         fillStatusSeparator(textBuffer, brl.buffer);

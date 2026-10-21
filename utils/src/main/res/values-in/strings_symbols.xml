@@ -35,6 +35,7 @@
   <string name="symbol_period">Titik</string>
   <string name="symbol_pi">Pi</string>
   <string name="symbol_pound">Pon</string>
+  <string name="symbol_hash">Hash</string>
   <string name="symbol_pound_sterling">Simbol mata uang pound sterling</string>
   <string name="symbol_currency_peso">Simbol Peso</string>
   <string name="symbol_currency_dong">Simbol Dong</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">Tanda kurung siku tutup</string>
   <string name="symbol_square_root">Akar pangkat dua</string>
   <string name="symbol_trademark">Merek dagang</string>
+  <string name="symbol_check_mark">Tanda centang</string>
   <string name="symbol_underscore">Garis bawah</string>
   <string name="symbol_vertical_bar">Garis vertikal</string>
   <string name="symbol_yen">Yen</string>

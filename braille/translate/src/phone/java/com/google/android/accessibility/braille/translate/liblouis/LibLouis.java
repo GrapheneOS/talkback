@@ -26,201 +26,297 @@ public class LibLouis implements TranslatorFactory {
   @Override
   public BrailleTranslator create(Context context, String codeName, boolean contractedMode) {
     switch (codeName) {
-      case "ARABIC":
-        LibLouisTranslator uncontracted = new LibLouisTranslatorArabic(context);
+      case "ARABIC" -> {
+        LibLouisTranslator uncontracted = new LibLouisTranslator(context, "ar-ar-g1.utb");
         LibLouisTranslator contracted = new LibLouisTranslator(context, "ar-ar-g2.ctb");
         if (contractedMode) {
           return new ExpandableContractedTranslator(uncontracted, contracted);
         }
         return uncontracted;
-      case "ARABIC_COMP8":
+      }
+      case "ARABIC_COMP8" -> {
         return new LibLouisTranslator(context, "ar-ar-comp8.utb");
-      case "BULGARIAN":
+      }
+      case "BULGARIAN" -> {
         return new LibLouisTranslator(context, "bg.utb");
-      case "CANTONESE":
-        return new LibLouisTranslator(context, "zh_HK.tbl");
-      case "CHINESE_TAIWAN":
+      }
+      case "BULGARIAN_COMP8" -> {
+        return new LibLouisTranslator(context, "bg.tbl");
+      }
+      case "CANTONESE" -> {
+        return new LibLouisTranslator(context, "zh-hk.ctb");
+      }
+      case "CHINESE_TAIWAN" -> {
         return new LibLouisTranslator(context, "zh-tw.ctb");
-      case "CHINESE_CHINA_CURRENT_WITH_TONES":
+      }
+      case "CHINESE_CHINA_CURRENT_WITH_TONES" -> {
         return new LibLouisTranslator(context, "zhcn-g1.ctb");
-      case "CHINESE_CHINA_CURRENT_WITHOUT_TONES":
+      }
+      case "CHINESE_CHINA_CURRENT_WITHOUT_TONES" -> {
         return new LibLouisTranslator(context, "zh_CHN.tbl");
-      case "CHINESE_CHINA_TWO_CELLS":
+      }
+      case "CHINESE_CHINA_TWO_CELLS" -> {
         return new LibLouisTranslator(context, "zhcn-g2.ctb");
-      case "CHINESE_CHINA_COMMON":
+      }
+      case "CHINESE_CHINA_COMMON" -> {
         return new LibLouisTranslator(context, "zhcn-cbs.ctb");
-      case "CATALAN":
+      }
+      case "CATALAN" -> {
         return new LibLouisTranslator(context, "ca.tbl");
-      case "CROATIAN":
+      }
+      case "CROATIAN" -> {
         return new LibLouisTranslator(context, "hr-g1.tbl");
-      case "CROATIAN_COMP8":
+      }
+      case "CROATIAN_COMP8" -> {
         return new LibLouisTranslator(context, "hr-comp8.tbl");
-      case "CZECH":
-        return new LibLouisTranslator(context, "cs-g1.ctb");
-      case "CZECH_COMP8":
+      }
+      case "CZECH" -> {
+        return new LibLouisTranslator(context, "cs.tbl");
+      }
+      case "CZECH_COMP8" -> {
         return new LibLouisTranslator(context, "cs-comp8.utb");
-      case "DANISH":
+      }
+      case "DANISH" -> {
         return getBrailleTranslator(context, contractedMode, "da-dk-g16.ctb", "da-dk-g26.ctb");
-      case "DANISH_8":
-        return new LibLouisTranslator(context, "da-dk-g18.ctb");
-      case "DANISH_COMP8":
+      }
+      case "DANISH_8" -> {
+        return getBrailleTranslator(context, contractedMode, "da-dk-g18.ctb", "da-dk-g28.ctb");
+      }
+      case "DANISH_COMP8" -> {
         return new LibLouisTranslator(context, "da-dk-g08.ctb");
-      case "DUTCH_COMP8":
+      }
+      case "DUTCH_COMP8" -> {
         return new LibLouisTranslator(context, "nl-comp8.utb");
-      case "DUTCH_NL":
+      }
+      case "DUTCH_NL" -> {
         return new LibLouisTranslator(context, "nl-NL-g0.utb");
-      case "EN_UK":
-        return getBrailleTranslator(context, contractedMode, "en-gb-g1.utb", "en-GB-g2.ctb");
-      case "EN_IN":
+      }
+      case "EN_UK" -> {
+        return getBrailleTranslator(context, contractedMode, "en-gb-g1.utb", "en_GB.tbl");
+      }
+      case "EN_IN" -> {
         return new LibLouisTranslator(context, "en-in-g1.ctb");
-      case "EN_NABCC":
+      }
+      case "EN_NABCC" -> {
         return new LibLouisTranslator(context, "en-nabcc.utb");
-      case "EN_COMP6":
+      }
+      case "EN_COMP6" -> {
         return new LibLouisTranslator(context, "en-us-comp6.ctb");
-      case "UEB":
+      }
+      case "UEB" -> {
         return getBrailleTranslator(
             contractedMode,
             new LibLouisTranslatorUeb1(context),
             new LibLouisTranslatorUeb2(context));
-      case "EN_US_EBAE":
-        return getBrailleTranslator(context, contractedMode, "en-us-g1.ctb", "en-us-g2.ctb");
-      case "ESTONIAN":
+      }
+      case "EN_US_EBAE" -> {
+        return getBrailleTranslator(context, contractedMode, "en-us-g1.ctb", "en_US.tbl");
+      }
+      case "ESTONIAN" -> {
         return new LibLouisTranslator(context, "et-g0.utb");
-      case "FINNISH":
+      }
+      case "FINNISH" -> {
         return new LibLouisTranslator(context, "fi.utb");
-      case "FINNISH_COMP8":
+      }
+      case "FINNISH_COMP8" -> {
         return new LibLouisTranslator(context, "fi-fi-8dot.ctb");
-      case "FRENCH":
+      }
+      case "FRENCH" -> {
         return getBrailleTranslator(
             contractedMode,
             new LibLouisTranslatorFrench(context),
             new LibLouisTranslator(context, "fr-bfu-g2.ctb"));
-      case "FRENCH_COMP8":
+      }
+      case "FRENCH_COMP8" -> {
         return new LibLouisTranslator(context, "fr-bfu-comp8.utb");
-      case "GERMAN":
+      }
+      case "GERMAN" -> {
         return getBrailleTranslator(context, contractedMode, "de-g0.utb", "de-g2.ctb");
-      case "GERMAN_COMP8":
+      }
+      case "GERMAN_COMP8" -> {
         return new LibLouisTranslator(context, "de-de-comp8.ctb");
-      case "GREEK":
+      }
+      case "GREEK" -> {
         return new LibLouisTranslator(context, "el.ctb");
-      case "GREEK_INTERNATIONAL":
+      }
+      case "GREEK_INTERNATIONAL" -> {
         return new LibLouisTranslator(context, "grc-international-en.utb");
-      case "GUJARATI":
+      }
+      case "GUJARATI" -> {
         return new LibLouisTranslator(context, "gu.tbl");
-      case "HEBREW":
+      }
+      case "HEBREW" -> {
         return new LibLouisTranslator(context, "he-IL.utb");
-      case "HEBREW_COMP8":
+      }
+      case "HEBREW_COMP8" -> {
         return new LibLouisTranslator(context, "he-IL-comp8.utb");
-      case "HINDI":
+      }
+      case "HINDI" -> {
         return new LibLouisTranslator(context, "hi.tbl");
-      case "HUNGARIAN":
-        return getBrailleTranslator(context, contractedMode, "hu-hu-g1.ctb", "hu-hu-g2.ctb");
-      case "HUNGARIAN_COMP8":
+      }
+      case "HUNGARIAN" -> {
+        return getBrailleTranslator(context, contractedMode, "hu.tbl", "hu-hu-g2.ctb");
+      }
+      case "HUNGARIAN_COMP8" -> {
         return new LibLouisTranslator(context, "hu-hu-comp8.ctb");
-      case "ICELANDIC":
+      }
+      case "ICELANDIC" -> {
         return new LibLouisTranslator(context, "is.tbl");
-      case "ICELANDIC_COMP8":
+      }
+      case "ICELANDIC_COMP8" -> {
         return new LibLouisTranslator(context, "is.ctb");
-      case "ITALIAN_COMP6":
+      }
+      case "ITALIAN_COMP6" -> {
         return new LibLouisTranslator(context, "it.tbl");
-      case "ITALIAN_COMP8":
+      }
+      case "ITALIAN_COMP8" -> {
         return new LibLouisTranslator(context, "it-it-comp8.utb");
-      case "JAPANESE":
-        return new LibLouisTranslator(context, "ja-kantenji.utb");
-      case "KANNADA":
+      }
+      case "JAPANESE" -> {
+        return new LibLouisTranslator(context, "ja-kantenji-ucs2.utb");
+      }
+      case "KANNADA" -> {
         return new LibLouisTranslator(context, "kn.tbl");
-      case "KHMER":
+      }
+      case "KHMER" -> {
         return new LibLouisTranslator(context, "km-g1.utb");
-      case "KOREAN":
+      }
+      case "KOREAN" -> {
         return getBrailleTranslator(context, contractedMode, "ko-g1.ctb", "ko-g2.ctb");
-      case "KOREAN_2006":
+      }
+      case "KOREAN_2006" -> {
         return getBrailleTranslator(context, contractedMode, "ko-2006-g1.ctb", "ko-2006-g2.ctb");
-      case "KURDISH":
-        return new LibLouisTranslator(context, "ckb-g1.ctb");
-      case "LITHUANIAN":
-        return new LibLouisTranslator(context, "lt-6dot.tbl");
-      case "LITHUANIAN_8":
-        return new LibLouisTranslator(context, "lt.tbl");
-      case "LATVIAN":
+      }
+      case "KURDISH" -> {
+        return new LibLouisTranslator(context, "ckb.tbl");
+      }
+      case "LITHUANIAN" -> {
+        return new LibLouisTranslator(context, "lt-6dot.utb");
+      }
+      case "LITHUANIAN_8" -> {
+        return new LibLouisTranslator(context, "lt-8dot.utb");
+      }
+      case "LATVIAN" -> {
         return new LibLouisTranslator(context, "lv.tbl");
-      case "MALAYALAM_IN":
+      }
+      case "MALAYALAM_IN" -> {
         return new LibLouisTranslator(context, "ml.tbl");
-      case "MARATHI_IN":
+      }
+      case "MARATHI_IN" -> {
         return new LibLouisTranslator(context, "mr.tbl");
-      case "NEPALI":
+      }
+      case "NEPALI" -> {
         return new LibLouisTranslator(context, "ne.ctb");
-      case "NEPALI_IN":
+      }
+      case "NEPALI_IN" -> {
         return new LibLouisTranslator(context, "ne.tbl");
-      case "NORWEGIAN":
+      }
+      case "NORWEGIAN" -> {
         return getBrailleTranslator(context, contractedMode, "no-no-g0.utb", "no-no-g3.ctb");
-      case "NORWEGIAN_8":
+      }
+      case "NORWEGIAN_8" -> {
         return new LibLouisTranslator(context, "no-no-8dot.utb");
-      case "NORWEGIAN_8_6FALLBACK":
+      }
+      case "NORWEGIAN_8_6FALLBACK" -> {
         return new LibLouisTranslator(context, "no-no-8dot-fallback-6dot-g0.utb");
-      case "NORWEGIAN_8_NO":
+      }
+      case "NORWEGIAN_8_NO" -> {
         return new LibLouisTranslator(context, "no-no-generic.ctb");
-      case "POLISH":
-        return new LibLouisTranslatorPolish(context);
-      case "POLISH_COMP8":
+      }
+      case "NORWEGIAN_COMP8" -> {
+        return new LibLouisTranslator(context, "no-no-comp8.ctb");
+      }
+      case "POLISH" -> {
+        return new LibLouisTranslator(context, "pl.tbl");
+      }
+      case "POLISH_COMP8" -> {
         return new LibLouisTranslator(context, "pl-pl-comp8.ctb");
-      case "PORTUGUESE":
+      }
+      case "PORTUGUESE" -> {
         return getBrailleTranslator(context, contractedMode, "pt-pt-g1.utb", "pt.tbl");
-      case "PORTUGUESE_COMP8":
+      }
+      case "PORTUGUESE_COMP8" -> {
         return new LibLouisTranslator(context, "pt-pt-comp8.ctb");
-      case "PUNJABI":
+      }
+      case "PUNJABI" -> {
         return new LibLouisTranslator(context, "pa.tbl");
-      case "ROMANIAN_8":
+      }
+      case "ROMANIAN_COMP8" -> {
         return new LibLouisTranslator(context, "ro.tbl");
-      case "RUSSIAN":
-        return new LibLouisTranslator(context, "ru-litbrl.ctb");
-      case "RUSSIAN_COMP8":
-        return new LibLouisTranslator(context, "ru.ctb");
-      case "RUSSIAN_DETAILED":
+      }
+      case "RUSSIAN" -> {
+        return new LibLouisTranslator(context, "ru-ru-g1.ctb");
+      }
+      case "RUSSIAN_COMP8" -> {
+        return new LibLouisTranslator(context, "ru-comp8.utb");
+      }
+      case "RUSSIAN_DETAILED" -> {
         return new LibLouisTranslator(context, "ru-litbrl-detailed.utb");
-      case "SERBIAN":
+      }
+      case "SERBIAN" -> {
         return new LibLouisTranslator(context, "sr-g1.ctb");
-      case "SINDHI_IN":
-        return new LibLouisTranslator(context, "si-in-g1.utb");
-      case "SINHALA":
+      }
+      case "SINDHI_IN" -> {
+        return new LibLouisTranslator(context, "sd.tbl");
+      }
+      case "SINHALA" -> {
         return new LibLouisTranslator(context, "sin.utb");
-      case "SLOVAK":
+      }
+      case "SLOVAK" -> {
         return new LibLouisTranslator(context, "sk-g1.ctb");
-      case "SPANISH":
+      }
+      case "SPANISH" -> {
         return getBrailleTranslator(
             contractedMode,
             new LibLouisTranslatorSpanish(context),
             new LibLouisTranslator(context, "es-g2.ctb"));
-      case "SPANISH_COMP8":
+      }
+      case "SPANISH_COMP8" -> {
         return new LibLouisTranslator(context, "Es-Es-G0.utb");
-      case "SWEDEN":
-        return new LibLouisTranslator(context, "sv-g1.ctb");
-      case "SWEDEN_8":
+      }
+      case "SWEDEN" -> {
+        return getBrailleTranslator(context, contractedMode, "sv-g0.utb", "sv-g2.ctb");
+      }
+      case "SWEDEN_8" -> {
         return new LibLouisTranslator(context, "se-se.ctb");
-      case "SWEDISH_COMP8_1989":
+      }
+      case "SWEDISH_COMP8_1989" -> {
         return new LibLouisTranslator(context, "sv-1989.ctb");
-      case "SWEDISH_COMP8_1996":
+      }
+      case "SWEDISH_COMP8_1996" -> {
         return new LibLouisTranslator(context, "sv-1996.ctb");
-      case "TAMIL":
+      }
+      case "TAMIL" -> {
         return new LibLouisTranslator(context, "ta-ta-g1.ctb");
-      case "TELUGU_IN":
-        return new LibLouisTranslator(context, "te-in-g1.utb");
-      case "TURKISH_8":
-        return new LibLouisTranslator(context, "tr.ctb");
-      case "TURKISH":
-        return getBrailleTranslator(context, contractedMode, "tr-g1.ctb", "tr-g2.ctb");
-      case "UKRAINIAN":
+      }
+      case "TELUGU_IN" -> {
+        return new LibLouisTranslator(context, "te.tbl");
+      }
+      case "TURKISH_COMP8" -> {
+        return new LibLouisTranslator(context, "tr.tbl");
+      }
+      case "TURKISH" -> {
+        return getBrailleTranslator(context, contractedMode, "tr-g1.ctb", "tr-g2.tbl");
+      }
+      case "UKRAINIAN" -> {
         return new LibLouisTranslator(context, "uk.utb");
-      case "UKRAINIAN_COMP8":
+      }
+      case "UKRAINIAN_COMP8" -> {
         return new LibLouisTranslator(context, "uk-comp.utb");
-      case "URDU":
+      }
+      case "URDU" -> {
         return getBrailleTranslator(context, contractedMode, "ur-pk-g1.utb", "ur-pk-g2.ctb");
-      case "VIETNAMESE":
+      }
+      case "VIETNAMESE" -> {
         return getBrailleTranslator(context, contractedMode, "vi-vn-g0.utb", "vi-vn-g2.ctb");
-      case "VIETNAMESE_COMP8":
+      }
+      case "VIETNAMESE_COMP8" -> {
         return new LibLouisTranslator(context, "vi-cb8.utb");
-      case "WELSH":
+      }
+      case "WELSH" -> {
         return getBrailleTranslator(context, contractedMode, "cy-cy-g1.utb", "cy.tbl");
-      default: // fall out
+      }
+      default -> {}
     }
     throw new IllegalArgumentException("unrecognized code " + codeName);
   }

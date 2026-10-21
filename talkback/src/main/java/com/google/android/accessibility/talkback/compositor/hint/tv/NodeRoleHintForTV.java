@@ -51,18 +51,14 @@ public class NodeRoleHintForTV extends NodeRoleHint {
   @Override
   public CharSequence getHint(AccessibilityNodeInfoCompat node) {
     int role = Role.getRole(node);
-    switch (role) {
-      case ROLE_DROP_DOWN_LIST:
-        return clickableHint.getSpinnerClickableHint(node);
-      case ROLE_EDIT_TEXT:
-        return getEditTextHint(node, context, globalVariables, clickableHint, longClickableHint);
-      case ROLE_SEEK_CONTROL:
-        return getSeekBarHint(context);
-      case ROLE_PAGER:
-        return getPagerHint(node, context, clickableHint);
-      default:
-        return getDefaultHint(node, clickableHint);
-    }
+    return switch (role) {
+      case ROLE_DROP_DOWN_LIST -> clickableHint.getSpinnerClickableHint(node);
+      case ROLE_EDIT_TEXT ->
+          getEditTextHint(node, context, globalVariables, clickableHint, longClickableHint);
+      case ROLE_SEEK_CONTROL -> getSeekBarHint(context);
+      case ROLE_PAGER -> getPagerHint(node, context, clickableHint);
+      default -> getDefaultHint(node, clickableHint);
+    };
   }
 
   private CharSequence getDefaultHint(
@@ -89,7 +85,7 @@ public class NodeRoleHintForTV extends NodeRoleHint {
     List<CharSequence> joinList = new ArrayList<>();
     // Prepare custom clickable hint.
     boolean isFocused = node.isFocused();
-    if (!isFocused) {
+    if (!isFocused && node.isEditable()) {
       joinList.add(clickableHint.getEditTextClickableHint(node));
     }
 
@@ -97,7 +93,7 @@ public class NodeRoleHintForTV extends NodeRoleHint {
     joinList.add(longClickableHint.getHint(node));
 
     // Prepare typo hint.
-    int typoCount = AccessibilityNodeInfoUtils.getTypoCount(node);
+    int typoCount = AccessibilityNodeInfoUtils.getTypoCount(context, node);
     if (typoCount > 0 && TalkbackFeatureSupport.supportTextSuggestion()) {
       joinList.add(
           context.getString(

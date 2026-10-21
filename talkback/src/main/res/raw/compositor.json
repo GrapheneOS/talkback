@@ -10,10 +10,6 @@
             "if": "$node.isAccessibilityFocused",
             "then": "%get_hint_from_node"
           },
-          "input_focus": {
-            "if": "$global.enableUsageHint && $node.isFocused",
-            "then": "%get_input_focus_hint_from_node"
-          },
           "screen": {
             "if": "$global.enableUsageHint",
             "then":"$event.hintText"
@@ -568,15 +564,15 @@
     "seek_bar_percent" : {
       "switch": "$node.rangeInfoType",
       "cases": {
-        "percent": "@string/template_percent(roundForProgressPercent($node.rangeCurrentValue))",
+        "percent": "@string/tb_template_percent(roundForProgressPercent($node.rangeCurrentValue))",
         "int": "@string/template_value(roundForProgressInt($node.rangeCurrentValue))",
         "float": "@string/template_value($node.rangeCurrentValue)",
         "undefined": {
           "if": "$event.itemCount > 0",
-          "then": "@string/template_percent(roundForProgressPercent($event.progressPercent))"
+          "then": "@string/tb_template_percent(roundForProgressPercent($event.progressPercent))"
         }
       },
-      "default": "@string/template_percent(roundForProgressPercent($node.progressPercent))"
+      "default": "@string/tb_template_percent(roundForProgressPercent($node.progressPercent))"
     },
     "_comment": "TODO: Move value_unlabeled out of get_non_text_view_state to rule_non_text_views, ",
     "_comment": "TODO: Refers to the comment in cl/298559232 for more detail.",
@@ -651,19 +647,6 @@
             },
             "$node.hintForNodeActionsHighVerbosity"
           ]
-        }
-      }
-    },
-    // Hint when focusing password-input field: use headphones to hear password.
-    "get_input_focus_hint_from_node": {
-      "if": "$node.isEnabled",
-      "then": {
-        "switch": "$node.role",
-        "cases": {
-          "edit_text": {
-            "if": "$node.isPassword && !$global.speakPasswordsServicePolicy",
-            "then": "@string/summaryOff_pref_speak_passwords_without_headphones"
-          }
         }
       }
     },

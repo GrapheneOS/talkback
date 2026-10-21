@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.android.accessibility.braille.interfaces;
 
 import com.google.auto.value.AutoValue;
@@ -22,28 +23,43 @@ import java.nio.ByteBuffer;
 public interface BrailleDisplayForBrailleIme {
   /** Tells when braille keyboard visibility changed. */
   void onImeVisibilityChanged(boolean visible);
+
   /** Tells BrailleDisplay to show the result on a braille display. */
   void showOnDisplay(ResultForDisplay result);
+
   /** Whether a physical braille display is connected and not suspended. */
   boolean isBrailleDisplayConnectedAndNotSuspended();
+
   /** Suspends braille display so it will not render dots and receive inputs. */
   void suspendInFavorOfBrailleKeyboard();
+
   /** Results returns to BrailleDisplay. */
   @AutoValue
   abstract class ResultForDisplay {
+
+    /** Represents the text in the edit field that is currently displayed on the screen. */
     public abstract CharSequence onScreenText();
 
+    /** Represents the text selection range in the edit field. */
     public abstract SelectionRange textSelection();
 
+    /** Represents the holdings that yet to submit. */
     public abstract HoldingsInfo holdingsInfo();
 
+    /** Indicates if the text in the edit field is displayed across multiple lines. */
     public abstract boolean isMultiLine();
 
+    /** Represents the hints of the edit field. */
     public abstract String hint();
 
+    /** Represents the action of the text in the edit field. */
     public abstract String action();
 
-    public abstract boolean showPassword();
+    /** Determines if the password should be displayed visibly. */
+    public abstract boolean textMasked();
+
+    /** Indicates whether the result is a re-translation. */
+    public abstract boolean retranslate();
 
     public static ResultForDisplay.Builder builder() {
       return new AutoValue_BrailleDisplayForBrailleIme_ResultForDisplay.Builder()
@@ -53,8 +69,10 @@ public interface BrailleDisplayForBrailleIme {
           .setTextSelection(new SelectionRange(0, 0))
           .setHoldingsInfo(HoldingsInfo.create(ByteBuffer.wrap(new byte[] {}), -1))
           .setIsMultiLine(false)
-          .setShowPassword(false);
+          .setTextMasked(false)
+          .setRetranslate(false);
     }
+
     /** Builder for result to braille display. */
     @AutoValue.Builder
     public abstract static class Builder {
@@ -70,7 +88,9 @@ public interface BrailleDisplayForBrailleIme {
 
       public abstract Builder setAction(String action);
 
-      public abstract Builder setShowPassword(boolean showPassword);
+      public abstract Builder setTextMasked(boolean textMasked);
+
+      public abstract Builder setRetranslate(boolean retranslate);
 
       public abstract ResultForDisplay build();
     }

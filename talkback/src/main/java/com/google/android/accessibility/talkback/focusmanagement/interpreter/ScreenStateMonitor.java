@@ -72,6 +72,17 @@ public class ScreenStateMonitor implements WindowEventHandler {
     public @Nullable ScreenState getStableScreenState() {
       return ScreenStateMonitor.this.stableScreenState;
     }
+
+    /** Returns the title of the active window. Returns null if no stable active window */
+    public @Nullable CharSequence getActiveWindowTitle() {
+      if (areMainWindowsStable()) {
+        ScreenState stableScreenState = getStableScreenState();
+        if (stableScreenState != null) {
+          return stableScreenState.getWindowTitle(stableScreenState.getActiveWindow().getId());
+        }
+      }
+      return null;
+    }
   }
 
   public final ScreenStateMonitor.State state = new ScreenStateMonitor.State();

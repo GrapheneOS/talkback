@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -34,33 +34,33 @@ typedef union {
 } InputPacket;
 
 typedef enum {
-  IC_KEY_Dot1 = 0,
-  IC_KEY_Dot2 = 1,
-  IC_KEY_Dot3 = 2,
-  IC_KEY_Dot4 = 3,
-  IC_KEY_Dot5 = 4,
-  IC_KEY_Dot6 = 5,
-  IC_KEY_Dot7 = 6,
-  IC_KEY_Dot8 = 7,
+  IC_KEY_Dot1         =  0,
+  IC_KEY_Dot2         =  1,
+  IC_KEY_Dot3         =  2,
+  IC_KEY_Dot4         =  3,
+  IC_KEY_Dot5         =  4,
+  IC_KEY_Dot6         =  5,
+  IC_KEY_Dot7         =  6,
+  IC_KEY_Dot8         =  7,
 
-  IC_KEY_Space = 8,
-  IC_KEY_MoveUp = 9,
-  IC_KEY_MoveDown = 10,
-  IC_KEY_PanLeft = 11,
-  IC_KEY_PanRight = 12,
-  IC_KEY_Back = 13,
-  IC_KEY_Enter = 14,
+  IC_KEY_Space        =  8,
+  IC_KEY_MoveUp       =  9,
+  IC_KEY_MoveDown     = 10,
+  IC_KEY_PanLeft      = 11,
+  IC_KEY_PanRight     = 12,
+  IC_KEY_Back         = 13,
+  IC_KEY_Enter        = 14,
 
-  IC_KEY_RoutingKey1 = 16,
-  IC_KEY_RoutingKey2 = 17,
-  IC_KEY_RoutingKey3 = 18,
-  IC_KEY_RoutingKey4 = 19,
-  IC_KEY_RoutingKey5 = 20,
-  IC_KEY_RoutingKey6 = 21,
-  IC_KEY_RoutingKey7 = 22,
-  IC_KEY_RoutingKey8 = 23,
+  IC_KEY_RoutingKey1  = 16,
+  IC_KEY_RoutingKey2  = 17,
+  IC_KEY_RoutingKey3  = 18,
+  IC_KEY_RoutingKey4  = 19,
+  IC_KEY_RoutingKey5  = 20,
+  IC_KEY_RoutingKey6  = 21,
+  IC_KEY_RoutingKey7  = 22,
+  IC_KEY_RoutingKey8  = 23,
 
-  IC_KEY_RoutingKey9 = 24,
+  IC_KEY_RoutingKey9  = 24,
   IC_KEY_RoutingKey10 = 25,
   IC_KEY_RoutingKey11 = 26,
   IC_KEY_RoutingKey12 = 27,

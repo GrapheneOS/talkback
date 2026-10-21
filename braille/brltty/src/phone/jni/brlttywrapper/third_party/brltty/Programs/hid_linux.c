@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -385,7 +385,10 @@ hidLinuxNewHandle (struct udev_device *device) {
 
       close(handle->fileDescriptor);
     } else {
-      logMessage(LOG_ERR, "device open error: %s: %s", devPath, strerror(errno));
+      logMessage(LOG_CATEGORY(HID_IO),
+        "device open error: %s: %s",
+        devPath, strerror(errno)
+      );
     }
 
     free(handle);

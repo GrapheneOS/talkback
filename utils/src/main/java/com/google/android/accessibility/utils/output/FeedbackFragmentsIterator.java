@@ -24,7 +24,7 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.Iterators;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicReference;
 
 /** Provides FeedbackFragment iterator usage and record current {@link FeedbackFragment}. */
 class FeedbackFragmentsIterator {
@@ -32,44 +32,48 @@ class FeedbackFragmentsIterator {
 
   private Iterator<FeedbackFragment> currentFragmentIterator;
 
-  private String feedBackItemUtteranceId;
+  private final String feedBackItemUtteranceId;
+
   /** It's available when speaking its content and null between speaking each fragment. */
-  @Nullable private FeedbackFragment currentFeedbackFragment;
+  private final AtomicReference<FeedbackFragment> currentFeedbackFragment = new AtomicReference<>();
 
-  public FeedbackFragmentsIterator(@NonNull Iterator<FeedbackFragment> currentFragmentIterator) {
+  public FeedbackFragmentsIterator(
+      @NonNull Iterator<FeedbackFragment> currentFragmentIterator, String feedBackItemUtteranceId) {
     this.currentFragmentIterator = currentFragmentIterator;
-  }
-
-  /** @return {@code true} if has next feedbackFragment. */
-  boolean hasNext() {
-    return currentFeedbackFragment != null || currentFragmentIterator.hasNext();
+    this.feedBackItemUtteranceId = feedBackItemUtteranceId;
   }
 
   /**
    * @return next feedbackFragment from iterator.
-   * @throws NoSuchElementException if the iteration has no more elements
    */
+  @Nullable
   FeedbackFragment next() {
-    if (currentFeedbackFragment == null) {
-      currentFeedbackFragment = currentFragmentIterator.next();
-    } else {
+    FeedbackFragment feedbackFragment = currentFeedbackFragment.get();
+    if (feedbackFragment != null) {
       // Has pending Fragment.
-      currentFeedbackFragment.updateContentByFragmentStartIndex();
+      feedbackFragment.updateContentByFragmentStartIndex();
+    } else if (currentFragmentIterator.hasNext()) {
+      feedbackFragment = currentFragmentIterator.next();
+      currentFeedbackFragment.set(feedbackFragment);
     }
-    LogUtils.v(TAG, "next --currentFeedbackFragment text = %s.", currentFeedbackFragment.getText());
-    return currentFeedbackFragment;
+    if (feedbackFragment != null) {
+      LogUtils.v(TAG, "next --currentFeedbackFragment text = %s.", feedbackFragment.getText());
+    }
+    return feedbackFragment;
   }
 
   private void recordUtteranceStartIndex(int utteranceStartIndex) {
-    if (currentFeedbackFragment != null) {
-      currentFeedbackFragment.recordFragmentStartIndex(utteranceStartIndex);
+    FeedbackFragment feedbackFragment = currentFeedbackFragment.get();
+    if (feedbackFragment != null) {
+      feedbackFragment.recordFragmentStartIndex(utteranceStartIndex);
     }
   }
 
-  /** @return the offset of current feedbackFragment text in {@link FeedbackItem}. */
+  /** Returns the offset of current feedbackFragment text in {@link FeedbackItem}. */
   int getFeedbackItemOffset() {
-    if (currentFeedbackFragment != null) {
-      return currentFeedbackFragment.getStartIndexInFeedbackItem();
+    FeedbackFragment feedbackFragment = currentFeedbackFragment.get();
+    if (feedbackFragment != null) {
+      return feedbackFragment.getStartIndexInFeedbackItem();
     }
     return 0;
   }
@@ -89,12 +93,8 @@ class FeedbackFragmentsIterator {
       return;
     }
     if (success) {
-      currentFeedbackFragment = null;
+      currentFeedbackFragment.set(null);
     }
-  }
-
-  void setFeedBackItemUtteranceId(String feedBackItemUtteranceId) {
-    this.feedBackItemUtteranceId = feedBackItemUtteranceId;
   }
 
   /**
@@ -104,13 +104,12 @@ class FeedbackFragmentsIterator {
   void onFragmentRangeStarted(String utteranceId, int start, int end) {
     if (TextUtils.equals(utteranceId, feedBackItemUtteranceId)) {
       recordUtteranceStartIndex(start);
+      FeedbackFragment feedbackFragment = currentFeedbackFragment.get();
       LogUtils.v(
           TAG,
           "onFragmentRangeStarted ,  speak word = %s",
           AccessibilityNodeInfoUtils.subsequenceSafe(
-              currentFeedbackFragment == null ? null : currentFeedbackFragment.getText(),
-              start,
-              end));
+              feedbackFragment == null ? null : feedbackFragment.getText(), start, end));
     } else {
       LogUtils.d(
           TAG,
@@ -131,9 +130,9 @@ class FeedbackFragmentsIterator {
 
     Iterators.addAll(list, currentFragmentIterator);
 
-    FeedbackFragmentsIterator clone = new FeedbackFragmentsIterator(list.iterator());
-    clone.currentFeedbackFragment = currentFeedbackFragment;
-    clone.setFeedBackItemUtteranceId(feedBackItemUtteranceId);
+    FeedbackFragmentsIterator clone =
+        new FeedbackFragmentsIterator(list.iterator(), feedBackItemUtteranceId);
+    clone.currentFeedbackFragment.set(currentFeedbackFragment.get());
 
     currentFragmentIterator = ((ArrayList<FeedbackFragment>) list.clone()).iterator();
 

@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -50,7 +50,7 @@ extern void freeKeyrangeList(KeyrangeList **l);
 
 /* Function : inKeyrangeList */
 /* Determines if the range list l contains x */
-/* If yes, returns the adress of the cell [a..b] such that a<=x<=b */
+/* If yes, returns the address of the cell [a..b] such that a<=x<=b */
 /* If no, returns NULL */
 extern KeyrangeList *inKeyrangeList(KeyrangeList *l, KeyrangeElem n);
 

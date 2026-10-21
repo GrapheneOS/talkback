@@ -22,7 +22,7 @@ import static com.google.android.accessibility.talkback.compositor.Compositor.EV
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_TYPE_INPUT_SELECTION_TEXT_TRAVERSAL;
 import static com.google.android.accessibility.talkback.compositor.Compositor.QUEUE_MODE_INTERRUPTIBLE_IF_LONG;
 import static com.google.android.accessibility.talkback.compositor.Compositor.VERBOSE_UTTERANCE_THRESHOLD_CHARACTERS;
-import static com.google.android.accessibility.talkback.compositor.CompositorUtils.getCleanupString;
+import static com.google.android.accessibility.talkback.compositor.CompositorUtils.refineInputText;
 import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_INTERRUPT;
 import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH;
 
@@ -34,9 +34,9 @@ import com.google.android.accessibility.talkback.compositor.Compositor.HandleEve
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.EventFeedback;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
-import com.google.android.accessibility.talkback.compositor.TalkBackFeedbackProvider;
+import com.google.android.accessibility.utils.SpannableUtils;
 import com.google.android.accessibility.utils.StringBuilderUtils;
-import com.google.android.accessibility.utils.input.TextEventInterpretation;
+import com.google.android.accessibility.utils.output.SpeechCleanupUtils;
 import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Map;
@@ -90,7 +90,8 @@ public final class InputTextSelectionFeedbackRules {
             inputSelectionMoveCursorNoSelection(eventOptions, context, globalVariables));
     eventFeedbackRules.put(
         EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_WITH_SELECTION,
-        eventOptions -> inputSelectionMoveCursorWithSelection(eventOptions, context));
+        eventOptions ->
+            inputSelectionMoveCursorWithSelection(eventOptions, context, globalVariables));
     eventFeedbackRules.put(
         EVENT_TYPE_INPUT_SELECTION_MOVE_CURSOR_SELECTION_CLEARED,
         eventOptions -> inputSelectionMoveCursorSelectionCleared(eventOptions, context));
@@ -99,16 +100,18 @@ public final class InputTextSelectionFeedbackRules {
         (eventOptions) -> inputSelectionTextTraversal(eventOptions, context, globalVariables));
     eventFeedbackRules.put(
         EVENT_TYPE_INPUT_SELECTION_SELECT_ALL_WITH_KEYBOARD,
-        eventOptions -> inputSelectionSelectAllWithKeyboard(eventOptions, context));
+        eventOptions ->
+            inputSelectionSelectAllWithKeyboard(eventOptions, context, globalVariables));
   }
 
   private static EventFeedback inputSelectionMoveCursorNoSelection(
       HandleEventOptions eventOptions, Context context, GlobalVariables globalVariables) {
     CharSequence eventTraversedText =
-        getCleanupString(
+        refineInputText(
+            context,
             AccessibilityInterpretationFeedbackUtils.getEventTraversedText(
                 eventOptions.eventInterpretation, globalVariables.getUserPreferredLocale()),
-            context);
+            globalVariables.getCountRepeatedSymbols());
     CharSequence textTraversedState =
         globalVariables.getGlobalSayCapital()
             ? CompositorUtils.prependCapital(eventTraversedText, context)
@@ -141,31 +144,36 @@ public final class InputTextSelectionFeedbackRules {
         .setForceFeedbackEvenIfAudioPlaybackActive(true)
         .setForceFeedbackEvenIfMicrophoneActive(true)
         .setForceFeedbackEvenIfSsbActive(true)
+        .setInlineFormatting(true)
         .build();
   }
 
   private static EventFeedback inputSelectionMoveCursorWithSelection(
-      HandleEventOptions eventOptions, Context context) {
+      HandleEventOptions eventOptions, Context context, GlobalVariables globalVariables) {
     CharSequence deselectedText =
-        getCleanupString(
+        refineInputText(
+            context,
             AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(
                     eventOptions.eventInterpretation)
                 .getDeselectedText(),
-            context);
+            globalVariables.getCountRepeatedSymbols());
     CharSequence textDeselectedState =
         TextUtils.isEmpty(deselectedText)
             ? ""
-            : context.getString(R.string.template_text_unselected, deselectedText);
+            : SpannableUtils.getSpannedFormattedString(
+                context.getString(R.string.template_text_unselected), deselectedText);
     CharSequence selectedText =
-        getCleanupString(
+        refineInputText(
+            context,
             AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(
                     eventOptions.eventInterpretation)
                 .getSelectedText(),
-            context);
+            globalVariables.getCountRepeatedSymbols());
     CharSequence textSelectedState =
         TextUtils.isEmpty(selectedText)
             ? ""
-            : context.getString(R.string.template_text_selected, selectedText);
+            : SpannableUtils.getSpannedFormattedString(
+                context.getString(R.string.template_text_selected), selectedText);
 
     CharSequence ttsOutput =
         CompositorUtils.joinCharSequences(textDeselectedState, textSelectedState);
@@ -185,6 +193,7 @@ public final class InputTextSelectionFeedbackRules {
         .setForceFeedbackEvenIfAudioPlaybackActive(true)
         .setForceFeedbackEvenIfMicrophoneActive(true)
         .setForceFeedbackEvenIfSsbActive(true)
+        .setInlineFormatting(true)
         .build();
   }
 
@@ -224,10 +233,11 @@ public final class InputTextSelectionFeedbackRules {
   private static EventFeedback inputSelectionTextTraversal(
       HandleEventOptions eventOptions, Context context, GlobalVariables globalVariables) {
     CharSequence eventTraversedText =
-        getCleanupString(
+        refineInputText(
+            context,
             AccessibilityInterpretationFeedbackUtils.getEventTraversedText(
                 eventOptions.eventInterpretation, globalVariables.getUserPreferredLocale()),
-            context);
+            globalVariables.getCountRepeatedSymbols());
     CharSequence ttsOutput =
         globalVariables.getGlobalSayCapital()
             ? CompositorUtils.prependCapital(eventTraversedText, context)
@@ -251,22 +261,24 @@ public final class InputTextSelectionFeedbackRules {
         .setForceFeedbackEvenIfAudioPlaybackActive(true)
         .setForceFeedbackEvenIfMicrophoneActive(true)
         .setForceFeedbackEvenIfSsbActive(true)
+        .setInlineFormatting(true)
         .build();
   }
 
   private static EventFeedback inputSelectionSelectAllWithKeyboard(
-      HandleEventOptions eventOptions, Context context) {
+      HandleEventOptions eventOptions, Context context, GlobalVariables globalVariables) {
     CharSequence textOrDescription =
-        getCleanupString(
+        refineInputText(
+            context,
             AccessibilityInterpretationFeedbackUtils.safeTextInterpretation(
                     eventOptions.eventInterpretation)
                 .getTextOrDescription(),
-            context);
+            globalVariables.getCountRepeatedSymbols());
     // Announce selected text.
     CharSequence ttsOutput =
-        context.getString(
-            R.string.template_announce_selected_text,
-            TextUtils.isEmpty(textOrDescription) ? "" : textOrDescription);
+        SpannableUtils.getSpannedFormattedString(
+            context.getString(R.string.template_announce_selected_text),
+            SpeechCleanupUtils.shortenLongTextFeedback(context, textOrDescription));
 
     return EventFeedback.builder()
         .setTtsOutput(Optional.of(ttsOutput))

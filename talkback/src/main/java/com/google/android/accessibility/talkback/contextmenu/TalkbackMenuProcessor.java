@@ -17,7 +17,6 @@
 package com.google.android.accessibility.talkback.contextmenu;
 
 import android.content.SharedPreferences;
-import android.view.Menu;
 import android.view.MenuInflater;
 import androidx.annotation.BoolRes;
 import androidx.annotation.StringRes;
@@ -27,7 +26,9 @@ import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.actor.DimScreenActor;
+import com.google.android.accessibility.talkback.actor.gemini.GeminiConfiguration;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem.DeferredType;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.menurules.NodeMenuRuleProcessor;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
@@ -62,25 +63,22 @@ public class TalkbackMenuProcessor {
    */
   private static final int ORDER_TYPO_SUGGESTIONS = 1;
   private static final int ORDER_ACTIONS = 2;
-  private static final int ORDER_LINKS = 3;
   private static final int ORDER_PAGE_NAVIGATION = 4;
-  private static final int ORDER_LABELS = 5;
-  private static final int ORDER_NAVIGATION = 6;
-
+  public static final int ORDER_LABELS = 5;
+  public static final int ORDER_SUMMARIZE_VIEW = 6;
+  public static final int ORDER_IMAGE_CAPTION = 6;
+  private static final int ORDER_NAVIGATION = 7;
+  public static final int ORDER_TEXT_FORMATTING = 13;
   private static final int ORDER_LANGUAGES = 14;
-
   private static final int ORDER_SHOW_HIDE_SCREEN = 20;
-
   private static final int ORDER_SYSTEM_ACTIONS = 24;
-
-  public static final int ORDER_IMAGE_CAPTION = 26;
+  private static final int ORDER_TELL_TIME = 27;
 
   private final TalkBackService service;
   private final ActorState actorState;
   private final Pipeline.FeedbackReturner pipeline;
   private final NodeMenuRuleProcessor nodeMenuRuleProcessor;
   private final AccessibilityNodeInfoCompat currentNode;
-  private final FormFactorUtils formFactorUtils;
 
   // TODO: Reduces dependency on TalkBackService to dependency on Context.
   public TalkbackMenuProcessor(
@@ -94,7 +92,6 @@ public class TalkbackMenuProcessor {
     this.pipeline = pipeline;
     this.nodeMenuRuleProcessor = nodeMenuRuleProcessor;
     this.currentNode = currentNode;
-    formFactorUtils = FormFactorUtils.getInstance();
   }
 
   /**
@@ -116,8 +113,6 @@ public class TalkbackMenuProcessor {
     // Custom Action
     addItemOrSubMenuForCurrentNode(
         menu, R.id.custom_action_menu, R.string.title_custom_action, ORDER_ACTIONS);
-    // Links
-    addItemOrSubMenuForCurrentNode(menu, R.id.links_menu, R.string.links, ORDER_LINKS);
     // Page Navigation
     addItemOrSubMenuForCurrentNode(
         menu, R.id.viewpager_menu, R.string.title_viewpager_controls, ORDER_PAGE_NAVIGATION);
@@ -133,11 +128,23 @@ public class TalkbackMenuProcessor {
     addItemOrSubMenuForCurrentNode(
         menu, R.id.image_caption_menu, R.string.title_image_caption, ORDER_IMAGE_CAPTION);
 
+    if (GeminiConfiguration.screenOverviewEnabled(service)) {
+      // Screen overview
+      addItemOrSubMenuForCurrentNode(
+          menu, R.id.summarize_view_menu, R.string.title_summarize_view, ORDER_SUMMARIZE_VIEW);
+    }
+
+    // Text formatting
+    addItemOrSubMenuForCurrentNode(
+        menu, R.id.text_formatting, R.string.title_text_formatting_menu, ORDER_TEXT_FORMATTING);
+
     // Read From & Last Phrase Spoken & screen search at context_menu.xml
-    addContextMenuXMLMenu(menu);
+    addContextMenuXmlMenu(menu);
 
     // Show/hide screen
     addDimOrBrightenScreen(menu);
+    // Tell time
+    addTellingTimeActionMenu(menu, prefs);
     // Language
     addLanguageMenuIfValid(menu);
     // System Action
@@ -189,7 +196,7 @@ public class TalkbackMenuProcessor {
   }
 
   // Adds context_menu.xml, such as read from, last spoken, find on screen sub menu, .., to menu
-  private void addContextMenuXMLMenu(ContextMenu menu) {
+  private void addContextMenuXmlMenu(ContextMenu menu) {
     new MenuInflater(service).inflate(R.menu.context_menu, menu);
 
     // Removes talkback TTS settings if phone is locked, Setup Wizard doesn't complete or uncheck
@@ -233,7 +240,7 @@ public class TalkbackMenuProcessor {
     }
 
     // Removes screen search if this is watch or uncheck show item.
-    if (formFactorUtils.isAndroidWear()
+    if (FormFactorUtils.isAndroidWear()
         || !showMenuItem(
             R.string.pref_show_context_menu_find_on_screen_setting_key,
             R.bool.pref_show_context_menu_find_on_screen_default)) {
@@ -244,7 +251,8 @@ public class TalkbackMenuProcessor {
     // or in the Wear build.
     if (ScreenMonitor.isDeviceLocked(service)
         || !SettingsUtils.allowLinksOutOfSettings(service)
-        || formFactorUtils.isAndroidWear()
+        || FormFactorUtils.isAndroidWear()
+        || FormFactorUtils.isAndroidXr()
         || !showMenuItem(
             R.string.pref_show_context_menu_voice_commands_setting_key,
             R.bool.pref_show_context_menu_voice_commands_default)) {
@@ -266,10 +274,18 @@ public class TalkbackMenuProcessor {
     if (!FeatureSupport.supportBrailleDisplay(service)
         || ScreenMonitor.isDeviceLocked(service)
         || !SettingsUtils.allowLinksOutOfSettings(service)
+        || FormFactorUtils.isAndroidXr()
         || !showMenuItem(
             R.string.pref_show_context_menu_braille_display_settings_setting_key,
             R.bool.pref_show_context_menu_braille_display_settings_default)) {
       menu.removeItem(R.id.braille_display_settings);
+    }
+
+    if (!FeatureFlagReader.enableShowKeyboardShortcutsDialog(service)
+        || !showMenuItem(
+            R.string.pref_show_context_menu_show_keyboard_shortcuts_setting_key,
+            R.bool.pref_show_context_menu_show_keyboard_shortcuts_default)) {
+      menu.removeItem(R.id.show_keyboard_shortcuts);
     }
 
     if (ScreenMonitor.isDeviceLocked(service)
@@ -405,6 +421,10 @@ public class TalkbackMenuProcessor {
     menu.removeItem(R.id.disable_dimming);
     menu.removeItem(R.id.enable_dimming);
 
+    if (FormFactorUtils.isAndroidXr()) {
+      return;
+    }
+
     if (!showMenuItem(
         R.string.pref_show_context_menu_dim_or_brighten_setting_key,
         R.bool.pref_show_context_menu_dim_or_brighten_default)) {
@@ -429,6 +449,37 @@ public class TalkbackMenuProcessor {
           R.id.enable_dimming,
           ORDER_SHOW_HIDE_SCREEN,
           R.string.shortcut_enable_dimming);
+    }
+  }
+
+  private void addTellingTimeActionMenu(ContextMenu menu, SharedPreferences prefs) {
+    menu.removeItem(R.id.disable_telling_time);
+    menu.removeItem(R.id.enable_telling_time);
+
+    if (!showMenuItem(
+        R.string.pref_show_context_menu_control_telling_time_setting_key,
+        R.bool.pref_show_context_menu_control_telling_time_default)) {
+      return;
+    }
+
+    boolean enabledTellTime =
+        SharedPreferencesUtils.getBooleanPref(
+            prefs,
+            service.getResources(),
+            R.string.pref_speak_time_key,
+            R.bool.pref_tell_time_default);
+    if (enabledTellTime) {
+      menu.add(
+          /* groupId= */ 0,
+          R.id.disable_telling_time,
+          ORDER_TELL_TIME,
+          R.string.shortcut_disable_speak_time);
+    } else {
+      menu.add(
+          /* groupId= */ 0,
+          R.id.enable_telling_time,
+          ORDER_TELL_TIME,
+          R.string.shortcut_enable_speak_time);
     }
   }
 

@@ -27,6 +27,7 @@ public interface KeyComboModel {
   int KEY_COMBO_CODE_UNASSIGNED = KeyEvent.KEYCODE_UNKNOWN;
   int KEY_COMBO_CODE_INVALID = -1;
   int NO_MODIFIER = 0;
+  int NO_PREFIX_KEY_CODE = 0;
 
   // TODO: Migrating currently using (null) shared preference key to
   // classic_key_combo_model.
@@ -51,47 +52,48 @@ public interface KeyComboModel {
   String getPreferenceKeyForTriggerModifier();
 
   /**
-   * Returns map of key and key combo code. Key combo codes in this map don't contain trigger
-   * modifier if model has it.
+   * Returns map of key and KeyCombo. KeyCombo contains a key combo code that doesn't container
+   * trigger modifier and a boolean that indicates whether the trigger modifier is used.
    */
-  Map<String, Long> getKeyComboCodeMap();
+  Map<String, KeyCombo> getKeyComboMap();
 
   /**
-   * Gets key for preference that is assigned for keyComboCode if keyComboCode is not
-   * KEY_COMBO_CODE_UNASSIGNED. If no preference is assigned or keyComboCode was
-   * KEY_COMBO_CODE_UNASSIGNED, returns null.
+   * Gets key for preference that is assigned for keyCombo if keyCombo is not empty. If no
+   * preference is assigned or keyCombo was empty, returns null.
    *
-   * @param keyComboCode key combo code which doesn't contain trigger modifier if model has it.
+   * @param keyCombo KeyCombo that contains a key combo code, which doesn't contain the trigger
+   *     modifier if model has it, and a boolean, which indicates whether the trigger modifier is
+   *     used if model has it.
    */
-  String getKeyForKeyComboCode(long keyComboCode);
+  String getKeyForKeyCombo(KeyCombo keyCombo);
 
-  /** Gets key combo code for key. KEY_COMBO_CODE_UNASSIGNED will be returned if key is invalid. */
-  long getKeyComboCodeForKey(String key);
+  /** Gets KeyCombo for key. An empty KeyCombo will be returned if key is invalid. */
+  KeyCombo getKeyComboForKey(String key);
 
   /**
-   * Gets default key combo code for key. KEY_COMBO_CODE_UNASSIGNED will be returned if no key combo
-   * code is assigned to the key or it's invalid.
+   * Gets default KeyCombo for key. An empty KeyCombo will be returned if no key combo is assigned
+   * to the key or it's invalid.
    */
-  long getDefaultKeyComboCode(String key);
+  KeyCombo getDefaultKeyCombo(String key);
 
   /**
-   * Assigns keyComboCode for preference.
+   * Assigns keyCombo for preference.
    *
    * @param key key of key combo.
-   * @param keyComboCode key combo code which doesn't contain trigger modifier if model has it.
+   * @param keyCombo key combo.
    */
-  void saveKeyComboCode(String key, long keyComboCode);
+  void saveKeyCombo(String key, KeyCombo keyCombo);
 
-  /** Clears key combo code assigned for preference key. */
-  void clearKeyComboCode(String key);
+  /** Clears key combo assigned for preference key. */
+  void clearKeyCombo(String key);
 
   /**
-   * Returns true if keyComboCode is eligible combination for this model. This method doesn't check
+   * Returns true if keyCombo is eligible combination for this model. This method doesn't check
    * consistency with other key combo codes in this model. e.g. duplicated key combos.
    *
-   * @param keyComboCode key combo code which doesn't contain trigger modifier if model has it.
+   * @param keyCombo KeyCombo object.
    */
-  boolean isEligibleKeyComboCode(long keyComboCode);
+  boolean isEligibleKeyCombo(KeyCombo keyCombo);
 
   /** Returns description of eligible key combination. This will be shown in the UI. */
   String getDescriptionOfEligibleKeyCombo();

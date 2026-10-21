@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/pref_category_typing_focus_delay_key">
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:summary="@string/message_pref_touch_explore_latency"
+      android:selectable="false" />
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_typing_focus_time_out_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/value_touch_explore_time_out_150ms" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/value_touch_explore_time_out_200ms" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/value_touch_explore_time_out_250ms" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/value_touch_explore_time_out_300ms" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+
+
+</PreferenceScreen>

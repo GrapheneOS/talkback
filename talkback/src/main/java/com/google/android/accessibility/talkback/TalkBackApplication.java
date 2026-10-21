@@ -18,8 +18,12 @@ package com.google.android.accessibility.talkback;
 
 import android.app.Application;
 import com.google.android.accessibility.talkback.training.PageConfigMapperImpl;
+import com.google.android.accessibility.talkback.training.TalkBackDisabledWarmingDialogImpl;
 import com.google.android.accessibility.talkback.training.TrainingConfigMapperImpl;
+import com.google.android.accessibility.talkback.training.TrainingSectionLoggerImpl;
+import com.google.android.accessibility.talkback.training.content.TutorialContentSupplierImpl;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingActivityInterfaceInjector;
+import com.google.android.accessibility.talkback.trainingcommon.content.TutorialContentInterfaceInjector;
 import com.google.android.accessibility.utils.FormFactorUtils;
 
 /**
@@ -32,7 +36,12 @@ public class TalkBackApplication extends Application {
     super.onCreate();
 
     FormFactorUtils.initialize(this);
+    PackageNameProvider.initialize(this);
     TrainingActivityInterfaceInjector.initialize(
-        new TrainingConfigMapperImpl(), new PageConfigMapperImpl());
+        new TrainingConfigMapperImpl(),
+        new PageConfigMapperImpl(),
+        TrainingSectionLoggerImpl::new,
+        TalkBackDisabledWarmingDialogImpl::new);
+    TutorialContentInterfaceInjector.initialize(new TutorialContentSupplierImpl());
   }
 }

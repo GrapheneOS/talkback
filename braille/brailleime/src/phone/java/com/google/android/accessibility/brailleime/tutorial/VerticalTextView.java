@@ -1,21 +1,17 @@
 package com.google.android.accessibility.brailleime.tutorial;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Size;
 import android.widget.TextView;
+import com.google.android.accessibility.brailleime.BrailleIme.OrientationSensitive;
 
 /** A {@code TextView} that display texts vertically. */
-public class VerticalTextView extends TextView {
-
-  /** Enum for the two supported text orientations. */
-  public enum TextOrientation {
-    TOP_TO_BOTTOM,
-    BOTTOM_TO_TOP
-  }
-
-  private TextOrientation orientation = TextOrientation.BOTTOM_TO_TOP;
+public class VerticalTextView extends TextView implements OrientationSensitive {
+  private int orientation = getResources().getConfiguration().orientation;
 
   public VerticalTextView(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
@@ -29,15 +25,14 @@ public class VerticalTextView extends TextView {
     super(context);
   }
 
-  public void setTextOrientation(TextOrientation orientation) {
-    this.orientation = orientation;
-    invalidate();
-  }
-
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(heightMeasureSpec, widthMeasureSpec);
-    setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
+    if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+      setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
+    } else {
+      setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());
+    }
   }
 
   @Override
@@ -47,18 +42,24 @@ public class VerticalTextView extends TextView {
     textPaint.drawableState = getDrawableState();
 
     canvas.save();
-
-    if (orientation == TextOrientation.TOP_TO_BOTTOM) {
-      canvas.translate(getWidth(), /* dy= */ 0);
-      canvas.rotate(/* degree= */ 90);
-    } else {
-      canvas.translate(0, getHeight());
+    if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+      canvas.translate(/* dx= */ 0, /* dy= */ getHeight());
       canvas.rotate(/* degree= */ -90);
+    } else {
+      canvas.translate(/* dx= */ 0, /* dy= */ 0);
+      canvas.rotate(/* degree= */ 0);
     }
 
     canvas.translate(getCompoundPaddingLeft(), getExtendedPaddingTop());
 
     getLayout().draw(canvas);
     canvas.restore();
+  }
+
+  @Override
+  public void onOrientationChanged(int orientation, Size screenSize) {
+    this.orientation = orientation;
+    invalidate();
+    requestLayout();
   }
 }

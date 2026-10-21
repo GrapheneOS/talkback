@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -27,30 +27,33 @@ extern "C" {
 
 /* Descriptor types. */
 typedef enum {
-  UsbDescriptorType_Device        = 0X01,
-  UsbDescriptorType_Configuration = 0X02,
-  UsbDescriptorType_String        = 0X03,
-  UsbDescriptorType_Interface     = 0X04,
-  UsbDescriptorType_Endpoint      = 0X05,
-  UsbDescriptorType_HID           = 0X21,
-  UsbDescriptorType_Report        = 0X22
+  UsbDescriptorType_Device               = 0X01,
+  UsbDescriptorType_Configuration        = 0X02,
+  UsbDescriptorType_String               = 0X03,
+  UsbDescriptorType_Interface            = 0X04,
+  UsbDescriptorType_Endpoint             = 0X05,
+  UsbDescriptorType_InterfaceAssociation = 0X0B,
+  UsbDescriptorType_HID                  = 0X21,
+  UsbDescriptorType_Report               = 0X22
 } UsbDescriptorType;
 
 /* Descriptor sizes. */
 typedef enum {
-  UsbDescriptorSize_Device        = 18,
-  UsbDescriptorSize_Configuration =  9,
-  UsbDescriptorSize_String        =  2,
-  UsbDescriptorSize_Interface     =  9,
-  UsbDescriptorSize_Endpoint      =  7,
-  UsbDescriptorSize_HID           =  6,
-  UsbDescriptorSize_Class         =  3
+  UsbDescriptorSize_Device               = 18,
+  UsbDescriptorSize_Configuration        =  9,
+  UsbDescriptorSize_String               =  2,
+  UsbDescriptorSize_Interface            =  9,
+  UsbDescriptorSize_Endpoint             =  7,
+  UsbDescriptorSize_InterfaceAssociation =  8,
+  UsbDescriptorSize_HID                  =  6,
+  UsbDescriptorSize_Class                =  3
 } UsbDescriptorSize;
 
 typedef enum {
   UsbSpecificationVersion_1_0 = 0X0100,
   UsbSpecificationVersion_1_1 = 0X0110,
   UsbSpecificationVersion_2_0 = 0X0200,
+  UsbSpecificationVersion_2_1 = 0X0210,
   UsbSpecificationVersion_3_0 = 0X0300
 } UsbSpecificationVersion;
 
@@ -190,7 +193,7 @@ typedef struct {
 } PACKED UsbConfigurationDescriptor;
 
 typedef struct {
-  uint8_t bLength;         /* Descriptor size in bytes (2 + numchars/2). */
+  uint8_t bLength;         /* Descriptor size in bytes (2 + numchars*2). */
   uint8_t bDescriptorType; /* Descriptor type (3 == string). */
   uint16_t wData[127];     /* 16-bit characters. */
 } PACKED UsbStringDescriptor;
@@ -219,12 +222,23 @@ typedef struct {
 } PACKED UsbEndpointDescriptor;
 
 typedef struct {
+  uint8_t bDescriptorLength; /* Descriptor size in bytes (8). */
+  uint8_t bDescriptorType;   /* Descriptor type (11 == interface association). */
+  uint8_t bFirstInterface;   /* Number of first interface associated with this function. */
+  uint8_t bInterfaceCount;   /* Number of contiguous interfaces associated with this function. */
+  uint8_t bFunctionClass;    /* Function class. */
+  uint8_t bFunctionSubClass; /* Function subclass. */
+  uint8_t bFunctionProtocol; /* Function protocol. */
+  uint8_t iFunction;         /* String index for function description. */
+} PACKED UsbInterfaceAssociationDescriptor;
+
+typedef struct {
   uint8_t bDescriptorType;
   uint16_t wDescriptorLength;
 } PACKED UsbClassDescriptor;
 
 typedef struct {
-  uint8_t bLength;          /* Descriptor size in bytes (6). */
+  uint8_t bLength;          /* Descriptor size in bytes (6 + numdescs*3). */
   uint8_t bDescriptorType;  /* Descriptor type (33 == HID). */
   uint16_t bcdHID;
   uint8_t bCountryCode;
@@ -239,7 +253,9 @@ typedef union {
   UsbStringDescriptor string;
   UsbInterfaceDescriptor interface;
   UsbEndpointDescriptor endpoint;
+  UsbInterfaceAssociationDescriptor interfaceAssociation;
   UsbHidDescriptor hid;
+  UsbClassDescriptor class;
   unsigned char bytes[0XFF];
 } UsbDescriptor;
 
@@ -285,6 +301,11 @@ typedef struct {
 typedef struct UsbDeviceStruct UsbDevice;
 typedef struct UsbChooseChannelDataStruct UsbChooseChannelData;
 typedef int UsbDeviceChooser (UsbDevice *device, UsbChooseChannelData *data);
+
+typedef struct {
+  const UsbChannelDefinition *definition;
+  UsbDevice *device;
+} UsbChannel;
 
 typedef struct {
   void *const buffer;

@@ -20,6 +20,7 @@ import com.google.android.accessibility.utils.preference.BasePreferencesActivity
 import java.util.Locale;
 
 /** Activity shows notifications for user how to switch to Default keymap. */
+// TODO: b/370662049 - Remove this activity after the new keymap is fully launched.
 public class TalkBackKeymapChangesActivity extends BasePreferencesActivity {
 
   @VisibleForTesting

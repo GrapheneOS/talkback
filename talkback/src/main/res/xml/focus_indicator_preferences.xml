@@ -2,29 +2,29 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/pref_category_manage_focus_indicator_key">
 
-  <com.google.android.accessibility.utils.preference.AccessibilitySuiteSwitchPreference
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:key="@string/pref_thick_border_key"
       android:title="@string/title_pref_thick_border"
       android:persistent="true" />
 
-  <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_border_color_category_key"
       android:title="@string/title_pref_category_border_color">
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteRadioButtonPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
       android:title="@string/title_pref_default_color" />
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteRadioButtonPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
         android:title="@string/title_pref_red" />
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteRadioButtonPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
         android:title="@string/title_pref_orange" />
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteRadioButtonPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
         android:title="@string/title_pref_yellow" />
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteRadioButtonPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
         android:title="@string/title_pref_green" />
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteRadioButtonPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
         android:title="@string/title_pref_blue" />
-    <com.google.android.accessibility.utils.preference.AccessibilitySuiteRadioButtonPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
         android:title="@string/title_pref_grey" />
-  </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
 
 </PreferenceScreen>

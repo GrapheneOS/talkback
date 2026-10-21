@@ -16,12 +16,13 @@
 
 package com.google.android.accessibility.talkback.controller;
 
-import static android.content.Context.RECEIVER_EXPORTED;
+import static androidx.core.content.ContextCompat.RECEIVER_EXPORTED;
 import static androidx.core.view.accessibility.AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD;
 import static androidx.core.view.accessibility.AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.CLICK_ANCESTOR;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.LONG_CLICK_CURRENT;
-import static com.google.android.accessibility.utils.AccessibilityNodeInfoUtils.TARGET_SPAN_CLASS;
+import static com.google.android.accessibility.talkback.contextmenu.ListMenuManager.MenuId.CUSTOM_ACTION;
+import static com.google.android.accessibility.utils.AccessibilityNodeInfoUtils.BASE_CLICKABLE_SPAN;
 import static com.google.android.accessibility.utils.input.CursorGranularity.DEFAULT;
 import static com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_TV_REMOTE;
 import static com.google.android.accessibility.utils.traversal.TraversalStrategy.SEARCH_FOCUS_DOWN;
@@ -125,6 +126,7 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
   private volatile boolean treeDebugEnabled = false;
 
   private volatile boolean shouldProcessDPadKeyEvent = true;
+  private volatile boolean shouldProcessLeftRightDPadKeyEvent = true;
   private final boolean letSystemHandleDpadCenterWhenFocusNotInSync;
   private final boolean useHandlerThread;
   private final Duration timeout;
@@ -172,6 +174,10 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
 
   public void setShouldProcessDPadEvent(boolean shouldProcessEvent) {
     shouldProcessDPadKeyEvent = shouldProcessEvent;
+  }
+
+  public void setShouldProcessLeftRightDPadEvent(boolean shouldProcessEvent) {
+    shouldProcessLeftRightDPadKeyEvent = shouldProcessEvent;
   }
 
   public void onDestroy() {
@@ -236,10 +242,10 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
 
   private void handleShortPress(KeyEvent event, @Nullable EventId eventId) {
     switch (event.getKeyCode()) {
-      case KeyEvent.KEYCODE_DPAD_LEFT:
-      case KeyEvent.KEYCODE_DPAD_RIGHT:
-      case KeyEvent.KEYCODE_DPAD_UP:
-      case KeyEvent.KEYCODE_DPAD_DOWN:
+      case KeyEvent.KEYCODE_DPAD_LEFT,
+          KeyEvent.KEYCODE_DPAD_RIGHT,
+          KeyEvent.KEYCODE_DPAD_UP,
+          KeyEvent.KEYCODE_DPAD_DOWN -> {
         // Directional navigation takes a non-trivial amount of time, so if we are not on a handler
         // thread, we should post to the local handler, and return true immediately.
         if (TvNavigation.useHandlerThread(service)) {
@@ -247,23 +253,19 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
         } else {
           handler.postDirectionalKeyEvent(event, eventId);
         }
-        break;
-      case KeyEvent.KEYCODE_DPAD_CENTER:
-      case KeyEvent.KEYCODE_ENTER:
-        // Note: handling the Enter key won't interfere with typing because
-        // we skip key event handling above if the IME is visible. (See above:
-        // this will also skip handling the Enter key if using a physical keyboard.)
-        // Can't post to handler because the return value might vary.
-        onCenterKey(eventId);
-        break;
-      case KeyEvent.KEYCODE_SEARCH:
-        logNodeTreesOnAllDisplays();
-        break;
-      default:
-        throw new AssertionError(
-            String.format(
-                "Trying to handle a key (keyCode=%d) that is not part of HANDLED_KEYS",
-                event.getKeyCode()));
+      }
+      case KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER ->
+          // Note: handling the Enter key won't interfere with typing because
+          // we skip key event handling above if the IME is visible. (See above:
+          // this will also skip handling the Enter key if using a physical keyboard.)
+          // Can't post to handler because the return value might vary.
+          onCenterKey(eventId);
+      case KeyEvent.KEYCODE_SEARCH -> logNodeTreesOnAllDisplays();
+      default ->
+          throw new AssertionError(
+              String.format(
+                  "Trying to handle a key (keyCode=%d) that is not part of HANDLED_KEYS",
+                  event.getKeyCode()));
     }
   }
 
@@ -274,7 +276,7 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
 
   private void onDirectionalKey(int keyCode, @Nullable EventId eventId) {
     switch (mode) {
-      case MODE_NAVIGATE:
+      case MODE_NAVIGATE -> {
         {
           @SearchDirectionOrUnknown int direction = SEARCH_FOCUS_UNKNOWN;
           switch (keyCode) {
@@ -310,8 +312,8 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
             }
           }
         }
-        break;
-      case MODE_SEEK_CONTROL:
+      }
+      case MODE_SEEK_CONTROL -> {
         {
           AccessibilityNodeInfoCompat cursor = getFocus(FocusType.ANY_FOCUS, eventId);
           if (Role.getRole(cursor) != Role.ROLE_SEEK_CONTROL) {
@@ -349,29 +351,27 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
             }
           }
         }
-        break;
-      default: // fall out
+      }
+      default -> {}
     }
   }
 
   private void onCenterKey(@Nullable EventId eventId) {
     switch (mode) {
-      case MODE_NAVIGATE:
+      case MODE_NAVIGATE -> {
         AccessibilityNodeInfoCompat focusedNode = getFocus(FocusType.ANY_FOCUS, eventId);
         if (Role.getRole(focusedNode) == Role.ROLE_SEEK_CONTROL) {
           // Seek control, center key toggles seek control input mode instead of clicking.
           setMode(MODE_SEEK_CONTROL, eventId);
         } else if (shouldOpenLinkMenu(focusedNode)) {
-          listMenuManager.showMenu(R.id.links_menu, eventId);
+          listMenuManager.showMenu(CUSTOM_ACTION, eventId);
           listMenuTriggerNode = focusedNode;
         } else {
           pipeline.returnFeedback(eventId, Feedback.focus(CLICK_ANCESTOR));
         }
-        break;
-      case MODE_SEEK_CONTROL:
-        setMode(MODE_NAVIGATE, eventId);
-        break;
-      default: // fall out
+      }
+      case MODE_SEEK_CONTROL -> setMode(MODE_NAVIGATE, eventId);
+      default -> {}
     }
   }
 
@@ -386,7 +386,7 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
     return (node != null)
         && !shouldTriggerClick(node)
         && !WebInterfaceUtils.supportsWebActions(node)
-        && SpannableTraversalUtils.hasTargetSpanInNodeTreeDescription(node, TARGET_SPAN_CLASS);
+        && SpannableTraversalUtils.hasTargetClickableSpanInNodeTree(node, BASE_CLICKABLE_SPAN);
   }
 
   /** Closes the link menu if the links refer to a node no longer on screen. */
@@ -440,21 +440,16 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
     // For example, TalkBack cannot control the selected item in a ListView; the
     // view itself controls the selected item. So if the key event gets propagated to the
     // list view at the end of the list, the scrolling will jump to the highlighted item.
-    switch (event.getKeyCode()) {
-      case KeyEvent.KEYCODE_DPAD_UP:
-      case KeyEvent.KEYCODE_DPAD_DOWN:
-      case KeyEvent.KEYCODE_DPAD_LEFT:
-      case KeyEvent.KEYCODE_DPAD_RIGHT:
-        return shouldProcessDPadKeyEvent;
-      case KeyEvent.KEYCODE_DPAD_CENTER:
-        return shouldProcessDPadKeyEvent && shouldHandleKeyCenter(event, eventId);
-      case KeyEvent.KEYCODE_ENTER:
-        return shouldHandleKeyCenter(event, eventId);
-      case KeyEvent.KEYCODE_SEARCH:
-        return treeDebugEnabled;
-      default:
-        return false;
-    }
+    return switch (event.getKeyCode()) {
+      case KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN -> shouldProcessDPadKeyEvent;
+      case KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT ->
+          shouldProcessLeftRightDPadKeyEvent && shouldProcessDPadKeyEvent;
+      case KeyEvent.KEYCODE_DPAD_CENTER ->
+          shouldProcessDPadKeyEvent && shouldHandleKeyCenter(event, eventId);
+      case KeyEvent.KEYCODE_ENTER -> shouldHandleKeyCenter(event, eventId);
+      case KeyEvent.KEYCODE_SEARCH -> treeDebugEnabled;
+      default -> false;
+    };
   }
 
   /**
@@ -467,7 +462,7 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
       return true;
     }
     switch (mode) {
-      case MODE_NAVIGATE:
+      case MODE_NAVIGATE -> {
         AccessibilityNodeInfoCompat a11yOrInputFocusedNode = getFocus(FocusType.ANY_FOCUS, eventId);
         if (Role.getRole(a11yOrInputFocusedNode) == Role.ROLE_SEEK_CONTROL) {
           return true;
@@ -485,9 +480,11 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
         }
         AccessibilityNodeInfoCompat inputFocus = accessibilityFocusMonitor.getInputFocus();
         return !accessibilityFocus.equals(inputFocus);
-      case MODE_SEEK_CONTROL:
+      }
+      case MODE_SEEK_CONTROL -> {
         return true;
-      default: // fall out
+      }
+      default -> {}
     }
     return true;
   }
@@ -514,7 +511,7 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
 
     SpannableStringBuilder ttsText = new SpannableStringBuilder();
     switch (modeForFeedback) {
-      case MODE_SEEK_CONTROL:
+      case MODE_SEEK_CONTROL -> {
         StringBuilderUtils.appendWithSeparator(
             ttsText,
             service.getString(
@@ -523,8 +520,8 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
           StringBuilderUtils.appendWithSeparator(
               ttsText, service.getString(R.string.value_hint_tv_remote_mode_seek_control));
         }
-        break;
-      default: // fall out
+      }
+      default -> {}
     }
 
     // Really critical that the user understands what mode the remote control is in.
@@ -582,13 +579,9 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
       EventId eventId = (EventId) msg.obj;
 
       switch (msg.what) {
-        case WHAT_DIRECTIONAL:
-          parent.onDirectionalKey(keyCode, eventId);
-          break;
-        case WHAT_LONG_PRESS_CONFIRM_KEY:
-          parent.handleLongPressConfirmKey(eventId);
-          break;
-        default: // fall out
+        case WHAT_DIRECTIONAL -> parent.onDirectionalKey(keyCode, eventId);
+        case WHAT_LONG_PRESS_CONFIRM_KEY -> parent.handleLongPressConfirmKey(eventId);
+        default -> {}
       }
     }
 

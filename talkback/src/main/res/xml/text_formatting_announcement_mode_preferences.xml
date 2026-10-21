@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_text_formatting_announcement_mode_description_key"
+      android:summary="@string/title_text_formatting_announcement_mode_description"
+      android:selectable="false"/>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_text_formatting_announcement_mode_category_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+      android:title="@string/pref_text_formatting_announcement_mode_speech_and_sound" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/pref_text_formatting_announcement_mode_speech" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/pref_text_formatting_announcement_mode_sound" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+</PreferenceScreen>

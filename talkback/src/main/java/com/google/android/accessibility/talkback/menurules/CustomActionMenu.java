@@ -48,6 +48,7 @@ import java.util.Set;
 
 /** Adds custom actions to the talkback context menu. */
 public class CustomActionMenu implements NodeMenu {
+  public static final int CUSTOM_ACTION_GROUP_ID = 1;
   private static final String TAG = "CustomActionMenu";
   private final Pipeline.FeedbackReturner pipeline;
   TalkBackAnalytics analytics;
@@ -144,12 +145,18 @@ public class CustomActionMenu implements NodeMenu {
         continue;
       }
 
-      ContextMenuItem item = ContextMenu.createMenuItem(context, Menu.NONE, id, Menu.NONE, label);
+      ContextMenuItem item =
+          ContextMenu.createMenuItem(context, CUSTOM_ACTION_GROUP_ID, id, Menu.NONE, label);
       item.setOnMenuItemClickListener(
           new CustomMenuItemClickListener(id, node, pipeline, analytics));
       if ((Build.VERSION.SDK_INT == VERSION_CODES.O || Build.VERSION.SDK_INT == VERSION_CODES.O_MR1)
           && deferToWindowsSrable) {
         item.setDeferredType(DeferredType.WINDOWS_STABLE);
+      }
+      // Skips focus and window events for the copy action.
+      if (TextUtils.equals(context.getString(R.string.title_action_copy), action.getLabel())) {
+        item.setSkipRefocusEvents(true);
+        item.setSkipWindowEvents(true);
       }
       item.setCheckable(false);
       menu.add(item);
@@ -182,16 +189,15 @@ public class CustomActionMenu implements NodeMenu {
     public boolean onMenuItemClick(MenuItem item) {
       try {
         EventId eventId = EVENT_ID_UNTRACKED; // Not tracking performance of menu events.
-        boolean ret = pipeline.returnFeedback(eventId, Feedback.nodeAction(node, id));
+        boolean ret =
+            pipeline.returnFeedback(
+                eventId, Feedback.nodeAction(node, id).vibration(R.array.view_clicked_pattern));
         switch (id) {
-          case AccessibilityNodeInfoCompat.ACTION_DISMISS:
-          case AccessibilityNodeInfoCompat.ACTION_EXPAND:
-          case AccessibilityNodeInfoCompat.ACTION_COLLAPSE:
-            analytics.onLocalContextMenuAction(MENU_TYPE_CUSTOM_ACTION, id);
-            break;
-          default:
-            analytics.onLocalContextMenuAction(MENU_TYPE_CUSTOM_ACTION, MENU_ITEM_UNKNOWN);
-            break;
+          case AccessibilityNodeInfoCompat.ACTION_DISMISS,
+              AccessibilityNodeInfoCompat.ACTION_EXPAND,
+              AccessibilityNodeInfoCompat.ACTION_COLLAPSE ->
+              analytics.onLocalContextMenuAction(MENU_TYPE_CUSTOM_ACTION, id);
+          default -> analytics.onLocalContextMenuAction(MENU_TYPE_CUSTOM_ACTION, MENU_ITEM_UNKNOWN);
         }
 
         return ret;

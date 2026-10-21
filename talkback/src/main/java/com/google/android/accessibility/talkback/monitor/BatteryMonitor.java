@@ -18,25 +18,37 @@ package com.google.android.accessibility.talkback.monitor;
 
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.PowerManager;
 import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.talkback.Interpretation;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.Pipeline.InterpretationReceiver;
+import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.utils.broadcast.SameThreadBroadcastReceiver;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /** Monitor battery charging status changes. Start charging Stop changing */
-public class BatteryMonitor extends BroadcastReceiver {
+public class BatteryMonitor extends SameThreadBroadcastReceiver {
+  private final Context context;
+
   private Pipeline.InterpretationReceiver pipeline;
 
   public static final int UNKNOWN_LEVEL = -1;
   private int batteryLevel = UNKNOWN_LEVEL;
+  private boolean powerConnected;
+  private boolean powerSaveMode;
 
-  public BatteryMonitor() {}
+  public BatteryMonitor(Context context) {
+    this.context = context;
+    powerSaveMode = getPowerSaveModeState();
+    BatteryManager batteryManager =
+        (BatteryManager) this.context.getSystemService(Context.BATTERY_SERVICE);
+    powerConnected = batteryManager.isCharging();
+  }
 
   public void setPipeline(@NonNull InterpretationReceiver pipeline) {
     if (pipeline == null) {
@@ -50,37 +62,61 @@ public class BatteryMonitor extends BroadcastReceiver {
     intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
     intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
     intentFilter.addAction(Intent.ACTION_POWER_CONNECTED);
+    intentFilter.addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED);
     return intentFilter;
   }
 
   @Override
-  public void onReceive(Context context, Intent intent) {
+  public void onReceiveIntent(Intent intent) {
     final String action = intent.getAction();
     if (action == null) {
       return;
     }
 
     switch (action) {
-      case Intent.ACTION_BATTERY_CHANGED:
+      case Intent.ACTION_BATTERY_CHANGED -> {
         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
         int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
         batteryLevel = getBatteryLevel(scale, level);
-        break;
-      case Intent.ACTION_POWER_DISCONNECTED:
+      }
+      case Intent.ACTION_POWER_DISCONNECTED -> {
+        powerConnected = false;
         pipeline.input(
-            EVENT_ID_UNTRACKED, new Interpretation.Power(/* connected= */ false, batteryLevel));
-        break;
-      case Intent.ACTION_POWER_CONNECTED:
+            EVENT_ID_UNTRACKED,
+            new Interpretation.Power(
+                /* connected= */ powerConnected, batteryLevel, /* powerSaveMode= */ powerSaveMode));
+      }
+      case Intent.ACTION_POWER_CONNECTED -> {
+        powerConnected = true;
         pipeline.input(
-            EVENT_ID_UNTRACKED, new Interpretation.Power(/* connected= */ true, batteryLevel));
-        break;
-      default:
+            EVENT_ID_UNTRACKED,
+            new Interpretation.Power(
+                /* connected= */ powerConnected, batteryLevel, /* powerSaveMode= */ powerSaveMode));
+      }
+      case PowerManager.ACTION_POWER_SAVE_MODE_CHANGED -> powerSaveMode = getPowerSaveModeState();
+      default -> {
         // Do nothing.
+      }
     }
   }
 
   @VisibleForTesting
   public static int getBatteryLevel(int scale, int level) {
     return (scale > 0 ? Math.round((level / (float) scale) * 100) : UNKNOWN_LEVEL);
+  }
+
+  public String getBatteryStateDescription() {
+    return context.getString(
+        R.string.template_battery_state,
+        powerConnected ? context.getString(R.string.notification_type_status_connected) : "",
+        batteryLevel != UNKNOWN_LEVEL
+            ? String.valueOf(batteryLevel)
+            : context.getString(R.string.notification_battery_level_unknown),
+        powerSaveMode ? context.getString(R.string.notification_battery_saver_mode) : "");
+  }
+
+  private boolean getPowerSaveModeState() {
+    PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+    return powerManager.isPowerSaveMode();
   }
 }

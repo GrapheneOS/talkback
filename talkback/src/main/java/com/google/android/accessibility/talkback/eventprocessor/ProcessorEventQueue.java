@@ -105,10 +105,8 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
     @Override
     public void handleMessage(Message message, ProcessorEventQueue parent) {
       switch (message.what) {
-        case WHAT_SPEAK:
-          processAllEvents(parent);
-          break;
-        default: // fall out
+        case WHAT_SPEAK -> processAllEvents(parent);
+        default -> {}
       }
     }
 

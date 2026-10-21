@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -19,13 +19,13 @@
 #ifndef BRLTTY_INCLUDED_CB_BRLDEFS
 #define BRLTTY_INCLUDED_CB_BRLDEFS
 
-#define CB_SERIAL_BAUD 38400 /* baud rate for Braille display */
+#define CB_SERIAL_BAUD 38400		/* baud rate for Braille display */
 
 typedef enum {
-  CB_PKT_KeepAlive = 0,
+  CB_PKT_KeepAlive      = 0,
   CB_PKT_DeviceIdentity = '?',
-  CB_PKT_WriteCells = 'B',
-  CB_PKT_RoutingKey = 'C',
+  CB_PKT_WriteCells     = 'B',
+  CB_PKT_RoutingKey     = 'C',
   CB_PKT_NavigationKeys = 'K',
 } CB_PacketType;
 

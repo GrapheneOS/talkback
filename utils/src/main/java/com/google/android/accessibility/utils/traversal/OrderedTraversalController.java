@@ -16,15 +16,15 @@
 
 package com.google.android.accessibility.utils.traversal;
 
-import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.NonNull;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.Logger;
-import com.google.android.accessibility.utils.TreeDebug;
+import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -36,9 +36,15 @@ public class OrderedTraversalController {
   private @Nullable WorkingTree tree;
   private final Map<AccessibilityNodeInfoCompat, WorkingTree> nodeTreeMap;
   private @Nullable AccessibilityNodeInfoCompat initialFocusNode;
+  private final boolean makeFabFirst;
 
   public OrderedTraversalController() {
+    this(false);
+  }
+
+  public OrderedTraversalController(boolean makeFabFirst) {
     nodeTreeMap = new LinkedHashMap<>();
+    this.makeFabFirst = makeFabFirst;
   }
 
   public void setSpeakingNodesCache(Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache) {
@@ -68,7 +74,7 @@ public class OrderedTraversalController {
     boundsCalculator.setSpeakingNodesCache(speakingNodesCache);
     tree =
         createWorkingTree(compatRoot, null, boundsCalculator, includeChildrenOfNodesWithWebActions);
-    reorderTree();
+    reorderTree(compatRoot);
   }
 
   /**
@@ -117,9 +123,13 @@ public class OrderedTraversalController {
    * reorder previously created tree according to after/before view traversal order on separate
    * nodes
    */
-  private void reorderTree() {
+  private void reorderTree(AccessibilityNodeInfoCompat compatRoot) {
     for (WorkingTree subtree : nodeTreeMap.values()) {
       AccessibilityNodeInfoCompat node = subtree.getNode();
+      if (makeFabFirst && isFab(node)) {
+        WorkingTree targetTree = nodeTreeMap.get(compatRoot).getNext();
+        moveNodeBefore(subtree, targetTree);
+      }
       if (AccessibilityNodeInfoUtils.hasRequestInitialAccessibilityFocus(node)) {
         // TODO: Add test case after Roboletric in Google3 supports API 34.
         initialFocusNode = node;
@@ -315,35 +325,50 @@ public class OrderedTraversalController {
     return tree.getLastNode().getNode();
   }
 
-  /** Dumps the traversal order tree. */
-  protected void dumpTree(@NonNull Logger treeDebugLogger) {
-    AccessibilityNodeInfoCompat node = findFirst();
-    while (node != null) {
-      treeDebugLogger.log(
-          " (%d)%s%s",
-          node.hashCode(),
-          TreeDebug.nodeDebugDescription(node),
-          getCustomizedTraversalNodeString(node));
-      node = findNext(node);
+  /**
+   * Checks for the resource id and package name of specific apps. We do not check for calendar or
+   * dialer since they both force accessibility focus and disrupt reordering for FABs.
+   */
+  private boolean isFab(AccessibilityNodeInfoCompat node) {
+    if (Role.getRole(node) == Role.ROLE_FLOATING_ACTION_BUTTON) {
+      return true;
     }
+    if (node.getViewIdResourceName() == null || node.getPackageName() == null) {
+      return false;
+    }
+
+    String resourceName = node.getViewIdResourceName();
+    CharSequence packageName = node.getPackageName();
+    // Clock and Drive
+    if (resourceName.contains("fab")
+        && (packageName.toString().equals("com.google.android.deskclock")
+            || packageName.toString().equals("com.google.android.apps.docs"))) {
+      return true;
+    }
+    // Calendar and Contacts
+    if (resourceName.contains("floating_action_button")
+        && (packageName.toString().equals("com.google.android.calendar")
+            || packageName.toString().equals("com.google.android.contacts"))) {
+      return true;
+    }
+
+    // Gmail
+    if (resourceName.contains("compose_button")
+        && packageName.toString().equals("com.google.android.gm")) {
+      return true;
+    }
+
+    return false;
   }
 
-  /**
-   * Returns the string contains the attribute {@link AccessibilityNodeInfo#getTraversalBefore()}
-   * and {@link AccessibilityNodeInfo#getTraversalAfter()} of the target node.
-   */
-  private static String getCustomizedTraversalNodeString(AccessibilityNodeInfoCompat node) {
-    StringBuilder builder = new StringBuilder();
-    AccessibilityNodeInfoCompat beforeNode = node.getTraversalBefore();
-    AccessibilityNodeInfoCompat afterNode = node.getTraversalAfter();
-    if (beforeNode != null) {
-      builder.append(" before:");
-      builder.append(beforeNode.hashCode());
+  /** Dumps the traversal order tree. */
+  protected List<AccessibilityNodeInfoCompat> dumpTree() {
+    List<AccessibilityNodeInfoCompat> result = new ArrayList<>();
+    AccessibilityNodeInfoCompat node = findFirst();
+    while (node != null) {
+      result.add(node);
+      node = findNext(node);
     }
-    if (afterNode != null) {
-      builder.append(" after:");
-      builder.append(afterNode.hashCode());
-    }
-    return builder.toString();
+    return result;
   }
 }

@@ -51,3 +51,23 @@ include input.kti
 
 include ../bm/display6.kti
 include ../bm/routing6.kti
+
+
+########################
+# BrailleBack Bindings #
+########################
+
+# ROUTE+128 is a long-press on the routing key.
+bind RoutingKey ROUTE:ROUTE+128
+
+assign space SpaceLeft
+include dots.kti
+
+assign space SpaceRight
+include dots.kti
+
+assign space SpaceLeft
+include input.kti
+
+assign space SpaceRight
+include input.kti

@@ -21,12 +21,10 @@ import static android.view.accessibility.AccessibilityEvent.TYPE_TOUCH_INTERACTI
 
 import android.view.accessibility.AccessibilityEvent;
 import com.google.android.accessibility.utils.Consumer;
-import com.google.errorprone.annotations.CheckReturnValue;
 import java.util.ArrayList;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /** Monitors touch-events, and can report changes or current touch state. */
-@CheckReturnValue // see go/why-crv
 public class TouchMonitor {
 
   ///////////////////////////////////////////////////////////////////////////////////

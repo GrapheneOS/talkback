@@ -39,21 +39,19 @@ public class NodeFocusFinder {
     }
 
     switch (direction) {
-      case SEARCH_FORWARD:
-        {
-          if (!ref.nextInOrder()) {
-            return null;
-          }
-          return ref.release();
+      case SEARCH_FORWARD -> {
+        if (!ref.nextInOrder()) {
+          return null;
         }
-      case SEARCH_BACKWARD:
-        {
-          if (!ref.previousInOrder()) {
-            return null;
-          }
-          return ref.release();
+        return ref.release();
+      }
+      case SEARCH_BACKWARD -> {
+        if (!ref.previousInOrder()) {
+          return null;
         }
-      default: // fall out
+        return ref.release();
+      }
+      default -> {}
     }
 
     return null;

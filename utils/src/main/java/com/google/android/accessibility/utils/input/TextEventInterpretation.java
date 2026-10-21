@@ -95,6 +95,7 @@ public class TextEventInterpretation extends ReadOnly {
 
   private boolean mIsCutAction = false;
   private boolean mIsPasteAction = false;
+  private boolean isPassword = false;
 
   @Nullable private CharSequence textOrDescription;
   private CharSequence mRemovedText;
@@ -156,6 +157,15 @@ public class TextEventInterpretation extends ReadOnly {
 
   public boolean getIsPasteAction() {
     return mIsPasteAction;
+  }
+
+  public void setIsPassword(boolean value) {
+    checkIsWritable();
+    isPassword = value;
+  }
+
+  public boolean isPassword() {
+    return isPassword;
   }
 
   public void setTextOrDescription(@Nullable CharSequence text) {
@@ -236,6 +246,7 @@ public class TextEventInterpretation extends ReadOnly {
         StringBuilderUtils.optionalText("Reason", mReason),
         StringBuilderUtils.optionalTag("isCut", mIsCutAction),
         StringBuilderUtils.optionalTag("isPaste", mIsPasteAction),
+        StringBuilderUtils.optionalTag("isPassword", isPassword),
         StringBuilderUtils.optionalText("textOrDescription", textOrDescription),
         StringBuilderUtils.optionalText("removedText", mRemovedText),
         StringBuilderUtils.optionalText("addedText", mAddedText),
@@ -246,51 +257,29 @@ public class TextEventInterpretation extends ReadOnly {
   }
 
   public static String eventTypeToString(@TextEvent int eventType) {
-    switch (eventType) {
-      case TEXT_CLEAR:
-        return "TEXT_CLEAR";
-      case TEXT_REMOVE:
-        return "TEXT_REMOVE";
-      case TEXT_ADD:
-        return "TEXT_ADD";
-      case TEXT_REPLACE:
-        return "TEXT_REPLACE";
-      case TEXT_PASSWORD_ADD:
-        return "TEXT_PASSWORD_ADD";
-      case TEXT_PASSWORD_REMOVE:
-        return "TEXT_PASSWORD_REMOVE";
-      case TEXT_PASSWORD_REPLACE:
-        return "TEXT_PASSWORD_REPLACE";
-      case CHANGE_INVALID:
-        return "CHANGE_INVALID";
-      case SELECTION_FOCUS_EDIT_TEXT:
-        return "SELECTION_FOCUS_EDIT_TEXT";
-      case SELECTION_MOVE_CURSOR_TO_BEGINNING:
-        return "SELECTION_MOVE_CURSOR_TO_BEGINNING";
-      case SELECTION_MOVE_CURSOR_TO_END:
-        return "SELECTION_MOVE_CURSOR_TO_END";
-      case SELECTION_MOVE_CURSOR_NO_SELECTION:
-        return "SELECTION_MOVE_CURSOR_NO_SELECTION";
-      case SELECTION_MOVE_CURSOR_WITH_SELECTION:
-        return "SELECTION_MOVE_CURSOR_WITH_SELECTION";
-      case SELECTION_MOVE_CURSOR_SELECTION_CLEARED:
-        return "SELECTION_MOVE_CURSOR_SELECTION_CLEARED";
-      case SELECTION_CUT:
-        return "SELECTION_CUT";
-      case SELECTION_PASTE:
-        return "SELECTION_PASTE";
-      case SELECTION_TEXT_TRAVERSAL:
-        return "SELECTION_TEXT_TRAVERSAL";
-      case SELECTION_SELECT_ALL:
-        return "SELECTION_SELECT_ALL";
-      case SELECTION_SELECT_ALL_WITH_KEYBOARD:
-        return "SELECTION_SELECT_ALL_WITH_KEYBOARD";
-      case SELECTION_RESET_SELECTION:
-        return "SELECTION_RESET_SELECTION";
-      case SET_TEXT_BY_ACTION:
-        return "SET_TEXT_BY_ACTION";
-      default:
-        return "(unknown event " + eventType + ")";
-    }
+    return switch (eventType) {
+      case TEXT_CLEAR -> "TEXT_CLEAR";
+      case TEXT_REMOVE -> "TEXT_REMOVE";
+      case TEXT_ADD -> "TEXT_ADD";
+      case TEXT_REPLACE -> "TEXT_REPLACE";
+      case TEXT_PASSWORD_ADD -> "TEXT_PASSWORD_ADD";
+      case TEXT_PASSWORD_REMOVE -> "TEXT_PASSWORD_REMOVE";
+      case TEXT_PASSWORD_REPLACE -> "TEXT_PASSWORD_REPLACE";
+      case CHANGE_INVALID -> "CHANGE_INVALID";
+      case SELECTION_FOCUS_EDIT_TEXT -> "SELECTION_FOCUS_EDIT_TEXT";
+      case SELECTION_MOVE_CURSOR_TO_BEGINNING -> "SELECTION_MOVE_CURSOR_TO_BEGINNING";
+      case SELECTION_MOVE_CURSOR_TO_END -> "SELECTION_MOVE_CURSOR_TO_END";
+      case SELECTION_MOVE_CURSOR_NO_SELECTION -> "SELECTION_MOVE_CURSOR_NO_SELECTION";
+      case SELECTION_MOVE_CURSOR_WITH_SELECTION -> "SELECTION_MOVE_CURSOR_WITH_SELECTION";
+      case SELECTION_MOVE_CURSOR_SELECTION_CLEARED -> "SELECTION_MOVE_CURSOR_SELECTION_CLEARED";
+      case SELECTION_CUT -> "SELECTION_CUT";
+      case SELECTION_PASTE -> "SELECTION_PASTE";
+      case SELECTION_TEXT_TRAVERSAL -> "SELECTION_TEXT_TRAVERSAL";
+      case SELECTION_SELECT_ALL -> "SELECTION_SELECT_ALL";
+      case SELECTION_SELECT_ALL_WITH_KEYBOARD -> "SELECTION_SELECT_ALL_WITH_KEYBOARD";
+      case SELECTION_RESET_SELECTION -> "SELECTION_RESET_SELECTION";
+      case SET_TEXT_BY_ACTION -> "SET_TEXT_BY_ACTION";
+      default -> "(unknown event " + eventType + ")";
+    };
   }
 }

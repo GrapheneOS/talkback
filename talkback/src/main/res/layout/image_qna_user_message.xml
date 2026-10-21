@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:weightSum="1"
+    android:padding="@dimen/image_caption_bottom_sheet_padding">
+
+  <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/user_message"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="0.8"
+      android:gravity="center_vertical"
+      android:padding="10dp"
+      android:textSize="16sp"
+      android:background="@drawable/image_qna_message_background"/>
+
+</LinearLayout>

@@ -29,6 +29,7 @@ import static com.google.android.accessibility.talkback.analytics.TalkBackAnalyt
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_INPUT_DESCRIBE_NODE;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 
+import android.content.Context;
 import android.os.Message;
 import android.os.SystemClock;
 import android.view.ViewConfiguration;
@@ -40,9 +41,11 @@ import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Interpretation;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.action.TouchExplorationAction;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
+import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.WeakReferenceHandler;
@@ -133,12 +136,15 @@ public class FocusProcessorForTapAndTouchExploration {
 
   private long touchInteractionStartTime;
   private final TalkBackAnalytics analytics;
+  private final boolean splitTapEverywhere;
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Contstructor methods
 
-  public FocusProcessorForTapAndTouchExploration(TalkBackAnalytics analytics) {
+  public FocusProcessorForTapAndTouchExploration(Context context, TalkBackAnalytics analytics) {
     this.analytics = analytics;
+    this.splitTapEverywhere =
+        FeatureSupport.supportSplitTapEverywhere() && FeatureFlagReader.splitTapEverywhere(context);
     postDelayHandler = new PostDelayHandler(this, longPressDuration);
   }
 
@@ -168,17 +174,15 @@ public class FocusProcessorForTapAndTouchExploration {
   public boolean onTouchExplorationAction(
       TouchExplorationAction touchExplorationAction, EventId eventId) {
 
-    switch (touchExplorationAction.type) {
-      case TouchExplorationAction.TOUCH_INTERACTION_START:
-        return handleTouchInteractionStart(eventId);
-      case TouchExplorationAction.HOVER_ENTER:
-        return handleHoverEnterNode(touchExplorationAction.touchedFocusableNode, eventId);
-      case TouchExplorationAction.TOUCH_INTERACTION_END:
-        return handleTouchInteractionEnd(eventId);
-      default:
-        // Do nothing.
-        return false;
-    }
+    return switch (touchExplorationAction.type) {
+      case TouchExplorationAction.TOUCH_INTERACTION_START -> handleTouchInteractionStart(eventId);
+      case TouchExplorationAction.HOVER_ENTER ->
+          handleHoverEnterNode(touchExplorationAction.touchedFocusableNode, eventId);
+      case TouchExplorationAction.TOUCH_INTERACTION_END -> handleTouchInteractionEnd(eventId);
+      default ->
+          // Do nothing.
+          false;
+    };
   }
 
   /**
@@ -195,8 +199,8 @@ public class FocusProcessorForTapAndTouchExploration {
 
     interpretationReceiver.input(eventId, null, Interpretation.TouchInteraction.create(true));
     if (actorState.getSpeechState().isSpeaking()) {
-      // We'll not refocus nor re-announce a node if TalkBack is currently speaking.
-      mayBeRefocusAction = false;
+      // We refocus and re-announce a node if TalkBack is currently speaking.
+      mayBeRefocusAction = true;
       interpretationReceiver.input(
           eventId, /* event= */ null, Interpretation.Touch.create(TOUCH_START));
     }
@@ -227,6 +231,10 @@ public class FocusProcessorForTapAndTouchExploration {
     postDelayHandler.cancelLongPress();
     postDelayHandler.cancelRefocusTimeout();
     if (touchedFocusableNode != null && !touchedFocusableNode.isAccessibilityFocused()) {
+      // TalkBack do not enter the focused view with Split-typing & Lift-to-type the same time. When
+      // focused moved into a new node, by default, TalkBack assumes the lift-to-type until a
+      // split-typing gesture detected.
+      isSplitTap = false;
       interpretationReceiver.input(
           eventId, /* event= */ null, Interpretation.Touch.create(TOUCH_ENTERED_UNFOCUSED_NODE));
     }
@@ -268,6 +276,7 @@ public class FocusProcessorForTapAndTouchExploration {
             /* event= */ null,
             new Interpretation.CompositorID(EVENT_INPUT_DESCRIBE_NODE),
             touchedFocusableNode);
+
       } else {
         mayBeRefocusAction = true;
         if (AccessibilityNodeInfoUtils.isLongClickable(touchedFocusableNode)) {
@@ -361,26 +370,29 @@ public class FocusProcessorForTapAndTouchExploration {
   }
 
   /**
-   * Perform Click/Lift-to-type if the focused node exists and either it set text entry key or the
-   * window type is IME.
+   * If the focused node exists, then 1. When splitTapEverywhere is configured and either it set
+   * text entry key or the window type is IME, perform click action. 2. Otherwise, perform click
+   * action for all clickable nodes.
    *
    * @return {@code true} if successfully performs click action.
    */
   public boolean performSplitTap(EventId eventId) {
-    if (lastFocusableNodeBeingTouched != null
-        && (Role.getRole(lastFocusableNodeBeingTouched) == Role.ROLE_TEXT_ENTRY_KEY
-            || AccessibilityWindowInfoUtils.getType(
-                    AccessibilityNodeInfoUtils.getWindow(lastFocusableNodeBeingTouched))
-                == TYPE_INPUT_METHOD)) {
-      // Perform click action for lift-to-type mode.
-      interpretationReceiver.input(
-          eventId,
-          /* event= */ null,
-          Interpretation.Touch.create(LIFT, lastFocusableNodeBeingTouched));
-      isSplitTap = true;
-      return (true);
+    if (lastFocusableNodeBeingTouched != null) {
+      if (splitTapEverywhere
+          || (Role.getRole(lastFocusableNodeBeingTouched) == Role.ROLE_TEXT_ENTRY_KEY
+              || AccessibilityWindowInfoUtils.getType(
+                      AccessibilityNodeInfoUtils.getWindow(lastFocusableNodeBeingTouched))
+                  == TYPE_INPUT_METHOD)) {
+        // Perform click action for lift-to-type mode.
+        interpretationReceiver.input(
+            eventId,
+            /* event= */ null,
+            Interpretation.Touch.create(LIFT, lastFocusableNodeBeingTouched));
+        isSplitTap = true;
+        return true;
+      }
     }
-    return (false);
+    return false;
   }
 
   private boolean touchFocusedNode(AccessibilityNodeInfoCompat node, @Nullable EventId eventId) {
@@ -425,10 +437,9 @@ public class FocusProcessorForTapAndTouchExploration {
         return;
       }
       switch (msg.what) {
-        case MSG_REFOCUS:
-          parent.touchFocusedNode(parent.lastFocusableNodeBeingTouched, /* eventId= */ null);
-          break;
-        case MSG_LONG_CLICK_LAST_NODE:
+        case MSG_REFOCUS ->
+            parent.touchFocusedNode(parent.lastFocusableNodeBeingTouched, /* eventId= */ null);
+        case MSG_LONG_CLICK_LAST_NODE -> {
           if (parent.supportsLiftToType(parent.lastFocusableNodeBeingTouched)) {
             parent.interpretationReceiver.input(
                 /* eventId= */ null,
@@ -436,9 +447,8 @@ public class FocusProcessorForTapAndTouchExploration {
                 Interpretation.Touch.create(LONG_PRESS, parent.lastFocusableNodeBeingTouched));
             parent.mayBeLiftToType = false;
           }
-          break;
-        default:
-          break;
+        }
+        default -> {}
       }
     }
 
@@ -464,8 +474,10 @@ public class FocusProcessorForTapAndTouchExploration {
   }
 
   public void setTypingMethod(@TypingMethod int type) {
-    reset();
-    typingMethod = type;
+    if (!splitTapEverywhere || typingMethod != type) {
+      reset();
+      typingMethod = type;
+    }
   }
 
   @TypingMethod

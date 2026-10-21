@@ -16,7 +16,7 @@
 package com.google.android.accessibility.talkback.compositor.rule;
 
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_INPUT_DESCRIBE_NODE;
-import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_QUEUE;
+import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_FLUSH_ALL;
 
 import com.google.android.accessibility.talkback.compositor.Compositor.HandleEventOptions;
 import com.google.android.accessibility.talkback.compositor.EventFeedback;
@@ -59,7 +59,7 @@ public final class InputDescribeNodeFeedbackRule {
 
           return EventFeedback.builder()
               .setTtsOutput(Optional.of(ttsOutput))
-              .setQueueMode(QUEUE_MODE_QUEUE)
+              .setQueueMode(QUEUE_MODE_FLUSH_ALL)
               .setTtsAddToHistory(true)
               .setAdvanceContinuousReading(true)
               .setForceFeedbackEvenIfAudioPlaybackActive(true)

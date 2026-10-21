@@ -7,12 +7,12 @@ import android.os.Build.VERSION_CODES;
 import android.os.VibrationEffect;
 import android.os.VibrationEffect.Composition;
 import android.os.Vibrator;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.IntPredicate;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.base.Function;
-import java.text.ParseException;
 
 /**
  * Handles parsing a resource array defining a haptic pattern.
@@ -70,24 +70,29 @@ public class HapticPatternParser {
   public VibrationEffect parse(int[] pattern) {
     int splitIndex = indexOf(pattern, SENTINEL_SEPARATOR);
     if (splitIndex >= 0 && BuildVersionUtils.isAtLeastR()) {
-      try {
-        return parseComposition(pattern, splitIndex + 1);
-      } catch (ParseException e) {
-        LogUtils.e(TAG, e, "Failed to parse haptic pattern");
+      @Nullable VibrationEffect effect = parseComposition(pattern, splitIndex + 1);
+      if (effect == null) {
+        LogUtils.v(TAG, "Haptic primitive unsupported on this device");
+      } else {
+        return effect;
       }
     }
 
     return parseFallback(pattern, splitIndex);
   }
 
+  /**
+   * Convert the pattern into a VibrationEffect or return null if this device is unable to handle
+   * any of the primitives found in the pattern.
+   */
   @TargetApi(VERSION_CODES.R)
-  private VibrationEffect parseComposition(int[] pattern, int splitIndex) throws ParseException {
+  @Nullable
+  private VibrationEffect parseComposition(int[] pattern, int splitIndex) {
     Composition effect = VibrationEffect.startComposition();
     for (int i = splitIndex; i < pattern.length; i += 3) {
       int primitive = pattern[i];
       if (!isPrimitiveSupported.test(primitive)) {
-        throw new ParseException(
-            "At least one composition primitives not supported by vibrator", i);
+        return null;
       }
 
       effect.addPrimitive(primitive, (float) pattern[i + 1] / SCALE_MAX, pattern[i + 2]);

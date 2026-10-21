@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.compositor.rule;
 import static com.google.android.accessibility.talkback.compositor.Compositor.EVENT_SPEAK_HINT;
 import static com.google.android.accessibility.talkback.compositor.HintEventInterpretation.HINT_TYPE_ACCESSIBILITY_FOCUS;
 import static com.google.android.accessibility.talkback.compositor.HintEventInterpretation.HINT_TYPE_INPUT_FOCUS;
+import static com.google.android.accessibility.talkback.compositor.HintEventInterpretation.HINT_TYPE_LINK;
 import static com.google.android.accessibility.talkback.compositor.HintEventInterpretation.HINT_TYPE_SCREEN;
 import static com.google.android.accessibility.talkback.compositor.HintEventInterpretation.HINT_TYPE_SELECTOR;
 import static com.google.android.accessibility.talkback.compositor.HintEventInterpretation.HINT_TYPE_TEXT_SUGGESTION;
@@ -33,9 +34,7 @@ import com.google.android.accessibility.talkback.compositor.EventFeedback;
 import com.google.android.accessibility.talkback.compositor.EventInterpretation;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.compositor.HintEventInterpretation;
-import com.google.android.accessibility.talkback.compositor.TalkBackFeedbackProvider;
 import com.google.android.accessibility.talkback.compositor.hint.AccessibilityFocusHint;
-import com.google.android.accessibility.utils.Role;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Map;
 import java.util.Optional;
@@ -113,25 +112,17 @@ public final class HintFeedbackRule {
       GlobalVariables globalVariables) {
     StringBuilder logString = new StringBuilder();
     int hintType = hintEventInterpretation.getHintType();
-    CharSequence hint;
-    switch (hintType) {
-      case HINT_TYPE_ACCESSIBILITY_FOCUS:
-        hint = accessibilityFocusHint.getHint(node);
-        break;
-      case HINT_TYPE_INPUT_FOCUS:
-        hint = getInputFocusHint(node, context, globalVariables);
-        break;
-      case HINT_TYPE_SCREEN:
-      case HINT_TYPE_SELECTOR:
-        hint = getHintInterpretationText(hintEventInterpretation, globalVariables);
-        break;
-      case HINT_TYPE_TEXT_SUGGESTION:
-        hint = getTextSuggestionHint(context, globalVariables);
-        break;
-      default:
-        hint = "";
-        break;
-    }
+    CharSequence hint =
+        switch (hintType) {
+          case HINT_TYPE_ACCESSIBILITY_FOCUS -> accessibilityFocusHint.getHint(node);
+          case HINT_TYPE_INPUT_FOCUS -> getInputFocusHint();
+          case HINT_TYPE_SCREEN, HINT_TYPE_SELECTOR ->
+              getHintInterpretationText(hintEventInterpretation, globalVariables);
+          case HINT_TYPE_TEXT_SUGGESTION -> getTextSuggestionHint(context, globalVariables);
+          case HINT_TYPE_LINK ->
+              accessibilityFocusHint.getClickableHint().getOpenLinkHint(context, globalVariables);
+          default -> "";
+        };
 
     int nodeId = node == null ? 0 : node.hashCode();
     LogUtils.v(
@@ -146,37 +137,8 @@ public final class HintFeedbackRule {
     return hint;
   }
 
-  private static CharSequence getInputFocusHint(
-      AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
-    if (node == null) {
-      LogUtils.e(TAG, "    inputFocusHint: src node null");
-      return "";
-    }
-    StringBuilder logString = new StringBuilder();
-    boolean enableUsageHint = globalVariables.getUsageHintEnabled();
-    boolean isEnabled = node.isEnabled();
-    boolean isFocused = node.isFocused();
-    logString
-        .append(String.format("enableUsageHint=%s", enableUsageHint))
-        .append(String.format(", isEnabled=%s", isEnabled))
-        .append(String.format(", isFocused=%s", isFocused));
-    if (enableUsageHint && isFocused && isEnabled) {
-      int role = Role.getRole(node);
-      boolean isPassword = node.isPassword();
-      boolean shouldSpeakPasswords = globalVariables.shouldSpeakPasswords();
-      LogUtils.v(
-          TAG,
-          "    inputFocusHint: %s",
-          logString
-              .append(String.format(", role=%s", Role.roleToString(role)))
-              .append(String.format(", isPassword=%s", isPassword))
-              .append(String.format(", shouldSpeakPasswords=%s", shouldSpeakPasswords))
-              .toString());
-      if (role == Role.ROLE_EDIT_TEXT && isPassword && !shouldSpeakPasswords) {
-        return context.getString(R.string.summaryOff_pref_speak_passwords_without_headphones);
-      }
-    }
-    LogUtils.v(TAG, "    inputFocusHint: %s", logString.toString());
+  private static CharSequence getInputFocusHint() {
+    // TODO: Has removed Speak password settings.
     return "";
   }
 

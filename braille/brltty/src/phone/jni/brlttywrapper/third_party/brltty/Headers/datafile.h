@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -111,7 +111,7 @@ extern int writeUtf8Cells (FILE *stream, const unsigned char *cells, size_t coun
 typedef struct {
   const wchar_t *name;
   DataOperandsProcessor *processor;
-  unsigned char unconditional : 1;
+  unsigned char unconditional:1;
 } DataDirective;
 
 typedef struct {
@@ -175,8 +175,9 @@ extern DATA_OPERANDS_PROCESSOR(processIfNotVarOperands);
 extern DATA_OPERANDS_PROCESSOR(processBeginVariablesOperands);
 extern DATA_OPERANDS_PROCESSOR(processEndVariablesOperands);
 extern DATA_OPERANDS_PROCESSOR(processListVariablesOperands);
-extern DATA_OPERANDS_PROCESSOR(processAssignDefaultOperands);
 extern DATA_OPERANDS_PROCESSOR(processAssignOperands);
+extern DATA_OPERANDS_PROCESSOR(processAssignDefaultOperands);
+extern DATA_OPERANDS_PROCESSOR(processAssignGlobalOperands);
 
 #define DATA_VARIABLE_DIRECTIVES \
   {.name=WS_C("ifvar"), .processor=processIfVarOperands, .unconditional=1}, \
@@ -184,8 +185,9 @@ extern DATA_OPERANDS_PROCESSOR(processAssignOperands);
   {.name=WS_C("beginvariables"), .processor=processBeginVariablesOperands}, \
   {.name=WS_C("endvariables"), .processor=processEndVariablesOperands}, \
   {.name=WS_C("listvariables"), .processor=processListVariablesOperands}, \
+  {.name=WS_C("assign"), .processor=processAssignOperands}, \
   {.name=WS_C("assigndefault"), .processor=processAssignDefaultOperands}, \
-  {.name=WS_C("assign"), .processor=processAssignOperands}
+  {.name=WS_C("assignglobal"), .processor=processAssignGlobalOperands}
 
 #define BRL_DOT_COUNT 8
 extern const wchar_t brlDotNumbers[BRL_DOT_COUNT];

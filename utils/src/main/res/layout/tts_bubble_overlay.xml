@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tts_bubble_overlay_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/tts_bubble_background"
+    android:paddingTop="@dimen/tts_bubble_overlay_padding_top"
+    android:paddingLeft="@dimen/tts_bubble_overlay_padding_horizontal"
+    android:paddingRight="@dimen/tts_bubble_overlay_padding_horizontal"
+    tools:ignore="Overdraw">
+
+    <TextView
+        android:id="@+id/tts_bubble_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/a11y_speech_bubble_overlay_text_color"
+        android:textSize="@dimen/tts_bubble_overlay_text_size"
+        android:padding="@dimen/tts_bubble_overlay_button_padding"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/menu_button_description"
+            android:padding="@dimen/tts_bubble_overlay_button_padding"
+            android:src="@drawable/gs_more_vert_vd_theme_24"
+            android:tint="@color/a11y_speech_bubble_overlay_text_color" />
+
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/close_button_description"
+            android:padding="@dimen/tts_bubble_overlay_button_padding"
+            android:src="@drawable/gs_close_vd_theme_24"
+            android:tint="@color/a11y_speech_bubble_overlay_text_color" />
+
+    </LinearLayout>
+
+  <TextView
+    android:id="@+id/bubble_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tts_bubble_label"
+    android:textSize="@dimen/tts_bubble_overlay_text_size"
+    android:gravity="start"
+    android:maxHeight="@dimen/tts_bubble_overlay_text_max_height"
+    android:paddingStart="@dimen/tts_bubble_overlay_text_padding"
+    android:paddingEnd="@dimen/tts_bubble_overlay_text_padding"
+    android:scrollbars="vertical"
+    android:textColor="@color/a11y_speech_bubble_overlay_text_color"
+    android:layout_marginBottom="@dimen/tts_bubble_overlay_text_margin_bottom"
+    tools:text="Sample spoken text"
+    />
+
+</RelativeLayout>

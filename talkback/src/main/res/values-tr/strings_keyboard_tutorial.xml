@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Bu eğitim, birçok yeni komut içeren gelişmiş tuş eşleme hakkındadır. Tuş eşlemeyi seçmek için TalkBack ayarları &gt; Gelişmiş ayarlar &gt; Klavye kısayolları bölümüne gidin.\n\nBir konu seçmek için eylem tuşu + sağ ok tuşuna basın. En iyi deneyim için başlamadan önce TalkBack\'i açın.</string>
+  <string name="basic_interaction_link_text">Temel etkileşim</string>
+  <string name="basic_interaction_link_subtext">Öğeler arasında geçiş yapın, satır satır okuyun, menüleri kullanın ve daha fazlasını yapın.</string>
+  <string name="browse_mode_link_text">Tarayıcı modu</string>
+  <string name="browse_mode_link_subtext">Atlama komutlarıyla web içeriğinde daha hızlı gezinin.</string>
+  <string name="reading_controls_link_text">Okuma kontrolleri</string>
+  <string name="reading_controls_link_subtext">Öğeler arasında geçiş yapmak, konuşma ayarlarını değiştirmek ve daha fazlasını yapmak için okuma kontrollerini kullanın.</string>
+  <string name="image_descriptions_link_text">Resim açıklamaları</string>
+  <string name="image_descriptions_link_subtext">Resimlerin açıklamalarını almayı deneyin.</string>
+  <string name="keyboard_shortcuts_link_text">Klavye kısayollarını deneyin</string>
+  <string name="keyboard_shortcuts_link_subtext">Tuşlara ve tuş kombinasyonlarına basarak ne işe yaradıklarını öğrenin.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack, cihazınızı ekrana bakmadan kullanabilmeniz için sözlü geri bildirim sağlar. TalkBack, ekranı görmekte zorluk yaşayan kullanıcılar için faydalı olabilir. TalkBack etkin olduğunda ekranda odaklanılan öğe sesli olarak söylenir.\n\nÖncelikle klavyenizi tanıyalım. Soldaki üst karakter tuşunun üzerinde bulunan eylem tuşunu bulun. Şimdi de klavyenin sağ alt kısmına yakın bir yerde bulunan ok tuşlarını bulun. Sonraki öğeye geçmek için eylem tuşu + sağ ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Bu, sonraki öğedir. Önceki öğeye geçmek için eylem tuşu + sol ok tuşuna basın.\n\nDüğme gibi etkileşimli bir öğeye geçtiğinizde eylem tuşu + boşluk tuşuna basarak öğeyi etkinleştirin. Sonraki düğmesini bulup eğitime devam edin.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Karakter, kelime veya paragrafa göre okuma</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Bazen metindeki karakterlerin tek tek sesli okunmasını isteyebilirsiniz.\n\nBunu yapmak için okuma kontrollerinde gezinme işlevini kullanabilirsiniz. \"Karakterler\" ifadesini duyana kadar eylem tuşu + üst karakter + sağ veya sol ok tuşuna basın.\n\nArdından, gezinme odağını karakter bazında geri taşımak için eylem tuşu + yukarı ok tuşuna basın. Gezinme odağını karakter bazında ileri taşımak için eylem tuşu + aşağı ok tuşuna basın.\n\nŞimdi deneyin. Eylem tuşu + üst karakter + sağ veya sol ok tuşunu kullanarak kelime, satır veya paragraf bazında okumayı da seçebilirsiniz.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Sistemde gezinme</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Bu klavye kısayollarını şimdi denerseniz eğitim kapatılır. Eğitimi tamamlayana kadar beklemeniz önerilir.\n\nAçık uygulama pencereleri ile bildirim ve görev çubuğu gibi sistem öğeleri arasında geçiş yapmak için eylem tuşu + Alt + Ctrl + yukarı veya aşağı ok tuşuna basın.\n\nUygulama listesini açmak için eylem tuşuna basın.\n\nAna ekrana gitmek ve tüm açık pencereleri küçültmek için üst satırdaki eylem tuşu + H veya ana ekran tuşuna basın.\n\nSon uygulamalarınıza gitmek için üst satırdaki eylem tuşu + sekme veya genel bakış tuşuna basın.\n\nPencereler arasında hızlıca geçiş yapmak için Alt tuşunu basılı tutarak sekme tuşuna basın.\n\nGeri dönmek için üst satırdaki eylem tuşu + Esc veya geri tuşuna basın.\n\nBildirimleri açmak için eylem tuşu + N tuşuna basın.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Konuşma ayarlarını düzenleme</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBack konuşmasının ses düzeyine, erişilebilirlik ses düzeyi denir. Bu ses düzeyi, medya ses düzeyinden ayrı bir şekilde ayarlanır.\n\nErişilebilirlik ses düzeyini ayarlamak için eylem tuşu + sesi artırma veya azaltma tuşuna basın.\n\nKonuşma hızını artırmak için eylem tuşu + Ctrl + sesi artırma, azaltmak için ise eylem tuşu + Ctrl + sesi azaltma tuşuna basın.\n\nKonuşmayı istediğiniz zaman durdurmak için Ctrl tuşuna basın.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack menüsü ve diğer klavye kısayolları</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack menüsünde sık ihtiyaç duyabileceğiniz ayarlar ve kontroller yer alır.\n\nTalkBack menüsünü açmak için eylem tuşu + Ctrl + M tuşuna basın. TalkBack menüsünü ve okuma kontrollerinizi daha sonra TalkBack ayarlarından özelleştirebilirsiniz.\n\nTalkBack klavye kısayolları menüsünde, kullanabileceğiniz tüm klavye kısayolları yer alır.\n\nKlavye kısayolları menüsünü açmak için eylem tuşu + üst karakter + / tuşuna basın.\n\nKlavye hakkında daha fazla bilgi edinmek ve klavye kısayollarıyla alıştırma yapmak için eylem tuşu + 0 tuşuna basarak alıştırma ekranını açın.</string>
+  <string name="keyboard_tutorial_finished_page_title">İşlem tamam!</string>
+  <string name="keyboard_tutorial_finished_page_text">TalkBack\'i kullanmaya hazırsınız.\n\nDiğer konularla ilgili bilgi almaya devam edebilir veya bu bilgileri TalkBack ayarlarında istediğiniz zaman inceleyebilirsiniz.\n\nTalkBack\'i istediğiniz zaman açmak veya kapatmak için eylem tuşu + Alt + T tuşuna basın.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Tarayıcı moduyla web içeriğinde daha hızlı gezinme</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Tarayıcıda ve web uygulamalarında tarayıcı modunu etkinleştirebilir, tek bir tuşa basarak farklı okuma ayrıntısı düzeylerinde ve kontroller arasında geçiş yapabilirsiniz. Bu moddayken bir sayfada gezinmek, metin düzenleme kutusunda gezinmeye benzer. Örneğin, karakter bazında hareket etmek için sol ve sağ oklar, satır bazında hareket etmek için yukarı ve aşağı oklar kullanılır.\n\nTarayıcı modunu açmak veya kapatmak için eylem tuşuna iki kez basın.\n\nTarayıcı modu açıkken bir sonraki önemli noktaya gitmek için D, bir sonraki kontrol veya form alanına gitmek için F, bir sonraki düğmeye gitmek için B, bir sonraki bağlantıya gitmek için K ve bir sonraki başlığa gitmek için H tuşuna basın. Geri gitmek için üst karakter tuşunu basılı tutarak bu tuşlara basın.\n\nAyrıca satırlar arasında geçiş yapmak için yukarı ve aşağı ok tuşlarını, harfler arasında geçiş yapmak için sol ve sağ ok tuşlarını, kelimeler arasında geçiş yapmak için Ctrl + sol ve sağ ok tuşlarını kullanabilirsiniz.\n\nAlıştırma alanına girmek için eylem tuşu + sağ ok tuşuna basın. Alıştırma alanındaki bağlantılar, form alanları ve düğmeler çalışmaz.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Başlık seviyeleri</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Web siteleri ve web uygulamaları, içeriği yapılandırmak için genellikle farklı düzeylerde başlıklar kullanır. Tarayıcı modu etkinken başlık düzeylerine atlamak için 1-6 tuşlarına basın. Geri gitmek için üst karakter tuşunu basılı tutarak bu tuşlara basın.\n\nAlıştırma alanına girmek için eylem tuşu + sağ ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_tables_page_title">Tablolar</string>
+  <string name="keyboard_tutorial_tables_page_text">Tarayıcı modu tablolarda gezinmeyi de kolaylaştırır. Tarayıcı modu etkinken satırlar arasında geçiş yapmak için Alt + Ctrl + yukarı ve aşağı ok tuşlarına, sütunlar arasında geçiş yapmak için Alt + Ctrl + sol ve sağ ok tuşlarına basın.\n\nAlıştırma alanına girmek için eylem tuşu + sağ ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Metin düzenleme</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Bir metin alanına girdiğinizde, tüm tuşları yazmak için kullanabilmeniz amacıyla tarayıcı modu geçici olarak devre dışı bırakılır. Devre dışı bırakıldığında bir duyuru alır ve ses duyarsınız. Metin alanından ayrıldığınızda tarayıcı modu tekrar etkinleştirilir ve yine bir duyuru alır, ses duyarsınız.\n\nAlıştırma alanına girmek için eylem tuşu + sağ ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Tarayıcı modu hakkında daha fazla bilgi</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Tarayıcı modunda geçiş yapabileceğiniz öğelerin tam listesini görmek için eylem tuşu + üst karakter + / tuşuna basın ve klavye kısayolları menüsünde \"tarayıcı modu\"nu bulun.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Karakter, kelime veya paragrafa göre okuma</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Bazen metindeki karakterlerin tek tek sesli okunmasını isteyebilirsiniz.\n\nBunu yapmak için okuma kontrollerinde gezinme işlevini kullanabilirsiniz. \"Karakterler\" ifadesini duyana kadar eylem tuşu + üst karakter + sağ veya sol ok tuşuna basın. Ardından, gezinme odağını karakter bazında geri taşımak için eylem tuşu + yukarı ok tuşuna basın. Gezinme odağını karakter bazında ileri taşımak için eylem tuşu + aşağı ok tuşuna basın.\n\nŞimdi deneyin. Eylem tuşu + üst karakter + sağ veya sol ok tuşunu kullanarak kelime, satır veya paragraf bazında okumayı da seçebilirsiniz.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Kontroller arasında geçiş yapma</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Kontroller; etkileşimde bulunabileceğiniz düğme, onay kutusu ve metin kutusu gibi öğelerdir.\n\nBazı sayfalarda sonraki düğmesi gibi bir düğmeyi hızlıca bulmak için kontroller arasında geçiş yapmak isteyebilirsiniz.\n\nBunu yapmak için \"kontroller\" ifadesini duyana kadar eylem tuşu + üst karakter + sağ ok tuşuna basın. Ardından, önceki düğmesine gitmek için eylem tuşu + yukarı ok tuşuna, sonraki düğmesine gitmek için eylem tuşu + aşağı ok tuşuna basın.\n\nŞimdi deneyerek sonraki düğmesini bulun.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Bağlantılar arasında geçiş yapma</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Bir sayfadaki bağlantılar arasında da geçiş yapabilirsiniz.\n\nBunu yapmak için \"bağlantılar\" ifadesini duyana kadar eylem tuşu + üst karakter + sağ ok tuşuna basın. Ardından, \"5. bağlantı\" adlı bağlantıyı bulmak için eylem tuşu + aşağı ok tuşuna basın. Eğitim sırasında bu bağlantıya iki kez dokununca herhangi bir işlem gerçekleşmez.\n\nSonraki düğmesini bulmak ve sonraki sayfaya gitmek için eylem tuşu + sağ ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Başlıklar arasında geçiş yapma</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Sayfadaki başlıklar arasında da geçiş yapabilirsiniz.\n\nHemen denemek için \"başlıklar\" ifadesini duyana kadar eylem tuşu + üst karakter + sağ ok tuşuna basın. Ardından, \"Gezinme\" başlığını bulmak için eylem tuşu + aşağı ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_find_next_button">Sonraki düğmesini bulmak için eylem tuşu + sağ ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Kapsayıcılar arasında geçiş yapma</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Liste veya ızgara gibi bir kapsayıcıdan çıkmak için eylem tuşu + Alt + Ctrl + sağ veya sol ok tuşuna basın. Bunu özellikle uzun bir öğe listesinden çıkmak istediğinizde kullanabilirsiniz.\n\nHemen denemek için eylem tuşu + sağ ok tuşuna basarak listeye girin. Ardından, sonraki kapsayıcıya gitmek için eylem tuşu + Alt + Ctrl + sağ ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Sonraki kapsayıcıya gitmek için eylem tuşu + Alt + Ctrl + sağ ok tuşuna basın</string>
+  <string name="keyboard_tutorial_exit_container">Bu kapsayıcıdan çıkmak için eylem tuşu + Alt + Ctrl + sağ ok tuşuna basın</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Kapsayıcıdan çıktınız. Ayrıca okuma kontrollerinize kapsayıcılar ekleyebilir, ardından eylem tuşu + üst karakter + sağ veya sol ok tuşuna basarak kapsayıcıları seçebilir ve eylem tuşu + aşağı veya yukarı ok tuşuna basarak kapsayıcılar arasında geçiş yapabilirsiniz. Okuma kontrollerini güncellemek için TalkBack &gt; Ayarlar &gt; Menüleri özelleştir &gt; Okuma kontrollerini özelleştir bölümüne gidin.\n\nSonraki düğmesini bulmak için eylem tuşu + sağ ok tuşuna basın.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Okuma kontrollerini özelleştirme</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Ayrıca, okuma kontrollerini kullanarak konuşma ayarlarını düzenleyebilir ve TalkBack &gt; Ayarlar &gt; Menüleri özelleştir &gt; Okuma kontrollerini özelleştir bölümünde okuma kontrolleriyle yapabileceklerinizi özelleştirebilirsiniz.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Resim açıklamaları almayı deneme</string>
+  <string name="keyboard_tutorial_image_description_page_text">Bir görüntüye odaklandığınızda eylem tuşu + R, ardından I tuşuna basın. Aşağıda bir fotoğraf mevcuttur. Bu fotoğrafın açıklamasını almayı deneyin.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Resim açıklaması ayarlarını istediğiniz zaman TalkBack ayarları &gt; \"Resim ve simge açıklamaları\" bölümünden değiştirebilirsiniz.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Resim açıklaması ayarlarını istediğiniz zaman TalkBack ayarlarındaki \"Resim ve simge açıklamaları\" bölümünden değiştirebilirsiniz.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Örnek resim. Açıklamayı dinlemek için eylem tuşu + R, ardından I tuşuna basın.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Sesli komutlar</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">TalkBack\'i hızlı bir şekilde kontrol etmek için sesinizi kullanabilirsiniz.\n\nÖrneğin, gezinmeyi değiştirmek, sonraki başlığa geçmek, metin kopyalamak ve diğer işlemleri yapmak için bir komut söyleyebilirsiniz.\n\nHemen denemek için Eylem + \\ tuşlarına basın.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Ekranda ara özelliğini kullanma</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Ekranda ara özelliği, ekranda belirli içerikleri aramanıza olanak tanır.\n\nBu özelliği denemek için Eylem + CTRL + / tuşlarına basın. \"Sonraki\" gibi bir anahtar kelime yazın ve ekranda bu kelimeyi içeren öğeleri bulun.\n\nSonraki düğmesini bulmak için \"sonraki\" kelimesini aramayı deneyin.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">\"Ekranda ara\" özelliğini kullanarak gezinin</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Bir sonucu seçtikten sonra ekranda ara özelliğini kullanarak farklı arama sonuçları arasında hızlıca geçiş yapabilirsiniz.\n\nBunun için okuma kontrolleriyle gezinmeyi kullanabilirsiniz. \"Ekranda ara\" ifadesini duyana kadar Eylem + üst karakter + sağ veya sol ok tuşlarına basın. Ardından, ekranda arama sonuçlarında gezinmek için Eylem + aşağı veya yukarı ok tuşlarına basın.\n\nHemen deneyelim. Aşağıda, her biri \"işlem\" ifadesini içeren 3 düğme bulunuyor. Ekranda ara özelliğini kullanarak \"işlem\" ifadesini arayın, ardından yine bu özelliği kullanarak düğmeler arasında geçiş yapın.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Klavye kısayollarını deneyin</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Fiziksel klavyede bir tuşa veya tuş kombinasyonuna basarak ne işe yaradığını dinleyin. Çıkmak için Ctrl + W tuşlarına veya Escape tuşuna basın.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;California\'nın Görkemli Sekoya Ağaçlarını Keşfedin&lt;/h1&gt;
+      &lt;p&gt;California\'nın sekoya ağaçları, özellikle de sahil sekoyası (Sequoia sempervrens), dünyanın en uzun ağaçlarıdır. Bazıları 115 metreden uzundur ve binlerce yıl yaşayabilir. Kuzey California\'nın nemli kıyı ikliminde, yağmur ve sisten faydalanarak gelişirler.&lt;/p&gt;
+
+      &lt;h2&gt;Bu Ağaçları Nerede Görebilirsiniz?&lt;/h2&gt;
+      &lt;p&gt;Bu dev ağaçları, Pasifik kıyısı boyunca dar bir şeritte görebilirsiniz. Önemli parklar arasında şunlar yer alır:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwood Ulusal ve Eyalet Parkları&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoods Eyalet Parkı&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoods Eyalet Parkı&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Ziyaretinizi şuradan planlayabilirsiniz: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;California Eyalet Parkları, sekoya ormanları&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Koruma Çalışmalarına Destek Olun&lt;/h2&gt;
+      &lt;p&gt;Bu kadim ormanların korunması büyük önem taşır. Park kurallarına uyarak ve koruma çalışmalarına destek olarak yardımcı olabilirsiniz.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Deneyiminizi Paylaşın&lt;/h2&gt;
+        &lt;p&gt;Daha önce sekoya ormanlarını ziyaret ettiniz mi?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Evet&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;Hayır&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Deneyiminizi bizimle paylaşın&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Gönder&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Sekoya ormanları hakkında başka ne öğrenmek istersiniz?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Gönder&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Sekoya Ağaçları, Çevremizin Sağlığını Koruyor&lt;/h1&gt;
+    &lt;p&gt;Çevremizin sağlığını koruma konusunda büyük rol oynayan sekoya ağaçları gezegenimiz için çok önemlidir.&lt;/p&gt;
+
+    &lt;h1&gt;Dev Hava Temizleyiciler&lt;/h1&gt;
+    &lt;p&gt;Bu ağaçların, havadaki karbondioksiti emme performansı muhteşemdir. Sekoyalar, çok fazla karbondioksidi emerek havamızı temiz tutar.&lt;/p&gt;
+
+    &lt;h2&gt;Hayvanların Evi&lt;/h2&gt;
+    &lt;p&gt;Sekoya ormanları, dallarındaki kuşlardan toprağındaki küçük canlılara kadar birçok hayvanın evi ve sığınağıdır.&lt;/p&gt;
+
+    &lt;h3&gt;Su Büyücüleri&lt;/h3&gt;
+    &lt;p&gt;Sisi çok iyi bir şekilde yakalarlar. Bu sis de daha sonra orman zeminine su damlaları olarak düşer. Böylece toprak nemli kalır ve özellikle kurak dönemlerde diğer bitki ve hayvanlara su kaynağı olur.&lt;/p&gt;
+
+    &lt;h4&gt;Toprağın Koruyucuları&lt;/h4&gt;
+    &lt;p&gt;Güçlü kökleri toprağı sağlam tutarak şiddetli yağmurlarda toprağın yıkanıp gitmesini ve erozyonu önler.&lt;/p&gt;
+
+    &lt;h5&gt;Ormanın Kurucuları&lt;/h5&gt;
+    &lt;p&gt;Yaşlı sekoyalar devrildiğinde gövdeleri yeni bitki ve canlıların besin kaynağı ve sığınağına dönüşerek yeni bitkilerin yetişebileceği zengin bir toprak oluşturur.&lt;/p&gt;
+
+    &lt;h6&gt;Benzersiz Ekosistemler&lt;/h6&gt;
+    &lt;p&gt;Sekoyalar çok büyük ve uzun ömürlü olduklarından başka hiçbir yerde görülmeyen canlıların yaşadığı özel orman alanları oluşturur.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Sekoya Ormanlarındaki Hayvanlar&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Sekoya Ormanlarındaki Hayvanlar\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Hayvan&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Açıklama&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Yaşam Alanı&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;İlginç Bilgi&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Muz Sümüklü Böceği&lt;/th&gt;
+            &lt;td&gt;Büyük, sarı ve kaygan sümüklü böcek&lt;/td&gt;
+            &lt;td&gt;Orman zemininde&lt;/td&gt;
+            &lt;td&gt;Dünyanın en büyük ikinci sümüklü böceği&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Dev Pasifik Semenderi&lt;/th&gt;
+            &lt;td&gt;Büyük, koyu renkli semender&lt;/td&gt;
+            &lt;td&gt;Akarsuların ve nemli bölgerin yakınında&lt;/td&gt;
+            &lt;td&gt;Boyu 30 cm\'yi bulabilir&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Roosevelt Geyiği&lt;/th&gt;
+            &lt;td&gt;Etkileyici boynuzlara sahip büyük geyik&lt;/td&gt;
+            &lt;td&gt;Ormanın içindeki açık alanlarda otlanır&lt;/td&gt;
+            &lt;td&gt;Erkekleri 450 kg\'dan daha ağır olabilir&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Kuzey Benekli Baykuşu&lt;/th&gt;
+            &lt;td&gt;Orta büyüklükte, gece avlanan baykuş&lt;/td&gt;
+            &lt;td&gt;Sık ve olgun sekoya ormanlarında&lt;/td&gt;
+            &lt;td&gt;Bir \"gösterge tür\"dür, yani sağlığına bakarak ormanın sağlığı anlaşılabilir&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Kara Ayı&lt;/th&gt;
+            &lt;td&gt;Genellikle siyah veya kahverengi olan büyük memeli&lt;/td&gt;
+            &lt;td&gt;Ormanın her yerinde yiyecek arar&lt;/td&gt;
+            &lt;td&gt;Mükemmel tırmanma yeteneklerine sahiptir ve genelde ağaçlarda görülür&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Sekoya ormanları ve doğa hakkındaki düşünceleriniz&lt;/h1&gt;
+
+      &lt;p&gt;Sekoya ormanları hakkında başka neler öğrenmek istersiniz?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Doğada en çok nereye gitmeyi seviyorsunuz?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Hangi doğa kavramı hakkında daha fazla bilgi edinmek istersiniz?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

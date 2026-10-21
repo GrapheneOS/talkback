@@ -61,7 +61,10 @@ import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP
 import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP_AND_DOWN;
 import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP_AND_LEFT;
 import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP_AND_RIGHT;
+import static android.util.Log.ERROR;
+import static android.util.Log.VERBOSE;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -69,9 +72,13 @@ import android.view.ViewConfiguration;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * This class describes a common base for gesture matchers. A gesture matcher checks a series of
@@ -83,7 +90,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * @hide
  */
-@RequiresApi(Build.VERSION_CODES.S)
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 public abstract class GestureMatcher {
   // Potential states for this individual gesture matcher.
   /**
@@ -91,24 +98,39 @@ public abstract class GestureMatcher {
    * there is enough data to judge that a gesture has started.
    */
   public static final int STATE_CLEAR = 0;
+
   /**
    * In STATE_GESTURE_STARTED, this matcher continues to accept motion events and it has signaled to
    * the listener that what looks like the specified gesture has started.
    */
   public static final int STATE_GESTURE_STARTED = 1;
+
   /**
    * In STATE_GESTURE_COMPLETED, this matcher has successfully matched the specified gesture. and
    * will not accept motion events until it is cleared.
    */
   public static final int STATE_GESTURE_COMPLETED = 2;
+
   /**
    * In STATE_GESTURE_CANCELED, this matcher will not accept new motion events because it is
    * impossible that this set of motion events will match the specified gesture.
    */
   public static final int STATE_GESTURE_CANCELED = 3;
 
+  /**
+   * In STATE_GESTURE_PROCESSING, this matcher does nothing but informing the listener which can
+   * handle trivial thing such as extend the touch explore timer.
+   */
+  public static final int STATE_GESTURE_PROCESSING = 4;
+
   @Retention(RetentionPolicy.SOURCE)
-  @IntDef({STATE_CLEAR, STATE_GESTURE_STARTED, STATE_GESTURE_COMPLETED, STATE_GESTURE_CANCELED})
+  @IntDef({
+    STATE_CLEAR,
+    STATE_GESTURE_STARTED,
+    STATE_GESTURE_COMPLETED,
+    STATE_GESTURE_CANCELED,
+    STATE_GESTURE_PROCESSING
+  })
   @interface State {}
 
   @State private int state = STATE_CLEAR;
@@ -169,17 +191,28 @@ public abstract class GestureMatcher {
   private final Handler handler;
 
   private StateChangeListener listener = null;
+  private final AnalyticsEventLogger logger;
 
   // Use this to transition to new states after a delay.
   // e.g. cancel or complete after some timeout.
   // Convenience functions for tapTimeout and doubleTapTimeout are already defined here.
   protected final DelayedTransition delayedTransition;
 
-  protected GestureMatcher(int gestureId, Handler handler, StateChangeListener listener) {
+  protected boolean logMotionEvent = false;
+
+  protected GestureMatcher(
+      int gestureId, Handler handler, StateChangeListener listener, AnalyticsEventLogger logger) {
     this.gestureId = gestureId;
     this.handler = handler;
     delayedTransition = new DelayedTransition();
     this.listener = listener;
+    this.logger = logger;
+  }
+
+  public void onConfigurationChanged(Context context) {}
+
+  public void enableLogMotionEvent() {
+    logMotionEvent = true;
   }
 
   /**
@@ -192,8 +225,27 @@ public abstract class GestureMatcher {
     cancelPendingTransitions();
   }
 
+  /**
+   * TalkBack maintains the touch-interaction & touch-explore state by itself. When the system
+   * detects a valid split-tap, user can keep his finger touched on screen and request the state to
+   * touch-explore so that the gesture detector can resume again.
+   *
+   * @param pending tells the Split-tap detector should wait extra events then back to its detecting
+   *     state.
+   */
+  public void restart(boolean pending) {
+    state = STATE_CLEAR;
+    cancelPendingTransitions();
+  }
+
   public final int getState() {
     return state;
+  }
+
+  public void debugMotionEvent(String tag, String format, @Nullable Object... args) {
+    if (logMotionEvent) {
+      LogUtils.v(tag, format, args);
+    }
   }
 
   /**
@@ -214,8 +266,10 @@ public abstract class GestureMatcher {
    *     the upper listeners receive call back more than once (especially for cancel event).
    */
   private void setState(@State int state, MotionEvent event, boolean notify) {
-    this.state = state;
-    cancelPendingTransitions();
+    if (state != STATE_GESTURE_PROCESSING) {
+      this.state = state;
+      cancelPendingTransitions();
+    }
     if (notify && listener != null) {
       listener.onStateChanged(gestureId, state, event);
     }
@@ -236,8 +290,18 @@ public abstract class GestureMatcher {
   }
 
   /** Indicates this gesture is completed. */
-  protected final void completeGesture(MotionEvent event) {
+  protected final void completeGesture(EventId eventId, MotionEvent event) {
+    Performance.getInstance().onGestureLastMotionEventTime(eventId, event.getEventTime());
     setState(STATE_GESTURE_COMPLETED, event);
+  }
+
+  /** Extend the touch explore timer window. */
+  protected final void processGesture(EventId eventId, MotionEvent event) {
+    setState(STATE_GESTURE_PROCESSING, event);
+  }
+
+  protected final void analyticsEvent(GestureAnalyticsEvent analyticsEvent) {
+    logger.logAnalyticsEvent(analyticsEvent);
   }
 
   public final void setListener(@NonNull StateChangeListener listener) {
@@ -249,35 +313,34 @@ public abstract class GestureMatcher {
   }
 
   /**
+   * Returns true to indicate that the gesture would not be cancelled when the touch-exploring mode
+   * is still ongoing event gesture completed. For example, split-typing could keep alive when user
+   * is touch-exploring the screen.
+   */
+  public boolean bypassCancelByTapUpToTouchExplore() {
+    return false;
+  }
+
+  /**
    * Process a motion event and attempt to match it to this gesture.
    *
    * @param event the event as passed in from the event stream.
    * @return the state of this matcher.
    */
-  public final int onMotionEvent(MotionEvent event) {
+  @CanIgnoreReturnValue
+  public final int onMotionEvent(EventId eventId, MotionEvent event) {
     if (state == STATE_GESTURE_CANCELED || state == STATE_GESTURE_COMPLETED) {
       return state;
     }
     switch (event.getActionMasked()) {
-      case MotionEvent.ACTION_DOWN:
-        onDown(event);
-        break;
-      case MotionEvent.ACTION_POINTER_DOWN:
-        onPointerDown(event);
-        break;
-      case MotionEvent.ACTION_MOVE:
-        onMove(event);
-        break;
-      case MotionEvent.ACTION_POINTER_UP:
-        onPointerUp(event);
-        break;
-      case MotionEvent.ACTION_UP:
-        onUp(event);
-        break;
-      default:
-        // Cancel because of invalid event.
-        setState(STATE_GESTURE_CANCELED, event);
-        break;
+      case MotionEvent.ACTION_DOWN -> onDown(eventId, event);
+      case MotionEvent.ACTION_POINTER_DOWN -> onPointerDown(eventId, event);
+      case MotionEvent.ACTION_MOVE -> onMove(eventId, event);
+      case MotionEvent.ACTION_POINTER_UP -> onPointerUp(eventId, event);
+      case MotionEvent.ACTION_UP -> onUp(eventId, event);
+      default ->
+          // Cancel because of invalid event.
+          setState(STATE_GESTURE_CANCELED, event);
     }
     return state;
   }
@@ -286,7 +349,7 @@ public abstract class GestureMatcher {
    * Matchers override this method to respond to ACTION_DOWN events. ACTION_DOWN events indicate the
    * first finger has touched the screen. If not overridden the default response is to do nothing.
    */
-  protected void onDown(MotionEvent event) {}
+  protected void onDown(EventId eventId, MotionEvent event) {}
 
   /**
    * Matchers override this method to respond to ACTION_POINTER_DOWN events. ACTION_POINTER_DOWN
@@ -295,7 +358,7 @@ public abstract class GestureMatcher {
    *
    * @param event the event as passed in from the event stream.
    */
-  protected void onPointerDown(MotionEvent event) {}
+  protected void onPointerDown(EventId eventId, MotionEvent event) {}
 
   /**
    * Matchers override this method to respond to ACTION_MOVE events. ACTION_MOVE indicates that one
@@ -303,7 +366,7 @@ public abstract class GestureMatcher {
    *
    * @param event the event as passed in from the event stream.
    */
-  protected void onMove(MotionEvent event) {}
+  protected void onMove(EventId eventId, MotionEvent event) {}
 
   /**
    * Matchers override this method to respond to ACTION_POINTER_UP events. ACTION_POINTER_UP
@@ -312,7 +375,7 @@ public abstract class GestureMatcher {
    *
    * @param event the event as passed in from the event stream.
    */
-  protected void onPointerUp(MotionEvent event) {}
+  protected void onPointerUp(EventId eventId, MotionEvent event) {}
 
   /**
    * Matchers override this method to respond to ACTION_UP events. ACTION_UP indicates that there
@@ -321,10 +384,10 @@ public abstract class GestureMatcher {
    *
    * @param event the event as passed in from the event stream.
    */
-  protected void onUp(MotionEvent event) {}
+  protected void onUp(EventId eventId, MotionEvent event) {}
 
   /** Cancels this matcher after the tap timeout. Any pending state transitions are removed. */
-  protected void cancelAfterTapTimeout(MotionEvent event) {
+  protected void cancelAfterTapTimeout(EventId eventId, MotionEvent event) {
     cancelAfter(ViewConfiguration.getTapTimeout(), event);
   }
 
@@ -351,16 +414,16 @@ public abstract class GestureMatcher {
    * Signals that this gesture has been completed after the tap timeout has expired. Used to ensure
    * that there is no conflict with another gesture or for gestures that explicitly require a hold.
    */
-  protected final void completeAfterLongPressTimeout(MotionEvent event) {
-    completeAfter(ViewConfiguration.getLongPressTimeout(), event);
+  protected final void completeAfterLongPressTimeout(EventId eventId, MotionEvent event) {
+    completeAfter(ViewConfiguration.getLongPressTimeout(), eventId, event);
   }
 
   /**
    * Signals that this gesture has been completed after the tap timeout has expired. Used to ensure
    * that there is no conflict with another gesture or for gestures that explicitly require a hold.
    */
-  protected final void completeAfterTapTimeout(MotionEvent event) {
-    completeAfter(ViewConfiguration.getTapTimeout(), event);
+  protected final void completeAfterTapTimeout(EventId eventId, MotionEvent event) {
+    completeAfter(ViewConfiguration.getTapTimeout(), eventId, event);
   }
 
   /**
@@ -368,8 +431,9 @@ public abstract class GestureMatcher {
    * ensure that there is no conflict with another gesture or for gestures that explicitly require a
    * hold.
    */
-  protected final void completeAfter(long timeout, MotionEvent event) {
+  protected final void completeAfter(long timeout, EventId eventId, MotionEvent event) {
     delayedTransition.cancel();
+    Performance.getInstance().onGestureLastMotionEventTime(eventId, event.getEventTime());
     delayedTransition.post(STATE_GESTURE_COMPLETED, timeout, event);
   }
 
@@ -378,23 +442,34 @@ public abstract class GestureMatcher {
    * ensure that there is no conflict with another gesture or for gestures that explicitly require a
    * hold.
    */
-  protected final void completeAfterDoubleTapTimeout(MotionEvent event) {
-    completeAfter(ViewConfiguration.getDoubleTapTimeout(), event);
+  protected final void completeAfterDoubleTapTimeout(EventId eventId, MotionEvent event) {
+    completeAfter(ViewConfiguration.getDoubleTapTimeout(), eventId, event);
+  }
+
+  void gestureMotionEventLog(int logLevel, String format, @Nullable Object... args) {
+    if (logMotionEvent) {
+      switch (logLevel) {
+        case ERROR:
+          LogUtils.e(getGestureName(), format, args);
+          break;
+        case VERBOSE:
+        // fall-through
+        default:
+          LogUtils.v(getGestureName(), format, args);
+          break;
+      }
+    }
   }
 
   static String getStateSymbolicName(@State int state) {
-    switch (state) {
-      case STATE_CLEAR:
-        return "STATE_CLEAR";
-      case STATE_GESTURE_STARTED:
-        return "STATE_GESTURE_STARTED";
-      case STATE_GESTURE_COMPLETED:
-        return "STATE_GESTURE_COMPLETED";
-      case STATE_GESTURE_CANCELED:
-        return "STATE_GESTURE_CANCELED";
-      default:
-        return "Unknown state: " + state;
-    }
+    return switch (state) {
+      case STATE_CLEAR -> "STATE_CLEAR";
+      case STATE_GESTURE_STARTED -> "STATE_GESTURE_STARTED";
+      case STATE_GESTURE_COMPLETED -> "STATE_GESTURE_COMPLETED";
+      case STATE_GESTURE_CANCELED -> "STATE_GESTURE_CANCELED";
+      case STATE_GESTURE_PROCESSING -> "STATE_GESTURE_PROCESSING";
+      default -> "Unknown state: " + state;
+    };
   }
 
   /**
@@ -488,5 +563,11 @@ public abstract class GestureMatcher {
   public interface StateChangeListener {
 
     void onStateChanged(int gestureId, int state, MotionEvent event);
+  }
+
+  /** Interface to handle the analytics event for a gesture. */
+  public interface AnalyticsEventLogger {
+
+    void logAnalyticsEvent(GestureAnalyticsEvent analyticsEvent);
   }
 }

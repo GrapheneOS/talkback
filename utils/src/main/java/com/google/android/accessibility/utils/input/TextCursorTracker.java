@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.utils.input;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -47,20 +48,15 @@ public class TextCursorTracker {
     return MASK_EVENTS_HANDLED_BY_TEXT_CURSOR_MANAGER;
   }
 
+  @SuppressLint("SwitchIntDef") // pre-existing logic
   public void onAccessibilityEvent(AccessibilityEvent event, @Nullable EventId eventId) {
     switch (event.getEventType()) {
-      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
-        processTextSelectionChange(event);
-        break;
-      case AccessibilityEvent.TYPE_VIEW_FOCUSED:
-        processViewInputFocused(event);
-        break;
-      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
-        // To get initial cursor position of EditText
-        processViewAccessibilityFocused(event);
-        break;
-      default:
-        break;
+      case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED -> processTextSelectionChange(event);
+      case AccessibilityEvent.TYPE_VIEW_FOCUSED -> processViewInputFocused(event);
+      case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED ->
+          // To get initial cursor position of EditText
+          processViewAccessibilityFocused(event);
+      default -> {}
     }
   }
 

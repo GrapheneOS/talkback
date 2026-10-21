@@ -9,12 +9,22 @@ dependencies {
 }
 
 buildscript {
+    ext.gradle_plugin_version = "9.3.0"
+    ext.kotlin_version = "2.3.21"
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.9.1'
+        // Here we set the version of the Android Gradle Plugin used by this
+        // script. It is best to use as new a version as possible, but beware
+        // that each version of the Gradle Plugin requires that the version of
+        // Gradle (used to drive the build) be a certain version or above. The
+        // correspondence is tracked here:
+        // https://developer.android.com/build/releases/gradle-plugin#updating-gradle
+        classpath "com.android.tools.build:gradle:$gradle_plugin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:$kotlin_version"
     }
 }
 
@@ -26,25 +36,29 @@ allprojects {
 }
 
 android {
-    buildToolsVersion '35.0.0'
-    namespace talkbackApplicationId
+    namespace = "com.android.talkback"
+    buildToolsVersion '37.0.0'
     defaultConfig {
         applicationId talkbackApplicationId
-        versionName "14.1"
-        versionCode 21
+        versionName "16.2"
+        versionCode 22
         minSdk 26
-        targetSdk 34
-        compileSdk 36
+        targetSdk 36
+        compileSdk {
+            version = release(36) {
+                it.minorApiLevel = 1
+            }
+        }
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
-        multiDexEnabled true
+        multiDexEnabled = true
     }
     packagingOptions {
         exclude 'LICENSE'
         exclude 'README'
     }
     lint {
-        checkReleaseBuilds false
-        abortOnError false
+        checkReleaseBuilds = false
+        abortOnError = false
     }
     productFlavors {
         phone {

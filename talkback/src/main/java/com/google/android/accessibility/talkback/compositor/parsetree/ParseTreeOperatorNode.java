@@ -36,95 +36,91 @@ class ParseTreeOperatorNode extends ParseTreeNode {
   @Override
   public int getType() {
     switch (mOperator) {
-      case ParseTree.OPERATOR_PLUS:
-      case ParseTree.OPERATOR_MINUS:
-      case ParseTree.OPERATOR_MULTIPLY:
-      case ParseTree.OPERATOR_DIVIDE:
-      case ParseTree.OPERATOR_POW:
+      case ParseTree.OPERATOR_PLUS,
+          ParseTree.OPERATOR_MINUS,
+          ParseTree.OPERATOR_MULTIPLY,
+          ParseTree.OPERATOR_DIVIDE,
+          ParseTree.OPERATOR_POW -> {
         if (mLvalue.getType() == ParseTree.VARIABLE_NUMBER
             || mRvalue.getType() == ParseTree.VARIABLE_NUMBER) {
           return ParseTree.VARIABLE_NUMBER;
         } else {
           return ParseTree.VARIABLE_INTEGER;
         }
-
-      case ParseTree.OPERATOR_EQUALS:
-      case ParseTree.OPERATOR_NEQUALS:
-      case ParseTree.OPERATOR_GT:
-      case ParseTree.OPERATOR_LT:
-      case ParseTree.OPERATOR_GE:
-      case ParseTree.OPERATOR_LE:
-      case ParseTree.OPERATOR_AND:
-      case ParseTree.OPERATOR_OR:
+      }
+      case ParseTree.OPERATOR_EQUALS,
+          ParseTree.OPERATOR_NEQUALS,
+          ParseTree.OPERATOR_GT,
+          ParseTree.OPERATOR_LT,
+          ParseTree.OPERATOR_GE,
+          ParseTree.OPERATOR_LE,
+          ParseTree.OPERATOR_AND,
+          ParseTree.OPERATOR_OR -> {
         return ParseTree.VARIABLE_BOOL;
-      default:
+      }
+      default -> {
         return ParseTree.VARIABLE_BOOL;
+      }
     }
   }
 
   @Override
   public boolean canCoerceTo(@ParseTree.VariableType int type) {
-    switch (mOperator) {
-      case ParseTree.OPERATOR_PLUS:
-      case ParseTree.OPERATOR_MINUS:
-      case ParseTree.OPERATOR_MULTIPLY:
-      case ParseTree.OPERATOR_DIVIDE:
-      case ParseTree.OPERATOR_POW:
-        return type == ParseTree.VARIABLE_NUMBER
-            || type == ParseTree.VARIABLE_INTEGER
-            || type == ParseTree.VARIABLE_STRING;
-
-      case ParseTree.OPERATOR_EQUALS:
-      case ParseTree.OPERATOR_NEQUALS:
-      case ParseTree.OPERATOR_GT:
-      case ParseTree.OPERATOR_LT:
-      case ParseTree.OPERATOR_GE:
-      case ParseTree.OPERATOR_LE:
-      case ParseTree.OPERATOR_AND:
-      case ParseTree.OPERATOR_OR:
-        return type == ParseTree.VARIABLE_BOOL;
-      default:
-        return false;
-    }
+    return switch (mOperator) {
+      case ParseTree.OPERATOR_PLUS,
+          ParseTree.OPERATOR_MINUS,
+          ParseTree.OPERATOR_MULTIPLY,
+          ParseTree.OPERATOR_DIVIDE,
+          ParseTree.OPERATOR_POW ->
+          type == ParseTree.VARIABLE_NUMBER
+              || type == ParseTree.VARIABLE_INTEGER
+              || type == ParseTree.VARIABLE_STRING;
+      case ParseTree.OPERATOR_EQUALS,
+          ParseTree.OPERATOR_NEQUALS,
+          ParseTree.OPERATOR_GT,
+          ParseTree.OPERATOR_LT,
+          ParseTree.OPERATOR_GE,
+          ParseTree.OPERATOR_LE,
+          ParseTree.OPERATOR_AND,
+          ParseTree.OPERATOR_OR ->
+          type == ParseTree.VARIABLE_BOOL;
+      default -> false;
+    };
   }
 
   @Override
   public boolean resolveToBoolean(ParseTree.VariableDelegate delegate, String logIndent) {
-    switch (mOperator) {
-      case ParseTree.OPERATOR_PLUS:
-      case ParseTree.OPERATOR_MINUS:
-      case ParseTree.OPERATOR_MULTIPLY:
-      case ParseTree.OPERATOR_DIVIDE:
-      case ParseTree.OPERATOR_POW:
+    return switch (mOperator) {
+      case ParseTree.OPERATOR_PLUS,
+          ParseTree.OPERATOR_MINUS,
+          ParseTree.OPERATOR_MULTIPLY,
+          ParseTree.OPERATOR_DIVIDE,
+          ParseTree.OPERATOR_POW -> {
         LogUtils.e(TAG, "Cannot coerce Number to Boolean");
-        return false;
-
-      case ParseTree.OPERATOR_EQUALS:
-        return checkEquals(delegate, logIndent);
-      case ParseTree.OPERATOR_NEQUALS:
-        return !checkEquals(delegate, logIndent);
-      case ParseTree.OPERATOR_GT:
-        return mLvalue.resolveToNumber(delegate, logIndent)
-            > mRvalue.resolveToNumber(delegate, logIndent);
-      case ParseTree.OPERATOR_LT:
-        return mLvalue.resolveToNumber(delegate, logIndent)
-            < mRvalue.resolveToNumber(delegate, logIndent);
-      case ParseTree.OPERATOR_GE:
-        return mLvalue.resolveToNumber(delegate, logIndent)
-            >= mRvalue.resolveToNumber(delegate, logIndent);
-      case ParseTree.OPERATOR_LE:
-        return mLvalue.resolveToNumber(delegate, logIndent)
-            <= mRvalue.resolveToNumber(delegate, logIndent);
-      case ParseTree.OPERATOR_AND:
-        return mLvalue.resolveToBoolean(delegate, logIndent)
-            && mRvalue.resolveToBoolean(delegate, logIndent);
-      case ParseTree.OPERATOR_OR:
-        return mLvalue.resolveToBoolean(delegate, logIndent)
-            || mRvalue.resolveToBoolean(delegate, logIndent);
-
-      default:
-        return false;
-    }
+        yield false;
+      }
+      case ParseTree.OPERATOR_EQUALS -> checkEquals(delegate, logIndent);
+      case ParseTree.OPERATOR_NEQUALS -> !checkEquals(delegate, logIndent);
+      case ParseTree.OPERATOR_GT ->
+          mLvalue.resolveToNumber(delegate, logIndent)
+              > mRvalue.resolveToNumber(delegate, logIndent);
+      case ParseTree.OPERATOR_LT ->
+          mLvalue.resolveToNumber(delegate, logIndent)
+              < mRvalue.resolveToNumber(delegate, logIndent);
+      case ParseTree.OPERATOR_GE ->
+          mLvalue.resolveToNumber(delegate, logIndent)
+              >= mRvalue.resolveToNumber(delegate, logIndent);
+      case ParseTree.OPERATOR_LE ->
+          mLvalue.resolveToNumber(delegate, logIndent)
+              <= mRvalue.resolveToNumber(delegate, logIndent);
+      case ParseTree.OPERATOR_AND ->
+          mLvalue.resolveToBoolean(delegate, logIndent)
+              && mRvalue.resolveToBoolean(delegate, logIndent);
+      case ParseTree.OPERATOR_OR ->
+          mLvalue.resolveToBoolean(delegate, logIndent)
+              || mRvalue.resolveToBoolean(delegate, logIndent);
+      default -> false;
+    };
   }
 
   @Override

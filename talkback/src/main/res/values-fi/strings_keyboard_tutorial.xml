@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Tämä tutoriaali on tarkoitettu parannetulle näppäinkartalle, joka sisältää monia uusia komentoja. Voit valita näppäinkartan valitsemalla TalkBack-asetukset &gt; Lisäasetukset &gt; Pikanäppäimet.\n\nValitse aihe painamalla Toiminto + oikea nuoli. Saat parhaan kokemuksen, kun laitat TalkBackin päälle ennen aloittamista.</string>
+  <string name="basic_interaction_link_text">Perustoiminta</string>
+  <string name="basic_interaction_link_subtext">Siirry kohteesta toiseen, lue riveittäin, käytä valikkoja ym.</string>
+  <string name="browse_mode_link_text">Selaustila</string>
+  <string name="browse_mode_link_subtext">Siirry verkkosisällössä nopeammin hyppykomennoilla</string>
+  <string name="reading_controls_link_text">Lukuasetukset</string>
+  <string name="reading_controls_link_subtext">Lukuasetuksilla voit siirtyä kohteesta toiseen, muuttaa puheasetuksia ja muuta</string>
+  <string name="image_descriptions_link_text">Kuvien kuvaukset</string>
+  <string name="image_descriptions_link_subtext">Kokeile kuvauksia kuvista</string>
+  <string name="keyboard_shortcuts_link_text">Harjoittele pikanäppäinten käyttöä</string>
+  <string name="keyboard_shortcuts_link_subtext">Paina näppäimiä ja näppäinyhdistelmiä ja opi niiden toiminnot</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack antaa äänipalautetta, joten voit käyttää laitetta näyttöä katsomatta. TalkBack voi auttaa, jos näytön näkemisessä on vaikeuksia. Kun TalkBack on päällä, näytöllä korostettu kohde sanotaan ääneen.\n\nTutustutaan ensin näppäimistöön. Etsi toimintonäppäin, joka on vasemman vaihtonäppäimen yläpuolella. Etsitään seuraavaksi nuolinäppäimet, jotka ovat lähellä näppäimistön oikeaa alakulmaa. Siirry seuraavaan kohteeseen painamalla Toiminto + oikea nuoli.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Tämä on seuraava kohde. Siirry edelliseen kohteeseen painamalla Toiminto + vasen nuoli.\n\nKun siirryt interaktiiviseen kohteeseen, kuten painikkeeseen, aktivoi se painamalla Toiminto + välilyönti. Etsi Seuraava-painike ja jatka tutoriaalia.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Lukeminen merkki, sana tai kappale kerrallaan</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">Toisinaan haluat ehkä kuulla tekstin luettuna merkki kerrallaan.\n\nTämä onnistuu lukuasetusten navigoinnilla. Paina Toiminto + Vaihto + oikea tai vasen nuoli, kunnes kuulet \"merkit\".\n\nPaina sitten Toiminto + ylänuoli, niin siirrät navigoinnin korostusta taaksepäin yhdellä merkillä. Siirrä navigoinnin korostus seuraavaan merkkiin painamalla Toiminto + alanuoli.\n\nKokeile tätä nyt. Voit myös valita lukemisen sana, rivi tai kappale kerrallaan painamalla Toiminto + Vaihto + oikea tai vasen nuoli.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Järjestelmänavigointi</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Jos kokeilet näitä pikanäppäimiä nyt, tutoriaali sulkeutuu. Sinun kannattaa ehkä odottaa, kunnes olet käynyt koko tutoriaalin läpi.\n\nVoit siirtyä avoimissa sovellusikkunoissa ja järjestelmäelementeissä, kuten ilmoituksissa ja tehtäväpalkissa, painamalla Toiminto + Alt + Ctrl + ylä- tai alanuoli.\n\nVoit avata sovelluslistan painamalla Toiminto.\n\nVoit siirtyä aloitusnäytölle ja pienentää kaikki avoimet ikkunat painamalla Toiminto + H tai Home yläriviltä.\n\nVoit siirtyä viimeksi käytettyihin sovelluksiin painamalla Toiminto + Sarkain tai Yleiskatsaus yläriviltä.\n\nVoit siirtyä nopeasti ikkunasta toiseen pitämällä Alt-näppäintä painettuna ja painamalla Sarkain.\n\nVoit palata takaisin painamalla Toiminto + Esc tai Takaisin yläriviltä.\n\nVoit avata ilmoitukset painamalla Toiminto + N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Puheasetusten muuttaminen</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">TalkBackin puheen äänenvoimakkuutta kutsutaan saavutettavuuden äänenvoimakkuudeksi. Sitä säädetään erikseen median äänenvoimakkuudesta.\n\nSäädä saavutettavuuden äänenvoimakkuutta painamalla Toiminto + äänenvoimakkuuden lisäys- tai vähennyspainike.\n\nSäädä puhenopeutta painamalla Toiminto + Ctrl + äänenvoimakkuuden lisäyspainike, jos haluat lisätä nopeutta, ja Toiminto + Ctrl + äänenvoimakkuuden vähennyspainike, jos haluat vähentää nopeutta.\n\nVoit lopettaa puheen milloin tahansa painamalla Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">TalkBack-valikko ja muita pikanäppäimiä</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">TalkBack-valikosta löydät asetukset ja säätimet, joita saatat tarvita usein.\n\nAvaa TalkBack-valikko painamalla Toiminto + Ctrl + M. Voit muokata TalkBack-valikkoa ja lukuasetuksia myöhemmin TalkBack-asetuksista.\n\nTalkBackin pikanäppäinvalikko sisältää kaikki pikanäppäimet, joita voit käyttää.\n\nVoit avata pikanäppäinvalikon painamalla Toiminto + Vaihto + /.\n\nJos haluat lukea lisää näppäimistöstä ja harjoitella pikanäppäimiä, avaa harjoitusnäyttö painamalla Toiminto + 0.</string>
+  <string name="keyboard_tutorial_finished_page_title">Valmista tuli!</string>
+  <string name="keyboard_tutorial_finished_page_text">Olet valmis käyttämään TalkBackia.\n\nVoit tutustua muihin aiheisiin nyt tai katsoa nämä tiedot milloin tahansa TalkBack-asetuksista.\n\nVoit laittaa TalkBackin päälle tai pois päältä milloin tahansa painamalla Toiminto + Alt + T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Nopeampi siirtyminen verkkosisällössä selaustilan avulla</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Kun olet selaimessa ja verkkosovelluksissa, voit laittaa selaustilan päälle ja siirtyä eri lukutarkkuustasojen ja ohjainten välillä yhdellä painalluksella. Sen avulla voit liikkua sivulla samaan tyyliin kuin tekstinmuokkauskentässä. Voit esimerkiksi siirtyä merkkien välillä vasemmalla ja oikealla nuolella ja rivien välillä ylä- ja alanuolella.\n\nVoit laittaa selaustilan päälle tai pois päältä kaksoispainamalla toimintonäppäintä.\n\nKun selaustila on päällä, voit siirtyä seuraavaan merkkiin painamalla D-näppäintä, seuraavaan ohjaimeen tai lomakekenttään painamalla F-näppäintä, seuraavaan painikkeeseen painamalla B-näppäintä, seuraavaan linkkiin painamalla K-näppäintä ja seuraavaan otsikkoon painamalla H-näppäintä. Pidä vaihtonäppäintä painettuna ja paina näitä näppäimiä, kun haluat siirtyä taaksepäin.\n\nVoit myös siirtyä riviltä toiselle ylä- ja alanuolinäppäimillä, kirjaimesta toiseen vasemmalla ja oikealla nuolinäppäimellä sekä sanasta toiseen painamalla Ctrl + vasen tai oikea nuoli.\n\nPaina Toiminto + oikea nuoli, niin pääset harjoitusalueelle. Harjoitusalueen linkit, lomakekentät ja painikkeet eivät tee mitään.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Otsikkotasot</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Verkkosivustoilla ja ‑sovelluksissa sisältöä jäsennetään usein eri tasoisilla otsikoilla. Kun selaustila on päällä, siirry otsikkotasoihin painamalla 1–6. Pidä vaihtonäppäintä painettuna ja paina näitä näppäimiä, kun haluat siirtyä taaksepäin.\n\nSiirry harjoitusalueelle painamalla Toiminto + oikea nuoli.</string>
+  <string name="keyboard_tutorial_tables_page_title">Taulukot</string>
+  <string name="keyboard_tutorial_tables_page_text">Selaustila helpottaa myös taulukoissa liikkumista. Kun selaustila on päällä, voit siirtyä riviltä toiselle painamalla Alt + Ctrl + ylä- tai alanuoli ja sarakkeesta toiseen painamalla Alt + Ctrl + vasen- tai oikea nuoli.\n\nSiirry harjoitusalueelle painamalla Toiminto + oikea nuoli.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Tekstin muokkaaminen</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Kun siirryt tekstikenttään, selaustila menee väliaikaisesti pois päältä, jotta voit käyttää kaikkia näppäimiä kirjoittamiseen. Kuulet ilmoituksen ja äänen, kun selaustila menee pois päältä. Kun poistut tekstikentästä, selaustila menee takaisin päälle ja kuulet toisen ilmoituksen ja äänen.\n\nPaina Toiminto + oikea nuoli, niin pääset harjoitusalueelle.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Lisätietoa selaustilasta</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Jos haluat nähdä kaikki kohteet, joiden välillä voit siirtyä selaustilassa, paina Toiminto + Vaihto + / ja tee haku \"selaustila\" pikanäppäinvalikosta.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Lukeminen merkki, sana tai kappale kerrallaan</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">Toisinaan haluat ehkä kuulla tekstin luettuna merkki kerrallaan.\n\nTämä onnistuu lukuasetusten navigoinnilla. Paina Toiminto + Vaihto + oikea tai vasen nuoli, kunnes kuulet \"merkit\". Siirrä sitten navigoinnin korostusta taaksepäin yhdellä merkillä painamalla Toiminto + ylänuoli. Siirrä navigoinnin korostus seuraavaan merkkiin painamalla Toiminto + alanuoli.\n\nKokeile tätä nyt. Voit myös valita lukemisen sana, rivi tai kappale kerrallaan painamalla Toiminto + Vaihto + oikea tai vasen nuoli.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Siirtyminen säätimestä toiseen</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Säätimet ovat kohteita, joita voit käyttää, esimerkiksi painikkeita, valintaruutuja ja tekstikenttiä.\n\nJoillakin sivuilla saatat haluta siirtyä nopeasti säätimestä toiseen löytääksesi tietyn toiminnon, esimerkiksi Seuraava-painikkeen.\n\nTämä onnistuu painamalla Toiminto + Vaihto + oikea nuoli, kunnes kuulet \"säätimet\". Siirry sitten edelliseen painikkeeseen painamalla Toiminto + ylänuoli ja seuraavaan painikkeeseen painamalla Toiminto + alanuoli.\n\nKokeile nyt ja etsi seuraava painike.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Siirtyminen linkistä toiseen</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">Voit myös siirtyä sivulla linkistä toiseen.\n\nPaina tätä varten Toiminto + Vaihto + oikea nuoli, kunnes kuulet \"linkit\". Paina seuraavaksi Toiminto + alanuoli, niin löydät \"Linkki 5\" ‑nimisen linkin. Kun tutoriaali on avoinna, linkin kaksoisnapauttaminen ei tee mitään.\n\nPaina Toiminto + oikea nuoli, kunnes löydät Seuraava-painikkeen, ja siirry seuraavalle sivulle.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Siirtyminen otsikosta toiseen</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">Voit myös siirtyä sivulla otsikosta toiseen.\n\nKokeile tätä nyt painamalla Toiminto + Vaihto + oikea nuoli, kunnes kuulet \"otsikot\". Etsi seuraavaksi \"Siirtyminen\"-otsikko painamalla Toiminto + alanuoli.</string>
+  <string name="keyboard_tutorial_find_next_button">Etsi Seuraava-painike painamalla Toiminto + oikea nuoli.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Siirtyminen säilöstä toiseen</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Jos haluat poistua säilöstä, esimerkiksi listasta tai ruudukosta, paina Toiminto + Alt + Ctrl + oikea tai vasen nuoli. Tämä on hyödyllistä, kun haluat poistua pitkästä listasta.\n\nKokeile nyt painaa Toiminto + oikea nuoli, niin pääset listaan. Siirry sitten seuraavaan säilöön painamalla Toiminto + Alt + Ctrl + oikea nuoli.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Siirry seuraavaan säilöön painamalla Toiminto + Alt + Ctrl + oikea nuoli.</string>
+  <string name="keyboard_tutorial_exit_container">Poistu tästä säilöstä painamalla Toiminto + Alt + Ctrl + oikea nuoli.</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Olet poistunut säilöstä. Voit myös lisätä säilöjä lukuasetuksiin. Tällöin voit valita säilöjä painamalla Toiminto + Vaihto + oikea tai vasen nuoli sekä siirtyä säilöstä toiseen painamalla Toiminto + ala- tai ylänuoli. Voit päivittää lukuasetukset valitsemalla TalkBack &gt; Asetukset &gt; Muokkaa valikoita &gt; Muokkaa lukuasetuksia.\n\nEtsi seuraava painike painamalla Toiminto + oikea nuoli.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Lukuasetusten muuttaminen</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">Voit myös muuttaa puheasetuksia lukuasetuksilla ja muokata lukuasetusten toimintoja valitsemalla TalkBack &gt; Asetukset &gt; Muokkaa valikoita &gt; Muokkaa lukuasetuksia.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Kuvaukset kuvista</string>
+  <string name="keyboard_tutorial_image_description_page_text">Kun olet korostanut kuvan, paina Toiminto + R ja sitten I. Alla on yksi kuva. Kokeile saada kuvaus siitä.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Voit muuttaa kuvien kuvausten asetuksia milloin tahansa valitsemalla TalkBack-asetukset &gt; Kuvien ja kuvakkeiden kuvaukset.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Voit muuttaa kuvien kuvausten asetuksia milloin tahansa valitsemalla TalkBack-asetukset ja sitten Kuvien ja kuvakkeiden kuvaukset.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Esimerkkikuva. Kuuntele kuvaus painamalla Toiminto + R ja sitten I.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Äänikomennot</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Voit ohjata TalkBackia nopeasti äänikomennoilla.\n\nKomennoilla voit esimerkiksi muuttaa navigointia, siirtyä seuraavaan otsikkoon, kopioida tekstiä ym.\n\nVoit kokeilla tätä nyt painamalla Toiminto + \\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Näyttöhaun tekeminen</string>
+  <string name="keyboard_tutorial_screen_search_page_text">Näyttöhaun avulla voit etsiä tiettyä sisältöä näytöltä.\n\nVoit kokeilla sitä painamalla Toiminto + CTRL + /. Kirjoita avainsana, esimerkiksi \"seuraava\", löytääksesi näytöltä kohteita, joissa on kyseinen teksti.\n\nKokeile nyt \"seuraava\"-hakua löytääksesi Seuraava-painikkeen.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Näyttöhaun avulla siirtyminen</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Voit siirtyä nopeasti näyttöhaun hakutuloksesta toiseen, kun olet valinnut tietyn tuloksen.\n\nVoit käyttää siihen lukuasetusten siirtymistä. Paina Toiminto + Vaihto + oikea tai vasen nuoli, kunnes kuulet \"näyttöhaku\". Siirry seuraavaksi näyttöhaun tuloksissa painamalla Toiminto + alanuoli tai ylänuoli.\n\nKokeile nyt. Alla on kolme painiketta, jotka kaikki sisältävät tekstin \"toiminto\". Hae \"toiminto\"-sanaa näyttöhaulla ja siirry painikkeiden välillä näytönhaulla.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Harjoittele pikanäppäinten käyttöä</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Paina fyysistä näppäintä tai näppäinyhdistelmää, niin kuulet, mitä se tekee. Poistu painamalla Ctrl + W tai Esc.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Tutustu Kalifornian majesteettisiin punapuihin&lt;/h1&gt;
+      &lt;p&gt;Kalifornian punapuut, jotka ovat pääasiassa jättiläispunapuita (sequoia sempervirens), ovat maailman korkeimpia puita. Jotkin niistä ovat yli 115 metrin korkuisia ja voivat elää tuhansia vuosia. Ne viihtyvät Pohjois-Kalifornian kosteassa rannikkoilmastossa, joka on sateista ja sumuista.&lt;/p&gt;
+
+      &lt;h2&gt;Missä niitä voi nähdä&lt;/h2&gt;
+      &lt;p&gt;Nämä jättiläiset kasvavat kapealla kaistaleella Tyynenmeren rannikolla. Tärkeimpiä puistoja ovat&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Redwoodin kansallispuistot&lt;/li&gt;
+        &lt;li&gt;Humboldt Redwoodsin osavaltiopuisto&lt;/li&gt;
+        &lt;li&gt;Big Basin Redwoodsin osavaltiopuisto.&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Suunnittele vierailu: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Kalifornian osavaltiopuistot – punapuut&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Tue suojelua&lt;/h2&gt;
+      &lt;p&gt;Näiden ikivanhojen metsien suojelu on elintärkeää. Voit auttaa noudattamalla puiston sääntöjä ja tukemalla suojelutoimia.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Kerro kokemuksistasi&lt;/h2&gt;
+        &lt;p&gt;Oletko käynyt punapuumetsässä?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Kyllä&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;En&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Kerro kokemuksistasi&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Lähetä&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Mitä muuta haluaisit tietää punapuista?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Lähetä&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Punapuut: Ympäristön hyvinvoinnin turvaajat&lt;/h1&gt;
+    &lt;p&gt;Punapuut ovat tärkeitä planeetallemme, sillä ne auttavat pitämään ympäristön terveenä.&lt;/p&gt;
+
+    &lt;h1&gt;Jättimäiset ilmanpuhdistajat&lt;/h1&gt;
+    &lt;p&gt;Nämä puut imevät hiilidioksidia ilmasta uskomattoman tehokkaasti. Punapuut auttavat puhdistamaan ilmaa imemällä siitä hiilidioksidia.&lt;/p&gt;
+
+    &lt;h2&gt;Eläinten koti&lt;/h2&gt;
+    &lt;p&gt;Punapuut tarjoavat kodin ja suojan monille eläimille, kuten oksistossa viihtyville linnuille ja maaperässä eläville pienille olennoille.&lt;/p&gt;
+
+    &lt;h3&gt;Vesivelhot&lt;/h3&gt;
+    &lt;p&gt;Puut ovat erinomaisia pyydystämään sumua, joka sitten tippuu metsänpohjalle. Näin maa pysyy kosteana ja muut kasvit ja eläimet saavat vettä, erityisesti kuivina aikoina.&lt;/p&gt;
+
+    &lt;h4&gt;Maan suojelijat&lt;/h4&gt;
+    &lt;p&gt;Puiden vahvat juuret pitävät maaperän paikallaan, jottei se huuhtoudu pois rankkasateissa eikä eroosiota synny.&lt;/p&gt;
+
+    &lt;h5&gt;Metsän rakentajat&lt;/h5&gt;
+    &lt;p&gt;Kun vanhat punapuut kaatuvat, niistä tulee ruokaa ja suojaa uusille kasveille ja eläimille ja lopulta ravinteikasta maaperää.&lt;/p&gt;
+
+    &lt;h6&gt;Ainutlaatuiset ekosysteemit&lt;/h6&gt;
+    &lt;p&gt;Koska punapuut ovat niin suuria ja elävät niin kauan, ne luovat erityisiä metsäympäristöjä, joissa esiintyviä lajeja ei löydy muualta.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Punapuumetsien eläimet&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Punapuumetsien eläimet\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Eläin&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Kuvaus&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Missä ne elävät&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Hauska fakta&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Banaanietana&lt;/th&gt;
+            &lt;td&gt;Suuri keltainen ja limainen etana&lt;/td&gt;
+            &lt;td&gt;Metsänpohjalla&lt;/td&gt;
+            &lt;td&gt;Maailman toiseksi suurin etana&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Tyynenmeren jättiläispyrstösammakko&lt;/th&gt;
+            &lt;td&gt;Suuri, tumma salamanteri&lt;/td&gt;
+            &lt;td&gt;Virtojen ja kosteiden alueiden lähellä&lt;/td&gt;
+            &lt;td&gt;Voi kasvaa jopa 30 senttimetrin pituiseksi&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Rooseveltinhirvi&lt;/th&gt;
+            &lt;td&gt;Suuri hirvi, jolla on vaikuttavat sarvet&lt;/td&gt;
+            &lt;td&gt;Laiduntaa metsän aukeilla paikoilla&lt;/td&gt;
+            &lt;td&gt;Urokset voivat painaa yli 450 kiloa&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Pohjoinen täpläpöllö&lt;/th&gt;
+            &lt;td&gt;Keskikokoinen pöllö, joka metsästää öisin&lt;/td&gt;
+            &lt;td&gt;Tiheissä, vanhoissa punapuumetsissä&lt;/td&gt;
+            &lt;td&gt;Indikaattorilaji – sen hyvinvointi kertoo metsän hyvinvoinnista&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Mustakarhu&lt;/th&gt;
+            &lt;td&gt;Suuri nisäkäs, yleensä musta tai ruskea&lt;/td&gt;
+            &lt;td&gt;Etsii ruokaa koko metsästä&lt;/td&gt;
+            &lt;td&gt;Erinomaisia kiipeilijöitä, jotka nähdään usein puissa&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Ajatuksesi punapuista ja luonnosta&lt;/h1&gt;
+
+      &lt;p&gt;Mitä muuta haluaisit tietää punapuista?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Mikä on lempipaikkasi luonnossa?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Mikä luontoon liittyvä asia sinua kiinnostaa?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

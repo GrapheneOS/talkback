@@ -287,11 +287,23 @@ public class AccessibilityWindowInfoUtils {
    * it returns {@link Display.DEFAULT_DISPLAY}
    */
   @TargetApi(VERSION_CODES.R)
-  public static int getDisplayId(@NonNull AccessibilityWindowInfo windowInfo) {
-    if (FeatureSupport.supportMultiDisplay()) {
-      return windowInfo.getDisplayId();
+  public static int getDisplayId(AccessibilityWindowInfo windowInfo) {
+    if (windowInfo == null || !FeatureSupport.supportMultiDisplay()) {
+      return Display.DEFAULT_DISPLAY;
     }
-    return Display.DEFAULT_DISPLAY;
+    return windowInfo.getDisplayId();
+  }
+
+  /**
+   * Returns the ID of the display this window is on. If the platform doesn't support multi-display,
+   * it returns {@link Display.DEFAULT_DISPLAY}
+   */
+  @TargetApi(VERSION_CODES.R)
+  public static int getDisplayId(AccessibilityWindowInfoCompat windowInfo) {
+    if (windowInfo == null || !FeatureSupport.supportMultiDisplay()) {
+      return Display.DEFAULT_DISPLAY;
+    }
+    return windowInfo.getDisplayId();
   }
 
   /**
@@ -392,23 +404,15 @@ public class AccessibilityWindowInfoUtils {
   }
 
   public static String typeToString(@WindowType int windowType) {
-    switch (windowType) {
-      case TYPE_ACCESSIBILITY_OVERLAY:
-        return "TYPE_ACCESSIBILITY_OVERLAY";
-      case TYPE_APPLICATION:
-        return "TYPE_APPLICATION";
-      case TYPE_INPUT_METHOD:
-        return "TYPE_INPUT_METHOD";
-      case TYPE_SPLIT_SCREEN_DIVIDER:
-        return "TYPE_SPLIT_SCREEN_DIVIDER";
-      case TYPE_SYSTEM:
-        return "TYPE_SYSTEM";
-      case AccessibilityWindowInfo.TYPE_MAGNIFICATION_OVERLAY:
-        return "TYPE_MAGNIFICATION_OVERLAY";
-      case WINDOW_TYPE_NONE:
-        return "WINDOW_TYPE_NONE";
-      default:
-        return "(unhandled)";
-    }
+    return switch (windowType) {
+      case TYPE_ACCESSIBILITY_OVERLAY -> "TYPE_ACCESSIBILITY_OVERLAY";
+      case TYPE_APPLICATION -> "TYPE_APPLICATION";
+      case TYPE_INPUT_METHOD -> "TYPE_INPUT_METHOD";
+      case TYPE_SPLIT_SCREEN_DIVIDER -> "TYPE_SPLIT_SCREEN_DIVIDER";
+      case TYPE_SYSTEM -> "TYPE_SYSTEM";
+      case AccessibilityWindowInfo.TYPE_MAGNIFICATION_OVERLAY -> "TYPE_MAGNIFICATION_OVERLAY";
+      case WINDOW_TYPE_NONE -> "WINDOW_TYPE_NONE";
+      default -> "(unhandled)";
+    };
   }
 }

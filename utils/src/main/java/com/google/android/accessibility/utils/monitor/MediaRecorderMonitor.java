@@ -23,19 +23,22 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.AudioManager.AudioRecordingCallback;
 import android.media.AudioRecordingConfiguration;
-import com.google.android.accessibility.utils.BuildVersionUtils;
-import com.google.android.accessibility.utils.compat.media.AudioSystemCompatUtils;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Monitors usage of microphone. */
 public class MediaRecorderMonitor {
+  /** Listens the microphone state changed event and callback. */
   public interface MicrophoneStateChangedListener {
+    // Callbacks when microphone just activated.
     void onMicrophoneActivated();
+
+    // Callbacks when microphone just de-activated.
+    void onMicrophoneDeactivated();
   }
 
   private final @Nullable AudioManager audioManager;
-  private final @Nullable AudioRecordingCallback audioRecordingCallback;
+  private final AudioRecordingCallback audioRecordingCallback;
 
   private @Nullable MicrophoneStateChangedListener listener;
   private boolean isRecording = false;
@@ -43,54 +46,43 @@ public class MediaRecorderMonitor {
 
   public MediaRecorderMonitor(Context context) {
     audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-    if (BuildVersionUtils.isAtLeastN()) {
-      audioRecordingCallback =
-          new AudioRecordingCallback() {
-            @Override
-            public void onRecordingConfigChanged(List<AudioRecordingConfiguration> configs) {
-              super.onRecordingConfigChanged(configs);
-              isVoiceRecognitionActive = containsAudioSourceVoiceRecog(configs);
-              final boolean isRecording = containsAudioSources(configs);
-              if (!MediaRecorderMonitor.this.isRecording && isRecording && (listener != null)) {
-                listener.onMicrophoneActivated();
-              }
-              MediaRecorderMonitor.this.isRecording = isRecording;
+    audioRecordingCallback =
+        new AudioRecordingCallback() {
+          @Override
+          public void onRecordingConfigChanged(List<AudioRecordingConfiguration> configs) {
+            super.onRecordingConfigChanged(configs);
+            isVoiceRecognitionActive = containsAudioSourceVoiceRecognition(configs);
+            final boolean isRecording = containsAudioSources(configs);
+            if (!MediaRecorderMonitor.this.isRecording && isRecording && (listener != null)) {
+              listener.onMicrophoneActivated();
+            } else if (MediaRecorderMonitor.this.isRecording && !isRecording && listener != null) {
+              listener.onMicrophoneDeactivated();
             }
-          };
-    } else {
-      audioRecordingCallback = null;
-    }
+            MediaRecorderMonitor.this.isRecording = isRecording;
+          }
+        };
   }
 
   public boolean isMicrophoneActive() {
-    if (audioRecordingCallback != null) {
-      return isRecording;
-    } else {
-      if (AudioSystemCompatUtils.isSourceActive(VOICE_RECOGNITION)
-          || AudioSystemCompatUtils.isSourceActive(MIC)) {
-          return true;
-        }
-      return false;
-    }
+    return isRecording;
   }
 
   public boolean isVoiceRecognitionActive() {
-    if (audioRecordingCallback != null) {
-      return isVoiceRecognitionActive;
-    } else {
-      return AudioSystemCompatUtils.isSourceActive(VOICE_RECOGNITION);
-    }
+    return isVoiceRecognitionActive;
   }
 
   public void onResumeInfrastructure() {
-    if ((audioRecordingCallback != null) && (audioManager != null)) {
-      isRecording = false;
+    if (audioManager != null) {
+      List<AudioRecordingConfiguration> audioRecordingConfigurations =
+          audioManager.getActiveRecordingConfigurations();
+      isVoiceRecognitionActive = containsAudioSourceVoiceRecognition(audioRecordingConfigurations);
+      isRecording = containsAudioSources(audioRecordingConfigurations);
       audioManager.registerAudioRecordingCallback(audioRecordingCallback, null);
     }
   }
 
   public void onSuspendInfrastructure() {
-    if ((audioRecordingCallback != null) && (audioManager != null)) {
+    if (audioManager != null) {
       audioManager.unregisterAudioRecordingCallback(audioRecordingCallback);
     }
   }
@@ -104,16 +96,17 @@ public class MediaRecorderMonitor {
       return false;
     }
     // Try to find a target audio source in the recording configurations.
-      for (AudioRecordingConfiguration config : configs) {
+    for (AudioRecordingConfiguration config : configs) {
       if ((VOICE_RECOGNITION == config.getClientAudioSource())
           || (MIC == config.getClientAudioSource())) {
-          return true;
-        }
+        return true;
+      }
     }
     return false;
   }
 
-  private static boolean containsAudioSourceVoiceRecog(List<AudioRecordingConfiguration> configs) {
+  private static boolean containsAudioSourceVoiceRecognition(
+      List<AudioRecordingConfiguration> configs) {
     if (configs == null) {
       return false;
     }

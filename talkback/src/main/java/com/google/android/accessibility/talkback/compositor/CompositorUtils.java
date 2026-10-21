@@ -15,18 +15,27 @@
  */
 package com.google.android.accessibility.talkback.compositor;
 
+import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static com.google.common.base.Ascii.toLowerCase;
 import static java.lang.Character.isUpperCase;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.TtsSpan;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
+import com.google.android.accessibility.utils.EmojiUtils;
 import com.google.android.accessibility.utils.SpannableUtils;
+import com.google.android.accessibility.utils.SpannableUtils.SourceTextSpan;
 import com.google.android.accessibility.utils.output.SpeechCleanupUtils;
+import com.google.android.accessibility.utils.output.TextFormattingUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Utils class that provides common methods for compositor to handle events and TTS output. */
@@ -145,18 +154,82 @@ public final class CompositorUtils {
     if (TextUtils.isEmpty(text)) {
       return "";
     } else if (text.length() == 1 && isUpperCase(text.charAt(0))) {
-      return context.getString(R.string.template_capital_letter, text.charAt(0));
+      String capitalizedText = context.getString(R.string.template_capital_letter, text.charAt(0));
+      // Copy formatting spans to the new string.
+      SpannableString fromSpan = SpannableString.valueOf(text);
+      Spannable toSpan = new SpannableStringBuilder(capitalizedText);
+      Object[] spans = fromSpan.getSpans(0, 1, Object.class);
+      if (spans != null && spans.length > 0) {
+        for (Object span : spans) {
+          if (TextFormattingUtils.getFormattingSpanClasses().contains(span.getClass())
+              || span instanceof SourceTextSpan) {
+            toSpan.setSpan(span, 0, toSpan.length(), fromSpan.getSpanFlags(span));
+          }
+        }
+      }
+      return toSpan;
     } else {
       return text;
     }
   }
 
-  /** Returns the cleanup text that reduces the repeated characters and symbols. */
-  public static CharSequence getCleanupString(CharSequence text, Context context) {
-    if (TextUtils.isEmpty(text)) {
+  /**
+   * Refines the input text in ways:
+   *
+   * <ul>
+   *   <li>1. Clean up the text.
+   *   <li>2. Enhance emoji feedback if needed.
+   *   <li>3. Wrap with {@link SourceTextSpan}.
+   * </ul>
+   */
+  public static CharSequence refineInputText(Context context, CharSequence inputText) {
+    return refineInputText(context, inputText, /* countRepeatedSymbols= */ false);
+  }
+
+  /**
+   * Refines the input text in ways:
+   *
+   * <ul>
+   *   <li>1. Clean up the text and count repeated symbols if needed.
+   *   <li>2. Enhance emoji feedback if needed.
+   *   <li>3. Wrap with {@link SourceTextSpan}.
+   * </ul>
+   *
+   * @param countRepeatedSymbols If the text should count repeated symbols.
+   */
+  public static CharSequence refineInputText(
+      Context context, CharSequence inputText, boolean countRepeatedSymbols) {
+    if (TextUtils.isEmpty(inputText)) {
       return "";
     } else {
-      return SpeechCleanupUtils.collapseRepeatedCharactersAndCleanUp(context, text);
+      CharSequence cleanupText =
+          SpeechCleanupUtils.collapseRepeatedCharactersAndCleanUp(
+              context, inputText, countRepeatedSymbols);
+      return CompositorUtils.enhanceEmojiFeedback(
+          context, SpannableUtils.wrapWithSourceTextSpan(cleanupText));
     }
+  }
+
+  /** Appends postfix "emoji" to the emoji in text but respect the original TtsSpan. */
+  public static CharSequence enhanceEmojiFeedback(Context context, @Nullable CharSequence text) {
+    if (!FeatureFlagReader.enableEmojiPostfixFeedback(context)) {
+      return text;
+    }
+    if (TextUtils.isEmpty(text)) {
+      return "";
+    }
+    SpannableString spannable = new SpannableString(text);
+    Matcher matcher = EmojiUtils.findEmoji(text);
+    while (matcher.find()) {
+      int charUnicode = matcher.group().codePointAt(0);
+      String unicodeString = new String(Character.toChars(charUnicode));
+      String emojiName = EmojiUtils.getEmojiName(context, unicodeString);
+      TtsSpan[] ttsSpans = spannable.getSpans(matcher.start(), matcher.end(), TtsSpan.class);
+      if (ttsSpans.length == 0) {
+        TtsSpan ttsSpan = new TtsSpan.TextBuilder(emojiName).build();
+        spannable.setSpan(ttsSpan, matcher.start(), matcher.end(), SPAN_EXCLUSIVE_EXCLUSIVE);
+      }
+    }
+    return spannable;
   }
 }

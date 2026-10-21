@@ -35,6 +35,7 @@
   <string name="symbol_period">पीरियड</string>
   <string name="symbol_pi">पाइ</string>
   <string name="symbol_pound">पाउंड</string>
+  <string name="symbol_hash">हैश</string>
   <string name="symbol_pound_sterling">पाउंड स्टर्लिंग का चिह्न</string>
   <string name="symbol_currency_peso">पेसो का निशान</string>
   <string name="symbol_currency_dong">डोंग का निशान</string>
@@ -48,6 +49,7 @@
   <string name="symbol_square_bracket_right">दायां वर्ग कोष्ठक</string>
   <string name="symbol_square_root">वर्गमूल</string>
   <string name="symbol_trademark">ट्रेडमार्क</string>
+  <string name="symbol_check_mark">सही का निशान</string>
   <string name="symbol_underscore">अंडरस्कोर</string>
   <string name="symbol_vertical_bar">वर्टिकल लाइन</string>
   <string name="symbol_yen">येन</string>
@@ -95,7 +97,7 @@
   <string name="symbol_right_black_lenticular_bracket">दायां काला लैंटिक्‍यूलर ब्रैकेट</string>
   <string name="symbol_left_corner_bracket">दायां कॉर्नर ब्रैकेट</string>
   <string name="symbol_right_corner_bracket">दायां कॉर्नर ब्रैकेट</string>
-  <string name="symbol_rightwards_arrow">दायां तीर</string>
+  <string name="symbol_rightwards_arrow">राइट ऐरो</string>
   <string name="symbol_downwards_arrow">नीचे तीर</string>
   <string name="symbol_plus_minus_sign">धन ऋण का चिह्न</string>
   <string name="symbol_liter">लीटर</string>

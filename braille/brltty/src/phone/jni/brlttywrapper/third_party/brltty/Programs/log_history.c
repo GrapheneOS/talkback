@@ -2,7 +2,7 @@
  * BRLTTY - A background process providing access to the console screen (when in
  *          text mode) for a blind person using a refreshable braille display.
  *
- * Copyright (C) 1995-2023 by The BRLTTY Developers.
+ * Copyright (C) 1995-2026 by The BRLTTY Developers.
  *
  * BRLTTY comes with ABSOLUTELY NO WARRANTY.
  *
@@ -27,9 +27,11 @@
 struct LogEntryStruct {
   struct LogEntryStruct *previous;
   TimeValue time;
-  unsigned int count;
-  unsigned noSquash:1;
-  char text[0];
+  uint16_t count;
+
+  unsigned char noSquash:1;
+
+  char text[];
 };
 
 const LogEntry *
@@ -96,32 +98,32 @@ popLogEntry (LogEntry **head) {
   return 1;
 }
 
-static CriticalSectionLock logMessageLock = CRITICAL_SECTION_LOCK_INITIALIZER;
+static CriticalSectionLock logEntriesLock = CRITICAL_SECTION_LOCK_INITIALIZER;
 
 static void
-lockLogMessages (void) {
-  enterCriticalSection(&logMessageLock);
+lockLogEntries (void) {
+  enterCriticalSection(&logEntriesLock);
 }
 
 static void
-unlockLogMessages (void) {
-  leaveCriticalSection(&logMessageLock);
+unlockLogEntries (void) {
+  leaveCriticalSection(&logEntriesLock);
 }
 
-static LogEntry *logMessageStack = NULL;
+static LogEntry *logEntriesStack = NULL;
 
 const LogEntry *
-getNewestLogMessage (int freeze) {
-  lockLogMessages();
-  LogEntry *message = logMessageStack;
-  if (freeze && message) message->noSquash = 1;
-  unlockLogMessages();
-  return message;
+getNewestLogEntry (int endSquash) {
+  lockLogEntries();
+  LogEntry *entry = logEntriesStack;
+  if (endSquash && entry) entry->noSquash = 1;
+  unlockLogEntries();
+  return entry;
 }
 
 void
-pushLogMessage (const char *message) {
-  lockLogMessages();
-  pushLogEntry(&logMessageStack, message, (LPO_NOLOG | LPO_SQUASH));
-  unlockLogMessages();
+pushLogMessage (const char *text) {
+  lockLogEntries();
+  pushLogEntry(&logEntriesStack, text, (LPO_NOLOG | LPO_SQUASH));
+  unlockLogEntries();
 }

@@ -85,16 +85,14 @@ public final class ScreenMonitor extends BroadcastReceiver {
     }
 
     switch (action) {
-      case Intent.ACTION_SCREEN_ON:
-        isScreenOn = true;
-        break;
-      case Intent.ACTION_SCREEN_OFF:
+      case Intent.ACTION_SCREEN_ON -> isScreenOn = true;
+      case Intent.ACTION_SCREEN_OFF -> {
         isScreenOn = false;
         if (screenStateListener != null) {
           screenStateListener.screenTurnedOff();
         }
-        break;
-      default: // fall out
+      }
+      default -> {}
     }
   }
 }

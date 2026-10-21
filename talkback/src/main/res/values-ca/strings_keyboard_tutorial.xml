@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="talkback_keyboard_tutorial_text">Aquest tutorial és per al mapa de teclat millorat, que inclou moltes ordres noves. Per seleccionar el mapa de teclat, ves a Configuració de TalkBack &gt; Configuració avançada &gt; Tecles de drecera.\n\nPrem Acció+fletxa dreta per seleccionar un tema. Per a una millor experiència, activa TalkBack abans de començar.</string>
+  <string name="basic_interaction_link_text">Interacció bàsica</string>
+  <string name="basic_interaction_link_subtext">Mou-te entre els elements, llegeix per línies, utilitza els menús i més</string>
+  <string name="browse_mode_link_text">Mode de navegació</string>
+  <string name="browse_mode_link_subtext">Navega més ràpidament pel contingut web amb les ordres de salt</string>
+  <string name="reading_controls_link_text">Controls de lectura</string>
+  <string name="reading_controls_link_subtext">Utilitza els controls de lectura per saltar d\'un element a un altre, ajustar la configuració de la parla i més</string>
+  <string name="image_descriptions_link_text">Descripcions d\'imatges</string>
+  <string name="image_descriptions_link_subtext">Prova d\'obtenir descripcions d\'imatges</string>
+  <string name="keyboard_shortcuts_link_text">Practica les tecles de drecera</string>
+  <string name="keyboard_shortcuts_link_subtext">Prem tecles i combinacions de tecles i descobreix què fan</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_page_text">TalkBack proporciona avisos de veu perquè puguis utilitzar el dispositiu sense mirar la pantalla. Pot ser útil per a persones amb dificultats per veure la pantalla. Quan TalkBack està activat, l\'element enfocat a la pantalla s\'enuncia en veu alta.\n\nPrimer, familiaritza\'t amb el teclat. Cerca la tecla d\'Acció, que es troba a sobre de la tecla Maj de l\'esquerra. Ara cerca les tecles de fletxa a prop de la zona inferior dreta del teclat. Prem Acció+fletxa dreta per moure\'t a l\'element següent.</string>
+  <string name="keyboard_tutorial_welcome_to_talkback_next_item_text">Aquest és l\'element següent. Per moure\'t a l\'element anterior, prem Acció+fletxa esquerra.\n\nQuan et moguis a un element interactiu, com ara un botó, prem Acció+espai per activar-lo. Cerca el botó Següent i continua el tutorial.</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_title">Llegeix per caràcter, paraula o paràgraf</string>
+  <string name="keyboard_tutorial_chars_words_paragraphs_page_text">A vegades pot ser que vulguis sentir text llegit en veu alta caràcter per caràcter.\n\nPer fer-ho, pots utilitzar la navegació amb controls de lectura. Prem Acció+Maj+fletxa dreta o esquerra fins que sentis \"caràcters\".\n\nA continuació, prem Acció+fletxa amunt per moure el focus de navegació enrere caràcter per caràcter. Prem Acció+fletxa avall per moure\'l endavant caràcter per caràcter.\n\nProva-ho ara. També pots triar la lectura per paraules, línies o paràgrafs utilitzant Acció+Maj+fletxa dreta o esquerra.</string>
+  <string name="keyboard_tutorial_system_navigation_page_title">Navegació del sistema</string>
+  <string name="keyboard_tutorial_system_navigation_page_text">Si proves aquestes tecles de drecera ara, es tancarà el tutorial. Et recomanem que esperis fins que l\'hagis acabat.\n\nPer saltar entre les finestres obertes de les aplicacions i els elements del sistema, com ara les notificacions i la Barra de tasques, prem Acció+Alt+Ctrl+fletxa amunt o avall.\n\nPer obrir la llista d\'aplicacions, prem Acció.\n\nPer anar a la pantalla d\'inici i minimitzar totes les finestres obertes, prem Acció+H o Inici a la fila superior.\n\nPer anar a les aplicacions recents, prem Acció+Tab o Aplicacions recents a la fila superior.\n\nPer saltar ràpidament entre finestres, mantén premut Alt i prem Tab.\n\nPer tornar enrere, prem Acció+Esc o Enrere a la fila superior.\n\nPer obrir les notificacions, prem Acció+N.</string>
+  <string name="keyboard_tutorial_speech_settings_page_title">Ajusta la configuració de la parla</string>
+  <string name="keyboard_tutorial_speech_settings_page_text">El volum de la parla de TalkBack s\'anomena volum d\'accessibilitat. S\'ajusta de manera separada del volum de multimèdia.\n\nPer ajustar el volum d\'accessibilitat, prem Acció+apuja o abaixa el volum.\n\nPer ajustar la velocitat de parla, prem Acció+Ctrl+apuja el volum per augmentar-la i Acció+Ctrl+abaixa el volum per reduir-la.\n\nPer aturar la parla en qualsevol moment, prem Ctrl.</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_title">Menú de TalkBack i més tecles de drecera</string>
+  <string name="keyboard_tutorial_more_keyboard_shortcuts_page_text">El menú de TalkBack inclou opcions de configuració i controls que pots necessitar sovint.\n\nPer obrir el menú de TalkBack, prem Acció+Ctrl+M. Pots personalitzar el menú de TalkBack i els controls de lectura més tard a la configuració de TalkBack.\n\nEl menú de tecles de drecera de TalkBack inclou totes les que pots utilitzar.\n\nPer obrir-lo, prem Acció+Maj+/.\n\nPer obtenir més informació sobre el teclat i practicar les tecles de drecera, prem Acció+0 per obrir la pantalla de pràctica.</string>
+  <string name="keyboard_tutorial_finished_page_title">Tot a punt!</string>
+  <string name="keyboard_tutorial_finished_page_text">Estàs a punt per utilitzar TalkBack.\n\nObtén informació sobre altres temes ara o consulta aquesta informació a la configuració de TalkBack en qualsevol moment.\n\nPer activar o desactivar TalkBack en qualsevol moment, prem Acció+Alt+T.</string>
+  <string name="keyboard_tutorial_browse_mode_page_title">Navega més ràpidament pel contingut web amb el mode de navegació</string>
+  <string name="keyboard_tutorial_browse_mode_page_text">Quan siguis al navegador i a les aplicacions web, pots activar el mode de navegació i saltar entre diferents tipus de granularitat i controls de lectura amb una sola pulsació de tecla. Això fa que navegar per una pàgina sigui semblant a navegar en un quadre d\'edició de text, com ara utilitzant les fletxes esquerra i dreta per moure\'t entre caràcters i les fletxes amunt i avall per moure\'t entre línies.\n\nPer activar o desactivar el mode de navegació, prem dues vegades la tecla d\'acció.\n\nAmb el mode de navegació activat, prem D per saltar al punt de referència següent, F per al control o el camp de formulari següent, B per al botó següent, K per a l\'enllaç següent i H per a l\'encapçalament següent. Mantén premuda la tecla Maj i prem aquestes tecles per moure\'t enrere.\n\nTambé pots utilitzar les fletxes amunt i avall per saltar entre línies, les fletxes esquerra i dreta per saltar entre lletres i Ctrl+fletxa esquerra i dreta per saltar entre paraules.\n\nPrem Acció+fletxa dreta per entrar en una zona de pràctica. Mentre siguis a la zona de pràctica, els enllaços, els camps de formulari i els botons no faran res.</string>
+  <string name="keyboard_tutorial_heading_levels_page_title">Nivells dels encapçalaments</string>
+  <string name="keyboard_tutorial_heading_levels_page_text">Els llocs web i les aplicacions web sovint utilitzen encapçalaments amb diferents nivells per estructurar el contingut. Amb el mode de navegació activat, prem de l\'1 al 6 per saltar entre els nivells dels encapçalaments. Mantén premuda la tecla Maj i prem aquestes tecles per moure\'t enrere.\n\nPrem Acció+fletxa dreta per entrar en una zona de pràctica.</string>
+  <string name="keyboard_tutorial_tables_page_title">Taules</string>
+  <string name="keyboard_tutorial_tables_page_text">El mode de navegació també facilita la navegació per les taules. Amb el mode de navegació activat, prem Alt+Ctrl+fletxa amunt i avall per sasltar entre files i Alt+Ctrl+fletxa esquerra i dreta per saltar entre columnes.\n\nPrem Acció+fletxa dreta per entrar en una zona de pràctica.</string>
+  <string name="keyboard_tutorial_editing_text_page_title">Edició de text</string>
+  <string name="keyboard_tutorial_editing_text_page_text">Quan entris en un camp de text, el mode de navegació es desactivarà temporalment perquè puguis utilitzar totes les tecles per escriure. Sentiràs un anunci i un so quan es desactivi. Un cop surtis del camp de text, el mode de navegació es tornarà a activar i sentiràs un altre anunci i un altre so.\n\nPrem Acció+fletxa dreta per entrar en una zona de pràctica.</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_title">Més informació sobre el mode de navegació</string>
+  <string name="keyboard_tutorial_more_browse_mode_page_text">Per consultar la llista completa d\'elements entre els quals pots saltar en el mode de navegació, prem Acció+Maj+/ i cerca \"mode de navegació\" al menú de tecles de drecera.</string>
+  <string name="keyboard_tutorial_reading_controls_page_title">Llegeix per caràcter, paraula o paràgraf</string>
+  <string name="keyboard_tutorial_reading_controls_page_text">A vegades pot ser que vulguis sentir text llegit en veu alta caràcter per caràcter.\n\nPer fer-ho, pots utilitzar la navegació amb controls de lectura. Prem Acció+Maj+fletxa dreta o esquerra fins que sentis \"caràcters\". A continuació, prem Acció+fletxa amunt per moure el focus de navegació enrere caràcter per caràcter. Prem Acció+fletxa avall per moure\'l endavant caràcter per caràcter.\n\nProva-ho ara. També pots triar la lectura per paraules, línies o paràgrafs utilitzant Acció+Maj+fletxa dreta o esquerra.</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_title">Salta d\'un control a un altre</string>
+  <string name="keyboard_tutorial_jump_between_controls_page_text">Els controls són elements amb què pots interaccionar, com ara botons, caselles de selecció i quadres de text.\n\nEn algunes pàgines, és possible que vulguis anar d\'un control a un altre per trobar una acció ràpidament, com ara el botó següent.\n\nPer fer-ho, prem Acció+Maj+fletxa dreta fins que sentis \"controls\". A continuació, prem Acció+fletxa amunt per anar al botó anterior i Acció+fletxa avall per anar al següent.\n\nProva-ho ara i cerca el botó següent.</string>
+  <string name="keyboard_tutorial_jump_between_links_page_title">Salta d\'un enllaç a un altre</string>
+  <string name="keyboard_tutorial_jump_between_links_page_text">També pots saltar entre enllaços en una pàgina.\n\nPer fer-ho, prem Acció+Maj+fletxa dreta fins que sentis \"enllaços\". A continuació, prem Acció+fletxa avall per trobar l\'enllaç anomenat \"Enllaç 5\". Mentre siguis al tutorial, si fas doble toc sobre aquest enllaç, no passarà res.\n\nPrem Acció+fletxa dreta per trobar el botó següent i ves a la pàgina següent.</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_title">Salta d\'un encapçalament a un altre</string>
+  <string name="keyboard_tutorial_jump_between_headings_page_text">També pots saltar entre els encapçalaments en una pàgina.\n\nPer provar-ho ara, prem Acció+Maj+fletxa dreta fins que sentis \"encapçalaments\". A continuació, prem Acció+fletxa avall per trobar l\'encapçalament Navegació.</string>
+  <string name="keyboard_tutorial_find_next_button">Prem Acció+fletxa dreta per trobar el botó següent.</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_title">Salta d\'un contenidor a un altre</string>
+  <string name="keyboard_tutorial_jump_between_containers_page_text">Per sortir d\'un contenidor, com ara una llista o una quadrícula, prem Acció+Alt+Ctrl+fletxa dreta o esquerra. Això és útil quan vols sortir d\'una llista llarga d\'elements.\n\nPer provar-ho ara, prem Acció+fletxa dreta per entrar a la llista. A continuació, prem Acció+Alt+Ctrl+fletxa dreta per anar al contenidor següent.</string>
+  <string name="keyboard_tutorial_go_to_next_container">Per anar al contenidor següent, prem Acció+Alt+Ctrl+fletxa dreta</string>
+  <string name="keyboard_tutorial_exit_container">Per sortir d\'aquest contenidor, prem Acció+Alt+Ctrl+fletxa dreta</string>
+  <string name="keyboard_tutorial_add_container_reading_controls">Has sortit del contenidor. També pots afegir contenidors als controls de lectura i, a continuació, prémer Acció+Maj+fletxa dreta o esquerra per seleccionar contenidors i Acció+fletxa avall o amunt per saltar entre contenidors. Per actualitzar els controls de lectura, ves a TalkBack &gt; Configuració &gt; Personalitza els menús &gt; Personalitza els controls de lectura.\n\nPrem Acció+fletxa dreta per trobar el botó següent.</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_title">Personalitza els controls de lectura</string>
+  <string name="keyboard_tutorial_customize_reading_controls_page_text">També pots ajustar la configuració de la parla mitjançant els controls de lectura i personalitzar el que pots fer amb els controls de lectura a TalkBack &gt; Configuració &gt; Personalitza els menús &gt; Personalitza els controls de lectura.</string>
+  <string name="keyboard_tutorial_image_description_page_title">Prova d\'obtenir descripcions d\'imatges</string>
+  <string name="keyboard_tutorial_image_description_page_text">Quan posis el focus en una imatge, prem Acció+R i, a continuació, I. Hi ha una foto més avall. Prova d\'obtenir-ne una descripció.</string>
+  <string name="keyboard_tutorial_image_description_settings_description">Pots canviar la configuració de descripcions d\'imatges en qualsevol moment a Configuració de TalkBack &gt; Descripcions d\'imatges i icones.</string>
+  <string name="keyboard_tutorial_image_description_settings_description_tts">Pots canviar la configuració de descripcions d\'imatges en qualsevol moment a Configuració de TalkBack i, a continuació, a Descripcions d\'imatges i icones.</string>
+  <string name="keyboard_tutorial_image_description_sample_image_content_description">Imatge de mostra. Prem Acció+R i, a continuació, I per sentir una descripció.</string>
+  <string name="keyboard_tutorial_voice_commands_page_title">Ordres de veu</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">Pots fer servir la teva veu per controlar TalkBack ràpidament.\n\nPer exemple, digues en veu alta una ordre per canviar la navegació, moure\'t al títol següent, copiar text i més.\n\nPer provar-ho ara, prem Acció+\\.</string>
+  <string name="keyboard_tutorial_screen_search_page_title">Utilitzar la cerca de la cerca en pantalla</string>
+  <string name="keyboard_tutorial_screen_search_page_text">La la cerca en pantalla et permet cercar contingut específic a la pantalla.\n\nPer provar-la, prem Acció+Ctrl+/. Escriu una paraula clau, com ara \"següent\", per cercar elements amb aquest text a la pantalla.\n\nAra, prova de cercar \"següent\" per trobar el botó Següent.</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_title">Navega amb la cerca en pantalla</string>
+  <string name="keyboard_tutorial_navigate_to_screen_search_page_text">Pots moure\'t ràpidament entre els diferents resultats de la cerca en pantalla després d\'haver seleccionat un resultat.\n\nPer fer-ho, pots utilitzar la navegació amb controls de lectura. Prem Acció+Maj+fletxa dreta o esquerra fins que sentis \"cerca en pantalla\". A continuació, prem Acció+fletxa avall o amunt per navegar pels resultats de la cerca en pantalla.\n\nProva-ho ara. A continuació hi ha una llista de 3 botons, tots ells amb el text \"acció\". Cerca \"acció\" mitjançant la cerca en pantalla i, a continuació, navega per la cerca en pantalla per moure\'t entre els resultats.</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_title">Practica les tecles de drecera</string>
+  <string name="keyboard_tutorial_practice_keyboard_shortcuts_page_text">Prem una tecla o una combinació de tecles del teclat físic per escoltar què fan. Prem Ctrl+W o Esc per sortir.</string>
+  <string name="browse_mode_practice_general">&lt;main&gt;
+      &lt;h1&gt;Descobreix la majestuositat de les sequoies de Califòrnia&lt;/h1&gt;
+      &lt;p&gt;Les sequoies de Califòrnia, principalment la sequoia costanera (\"Sequoia sempervirens\"), són els arbres més alts del món. Algunes fan més de 115 metres d\'alçada i poden viure milers d\'anys. Creixen en el clima costaner humit del nord de Califòrnia, on es beneficien de la pluja i la boira.&lt;/p&gt;
+
+      &lt;h2&gt;On es poden veure&lt;/h2&gt;
+      &lt;p&gt;Trobaràs aquests gegants en una franja estreta al llarg de la costa del Pacífic. Entre els parcs més importants hi ha:&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Parcs nacionals i estatals de les sequoies&lt;/li&gt;
+        &lt;li&gt;Parc estatal de les sequoies de Humboldt&lt;/li&gt;
+        &lt;li&gt;Parc estatal de les sequoies de Big Basin&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;Planifica la teva visita aquí: &lt;a href=\"https://www.parks.ca.gov/?page_id=24723\"&gt;Parcs estatals de Califòrnia: sequoies&lt;/a&gt;&lt;/p&gt;
+
+      &lt;h2&gt;Dona suport a la conservació&lt;/h2&gt;
+      &lt;p&gt;Protegir aquests boscos mil·lenaris és vital. Pots ajudar-nos seguint les directrius del parc i donant suport a les iniciatives de conservació.&lt;/p&gt;
+
+      &lt;hr&gt;
+      &lt;form&gt;
+        &lt;h2&gt;Comparteix la teva experiència&lt;/h2&gt;
+        &lt;p&gt;Has estat a les sequoies?&lt;/p&gt;
+        &lt;div class=\"radio-group\"&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"yes\" name=\"seenRedwoods\" value=\"yes\" checked&gt;
+                &lt;label for=\"yes\"&gt;Sí&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=\"radio-option\"&gt;
+                &lt;input type=\"radio\" id=\"no\" name=\"seenRedwoods\" value=\"no\"&gt;
+                &lt;label for=\"no\"&gt;No&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p&gt;Explica\'ns la teva experiència&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Envia&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;form&gt;
+        &lt;p&gt;Què més t\'agradaria saber sobre les sequoies?&lt;/p&gt;
+        &lt;div&gt;
+            &lt;textarea class=\"full-width-textarea\" rows=\"2\"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;button&gt;Envia&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/main&gt;</string>
+  <string name="browse_mode_practice_heading_levels">&lt;h1&gt;Les sequoies: conservem el medi ambient&lt;/h1&gt;
+    &lt;p&gt;Les sequoies són importants per al nostre planeta; tenen un paper fonamental en la conservació del medi ambient.&lt;/p&gt;
+
+    &lt;h1&gt;Depuradors d\'aire gegants&lt;/h1&gt;
+    &lt;p&gt;Aquests arbres tenen una capacitat increïble d\'absorció del diòxid de carboni de l\'aire. En absorbir-ne tant, les sequoies ajuden a mantenir l\'aire net.&lt;/p&gt;
+
+    &lt;h2&gt;Llar per als animals&lt;/h2&gt;
+    &lt;p&gt;Les sequoies proporcionen llars i refugi a molts animals, des d\'ocells a les seves branques fins a petites criatures al sòl.&lt;/p&gt;
+
+    &lt;h3&gt;Mags de l\'aigua&lt;/h3&gt;
+    &lt;p&gt;Són excel·lents a l\'hora de capturar la boira, que després arriba al terra del bosc en forma d\'aigua. Això manté la terra humida i proporciona aigua a altres plantes i animals, sobretot en èpoques seques.&lt;/p&gt;
+
+    &lt;h4&gt;Protectors del sòl&lt;/h4&gt;
+    &lt;p&gt;Les seves arrels fortes mantenen el sòl al seu lloc: eviten que les pluges intenses se l\'emportin i prevenen l\'erosió.&lt;/p&gt;
+
+    &lt;h5&gt;Constructors de boscos&lt;/h5&gt;
+    &lt;p&gt;Quan les sequoies velles cauen, la seva fusta es converteix en aliment i refugi per a noves plantes i animals; això crea un sòl ric per al creixement de la flora i la fauna.&lt;/p&gt;
+
+    &lt;h6&gt;Ecosistemes únics&lt;/h6&gt;
+    &lt;p&gt;Com que les sequoies són tan grans i viuen tant de temps, creen entorns forestals especials on poden viure espècies que no es troben enlloc més.&lt;/p&gt;</string>
+  <string name="browse_mode_practice_tables">&lt;h2&gt;Animals dels boscos de sequoies&lt;/h2&gt;
+
+  &lt;div&gt;
+    &lt;div class=\"table-container\"&gt;
+      &lt;table aria-label=\"Animals dels boscos de sequoies\"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Animal&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Descripció&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;On viu&lt;/th&gt;
+            &lt;th role=\"columnheader\" scope=\"col\"&gt;Dada curiosa&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;\"Ariolimax colombianus\"&lt;/th&gt;
+            &lt;td&gt;Llimac gran, groc i viscós&lt;/td&gt;
+            &lt;td&gt;Al terra del bosc&lt;/td&gt;
+            &lt;td&gt;El segon llimac més gros del món&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Salamandra gegant del Pacífic&lt;/th&gt;
+            &lt;td&gt;Salamandra grossa de color fosc&lt;/td&gt;
+            &lt;td&gt;A prop de rierols i zones humides&lt;/td&gt;
+            &lt;td&gt;Pot arribar a mesurar 30 cm&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Cérvol de Roosevelt&lt;/th&gt;
+            &lt;td&gt;Cérvol gros amb una cornamenta impressionant&lt;/td&gt;
+            &lt;td&gt;Pastura en clarianes dins del bosc&lt;/td&gt;
+            &lt;td&gt;Els mascles poden arribar a pesar més de 450 kg&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Gamarús pigallat del nord&lt;/th&gt;
+            &lt;td&gt;Gamarús de mida mitjana que caça de nit&lt;/td&gt;
+            &lt;td&gt;En boscos de sequoies densos i madurs&lt;/td&gt;
+            &lt;td&gt;És una \"espècie indicador\": la seva salut reflecteix la salut del bosc &lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th scope=\"row\"&gt;Os negre&lt;/th&gt;
+            &lt;td&gt;Mamífer gros, normalment negre o marró&lt;/td&gt;
+            &lt;td&gt;Cerca menjar per tot el bosc&lt;/td&gt;
+            &lt;td&gt;S\'enfila molt bé i sovint se\'l veu als arbres&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</string>
+  <string name="browse_mode_practice_text_fields">&lt;h1&gt;Què penses sobre les sequoies i la natura&lt;/h1&gt;
+
+      &lt;p&gt;Què més t\'agradaria saber sobre les sequoies?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Quin indret de la natura és el teu preferit per anar-hi?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+
+      &lt;p&gt;Quin concepte de la natura t\'agradaria conèixer millor?&lt;/p&gt;
+      &lt;div&gt;
+          &lt;textarea class=\"full-width-textarea\"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;</string>
+</resources>

@@ -19,7 +19,10 @@ package com.google.android.accessibility.utils.output;
 import static android.text.Spanned.SPAN_INCLUSIVE_EXCLUSIVE;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 import static com.google.android.accessibility.utils.output.FeedbackItem.FLAG_SOURCE_IS_VOLUME_CONTROL;
+import static com.google.android.accessibility.utils.output.SpeechCleanupUtils.ALL;
+import static com.google.android.accessibility.utils.output.SpeechCleanupUtils.MOST;
 import static java.lang.Math.min;
+import static java.util.stream.Collectors.toCollection;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -33,8 +36,10 @@ import android.media.AudioRecordingConfiguration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.Engine;
 import android.speech.tts.Voice;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -46,13 +51,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.FeatureSupport;
+import com.google.android.accessibility.utils.FormFactorUtils;
+import com.google.android.accessibility.utils.Logger;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.R;
 import com.google.android.accessibility.utils.SpannableUtils;
+import com.google.android.accessibility.utils.SpannableUtils.SourceTextSpan;
 import com.google.android.accessibility.utils.StringBuilderUtils;
 import com.google.android.accessibility.utils.braille.BrailleUnicode;
+import com.google.android.accessibility.utils.output.FailoverTextToSpeech.FailoverTtsListener;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.SpeechParam;
+import com.google.android.accessibility.utils.output.FailoverTextToSpeech.UtteranceInfoCombo;
+import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
+import com.google.android.accessibility.utils.output.SpeechCachePlayer.SpeechInfo;
+import com.google.android.accessibility.utils.output.SpeechCleanupUtils.PunctuationVerbosity;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -70,7 +83,7 @@ import java.util.Set;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-/** Handles text-to-speech. */
+/** Handles text-to-speech. It should be operated in the thread initializing the instance. */
 public class SpeechControllerImpl implements SpeechController {
   /** Feedback type of speaking capital letter. */
   @IntDef({
@@ -84,6 +97,8 @@ public class SpeechControllerImpl implements SpeechController {
   public static final int CAPITAL_LETTERS_TYPE_SPEAK_CAP = 1;
   public static final int CAPITAL_LETTERS_TYPE_PITCH = 2;
   public static final int CAPITAL_LETTERS_TYPE_SOUND_FEEDBACK = 3;
+
+  public static final float DEFAULT_SPEECH_PITCH = 1.0f;
 
   private static final String TAG = "SpeechControllerImpl";
 
@@ -100,6 +115,7 @@ public class SpeechControllerImpl implements SpeechController {
    * speaking item; these items will always be considered.)
    */
   private static final int SKIP_DUPLICATES_DELAY = 1000;
+
   /**
    * Assume the time between the Touch explore interaction start event & Pause gesture event is no
    * greater than this value (milli-second).
@@ -127,9 +143,20 @@ public class SpeechControllerImpl implements SpeechController {
       new HashMap<>();
 
   /** The list of items to be spoken. */
-  private ArrayList<FeedbackItem> feedbackQueue = new ArrayList<>();
+  private List<FeedbackItem> feedbackQueue = Collections.synchronizedList(new ArrayList<>());
+
   /** The list for stopping or resuming voice feedback. */
   private ArrayList<FeedbackItem> savedFeedbackQueue;
+
+  // There are two sets of speeches to be backup. When a speech is interrupted, it will be saved to
+  // CACHED set. If the interrupt is caused by a pause command, the CACHED speech will be moved to
+  // SAVED set. The SAVED set is the only storage for resume purpose. This will ensure 1: The
+  // current speaking item won't get lost by interrupt. 2: If the interrupt is not triggered by
+  // pause command, any already SAVED speech is free of destroy.
+  private ArrayList<FeedbackItem> cachedFeedbackQueue;
+  private @Nullable FeedbackItem cachedFeedbackItem;
+  private @Nullable FeedbackFragmentsIterator cachedFragmentIterator = null;
+
   /** Keep the feedbackSavedTime to correlate it to the Pause gesture */
   private long feedbackSavedTime;
 
@@ -145,45 +172,50 @@ public class SpeechControllerImpl implements SpeechController {
   private final Delegate mDelegate;
 
   /** The audio manager, used to query ringer volume. */
-  private final AudioManager mAudioManager;
+  private final AudioManager audioManager;
 
   /** The feedback controller, used for playing auditory icons and vibration */
-  private final FeedbackController mFeedbackController;
+  private final FeedbackController feedbackController;
 
   /** The text-to-speech service, used for speaking. */
-  private final FailoverTextToSpeech mFailoverTts;
+  private final FailoverTextToSpeech failoverTts;
 
   private final boolean removeUnnecessarySpans;
 
-  private boolean mShouldHandleTtsCallBackInMainThread = true;
+  private boolean shouldHandleTtsCallBackInHandlerThread = true;
+
+  private final boolean catchIndexOutOfBounds;
 
   /** Listener used for testing. */
-  private SpeechControllerListener mSpeechListener;
+  private SpeechControllerListener speechListener;
 
-  private final Set<SpeechController.Observer> mObservers = new HashSet<>();
+  private final Set<SpeechController.Observer> observers = new HashSet<>();
 
   /** An iterator of fragments currently being processed */
   private @Nullable FeedbackFragmentsIterator currentFragmentIterator = null;
+
   /** An iterator for stopping or resuming voice feedback. */
   private @Nullable FeedbackFragmentsIterator savedFragmentIterator = null;
 
   /** The item current being spoken, or {@code null} if the TTS is idle. */
-  private @Nullable FeedbackItem mCurrentFeedbackItem;
+  private @Nullable FeedbackItem currentFeedbackItem;
 
   /** The saved item before initializing the item current being spoken */
   private @Nullable FeedbackItem savedFeedbackItem;
 
   /** Whether we should request audio focus during speech. */
-  private boolean mUseAudioFocus = false;
+  private boolean useAudioFocus = false;
 
   /** The text-to-speech screen overlay. */
-  private TextToSpeechOverlay mTtsOverlay;
+  private TextToSpeechOverlay ttsOverlay;
 
   /** Whether the speech controller should add utterance callbacks to FullScreenReadActor */
-  private boolean mInjectFullScreenReadCallbacks;
+  private boolean injectFullScreenReadCallbacks;
 
   /** The utterance completed callback for FullScreenReadActor */
-  private UtteranceCompleteRunnable mFullScreenReadNextCallback;
+  private UtteranceCompleteRunnable fullScreenReadNextCallback;
+
+  private final FailoverTtsListener failoverTtsListener;
 
   /**
    * The next utterance index; each utterance value will be constructed from this ever-increasing
@@ -197,6 +229,14 @@ public class SpeechControllerImpl implements SpeechController {
   /** Whether reading punctuation can change. */
   private boolean mUsePunctuation = false;
 
+  /** The options for the generated text formatting feedback. */
+  private int formattingOptions = TextFormattingUtils.OPTION_NONE;
+
+  /** The feedback mode for the generated text formatting feedback. */
+  private int formattingFeedbackMode = TextFormattingUtils.FEEDBACK_MODE_NONE;
+
+  private int punctuationVerbosity;
+
   /** The feedback of capital letter (default is "Cap") */
   @CapitalLetterHandlingMethod private int capLetterFeedback = CAPITAL_LETTERS_TYPE_SPEAK_CAP;
 
@@ -206,13 +246,18 @@ public class SpeechControllerImpl implements SpeechController {
   private static final float CAPITAL_LETTER_PITCH_RATE_UPPER_BOUND = 2.0f;
 
   /** The speech rate adjustment (default is 1.0). */
-  private float mSpeechRate = 1.0f;
+  private float speechRate = 1.0f;
 
-  /** The speech pitch adjustment (default is 1.0). */
-  private float mSpeechPitch = 1.0f;
+  private float speechPitch = DEFAULT_SPEECH_PITCH;
 
   /** The speech volume adjustment (default is 1.0). */
-  private float mSpeechVolume = 1.0f;
+  private float speechVolume = 1.0f;
+
+  /**
+   * The TTS Id for an application, only used for retrieving a specific voice policy among sub
+   * applications
+   */
+  @NonNull private String ttsSubAppId = "";
 
   /**
    * Whether the controller is currently speaking utterances. Used to check consistency of internal
@@ -237,27 +282,52 @@ public class SpeechControllerImpl implements SpeechController {
   /** Records whether should silence speech */
   private boolean sourceIsVolumeControl = false;
 
+  /** The cached inline formatting history for the last speech. */
+  @VisibleForTesting @Nullable InlineFormattingHistory cachedInlineFormattingHistory = null;
+
   public SpeechControllerImpl(
       Context context, Delegate delegate, FeedbackController feedbackController) {
     this(
         context,
         delegate,
         feedbackController,
-        new FailoverTextToSpeech(context),
-        /* removeUnnecessarySpans= */ false);
+        new FailoverTextToSpeech(context, /* enableSpeechCache= */ false),
+        /* removeUnnecessarySpans= */ false,
+        /* catchIndexOutOfBounds= */ false,
+        /* ttsSubAppId= */ "");
   }
 
   public SpeechControllerImpl(
       Context context,
       Delegate delegate,
       FeedbackController feedbackController,
-      boolean removeUnnecessarySpans) {
+      @NonNull String ttsSubAppId) {
     this(
         context,
         delegate,
         feedbackController,
-        new FailoverTextToSpeech(context),
-        removeUnnecessarySpans);
+        new FailoverTextToSpeech(context, /* enableSpeechCache= */ false),
+        /* removeUnnecessarySpans= */ false,
+        /* catchIndexOutOfBounds= */ false,
+        ttsSubAppId);
+  }
+
+  public SpeechControllerImpl(
+      Context context,
+      Delegate delegate,
+      FeedbackController feedbackController,
+      boolean removeUnnecessarySpans,
+      boolean catchIndexOutOfBound,
+      @NonNull String ttsSubAppId,
+      boolean enableSpeechCache) {
+    this(
+        context,
+        delegate,
+        feedbackController,
+        new FailoverTextToSpeech(context, enableSpeechCache),
+        removeUnnecessarySpans,
+        catchIndexOutOfBound,
+        ttsSubAppId);
   }
 
   @VisibleForTesting
@@ -267,46 +337,104 @@ public class SpeechControllerImpl implements SpeechController {
       FeedbackController feedbackController,
       FailoverTextToSpeech failOverTts,
       boolean removeUnnecessarySpans) {
+    this(
+        context,
+        delegate,
+        feedbackController,
+        failOverTts,
+        removeUnnecessarySpans,
+        /* catchIndexOutOfBounds= */ false,
+        /* ttsSubAppId= */ "");
+  }
+
+  @VisibleForTesting
+  public SpeechControllerImpl(
+      Context context,
+      Delegate delegate,
+      FeedbackController feedbackController,
+      FailoverTextToSpeech failOverTts,
+      boolean removeUnnecessarySpans,
+      @NonNull String ttsSubAppId) {
+    this(
+        context,
+        delegate,
+        feedbackController,
+        failOverTts,
+        removeUnnecessarySpans,
+        /* catchIndexOutOfBounds= */ false,
+        ttsSubAppId);
+  }
+
+  private SpeechControllerImpl(
+      Context context,
+      Delegate delegate,
+      FeedbackController feedbackController,
+      FailoverTextToSpeech failOverTts,
+      boolean removeUnnecessarySpans,
+      boolean catchIndexOutOfBounds,
+      @NonNull String ttsSubAppId) {
     mContext = context;
     mDelegate = delegate;
+    this.ttsSubAppId = ttsSubAppId;
 
-    mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+    FormFactorUtils.initialize(mContext);
+    audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
-    mFailoverTts = failOverTts;
-    mFailoverTts.addListener(
-        new FailoverTextToSpeech.FailoverTtsListener() {
-          @Override
-          public void onBeforeUtteranceRequested(
-              String utteranceId, CharSequence text, @Nullable Locale locale) {
-            // Do nothing.
-          }
+    failoverTts = failOverTts;
+    failoverTtsListener = createFailoverTtsListener();
+    failoverTts.addListener(failoverTtsListener);
 
-          @Override
-          public void onTtsInitialized(boolean wasSwitchingEngines, String enginePackageName) {
-            SpeechControllerImpl.this.onTtsInitialized(wasSwitchingEngines);
-          }
-
-          @Override
-          public void onUtteranceStarted(String utteranceId) {
-            SpeechControllerImpl.this.onFragmentStarted(utteranceId);
-          }
-
-          @Override
-          public void onUtteranceRangeStarted(String utteranceId, int start, int end) {
-            SpeechControllerImpl.this.onFragmentRangeStarted(utteranceId, start, end);
-          }
-
-          @Override
-          public void onUtteranceCompleted(String utteranceId, boolean success) {
-            // Utterances from FailoverTts are considered fragments in SpeechControllerImpl
-            SpeechControllerImpl.this.onFragmentCompleted(
-                utteranceId, success, true /* advance */, true /* notifyObserver */);
-          }
-        });
-
-    mFeedbackController = feedbackController;
-    mInjectFullScreenReadCallbacks = false;
+    this.feedbackController = feedbackController;
+    injectFullScreenReadCallbacks = false;
     this.removeUnnecessarySpans = removeUnnecessarySpans;
+    this.catchIndexOutOfBounds = catchIndexOutOfBounds;
+  }
+
+  private FailoverTtsListener createFailoverTtsListener() {
+
+    return new FailoverTextToSpeech.FailoverTtsListener() {
+      @Override
+      public void onBeforeUtteranceRequested(
+          String utteranceId, UtteranceInfoCombo utteranceInfoCombo) {
+        // Do nothing.
+      }
+
+      @Override
+      public void onTtsInitialized(boolean wasSwitchingEngines, String enginePackageName) {
+        SpeechControllerImpl.this.onTtsInitialized(wasSwitchingEngines);
+      }
+
+      @Override
+      public void onUtteranceStarted(String utteranceId) {
+        SpeechControllerImpl.this.onFragmentStarted(utteranceId);
+      }
+
+      @Override
+      public void onUtteranceRangeStarted(String utteranceId, int start, int end) {
+        SpeechControllerImpl.this.onFragmentRangeStarted(utteranceId, start, end);
+      }
+
+      @Override
+      public void onUtteranceCompleted(String utteranceId, boolean success) {
+        // Utterances from FailoverTts are considered fragments in SpeechControllerImpl
+        SpeechControllerImpl.this.onFragmentCompleted(
+            utteranceId, success, /* advance= */ true, /* notifyObserver= */ true);
+      }
+
+      @Override
+      public void onDefaultPitchChanged(float pitch) {
+        for (SpeechController.Observer observer : observers) {
+          observer.onDefaultPitchChanged(pitch);
+        }
+      }
+
+      @Override
+      public void onDefaultRateChanged(float rate) {
+        for (SpeechController.Observer observer : observers) {
+          observer.onDefaultRateChanged(rate);
+        }
+      }
+    };
   }
 
   @Override
@@ -323,23 +451,29 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   @Override
+  public boolean readyToPause() {
+    long delta = SystemClock.uptimeMillis() - feedbackSavedTime;
+    return cachedFeedbackItem != null && delta <= SAVED_FEEDBACK_FOR_PAUSE_TIME;
+  }
+
+  @Override
   public void addObserver(@UnknownInitialization(Observer.class) Observer observer) {
-    mObservers.add(observer);
+    observers.add(observer);
   }
 
   @Override
   public void removeObserver(SpeechController.Observer observer) {
-    mObservers.remove(observer);
+    observers.remove(observer);
   }
 
   public void setUseAudioFocus(boolean useAudioFocus) {
-    mUseAudioFocus = useAudioFocus;
-    if (!mUseAudioFocus) {
+    this.useAudioFocus = useAudioFocus;
+    if (!this.useAudioFocus) {
       LogUtils.v(TAG, "Abandon Audio Focus.");
       if (BuildVersionUtils.isAtLeastO()) {
-        mAudioManager.abandonAudioFocusRequest(mAudioFocusRequest);
+        audioManager.abandonAudioFocusRequest(mAudioFocusRequest);
       } else {
-        mAudioManager.abandonAudioFocus(mAudioFocusListener);
+        audioManager.abandonAudioFocus(mAudioFocusListener);
       }
     }
   }
@@ -348,8 +482,23 @@ public class SpeechControllerImpl implements SpeechController {
     mUseIntonation = useIntonation;
   }
 
+  public void setFormattingOptions(int options) {
+    this.formattingOptions = options;
+  }
+
+  public void setFormattingFeedbackMode(int feedbackMode) {
+    this.formattingFeedbackMode = feedbackMode;
+  }
+
   public void setUsePunctuation(boolean usePunctuation) {
     mUsePunctuation = usePunctuation;
+  }
+
+  public void setPunctuationVerbosity(@PunctuationVerbosity int punctuationVerbosity) {
+    this.punctuationVerbosity = punctuationVerbosity;
+    // TalkBack handles speaking punctuation if Speak punctuation verbosity preference is All or
+    // Most except Some.
+    mUsePunctuation = punctuationVerbosity == ALL || punctuationVerbosity == MOST;
   }
 
   public void setCapLetterFeedback(@CapitalLetterHandlingMethod int capLetterFeedback) {
@@ -357,15 +506,30 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   public void setSpeechPitch(float speechPitch) {
-    mSpeechPitch = speechPitch;
+    if (this.speechPitch != speechPitch) {
+      this.speechPitch = speechPitch;
+      for (SpeechController.Observer observer : observers) {
+        observer.onSpeechPitchChanged(speechPitch);
+      }
+    }
   }
 
   public void setSpeechRate(float speechRate) {
-    mSpeechRate = speechRate;
+    if (this.speechRate != speechRate) {
+      this.speechRate = speechRate;
+      for (SpeechController.Observer observer : observers) {
+        observer.onSpeechRateChanged(speechRate);
+      }
+    }
+  }
+
+  @VisibleForTesting
+  public float getSpeechRate() {
+    return speechRate;
   }
 
   public void setSpeechVolume(float speechVolume) {
-    mSpeechVolume = speechVolume;
+    this.speechVolume = speechVolume;
   }
 
   /**
@@ -392,12 +556,20 @@ public class SpeechControllerImpl implements SpeechController {
      * {@code FeedbackItem#FLAG_SOURCE_IS_VOLUME_CONTROL}. That is used to identify the items
      * generated by Volume control UI.
      */
-    public boolean isSpeakingOrQueuedAndNotSourceIsVolumeAnnouncment() {
+    public boolean isSpeakingOrQueuedAndNotSourceIsVolumeAnnouncement() {
       return !sourceIsVolumeControl && SpeechControllerImpl.this.isSpeakingOrSpeechQueued();
     }
 
     public @Nullable Set<Voice> getVoices() {
       return SpeechControllerImpl.this.getVoices();
+    }
+
+    public @Nullable Set<Locale> getLanguages() {
+      return getLanguages("");
+    }
+
+    public @Nullable Set<Locale> getLanguages(@NonNull String ttsSubAppId) {
+      return SpeechControllerImpl.this.getLanguages(ttsSubAppId);
     }
   }
 
@@ -406,13 +578,13 @@ public class SpeechControllerImpl implements SpeechController {
 
   @Override
   public void setSpeechListener(SpeechControllerListener speechListener) {
-    mSpeechListener = speechListener;
+    this.speechListener = speechListener;
   }
 
   @Override
-  public void setHandleTtsCallbackInMainThread(boolean shouldHandleInMainThread) {
-    mShouldHandleTtsCallBackInMainThread = shouldHandleInMainThread;
-    mFailoverTts.setHandleTtsCallbackInMainThread(shouldHandleInMainThread);
+  public void setHandleTtsCallbackInHandlerThread(boolean shouldHandleTtsCallBackInHandlerThread) {
+    this.shouldHandleTtsCallBackInHandlerThread = shouldHandleTtsCallBackInHandlerThread;
+    failoverTts.setHandleTtsCallbackInHandlerThread(shouldHandleTtsCallBackInHandlerThread);
   }
 
   /**
@@ -422,8 +594,8 @@ public class SpeechControllerImpl implements SpeechController {
   @Override
   public void setShouldInjectAutoReadingCallbacks(
       boolean shouldInject, UtteranceCompleteRunnable nextItemCallback) {
-    mFullScreenReadNextCallback = (shouldInject) ? nextItemCallback : null;
-    mInjectFullScreenReadCallbacks = shouldInject;
+    fullScreenReadNextCallback = shouldInject ? nextItemCallback : null;
+    injectFullScreenReadCallbacks = shouldInject;
 
     if (!shouldInject) {
       removeUtteranceCompleteAction(nextItemCallback);
@@ -438,7 +610,7 @@ public class SpeechControllerImpl implements SpeechController {
    */
   public void updateTtsEngine(boolean quiet) {
     mSkipNextTTSChangeAnnouncement = quiet;
-    mFailoverTts.updateDefaultEngine();
+    failoverTts.updateDefaultEngine();
   }
 
   /**
@@ -448,13 +620,40 @@ public class SpeechControllerImpl implements SpeechController {
    */
   @Override
   public FailoverTextToSpeech getFailoverTts() {
-    return mFailoverTts;
+    return failoverTts;
   }
 
+  @Override
+  public boolean isTtsReady() {
+    return failoverTts.isReady();
+  }
+
+  @Override
+  public void setVoice(Voice voice) {
+    failoverTts.setVoice(voice);
+  }
+
+  @Override
+  public @Nullable Voice getVoice() {
+    try {
+      if (failoverTts.isReady()) {
+        return failoverTts.getEngineInstance().getVoice();
+      }
+
+      LogUtils.w(TAG, "Attempted to get voice before TTS was initialized.");
+      return null;
+    } catch (RuntimeException e) {
+      LogUtils.e(TAG, "TTS client crashed while getting voice.");
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
   public @Nullable Set<Voice> getVoices() {
     try {
-      if (mFailoverTts.isReady()) {
-        return mFailoverTts.getEngineInstance().getVoices();
+      if (failoverTts.isReady()) {
+        return failoverTts.getEngineInstance().getVoices();
       }
 
       LogUtils.w(TAG, "Attempted to get voices before TTS was initialized.");
@@ -464,6 +663,63 @@ public class SpeechControllerImpl implements SpeechController {
       e.printStackTrace();
       return null;
     }
+  }
+
+  @Override
+  public @Nullable Set<Voice> getVoices(@NonNull String ttsSubAppId) {
+    Set<Voice> voices = getVoices();
+    if (voices == null) {
+      return null;
+    }
+    return voices.stream()
+        .filter(voice -> voice.getFeatures().contains(ttsSubAppId))
+        .collect(toCollection(HashSet::new));
+  }
+
+  @Override
+  public @Nullable Voice getDefaultVoiceForS2S() {
+    try {
+      if (failoverTts.isReady()) {
+        return failoverTts.getEngineInstance().getDefaultVoice();
+      }
+
+      LogUtils.w(TAG, "Attempted to get voices before TTS was initialized.");
+      return null;
+    } catch (RuntimeException e) {
+      LogUtils.e(TAG, "TTS client crashed while getting voices");
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  private @Nullable Set<Locale> getLanguages(@NonNull String ttsSubAppId) {
+    Set<Voice> voices = getVoices();
+    if (voices == null) {
+      return null;
+    }
+
+    // If caller specified a ttsSubAppId, we should filter the voices by that id. If no voice is
+    // found, return null.
+    if (!ttsSubAppId.isEmpty()) {
+      if (voices.stream().noneMatch(voice -> voice.getFeatures().contains(ttsSubAppId))) {
+        return null;
+      }
+    }
+
+    // Using Set because there are many duplicate Voice in TextToSpeech.getVoices().
+    Set<Locale> languagesAvailable = new HashSet<>();
+
+    for (Voice voice : voices) {
+      Set<String> features = voice.getFeatures();
+      // Filtering the installed voices to add to the menu
+      if ((features != null)
+          && !features.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED)
+          && !voice.isNetworkConnectionRequired()) {
+        languagesAvailable.add(voice.getLocale());
+      }
+    }
+
+    return languagesAvailable;
   }
 
   /** Repeats the last spoken utterance. */
@@ -620,7 +876,7 @@ public class SpeechControllerImpl implements SpeechController {
 
   /** Speaks the name of the currently active TTS engine. */
   private void speakCurrentEngine() {
-    final CharSequence engineLabel = mFailoverTts.getEngineLabel();
+    final CharSequence engineLabel = failoverTts.getEngineLabel();
     if (TextUtils.isEmpty(engineLabel)) {
       return;
     }
@@ -739,6 +995,44 @@ public class SpeechControllerImpl implements SpeechController {
         eventId);
   }
 
+  @Override
+  public void addSpeech(
+      CharSequence text,
+      LoadSpeechResultNotifier resultNotifier,
+      @Nullable Bundle speechParams,
+      @Nullable EventId eventId) {
+    final HashMap<String, String> params = new HashMap<>();
+
+    // Add all custom speech parameters.
+    if (speechParams != null) {
+      for (String key : speechParams.keySet()) {
+        params.put(key, String.valueOf(speechParams.get(key)));
+      }
+    }
+
+    float pitch =
+        speechPitch * (mUseIntonation ? parseFloatParam(params, SpeechParam.PITCH, 1) : 1);
+    final float rate =
+        speechRate * (mUseIntonation ? parseFloatParam(params, SpeechParam.RATE, 1) : 1);
+
+    failoverTts.addSpeech(text, resultNotifier, pitch, rate, eventId);
+  }
+
+  @Override
+  public void removeSpeech(SpeechInfo speechInfo) {
+    failoverTts.removeSpeech(speechInfo);
+  }
+
+  @Override
+  public void cleanCache() {
+    failoverTts.cleanCache();
+  }
+
+  @Override
+  public long getCacheSizeMb() {
+    return failoverTts.getCacheSizeMb();
+  }
+
   /** Toggle the voice feedback flag with additional state change notification. */
   @Override
   public void toggleVoiceFeedback() {
@@ -848,6 +1142,9 @@ public class SpeechControllerImpl implements SpeechController {
             mContext,
             text,
             mUsePunctuation,
+            cachedInlineFormattingHistory,
+            formattingOptions,
+            formattingFeedbackMode,
             removeUnnecessarySpans,
             earcons,
             haptics,
@@ -856,7 +1153,7 @@ public class SpeechControllerImpl implements SpeechController {
             speechParams,
             nonSpeechParams,
             eventId);
-
+    updateInlineFormattingHistory(text, flags);
     makeSpeakablePunctuation(pendingItem);
     speak(pendingItem, queueMode, startAction, rangeStartCallback, completedAction);
   }
@@ -914,7 +1211,8 @@ public class SpeechControllerImpl implements SpeechController {
       // not conflict with existing exception list, then add a tts span with the punctuation name.
       for (int i = 0; i < sourceText.length(); i++) {
         char ch = sourceText.charAt(i);
-        @Nullable String cleanValue = SpeechCleanupUtils.characterToName(configurationContext, ch);
+        @Nullable String cleanValue =
+            SpeechCleanupUtils.characterToName(configurationContext, ch, punctuationVerbosity);
         if (cleanValue != null) {
           /* Don't use java.util.stream.Stream in accessibility/utils until it's supported.
           int x = i;
@@ -1057,11 +1355,13 @@ public class SpeechControllerImpl implements SpeechController {
 
     item.setFlushGlobalTtsQueue(
         SpeechController.hasQueueModeFlagSet(queueMode, QUEUE_MODE_BIT_INTERRUPT));
-    item.setUninterruptible(
+    item.setUninterruptibleByNewSpeech(
         SpeechController.hasQueueModeFlagSet(
             queueMode, QUEUE_MODE_BIT_UNINTERRUPTIBLE_BY_NEW_SPEECH));
     item.setCanIgnoreInterrupts(
         SpeechController.hasQueueModeFlagSet(queueMode, QUEUE_MODE_BIT_CAN_IGNORE_INTERRUPTS));
+    item.setGloballyUninterruptible(
+        SpeechController.hasQueueModeFlagSet(queueMode, QUEUE_MODE_BIT_GLOBALLY_UNINTERRUPTED));
     item.setStartAction(startAction);
     item.setRangeStartCallback(rangeStartCallback);
     item.setCompletedAction(completedAction);
@@ -1079,48 +1379,50 @@ public class SpeechControllerImpl implements SpeechController {
         }
       }
 
-      if (mCurrentFeedbackItem != null && filter.accept(mCurrentFeedbackItem)) {
-        notifyItemInterrupted(mCurrentFeedbackItem);
+      if (currentFeedbackItem != null && filter.accept(currentFeedbackItem)) {
+        // Always flush if current item interrupted.
+        item.setFlushGlobalTtsQueue(true);
+        notifyItemInterrupted(currentFeedbackItem);
         currentFeedbackInterrupted = true;
       }
     }
 
-    Performance.getInstance().onFeedbackComposed(item.getEventId());
+    Performance.getInstance().onFeedbackComposed(item.getEventId(), item.getFirstSpokenText());
     feedbackQueue.add(item);
-    if (mSpeechListener != null) {
-      mSpeechListener.onUtteranceQueued(item);
+    if (speechListener != null) {
+      speechListener.onUtteranceQueued(item);
     }
 
     // If TTS isn't ready, this should be the only item in the queue.
-    if (!mFailoverTts.isReady()) {
+    if (!failoverTts.isReady()) {
       LogUtils.e(
           TAG, "TTS is not ready. Attempted to speak before TTS was initialized. Item: " + item);
       return;
     }
 
-    if ((mCurrentFeedbackItem == null) || currentFeedbackInterrupted) {
+    if ((currentFeedbackItem == null) || currentFeedbackInterrupted) {
       currentFragmentIterator = null;
       speakNextItem();
     } else {
       LogUtils.v(
-          TAG, "Queued speech item, waiting for \"%s\"", mCurrentFeedbackItem.getUtteranceId());
+          TAG, "Queued speech item, waiting for \"%s\"", currentFeedbackItem.getUtteranceId());
     }
   }
 
   private void tryNotifyFullScreenReaderCallback() {
-    if (mInjectFullScreenReadCallbacks && mFullScreenReadNextCallback != null) {
-      if (mShouldHandleTtsCallBackInMainThread) {
+    if (injectFullScreenReadCallbacks && fullScreenReadNextCallback != null) {
+      if (shouldHandleTtsCallBackInHandlerThread) {
         mHandler.post(
             new Runnable() {
               @Override
               public void run() {
-                if (mFullScreenReadNextCallback != null) {
-                  mFullScreenReadNextCallback.run(SpeechController.STATUS_NOT_SPOKEN);
+                if (fullScreenReadNextCallback != null) {
+                  fullScreenReadNextCallback.run(SpeechController.STATUS_NOT_SPOKEN);
                 }
               }
             });
       } else {
-        mFullScreenReadNextCallback.run(SpeechController.STATUS_NOT_SPOKEN);
+        fullScreenReadNextCallback.run(SpeechController.STATUS_NOT_SPOKEN);
       }
     }
   }
@@ -1160,7 +1462,7 @@ public class SpeechControllerImpl implements SpeechController {
     if (item.getUtteranceGroup() != UTTERANCE_GROUP_DEFAULT
         && item.hasFlag(FeedbackItem.FLAG_CLEAR_QUEUED_UTTERANCES_WITH_SAME_UTTERANCE_GROUP)) {
       FeedbackItemPredicate notCurrentItemPredicate =
-          new FeedbackItemEqualSamplePredicate(mCurrentFeedbackItem, false);
+          new FeedbackItemEqualSamplePredicate(currentFeedbackItem, false);
       FeedbackItemPredicate sameUtteranceGroupPredicate =
           new FeedbackItemUtteranceGroupPredicate(item.getUtteranceGroup());
       FeedbackItemPredicate clearQueuePredicate =
@@ -1172,7 +1474,7 @@ public class SpeechControllerImpl implements SpeechController {
     if (item.getUtteranceGroup() != UTTERANCE_GROUP_DEFAULT
         && item.hasFlag(FeedbackItem.FLAG_INTERRUPT_CURRENT_UTTERANCE_WITH_SAME_UTTERANCE_GROUP)) {
       FeedbackItemPredicate currentItemPredicate =
-          new FeedbackItemEqualSamplePredicate(mCurrentFeedbackItem, true);
+          new FeedbackItemEqualSamplePredicate(currentFeedbackItem, true);
       FeedbackItemPredicate sameUtteranceGroupPredicate =
           new FeedbackItemUtteranceGroupPredicate(item.getUtteranceGroup());
       FeedbackItemPredicate clearQueuePredicate =
@@ -1185,6 +1487,11 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   private void notifyItemInterrupted(FeedbackItem item) {
+    if (item == null) {
+      LogUtils.w(TAG, "notifyItemInterrupted: FeedbackItem is null");
+      return;
+    }
+
     final UtteranceCompleteRunnable queuedItemCompletedAction = item.getCompletedAction();
     if (queuedItemCompletedAction != null) {
       queuedItemCompletedAction.run(STATUS_INTERRUPTED);
@@ -1200,10 +1507,10 @@ public class SpeechControllerImpl implements SpeechController {
    */
   private boolean hasItemOnQueueOrSpeaking(FeedbackItem item, int[] expectedUtteranceId) {
     int accumulatedUtterance;
-    if (mCurrentFeedbackItem == null) {
+    if (currentFeedbackItem == null) {
       accumulatedUtterance = peekNextUtteranceId();
     } else {
-      String utteranceId = mCurrentFeedbackItem.getUtteranceId();
+      String utteranceId = currentFeedbackItem.getUtteranceId();
       if (utteranceId.startsWith(UTTERANCE_ID_PREFIX)) {
         accumulatedUtterance =
             Integer.parseInt(utteranceId.substring(UTTERANCE_ID_PREFIX.length()));
@@ -1216,7 +1523,7 @@ public class SpeechControllerImpl implements SpeechController {
       return false;
     }
 
-    if (feedbackTextEquals(item, mCurrentFeedbackItem)) {
+    if (feedbackTextEquals(item, currentFeedbackItem)) {
       expectedUtteranceId[0] = accumulatedUtterance;
       return true;
     }
@@ -1346,6 +1653,21 @@ public class SpeechControllerImpl implements SpeechController {
       boolean stopTtsSpeechCompletely,
       boolean notifyObserver,
       boolean interruptItemsThatCanIgnoreInterrupts) {
+    if (mHandler.getLooper().isCurrentThread()) {
+      interruptFromHandlerThread(
+          stopTtsSpeechCompletely, notifyObserver, interruptItemsThatCanIgnoreInterrupts);
+    } else {
+      mHandler.post(
+          () ->
+              interruptFromHandlerThread(
+                  stopTtsSpeechCompletely, notifyObserver, interruptItemsThatCanIgnoreInterrupts));
+    }
+  }
+
+  private void interruptFromHandlerThread(
+      boolean stopTtsSpeechCompletely,
+      boolean notifyObserver,
+      boolean interruptItemsThatCanIgnoreInterrupts) {
     if (!interruptItemsThatCanIgnoreInterrupts) {
       if (!clearCurrentAndQueuedUtterancesThatDontIgnoreInterrupts(notifyObserver)) {
         // If there are speech items that are not removed from the speech queue, or the currently
@@ -1356,6 +1678,7 @@ public class SpeechControllerImpl implements SpeechController {
       // Clear all current and queued utterances.
       clearCurrentAndQueuedUtterances(notifyObserver);
     }
+    LogUtils.v(TAG, "interruptInternal, stopTtsSpeechCompletely=" + stopTtsSpeechCompletely);
 
     clearUtteranceRangeStartCallbacks();
     // Clear and post all remaining completion actions.
@@ -1363,32 +1686,63 @@ public class SpeechControllerImpl implements SpeechController {
 
     if (stopTtsSpeechCompletely) {
       // Stop all TTS audios.
-      mFailoverTts.stopAll();
+      failoverTts.stopAll();
     } else {
       // Stop TTS audio from TalkBack.
-      mFailoverTts.stopFromTalkBack();
+      failoverTts.stopFromTalkBack();
     }
   }
 
+  @NonNull
+  public String getTtsSubAppId() {
+    return ttsSubAppId;
+  }
+
+  public void setTtsSubAppId(@NonNull String ttsSubAppId) {
+    this.ttsSubAppId = ttsSubAppId;
+  }
+
   /** Check the last request status and then stop or resume utterance. */
-  public void pauseOrResumeUtterance() {
-    if (requestPause) {
-      resume();
-    } else {
+  public void pauseOrResumeUtterance(boolean doPause) {
+    if (doPause) {
+      savedFeedbackQueue = new ArrayList<>(cachedFeedbackQueue);
+      savedFeedbackItem = cachedFeedbackItem;
+      savedFragmentIterator =
+          cachedFragmentIterator != null ? cachedFragmentIterator.deepCopy() : null;
       pause();
+    } else {
+      resume();
+    }
+    cachedFeedbackItem = null;
+  }
+
+  @Override
+  public boolean isContinuousReadingPaused() {
+    return (requestPause
+        && savedFeedbackItem != null
+        && savedFeedbackItem.hasFlag(FeedbackItem.FLAG_ADVANCE_CONTINUOUS_READING));
+  }
+
+  @Override
+  public void ignorePause() {
+    if (savedFeedbackQueue != null && requestPause) {
+      resetSavedFeedbackInfo();
     }
   }
 
   @Override
   public void pause() {
+    if (FormFactorUtils.isAndroidXr() && !requestPause) {
+      failoverTts.stopFromTalkBack();
+    }
     long delta = SystemClock.uptimeMillis() - feedbackSavedTime;
     // The savedFeedbackQueue was copied for the last interrupted speech content. If the delta
     // time between this pause method invoked and the last speech interruption is too long, we can
     // determine the saved feedback is outdated.
-    if (savedFeedbackQueue != null && !requestPause && delta <= SAVED_FEEDBACK_FOR_PAUSE_TIME) {
-      mCurrentFeedbackItem = null;
+    if (savedFeedbackQueue != null && delta <= SAVED_FEEDBACK_FOR_PAUSE_TIME) {
+      currentFeedbackItem = null;
       requestPause = true;
-      mFailoverTts.stopFromTalkBack();
+      failoverTts.stopFromTalkBack();
     }
   }
 
@@ -1398,16 +1752,18 @@ public class SpeechControllerImpl implements SpeechController {
       loadSavedFeedbackInfo();
       resetSavedFeedbackInfo();
       handleSpeechStarting();
+      resumeNextItemInternal();
       processNextFragmentInternal();
     }
     requestPause = false;
   }
 
   /** Stops speech and shuts down this controller. */
+  @Override
   public void shutdown() {
     interrupt(false /* stopTtsSpeechCompletely */);
 
-    mFailoverTts.shutdown();
+    failoverTts.shutdown();
 
     setOverlayEnabled(false);
   }
@@ -1423,13 +1779,30 @@ public class SpeechControllerImpl implements SpeechController {
     return mNextUtteranceIndex++;
   }
 
-  public void setOverlayEnabled(boolean enabled) {
-    if (enabled && mTtsOverlay == null) {
-      mTtsOverlay = new TextToSpeechOverlay(mContext);
-    } else if (!enabled && mTtsOverlay != null) {
-      mTtsOverlay.hide();
-      mTtsOverlay = null;
+  /**
+   * Sets the speech overlay to be used.
+   *
+   * @param newOverlay The overlay to use.
+   */
+  public void setOverlay(@Nullable TextToSpeechOverlay newOverlay) {
+    if (ttsOverlay == null) {
+      ttsOverlay = newOverlay;
     }
+  }
+
+  // TODO: Look into removing the need to set the overlay before setting the overlay
+  // enabled.
+  public void setOverlayEnabled(boolean enabled) {
+    if (enabled && ttsOverlay == null) {
+      ttsOverlay = new TextToSpeechSimpleOverlay(mContext);
+    } else if (!enabled && ttsOverlay != null) {
+      ttsOverlay.hide();
+      ttsOverlay = null;
+    }
+  }
+
+  public TextToSpeechOverlay getTtsOverlay() {
+    return ttsOverlay;
   }
 
   /**
@@ -1493,7 +1866,7 @@ public class SpeechControllerImpl implements SpeechController {
   @SuppressWarnings("deprecation")
   private boolean shouldSilenceSpeechWhenSsbActive(FeedbackItem item) {
     return !item.hasFlag(FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_SSB_ACTIVE)
-        && mDelegate.isSsbActiveAndHeadphoneOff();
+        && mDelegate.isSsbActive();
   }
 
   /** Returns {@code true} if speech should be silenced during phone call. */
@@ -1516,7 +1889,8 @@ public class SpeechControllerImpl implements SpeechController {
     final int utteranceIndex = getNextUtteranceId();
     final String utteranceId = UTTERANCE_ID_PREFIX + utteranceIndex;
     item.setUtteranceId(utteranceId);
-    currentFragmentIterator.setFeedBackItemUtteranceId(utteranceId);
+    currentFragmentIterator =
+        new FeedbackFragmentsIterator(item.getFragments().iterator(), utteranceId);
 
     final UtteranceStartRunnable startAction = item.getStartAction();
     if (startAction != null) {
@@ -1534,9 +1908,9 @@ public class SpeechControllerImpl implements SpeechController {
       addUtteranceCompleteAction(utteranceIndex, utteranceGroup, completedAction);
     }
 
-    if (mInjectFullScreenReadCallbacks
+    if (injectFullScreenReadCallbacks
         && item.hasFlag(FeedbackItem.FLAG_ADVANCE_CONTINUOUS_READING)) {
-      addUtteranceCompleteAction(utteranceIndex, utteranceGroup, mFullScreenReadNextCallback);
+      addUtteranceCompleteAction(utteranceIndex, utteranceGroup, fullScreenReadNextCallback);
     }
 
     if ((item != null) && !item.hasFlag(FeedbackItem.FLAG_NO_HISTORY)) {
@@ -1546,20 +1920,37 @@ public class SpeechControllerImpl implements SpeechController {
       mFeedbackHistory.addLast(item);
     }
 
-    if (mSpeechListener != null) {
-      mSpeechListener.onUtteranceStarted(item);
+    if (speechListener != null) {
+      speechListener.onUtteranceStarted(item);
     }
 
     processNextFragmentInternal();
   }
 
+  // Resumes the speech for continuous reading.
+  private void resumeNextItemInternal() {
+    FeedbackItem item = currentFeedbackItem;
+    if (item == null
+        || !injectFullScreenReadCallbacks
+        || !item.hasFlag(FeedbackItem.FLAG_ADVANCE_CONTINUOUS_READING)) {
+      return;
+    }
+    final int utteranceGroup = item.getUtteranceGroup();
+    final String utteranceId = item.getUtteranceId();
+    final int utteranceIndex =
+        Integer.parseInt(utteranceId.substring(UTTERANCE_ID_PREFIX.length()));
+    addUtteranceCompleteAction(utteranceIndex, utteranceGroup, fullScreenReadNextCallback);
+  }
+
   private boolean processNextFragmentInternal() {
-    if (currentFragmentIterator == null || !currentFragmentIterator.hasNext()) {
+    // Use local variable because currentFragmentIterator could be null by race condition.
+    FeedbackFragmentsIterator iterator = currentFragmentIterator;
+    if (iterator == null) {
       return false;
     }
     // Use local variable because mCurrentFeedbackItem could be null by race condition.
     // See b/307482287 for more details.
-    FeedbackItem feedbackItem = mCurrentFeedbackItem;
+    FeedbackItem feedbackItem = currentFeedbackItem;
     if (feedbackItem == null) {
       // TODO: Probably due to asynchronous overlap of onFragmentCompleted() calling
       // processNextFragmentInternal(), and clearCurrentAndQueuedUtterances() setting
@@ -1567,7 +1958,11 @@ public class SpeechControllerImpl implements SpeechController {
       return false;
     }
 
-    FeedbackFragment fragment = currentFragmentIterator.next();
+    FeedbackFragment fragment = iterator.next();
+    if (fragment == null) {
+      return false;
+    }
+
     EventId eventId = feedbackItem.getEventId();
     playEarconsFromFragment(fragment, eventId);
     playHapticsFromFragment(fragment, eventId);
@@ -1582,15 +1977,33 @@ public class SpeechControllerImpl implements SpeechController {
       params.put(key, String.valueOf(speechParams.get(key)));
     }
 
+    // Add sub application identifier if it is set
+    if (!ttsSubAppId.isEmpty()) {
+      params.put("com.google.android.tts:SubapplicationIdentifierId", ttsSubAppId);
+      LogUtils.v(
+          TAG,
+          "Bundle contains the following sub application identifier: %s",
+          params.get("com.google.android.tts:SubapplicationIdentifierId"));
+    }
+
     // Utterance ID, stream, and volume override item params.
     params.put(Engine.KEY_PARAM_UTTERANCE_ID, feedbackItem.getUtteranceId());
     params.put(Engine.KEY_PARAM_STREAM, String.valueOf(DEFAULT_STREAM));
-    params.put(Engine.KEY_PARAM_VOLUME, String.valueOf(mSpeechVolume));
+    params.put(Engine.KEY_PARAM_VOLUME, String.valueOf(speechVolume));
+    HashMap<String, Integer> customFlags = new HashMap<>();
+
+    if (feedbackItem.hasFlag(FeedbackItem.FLAG_CHUNKING_APPLIED)) {
+      customFlags.put(FailoverTextToSpeech.AGGRESSIVE_CHUNK, FailoverTextToSpeech.VALUE_ON);
+    }
+
+    if (feedbackItem.hasFlag(FeedbackItem.FLAG_RATE_IS_ABSOLUTE)) {
+      customFlags.put(FailoverTextToSpeech.RATE_PARAMETER_TYPE, FailoverTextToSpeech.ABSOLUTE);
+    }
 
     float pitch =
-        mSpeechPitch * (mUseIntonation ? parseFloatParam(params, SpeechParam.PITCH, 1) : 1);
+        speechPitch * (mUseIntonation ? parseFloatParam(params, SpeechParam.PITCH, 1) : 1);
     final float rate =
-        mSpeechRate * (mUseIntonation ? parseFloatParam(params, SpeechParam.RATE, 1) : 1);
+        speechRate * (mUseIntonation ? parseFloatParam(params, SpeechParam.RATE, 1) : 1);
     CharSequence text;
 
     final boolean shouldSilenceFragment = shouldSilenceSpeech(feedbackItem);
@@ -1606,27 +2019,30 @@ public class SpeechControllerImpl implements SpeechController {
     // for capital letter
     if (text != null && text.length() == 1 && Character.isUpperCase(text.charAt(0))) {
       switch (capLetterFeedback) {
-        case CAPITAL_LETTERS_TYPE_SPEAK_CAP:
+        case CAPITAL_LETTERS_TYPE_SPEAK_CAP -> {
           // To resolve the limitation of [length == 1]. "Say capital" is handled by compositor
           // variable.
-          break;
-        case CAPITAL_LETTERS_TYPE_PITCH:
-          pitch = min(pitch * CAPITAL_LETTER_PITCH_RATE, CAPITAL_LETTER_PITCH_RATE_UPPER_BOUND);
-          break;
-        case CAPITAL_LETTERS_TYPE_SOUND_FEEDBACK:
+        }
+        case CAPITAL_LETTERS_TYPE_PITCH ->
+            pitch = min(pitch * CAPITAL_LETTER_PITCH_RATE, CAPITAL_LETTER_PITCH_RATE_UPPER_BOUND);
+        case CAPITAL_LETTERS_TYPE_SOUND_FEEDBACK -> {
           // TODO: The raw resource of sound feedback is required for capital letter.
-          mFeedbackController.playAuditory(R.raw.window_state, eventId);
-          break;
-        default: // fall out
+          if (feedbackController != null) {
+            feedbackController.playAuditory(R.raw.window_state, eventId);
+          }
+        }
+        default -> {}
       }
     }
 
     final String logText = (text == null) ? null : String.format("\"%s\"", text.toString());
     LogUtils.v(
         TAG,
-        "Speaking fragment text %s with spans %s for event %s",
+        "Speaking fragment text=%s, utteranceId=%s, TtsSpan=%s, locale=%s, event=%s",
         logText,
-        SpannableUtils.spansToStringForLogging(text),
+        feedbackItem.getUtteranceId(),
+        SpannableUtils.spansToStringForLogging(text, TtsSpan.class),
+        locale,
         eventId);
 
     if (text != null && feedbackItem.hasFlag(FeedbackItem.FLAG_FORCE_FEEDBACK)) {
@@ -1637,20 +2053,25 @@ public class SpeechControllerImpl implements SpeechController {
     // It's okay if the utterance is empty, the fail-over TTS will
     // immediately call the fragment completion listener. This process is
     // important for things like continuous reading.
-    mFailoverTts.speak(
+    failoverTts.speak(
         text,
         locale,
         pitch,
         rate,
         params,
+        customFlags,
         DEFAULT_STREAM,
-        mSpeechVolume,
+        speechVolume,
         preventDeviceSleep,
         feedbackItem.shouldFlushGlobalTtsQueue(),
         eventId);
 
-    if (mTtsOverlay != null) {
-      mTtsOverlay.displayText(text);
+    if (ttsOverlay != null) {
+      if (eventId != null) {
+        ttsOverlay.displayText(text, eventId.getEventSubtype());
+      } else {
+        ttsOverlay.displayText(text);
+      }
     }
 
     return true;
@@ -1666,9 +2087,9 @@ public class SpeechControllerImpl implements SpeechController {
     final float earconRate = nonSpeechParams.getFloat(Utterance.KEY_METADATA_EARCON_RATE, 1.0f);
     final float earconVolume = nonSpeechParams.getFloat(Utterance.KEY_METADATA_EARCON_VOLUME, 1.0f);
 
-    if (mFeedbackController != null) {
+    if (feedbackController != null) {
       for (int keyResId : fragment.getEarcons()) {
-        mFeedbackController.playAuditory(keyResId, earconRate, earconVolume, eventId);
+        feedbackController.playAuditory(keyResId, earconRate, earconVolume, eventId);
       }
     }
   }
@@ -1679,9 +2100,9 @@ public class SpeechControllerImpl implements SpeechController {
    * @param fragment The fragment to process
    */
   private void playHapticsFromFragment(FeedbackFragment fragment, @Nullable EventId eventId) {
-    if (mFeedbackController != null) {
+    if (feedbackController != null) {
       for (int keyResId : fragment.getHaptics()) {
-        mFeedbackController.playHaptic(keyResId, eventId);
+        feedbackController.playHaptic(keyResId, eventId);
       }
     }
   }
@@ -1712,13 +2133,13 @@ public class SpeechControllerImpl implements SpeechController {
    * @see #handleSpeechCompleted(int status)
    */
   private void handleSpeechStarting() {
-    for (SpeechController.Observer observer : mObservers) {
+    for (SpeechController.Observer observer : observers) {
       observer.onSpeechStarting();
     }
 
-    boolean useAudioFocus = mUseAudioFocus;
+    boolean useAudioFocus = this.useAudioFocus;
     List<AudioRecordingConfiguration> recordConfigurations =
-        mAudioManager.getActiveRecordingConfigurations();
+        audioManager.getActiveRecordingConfigurations();
     if (!recordConfigurations.isEmpty()) {
       useAudioFocus = false;
     }
@@ -1726,9 +2147,9 @@ public class SpeechControllerImpl implements SpeechController {
     if (useAudioFocus) {
       LogUtils.v(TAG, "Request Audio Focus.");
       if (BuildVersionUtils.isAtLeastO()) {
-        mAudioManager.requestAudioFocus(mAudioFocusRequest);
+        audioManager.requestAudioFocus(mAudioFocusRequest);
       } else {
-        mAudioManager.requestAudioFocus(
+        audioManager.requestAudioFocus(
             mAudioFocusListener, DEFAULT_STREAM, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
       }
     }
@@ -1748,7 +2169,7 @@ public class SpeechControllerImpl implements SpeechController {
    * @see #handleSpeechStarting()
    */
   private void handleSpeechCompleted(int status) {
-    for (SpeechController.Observer observer : mObservers) {
+    for (SpeechController.Observer observer : observers) {
       if (status == STATUS_PAUSE) {
         observer.onSpeechPaused();
 
@@ -1757,11 +2178,11 @@ public class SpeechControllerImpl implements SpeechController {
       }
     }
 
-    if (mUseAudioFocus) {
+    if (useAudioFocus) {
       if (BuildVersionUtils.isAtLeastO()) {
-        mAudioManager.abandonAudioFocusRequest(mAudioFocusRequest);
+        audioManager.abandonAudioFocusRequest(mAudioFocusRequest);
       } else {
-        mAudioManager.abandonAudioFocus(mAudioFocusListener);
+        audioManager.abandonAudioFocus(mAudioFocusListener);
       }
     }
 
@@ -1784,30 +2205,39 @@ public class SpeechControllerImpl implements SpeechController {
     // before recognizing the single tap with two fingers gesture.
     saveCurrentFeedbackInfo();
 
+    // TODO: We need to traverse the items in feedbackQueue to keep
+    //  item#isGloballyUninterruptible without introducing the issue of checkForComodification in
+    //  this clear method.
+
     feedbackQueue.clear();
     currentFragmentIterator = null;
 
-    if (mCurrentFeedbackItem != null) {
-      final String utteranceId = mCurrentFeedbackItem.getUtteranceId();
-      onFragmentCompleted(utteranceId, false /* success */, true /* advance */, notifyObserver);
-      mCurrentFeedbackItem = null;
+    if (currentFeedbackItem != null) {
+      final String utteranceId = currentFeedbackItem.getUtteranceId();
+      onFragmentCompleted(utteranceId, /* success= */ false, /* advance= */ true, notifyObserver);
+      currentFeedbackItem = null;
     }
   }
 
   /**
    * Removes speech items from the speech queue and completes the current speech item if the speech
    * items are in queue modes other than QUEUE_MODE_CAN_IGNORE_INTERRUPTS or
-   * QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH_CAN_IGNORE_INTERRUPTS.
+   * QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH_CAN_IGNORE_INTERRUPTS or
+   * QUEUE_MODE_GLOBALLY_UNINTERRUPTED.
    *
    * @param notifyObserver Whether to notify the observer about the completion of the current {@link
    *     FeedbackItem}
    * @return {@code true} if speech has been cleared from the speech queue and the currently
-   *     speaking speech should be interrupted
+   *     speaking speech has been interrupted
    */
   private boolean clearCurrentAndQueuedUtterancesThatDontIgnoreInterrupts(boolean notifyObserver) {
+
     ListIterator<FeedbackItem> iterator = feedbackQueue.listIterator(0);
     while (iterator.hasNext()) {
       FeedbackItem currentItem = iterator.next();
+      if (currentItem.isGloballyUninterruptible()) {
+        continue;
+      }
       if (!currentItem.canIgnoreInterrupts()) {
         iterator.remove();
         notifyItemInterrupted(currentItem);
@@ -1815,26 +2245,26 @@ public class SpeechControllerImpl implements SpeechController {
     }
 
     boolean currentFeedbackInterrupted = false;
-    if (mCurrentFeedbackItem != null) {
-      if (!mCurrentFeedbackItem.canIgnoreInterrupts()) {
-        notifyItemInterrupted(mCurrentFeedbackItem);
-        currentFeedbackInterrupted = true;
-      }
+    if (currentFeedbackItem != null
+        && !currentFeedbackItem.isGloballyUninterruptible()
+        && !currentFeedbackItem.canIgnoreInterrupts()) {
+      notifyItemInterrupted(currentFeedbackItem);
+      currentFeedbackInterrupted = true;
     }
 
-    if ((mCurrentFeedbackItem == null) || currentFeedbackInterrupted) {
+    if ((currentFeedbackItem == null) || currentFeedbackInterrupted) {
       currentFragmentIterator = null;
       if (!feedbackQueue.isEmpty()) {
         speakNextItem();
-      } else if (mCurrentFeedbackItem != null) {
-        final String utteranceId = mCurrentFeedbackItem.getUtteranceId();
+      } else if (currentFeedbackItem != null) {
+        final String utteranceId = currentFeedbackItem.getUtteranceId();
         onFragmentCompleted(utteranceId, false /* success */, true /* advance */, notifyObserver);
-        mCurrentFeedbackItem = null;
+        currentFeedbackItem = null;
         return true;
       }
     } else {
       LogUtils.v(
-          TAG, "Queued speech item, waiting for \"%s\"", mCurrentFeedbackItem.getUtteranceId());
+          TAG, "Queued speech item, waiting for \"%s\"", currentFeedbackItem.getUtteranceId());
     }
     return false;
   }
@@ -1867,15 +2297,12 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   /** Save the current feedback and the contents of the feedback queue. */
-  @SuppressWarnings({"unchecked"})
   private void saveCurrentFeedbackInfo() {
-    if (!requestPause) {
-      feedbackSavedTime = SystemClock.uptimeMillis();
-      savedFeedbackQueue = (ArrayList<FeedbackItem>) feedbackQueue.clone();
-      savedFeedbackItem = mCurrentFeedbackItem;
-      savedFragmentIterator =
-          currentFragmentIterator != null ? currentFragmentIterator.deepCopy() : null;
-    }
+    feedbackSavedTime = SystemClock.uptimeMillis();
+    cachedFeedbackQueue = new ArrayList<>(feedbackQueue);
+    cachedFeedbackItem = currentFeedbackItem;
+    cachedFragmentIterator =
+        currentFragmentIterator != null ? currentFragmentIterator.deepCopy() : null;
   }
 
   /** Load the saved feedback and the contents of the feedback queue. */
@@ -1885,7 +2312,7 @@ public class SpeechControllerImpl implements SpeechController {
     }
     feedbackQueue = savedFeedbackQueue;
     savedFeedbackQueue = null;
-    mCurrentFeedbackItem = savedFeedbackItem;
+    currentFeedbackItem = savedFeedbackItem;
     currentFragmentIterator = savedFragmentIterator;
     savedFragmentIterator = null;
   }
@@ -1895,8 +2322,13 @@ public class SpeechControllerImpl implements SpeechController {
     requestPause = false;
     savedFragmentIterator = null;
     savedFeedbackItem = null;
+    cachedFragmentIterator = null;
+    cachedFeedbackItem = null;
     if (savedFeedbackQueue != null) {
       savedFeedbackQueue.clear();
+    }
+    if (cachedFeedbackQueue != null) {
+      cachedFeedbackQueue.clear();
     }
   }
 
@@ -1935,8 +2367,7 @@ public class SpeechControllerImpl implements SpeechController {
 
     final int utteranceIndex = SpeechControllerImpl.parseUtteranceId(utteranceId);
     final boolean interrupted =
-        (mCurrentFeedbackItem != null)
-            && (!mCurrentFeedbackItem.getUtteranceId().equals(utteranceId));
+        (currentFeedbackItem != null) && !currentFeedbackItem.getUtteranceId().equals(utteranceId);
 
     final int status;
     if (interrupted) {
@@ -1958,7 +2389,16 @@ public class SpeechControllerImpl implements SpeechController {
       // If speaking resulted in an error, was ultimately interrupted, or
       // there are no additional fragments to speak as part of the current
       // FeedbackItem, finish processing of this utterance.
-      onUtteranceCompleted(utteranceIndex, status, interrupted, advance);
+      try {
+        onUtteranceCompleted(utteranceIndex, status, interrupted, advance);
+      } catch (IndexOutOfBoundsException e) {
+        if (!catchIndexOutOfBounds) {
+          throw new IndexOutOfBoundsException(
+              String.format(
+                  "shouldHandleTtsCallBackInHandlerThread=%s , original message=%s",
+                  shouldHandleTtsCallBackInHandlerThread, e.getMessage()));
+        }
+      }
     }
   }
 
@@ -1974,7 +2414,7 @@ public class SpeechControllerImpl implements SpeechController {
       mUtteranceStartActions.remove(action);
       final UtteranceStartRunnable runnable = action.runnable;
       if (runnable != null) {
-        if (mShouldHandleTtsCallBackInMainThread) {
+        if (shouldHandleTtsCallBackInHandlerThread) {
           mHandler.post(
               new Runnable() {
                 @Override
@@ -1992,7 +2432,7 @@ public class SpeechControllerImpl implements SpeechController {
   private void onUtteranceRangeStarted(int utteranceIndex, final int start, final int end) {
     final UtteranceRangeStartCallback callback = mUtteranceRangeStartCallbacks.get(utteranceIndex);
     if (callback != null) {
-      if (mShouldHandleTtsCallBackInMainThread) {
+      if (shouldHandleTtsCallBackInHandlerThread) {
         mHandler.post(
             new Runnable() {
               @Override
@@ -2030,8 +2470,8 @@ public class SpeechControllerImpl implements SpeechController {
 
     mUtteranceRangeStartCallbacks.remove(utteranceIndex);
 
-    if (mSpeechListener != null) {
-      mSpeechListener.onUtteranceCompleted(utteranceIndex, status);
+    if (speechListener != null) {
+      speechListener.onUtteranceCompleted(utteranceIndex, status);
     }
 
     if (interrupted) {
@@ -2042,7 +2482,7 @@ public class SpeechControllerImpl implements SpeechController {
           TAG,
           "Interrupted %d with %s",
           utteranceIndex,
-          (mCurrentFeedbackItem == null) ? null : mCurrentFeedbackItem.getUtteranceId());
+          (currentFeedbackItem == null) ? null : currentFeedbackItem.getUtteranceId());
       return;
     }
 
@@ -2055,13 +2495,13 @@ public class SpeechControllerImpl implements SpeechController {
     mDelegate.onTtsReady();
     // The previous engine may not have shut down correctly, so make sure to
     // clear the "current" speech item.
-    if (mCurrentFeedbackItem != null) {
+    if (currentFeedbackItem != null) {
       onFragmentCompleted(
-          mCurrentFeedbackItem.getUtteranceId(),
+          currentFeedbackItem.getUtteranceId(),
           false /* success */,
           false /* advance */,
           true /* notifyObserver */);
-      mCurrentFeedbackItem = null;
+      currentFeedbackItem = null;
     }
 
     if (wasSwitchingEngines && ttsChangeAnnouncementEnabled && !mSkipNextTTSChangeAnnouncement) {
@@ -2075,7 +2515,7 @@ public class SpeechControllerImpl implements SpeechController {
   private void runUtteranceCompleteRunnable(
       @NonNull UtteranceCompleteRunnable runnable, int status) {
     CompletionRunner runner = new CompletionRunner(runnable, status);
-    if (mShouldHandleTtsCallBackInMainThread) {
+    if (shouldHandleTtsCallBackInHandlerThread) {
       mHandler.post(runner);
     } else {
       runner.run();
@@ -2089,23 +2529,52 @@ public class SpeechControllerImpl implements SpeechController {
    * @return {@code false} if there are no more queued speech items.
    */
   private boolean speakNextItem() {
-    final FeedbackItem previousItem = mCurrentFeedbackItem;
+    final FeedbackItem previousItem = currentFeedbackItem;
     final FeedbackItem nextItem = (feedbackQueue.isEmpty() ? null : feedbackQueue.remove(0));
 
-    mCurrentFeedbackItem = nextItem;
+    currentFeedbackItem = nextItem;
 
     if (nextItem == null) {
       LogUtils.v(TAG, "No next item, stopping speech queue");
       return false;
     }
 
-    if (previousItem == null) {
+    if (previousItem == null && !shouldSilenceSpeech(nextItem)) {
       handleSpeechStarting();
     }
-
-    currentFragmentIterator = new FeedbackFragmentsIterator(nextItem.getFragments().iterator());
     speakNextItemInternal(nextItem);
     return true;
+  }
+
+  // Version of dump that allows passing in languages. Needed for tts configured sub applications.
+  public void dump(Logger dumpLogger, Set<Locale> languages) {
+    dumpLogger.log("Speech Controller");
+    dumpLanguages(dumpLogger, languages);
+    dumpLogger.log(toString());
+    dumpLogger.log("");
+  }
+
+  // Dump supported languages from TTS voices.
+  private void dumpLanguages(Logger dumpLogger, Set<Locale> languages) {
+    dumpLogger.log(" supported languages=%s\n", languages);
+    getFailoverTts().dump(dumpLogger);
+  }
+
+  @Override
+  public String toString() {
+    return "SpeechControllerImpl{"
+        + "formattingOptions:"
+        + formattingOptions
+        + ", formattingFeedbackMode:"
+        + formattingFeedbackMode
+        + ", cachedInlineFormattingHistory:"
+        + cachedInlineFormattingHistory
+        + "}";
+  }
+
+  @Override
+  public void primeTtsEngine() {
+    getFailoverTts().primeTtsEngine();
   }
 
   /**
@@ -2133,6 +2602,10 @@ public class SpeechControllerImpl implements SpeechController {
     return defaultValue;
   }
 
+  /**
+   * The TTS callbacks should be invoked via the thread of this handler by default, otherwise it
+   * will be via the binder thread.
+   */
   private final Handler mHandler = new Handler();
 
   private final AudioManager.OnAudioFocusChangeListener mAudioFocusListener =
@@ -2243,7 +2716,7 @@ public class SpeechControllerImpl implements SpeechController {
         return false;
       }
 
-      return item.isInterruptible();
+      return item.isInterruptibleByNewSpeech();
     }
   }
 
@@ -2303,6 +2776,58 @@ public class SpeechControllerImpl implements SpeechController {
 
     public boolean accept(FeedbackItem item) {
       return mPredicate != null && mPredicate.accept(item);
+    }
+  }
+
+  /** Updates the history of inline feedback. */
+  private void updateInlineFormattingHistory(CharSequence text, int flags) {
+    if (formattingFeedbackMode == TextFormattingUtils.FEEDBACK_MODE_NONE) {
+      cachedInlineFormattingHistory = null;
+      return;
+    }
+    if ((flags & FeedbackItem.FLAG_INLINE_FORMATTING) != 0) {
+      cachedInlineFormattingHistory = new InlineFormattingHistory(text);
+    }
+  }
+
+  /** Clears the history of inline feedback. */
+  public void clearInlineFormattingHistory() {
+    cachedInlineFormattingHistory = null;
+  }
+
+  /**
+   * The history of inline feedback.
+   *
+   * <p>The history is used to cache the last source text in previous speech.
+   */
+  public static class InlineFormattingHistory {
+    protected CharSequence lastSourceText;
+
+    public InlineFormattingHistory(CharSequence sourceText) {
+      if (TextUtils.isEmpty(sourceText)) {
+        lastSourceText = null;
+        return;
+      }
+      SpannableString spannable = new SpannableString(sourceText);
+      SourceTextSpan[] spans = spannable.getSpans(0, sourceText.length(), SourceTextSpan.class);
+      if (spans.length == 0) {
+        lastSourceText = null;
+        return;
+      }
+      lastSourceText =
+          sourceText.subSequence(
+              spannable.getSpanStart(spans[spans.length - 1]),
+              spannable.getSpanEnd(spans[spans.length - 1]));
+    }
+
+    /** Returns the last source text. */
+    public CharSequence getLastSourceText() {
+      return lastSourceText;
+    }
+
+    @Override
+    public String toString() {
+      return "InlineFormattingHistory{LastSourceText:" + lastSourceText + "}";
     }
   }
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_text_formatting_announcement_mode_key"
+      android:title="@string/title_text_formatting_announcement_mode"
+      android:fragment="com.google.android.accessibility.talkback.preference.base.TextFormattingAnnouncementModeFragment" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_text_formatting_option_key"
+      android:title="@string/header_text_formatting_options">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+        android:defaultValue="@bool/pref_text_formatting_option_bold_default"
+        android:key="@string/pref_text_formatting_option_bold_key"
+        android:layout="@layout/list_item_category"
+        android:title="@string/title_formatting_optoin_bold" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+        android:defaultValue="@bool/pref_text_formatting_option_italic_default"
+        android:key="@string/pref_text_formatting_option_italic_key"
+        android:layout="@layout/list_item_category"
+        android:title="@string/title_formatting_optoin_italic" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+        android:defaultValue="@bool/pref_text_formatting_option_underline_default"
+        android:key="@string/pref_text_formatting_option_underline_key"
+        android:layout="@layout/list_item_category"
+        android:title="@string/title_formatting_optoin_underline" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+        android:defaultValue="@bool/pref_text_formatting_option_strikethrough_default"
+        android:key="@string/pref_text_formatting_option_strikethrough_key"
+        android:layout="@layout/list_item_category"
+        android:title="@string/title_formatting_optoin_strikethrough" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+        android:defaultValue="@bool/pref_text_formatting_option_text_color_name_default"
+        android:key="@string/pref_text_formatting_option_text_color_name_key"
+        android:layout="@layout/list_item_category"
+        android:title="@string/title_formatting_optoin_text_color_name" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+        android:defaultValue="@bool/pref_text_formatting_option_text_color_hex_default"
+        android:key="@string/pref_text_formatting_option_text_color_hex_key"
+        android:layout="@layout/list_item_category"
+        android:title="@string/title_formatting_optoin_text_color_hex" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+        android:defaultValue="@bool/pref_text_formatting_option_text_size_default"
+        android:key="@string/pref_text_formatting_option_text_size_key"
+        android:layout="@layout/list_item_category"
+        android:title="@string/title_formatting_optoin_text_size" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+        android:defaultValue="@bool/pref_text_formatting_option_font_family_default"
+        android:key="@string/pref_text_formatting_option_font_family_key"
+        android:layout="@layout/list_item_category"
+        android:title="@string/title_formatting_optoin_font_family" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+</PreferenceScreen>

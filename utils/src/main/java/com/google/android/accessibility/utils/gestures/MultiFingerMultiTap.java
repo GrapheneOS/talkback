@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import androidx.annotation.Nullable;
+import com.google.android.accessibility.utils.Performance.EventId;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -63,8 +64,9 @@ class MultiFingerMultiTap extends GestureMatcher {
       int fingers,
       int taps,
       int gestureId,
-      GestureMatcher.StateChangeListener listener) {
-    super(gestureId, new Handler(context.getMainLooper()), listener);
+      GestureMatcher.StateChangeListener listener,
+      GestureMatcher.AnalyticsEventLogger logger) {
+    super(gestureId, new Handler(context.getMainLooper()), listener, logger);
     mTargetTapCount = taps;
     targetFingerCount = fingers;
     doubleTapSlop = ViewConfiguration.get(context).getScaledDoubleTapSlop() * fingers;
@@ -94,7 +96,7 @@ class MultiFingerMultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onDown(MotionEvent event) {
+  protected void onDown(EventId eventId, MotionEvent event) {
     // Before the matcher state transit to completed,
     // Cancel when an additional down arrived after reaching the target number of taps.
     if (completedTapCount == mTargetTapCount) {
@@ -125,7 +127,7 @@ class MultiFingerMultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onUp(MotionEvent event) {
+  protected void onUp(EventId eventId, MotionEvent event) {
     // Because this is a multi-finger gesture, we must have received ACTION_POINTER_UP before this
     // so we calculate timeDelta relative to lastUpTime.
     long timeDelta = event.getEventTime() - lastUpTime;
@@ -151,7 +153,7 @@ class MultiFingerMultiTap extends GestureMatcher {
       }
       if (completedTapCount == mTargetTapCount) {
         // Done.
-        completeAfterDoubleTapTimeout(event);
+        completeAfterDoubleTapTimeout(eventId, event);
       }
     } else {
       // Either too many taps or nonsensical event stream.
@@ -160,7 +162,7 @@ class MultiFingerMultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onMove(MotionEvent event) {
+  protected void onMove(EventId eventId, MotionEvent event) {
     // Outside the touch slop
     if (null == findNearestPoint(event, touchSlop, false)) {
       cancelGesture(event);
@@ -168,7 +170,7 @@ class MultiFingerMultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onPointerDown(MotionEvent event) {
+  protected void onPointerDown(EventId eventId, MotionEvent event) {
     // Reset timeout to ease the use for some people
     // with certain impairments to get all their fingers down.
     long timeDelta = event.getEventTime() - lastDownTime;
@@ -207,7 +209,7 @@ class MultiFingerMultiTap extends GestureMatcher {
   }
 
   @Override
-  protected void onPointerUp(MotionEvent event) {
+  protected void onPointerUp(EventId eventId, MotionEvent event) {
     // Accept up only after target number of fingers are down.
     if (!isTargetFingerCountReached) {
       cancelGesture(event);

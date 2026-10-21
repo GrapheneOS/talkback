@@ -13,32 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.android.accessibility.braille.common;
 
+import static com.google.android.accessibility.braille.common.translate.BrailleLanguages.Code.KOREAN_2006;
 import static java.lang.Math.min;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
+import android.util.Pair;
 import android.util.Size;
 import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.braille.common.Constants.BrailleType;
 import com.google.android.accessibility.braille.common.translate.BrailleLanguages;
 import com.google.android.accessibility.braille.common.translate.BrailleLanguages.Code;
 import com.google.android.accessibility.braille.common.translate.GoogleTranslationResultCustomizer;
+import com.google.android.accessibility.braille.common.translate.KoreanTranslationResultCustomizer;
 import com.google.android.accessibility.braille.translate.GoogleBrailleTranslatorFactory;
+import com.google.android.accessibility.braille.translate.TranslationResultCustomizer;
 import com.google.android.accessibility.braille.translate.TranslatorFactory;
 import com.google.android.accessibility.braille.translate.liblouis.LibLouis;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,6 +61,7 @@ public class BrailleUserPreferences {
   private static final int AAS12_2_SHARED_PREFS_VERSION = 2;
   private static final int AAS13_1_SHARED_PREFS_VERSION = 3;
   private static final int AAS14_1_SHARED_PREFS_VERSION = 4;
+  private static final int AAS16_2_SHARED_PREFS_VERSION = 5;
   private static int currentVersion = -1;
 
   private static final boolean CONTRACTED_MODE_DEFAULT = false;
@@ -67,6 +79,9 @@ public class BrailleUserPreferences {
   private static final boolean WORD_WRAP_DEFAULT = true;
   private static final boolean SHOW_OVERLAY_DEFAULT = false;
   private static final boolean REVERSE_PANNING_BUTTONS = false;
+  private static final boolean POPUP_MESSAGE_DEFAULT = false;
+  private static final boolean POPUP_MESSAGE_HISTORY_DEFAULT = false;
+  private static final boolean CAPTION_DEFAULT = false;
   private static final String BLINKING_INTERVAL_MS_DEFAULT = "750";
   private static final String TIMED_MESSAGE_DURATION_FRACTION_DEFAULT = "1";
 
@@ -201,7 +216,15 @@ public class BrailleUserPreferences {
     Class<? extends TranslatorFactory> translatorFactorClass = LibLouis.class;
     return new GoogleBrailleTranslatorFactory(
         TranslatorFactory.forName(TranslatorFactory.getNameFromClass(translatorFactorClass)),
-        new GoogleTranslationResultCustomizer(context));
+        getTranslationResultCustomizer(context));
+  }
+
+  private static TranslationResultCustomizer getTranslationResultCustomizer(Context context) {
+    Code code = readCurrentActiveOutputCodeAndCorrect(context);
+    if (code == KOREAN_2006) {
+      return new KoreanTranslationResultCustomizer(context);
+    }
+    return new GoogleTranslationResultCustomizer(context);
   }
 
   /** Reads current using input {@link Code}. */
@@ -325,19 +348,23 @@ public class BrailleUserPreferences {
   }
 
   /** Reads calibration points for a tablet device. */
-  public static List<PointF> readCalibrationPointsTablet(Context context, int orientation)
-      throws ParseException {
+  public static List<PointF> readCalibrationPointsTablet(
+      Context context, boolean isTabletop, int orientation) throws ParseException {
     return BrailleUserPreferencesTouchDots.readLayoutPointsTablet(
-        context, getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME), orientation);
+        context,
+        getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME),
+        isTabletop,
+        orientation);
   }
 
   /** Writes calibration points for a tablet device. */
   public static void writeCalibrationPointsTablet(
-      Context context, int orientation, List<PointF> points, Size screenSize)
+      Context context, boolean isTabletop, int orientation, List<PointF> points, Size screenSize)
       throws ParseException {
     BrailleUserPreferencesTouchDots.writeLayoutPointsTablet(
         context,
         getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME),
+        isTabletop,
         orientation,
         points,
         screenSize);
@@ -408,12 +435,20 @@ public class BrailleUserPreferences {
     SharedPreferences brailleKeyboardSharedPreferences =
         SharedPreferencesUtils.getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME);
     if (currentVersion == -1) {
-      currentVersion = brailleKeyboardSharedPreferences.getInt(SHARED_PREFS_VERSION, 0);
+      currentVersion =
+          brailleKeyboardSharedPreferences.getInt(
+              SHARED_PREFS_VERSION, 0); // 0 could be older versions or never open Talkback.
     }
     SharedPreferences talkBackSharedPreferences =
         SharedPreferencesUtils.getSharedPreferences(context);
     SharedPreferences.Editor brailleKeyboardSharedPreferencesEditor =
         brailleKeyboardSharedPreferences.edit();
+    // Since we did not record the version number in older builds, it is difficult to determine if
+    // this is the first time the application has been launched. Therefore, the command change
+    // dialog will be displayed regardless.
+    if (currentVersion < AAS16_2_SHARED_PREFS_VERSION) {
+      writeShowCommandChangeDialog(context, /* showDialog= */ true);
+    }
     // 1. Rename released key names to new names.
     // 2. copy the existing (old) prefs from TalkBack SharedPreference to braille keyboard
     // SharedPreference, and then remove the old TalkBack SharedPreference.
@@ -601,6 +636,12 @@ public class BrailleUserPreferences {
 
       brailleKeyboardSharedPreferencesEditor.apply();
     }
+    // Show command change dialog.
+    if (currentVersion < AAS16_2_SHARED_PREFS_VERSION) {
+      brailleKeyboardSharedPreferencesEditor.putInt(
+          SHARED_PREFS_VERSION, AAS16_2_SHARED_PREFS_VERSION);
+      currentVersion = AAS16_2_SHARED_PREFS_VERSION;
+    }
   }
 
   private static String getOldKey(String key) {
@@ -657,6 +698,14 @@ public class BrailleUserPreferences {
   public static boolean readOnScreenOverlayEnabled(Context context) {
     return getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
         .getBoolean(context.getString(R.string.pref_braille_overlay_key), SHOW_OVERLAY_DEFAULT);
+  }
+
+  /** Writes whether on-screen overlay is enabled by user. */
+  public static void writeOnScreenOverlayEnabled(Context context, boolean enabled) {
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putBoolean(context.getString(R.string.pref_braille_overlay_key), enabled)
+        .apply();
   }
 
   /** Reads whether to show search tutorial again. */
@@ -872,8 +921,161 @@ public class BrailleUserPreferences {
         .apply();
   }
 
+  /** Reads whether to show popup message. */
+  public static boolean readPopupMessageEnabled(Context context) {
+    return getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .getBoolean(
+            context.getString(R.string.pref_bd_popup_announcement_key), POPUP_MESSAGE_DEFAULT);
+  }
+
+  /** Writes whether to show popup message. */
+  public static void writePopupMessageEnabled(Context context, boolean enabled) {
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putBoolean(context.getString(R.string.pref_bd_popup_announcement_key), enabled)
+        .apply();
+  }
+
+  /** Reads whether to save popup message. */
+  public static boolean readPopupMessageHistoryEnabled(Context context) {
+    return getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .getBoolean(
+            context.getString(R.string.pref_bd_popup_announcement_history_key),
+            POPUP_MESSAGE_HISTORY_DEFAULT);
+  }
+
+  /** Writes whether to save popup message. */
+  public static void writePopupMessageHistoryEnabled(Context context, boolean enabled) {
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putBoolean(context.getString(R.string.pref_bd_popup_announcement_history_key), enabled)
+        .apply();
+  }
+
+  /** Reads whether to show captions. */
+  public static boolean readCaptionEnabled(Context context) {
+    return getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .getBoolean(context.getString(R.string.pref_bd_caption_key), CAPTION_DEFAULT);
+  }
+
+  /** Writes whether to show captions. */
+  public static void writeCaptionEnabled(Context context, boolean enabled) {
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putBoolean(context.getString(R.string.pref_bd_caption_key), enabled)
+        .apply();
+  }
+
+  /** Write whether to show caption tutorial dialog. */
+  public static void writeShowCaptionTutorialDialogAgain(Context context, boolean showAgain) {
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putBoolean(
+            context.getString(R.string.pref_bd_show_caption_tutorial_dialog_again), showAgain)
+        .apply();
+  }
+
+  /** Reads whether to show caption tutorial dialog. */
+  public static boolean readShowCaptionTutorialDialogAgain(Context context) {
+    return getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .getBoolean(context.getString(R.string.pref_bd_show_caption_tutorial_dialog_again), true);
+  }
+
+  /** Writes last time to show caption tutorial dialog. */
+  public static void writeShowCaptionTime(Context context, long time) {
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putLong(context.getString(R.string.pref_bd_show_caption_tutorial_dialog_timestamp), time)
+        .apply();
+  }
+
+  /** Reads last time to show caption tutorial dialog. */
+  public static Instant readShowCaptionTime(Context context) {
+    return Instant.ofEpochMilli(
+        getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+            .getLong(
+                context.getString(R.string.pref_bd_show_caption_tutorial_dialog_timestamp), 0));
+  }
+
+  /**
+   * Writes gesture action mappings. If the list is empty, the action is removed from preferences.
+   */
+  public static void writeGestureAction(
+      Context context, Pair<BrailleImeAction, List<String>> actionGesturPair) {
+    Map<BrailleImeAction, List<String>> actionGestureMap = readGestureActionMap(context);
+    if (actionGesturPair.second.isEmpty()) {
+      actionGestureMap.remove(actionGesturPair.first);
+    } else {
+      actionGestureMap.put(actionGesturPair.first, actionGesturPair.second);
+    }
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putString(
+            context.getString(R.string.pref_bd_gesture_action_key),
+            new Gson().toJson(actionGestureMap))
+        .apply();
+  }
+
+  /** Resets gesture action mapping. */
+  public static void resetGestureAction(Context context, BrailleImeAction action) {
+    Map<BrailleImeAction, List<String>> actionGestureMap = readGestureActionMap(context);
+    actionGestureMap.remove(action);
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putString(
+            context.getString(R.string.pref_bd_gesture_action_key),
+            new Gson().toJson(actionGestureMap))
+        .apply();
+  }
+
+  /** Resets all gesture action map. */
+  public static void resetAllGestureActionMap(Context context) {
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .remove(context.getString(R.string.pref_bd_gesture_action_key))
+        .apply();
+  }
+
+  /** Reads gesture action map. */
+  public static Map<BrailleImeAction, List<String>> readGestureActionMap(Context context) {
+    String raw =
+        getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+            .getString(context.getString(R.string.pref_bd_gesture_action_key), "");
+    Type type = new TypeToken<HashMap<BrailleImeAction, List<String>>>() {}.getType();
+    Map<BrailleImeAction, List<String>> map = new Gson().fromJson(raw, type);
+    return map == null ? new HashMap<>() : map;
+  }
+
+  /** Writes whether to show change gesture intro again. */
+  public static void writeChangeGestureIntroNeverShow(Context context) {
+    getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putBoolean(context.getString(R.string.pref_brailleime_change_gesture_intro_again), true)
+        .apply();
+  }
+
+  /** Reads whether to show change gesture intro again. */
+  public static boolean readChangeGestureIntroNeverShow(Context context) {
+    return getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .getBoolean(context.getString(R.string.pref_brailleime_change_gesture_intro_again), false);
+  }
+
+  /** Reads whether to show command change dialog. */
+  public static boolean readShowCommandChangeDialog(Context context) {
+    return getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .getBoolean(context.getString(R.string.pref_bd_show_command_change_dialog), false);
+  }
+
+  /** Reads whether to show command change dialog. */
+  public static void writeShowCommandChangeDialog(Context context, boolean showDialog) {
+    SharedPreferencesUtils.getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
+        .edit()
+        .putBoolean(context.getString(R.string.pref_bd_show_command_change_dialog), showDialog)
+        .apply();
+  }
+
   @VisibleForTesting
-  static void testing_resetCurrentVersion(Context context) {
+  public static void testing_resetCurrentVersion(Context context) {
     currentVersion = -1;
     SharedPreferencesUtils.getSharedPreferences(context, BRAILLE_SHARED_PREFS_FILENAME)
         .edit()

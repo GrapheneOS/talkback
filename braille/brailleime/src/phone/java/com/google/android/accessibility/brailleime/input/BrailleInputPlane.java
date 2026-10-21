@@ -131,7 +131,7 @@ public abstract class BrailleInputPlane {
       new MultitouchResultListener() {
         @Override
         public boolean detect(Optional<MultitouchResult> touchResultOptional) {
-          BrailleImeLog.logD(
+          BrailleImeLog.d(
               TAG,
               "detect: "
                   + (touchResultOptional.isPresent() ? touchResultOptional.get().type : false));
@@ -438,7 +438,7 @@ public abstract class BrailleInputPlane {
    * @param event the MotionEvent as received by the owning View's onTouchEvent() method.
    */
   boolean onTouchEvent(MotionEvent event) {
-    boolean result = multitouchHandler.onTouchEvent(context, event);
+    boolean result = multitouchHandler.onTouchEvent(event);
     currentlyPressedDots = matchTouchToTargets(multitouchHandler.getActivePoints());
     return result;
   }
@@ -461,17 +461,20 @@ public abstract class BrailleInputPlane {
       }
     }
     switch (touchResult.type) {
-      case MultitouchResult.TYPE_TAP:
+      case MultitouchResult.TYPE_TAP -> {
         return customOnGestureListener.detect(
             Optional.of(
                 BrailleInputPlaneResult.createTapAndRelease(
                     new BrailleCharacter(matchTouchToTargetNumbers(touchResult.releasedPoints)))));
-      case MultitouchResult.TYPE_SWIPE:
+      }
+      case MultitouchResult.TYPE_SWIPE -> {
         return customOnGestureListener.detect(Optional.of(createSwipe(touchResult.swipe)));
-      case MultitouchResult.TYPE_HOLD:
+      }
+      case MultitouchResult.TYPE_HOLD -> {
         return customOnGestureListener.detect(
             Optional.of(BrailleInputPlaneResult.createHold(touchResult.heldPoints.size())));
-      case MultitouchResult.TYPE_CALIBRATION_HOLD:
+      }
+      case MultitouchResult.TYPE_CALIBRATION_HOLD -> {
         if (twoStepCalibrationState != NONE) {
           Optional<BrailleInputPlaneResult> result =
               Optional.of(
@@ -489,14 +492,19 @@ public abstract class BrailleInputPlane {
           calibrationFailCount = 0;
           return customOnGestureListener.detect(result);
         }
-        break;
-      case MultitouchResult.TYPE_HOLD_AND_SWIPE:
+      }
+      case MultitouchResult.TYPE_HOLD_AND_SWIPE -> {
         return customOnGestureListener.detect(
             Optional.of(
                 createDotHoldAndSwipe(
                     touchResult.swipe,
                     new BrailleCharacter(matchTouchToTargetNumbers(touchResult.heldPoints)))));
-      default: // fall out
+      }
+      case MultitouchResult.TYPE_INVALID -> {
+        return customOnGestureListener.detect(
+            Optional.of(BrailleInputPlaneResult.createInvalidGesture()));
+      }
+      default -> {}
     }
     return false;
   }
@@ -585,11 +593,7 @@ public abstract class BrailleInputPlane {
       dotNumberPaint.setColor(pressed ? dotNumberColorPressed : dotNumberColor);
       String text = Integer.toString(dotTargets.get(i).dotNumber);
       canvas.save();
-      if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-        canvas.rotate(getRotateDegree(), dotCenterPosition[i].x, dotCenterPosition[i].y);
-      } else {
-        canvas.rotate(getRotateDegree(), dotCenterPosition[i].x, dotCenterPosition[i].y);
-      }
+      canvas.rotate(getRotateDegree(), dotCenterPosition[i].x, dotCenterPosition[i].y);
       canvas.drawText(text, textPosition[i].x, textPosition[i].y, dotNumberPaint);
       canvas.restore();
     }

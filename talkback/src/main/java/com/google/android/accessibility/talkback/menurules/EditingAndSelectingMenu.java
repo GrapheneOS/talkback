@@ -36,7 +36,6 @@ import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.contextmenu.AbstractOnContextMenuItemClickListener;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenu;
@@ -67,7 +66,7 @@ public class EditingAndSelectingMenu implements NodeMenu {
     this.actorState = actorState;
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
     this.analytics = analytics;
-    isAndroidWear = FormFactorUtils.getInstance().isAndroidWear();
+    isAndroidWear = FormFactorUtils.isAndroidWear();
   }
 
   @Override
@@ -110,118 +109,114 @@ public class EditingAndSelectingMenu implements NodeMenu {
    */
   private void populateEditingAndSelectingMenuItemsForNode(
       Context context, AccessibilityNodeInfoCompat node, List<ContextMenuItem> items) {
-    // This action has inconsistencies with EditText nodes that have
-    // contentDescription attributes.
-    if (TextUtils.isEmpty(node.getContentDescription())) {
-      if (Role.getRole(node) == Role.ROLE_EDIT_TEXT
-          && AccessibilityNodeInfoUtils.supportsAnyAction(
-              node,
-              AccessibilityNodeInfoCompat.ACTION_SET_SELECTION,
-              AccessibilityNodeInfoCompat.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY)) {
-        ContextMenuItem moveToBeginning =
+    if (Role.getRole(node) == Role.ROLE_EDIT_TEXT
+        && AccessibilityNodeInfoUtils.supportsAnyAction(
+            node,
+            AccessibilityNodeInfoCompat.ACTION_SET_SELECTION,
+            AccessibilityNodeInfoCompat.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY)) {
+      ContextMenuItem moveToBeginning =
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_move_to_beginning,
+              Menu.NONE,
+              context.getString(R.string.title_edittext_breakout_move_to_beginning));
+      items.add(moveToBeginning);
+    }
+
+    if (Role.getRole(node) == Role.ROLE_EDIT_TEXT
+        && AccessibilityNodeInfoUtils.supportsAnyAction(
+            node,
+            AccessibilityNodeInfoCompat.ACTION_SET_SELECTION,
+            AccessibilityNodeInfoCompat.ACTION_NEXT_AT_MOVEMENT_GRANULARITY)) {
+      ContextMenuItem moveToEnd =
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_move_to_end,
+              Menu.NONE,
+              context.getString(R.string.title_edittext_breakout_move_to_end));
+      items.add(moveToEnd);
+    }
+
+    // TODO: We can remove the condition of form factor if action supported logic is completed at
+    //  the wear framework side.
+    if (!isAndroidWear
+        && Role.getRole(node) == Role.ROLE_EDIT_TEXT
+        && AccessibilityNodeInfoUtils.supportsAnyAction(
+            node, AccessibilityNodeInfoCompat.ACTION_CUT)) {
+      ContextMenuItem cut =
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_cut,
+              Menu.NONE,
+              context.getString(android.R.string.cut));
+      items.add(cut);
+    }
+
+    if (!isAndroidWear
+        && AccessibilityNodeInfoUtils.supportsAnyAction(
+            node, AccessibilityNodeInfoCompat.ACTION_COPY)) {
+      ContextMenuItem copy =
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_copy,
+              Menu.NONE,
+              context.getString(android.R.string.copy));
+      items.add(copy);
+    }
+
+    if (!isAndroidWear
+        && Role.getRole(node) == Role.ROLE_EDIT_TEXT
+        && AccessibilityNodeInfoUtils.supportsAnyAction(
+            node, AccessibilityNodeInfoCompat.ACTION_PASTE)) {
+      ContextMenuItem paste =
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_paste,
+              Menu.NONE,
+              context.getString(android.R.string.paste));
+      items.add(paste);
+    }
+
+    if (!isAndroidWear
+        && AccessibilityNodeInfoUtils.supportsAnyAction(
+            node, AccessibilityNodeInfoCompat.ACTION_SET_SELECTION)
+        && AccessibilityNodeInfoUtils.getText(node) != null) {
+      ContextMenuItem select =
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_select_all,
+              Menu.NONE,
+              context.getString(android.R.string.selectAll));
+      items.add(select);
+    }
+
+    // TODO Use a checkable menu item once supported.
+    if (!isAndroidWear) {
+      final ContextMenuItem selectionMode;
+      if (actorState.getDirectionNavigation().isSelectionModeActive()) {
+        selectionMode =
             ContextMenu.createMenuItem(
                 context,
                 Menu.NONE,
-                R.id.edittext_breakout_move_to_beginning,
+                R.id.edittext_breakout_end_selection_mode,
                 Menu.NONE,
-                context.getString(R.string.title_edittext_breakout_move_to_beginning));
-        items.add(moveToBeginning);
-      }
-
-      if (Role.getRole(node) == Role.ROLE_EDIT_TEXT
-          && AccessibilityNodeInfoUtils.supportsAnyAction(
-              node,
-              AccessibilityNodeInfoCompat.ACTION_SET_SELECTION,
-              AccessibilityNodeInfoCompat.ACTION_NEXT_AT_MOVEMENT_GRANULARITY)) {
-        ContextMenuItem moveToEnd =
+                context.getString(R.string.title_edittext_breakout_end_selection_mode));
+      } else {
+        selectionMode =
             ContextMenu.createMenuItem(
                 context,
                 Menu.NONE,
-                R.id.edittext_breakout_move_to_end,
+                R.id.edittext_breakout_start_selection_mode,
                 Menu.NONE,
-                context.getString(R.string.title_edittext_breakout_move_to_end));
-        items.add(moveToEnd);
+                context.getString(R.string.title_edittext_breakout_start_selection_mode));
       }
-
-      // TODO: We can remove the condition of form factor if action supported logic is completed at
-      //  the wear framework side.
-      if (!isAndroidWear
-          && Role.getRole(node) == Role.ROLE_EDIT_TEXT
-          && AccessibilityNodeInfoUtils.supportsAnyAction(
-              node, AccessibilityNodeInfoCompat.ACTION_CUT)) {
-        ContextMenuItem cut =
-            ContextMenu.createMenuItem(
-                context,
-                Menu.NONE,
-                R.id.edittext_breakout_cut,
-                Menu.NONE,
-                context.getString(android.R.string.cut));
-        items.add(cut);
-      }
-
-      if (!isAndroidWear
-          && AccessibilityNodeInfoUtils.supportsAnyAction(
-              node, AccessibilityNodeInfoCompat.ACTION_COPY)) {
-        ContextMenuItem copy =
-            ContextMenu.createMenuItem(
-                context,
-                Menu.NONE,
-                R.id.edittext_breakout_copy,
-                Menu.NONE,
-                context.getString(android.R.string.copy));
-        items.add(copy);
-      }
-
-      if (!isAndroidWear
-          && Role.getRole(node) == Role.ROLE_EDIT_TEXT
-          && AccessibilityNodeInfoUtils.supportsAnyAction(
-              node, AccessibilityNodeInfoCompat.ACTION_PASTE)) {
-        ContextMenuItem paste =
-            ContextMenu.createMenuItem(
-                context,
-                Menu.NONE,
-                R.id.edittext_breakout_paste,
-                Menu.NONE,
-                context.getString(android.R.string.paste));
-        items.add(paste);
-      }
-
-      if (!isAndroidWear
-          && AccessibilityNodeInfoUtils.supportsAnyAction(
-              node, AccessibilityNodeInfoCompat.ACTION_SET_SELECTION)
-          && AccessibilityNodeInfoUtils.getText(node) != null) {
-        ContextMenuItem select =
-            ContextMenu.createMenuItem(
-                context,
-                Menu.NONE,
-                R.id.edittext_breakout_select_all,
-                Menu.NONE,
-                context.getString(android.R.string.selectAll));
-        items.add(select);
-      }
-
-      // TODO Use a checkable menu item once supported.
-      if (!isAndroidWear) {
-        final ContextMenuItem selectionMode;
-        if (actorState.getDirectionNavigation().isSelectionModeActive()) {
-          selectionMode =
-              ContextMenu.createMenuItem(
-                  context,
-                  Menu.NONE,
-                  R.id.edittext_breakout_end_selection_mode,
-                  Menu.NONE,
-                  context.getString(R.string.title_edittext_breakout_end_selection_mode));
-        } else {
-          selectionMode =
-              ContextMenu.createMenuItem(
-                  context,
-                  Menu.NONE,
-                  R.id.edittext_breakout_start_selection_mode,
-                  Menu.NONE,
-                  context.getString(R.string.title_edittext_breakout_start_selection_mode));
-        }
-        items.add(selectionMode);
-      }
+      items.add(selectionMode);
     }
 
     EditingMenuItemClickListener listener =
@@ -277,12 +272,7 @@ public class EditingAndSelectingMenu implements NodeMenu {
           result = false;
         }
 
-        if (result) {
-          TalkBackService service = TalkBackService.getInstance();
-          if (service != null) {
-            service.getAnalytics().onTextEdited();
-          }
-        } else {
+        if (!result) {
           pipeline.returnFeedback(eventId, Feedback.sound(R.raw.complete));
         }
         return true;

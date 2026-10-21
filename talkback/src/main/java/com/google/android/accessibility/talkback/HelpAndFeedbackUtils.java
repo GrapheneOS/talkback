@@ -22,6 +22,8 @@ import android.content.Context;
 public final class HelpAndFeedbackUtils {
   public static void launchHelpAndFeedback(Activity activity) {}
 
+  public static void launchFeedbackViaKeyboard(Context context) {}
+
   public static boolean supportsHelpAndFeedback(Context context) {
     return false;
   }

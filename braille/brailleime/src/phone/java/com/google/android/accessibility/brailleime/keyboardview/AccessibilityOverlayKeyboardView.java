@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.google.android.accessibility.brailleime.keyboardview;
 
 import android.content.Context;
@@ -10,18 +26,62 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
+import com.google.android.accessibility.braille.common.lib.ScreenOnOffReceiver;
+import com.google.android.accessibility.brailleime.BrailleImeLog;
+import com.google.android.accessibility.brailleime.CloseSystemDialogReceiver;
 import com.google.android.accessibility.brailleime.Utils;
+import com.google.android.accessibility.brailleime.input.BrailleInputView;
+import com.google.android.accessibility.brailleime.tutorial.TutorialView.TutorialCallback;
+import com.google.android.accessibility.brailleime.tutorial.TutorialView.TutorialState.State;
 
 /**
  * A sub-class of {@link KeyboardView} which uses an Accessibility Overlay for taking touch input.
  */
 public class AccessibilityOverlayKeyboardView extends KeyboardView {
+  private static final String TAG = "AccessibilityOverlayKeyboardView";
   protected static final float SCREEN_HIDE_ALPHA = 0.001f;
   protected static final float SCREEN_SHOW_ALPHA = 1;
+  private final ScreenOnOffReceiver screenOnOffReceiver;
+  private final CloseSystemDialogReceiver closeSystemDialogReceiver;
 
   public AccessibilityOverlayKeyboardView(
       Context context, KeyboardViewCallback keyboardViewCallback) {
     super(context, keyboardViewCallback);
+    screenOnOffReceiver =
+        new ScreenOnOffReceiver(
+            context,
+            new ScreenOnOffReceiver.Callback() {
+              @Override
+              public void onScreenOn() {
+                BrailleImeLog.d(TAG, "onScreenOn");
+              }
+
+              @Override
+              public void onScreenOff() {
+                BrailleImeLog.d(TAG, "onScreenOff");
+                tearDown();
+              }
+            });
+    closeSystemDialogReceiver =
+        new CloseSystemDialogReceiver(
+            context,
+            () -> {
+              BrailleImeLog.d(TAG, "onSystemDialogClosed");
+              tearDown();
+            });
+  }
+
+  @Override
+  public void createAndAddInputView(
+      BrailleInputView.Callback inputPlaneCallback, boolean tableTopMode) {
+    super.createAndAddInputView(inputPlaneCallback, tableTopMode);
+    registerListener();
+  }
+
+  @Override
+  public void createAndAddTutorialView(State tutorialState, TutorialCallback tutorialCallback) {
+    super.createAndAddTutorialView(tutorialState, tutorialCallback);
+    registerListener();
   }
 
   @Override
@@ -79,6 +139,18 @@ public class AccessibilityOverlayKeyboardView extends KeyboardView {
       float alpha = isTransparent ? SCREEN_HIDE_ALPHA : SCREEN_SHOW_ALPHA;
       viewContainer.setAlpha(alpha);
     }
+  }
+
+  private void registerListener() {
+    screenOnOffReceiver.registerSelf();
+    closeSystemDialogReceiver.registerSelf();
+  }
+
+  @Override
+  public void tearDown() {
+    super.tearDown();
+    screenOnOffReceiver.unregisterSelf();
+    closeSystemDialogReceiver.unregisterSelf();
   }
 
   private WindowManager.LayoutParams getWindowsLayoutParams() {

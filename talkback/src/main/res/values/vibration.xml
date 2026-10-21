@@ -32,4 +32,19 @@
         <item>255</item><!-- scale -->
         <item>80</item><!-- delayMs -->
     </integer-array>
+
+    <!-- Vibration pattern for haptic feedback when Gemini image description is activated. -->
+    <integer-array name="gemini_got_it_pattern">
+        <item>0</item>
+        <item>30</item>
+        <item>30</item>
+        <item>30</item>
+        <item>-9999</item><!-- SENTINEL SEPARATOR -->
+        <item>1</item><!-- CLICK -->
+        <item>200</item><!-- scale -->
+        <item>39</item><!-- delayMs -->
+        <item>7</item><!-- TICK -->
+        <item>200</item><!-- scale -->
+        <item>45</item><!-- delayMs -->
+    </integer-array>
 </resources>

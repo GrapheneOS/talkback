@@ -26,6 +26,11 @@
   <color name="a11y_alert_dialog_content_message_text_color">@color/google_black</color>
   <color name="a11y_alert_dialog_subtitle_text_color">@color/google_grey700</color>
 
+  <!-- TTS bubble overlay color -->
+  <color name="a11y_speech_bubble_overlay_background_color">#A0000000</color>
+  <color name="a11y_speech_bubble_overlay_text_color">@color/m3_sys_color_dark_on_surface</color>
+  <color name="a11y_speech_bubble_overlay_border_color">@color/m3_sys_color_dark_on_surface</color>
+
   <!-- Common component color-->
   <color name="a11y_button_text_color">@color/google_black</color>
   <color name="a11y_button_background_color">@color/google_grey200</color>

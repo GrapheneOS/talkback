@@ -17,54 +17,55 @@
       android:title="@string/pref_verbosity_category_preset_settings_title">
 
     <!-- Hints -->
-    <SwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_a11y_hints_default"
         android:key="@string/pref_a11y_hints_key"
         android:summary="@string/summary_pref_a11y_hints"
         android:title="@string/title_pref_a11y_hints" />
 
     <!-- Container positions -->
-    <SwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_container_element_positions_default"
         android:key="@string/pref_speak_container_element_positions_key"
+        android:summary="@string/summary_speak_container_element_positions"
         android:title="@string/pref_speak_container_element_positions_title" />
 
     <!-- Scroll announcement verbosity -->
-    <SwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_verbose_scroll_announcement_default"
         android:key="@string/pref_verbose_scroll_announcement_key"
         android:summary="@string/summary_pref_verbose_scroll_announcement"
         android:title="@string/title_pref_verbose_scroll_announcement" />
 
     <!-- Role -->
-    <SwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_roles_default"
         android:key="@string/pref_speak_roles_key"
         android:summary="@string/pref_speak_roles_summary"
         android:title="@string/pref_speak_roles_title" />
 
     <!-- Window title -->
-    <SwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_system_window_titles_default"
         android:key="@string/pref_speak_system_window_titles_key"
         android:summary="@string/pref_speak_system_window_titles_summary"
         android:title="@string/pref_speak_system_window_titles_title" />
 
     <!-- Notifications when screen is off -->
-    <SwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_screenoff_default"
         android:key="@string/pref_screenoff_key"
         android:title="@string/title_pref_speak_screenoff" />
 
     <!-- Pitch changes -->
-    <SwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_intonation_default"
         android:key="@string/pref_intonation_key"
         android:summary="@string/summary_pref_intonation"
         android:title="@string/title_pref_intonation" />
 
     <!-- Phonetic spelling -->
-    <SwitchPreference
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_phonetic_letters_default"
         android:key="@string/pref_phonetic_letters_key"
         android:summary="@string/summary_pref_phonetic_letters"
@@ -98,25 +99,49 @@
         android:key="@string/pref_capital_letters_key"
         android:summary="%s"
         android:title="@string/title_pref_capital_letters" />
-
   </PreferenceCategory>
 
+  <!-- Formatting -->
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+    android:defaultValue="@bool/pref_formatting_inline_default"
+        android:key="@string/pref_formatting_inline_key"
+        android:summary="@string/summary_text_formatting_verbosity"
+        android:title="@string/title_text_formatting_inline" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+            android:key="@string/pref_formatting_inline_detail_key"
+            android:dependency="@string/pref_formatting_inline_key"
+            android:title="@string/title_text_formatting_verbosity_options"
+            android:fragment="com.google.android.accessibility.talkback.preference.base.TextFormattingDetailFragment" />
+
   <!-- Limit frequent content change -->
-  <SwitchPreference
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_allow_frequent_content_change_announcement_default"
       android:key="@string/pref_allow_frequent_content_change_announcement_key"
       android:title="@string/pref_allow_frequent_content_change_announcement_title"
       android:summary="@string/summary_pref_allow_frequent_content_change_announcement" />
   <!-- Speak element IDs - Non-preset detailed settings -->
-  <SwitchPreference
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_speak_element_ids_default"
       android:key="@string/pref_speak_element_ids_key"
       android:summary="@string/summary_pref_speak_element_ids"
       android:title="@string/title_pref_speak_element_ids" />
   <!-- Punctuation - Non-preset detailed settings -->
-  <SwitchPreference
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_punctuation_default"
       android:key="@string/pref_punctuation_key"
+      android:visibility="invisible"
       android:title="@string/title_pref_punctuation" />
+  <com.google.android.accessibility.talkback.preference.base.PunctuationListPreference
+      android:defaultValue="@string/pref_punctuation_verbosity_default"
+      android:entries="@array/pref_punctuation_entries"
+      android:entryValues="@array/pref_punctuation_values"
+      android:key="@string/pref_punctuation_verbosity"
+      android:summary="%s"
+      android:title="@string/title_pref_punctuation" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="@bool/pref_count_repeated_symbols_default"
+      android:key="@string/pref_count_repeated_symbols_key"
+      android:summary="@string/summary_pref_count_repeated_symbols"
+      android:title="@string/title_pref_count_repeated_symbols" />
 
 </PreferenceScreen>

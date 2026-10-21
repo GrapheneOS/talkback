@@ -98,22 +98,20 @@ public class MotionEventCompatUtils {
 
         long downTime = sPreviousDownTime;
 
-        switch (touchEvent.getAction()) {
-            case MotionEventCompatUtils.ACTION_HOVER_ENTER:
-                touchEvent.setAction(MotionEvent.ACTION_DOWN);
-                sPreviousDownTime = SystemClock.uptimeMillis();
-                downTime = sPreviousDownTime;
-                break;
-            case MotionEventCompatUtils.ACTION_HOVER_MOVE:
-                touchEvent.setAction(MotionEvent.ACTION_MOVE);
-                break;
-            case MotionEventCompatUtils.ACTION_HOVER_EXIT:
-                touchEvent.setAction(MotionEvent.ACTION_UP);
-                sPreviousDownTime = 0;
-                break;
-            default:
-                downTime = touchEvent.getDownTime();
-        }
+    switch (touchEvent.getAction()) {
+      case MotionEventCompatUtils.ACTION_HOVER_ENTER -> {
+        touchEvent.setAction(MotionEvent.ACTION_DOWN);
+        sPreviousDownTime = SystemClock.uptimeMillis();
+        downTime = sPreviousDownTime;
+      }
+      case MotionEventCompatUtils.ACTION_HOVER_MOVE ->
+          touchEvent.setAction(MotionEvent.ACTION_MOVE);
+      case MotionEventCompatUtils.ACTION_HOVER_EXIT -> {
+        touchEvent.setAction(MotionEvent.ACTION_UP);
+        sPreviousDownTime = 0;
+      }
+      default -> downTime = touchEvent.getDownTime();
+    }
 
         MotionEventCompatUtils.setSource(touchEvent, InputDeviceCompatUtils.SOURCE_MOUSE);
         MotionEventCompatUtils.setDownTime(touchEvent, downTime);

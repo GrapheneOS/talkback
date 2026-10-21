@@ -29,7 +29,8 @@ public final class PreferenceActionHelper {
   /** Enum for information of a web page. */
   public enum WebPage {
     WEB_PAGE_PRIVACY_POLICY(R.string.privacy_policy_url),
-    WEB_PAGE_TERMS_OF_SERVICE(R.string.tos_url);
+    WEB_PAGE_TERMS_OF_SERVICE(R.string.tos_url),
+    WEB_PAGE_HELP(R.string.help_url);
 
     @StringRes final int urlRes;
 

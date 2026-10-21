@@ -987,6 +987,15 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
   /** Returns the corresponding action resource Id of action key. */
   public static String getActionString(Context context, String actionKeyString) {
+    if (!FeatureFlagReader.enableVoiceDictationShortcut(context)) {
+      if (TextUtils.equals(
+          context.getString(R.string.shortcut_value_media_control_or_voice_input), actionKeyString)) {
+        return context.getString(R.string.shortcut_media_control);
+      }
+      if (TextUtils.equals(context.getString(R.string.shortcut_value_voice_input), actionKeyString)) {
+        return context.getString(R.string.shortcut_unassigned);
+      }
+    }
     for (TalkbackAction action : TalkbackAction.values()) {
       if (action.actionKeyResId != -1
           && TextUtils.equals(context.getString(action.actionKeyResId), actionKeyString)) {

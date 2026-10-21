@@ -422,7 +422,8 @@ public final class FeatureFlagReader {
   }
 
   public static boolean enableVoiceDictationShortcut(Context context) {
-    return true;
+    // Voice dictation requires Gboard, which is not part of this build.
+    return false;
   }
 
   public static boolean enableSpeakDialogContent(Context context) {

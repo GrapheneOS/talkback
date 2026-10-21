@@ -245,6 +245,11 @@ public class GestureController {
   }
 
   public void performAction(String action, EventId eventId) {
+    if (!FeatureFlagReader.enableVoiceDictationShortcut(service)
+        && action.equals(service.getString(R.string.shortcut_value_voice_input))) {
+      // Saved dictation-only assignments behave like the unassigned entry shown in settings.
+      action = service.getString(R.string.shortcut_value_unassigned);
+    }
     Performance.getInstance().onPerformAction(eventId, action);
     TalkbackAction actionEvent = gestureShortcutMapping.getActionEvent(action);
     if (actionEvent != null) {
